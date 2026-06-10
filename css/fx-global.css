@@ -1,0 +1,73 @@
+/* ==========================================================================
+   GLOBAL FX — custom cursor, click sparks, scroll-in reveals.
+   All of these are skipped automatically under prefers-reduced-motion.
+   ========================================================================== */
+
+/* ----- Scroll reveal ----- */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Optional stagger: add .reveal-stagger to a parent of several .reveal children */
+.reveal-stagger > .reveal:nth-child(2) { transition-delay: 90ms; }
+.reveal-stagger > .reveal:nth-child(3) { transition-delay: 180ms; }
+.reveal-stagger > .reveal:nth-child(4) { transition-delay: 270ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ----- Custom cursor (desktop + fine pointer only; enabled by cursor.js) ----- */
+html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  pointer-events: none;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--text);
+}
+
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid rgba(212, 168, 67, 0.55);
+  transition: width var(--t-fast), height var(--t-fast), margin var(--t-fast),
+              border-color var(--t-fast), background var(--t-fast);
+}
+
+.cursor-ring.is-hover {
+  width: 48px;
+  height: 48px;
+  margin: -24px 0 0 -24px;
+  border-color: var(--gold);
+  background: rgba(212, 168, 67, 0.07);
+}
+
+.cursor-hidden .cursor-dot,
+.cursor-hidden .cursor-ring { opacity: 0; }
+
+/* ----- Click sparks (spawned by click-fx.js) ----- */
+.spark {
+  position: fixed;
+  z-index: 998;
+  pointer-events: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+}

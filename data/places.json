@@ -1,0 +1,38 @@
+[
+  {
+    "id": "winnipeg",
+    "label": "Winnipeg, MB",
+    "type": "home",
+    "x": 0.66,
+    "y": 0.62,
+    "blurb": "Home base. Prairie skies, guitar amps, and the desk where most of this site was built.",
+    "story": "✏️ EDIT: replace this with a sentence or two about what Winnipeg means to you — growing up here, the music scene, winters, whatever feels true."
+  },
+  {
+    "id": "jasper",
+    "label": "Jasper, AB",
+    "type": "work",
+    "x": 0.28,
+    "y": 0.34,
+    "blurb": "Conducting trains through the Rockies with CN Rail.",
+    "story": "✏️ EDIT: your Jasper story goes here — the mountain runs, the crews you worked with, the moments that stuck. A short paragraph reads best in the tooltip."
+  },
+  {
+    "id": "grande-prairie",
+    "label": "Grande Prairie, AB",
+    "type": "work",
+    "x": 0.2,
+    "y": 0.55,
+    "blurb": "Northern Alberta posting with CN Rail.",
+    "story": "✏️ EDIT: your Grande Prairie story goes here — the people you met, the long shifts, what the north taught you."
+  },
+  {
+    "id": "example-explore",
+    "label": "Somewhere New",
+    "type": "explore",
+    "x": 0.5,
+    "y": 0.22,
+    "blurb": "✏️ EDIT: add places you've explored — copy this block, change the id/label/x/y, or delete it entirely.",
+    "story": ""
+  }
+]

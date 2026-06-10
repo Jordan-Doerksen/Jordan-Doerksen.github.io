@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jordan Doerksen — Archive</title>
+  <meta name="description" content="Jordan Doerksen — code, guitar, trains, and the worlds in between. Winnipeg, Manitoba." />
+
+  <!-- Fonts: Inter (UI), JetBrains Mono (code/labels), Cinzel (Sol Obscurus + OoT only) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Cinzel:wght@600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/glass.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/fx-global.css" />
+  <link rel="stylesheet" href="css/zones.css" />
+</head>
+<body>
+  <a class="skip-link" href="#about">Skip to content</a>
+
+  <!-- ================= NAV ================= -->
+  <nav class="site-nav glass-panel" aria-label="Main">
+    <a class="nav-logo" href="#top">J<span>·</span>D</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#music">Music</a></li>
+      <li><a href="#places">Places</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#forge">Forge</a></li>
+      <li><a href="#library">Library</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <header class="hero" id="top">
+    <canvas id="starfield" aria-hidden="true"></canvas>
+
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Winnipeg · Manitoba</p>
+      <h1>Jordan Doerksen</h1>
+      <!-- ✏️ EDIT: your one-line tagline -->
+      <p class="hero-tag">Code, guitar, trains, and the worlds in between.</p>
+      <a class="btn" href="#about">Enter the archive</a>
+    </div>
+
+    <!-- Invisible Triforce hotspots — click top, then bottom-left, then bottom-right -->
+    <button class="tri-spot" data-tri="1" tabindex="-1" aria-hidden="true"></button>
+    <button class="tri-spot" data-tri="2" tabindex="-1" aria-hidden="true"></button>
+    <button class="tri-spot" data-tri="3" tabindex="-1" aria-hidden="true"></button>
+
+    <a class="hero-scroll" href="#about">Scroll</a>
+  </header>
+
+  <main>
+    <!-- ================= ABOUT ================= -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">About</p>
+          <h2>A field guide to the person</h2>
+        </div>
+
+        <div class="about-grid grid-2 reveal-stagger">
+          <!-- ✏️ EDIT: replace these three paragraphs with your real bio.
+               Keep the tone intimate-archive, not resume. -->
+          <div class="reveal">
+            <p>I grew up in Winnipeg and never quite picked one world to live in. By day I've conducted freight through the Rockies for CN Rail; by night I write code, build 3D-printed things, and chase guitar tones that sound like weather.</p>
+            <p style="margin-top:1em">Warcraft III and StarCraft taught me systems thinking before any textbook did. The Lord of the Rings and Princess Mononoke taught me what those systems are for. I tend to see the good in people first — and in animals before that.</p>
+            <p style="margin-top:1em">This site is an archive of the things I make and the places they come from. Click around. Some doors are hidden.</p>
+
+            <!-- Affinities panel -->
+            <div class="glass-panel" style="margin-top:1.6rem">
+              <header class="panel-head">
+                <h3>Affinities</h3>
+                <span class="panel-tag">formative things</span>
+              </header>
+              <div class="panel-body">
+                <!-- ✏️ EDIT: add/remove chips freely. data-cat colors the dot:
+                     film / game / music / life -->
+                <ul class="chip-grid">
+                  <li class="chip" data-cat="film">The Lord of the Rings</li>
+                  <li class="chip" data-cat="film">The Matrix</li>
+                  <li class="chip" data-cat="film">Akira</li>
+                  <li class="chip" data-cat="film">Princess Mononoke</li>
+                  <li class="chip" data-cat="game">Warcraft III: TFT</li>
+                  <li class="chip" data-cat="game">StarCraft</li>
+                  <li class="chip" data-cat="game">Ocarina of Time</li>
+                  <li class="chip" data-cat="music">Guitar</li>
+                  <li class="chip" data-cat="music">Heavy riffs</li>
+                  <li class="chip" data-cat="life">Animals</li>
+                  <li class="chip" data-cat="life">Mountains</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profile card: RPG flavor, modern dress -->
+          <aside class="glass-panel profile-card reveal">
+            <header class="panel-head">
+              <h3>Profile</h3>
+              <span class="panel-tag">stat sheet</span>
+            </header>
+            <div class="panel-body">
+              <!-- ✏️ EDIT: drop your photo in as assets/img/portrait.jpg -->
+              <figure class="card-media portrait" data-src="assets/img/portrait.jpg">
+                <img src="assets/img/portrait.jpg" alt="Portrait of Jordan Doerksen"
+                     loading="lazy" onerror="this.closest('figure').classList.add('img-missing')" />
+              </figure>
+              <!-- ✏️ EDIT: tune the numbers (style="--value: NN%") -->
+              <div class="stat">
+                <div class="stat-label"><b>Guitar</b><span>86</span></div>
+                <div class="stat-track"><div class="stat-fill" style="--value:86%"></div></div>
+              </div>
+              <div class="stat">
+                <div class="stat-label"><b>Code</b><span>74</span></div>
+                <div class="stat-track"><div class="stat-fill" style="--value:74%"></div></div>
+              </div>
+              <div class="stat">
+                <div class="stat-label"><b>Empathy</b><span>92</span></div>
+                <div class="stat-track"><div class="stat-fill" style="--value:92%"></div></div>
+              </div>
+              <p class="profile-foot">class: conductor · builder · guitarist<br />build: support — buffs the party</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MUSIC ================= -->
+    <section class="section" id="music">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Music</p>
+          <h2>Two rooms, two weathers</h2>
+          <p class="lede">Same hands, very different skies.</p>
+        </div>
+
+        <div class="grid-2 reveal-stagger">
+          <!-- Sol Obscurus: fire + sigils -->
+          <article class="glass-panel ambient-zone reveal" data-zone="sol" data-effect="ritual">
+            <canvas class="ambient-canvas" aria-hidden="true"></canvas>
+            <header class="panel-head">
+              <h3>Sol Obscurus</h3>
+              <span class="panel-tag">band</span>
+            </header>
+            <div class="panel-body">
+              <!-- ✏️ EDIT: band blurb -->
+              <p>Heavy, ritual-minded music written with friends. Tuned low, played loud, occasionally on fire.</p>
+              <div class="media-stack">
+                <!-- ✏️ EDIT: paste your YouTube embed — replace VIDEO_ID -->
+                <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Sol Obscurus" loading="lazy" allowfullscreen></iframe> -->
+                <!-- ✏️ EDIT: drop an MP3 into assets/audio/ and update the filename -->
+                <!-- <audio controls src="assets/audio/sol-obscurus-track.mp3"></audio> -->
+                <p class="panel-tag">embeds go here — see EDITING.md</p>
+              </div>
+              <div class="card-links">
+                <!-- ✏️ EDIT: sheet music PDFs in assets/pdf/ -->
+                <!-- <a class="btn btn-sm" href="assets/pdf/song-name.pdf">Sheet music (PDF)</a> -->
+              </div>
+            </div>
+          </article>
+
+          <!-- Bedroom Weather: rain. Solo + collab work lives here. -->
+          <article class="glass-panel ambient-zone reveal" data-zone="rain" data-effect="rain">
+            <canvas class="ambient-canvas" aria-hidden="true"></canvas>
+            <header class="panel-head">
+              <h3>Bedroom Weather</h3>
+              <span class="panel-tag">solo / collab</span>
+            </header>
+            <div class="panel-body">
+              <!-- ✏️ EDIT: solo project blurb -->
+              <p>Quieter recordings made at home — sketches, collaborations, and songs that sound like rain against a window.</p>
+              <div class="media-stack">
+                <!-- ✏️ EDIT: embeds, same pattern as Sol Obscurus -->
+                <p class="panel-tag">embeds go here — see EDITING.md</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PLACES ================= -->
+    <section class="section" id="places">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Places</p>
+          <h2>A personal constellation</h2>
+          <p class="lede">Not a map — a night sky. Hover a star to hold it still.</p>
+        </div>
+
+        <div class="glass-panel constellation-wrap reveal" id="constellation">
+          <canvas id="constellation-canvas" role="img" aria-label="Interactive constellation of places Jordan has lived, worked, and explored. Hover or tap a star to read its story."></canvas>
+          <div class="constellation-tip glass-panel" aria-hidden="true"></div>
+        </div>
+        <p class="game-hint reveal">Stars drift. Edit them in <code>data/places.json</code>.</p>
+      </div>
+    </section>
+
+    <!-- ================= PROJECTS ================= -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Projects</p>
+          <h2>Things I've built</h2>
+        </div>
+
+        <div class="projects-grid reveal-stagger">
+          <!-- Sentinel-Pro -->
+          <article class="glass-panel reveal" data-zone="tech">
+            <div class="panel-body">
+              <figure class="card-media" data-src="assets/img/sentinel-screenshot.png">
+                <img src="assets/img/sentinel-screenshot.png" alt="Sentinel-Pro dashboard screenshot"
+                     loading="lazy" onerror="this.closest('figure').classList.add('img-missing')" />
+              </figure>
+              <h3>Sentinel-Pro</h3>
+              <!-- ✏️ EDIT: 2-sentence blurb -->
+              <p style="color:var(--text-muted);margin-top:.5rem">A monitoring dashboard with a dark, frosted interface — the design language this whole site borrows from. Built to be deployed in minutes on GitHub Pages.</p>
+              <div class="card-links">
+                <a class="btn btn-sm" href="https://jordan-doerksen.github.io/sentinel-pro-showcase/" target="_blank" rel="noopener">Live demo</a>
+                <a class="btn btn-sm" href="https://github.com/Jordan-Doerksen/sentinel-pro-showcase" target="_blank" rel="noopener">Repo + deploy guide</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Particle Window -->
+          <article class="glass-panel reveal" data-zone="tech">
+            <div class="panel-body">
+              <div class="faux-window">
+                <div class="faux-titlebar">
+                  <span class="faux-dots"><i></i><i></i><i></i></span>
+                  particle.exe
+                </div>
+                <canvas id="particle-window" role="img" aria-label="Interactive particle simulation. Move your mouse to attract particles; press and hold to repel them."></canvas>
+              </div>
+              <h3 style="margin-top:1.1rem">Particle Window</h3>
+              <p style="color:var(--text-muted);margin-top:.5rem">~150 lines of vanilla JavaScript, zero libraries. Move your cursor to attract the swarm; press and hold to scatter it.</p>
+            </div>
+          </article>
+
+          <!-- Warcraft III — The Codex (full width) -->
+          <article class="glass-panel reveal span-2" data-zone="codex">
+            <header class="panel-head">
+              <h3>Warcraft III — The Codex</h3>
+              <span class="panel-tag">custom maps · lua</span>
+            </header>
+            <div class="panel-body">
+              <div class="codex-grid">
+                <div>
+                  <h4 style="font-size:1rem">Coin Survival</h4>
+                  <!-- ✏️ EDIT: drop an in-game screenshot at assets/img/wc3/coin-survival.jpg -->
+                  <figure class="card-media" data-src="assets/img/wc3/coin-survival.jpg" style="margin-top:.6rem">
+                    <img src="assets/img/wc3/coin-survival.jpg" alt="Coin Survival in-game screenshot"
+                         loading="lazy" onerror="this.closest('figure').classList.add('img-missing')" />
+                  </figure>
+                  <!-- ✏️ EDIT: 2–3 sentence map description -->
+                  <p style="color:var(--text-muted);margin-top:.4rem">A custom survival map: coins rain from the sky, so do worse things. Scripted in Lua. Below is a browser-sized homage to the real map — play it right here.</p>
+
+                  <div class="game-shell" style="margin-top:1rem">
+                    <canvas id="coin-game" role="img" aria-label="Coin Survival mini-game. Use arrow keys or your mouse to catch falling coins and dodge skulls."></canvas>
+                    <div class="game-overlay" id="coin-overlay">
+                      <div>
+                        <button class="btn" id="coin-start">▶ &nbsp;Insert coin</button>
+                        <p>← → or mouse to move · catch coins · dodge skulls</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card-links">
+                    <!-- ✏️ EDIT: drop your real map file into assets/maps/ -->
+                    <a class="btn btn-sm" href="assets/maps/coin-survival.w3x" download>Download coin-survival.w3x</a>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="code-block">
+                    <div class="code-title"><span>coin-survival.lua</span><span>excerpt</span></div>
+<pre><code><span class="tok-com">-- Spawn a coin somewhere in the arena; speed up each wave</span>
+<span class="tok-kw">function</span> <span class="tok-fn">SpawnCoin</span>()
+  <span class="tok-kw">local</span> x = <span class="tok-fn">GetRandomReal</span>(<span class="tok-fn">GetRectMinX</span>(gg_rct_Arena),
+                          <span class="tok-fn">GetRectMaxX</span>(gg_rct_Arena))
+  <span class="tok-kw">local</span> y = <span class="tok-fn">GetRandomReal</span>(<span class="tok-fn">GetRectMinY</span>(gg_rct_Arena),
+                          <span class="tok-fn">GetRectMaxY</span>(gg_rct_Arena))
+  <span class="tok-fn">CreateItem</span>(<span class="tok-fn">FourCC</span>(<span class="tok-str">'gold'</span>), x, y)
+  <span class="tok-kw">local</span> delay = <span class="tok-fn">math.max</span>(<span class="tok-num">0.25</span>, <span class="tok-num">0.85</span> - <span class="tok-num">0.01</span> * wave)
+  <span class="tok-fn">TimerStart</span>(<span class="tok-fn">CreateTimer</span>(), delay, <span class="tok-kw">false</span>, SpawnCoin)
+<span class="tok-kw">end</span></code></pre>
+                  </div>
+
+                  <h4 style="font-size:1rem;display:flex;align-items:center;gap:.6rem">
+                    Maze map <span class="badge badge-wip">In development</span>
+                  </h4>
+                  <!-- ✏️ EDIT: maze map blurb -->
+                  <p style="color:var(--text-muted);margin-top:.4rem">A two-player teamwork maze where each hero's abilities diverge — neither of you can finish it alone, and that's the point.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FORGE ================= -->
+    <section class="section" id="forge">
+      <div class="container">
+        <div class="glass-panel reveal" data-zone="forge">
+          <header class="panel-head">
+            <div>
+              <p class="eyebrow">Forge</p>
+              <h2>Red River 3D</h2>
+            </div>
+            <span class="panel-tag">prints &amp; commissions</span>
+          </header>
+          <div class="panel-body">
+            <p style="color:var(--text-muted);margin-bottom:1.4rem">Functional parts, fan pieces, and the occasional artifact — designed and printed in Winnipeg.</p>
+
+            <!-- ✏️ EDIT: drop photos into assets/img/forge/ and update filenames.
+                 Add or remove <figure> blocks freely. -->
+            <div class="gallery">
+              <figure data-src="assets/img/forge/print-01.jpg">
+                <img src="assets/img/forge/print-01.jpg" alt="3D print one" loading="lazy"
+                     onerror="this.closest('figure').classList.add('img-missing')" />
+                <figcaption><span class="rarity rarity-artifact">Artifact</span></figcaption>
+              </figure>
+              <figure data-src="assets/img/forge/print-02.jpg">
+                <img src="assets/img/forge/print-02.jpg" alt="3D print two" loading="lazy"
+                     onerror="this.closest('figure').classList.add('img-missing')" />
+                <figcaption><span class="rarity rarity-rare">Rare</span></figcaption>
+              </figure>
+              <figure data-src="assets/img/forge/print-03.jpg">
+                <img src="assets/img/forge/print-03.jpg" alt="3D print three" loading="lazy"
+                     onerror="this.closest('figure').classList.add('img-missing')" />
+                <figcaption><span class="rarity rarity-rare">Rare</span></figcaption>
+              </figure>
+            </div>
+
+            <div class="cta-block">
+              <div>
+                <b>Commissions &amp; custom prints</b>
+                <p style="color:var(--text-muted);font-size:.85rem;margin-top:2px">Have something in mind? Send a note with rough dimensions and a reference image.</p>
+              </div>
+              <a class="btn" href="mailto:Doerksen.Jordan@gmail.com?subject=Red%20River%203D%20Inquiry">Email Red River 3D</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LIBRARY ================= -->
+    <section class="section" id="library">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Library</p>
+          <h2>The shelf</h2>
+          <p class="lede">Books are edited in <code>data/books.json</code> — no HTML required.</p>
+        </div>
+
+        <div class="grid-2 reveal-stagger">
+          <div class="glass-panel reveal">
+            <header class="panel-head"><h3>Currently reading</h3></header>
+            <div class="panel-body"><ul class="book-list" id="books-reading"></ul></div>
+          </div>
+          <div class="glass-panel reveal">
+            <header class="panel-head"><h3>Recommended</h3></header>
+            <div class="panel-body"><ul class="book-list" id="books-recommended"></ul></div>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:2rem" class="reveal">
+          <button class="btn" id="quote-btn">Open a random page</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="glass-panel reveal">
+          <header class="panel-head">
+            <div>
+              <p class="eyebrow">Contact</p>
+              <h2>Find me</h2>
+            </div>
+          </header>
+          <div class="panel-body">
+            <!-- ✏️ EDIT: confirm/replace URLs -->
+            <ul class="social-row">
+              <li><a class="btn" href="mailto:Doerksen.Jordan@gmail.com">Email</a></li>
+              <li><a class="btn" href="https://github.com/Jordan-Doerksen" target="_blank" rel="noopener">GitHub</a></li>
+              <li><a class="btn" href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+              <li><a class="btn" href="#music">Sol Obscurus</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Jordan Doerksen · built by hand, hosted on GitHub Pages</p>
+  </footer>
+
+  <!-- ================= QUOTE MODAL ================= -->
+  <div class="modal" id="quote-modal" hidden role="dialog" aria-modal="true" aria-labelledby="quote-text">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card glass-panel">
+      <button class="modal-close" data-close aria-label="Close quote">✕</button>
+      <p class="quote-text" id="quote-text"></p>
+      <p class="quote-attrib" id="quote-attrib"></p>
+      <p class="quote-source" id="quote-source"></p>
+    </div>
+  </div>
+
+  <!-- ================= HIDDEN: OOT TEMPLE MODAL ================= -->
+  <div class="modal modal-full" id="oot-modal" hidden role="dialog" aria-modal="true" aria-label="Hidden essay">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card glass-panel">
+      <button class="modal-close" data-close aria-label="Close essay">✕</button>
+      <p class="oot-eyebrow">You found the temple</p>
+      <div class="oot-content" id="oot-content">
+        <p style="color:var(--text-muted)">Loading…</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

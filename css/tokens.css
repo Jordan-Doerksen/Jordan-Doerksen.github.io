@@ -1,0 +1,47 @@
+/* ==========================================================================
+   TOKENS — the control panel for the whole site.
+   Change a color or font here and it updates everywhere.
+   ========================================================================== */
+
+:root {
+  /* ----- Global shell (modern glass) ----- */
+  --bg: #08090c;
+  --bg-soft: #0c0e13;
+  --panel: rgba(16, 19, 25, 0.72);
+  --panel-solid: #10131a;
+  --glass-blur: 12px;
+  --line: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --text: #e7eaf0;
+  --text-muted: #969eac;
+  --text-faint: #5d6573;
+
+  /* ----- Accents (each one stays inside its own zone) ----- */
+  --accent: #4fe3d0;        /* tech / code panels only */
+  --gold: #d4a843;          /* sparingly — dividers, hover, Sol Obscurus bridge */
+  --forge: #ffaa44;         /* Red River 3D panel only */
+  --music-mystic: #c084fc;  /* Bedroom Weather panel only */
+  --codex-blue: #6aa9ff;    /* Warcraft III card only */
+  --ember: #ff6b35;         /* Sol Obscurus fire */
+
+  /* ----- Type ----- */
+  --font-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-rune: 'Cinzel', Georgia, serif; /* allowed INSIDE Sol Obscurus / OoT modal only */
+
+  /* ----- Rhythm ----- */
+  --radius: 14px;
+  --radius-sm: 8px;
+  --content-w: 1120px;
+  --section-pad: clamp(64px, 10vw, 120px);
+  --panel-pad: clamp(20px, 3.5vw, 36px);
+
+  /* ----- Depth ----- */
+  --shadow-panel: 0 14px 44px rgba(0, 0, 0, 0.45);
+  --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  /* ----- Motion ----- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 160ms;
+  --t-med: 320ms;
+}

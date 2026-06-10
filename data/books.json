@@ -1,0 +1,20 @@
+[
+  {
+    "title": "✏️ EDIT: A Book You're Reading",
+    "author": "Author Name",
+    "status": "reading",
+    "why": "One line about why it's on your nightstand."
+  },
+  {
+    "title": "The Lord of the Rings",
+    "author": "J.R.R. Tolkien",
+    "status": "recommended",
+    "why": "✏️ EDIT: swap or keep — a line on why you'd press it into someone's hands."
+  },
+  {
+    "title": "✏️ EDIT: Another Recommendation",
+    "author": "Author Name",
+    "status": "recommended",
+    "why": "Copy this block to add more books. Set status to \"reading\" or \"recommended\"."
+  }
+]
