@@ -58,6 +58,7 @@
   border-radius: var(--radius-sm);
 }
 .media-stack audio { width: 100%; }
+.track { display: grid; gap: 0.35rem; }
 
 /* ===== Tech zone (Sentinel-Pro) — the only place teal lives ===== */
 [data-zone='tech'] { border-color: rgba(79, 227, 208, 0.14); }

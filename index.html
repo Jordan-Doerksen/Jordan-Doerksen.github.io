@@ -151,15 +151,30 @@
               <!-- ✏️ EDIT: band blurb -->
               <p>Heavy, ritual-minded music written with friends. Tuned low, played loud, occasionally on fire.</p>
               <div class="media-stack">
-                <!-- ✏️ EDIT: paste your YouTube embed — replace VIDEO_ID -->
-                <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Sol Obscurus" loading="lazy" allowfullscreen></iframe> -->
-                <!-- ✏️ EDIT: drop an MP3 into assets/audio/ and update the filename -->
-                <!-- <audio controls src="assets/audio/sol-obscurus-track.mp3"></audio> -->
-                <p class="panel-tag">embeds go here — see EDITING.md</p>
+                <div class="track">
+                  <span class="panel-tag">Brutal</span>
+                  <audio controls src="assets/audio/sol_obscurus/brutal.mp3" preload="none"></audio>
+                </div>
+                <div class="track">
+                  <span class="panel-tag">Death March</span>
+                  <audio controls src="assets/audio/sol_obscurus/death_march.mp3" preload="none"></audio>
+                </div>
+                <div class="track">
+                  <span class="panel-tag">Nameless Choir — Voiceless Sky</span>
+                  <audio controls src="assets/audio/sol_obscurus/nameless_choir_voiceless_sky.mp3" preload="none"></audio>
+                </div>
+                <div class="track">
+                  <span class="panel-tag">Pantheon of False Gods (Remaster)</span>
+                  <audio controls src="assets/audio/sol_obscurus/pantheon_of_false_gods_remaster.mp3" preload="none"></audio>
+                </div>
+                <div class="track">
+                  <span class="panel-tag">Screams</span>
+                  <audio controls src="assets/audio/sol_obscurus/screams.mp3" preload="none"></audio>
+                </div>
               </div>
               <div class="card-links">
-                <!-- ✏️ EDIT: sheet music PDFs in assets/pdf/ -->
-                <!-- <a class="btn btn-sm" href="assets/pdf/song-name.pdf">Sheet music (PDF)</a> -->
+                <a class="btn btn-sm" href="assets/pdf/death_march.pdf" target="_blank" rel="noopener">Death March (PDF)</a>
+                <a class="btn btn-sm" href="assets/pdf/nameless_choir.pdf" target="_blank" rel="noopener">Nameless Choir (PDF)</a>
               </div>
             </div>
           </article>
@@ -175,8 +190,38 @@
               <!-- ✏️ EDIT: solo project blurb -->
               <p>Quieter recordings made at home — sketches, collaborations, and songs that sound like rain against a window.</p>
               <div class="media-stack">
-                <!-- ✏️ EDIT: embeds, same pattern as Sol Obscurus -->
-                <p class="panel-tag">embeds go here — see EDITING.md</p>
+                <div class="track">
+                  <span class="panel-tag">8-Bit Journey</span>
+                  <audio controls src="assets/audio/bedroom_weather/8-bit_journey.mp3" preload="none"></audio>
+                </div>
+                <div class="track">
+                  <span class="panel-tag">Dying Alone</span>
+                  <audio controls src="assets/audio/bedroom_weather/dying_alone.mp3" preload="none"></audio>
+                </div>
+                <div class="track">
+                  <span class="panel-tag">Hellfire</span>
+                  <audio controls src="assets/audio/bedroom_weather/hellfire.mp3" preload="none"></audio>
+                </div>
+                <div class="track">
+                  <span class="panel-tag">Love or Limerence, Who Cares</span>
+                  <audio controls src="assets/audio/bedroom_weather/love_or_limerence_who_cares.mp3" preload="none"></audio>
+                </div>
+                <div class="track">
+                  <span class="panel-tag">Opiate</span>
+                  <audio controls src="assets/audio/bedroom_weather/opiate.mp3" preload="none"></audio>
+                </div>
+                <div class="track">
+                  <span class="panel-tag">Soaring</span>
+                  <audio controls src="assets/audio/bedroom_weather/soaring.mp3" preload="none"></audio>
+                </div>
+                <div class="track">
+                  <span class="panel-tag">Trap 2P</span>
+                  <audio controls src="assets/audio/bedroom_weather/trap_2p.mp3" preload="none"></audio>
+                </div>
+                <div class="track">
+                  <span class="panel-tag">Whole Heart</span>
+                  <audio controls src="assets/audio/bedroom_weather/whole_heart.mp3" preload="none"></audio>
+                </div>
               </div>
             </div>
           </article>
@@ -213,8 +258,8 @@
           <!-- Sentinel-Pro -->
           <article class="glass-panel reveal" data-zone="tech">
             <div class="panel-body">
-              <figure class="card-media" data-src="assets/img/sentinel-screenshot.png">
-                <img src="assets/img/sentinel-screenshot.png" alt="Sentinel-Pro dashboard screenshot"
+              <figure class="card-media" data-src="assets/img/sentinel_dashboard.png">
+                <img src="assets/img/sentinel_dashboard.png" alt="Sentinel-Pro dashboard screenshot"
                      loading="lazy" onerror="this.closest('figure').classList.add('img-missing')" />
               </figure>
               <h3>Sentinel-Pro</h3>
@@ -271,14 +316,13 @@
                   </div>
 
                   <div class="card-links">
-                    <!-- ✏️ EDIT: drop your real map file into assets/maps/ -->
-                    <a class="btn btn-sm" href="assets/maps/coin-survival.w3x" download>Download coin-survival.w3x</a>
+                    <a class="btn btn-sm" href="assets/maps/coin_survival_v3.lua" download>Download coin_survival_v3.lua</a>
                   </div>
                 </div>
 
                 <div>
                   <div class="code-block">
-                    <div class="code-title"><span>coin-survival.lua</span><span>excerpt</span></div>
+                    <div class="code-title"><span>coin_survival_v3.lua</span><span>excerpt</span></div>
 <pre><code><span class="tok-com">-- Spawn a coin somewhere in the arena; speed up each wave</span>
 <span class="tok-kw">function</span> <span class="tok-fn">SpawnCoin</span>()
   <span class="tok-kw">local</span> x = <span class="tok-fn">GetRandomReal</span>(<span class="tok-fn">GetRectMinX</span>(gg_rct_Arena),
@@ -321,18 +365,23 @@
             <!-- ✏️ EDIT: drop photos into assets/img/forge/ and update filenames.
                  Add or remove <figure> blocks freely. -->
             <div class="gallery">
-              <figure data-src="assets/img/forge/print-01.jpg">
-                <img src="assets/img/forge/print-01.jpg" alt="3D print one" loading="lazy"
+              <figure data-src="assets/img/forge/print_bust.png">
+                <img src="assets/img/forge/print_bust.png" alt="3D printed bust" loading="lazy"
                      onerror="this.closest('figure').classList.add('img-missing')" />
                 <figcaption><span class="rarity rarity-artifact">Artifact</span></figcaption>
               </figure>
-              <figure data-src="assets/img/forge/print-02.jpg">
-                <img src="assets/img/forge/print-02.jpg" alt="3D print two" loading="lazy"
+              <figure data-src="assets/img/forge/print_deer.jpg">
+                <img src="assets/img/forge/print_deer.jpg" alt="3D printed deer figure" loading="lazy"
                      onerror="this.closest('figure').classList.add('img-missing')" />
                 <figcaption><span class="rarity rarity-rare">Rare</span></figcaption>
               </figure>
-              <figure data-src="assets/img/forge/print-03.jpg">
-                <img src="assets/img/forge/print-03.jpg" alt="3D print three" loading="lazy"
+              <figure data-src="assets/img/forge/print_ditto.jpg">
+                <img src="assets/img/forge/print_ditto.jpg" alt="3D printed Ditto figure" loading="lazy"
+                     onerror="this.closest('figure').classList.add('img-missing')" />
+                <figcaption><span class="rarity rarity-rare">Rare</span></figcaption>
+              </figure>
+              <figure data-src="assets/img/forge/print_stand.jpg">
+                <img src="assets/img/forge/print_stand.jpg" alt="3D printed display stand" loading="lazy"
                      onerror="this.closest('figure').classList.add('img-missing')" />
                 <figcaption><span class="rarity rarity-rare">Rare</span></figcaption>
               </figure>
