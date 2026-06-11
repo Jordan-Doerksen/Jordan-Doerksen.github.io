@@ -192,18 +192,19 @@
 
   <!-- ════════ PHASE 4 ════════ -->
   <section class="phase" data-phase>
-    <h2><span class="ph-ico">📦</span>Phase 4 · Clone the repos (both private)<span class="ph-done"></span></h2>
+    <h2><span class="ph-ico">📦</span>Phase 4 · Get the code<span class="ph-done"></span></h2>
 
     <div class="item" data-id="clone-py"><div class="box">✓</div><div class="body">
-      <div class="t">Clone sentinel-pro — the Python production system</div>
+      <div class="t">Get sentinel-pro — the Python production system</div>
+      <div class="d"><b>Got a zip from Jordan?</b> (the usual way) — unzip it somewhere sensible like <b>C:\sentinel-pro\</b> so you end up with <b>C:\sentinel-pro\sentinel-pro\run.py</b> etc., check this box, and skip the clone below.</div>
       <div class="cmd">git clone https://github.com/Jordan-Doerksen/sentinel-pro.git<button class="cp">COPY</button></div>
-      <div class="d">Git will pop a GitHub sign-in (browser device flow). On someone else's machine: sign out of github.com in their browser when you're done.</div>
+      <div class="d">(Clone path is Jordan-only — the repo is private. Git pops a GitHub sign-in; on someone else's machine, sign out of github.com afterwards.)</div>
     </div></div>
 
     <div class="item" data-id="clone-net"><div class="box">✓</div><div class="body">
-      <div class="t">Clone sentinel-pro-net — the .NET rewrite</div>
+      <div class="t">Jordan only: clone sentinel-pro-net — the .NET rewrite</div>
       <div class="cmd">git clone https://github.com/Jordan-Doerksen/sentinel-pro-net.git<button class="cp">COPY</button></div>
-      <div class="tip">This repo vendors IBKR's API source. It is private and <b>must stay private</b> — never fork or copy it anywhere public.</div>
+      <div class="tip">This repo vendors IBKR's API source: private, <b>must stay private</b>, and is never zipped or sent to anyone. If you're not Jordan, check this box and move on — you don't need it.</div>
     </div></div>
   </section>
 
@@ -242,10 +243,11 @@ pip install -r requirements.txt<button class="cp">COPY</button></div>
 
   <!-- ════════ PHASE 6 ════════ -->
   <section class="phase" data-phase>
-    <h2><span class="ph-ico">⚙️</span>Phase 6 · The .NET rewrite (integration test)<span class="ph-done"></span></h2>
+    <h2><span class="ph-ico">⚙️</span>Phase 6 · The .NET rewrite — Jordan only<span class="ph-done"></span></h2>
 
     <div class="item" data-id="net-test"><div class="box">✓</div><div class="body">
       <div class="t">Build &amp; test — 21 green before anything else</div>
+      <div class="d"><b>Not Jordan?</b> This whole phase needs the private .NET repo — check both boxes and skip ahead; the cockpit from Phase 5 is the complete product.</div>
       <div class="cmd">cd sentinel-pro-net
 copy .env.example .env
 dotnet test<button class="cp">COPY</button></div>
@@ -270,8 +272,8 @@ python tools\record_session.py<button class="cp">COPY</button></div>
     </div></div>
 
     <div class="item" data-id="takehome"><div class="box">✓</div><div class="body">
-      <div class="t">Take the recording home</div>
-      <div class="d">Copy the .jsonl off the machine (USB, drive, whatever). Back home: <b>python tools\tune_absorption.py recordings\es_….jsonl</b> and <b>dotnet run … -- --replay</b>. The session is now immortal.</div>
+      <div class="t">Get the recording to Jordan</div>
+      <div class="d">Copy <b>recordings\es_….jsonl</b> off the machine — USB, drive link, whatever works (zip it first, it compresses brilliantly). It powers absorption tuning (<b>tools\tune_absorption.py</b>) and .NET replay development forever. The session becomes immortal.</div>
     </div></div>
   </section>
 
