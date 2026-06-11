@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jordan Doerksen — Archive</title>
-  <meta name="description" content="Jordan Doerksen — code, guitar, trains, and the worlds in between. Winnipeg, Manitoba." />
+  <title>Jordan Doerksen — The Observatory</title>
+  <meta name="description" content="Jordan Doerksen — code, guitar, trains, and the worlds in between. An observatory of the things I make. Winnipeg, Manitoba." />
 
-  <!-- Fonts: Inter (UI), JetBrains Mono (code/labels), Cinzel (Sol Obscurus + OoT only) -->
+  <!-- Fonts: Space Grotesk (tech display), Fraunces italic (the serif whisper),
+       Inter (UI), JetBrains Mono (labels), Cinzel (Sol Obscurus + OoT temple only) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Cinzel:wght@600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,300..600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Cinzel:wght@600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/base.css" />
@@ -21,30 +22,54 @@
 <body>
   <a class="skip-link" href="#about">Skip to content</a>
 
-  <!-- ================= NAV ================= -->
-  <nav class="site-nav glass-panel" aria-label="Main">
-    <a class="nav-logo" href="#top">J<span>·</span>D</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#music">Music</a></li>
-      <li><a href="#places">Places</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#forge">Forge</a></li>
-      <li><a href="#library">Library</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+  <!-- The living sky — one canvas behind everything -->
+  <canvas id="sky" aria-hidden="true"></canvas>
+
+  <!-- ================= NAVIGATION ================= -->
+  <a class="obs-logo" href="#top" aria-label="Back to top">J<span>·</span>D</a>
+
+  <!-- Desktop: the star rail -->
+  <nav class="star-rail" aria-label="Main">
+    <a href="#about"><span class="rail-label">About</span><span class="rail-star"></span></a>
+    <a href="#music"><span class="rail-label">Music</span><span class="rail-star"></span></a>
+    <a href="#places"><span class="rail-label">Places</span><span class="rail-star"></span></a>
+    <a href="#projects"><span class="rail-label">Projects</span><span class="rail-star"></span></a>
+    <a href="#forge"><span class="rail-label">Forge</span><span class="rail-star"></span></a>
+    <a href="#library"><span class="rail-label">Library</span><span class="rail-star"></span></a>
+    <a href="#contact"><span class="rail-label">Contact</span><span class="rail-star"></span></a>
   </nav>
 
-  <!-- ================= HERO ================= -->
-  <header class="hero" id="top">
-    <canvas id="starfield" aria-hidden="true"></canvas>
+  <!-- Mobile: slim top bar that summons the star map -->
+  <div class="obs-topbar">
+    <button class="chart-toggle" aria-haspopup="dialog" aria-controls="star-map">Star chart</button>
+  </div>
 
+  <div class="star-map" id="star-map" role="dialog" aria-modal="true" aria-label="Site navigation" aria-hidden="true">
+    <button class="map-close" aria-label="Close star chart">✕</button>
+    <nav aria-label="Star chart">
+      <ol>
+        <li><a href="#about"><span class="map-no">01</span><span class="map-name">About</span></a></li>
+        <li><a href="#music"><span class="map-no">02</span><span class="map-name">Music</span></a></li>
+        <li><a href="#places"><span class="map-no">03</span><span class="map-name">Places</span></a></li>
+        <li><a href="#projects"><span class="map-no">04</span><span class="map-name">Projects</span></a></li>
+        <li><a href="#forge"><span class="map-no">05</span><span class="map-name">Forge</span></a></li>
+        <li><a href="#library"><span class="map-no">06</span><span class="map-name">Library</span></a></li>
+        <li><a href="#contact"><span class="map-no">07</span><span class="map-name">Contact</span></a></li>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- ================= HERO ================= -->
+  <header class="hero" id="top" data-sky="#d8ac4e">
     <div class="hero-inner">
-      <p class="hero-eyebrow">Winnipeg · Manitoba</p>
-      <h1>Jordan Doerksen</h1>
+      <!-- The J·D sigil, drawn in stars by js/sigil.js -->
+      <canvas id="sigil" role="img" aria-label="A constellation of stars forming the initials J D"></canvas>
+
+      <p class="hero-eyebrow">Winnipeg · Manitoba &nbsp;<span class="coords">49.90° N — 97.14° W</span></p>
+      <h1>Jordan <span class="ital">Doerksen</span></h1>
       <!-- ✏️ EDIT: your one-line tagline -->
-      <p class="hero-tag">Code, guitar, trains, and the worlds in between.</p>
-      <a class="btn" href="#about">Enter the archive</a>
+      <p class="hero-tag">Code, guitar, trains, and the worlds in between — catalogued under one sky.</p>
+      <a class="btn btn-primary" href="#about">Enter the observatory</a>
     </div>
 
     <!-- Invisible Triforce hotspots — click top, then bottom-left, then bottom-right -->
@@ -52,25 +77,31 @@
     <button class="tri-spot" data-tri="2" tabindex="-1" aria-hidden="true"></button>
     <button class="tri-spot" data-tri="3" tabindex="-1" aria-hidden="true"></button>
 
-    <a class="hero-scroll" href="#about">Scroll</a>
+    <a class="hero-scroll" href="#about">Descend</a>
   </header>
 
   <main>
     <!-- ================= ABOUT ================= -->
-    <section class="section" id="about">
+    <section class="section" id="about" data-sky="#d8ac4e">
       <div class="container">
         <div class="section-head reveal">
-          <p class="eyebrow">About</p>
-          <h2>A field guide to the person</h2>
+          <p class="eyebrow"><span class="plate-no">Plate 01</span><span class="star-glyph">✦</span>About</p>
+          <h2>A field guide to <span class="ital">the person</span></h2>
+          <div class="atlas-rule" aria-hidden="true"></div>
         </div>
 
         <div class="about-grid grid-2 reveal-stagger">
-          <!-- ✏️ EDIT: replace these three paragraphs with your real bio.
-               Keep the tone intimate-archive, not resume. -->
+          <!-- ✏️ EDIT: your bio. Keep the tone intimate-archive, not resume. -->
           <div class="reveal">
-            <p>I grew up in Winnipeg and never quite picked one world to live in. By day I've conducted freight through the Rockies for CN Rail; by night I write code, build 3D-printed things, and chase guitar tones that sound like weather.</p>
-            <p style="margin-top:1em">Warcraft III and StarCraft taught me systems thinking before any textbook did. The Lord of the Rings and Princess Mononoke taught me what those systems are for. I tend to see the good in people first — and in animals before that.</p>
-            <p style="margin-top:1em">This site is an archive of the things I make and the places they come from. Click around. Some doors are hidden.</p>
+            <p>My first life was in Oshawa, Ontario. I left it to go find the next one — roofing crews, arborist work, summers on a homestead in the mountains of B.C., building websites for people, and odd experiments inside videogame modding tools. The constant through all of it: a need to make things.</p>
+            <p style="margin-top:1em">Then the railway. Almost two years inside the training system — through layoffs, lockouts, and restarts — and more than a hundred runs driving freight through the mountains. The people I met out there changed my life forever. When that chapter closed, I started over again, this time in Winnipeg.</p>
+            <p style="margin-top:1em">Warcraft III and StarCraft taught me systems thinking before any textbook did; The Lord of the Rings and Princess Mononoke taught me what systems are for. This site is an observatory of the things I make and the places they come from. Click around — some doors are hidden.</p>
+
+            <!-- The route log: lived & worked stops, in order -->
+            <p class="route-log">
+              <span class="rl-label">Route log — lived &amp; worked</span>
+              <span class="stop">Oshawa</span> <span class="arr">→</span> <span class="stop">GTA</span> <span class="arr">→</span> <span class="stop">Red Deer</span> <span class="arr">→</span> <span class="stop">Jasper</span> <span class="arr">→</span> <span class="stop">B.C. Interior</span> <span class="arr">→</span> <span class="stop">Winnipeg</span>
+            </p>
 
             <!-- Affinities panel -->
             <div class="glass-panel" style="margin-top:1.6rem">
@@ -79,7 +110,7 @@
                 <span class="panel-tag">formative things</span>
               </header>
               <div class="panel-body">
-                <!-- ✏️ EDIT: add/remove chips freely. data-cat colors the dot:
+                <!-- ✏️ EDIT: add/remove chips freely. data-cat colors the star:
                      film / game / music / life -->
                 <ul class="chip-grid">
                   <li class="chip" data-cat="film">The Lord of the Rings</li>
@@ -89,16 +120,19 @@
                   <li class="chip" data-cat="game">Warcraft III: TFT</li>
                   <li class="chip" data-cat="game">StarCraft</li>
                   <li class="chip" data-cat="game">Ocarina of Time</li>
+                  <li class="chip" data-cat="game">Modding tools</li>
                   <li class="chip" data-cat="music">Guitar</li>
                   <li class="chip" data-cat="music">Heavy riffs</li>
                   <li class="chip" data-cat="life">Animals</li>
                   <li class="chip" data-cat="life">Mountains</li>
+                  <li class="chip" data-cat="life">Trains</li>
+                  <li class="chip" data-cat="life">Homesteading</li>
                 </ul>
               </div>
             </div>
           </div>
 
-          <!-- Profile card: RPG flavor, modern dress -->
+          <!-- Profile card: RPG flavor, observatory dress -->
           <aside class="glass-panel profile-card reveal">
             <header class="panel-head">
               <h3>Profile</h3>
@@ -112,18 +146,22 @@
               </figure>
               <!-- ✏️ EDIT: tune the numbers (style="--value: NN%") -->
               <div class="stat">
-                <div class="stat-label"><b>Guitar</b><span>86</span></div>
+                <div class="stat-label"><b>Curiosity</b><span>94</span></div>
+                <div class="stat-track"><div class="stat-fill" style="--value:94%"></div></div>
+              </div>
+              <div class="stat">
+                <div class="stat-label"><b>Craft</b><span>86</span></div>
                 <div class="stat-track"><div class="stat-fill" style="--value:86%"></div></div>
               </div>
               <div class="stat">
-                <div class="stat-label"><b>Code</b><span>74</span></div>
-                <div class="stat-track"><div class="stat-fill" style="--value:74%"></div></div>
+                <div class="stat-label"><b>Music</b><span>84</span></div>
+                <div class="stat-track"><div class="stat-fill" style="--value:84%"></div></div>
               </div>
               <div class="stat">
-                <div class="stat-label"><b>Empathy</b><span>92</span></div>
-                <div class="stat-track"><div class="stat-fill" style="--value:92%"></div></div>
+                <div class="stat-label"><b>Systems</b><span>76</span></div>
+                <div class="stat-track"><div class="stat-fill" style="--value:76%"></div></div>
               </div>
-              <p class="profile-foot">class: conductor · builder · guitarist<br />build: support — buffs the party</p>
+              <p class="profile-foot">class: conductor · builder · musician<br />build: support — buffs the party</p>
             </div>
           </aside>
         </div>
@@ -131,12 +169,13 @@
     </section>
 
     <!-- ================= MUSIC ================= -->
-    <section class="section" id="music">
+    <section class="section" id="music" data-sky="#c084fc">
       <div class="container">
         <div class="section-head reveal">
-          <p class="eyebrow">Music</p>
-          <h2>Two rooms, two weathers</h2>
+          <p class="eyebrow"><span class="plate-no">Plate 02</span><span class="star-glyph">✦</span>Music</p>
+          <h2>Two rooms, <span class="ital">two weathers</span></h2>
           <p class="lede">Same hands, very different skies.</p>
+          <div class="atlas-rule" aria-hidden="true"></div>
         </div>
 
         <div class="grid-2 reveal-stagger">
@@ -230,12 +269,13 @@
     </section>
 
     <!-- ================= PLACES ================= -->
-    <section class="section" id="places">
+    <section class="section" id="places" data-sky="#8fb7ff">
       <div class="container">
         <div class="section-head reveal">
-          <p class="eyebrow">Places</p>
-          <h2>A personal constellation</h2>
+          <p class="eyebrow"><span class="plate-no">Plate 03</span><span class="star-glyph">✦</span>Places</p>
+          <h2>A personal <span class="ital">constellation</span></h2>
           <p class="lede">Not a map — a night sky. Hover a star to hold it still.</p>
+          <div class="atlas-rule" aria-hidden="true"></div>
         </div>
 
         <div class="glass-panel constellation-wrap reveal" id="constellation">
@@ -247,11 +287,12 @@
     </section>
 
     <!-- ================= PROJECTS ================= -->
-    <section class="section" id="projects">
+    <section class="section" id="projects" data-sky="#4fe3d0">
       <div class="container">
         <div class="section-head reveal">
-          <p class="eyebrow">Projects</p>
-          <h2>Things I've built</h2>
+          <p class="eyebrow"><span class="plate-no">Plate 04</span><span class="star-glyph">✦</span>Projects</p>
+          <h2>Things I've <span class="ital">built</span></h2>
+          <div class="atlas-rule" aria-hidden="true"></div>
         </div>
 
         <div class="projects-grid reveal-stagger">
@@ -264,7 +305,7 @@
               </figure>
               <h3>Sentinel-Pro</h3>
               <!-- ✏️ EDIT: 2-sentence blurb -->
-              <p style="color:var(--text-muted);margin-top:.5rem">A monitoring dashboard with a dark, frosted interface — the design language this whole site borrows from. Built to be deployed in minutes on GitHub Pages.</p>
+              <p class="card-blurb">A monitoring dashboard with a dark, frosted interface — a sibling of this site's design language. Built to be deployed in minutes on GitHub Pages.</p>
               <div class="card-links">
                 <a class="btn btn-sm" href="https://jordan-doerksen.github.io/sentinel-pro-showcase/" target="_blank" rel="noopener">Live demo</a>
                 <a class="btn btn-sm" href="https://github.com/Jordan-Doerksen/sentinel-pro-showcase" target="_blank" rel="noopener">Repo + deploy guide</a>
@@ -283,7 +324,7 @@
                 <canvas id="particle-window" role="img" aria-label="Interactive particle simulation. Move your mouse to attract particles; press and hold to repel them."></canvas>
               </div>
               <h3 style="margin-top:1.1rem">Particle Window</h3>
-              <p style="color:var(--text-muted);margin-top:.5rem">~150 lines of vanilla JavaScript, zero libraries. Move your cursor to attract the swarm; press and hold to scatter it.</p>
+              <p class="card-blurb">~150 lines of vanilla JavaScript, zero libraries. Move your cursor to attract the swarm; press and hold to scatter it.</p>
             </div>
           </article>
 
@@ -296,14 +337,14 @@
             <div class="panel-body">
               <div class="codex-grid">
                 <div>
-                  <h4 style="font-size:1rem">Coin Survival</h4>
+                  <h4 style="font-size:1.05rem">Coin Survival</h4>
                   <!-- ✏️ EDIT: drop an in-game screenshot at assets/img/wc3/coin-survival.jpg -->
                   <figure class="card-media" data-src="assets/img/wc3/coin-survival.jpg" style="margin-top:.6rem">
                     <img src="assets/img/wc3/coin-survival.jpg" alt="Coin Survival in-game screenshot"
                          loading="lazy" onerror="this.closest('figure').classList.add('img-missing')" />
                   </figure>
                   <!-- ✏️ EDIT: 2–3 sentence map description -->
-                  <p style="color:var(--text-muted);margin-top:.4rem">A custom survival map: coins rain from the sky, so do worse things. Scripted in Lua. Below is a browser-sized homage to the real map — play it right here.</p>
+                  <p class="card-blurb" style="margin-top:.4rem">A custom survival map: coins rain from the sky, so do worse things. Scripted in Lua. Below is a browser-sized homage to the real map — play it right here.</p>
 
                   <div class="game-shell" style="margin-top:1rem">
                     <canvas id="coin-game" role="img" aria-label="Coin Survival mini-game. Use arrow keys or your mouse to catch falling coins and dodge skulls."></canvas>
@@ -335,11 +376,11 @@
 <span class="tok-kw">end</span></code></pre>
                   </div>
 
-                  <h4 style="font-size:1rem;display:flex;align-items:center;gap:.6rem">
+                  <h4 style="font-size:1.05rem;display:flex;align-items:center;gap:.6rem">
                     Maze map <span class="badge badge-wip">In development</span>
                   </h4>
                   <!-- ✏️ EDIT: maze map blurb -->
-                  <p style="color:var(--text-muted);margin-top:.4rem">A two-player teamwork maze where each hero's abilities diverge — neither of you can finish it alone, and that's the point.</p>
+                  <p class="card-blurb" style="margin-top:.4rem">A two-player teamwork maze where each hero's abilities diverge — neither of you can finish it alone, and that's the point.</p>
                 </div>
               </div>
             </div>
@@ -349,19 +390,21 @@
     </section>
 
     <!-- ================= FORGE ================= -->
-    <section class="section" id="forge">
+    <section class="section" id="forge" data-sky="#ffaa44">
       <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="plate-no">Plate 05</span><span class="star-glyph">✦</span>Forge</p>
+          <h2>Red River <span class="ital">3D</span></h2>
+          <p class="lede">Functional parts, fan pieces, and the occasional artifact — designed and printed in Winnipeg.</p>
+          <div class="atlas-rule" aria-hidden="true"></div>
+        </div>
+
         <div class="glass-panel reveal" data-zone="forge">
           <header class="panel-head">
-            <div>
-              <p class="eyebrow">Forge</p>
-              <h2>Red River 3D</h2>
-            </div>
+            <h3>The print vault</h3>
             <span class="panel-tag">prints &amp; commissions</span>
           </header>
           <div class="panel-body">
-            <p style="color:var(--text-muted);margin-bottom:1.4rem">Functional parts, fan pieces, and the occasional artifact — designed and printed in Winnipeg.</p>
-
             <!-- ✏️ EDIT: drop photos into assets/img/forge/ and update filenames.
                  Add or remove <figure> blocks freely. -->
             <div class="gallery">
@@ -400,12 +443,13 @@
     </section>
 
     <!-- ================= LIBRARY ================= -->
-    <section class="section" id="library">
+    <section class="section" id="library" data-sky="#d8ac4e">
       <div class="container">
         <div class="section-head reveal">
-          <p class="eyebrow">Library</p>
-          <h2>The shelf</h2>
+          <p class="eyebrow"><span class="plate-no">Plate 06</span><span class="star-glyph">✦</span>Library</p>
+          <h2>The <span class="ital">shelf</span></h2>
           <p class="lede">Books are edited in <code>data/books.json</code> — no HTML required.</p>
+          <div class="atlas-rule" aria-hidden="true"></div>
         </div>
 
         <div class="grid-2 reveal-stagger">
@@ -419,38 +463,33 @@
           </div>
         </div>
 
-        <div style="text-align:center;margin-top:2rem" class="reveal">
+        <div style="text-align:center;margin-top:2.4rem" class="reveal">
           <button class="btn" id="quote-btn">Open a random page</button>
         </div>
       </div>
     </section>
 
     <!-- ================= CONTACT ================= -->
-    <section class="section" id="contact">
+    <section class="section" id="contact" data-sky="#6aa9ff">
       <div class="container">
-        <div class="glass-panel reveal">
-          <header class="panel-head">
-            <div>
-              <p class="eyebrow">Contact</p>
-              <h2>Find me</h2>
-            </div>
-          </header>
-          <div class="panel-body">
-            <!-- ✏️ EDIT: confirm/replace URLs -->
-            <ul class="social-row">
-              <li><a class="btn" href="mailto:Doerksen.Jordan@gmail.com">Email</a></li>
-              <li><a class="btn" href="https://github.com/Jordan-Doerksen" target="_blank" rel="noopener">GitHub</a></li>
-              <li><a class="btn" href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
-              <li><a class="btn" href="#music">Sol Obscurus</a></li>
-            </ul>
-          </div>
+        <div class="contact-pane reveal">
+          <p class="eyebrow"><span class="plate-no">Plate 07</span><span class="star-glyph">✦</span>Contact</p>
+          <h2>Send a signal <span class="ital">into the dark</span></h2>
+          <p class="lede">For music, prints, maps, code, or anything in between — the observatory door is open.</p>
+          <!-- ✏️ EDIT: confirm/replace URLs -->
+          <ul class="social-row">
+            <li><a class="btn btn-primary" href="mailto:Doerksen.Jordan@gmail.com">Email</a></li>
+            <li><a class="btn" href="https://github.com/Jordan-Doerksen" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a class="btn" href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+            <li><a class="btn" href="#music">Sol Obscurus</a></li>
+          </ul>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>© <span id="year"></span> Jordan Doerksen · built by hand, hosted on GitHub Pages</p>
+    <p>© <span id="year"></span> Jordan Doerksen · built by hand under prairie skies · hosted on GitHub Pages</p>
   </footer>
 
   <!-- ================= QUOTE MODAL ================= -->

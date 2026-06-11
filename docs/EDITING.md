@@ -4,6 +4,9 @@ Which file to touch for each kind of update. Rule of thumb: **content lives
 in `data/` and `index.html`; looks live in `css/`; behavior lives in `js/`.**
 You will almost never need to open `js/`.
 
+For adding, reordering, or removing whole **sections**, see the partner
+guide: [`SECTIONS.md`](SECTIONS.md).
+
 ---
 
 ## Everyday updates
@@ -11,7 +14,8 @@ You will almost never need to open `js/`.
 | Task | File | Notes |
 |---|---|---|
 | Rewrite your bio | `index.html` | About section — look for `✏️ EDIT` comments |
-| Change stat bars (Guitar / Code / Empathy) | `index.html` | Each bar has a `--value` percentage on it |
+| Edit the route log (Oshawa → … → Winnipeg) | `index.html` | The `.route-log` block under the bio — copy a `<span class="stop">` + arrow pair |
+| Change stat bars (Curiosity / Craft / Music / Systems) | `index.html` | Each bar has a `--value` percentage on it |
 | Add / remove Affinities chips | `index.html` | Copy a `<span class="chip">` line |
 | Add a place to the constellation | `data/places.json` | Copy a block; `x`/`y` are 0–1 fractions of the panel (0,0 = top-left) |
 | Edit the Jasper / Grande Prairie CN Rail stories | `data/places.json` | The `story` field is the long tooltip text |
@@ -37,7 +41,7 @@ You will almost never need to open `js/`.
 | Task | File |
 |---|---|
 | Any color, font, blur amount | `css/tokens.css` — every color is a variable at the top |
-| Panel glass styling, nav, modals | `css/glass.css` |
+| Panel glass, star-chart nav, hero, modals | `css/glass.css` |
 | Buttons, chips, cards, stat bars | `css/components.css` |
 | Per-panel themes (fire, rain, codex blue, forge amber, OoT green-gold) | `css/zones.css` |
 | Cursor, click sparks, scroll reveals | `css/fx-global.css` |
@@ -47,10 +51,12 @@ You will almost never need to open `js/`.
 | Feature | File |
 |---|---|
 | Bootstraps everything | `js/main.js` |
-| Hero starfield + gold rings | `js/starfield.js` |
+| The site-wide living sky (stars, nebula hues, shooting stars) | `js/sky.js` — each section's `data-sky="#hex"` in `index.html` sets its nebula color |
+| Hero J·D constellation sigil | `js/sigil.js` — letterform points live in the `POINTS` array |
+| Star-chart nav (rail + mobile star map) | `js/starchart-nav.js` |
 | Custom cursor | `js/cursor.js` |
 | Click sparks | `js/click-fx.js` |
-| Scroll-in reveals + nav highlighting | `js/reveal.js` |
+| Scroll-in reveals | `js/reveal.js` |
 | Constellation drift / tooltips | `js/constellation.js` |
 | Sol Obscurus embers + sigils | `js/zones/sol-obscurus.js` |
 | Bedroom Weather rain | `js/zones/bedroom-weather.js` |

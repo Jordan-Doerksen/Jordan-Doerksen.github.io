@@ -22,7 +22,7 @@ export function initSolObscurus() {
     canvas.width = w * dpr;
     canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    embers = Array.from({ length: Math.min(40, Math.floor(w / 14)) }, newEmber);
+    embers = Array.from({ length: Math.min(75, Math.floor(w / 8)) }, newEmber);
     if (reduced) drawStatic();
   }
 
@@ -30,10 +30,10 @@ export function initSolObscurus() {
     return {
       x: Math.random() * w,
       y: h + Math.random() * h * 0.5,
-      r: 0.8 + Math.random() * 1.8,
-      vy: 0.25 + Math.random() * 0.6,
+      r: 1.0 + Math.random() * 2.2,
+      vy: 0.35 + Math.random() * 0.9,
       sway: Math.random() * Math.PI * 2,
-      life: 0.4 + Math.random() * 0.6,
+      life: 0.5 + Math.random() * 0.6,
     };
   }
 
@@ -45,12 +45,12 @@ export function initSolObscurus() {
         ctx.save();
         ctx.translate(cx, cy);
         if (rotating) ctx.rotate(t * 0.04 * ring.dir);
-        ctx.strokeStyle = 'rgba(212, 168, 67, 0.07)';
+        ctx.strokeStyle = 'rgba(212, 168, 67, 0.11)';
         ctx.beginPath();
         ctx.arc(0, 0, ring.r, 0, Math.PI * 2);
         ctx.stroke();
-        ctx.fillStyle = 'rgba(212, 168, 67, 0.10)';
-        ctx.font = '12px serif';
+        ctx.fillStyle = 'rgba(212, 168, 67, 0.16)';
+        ctx.font = '13px serif';
         ctx.textAlign = 'center';
         for (let i = 0; i < ring.n; i++) {
           const a = (Math.PI * 2 * i) / ring.n;
@@ -68,9 +68,16 @@ export function initSolObscurus() {
   function drawEmbers() {
     for (const e of embers) {
       const flicker = 0.55 + 0.45 * Math.sin(t * 6 + e.sway);
-      ctx.fillStyle = `rgba(255, 107, 53, ${e.life * flicker * 0.55})`;
+      const a = e.life * flicker;
+      const x = e.x + Math.sin(t * 1.4 + e.sway) * 9;
+      // soft heat halo behind each ember (cheap: a second, larger circle)
+      ctx.fillStyle = `rgba(255, 90, 40, ${a * 0.22})`;
       ctx.beginPath();
-      ctx.arc(e.x + Math.sin(t * 1.4 + e.sway) * 8, e.y, e.r, 0, Math.PI * 2);
+      ctx.arc(x, e.y, e.r * 2.8, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = `rgba(255, 130, 60, ${a * 0.8})`;
+      ctx.beginPath();
+      ctx.arc(x, e.y, e.r, 0, Math.PI * 2);
       ctx.fill();
       e.y -= e.vy;
       e.life -= 0.0016;

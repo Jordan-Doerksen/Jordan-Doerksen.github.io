@@ -1,38 +1,137 @@
 [
   {
-    "id": "winnipeg",
-    "label": "Winnipeg, MB",
+    "id": "oshawa",
+    "label": "Oshawa, ON",
     "type": "home",
-    "x": 0.66,
-    "y": 0.62,
-    "blurb": "Home base. Prairie skies, guitar amps, and the desk where most of this site was built.",
-    "story": "✏️ EDIT: replace this with a sentence or two about what Winnipeg means to you — growing up here, the music scene, winters, whatever feels true."
+    "x": 0.18,
+    "y": 0.2,
+    "blurb": "The first life.",
+    "story": "Where I started. I left it to find out what else I could be."
+  },
+  {
+    "id": "gta",
+    "label": "GTA, ON",
+    "type": "home",
+    "x": 0.1,
+    "y": 0.42,
+    "blurb": "The Greater Toronto orbit — the early years.",
+    "story": "✏️ EDIT: a line or two about your GTA chapter."
+  },
+  {
+    "id": "red-deer",
+    "label": "Red Deer, AB",
+    "type": "work",
+    "x": 0.3,
+    "y": 0.31,
+    "blurb": "A stop in the searching years.",
+    "story": "✏️ EDIT: what Red Deer was — the work, the people, what it taught you."
   },
   {
     "id": "jasper",
     "label": "Jasper, AB",
     "type": "work",
-    "x": 0.28,
-    "y": 0.34,
-    "blurb": "Conducting trains through the Rockies with CN Rail.",
-    "story": "✏️ EDIT: your Jasper story goes here — the mountain runs, the crews you worked with, the moments that stuck. A short paragraph reads best in the tooltip."
+    "x": 0.43,
+    "y": 0.15,
+    "blurb": "Driving freight through the mountains.",
+    "story": "Almost two years through the railway training system — layoffs, lockouts, restarts — and more than a hundred runs through these mountains. The people I met out here changed my life forever."
   },
   {
-    "id": "grande-prairie",
-    "label": "Grande Prairie, AB",
+    "id": "bc-homestead",
+    "label": "B.C. Interior",
     "type": "work",
-    "x": 0.2,
-    "y": 0.55,
-    "blurb": "Northern Alberta posting with CN Rail.",
-    "story": "✏️ EDIT: your Grande Prairie story goes here — the people you met, the long shifts, what the north taught you."
+    "x": 0.54,
+    "y": 0.4,
+    "blurb": "Homestead summers in the mountains.",
+    "story": "A few summers living on a homestead — wood, water, weather, and quiet. Some of the best problem-solving school there is."
   },
   {
-    "id": "example-explore",
-    "label": "Somewhere New",
+    "id": "winnipeg",
+    "label": "Winnipeg, MB",
+    "type": "home",
+    "x": 0.66,
+    "y": 0.62,
+    "blurb": "Home base. The restart that stuck.",
+    "story": "Prairie skies, guitar amps, the 3D printer humming — and the desk where this site was built."
+  },
+  {
+    "id": "atlin",
+    "label": "Atlin, BC",
     "type": "explore",
-    "x": 0.5,
-    "y": 0.22,
-    "blurb": "✏️ EDIT: add places you've explored — copy this block, change the id/label/x/y, or delete it entirely.",
+    "x": 0.07,
+    "y": 0.68,
+    "blurb": "Far-north B.C., near the Yukon line.",
+    "story": ""
+  },
+  {
+    "id": "vancouver",
+    "label": "Vancouver, BC",
+    "type": "explore",
+    "x": 0.21,
+    "y": 0.56,
+    "blurb": "Where the mountains meet the sea.",
+    "story": ""
+  },
+  {
+    "id": "calgary",
+    "label": "Calgary, AB",
+    "type": "explore",
+    "x": 0.35,
+    "y": 0.47,
+    "blurb": "Foothills city.",
+    "story": ""
+  },
+  {
+    "id": "edmonton",
+    "label": "Edmonton, AB",
+    "type": "explore",
+    "x": 0.47,
+    "y": 0.73,
+    "blurb": "Northern lights territory.",
+    "story": ""
+  },
+  {
+    "id": "niagara",
+    "label": "Niagara Falls, ON",
+    "type": "explore",
+    "x": 0.3,
+    "y": 0.82,
+    "blurb": "The falls.",
+    "story": ""
+  },
+  {
+    "id": "halifax",
+    "label": "Halifax, NS",
+    "type": "explore",
+    "x": 0.78,
+    "y": 0.24,
+    "blurb": "The Atlantic edge.",
+    "story": ""
+  },
+  {
+    "id": "pei",
+    "label": "P.E.I.",
+    "type": "explore",
+    "x": 0.89,
+    "y": 0.4,
+    "blurb": "Red dirt island.",
+    "story": ""
+  },
+  {
+    "id": "florida",
+    "label": "Florida, USA",
+    "type": "explore",
+    "x": 0.74,
+    "y": 0.82,
+    "blurb": "South of every winter.",
+    "story": ""
+  },
+  {
+    "id": "dominican",
+    "label": "Dominican Republic",
+    "type": "explore",
+    "x": 0.88,
+    "y": 0.66,
+    "blurb": "Salt water and slow time.",
     "story": ""
   }
 ]

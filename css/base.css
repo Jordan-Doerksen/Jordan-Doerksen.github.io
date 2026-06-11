@@ -1,6 +1,5 @@
 /* ==========================================================================
    BASE — reset, typography, page texture, accessibility plumbing.
-   You rarely need to edit this file.
    ========================================================================== */
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -9,7 +8,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 84px; /* room for the sticky nav when jumping to anchors */
+  scroll-padding-top: 90px;
 }
 
 body {
@@ -17,24 +16,41 @@ body {
   color: var(--text);
   font-family: var(--font-ui);
   font-size: 16px;
-  line-height: 1.65;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   min-height: 100svh;
 }
 
-/* Faint engineering grid behind everything — part of the "modern glass" shell */
+/* The living sky — one fixed canvas behind everything (driven by js/sky.js) */
+#sky {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Film grain over the sky — keeps the gradients from banding */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(ellipse 90% 80% at 50% 20%, black 30%, transparent 100%);
-  z-index: 0;
+  z-index: -1;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Vignette — draws the eye to the middle of the sky */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(ellipse 120% 90% at 50% 40%, transparent 55%, rgba(2, 3, 7, 0.55) 100%);
 }
 
 img, canvas, svg, video { display: block; max-width: 100%; }
@@ -49,22 +65,35 @@ button {
   cursor: pointer;
 }
 
-/* ----- Headings ----- */
+/* ----- Headings — the machine voice ----- */
 h1, h2, h3, h4 {
-  font-family: var(--font-ui);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
   text-wrap: balance;
 }
 
-h1 { font-size: clamp(2.6rem, 7vw, 4.6rem); font-weight: 800; letter-spacing: -0.035em; }
-h2 { font-size: clamp(1.7rem, 3.4vw, 2.3rem); }
-h3 { font-size: clamp(1.15rem, 2.2vw, 1.4rem); }
+h1 {
+  font-size: clamp(2.7rem, 8.5vw, 5.4rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+h2 { font-size: clamp(1.9rem, 4.4vw, 3.1rem); }
+h3 { font-size: clamp(1.2rem, 2.2vw, 1.5rem); }
 
-p  { max-width: 68ch; }
+/* The whisper: one serif-italic word inside a tech heading */
+em, .ital {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 440;
+  letter-spacing: -0.01em;
+  font-variation-settings: 'opsz' 72, 'SOFT' 80;
+}
 
-::selection { background: rgba(212, 168, 67, 0.28); color: #fff; }
+p { max-width: 66ch; }
+
+::selection { background: rgba(216, 172, 78, 0.3); color: #fff; }
 
 /* ----- Layout helpers ----- */
 .container {
@@ -74,31 +103,64 @@ p  { max-width: 68ch; }
   z-index: 1;
 }
 
-.section { padding-block: var(--section-pad); }
+.section { padding-block: var(--section-pad); position: relative; }
 
-/* Small mono label above each section title */
+/* Small mono label above each section title — star-atlas plate numbers */
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--text-muted);
   display: inline-flex;
   align-items: center;
-  gap: 0.6em;
-  margin-bottom: 0.9rem;
+  gap: 0.9em;
+  margin-bottom: 1.1rem;
 }
-.eyebrow::before {
-  content: '';
-  width: 22px;
-  height: 1px;
-  background: var(--gold);
-  opacity: 0.7;
+.eyebrow .star-glyph {
+  color: var(--gold);
+  font-size: 0.85em;
+  letter-spacing: 0;
+}
+.eyebrow .plate-no { color: var(--text-faint); letter-spacing: 0.18em; }
+
+.section-head { margin-bottom: clamp(2rem, 5vw, 3.4rem); }
+.section-head .lede {
+  color: var(--text-muted);
+  margin-top: 1rem;
+  font-size: 1.02rem;
+  max-width: 52ch;
+}
+.section-head .lede code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--text);
+  background: rgba(190, 205, 255, 0.07);
+  padding: 1px 7px;
+  border-radius: 6px;
 }
 
-.section-head { margin-bottom: clamp(1.6rem, 4vw, 2.6rem); }
-.section-head .lede { color: var(--text-muted); margin-top: 0.7rem; }
+/* Hairline divider with a star at its end — between section head and body */
+.atlas-rule {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 1.4rem;
+}
+.atlas-rule::before {
+  content: '';
+  height: 1px;
+  flex: 0 1 120px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: 0.55;
+}
+.atlas-rule::after {
+  content: '✦';
+  font-size: 0.55rem;
+  color: var(--gold);
+  opacity: 0.8;
+}
 
 /* ----- Accessibility ----- */
 .skip-link {
@@ -132,11 +194,11 @@ p  { max-width: 68ch; }
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb {
-  background: #232833;
+  background: #1d2433;
   border-radius: 8px;
   border: 2px solid var(--bg);
 }
-::-webkit-scrollbar-thumb:hover { background: #2f3645; }
+::-webkit-scrollbar-thumb:hover { background: #2a3347; }
 
 /* ----- Reduced motion: kill all decorative movement ----- */
 @media (prefers-reduced-motion: reduce) {

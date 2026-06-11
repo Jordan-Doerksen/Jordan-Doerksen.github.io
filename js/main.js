@@ -4,7 +4,9 @@
    or removing a whole feature.
    ============================================================ */
 
-import { initStarfield } from './starfield.js';
+import { initSky } from './sky.js';
+import { initSigil } from './sigil.js';
+import { initStarChart } from './starchart-nav.js';
 import { initCursor } from './cursor.js';
 import { initClickFx } from './click-fx.js';
 import { initReveal } from './reveal.js';
@@ -17,8 +19,10 @@ import { initLibrary } from './library/quotes.js';
 import { initTriforce } from './easter-egg/triforce.js';
 
 function boot() {
-  // Global shell FX
-  initStarfield();
+  // The observatory shell
+  initSky();
+  initSigil();
+  initStarChart();
   initCursor();
   initClickFx();
   initReveal();

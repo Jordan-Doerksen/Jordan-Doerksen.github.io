@@ -1,47 +1,55 @@
 /* ==========================================================================
-   TOKENS — the control panel for the whole site.
+   TOKENS — the control panel for the whole observatory.
    Change a color or font here and it updates everywhere.
    ========================================================================== */
 
 :root {
-  /* ----- Global shell (modern glass) ----- */
-  --bg: #08090c;
-  --bg-soft: #0c0e13;
-  --panel: rgba(16, 19, 25, 0.72);
-  --panel-solid: #10131a;
-  --glass-blur: 12px;
-  --line: rgba(255, 255, 255, 0.07);
-  --line-strong: rgba(255, 255, 255, 0.14);
-  --text: #e7eaf0;
-  --text-muted: #969eac;
-  --text-faint: #5d6573;
+  color-scheme: dark; /* native controls (audio players, scrollbars) render dark */
 
-  /* ----- Accents (each one stays inside its own zone) ----- */
-  --accent: #4fe3d0;        /* tech / code panels only */
-  --gold: #d4a843;          /* sparingly — dividers, hover, Sol Obscurus bridge */
-  --forge: #ffaa44;         /* Red River 3D panel only */
-  --music-mystic: #c084fc;  /* Bedroom Weather panel only */
-  --codex-blue: #6aa9ff;    /* Warcraft III card only */
+  /* ----- The night sky ----- */
+  --bg: #04060c;
+  --bg-soft: #070a13;
+  --panel: rgba(10, 14, 24, 0.58);
+  --panel-solid: #0b101c;
+  --glass-blur: 18px;
+  --line: rgba(190, 205, 255, 0.09);
+  --line-strong: rgba(190, 205, 255, 0.2);
+  --text: #e9edf6;
+  --text-muted: #97a0b5;
+  --text-faint: #5e677d;
+  --starlight: #f2f4fa;
+
+  /* ----- Accents — each one is a nebula over its own region of sky ----- */
+  --gold: #d8ac4e;          /* hero, about, dividers, the constellation thread */
+  --accent: #4fe3d0;        /* tech / code panels */
+  --forge: #ffaa44;         /* Red River 3D */
+  --music-mystic: #c084fc;  /* Bedroom Weather */
+  --codex-blue: #6aa9ff;    /* Warcraft III */
   --ember: #ff6b35;         /* Sol Obscurus fire */
+  --places-blue: #8fb7ff;   /* the Places constellation */
 
-  /* ----- Type ----- */
+  /* ----- Type: high-tech leads, fantasy whispers ----- */
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif; /* headings, nav */
+  --font-accent: 'Fraunces', Georgia, serif;  /* italic accent words + quotes ONLY */
   --font-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   --font-rune: 'Cinzel', Georgia, serif; /* allowed INSIDE Sol Obscurus / OoT modal only */
 
   /* ----- Rhythm ----- */
-  --radius: 14px;
-  --radius-sm: 8px;
-  --content-w: 1120px;
-  --section-pad: clamp(64px, 10vw, 120px);
-  --panel-pad: clamp(20px, 3.5vw, 36px);
+  --radius: 18px;
+  --radius-sm: 10px;
+  --content-w: 1160px;
+  --section-pad: clamp(84px, 12vw, 160px);
+  --panel-pad: clamp(22px, 3.5vw, 38px);
 
   /* ----- Depth ----- */
-  --shadow-panel: 0 14px 44px rgba(0, 0, 0, 0.45);
-  --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow-panel: 0 20px 60px rgba(0, 0, 0, 0.5);
+  --inner-light: inset 0 1px 0 rgba(220, 230, 255, 0.07);
 
   /* ----- Motion ----- */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --t-fast: 160ms;
-  --t-med: 320ms;
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --t-fast: 180ms;
+  --t-med: 380ms;
+  --t-slow: 900ms;
 }

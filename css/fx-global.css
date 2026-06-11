@@ -3,21 +3,23 @@
    All of these are skipped automatically under prefers-reduced-motion.
    ========================================================================== */
 
-/* ----- Scroll reveal ----- */
+/* ----- Scroll reveal: rise out of the dark, defocus → focus ----- */
 .reveal {
   opacity: 0;
-  transform: translateY(26px);
-  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  transform: translateY(34px);
+  filter: blur(7px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out),
+              filter 0.9s var(--ease-out);
 }
-.reveal.is-visible { opacity: 1; transform: none; }
+.reveal.is-visible { opacity: 1; transform: none; filter: none; }
 
 /* Optional stagger: add .reveal-stagger to a parent of several .reveal children */
-.reveal-stagger > .reveal:nth-child(2) { transition-delay: 90ms; }
-.reveal-stagger > .reveal:nth-child(3) { transition-delay: 180ms; }
-.reveal-stagger > .reveal:nth-child(4) { transition-delay: 270ms; }
+.reveal-stagger > .reveal:nth-child(2) { transition-delay: 110ms; }
+.reveal-stagger > .reveal:nth-child(3) { transition-delay: 220ms; }
+.reveal-stagger > .reveal:nth-child(4) { transition-delay: 330ms; }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; }
+  .reveal { opacity: 1; transform: none; filter: none; }
 }
 
 /* ----- Custom cursor (desktop + fine pointer only; enabled by cursor.js) ----- */
@@ -35,27 +37,28 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
 }
 
 .cursor-dot {
-  width: 6px;
-  height: 6px;
-  margin: -3px 0 0 -3px;
-  background: var(--text);
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  background: var(--starlight);
+  box-shadow: 0 0 8px rgba(242, 244, 250, 0.8);
 }
 
 .cursor-ring {
   width: 34px;
   height: 34px;
   margin: -17px 0 0 -17px;
-  border: 1px solid rgba(212, 168, 67, 0.55);
+  border: 1px solid rgba(216, 172, 78, 0.5);
   transition: width var(--t-fast), height var(--t-fast), margin var(--t-fast),
               border-color var(--t-fast), background var(--t-fast);
 }
 
 .cursor-ring.is-hover {
-  width: 48px;
-  height: 48px;
-  margin: -24px 0 0 -24px;
+  width: 50px;
+  height: 50px;
+  margin: -25px 0 0 -25px;
   border-color: var(--gold);
-  background: rgba(212, 168, 67, 0.07);
+  background: rgba(216, 172, 78, 0.07);
 }
 
 .cursor-hidden .cursor-dot,
@@ -70,4 +73,5 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
   height: 5px;
   border-radius: 50%;
   background: var(--gold);
+  box-shadow: 0 0 6px rgba(216, 172, 78, 0.8);
 }

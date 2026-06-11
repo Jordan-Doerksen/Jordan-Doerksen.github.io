@@ -1,6 +1,7 @@
 /* ==========================================================================
    ZONES — every panel's personality lives here.
-   The global shell stays neutral glass; these classes paint the interiors.
+   The observatory shell stays neutral; these classes paint the interiors,
+   and each section's data-sky hue tints the nebula behind it (js/sky.js).
    ========================================================================== */
 
 /* ===== Ambient zones (Music) — each owns one clipped canvas ===== */
@@ -19,14 +20,15 @@
 .ambient-zone .panel-body { z-index: 2; }
 
 /* --- Sol Obscurus: brimstone + sigils. Cinzel is allowed in here only. --- */
-[data-zone='sol'] { border-color: rgba(212, 168, 67, 0.18); }
+[data-zone='sol'] { border-color: rgba(216, 172, 78, 0.18); }
+[data-zone='sol']:hover { border-color: rgba(216, 172, 78, 0.34); }
 [data-zone='sol']::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(ellipse 80% 55% at 50% 108%, rgba(255, 107, 53, 0.16), transparent 70%);
+  background: radial-gradient(ellipse 85% 60% at 50% 108%, rgba(255, 107, 53, 0.24), transparent 72%);
 }
 [data-zone='sol'] h3 {
   font-family: var(--font-rune);
@@ -34,34 +36,36 @@
   letter-spacing: 0.06em;
   color: #f0e3c8;
 }
-[data-zone='sol'] .panel-tag { color: rgba(212, 168, 67, 0.7); }
+[data-zone='sol'] .panel-tag { color: rgba(216, 172, 78, 0.7); }
 
 /* --- Bedroom Weather: rain through a window at 2am --- */
 [data-zone='rain'] { border-color: rgba(192, 132, 252, 0.16); }
+[data-zone='rain']:hover { border-color: rgba(192, 132, 252, 0.32); }
 [data-zone='rain']::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(ellipse 90% 50% at 50% -8%, rgba(192, 132, 252, 0.10), transparent 70%);
+  background: radial-gradient(ellipse 95% 55% at 50% -8%, rgba(192, 132, 252, 0.15), transparent 72%);
 }
 [data-zone='rain'] h3 { color: #e6d9fb; }
 [data-zone='rain'] .panel-tag { color: rgba(192, 132, 252, 0.65); }
 
 /* Media embeds inside music panels */
-.media-stack { display: grid; gap: 0.9rem; margin-top: 1.1rem; }
+.media-stack { display: grid; gap: 0.85rem; margin-top: 1.2rem; }
 .media-stack iframe {
   width: 100%;
   aspect-ratio: 16 / 9;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
 }
-.media-stack audio { width: 100%; }
+.media-stack audio { width: 100%; height: 38px; }
 .track { display: grid; gap: 0.35rem; }
 
 /* ===== Tech zone (Sentinel-Pro) — the only place teal lives ===== */
 [data-zone='tech'] { border-color: rgba(79, 227, 208, 0.14); }
+[data-zone='tech']:hover { border-color: rgba(79, 227, 208, 0.3); }
 [data-zone='tech'] h3 { color: #d8fff8; }
 [data-zone='tech'] .btn:hover {
   border-color: var(--accent);
@@ -70,6 +74,7 @@
 
 /* ===== Codex zone (Warcraft III) — blue arcane, inside the card only ===== */
 [data-zone='codex'] { border-color: rgba(106, 169, 255, 0.16); }
+[data-zone='codex']:hover { border-color: rgba(106, 169, 255, 0.32); }
 [data-zone='codex']::after {
   content: '';
   position: absolute;
@@ -100,7 +105,7 @@
   height: 340px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: #070a10;
+  background: #060910;
   touch-action: none;
 }
 .game-overlay {
@@ -109,7 +114,7 @@
   display: grid;
   place-items: center;
   text-align: center;
-  background: rgba(7, 10, 16, 0.82);
+  background: rgba(6, 9, 16, 0.82);
   border-radius: var(--radius-sm);
 }
 .game-overlay[hidden] { display: none; }
@@ -120,15 +125,17 @@
   margin-top: 0.7rem;
 }
 .game-hint {
-  margin-top: 0.6rem;
+  margin-top: 0.7rem;
   font-family: var(--font-mono);
   font-size: 0.66rem;
   color: var(--text-faint);
   text-align: center;
 }
+.game-hint code { color: var(--text-muted); }
 
 /* ===== Forge zone (Red River 3D) — amber, in here only ===== */
 [data-zone='forge'] { border-color: rgba(255, 170, 68, 0.16); }
+[data-zone='forge']:hover { border-color: rgba(255, 170, 68, 0.3); }
 [data-zone='forge']::after {
   content: '';
   position: absolute;
@@ -156,7 +163,7 @@
 .constellation-wrap { position: relative; }
 #constellation-canvas {
   width: 100%;
-  height: clamp(380px, 55vh, 520px);
+  height: clamp(380px, 55vh, 540px);
   display: block;
   cursor: crosshair;
 }
@@ -172,11 +179,11 @@
   transition: opacity var(--t-fast), transform var(--t-fast);
 }
 .constellation-tip.is-open { opacity: 1; transform: none; }
-.constellation-tip h4 { font-size: 0.95rem; margin-bottom: 2px; }
+.constellation-tip h4 { font-size: 1.05rem; margin-bottom: 2px; }
 .constellation-tip .tip-type {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.16em;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
 }
@@ -192,7 +199,7 @@
 /* ===== Hidden OoT temple modal — green-gold accents inside only ===== */
 #oot-modal .modal-card {
   border-color: rgba(141, 199, 138, 0.22);
-  background: linear-gradient(rgba(16, 22, 18, 0.92), rgba(13, 16, 14, 0.95));
+  background: linear-gradient(rgba(14, 20, 16, 0.93), rgba(11, 14, 12, 0.96));
 }
 #oot-modal .modal-card::before {
   content: '';
@@ -221,7 +228,7 @@
 .oot-content blockquote {
   margin: 1.2em 0;
   padding: 0.2em 0 0.2em 1.1em;
-  border-left: 2px solid rgba(212, 168, 67, 0.5);
+  border-left: 2px solid rgba(216, 172, 78, 0.5);
   color: var(--text-muted);
   font-style: italic;
 }

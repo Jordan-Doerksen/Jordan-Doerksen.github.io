@@ -23,12 +23,12 @@ export function initBedroomWeather() {
     canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    drops = Array.from({ length: Math.min(90, Math.floor(w / 6)) }, newDrop);
-    clouds = Array.from({ length: 4 }, (_, i) => ({
+    drops = Array.from({ length: Math.min(170, Math.floor(w / 3.5)) }, newDrop);
+    clouds = Array.from({ length: 5 }, (_, i) => ({
       x: Math.random() * w,
-      y: 10 + i * 14,
-      r: 60 + Math.random() * 70,
-      v: 0.06 + Math.random() * 0.08,
+      y: 10 + i * 12,
+      r: 70 + Math.random() * 80,
+      v: 0.08 + Math.random() * 0.1,
     }));
     if (reduced) drawStatic();
   }
@@ -37,9 +37,9 @@ export function initBedroomWeather() {
     return {
       x: Math.random() * w,
       y: Math.random() * h,
-      len: 9 + Math.random() * 13,
-      v: 2.6 + Math.random() * 2.4,
-      a: 0.10 + Math.random() * 0.18,
+      len: 12 + Math.random() * 17,
+      v: 3.6 + Math.random() * 3.2,
+      a: 0.14 + Math.random() * 0.26,
     };
   }
 
@@ -66,10 +66,10 @@ export function initBedroomWeather() {
       ctx.strokeStyle = `rgba(192, 160, 252, ${d.a})`;
       ctx.beginPath();
       ctx.moveTo(d.x, d.y);
-      ctx.lineTo(d.x - 1.5, d.y + d.len); // slight slant
+      ctx.lineTo(d.x - 2.4, d.y + d.len); // wind-blown slant
       ctx.stroke();
       d.y += d.v;
-      d.x -= 0.3;
+      d.x -= 0.45;
       if (d.y > h + d.len) {
         d.y = -d.len;
         d.x = Math.random() * (w + 20);

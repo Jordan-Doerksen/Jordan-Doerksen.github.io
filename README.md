@@ -1,9 +1,10 @@
-# Glass Archive — jordan-doerksen.github.io
+# The Observatory — jordan-doerksen.github.io
 
-A single-page portfolio with a modern dark-glass shell and themed panel
-interiors: a starfield hero, ambient music zones (embers + rain), a drifting
-constellation of places, playable projects, a 3D-print gallery, a library
-with a random-quote button, and one well-hidden secret.
+A single-page portfolio set inside a living night sky: a hero constellation
+that draws the J·D sigil in stars, a site-wide sky whose nebula hue shifts
+with each section, star-chart navigation, ambient music zones (embers +
+rain), a drifting constellation of places, playable projects, a 3D-print
+gallery, a library with a random-quote button, and one well-hidden secret.
 
 **No build tools. No npm. No frameworks.** Plain HTML, CSS, and JavaScript —
 edit a file, push, and the site updates.
@@ -125,4 +126,5 @@ js/               one small file per effect
 data/             YOUR content — edit these freely
 assets/           images, audio, PDFs, the .w3x map
 docs/EDITING.md   cheat sheet: which file to touch for each update
+docs/SECTIONS.md  how to add / reorder / remove whole sections
 ```
