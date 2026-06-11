@@ -124,6 +124,13 @@
       <div class="d">Settings → Windows Update. Boring, but installer weirdness loves a half-updated machine.</div>
     </div></div>
 
+    <div class="item" data-id="old-cleanup"><div class="box">✓</div><div class="body">
+      <div class="t">Upgrading? Remove any old SENTINEL copy first</div>
+      <div class="d">No old version on this machine — check this box and move on. Otherwise: <b>restart the PC</b> (stops everything — SENTINEL has no services or installers, it's just a folder), <b>delete the old folder</b> (often C:\sentinel-pro — this also removes the old .env, which is intentional), then drop the retired broker library:</div>
+      <div class="cmd">pip uninstall ib_insync -y<button class="cp">COPY</button></div>
+      <div class="d">Keep TWS, Ollama + its model, Python, and git — the new install reuses them all.</div>
+    </div></div>
+
     <div class="item" data-id="winget"><div class="box">✓</div><div class="body">
       <div class="t">Confirm winget works</div>
       <div class="d">Open PowerShell and check — it ships with Windows 11. If missing, install "App Installer" from the Microsoft Store.</div>
