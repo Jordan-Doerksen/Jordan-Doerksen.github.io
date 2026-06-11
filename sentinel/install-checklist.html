@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SENTINEL·PRO · Install Checklist</title>
+<style>
+  :root{
+    --bg:#08090c; --bg-2:#0b0d12; --panel:#101319; --panel-2:#14181f;
+    --line:rgba(255,255,255,.07); --line-soft:rgba(255,255,255,.045);
+    --txt:#e7eaf0; --txt-mut:#969eac; --txt-faint:#5c6471;
+    --accent:#4fe3d0; --accent-dim:#1c4a47;
+    --up:#34d399; --down:#ff5d6c; --warn:#f5b454;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --ui:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;padding:24px 16px 80px;
+    background:
+      radial-gradient(1100px 600px at 85% -10%, rgba(79,227,208,.06), transparent 60%),
+      radial-gradient(800px 500px at -5% 110%, rgba(79,227,208,.04), transparent 55%),
+      var(--bg);
+    color:var(--txt);font-family:var(--ui);font-size:14.5px;line-height:1.5;
+  }
+  .wrap{max-width:880px;margin:0 auto}
+
+  header{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+  .mark{width:38px;height:38px;border-radius:10px;flex:none;
+    background:linear-gradient(150deg,#101319,#1b2129);border:1px solid var(--line);
+    display:grid;place-items:center}
+  .mark::before{content:"";width:13px;height:13px;border-radius:50%;
+    border:2px solid var(--accent);box-shadow:0 0 0 3px rgba(79,227,208,.1)}
+  h1{margin:0;font-size:20px;letter-spacing:.03em}
+  h1 span{color:var(--accent)}
+  .sub{color:var(--txt-faint);font-size:12px;letter-spacing:.05em}
+
+  /* progress */
+  .progress{position:sticky;top:0;z-index:10;padding:12px 0;background:linear-gradient(var(--bg) 75%,transparent)}
+  .pbar{height:10px;border-radius:6px;background:var(--panel-2);border:1px solid var(--line);overflow:hidden;position:relative}
+  .pbar>span{display:block;height:100%;width:0;border-radius:6px;
+    background:linear-gradient(90deg,var(--accent-dim),var(--accent));
+    transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .pmeta{display:flex;justify-content:space-between;align-items:baseline;margin-top:7px;font-family:var(--mono);font-size:12px}
+  .pmeta .pct{color:var(--accent);font-weight:700;font-size:15px}
+  .pmeta .quip{color:var(--txt-mut);font-style:italic}
+  .pmeta button{background:none;border:1px solid var(--line);color:var(--txt-faint);
+    font-family:var(--mono);font-size:10.5px;padding:4px 10px;border-radius:6px;cursor:pointer}
+  .pmeta button:hover{color:var(--down);border-color:var(--down)}
+
+  /* phases */
+  .phase{margin-top:26px;border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
+  .phase>h2{margin:0;padding:14px 18px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--txt-mut);display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line-soft)}
+  .phase>h2 .ph-ico{font-size:16px}
+  .phase>h2 .ph-done{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--txt-faint)}
+  .phase.complete>h2{color:var(--up)}
+  .phase.complete>h2 .ph-done{color:var(--up)}
+
+  .item{display:flex;gap:13px;padding:13px 18px;border-bottom:1px solid var(--line-soft);transition:background .2s}
+  .item:last-child{border-bottom:none}
+  .item:hover{background:var(--panel-2)}
+  .item.checked{opacity:.45}
+  .item.checked .t{text-decoration:line-through}
+  .box{flex:none;width:21px;height:21px;margin-top:1px;border-radius:6px;border:1.5px solid var(--txt-faint);
+    cursor:pointer;display:grid;place-items:center;font-size:13px;color:transparent;transition:.15s;user-select:none}
+  .item.checked .box{background:var(--accent);border-color:var(--accent);color:#06231f}
+  .body{min-width:0;flex:1}
+  .t{font-weight:600}
+  .d{color:var(--txt-mut);font-size:13px;margin-top:2px}
+  .d a{color:var(--accent);text-decoration:none}
+  .d a:hover{text-decoration:underline}
+
+  .cmd{position:relative;margin-top:8px;background:var(--bg-2);border:1px solid var(--line-soft);
+    border-radius:8px;padding:9px 84px 9px 12px;font-family:var(--mono);font-size:12px;color:#bfe9e2;
+    white-space:pre-wrap;word-break:break-all}
+  .cmd .cp{position:absolute;top:6px;right:6px;background:var(--panel-2);border:1px solid var(--line);
+    color:var(--txt-faint);font-family:var(--mono);font-size:10px;padding:4px 9px;border-radius:6px;cursor:pointer}
+  .cmd .cp:hover{color:var(--accent);border-color:var(--accent-dim)}
+  .cmd .cp.ok{color:var(--up);border-color:var(--up)}
+
+  .tip{margin-top:8px;padding:9px 12px;border-radius:8px;font-size:12.5px;
+    background:rgba(245,180,84,.08);border:1px solid rgba(245,180,84,.22);color:var(--warn)}
+  .tip b{color:#ffd591}
+  .tip.info{background:rgba(79,227,208,.06);border-color:var(--accent-dim);color:var(--accent)}
+
+  .fin{display:none;margin-top:28px;text-align:center;padding:30px 20px;border:1px dashed var(--accent-dim);
+    border-radius:14px;color:var(--accent)}
+  .fin.show{display:block;animation:pop .5s cubic-bezier(.2,.7,.2,1)}
+  .fin .big{font-size:26px;font-weight:700;letter-spacing:.02em}
+  .fin .small{color:var(--txt-mut);margin-top:6px;font-size:13px}
+  @keyframes pop{0%{transform:scale(.96);opacity:0}100%{transform:scale(1);opacity:1}}
+
+  footer{margin-top:34px;text-align:center;font-size:10.5px;color:var(--txt-faint);letter-spacing:.08em}
+  footer b{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="mark"></div>
+    <div>
+      <h1>SENTINEL<span>·</span>PRO — install checklist</h1>
+      <div class="sub">FRESH WINDOWS → LIVE COCKPIT · PERSONAL USE · CHECKS SAVE AUTOMATICALLY</div>
+    </div>
+  </header>
+
+  <div class="progress">
+    <div class="pbar"><span id="bar"></span></div>
+    <div class="pmeta">
+      <span class="pct" id="pct">0%</span>
+      <span class="quip" id="quip"></span>
+      <button id="reset" title="Uncheck everything">RESET</button>
+    </div>
+  </div>
+
+  <!-- ════════ PHASE 0 ════════ -->
+  <section class="phase" data-phase>
+    <h2><span class="ph-ico">🪟</span>Phase 0 · Fresh Windows sanity<span class="ph-done"></span></h2>
+
+    <div class="item" data-id="win-updates"><div class="box">✓</div><div class="body">
+      <div class="t">Run Windows Update until it stops finding things</div>
+      <div class="d">Settings → Windows Update. Boring, but installer weirdness loves a half-updated machine.</div>
+    </div></div>
+
+    <div class="item" data-id="winget"><div class="box">✓</div><div class="body">
+      <div class="t">Confirm winget works</div>
+      <div class="d">Open PowerShell and check — it ships with Windows 11. If missing, install "App Installer" from the Microsoft Store.</div>
+      <div class="cmd">winget --version<button class="cp">COPY</button></div>
+      <div class="tip"><b>If any installer ever dies with error 1603:</b> your Windows Installer service is being weird (ask me how I know). Workaround that saved this project: extract the MSI with <b>lessmsi</b> instead of installing it.</div>
+    </div></div>
+  </section>
+
+  <!-- ════════ PHASE 1 ════════ -->
+  <section class="phase" data-phase>
+    <h2><span class="ph-ico">🧰</span>Phase 1 · Core tooling<span class="ph-done"></span></h2>
+
+    <div class="item" data-id="git"><div class="box">✓</div><div class="body">
+      <div class="t">Install Git</div>
+      <div class="cmd">winget install Git.Git<button class="cp">COPY</button></div>
+    </div></div>
+
+    <div class="item" data-id="python"><div class="box">✓</div><div class="body">
+      <div class="t">Install Python 3.10+ — CHECK "Add python.exe to PATH"</div>
+      <div class="d">From <a href="https://python.org" target="_blank">python.org</a>. The PATH checkbox on the first installer screen is the single most-missed step in this whole list. Verify after:</div>
+      <div class="cmd">python --version<button class="cp">COPY</button></div>
+    </div></div>
+
+    <div class="item" data-id="dotnet"><div class="box">✓</div><div class="body">
+      <div class="t">Install the .NET 8 SDK</div>
+      <div class="cmd">winget install Microsoft.DotNet.SDK.8<button class="cp">COPY</button></div>
+      <div class="d">Verify (new terminal): <code style="font-family:var(--mono)">dotnet --list-sdks</code> shows an 8.x line.</div>
+    </div></div>
+  </section>
+
+  <!-- ════════ PHASE 2 ════════ -->
+  <section class="phase" data-phase>
+    <h2><span class="ph-ico">🏦</span>Phase 2 · Broker layer (IBKR)<span class="ph-done"></span></h2>
+
+    <div class="item" data-id="tws-install"><div class="box">✓</div><div class="body">
+      <div class="t">Install TWS or IB Gateway</div>
+      <div class="d">From <a href="https://www.interactivebrokers.com" target="_blank">interactivebrokers.com</a>. Gateway is lighter and perfect for SENTINEL (no charting UI). Remember: <b>one login per username at a time</b> — Gateway and TWS fight over the same session.</div>
+    </div></div>
+
+    <div class="item" data-id="tws-login"><div class="box">✓</div><div class="body">
+      <div class="t">Log in with the entitled account</div>
+      <div class="d">Funded login = real-time data. Subscriptions live on the account, not the machine: CME real-time + depth (Level 2), CBOE SPX/SPXW options.</div>
+    </div></div>
+
+    <div class="item" data-id="tws-api"><div class="box">✓</div><div class="body">
+      <div class="t">Enable the API — READ-ONLY</div>
+      <div class="d">Global Configuration → API → Settings: ✅ <b>Enable ActiveX and Socket Clients</b> · ✅ <b>Read-Only API</b> (the broker-side no-execution lock) · ✅ localhost only.</div>
+      <div class="tip info"><b>Port cheat-sheet:</b> TWS live 7496 · TWS paper 7497 · Gateway live 4001 · Gateway paper 4002. Gateway users add <b>TWS_PORT=400x</b> to both .env files later.</div>
+    </div></div>
+  </section>
+
+  <!-- ════════ PHASE 3 ════════ -->
+  <section class="phase" data-phase>
+    <h2><span class="ph-ico">🧠</span>Phase 3 · Local AI (news engine)<span class="ph-done"></span></h2>
+
+    <div class="item" data-id="ollama"><div class="box">✓</div><div class="body">
+      <div class="t">Install Ollama</div>
+      <div class="d">From <a href="https://ollama.com" target="_blank">ollama.com</a>. Runs the news classifier locally — no cloud, no tokens, no bills.</div>
+    </div></div>
+
+    <div class="item" data-id="qwen"><div class="box">✓</div><div class="body">
+      <div class="t">Pull the classification model (~4.7 GB — start it, get coffee)</div>
+      <div class="cmd">ollama pull qwen2.5:7b<button class="cp">COPY</button></div>
+    </div></div>
+  </section>
+
+  <!-- ════════ PHASE 4 ════════ -->
+  <section class="phase" data-phase>
+    <h2><span class="ph-ico">📦</span>Phase 4 · Clone the repos (both private)<span class="ph-done"></span></h2>
+
+    <div class="item" data-id="clone-py"><div class="box">✓</div><div class="body">
+      <div class="t">Clone sentinel-pro — the Python production system</div>
+      <div class="cmd">git clone https://github.com/Jordan-Doerksen/sentinel-pro.git<button class="cp">COPY</button></div>
+      <div class="d">Git will pop a GitHub sign-in (browser device flow). On someone else's machine: sign out of github.com in their browser when you're done.</div>
+    </div></div>
+
+    <div class="item" data-id="clone-net"><div class="box">✓</div><div class="body">
+      <div class="t">Clone sentinel-pro-net — the .NET rewrite</div>
+      <div class="cmd">git clone https://github.com/Jordan-Doerksen/sentinel-pro-net.git<button class="cp">COPY</button></div>
+      <div class="tip">This repo vendors IBKR's API source. It is private and <b>must stay private</b> — never fork or copy it anywhere public.</div>
+    </div></div>
+  </section>
+
+  <!-- ════════ PHASE 5 ════════ -->
+  <section class="phase" data-phase>
+    <h2><span class="ph-ico">🐍</span>Phase 5 · Deploy the Python cockpit (production)<span class="ph-done"></span></h2>
+
+    <div class="item" data-id="pip"><div class="box">✓</div><div class="body">
+      <div class="t">Install dependencies</div>
+      <div class="cmd">cd sentinel-pro
+pip install -r requirements.txt<button class="cp">COPY</button></div>
+    </div></div>
+
+    <div class="item" data-id="env-py"><div class="box">✓</div><div class="body">
+      <div class="t">Configure .env</div>
+      <div class="cmd">copy .env.example .env<button class="cp">COPY</button></div>
+      <div class="d">Set <b>SENTINEL_MODE=live</b> (or paper), Gateway port override if applicable, and the <b>fresh</b> Discord webhook — never the old compromised one.</div>
+    </div></div>
+
+    <div class="item" data-id="preflight"><div class="box">✓</div><div class="body">
+      <div class="t">Run preflight — fix every [FAIL] before launching</div>
+      <div class="cmd">python preflight.py<button class="cp">COPY</button></div>
+    </div></div>
+
+    <div class="item" data-id="launch"><div class="box">✓</div><div class="body">
+      <div class="t">Launch everything</div>
+      <div class="cmd">powershell -ExecutionPolicy Bypass -File .\start-sentinel.ps1<button class="cp">COPY</button></div>
+      <div class="d">Verify: bridge window logs <b>#N ES=…</b> every ~2 s · dashboard badge ≠ "Bridge Offline" · feed heartbeat goes green within minutes.</div>
+    </div></div>
+
+    <div class="item" data-id="cockpit"><div class="box">✓</div><div class="body">
+      <div class="t">Open the cockpit and see live numbers</div>
+      <div class="d"><a href="http://localhost:8080/sentinel_pro_dashboard.html" target="_blank">localhost:8080/sentinel_pro_dashboard.html</a> — price ticking, DOM ladder full (10 levels = depth subscription confirmed), CVD moving, IV showing "data ok".</div>
+    </div></div>
+  </section>
+
+  <!-- ════════ PHASE 6 ════════ -->
+  <section class="phase" data-phase>
+    <h2><span class="ph-ico">⚙️</span>Phase 6 · The .NET rewrite (integration test)<span class="ph-done"></span></h2>
+
+    <div class="item" data-id="net-test"><div class="box">✓</div><div class="body">
+      <div class="t">Build &amp; test — 21 green before anything else</div>
+      <div class="cmd">cd sentinel-pro-net
+copy .env.example .env
+dotnet test<button class="cp">COPY</button></div>
+    </div></div>
+
+    <div class="item" data-id="net-live"><div class="box">✓</div><div class="body">
+      <div class="t">First real-socket run of the live adapter</div>
+      <div class="cmd">dotnet run --project src/SentinelPro.Bridge<button class="cp">COPY</button></div>
+      <div class="d">Watch for <b>"TWS connected"</b> then the same <b>#N ES=… CVD=… OBI=…</b> cycle lines. This is the moment the rewrite earns its socket wings. (Stop the Python bridge first — clientId 10 collision.)</div>
+    </div></div>
+  </section>
+
+  <!-- ════════ PHASE 7 ════════ -->
+  <section class="phase" data-phase>
+    <h2><span class="ph-ico">🎙️</span>Phase 7 · Record the session (do not skip!)<span class="ph-done"></span></h2>
+
+    <div class="item" data-id="record"><div class="box">✓</div><div class="body">
+      <div class="t">Start the recorder and let it run all session</div>
+      <div class="cmd">cd sentinel-pro
+python tools\record_session.py<button class="cp">COPY</button></div>
+      <div class="d">Writes <b>recordings\es_&lt;stamp&gt;.jsonl</b>. One good RTH session powers absorption tuning and .NET replay development <i>forever</i>. Runs happily alongside the bridge.</div>
+    </div></div>
+
+    <div class="item" data-id="takehome"><div class="box">✓</div><div class="body">
+      <div class="t">Take the recording home</div>
+      <div class="d">Copy the .jsonl off the machine (USB, drive, whatever). Back home: <b>python tools\tune_absorption.py recordings\es_….jsonl</b> and <b>dotnet run … -- --replay</b>. The session is now immortal.</div>
+    </div></div>
+  </section>
+
+  <div class="fin" id="fin">
+    <div class="big">★ COCKPIT LIVE — ALL SYSTEMS GREEN ★</div>
+    <div class="small">observe · calculate · display — the human makes every trade. Go be that human.</div>
+  </div>
+
+  <footer>SENTINEL·PRO · personal install runbook · checks live in this browser's <b>localStorage</b> — print to PDF if you want it portable</footer>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const KEY = "sentinel-install-checklist-v1";
+  const items = [...document.querySelectorAll(".item")];
+  const state = JSON.parse(localStorage.getItem(KEY) || "{}");
+
+  const QUIPS = [
+    [0,   "fresh machine, fresh hopes"],
+    [10,  "the tooling gods demand tribute"],
+    [25,  "now we're installing things"],
+    [40,  "halfway is a state of mind"],
+    [55,  "the broker layer bows to no one"],
+    [70,  "pipes connected, data flowing"],
+    [85,  "so close the cockpit can smell it"],
+    [99,  "one. more. checkbox."],
+    [100, "flawless deployment, operator"]
+  ];
+
+  function render(){
+    let done = 0;
+    items.forEach(it => {
+      const on = !!state[it.dataset.id];
+      it.classList.toggle("checked", on);
+      if (on) done++;
+    });
+    const pct = Math.round(done / items.length * 100);
+    document.getElementById("bar").style.width = pct + "%";
+    document.getElementById("pct").textContent = pct + "%";
+    document.getElementById("quip").textContent =
+      QUIPS.reduce((q,[min,txt]) => pct >= min ? txt : q, "");
+    document.getElementById("fin").classList.toggle("show", pct === 100);
+
+    document.querySelectorAll("[data-phase]").forEach(ph => {
+      const phItems = [...ph.querySelectorAll(".item")];
+      const phDone = phItems.filter(i => state[i.dataset.id]).length;
+      ph.querySelector(".ph-done").textContent = `${phDone}/${phItems.length}`;
+      ph.classList.toggle("complete", phDone === phItems.length);
+    });
+  }
+
+  items.forEach(it => {
+    it.querySelector(".box").addEventListener("click", () => {
+      state[it.dataset.id] = !state[it.dataset.id];
+      localStorage.setItem(KEY, JSON.stringify(state));
+      render();
+    });
+  });
+
+  document.getElementById("reset").addEventListener("click", () => {
+    if (!confirm("Uncheck everything?")) return;
+    for (const k in state) delete state[k];
+    localStorage.removeItem(KEY);
+    render();
+  });
+
+  document.querySelectorAll(".cp").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const text = btn.parentElement.childNodes[0].textContent.trim();
+      try { await navigator.clipboard.writeText(text); } catch {}
+      btn.textContent = "COPIED"; btn.classList.add("ok");
+      setTimeout(() => { btn.textContent = "COPY"; btn.classList.remove("ok"); }, 1400);
+    });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
