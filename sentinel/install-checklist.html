@@ -243,20 +243,17 @@ pip install -r requirements.txt<button class="cp">COPY</button></div>
 
   <!-- ════════ PHASE 6 ════════ -->
   <section class="phase" data-phase>
-    <h2><span class="ph-ico">⚙️</span>Phase 6 · The .NET rewrite — Jordan only<span class="ph-done"></span></h2>
+    <h2><span class="ph-ico">⚙️</span>Phase 6 · .NET bridge test — only when Jordan sends an exe<span class="ph-done"></span></h2>
 
     <div class="item" data-id="net-test"><div class="box">✓</div><div class="body">
-      <div class="t">Build &amp; test — 21 green before anything else</div>
-      <div class="d"><b>Not Jordan?</b> This whole phase needs the private .NET repo — check both boxes and skip ahead; the cockpit from Phase 5 is the complete product.</div>
-      <div class="cmd">cd sentinel-pro-net
-copy .env.example .env
-dotnet test<button class="cp">COPY</button></div>
+      <div class="t">Unzip Jordan's test bundle into its own folder</div>
+      <div class="d">A single <b>SentinelPro.Bridge.exe</b> plus a preconfigured <b>.env</b> — nothing to install. <b>Leave the production cockpit running</b>: the test exe uses its own clientId and its own output folder, so they coexist on one TWS. No exe from Jordan yet? Check both boxes and move on — Phase 5 is the complete product.</div>
     </div></div>
 
     <div class="item" data-id="net-live"><div class="box">✓</div><div class="body">
-      <div class="t">First real-socket run of the live adapter</div>
-      <div class="cmd">dotnet run --project src/SentinelPro.Bridge<button class="cp">COPY</button></div>
-      <div class="d">Watch for <b>"TWS connected"</b> then the same <b>#N ES=… CVD=… OBI=…</b> cycle lines. This is the moment the rewrite earns its socket wings. (Stop the Python bridge first — clientId 10 collision.)</div>
+      <div class="t">Run it while TWS is logged in, then send Jordan the evidence</div>
+      <div class="cmd">.\SentinelPro.Bridge.exe<button class="cp">COPY</button></div>
+      <div class="d">Watch for <b>"TWS connected"</b> then <b>#N ES=… CVD=… OBI=…</b> lines every ~2 s. Let it run ~10 minutes, then send Jordan the console output and the <b>dashboard\data\market_state.json</b> it wrote. That's the whole test — the moment the rewrite earns its socket wings.</div>
     </div></div>
   </section>
 
