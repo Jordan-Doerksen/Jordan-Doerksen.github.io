@@ -68,6 +68,11 @@ guide: [`SECTIONS.md`](SECTIONS.md).
 
 ## Gotchas
 
+- **After editing any CSS or JS file, bump the `?v=` number** on the
+  `<link>` / `<script>` tags in `index.html` (e.g. `?v=2` → `?v=3`).
+  GitHub Pages caches files for 10 minutes; the version bump makes every
+  visitor's browser fetch the new files together with the new HTML instead
+  of mixing old and new.
 - **JSON is picky.** No trailing commas, keys and strings in double quotes.
   If a list goes blank after an edit, paste the file into a JSON validator.
 - **Preview with a local server** (`python -m http.server 8080`), not by
