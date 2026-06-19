@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — Bonnie Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f7f2ea;--bg-2:#efe6d8;--ink:#2c2521;--ink-soft:#7a6e63;--accent:#a4633f;--accent-soft:#bd7c52;--line:rgba(44,37,33,.14)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--ink);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.serif{font-family:'Fraunces',serif;font-weight:300;letter-spacing:.01em}
+  .eyebrow{font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;font-weight:400;color:var(--accent)}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .stage{font-family:'Fraunces',serif;font-style:italic;color:var(--ink-soft);font-size:.98rem;letter-spacing:.02em}
+
+  nav{position:fixed;top:0;left:0;width:100%;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:1.6rem 3.5vw;transition:.4s}
+  nav.scrolled{background:rgba(247,242,234,.9);backdrop-filter:blur(10px);padding:1rem 3.5vw;box-shadow:0 1px 0 var(--line)}
+  .nav-links{display:flex;gap:2.6rem}
+  .nav-links a{font-size:.74rem;letter-spacing:.28em;text-transform:uppercase;opacity:.8;transition:.3s}
+  .nav-links a:hover,.nav-links a.active{opacity:1;color:var(--accent)}
+  .wordmark{font-family:'Fraunces',serif;font-size:1.35rem;letter-spacing:.16em;text-transform:uppercase}
+  .nav-cta{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;border:1px solid var(--ink);padding:.6rem 1.2rem;transition:.3s}
+  .nav-cta:hover{background:var(--ink);color:var(--bg)}
+  @media(max-width:820px){.nav-links{display:none}}
+
+  .ph{position:relative;overflow:hidden;background:linear-gradient(150deg,#e7d9c4,#d8b79a)}
+  .ph img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+  .ph .cap{position:absolute;bottom:0;left:0;right:0;z-index:2;font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:#fff;opacity:0;padding:1rem;background:linear-gradient(transparent,rgba(0,0,0,.35));transition:.3s}
+  .ph:hover .cap{opacity:.85}
+
+  .menu-hero{height:46vh;min-height:320px;display:flex;align-items:center;justify-content:center;text-align:center}
+  .menu-hero .ph-bg{position:absolute;inset:0;z-index:0}
+  .menu-hero .ph-bg::after{content:"";position:absolute;inset:0;background:rgba(247,242,234,.74)}
+  .menu-hero .inner{position:relative;z-index:2;padding:7rem 2rem 2rem}
+  .menu-hero .eyebrow{margin-bottom:1.4rem}
+  .menu-hero h1{font-size:clamp(2.8rem,8vw,6rem);line-height:1}
+  .menu-hero p{margin-top:1.2rem;color:var(--ink-soft);font-style:italic;font-family:'Fraunces',serif;font-size:1.05rem;max-width:30rem;margin-left:auto;margin-right:auto}
+
+  .menu-toggle{display:flex;justify-content:center;gap:0;border-bottom:1px solid var(--line);max-width:600px;margin:0 auto}
+  .menu-toggle a{padding:1.1rem 2.2rem;font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;opacity:.5;border-bottom:1px solid transparent;margin-bottom:-1px;transition:.3s}
+  .menu-toggle a.active{opacity:1;color:var(--accent);border-color:var(--accent)}
+
+  .menu-wrap{max-width:760px;margin:0 auto;padding:clamp(3.5rem,7vw,5.5rem) 2rem}
+  .menu-section{margin-bottom:4.5rem}
+  .menu-section > .eyebrow{display:block;text-align:center;margin-bottom:.6rem}
+  .menu-section h2{text-align:center;font-size:clamp(2rem,5vw,3rem);margin-bottom:.6rem}
+  .menu-section .note{text-align:center;color:var(--ink-soft);font-size:.85rem;font-style:italic;font-family:'Fraunces',serif;margin-bottom:2.8rem}
+
+  .dish{display:grid;grid-template-columns:1fr auto;gap:.4rem 1rem;align-items:baseline;margin-bottom:1.9rem}
+  .dish .name{font-family:'Fraunces',serif;font-size:1.35rem}
+  .dish .tags{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-left:.7rem;vertical-align:middle}
+  .dish .price{font-family:'Fraunces',serif;font-size:1.2rem;color:var(--accent);white-space:nowrap}
+  .dish .desc{grid-column:1/-1;color:var(--ink-soft);font-size:.98rem;max-width:46rem}
+
+  .leaf{text-align:center;color:var(--accent);letter-spacing:1em;margin:0 0 2.6rem}
+
+  footer{background:var(--ink);color:var(--bg);padding:5rem 3.5vw 3rem}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:3rem;max-width:1100px;margin:0 auto 3.5rem}
+  .foot-grid h3{font-family:'Fraunces',serif;font-size:2rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem}
+  .foot-grid .eyebrow{display:block;margin-bottom:1.1rem;color:var(--accent-soft)}
+  .foot-grid p,.foot-grid a{font-size:.95rem;opacity:.85;line-height:2}
+  .foot-grid a:hover{color:var(--accent-soft)}
+  .foot-bottom{text-align:center;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;opacity:.5;border-top:1px solid rgba(247,242,234,.18);padding-top:2rem;max-width:1100px;margin:0 auto}
+  @media(max-width:820px){.foot-grid{grid-template-columns:1fr;text-align:center;gap:2.5rem}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-links">
+    <a href="menu.html" class="active">Menu</a>
+    <a href="story.html">Story</a>
+    <a href="visit.html">Visit</a>
+  </div>
+  <a href="index.html" class="wordmark">Bonnie Day</a>
+  <a href="visit.html" class="nav-cta">Reserve</a>
+</nav>
+
+<header class="menu-hero">
+  <div class="ph ph-bg">
+    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1600&q=80" alt="Food" loading="lazy">
+  </div>
+  <div class="inner">
+    <p class="eyebrow">Tonight's Programme</p>
+    <h1>The Menu</h1>
+    <p>Comfort food, considered — a play in two acts, generous to vegans, gluten-free guests, omnivores and the sweet-toothed alike.</p>
+  </div>
+</header>
+
+<div class="menu-toggle">
+  <a href="#resto" class="active">Resto</a>
+  <a href="#cafe">Café</a>
+</div>
+
+<div class="menu-wrap">
+
+  <!-- RESTO -->
+  <div class="menu-section" id="resto">
+    <span class="eyebrow">Act II · Evenings · from 5pm</span>
+    <h2>Resto</h2>
+    <p class="note">[ the candles come up ] — a representative selection; the kitchen moves with the seasons.</p>
+
+    <p class="leaf">✦ &nbsp; To Share &nbsp; ✦</p>
+    <div class="dish">
+      <div class="name">Whipped Feta <span class="tags">Veg · Share</span></div>
+      <div class="price">—</div>
+      <div class="desc">The house signature. Silky and herb-flecked with roasted tomatoes and Persian olives, built for the table and warm bread.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Vegan Galette <span class="tags">Vegan</span></div>
+      <div class="price">—</div>
+      <div class="desc">A rustic, seasonal galette — one of the room's quiet favourites.</div>
+    </div>
+
+    <p class="leaf">✦ &nbsp; Plates &nbsp; ✦</p>
+    <div class="dish">
+      <div class="name">Sweet Potato Gnocchi <span class="tags">Veg</span></div>
+      <div class="price">$21</div>
+      <div class="desc">Handrolled gnocchi, lemon cream sauce, pesto, pecorino.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Half Roast Chicken</div>
+      <div class="price">—</div>
+      <div class="desc">Brined &amp; seasoned, warm potato and spinach salad, creamy tahini, radish, onion, herbs, pistachio.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Meatballs</div>
+      <div class="price">—</div>
+      <div class="desc">Slow-simmered, served with sourdough for the sauce.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Chicken &amp; Butter Beans</div>
+      <div class="price">—</div>
+      <div class="desc">Comfort in a bowl, with sourdough alongside.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Veggie Burger <span class="tags">Veg</span></div>
+      <div class="price">—</div>
+      <div class="desc">A house patty done properly, with all the trimmings.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Pizza No. 3 <span class="tags">Veg</span></div>
+      <div class="price">$22</div>
+      <div class="desc">Whipped feta, kalamata olives, roma tomato, red onion, roasted red pepper, crumbled feta.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Pizza No. 4</div>
+      <div class="price">$22</div>
+      <div class="desc">Whipped feta base, fresh mozzarella, mushroom, roasted garlic, thyme, prosciutto, truffle oil.</div>
+    </div>
+
+    <p class="leaf">✦ &nbsp; Sweets &nbsp; ✦</p>
+    <div class="dish">
+      <div class="name">Espresso Crème Caramel</div>
+      <div class="price">—</div>
+      <div class="desc">A quiet, grown-up finish to the evening.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Crème Brûlée</div>
+      <div class="price">—</div>
+      <div class="desc">Silky custard, glass-thin caramel.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Dessert of the Day <span class="tags">Ask your server</span></div>
+      <div class="price">—</div>
+      <div class="desc">A rotating sweet from the thoughtful, ever-changing dessert list.</div>
+    </div>
+
+    <p class="leaf">✦ &nbsp; Imbibe &nbsp; ✦</p>
+    <div class="dish">
+      <div class="name">The Cocktail List <span class="tags">Ask for Imbibe</span></div>
+      <div class="price">—</div>
+      <div class="desc">A short, considered list of seasonal cocktails, plus wine &amp; low-/no-proof options.</div>
+    </div>
+  </div>
+
+  <!-- CAFE -->
+  <div class="menu-section" id="cafe">
+    <span class="eyebrow">Act I · Daytime · Coffee service</span>
+    <h2>Café</h2>
+    <p class="note">[ morning light ] — espresso by Never Better Coffee; pastry &amp; brunch from the kitchen.</p>
+
+    <p class="leaf">✦ &nbsp; The Bar, by Day &nbsp; ✦</p>
+    <div class="dish">
+      <div class="name">The Latte</div>
+      <div class="price">—</div>
+      <div class="desc">Never Better Coffee, pulled with care. Oat &amp; alternative milks always on.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Drip · Americano · Cortado</div>
+      <div class="price">—</div>
+      <div class="desc">The full espresso bar for the morning regulars.</div>
+    </div>
+
+    <p class="leaf">✦ &nbsp; Kitchen &nbsp; ✦</p>
+    <div class="dish">
+      <div class="name">Avocado Toast <span class="tags">Veg</span></div>
+      <div class="price">—</div>
+      <div class="desc">On house sourdough — the daytime staple.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Breakfast Sandwich</div>
+      <div class="price">—</div>
+      <div class="desc">The good idea, before noon.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Scones &amp; Pastries <span class="tags">Daily</span></div>
+      <div class="price">—</div>
+      <div class="desc">Baked in-house; what's left when you arrive.</div>
+    </div>
+    <div class="dish">
+      <div class="name">Brunchy Plates <span class="tags">Weekend</span></div>
+      <div class="price">—</div>
+      <div class="desc">A short, changing list of slow-morning plates.</div>
+    </div>
+  </div>
+
+  <p style="text-align:center;color:var(--ink-soft);font-size:.82rem;font-style:italic;font-family:'Fraunces',serif">
+    Menu shown is representative for concept purposes — final items &amp; prices to be confirmed from current service.
+  </p>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <h3>Bonnie Day</h3>
+      <p style="font-style:italic;font-family:'Fraunces',serif;opacity:.8">It was a good idea.</p>
+      <p style="font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;opacity:.55;margin-top:.6rem">In memory of David King · 1949–2021</p>
+    </div>
+    <div>
+      <span class="eyebrow">Visit</span>
+      <p>898 Westminster Avenue<br>Winnipeg, MB R3G 1B5<br>(204) 786-8411</p>
+    </div>
+    <div>
+      <span class="eyebrow">Explore</span>
+      <p><a href="index.html">Home</a><br><a href="story.html">Our story</a><br><a href="visit.html">Visit &amp; reserve</a><br><a href="https://www.instagram.com/bonniedayresto/">Instagram</a></p>
+    </div>
+  </div>
+  <div class="foot-bottom">© Bonnie Day · Wolseley, Winnipeg · Concept rebuild — Curtain</div>
+</footer>
+
+<script>
+  const nav=document.getElementById('nav');
+  addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40));
+  const toggles=document.querySelectorAll('.menu-toggle a');
+  toggles.forEach(t=>t.addEventListener('click',()=>{toggles.forEach(x=>x.classList.remove('active'));t.classList.add('active')}));
+  document.querySelectorAll('.ph img').forEach(img=>{img.addEventListener('error',()=>{img.style.display='none'})});
+</script>
+</body>
+</html>

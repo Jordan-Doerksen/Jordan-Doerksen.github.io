@@ -48,43 +48,6 @@
   color: #f4e3bb;
 }
 
-/* ----- Chips (Affinities) ----- */
-.chip-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-  padding: 0;
-  list-style: none;
-}
-
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55em;
-  padding: 7px 15px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgba(220, 230, 255, 0.025);
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  color: var(--text-muted);
-  transition: border-color var(--t-fast), color var(--t-fast), transform var(--t-fast);
-}
-.chip:hover { color: var(--text); border-color: var(--line-strong); transform: translateY(-2px); }
-
-.chip::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  flex: none;
-  background: var(--text-faint);
-  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
-}
-.chip[data-cat='film']::before  { background: var(--gold); }
-.chip[data-cat='game']::before  { background: var(--codex-blue); }
-.chip[data-cat='music']::before { background: var(--music-mystic); }
-.chip[data-cat='life']::before  { background: var(--accent); }
-
 /* ----- Route log (About) — a train manifest in mono ----- */
 .route-log {
   margin-top: 1.7rem;
@@ -105,49 +68,6 @@
 }
 .route-log .stop { white-space: nowrap; }
 .route-log .arr { color: var(--gold); margin: 0 0.15em; }
-
-/* ----- Profile stat bars (RPG flavor, observatory dress) ----- */
-.profile-card .stat { margin-bottom: 1.05rem; }
-.profile-card .stat:last-of-type { margin-bottom: 0; }
-
-.stat-label {
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 0.45rem;
-}
-.stat-label b { color: var(--text); font-weight: 600; }
-
-.stat-track {
-  height: 5px;
-  border-radius: 999px;
-  background: rgba(220, 230, 255, 0.06);
-  overflow: hidden;
-}
-
-.stat-fill {
-  height: 100%;
-  width: 0; /* animated in by reveal.js once visible */
-  border-radius: inherit;
-  background: linear-gradient(90deg, rgba(216, 172, 78, 0.45), var(--gold));
-  box-shadow: 0 0 10px rgba(216, 172, 78, 0.35);
-  transition: width 1.3s var(--ease-out) 0.25s;
-}
-.is-visible .stat-fill { width: var(--value); }
-
-.profile-foot {
-  margin-top: 1.4rem;
-  padding-top: 1.1rem;
-  border-top: 1px solid var(--line);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  line-height: 1.8;
-  color: var(--text-faint);
-}
 
 /* ----- Grids ----- */
 /* Canvases set their bitmap width to clientWidth × devicePixelRatio; without

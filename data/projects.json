@@ -57,6 +57,30 @@
       "links": [
         { "label": "Enter the Codex →", "href": "/warcraft/", "primary": true }
       ]
+    },
+    {
+      "name": "Bonnie Day",
+      "tag": "web design · concept site",
+      "blurb": "A multi-page concept site for a Wolseley café — menu, story, and visit pages, built mobile-first.",
+      "links": [
+        { "label": "View the site →", "href": "/sites/bonnie-day/", "primary": true, "newTab": true }
+      ]
+    },
+    {
+      "name": "Garwood Grill",
+      "tag": "web design · concept site",
+      "blurb": "A one-page concept site for a Pembina Hwy diner — menu, hours, reviews, and tap-to-call, in a warm old-school style.",
+      "links": [
+        { "label": "View the site →", "href": "/sites/garwood-grill/", "primary": true, "newTab": true }
+      ]
+    },
+    {
+      "name": "Hoagie Boyz",
+      "tag": "web design · concept site",
+      "blurb": "A one-page concept site for a South Osborne sub shop.",
+      "links": [
+        { "label": "View the site →", "href": "/sites/hoagie-boyz/", "primary": true, "newTab": true }
+      ]
     }
   ]
 }
