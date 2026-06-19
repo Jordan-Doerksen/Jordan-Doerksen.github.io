@@ -23,11 +23,20 @@
       ]
     },
     {
+      "name": "Star Charter Pro",
+      "tag": "game · constellation roguelite",
+      "blurb": "Pilot a survey probe with heavy, drifty momentum, trace each constellation's blueprint on the atlas plate, and refit your instruments every third plate — dodging asteroids, black holes, and drifting space-fauna. A single-file roguelite built in this site's own night-sky style.",
+      "links": [
+        { "label": "Play Star Charter Pro →", "href": "/star-charter/Star-Charter-Pro/", "primary": true, "newTab": true },
+        { "label": "The collection →", "href": "/star-charter/", "newTab": true }
+      ]
+    },
+    {
       "name": "Echo Bat — Night Harvest",
       "tag": "game · sonar in the dark",
-      "blurb": "A bat in the dark, harvesting glowing fruit by sonar. Your voice paints the cave, then the dark takes it back. A mobile-first, single-file canvas game.",
+      "blurb": "A bat in the dark, harvesting glowing fruit by sonar. Your voice paints the cave, then the dark takes it back. A mobile-first, single-file canvas game. Part of the Star Charter collection.",
       "links": [
-        { "label": "Play Echo Bat →", "href": "/echo-bat/", "primary": true, "newTab": true }
+        { "label": "Play Echo Bat →", "href": "/star-charter/Echo-Bat/", "primary": true, "newTab": true }
       ]
     },
     {
