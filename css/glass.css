@@ -452,6 +452,9 @@
   letter-spacing: 0.08em;
   color: var(--text-faint);
 }
+/* The credit line inherits the global p { max-width: 66ch }; clear it so the
+   centered text spans the footer instead of being pinned left. */
+.site-footer p { max-width: none; margin-inline: auto; }
 .site-footer::before {
   content: '✦';
   display: block;
