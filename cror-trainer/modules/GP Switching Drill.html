@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP Switching Drill #1 — Classify the Cut</title>
+<style>
+  :root{--bg:#14181d;--card:#1d222b;--card2:#232a34;--line:#2c3340;--ink:#eef2f6;--muted:#9aa3b0;--accent:#36d07f;--accent-d:#1f9e5e;--on-accent:#06301c;
+        --yellow:#36d07f;--blue:#4aa3ff;--green:#33c27f;--red:#ef5a5a;--orange:#ff8a3d;}
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#10131a,#14181d 42%);color:var(--ink);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
+  .wrap{max-width:1280px;margin:0 auto;padding:18px}
+  header{display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:14px}
+  .badge{width:38px;height:38px;border-radius:8px;background:var(--yellow);color:#06301c;font-weight:800;
+         display:flex;align-items:center;justify-content:center;font-size:16px}
+  .title{font-size:17px;font-weight:700}
+  .sub{font-size:12.5px;color:var(--muted)}
+  .layout{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+  .board{flex:1 1 600px;position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;min-width:300px}
+  .board img{display:block;width:100%}
+  .board svg{position:absolute;top:0;left:0;width:100%;height:100%}
+  .hit{fill:transparent;stroke:transparent;stroke-width:2;cursor:pointer;transition:.08s}
+  .hit:hover{fill:rgba(245,179,1,.30);stroke:var(--yellow)}
+  .hit.target{fill:rgba(74,163,255,.40);stroke:var(--blue)}
+  .hit.kickable{stroke:rgba(51,194,127,.55)}
+  .hovname{position:absolute;top:8px;left:8px;background:rgba(14,22,34,.92);color:var(--ink);
+           border:1px solid var(--line);border-radius:6px;padding:4px 9px;font-size:13px;font-family:monospace;display:none}
+  .panel{flex:0 0 350px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:300px}
+  h2{font-size:14px;margin:0 0 8px}
+  .list{font-size:12.5px;font-family:monospace;margin-bottom:14px}
+  .car{display:flex;justify-content:space-between;padding:5px 8px;border:1px solid var(--line);border-radius:6px;margin-bottom:5px;background:#1d222b}
+  .car.cur{border-color:var(--yellow);background:#1c2c1c}
+  .car.done{opacity:.7}
+  .car .st{font-weight:700}
+  .car .ok{color:var(--green)} .car .no{color:var(--red)}
+  .prompt{background:#1d222b;border:1px solid var(--line);border-radius:9px;padding:12px;margin-bottom:12px;font-size:13.5px}
+  .prompt b{color:var(--yellow)}
+  .methods{display:flex;gap:8px;margin-top:10px}
+  button{font:inherit;border:none;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer;font-size:14px}
+  button:disabled{opacity:.4;cursor:default}
+  .kick{background:var(--orange);color:#06301c;flex:1}
+  .shove{background:var(--blue);color:#06182e;flex:1}
+  .next{background:var(--yellow);color:#06301c;width:100%;margin-top:10px}
+  .fb{border-radius:9px;padding:11px 13px;margin-top:12px;font-size:13px;display:none}
+  .fb.show{display:block}
+  .fb.ok{background:#123326;border:1px solid var(--green)}
+  .fb.no{background:#3a1717;border:1px solid var(--red)}
+  .fb .rule{color:var(--yellow);font-weight:700;font-size:12px;margin-bottom:3px}
+  .score{font-size:13px;color:var(--muted);margin-bottom:12px}
+  .score b{color:var(--ink)}
+  .legend{font-size:11.5px;color:var(--muted);margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+  .kbadge{color:var(--green)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="../index.html" style="display:inline-block;color:#9fb2c9;text-decoration:none;font-size:13px;margin:0 0 10px">&larr; All modules</a>
+  <header>
+    <div id="sigmark" title="Clear" aria-label="Signal aspect" style="width:34px;height:48px;border-radius:9px;flex:none;background:var(--card2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;background:#262b34;transition:background .5s,box-shadow .5s"></span><span style="width:8px;height:8px;border-radius:50%;background:#262b34;transition:background .5s,box-shadow .5s"></span><span style="width:8px;height:8px;border-radius:50%;background:#262b34;transition:background .5s,box-shadow .5s"></span></div>
+    <div>
+      <div class="title">Switching Drill #1 — Classify the Cut</div>
+      <div class="sub">Grande Prairie · read the list, send each car to its track, pick a legal move</div>
+    </div>
+  </header>
+  <div class="layout">
+    <div class="board" id="board">
+      <img src="../assets/GP%20Yard%20(cleaned).png" alt="Grande Prairie Yard">
+      <svg id="ov" viewBox="0 0 1362 1056" preserveAspectRatio="none"></svg>
+      <div class="hovname" id="hov"></div>
+    </div>
+    <div class="panel">
+      <div class="score">Car <b id="cnum">1</b>/<b id="ctot">5</b> &middot; Score <b id="sc">0</b></div>
+      <h2>Switch list — inbound cut</h2>
+      <div class="list" id="list"></div>
+      <div class="prompt" id="prompt"></div>
+      <div class="methods">
+        <button class="kick" id="kickBtn" disabled>KICK</button>
+        <button class="shove" id="shoveBtn" disabled>SHOVE</button>
+      </div>
+      <div class="fb" id="fb"><div class="rule" id="rule"></div><div id="why"></div></div>
+      <button class="next" id="nextBtn" style="display:none">Next car</button>
+      <div class="legend">Green-outlined tracks take a <span class="kbadge">kick</span> (north-end grade): AS71-75, 77, 78. Everything else must be shoved under control.</div>
+    </div>
+  </div>
+</div>
+<script>
+var TRACKS=[
+ {name:'AS65 (STK)',x:340,y:492,w:1006},{name:'AS66',x:997,y:520,w:191},
+ {name:'AS67',x:815,y:539,w:358},{name:'AS72',x:484,y:542,w:188},
+ {name:'AS68',x:807,y:559,w:255},{name:'AS73',x:471,y:560,w:218},
+ {name:'AS69',x:790,y:576,w:264},{name:'AS74',x:457,y:578,w:244},
+ {name:'AS70',x:783,y:595,w:168},{name:'AS75',x:447,y:596,w:262},
+ {name:'AS71',x:602,y:613,w:352},{name:'AS76',x:188,y:614,w:368},
+ {name:'AS77',x:466,y:636,w:543},{name:'AS78',x:484,y:656,w:505}
+];
+var KICKABLE=['AS71','AS72','AS73','AS74','AS75','AS77','AS78'];
+var CARS=[
+ {id:'CN 384220',lading:'loaded grain hopper',dest:'AS73'},
+ {id:'PROX 51120',lading:'tank car, residue',dest:'AS68'},
+ {id:'CN 411902',lading:'centerbeam, lumber',dest:'AS77'},
+ {id:'CP 220145',lading:'covered hopper, potash',dest:'AS72'},
+ {id:'CN 199003',lading:'boxcar, empty',dest:'AS66'}
+];
+function key(n){return n.replace(' (STK)','');}
+var NS='http://www.w3.org/2000/svg';
+var ov=document.getElementById('ov'),hov=document.getElementById('hov');
+var cur=0,score=0,chosen=null,answered=false;
+document.getElementById('ctot').textContent=CARS.length;
+
+function drawBoard(){
+  ov.innerHTML='';
+  TRACKS.forEach(function(t){
+    var r=document.createElementNS(NS,'rect');
+    r.setAttribute('x',t.x);r.setAttribute('y',t.y-8);r.setAttribute('width',t.w);r.setAttribute('height',17);r.setAttribute('rx',3);
+    var cls='hit';
+    if(KICKABLE.indexOf(key(t.name))>=0)cls+=' kickable';
+    if(chosen===key(t.name))cls+=' target';
+    r.setAttribute('class',cls);
+    r.addEventListener('mouseenter',function(){hov.textContent=t.name;hov.style.display='block';});
+    r.addEventListener('mouseleave',function(){hov.style.display='none';});
+    r.addEventListener('click',function(){ if(!answered) pickDest(key(t.name)); });
+    ov.appendChild(r);
+  });
+}
+function drawList(){
+  var h='';
+  CARS.forEach(function(c,i){
+    var cls='car'+(i===cur?' cur':'')+(i<cur?' done':'');
+    var st=''; if(c.result==='ok')st='<span class="st ok">OK</span>'; else if(c.result==='no')st='<span class="st no">miss</span>';
+    h+='<div class="'+cls+'"><span>'+c.id+' &middot; '+c.lading+'</span><span>&rarr; '+c.dest+' '+st+'</span></div>';
+  });
+  document.getElementById('list').innerHTML=h;
+}
+function setPrompt(){
+  var c=CARS[cur];
+  document.getElementById('prompt').innerHTML='Next car: <b>'+c.id+'</b> ('+c.lading+'), the list sends it to <b>'+c.dest+'</b>.<br>Click that track on the board, then choose how to make the move.';
+  document.getElementById('cnum').textContent=(cur+1);
+}
+function pickDest(name){
+  chosen=name; drawBoard();
+  document.getElementById('kickBtn').disabled=false;
+  document.getElementById('shoveBtn').disabled=false;
+  document.getElementById('prompt').innerHTML='Destination set: <b>'+chosen+'</b>. KICK or SHOVE?';
+}
+function evaluate(method){
+  if(answered||chosen===null)return;
+  answered=true;
+  var c=CARS[cur];
+  var destOK=(chosen===c.dest);
+  var canKick=KICKABLE.indexOf(chosen)>=0;
+  var fb=document.getElementById('fb'),rule=document.getElementById('rule'),why=document.getElementById('why');
+  var good=false,msg='',rl='';
+  if(!destOK){
+    msg='That track is '+chosen+', but the list sends '+c.id+' to '+c.dest+'. Read the list car-by-car before you move it.';
+    rl='Switch-list accuracy';
+  }else if(method==='kick'&&!canKick){
+    msg='You can\'t kick into '+chosen+'. In GP only the north-end tracks on grade take a kick (AS71-75, 77, 78). '+chosen+' has to be shoved under control with point protection.';
+    rl='Rule 113.4 / 115 — kicking restrictions & point protection';
+  }else{
+    good=true;
+    if(method==='kick') msg='Good kick. '+chosen+' is a north-end grade track that takes a kick — car\'s on the right spot.';
+    else msg=(canKick?'Clean shove. (You could kick '+chosen+', but a controlled shove is always legal.)':'Right call — '+chosen+' can\'t be kicked, so a controlled shove with point protection is the move.');
+    rl=(method==='kick')?'Rule 113.5 — kicking (permitted here)':'Rule 115 — shoving with point protection';
+  }
+  if(good)score++;
+  c.result=good?'ok':'no';
+  document.getElementById('sc').textContent=score;
+  fb.className='fb show '+(good?'ok':'no');
+  rule.textContent=rl; why.textContent=msg;
+  document.getElementById('kickBtn').disabled=true;
+  document.getElementById('shoveBtn').disabled=true;
+  document.getElementById('nextBtn').style.display='block';
+  document.getElementById('nextBtn').textContent=(cur===CARS.length-1)?'Finish — secure the cut':'Next car';
+  drawList();
+}
+function next(){
+  cur++; chosen=null; answered=false;
+  document.getElementById('fb').className='fb';
+  document.getElementById('nextBtn').style.display='none';
+  if(cur>=CARS.length){ secure(); return; }
+  drawBoard(); drawList(); setPrompt();
+}
+function secure(){
+  document.querySelector('.methods').style.display='none';
+  document.getElementById('list').style.display='none';
+  var p=document.getElementById('prompt');
+  p.innerHTML='<b>Cut classified — '+score+'/'+CARS.length+'.</b><br>Last thing: you\'re leaving cars on the north end, which is on a grade. Before you walk away, what does CROR require?';
+  var opts=[
+    ['Nothing — the grade and the joint will hold them','no'],
+    ['Apply a sufficient number of hand brakes and test them for effectiveness','ok'],
+    ['Just leave the air brakes applied','no']
+  ];
+  var box=document.getElementById('fb');
+  var html='<div style="margin-top:10px">';
+  opts.forEach(function(o,i){ html+='<button class="shove" style="width:100%;margin:5px 0" onclick="finish(\''+o[1]+'\')">'+o[0]+'</button>'; });
+  html+='</div>';
+  p.innerHTML+=html;
+}
+function finish(res){
+  var p=document.getElementById('prompt');
+  var ok=(res==='ok');
+  if(ok)score++;
+  p.innerHTML='<b>Drill complete.</b><br>'+(ok?'Right — on a grade especially, hand brakes must be applied and <b>tested for effectiveness</b> (Rule 112). Securement is what keeps a kicked cut from becoming a runaway.':'Not quite — the grade is exactly why you must apply hand brakes and <b>test them for effectiveness</b> before leaving (Rule 112). The grade that lets you kick also pulls cars downhill.')
+    +'<br><br>Final score: <b>'+score+'/'+(CARS.length+1)+'</b>. Refresh to run it again, or tell me to add harder cuts.';
+  document.getElementById('fb').className='fb';
+}
+document.getElementById('kickBtn').addEventListener('click',function(){evaluate('kick');});
+document.getElementById('shoveBtn').addEventListener('click',function(){evaluate('shove');});
+document.getElementById('nextBtn').addEventListener('click',next);
+drawBoard(); drawList(); setPrompt();
+</script>
+<script>(function(){var m=document.getElementById("sigmark");if(!m)return;var L=m.getElementsByTagName("span"),D="#262b34",C={g:"#36d07f",y:"#f7b733",r:"#e25555"};var A=[{n:"Clear",l:["g",0,0]},{n:"Clear to Medium",l:["y","g",0]},{n:"Clear to Stop",l:["y","r",0]},{n:"Diverging",l:["r","y",0]},{n:"Restricting",l:[0,"r","r"]},{n:"Stop",l:["r","r","r"]}];function s(a){m.title=a.n+" — signal aspect";for(var k=0;k<3;k++){var c=a.l[k];L[k].style.background=c?C[c]:D;L[k].style.boxShadow=c?"0 0 7px "+C[c]:"none";}}s(A[0]);if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;var i=0;setInterval(function(){i=(i+1)%A.length;s(A[i]);},3500);})();</script>
+</body>
+</html>

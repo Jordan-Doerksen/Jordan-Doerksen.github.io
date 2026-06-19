@@ -1,8 +1,8 @@
 // ==========================================================================
-// PROJECTS spoke — boots the shared shell, renders project cards from
-// data/projects.json, and runs the live Particle Window showpiece.
-// Standard cards come from JSON (add a project = add an entry); interactive
-// showpieces like the particle demo are hand-placed in the HTML.
+// PROJECTS spoke — boots the shared shell, renders the featured project and
+// the project cards from data/projects.json, and runs the live Particle
+// Window showpiece. Standard cards come from JSON (add a project = add an
+// entry); interactive showpieces like the particle demo are hand-placed.
 // ==========================================================================
 
 import { renderShell } from '../shell.js';
@@ -27,15 +27,17 @@ async function boot() {
 }
 
 async function renderProjects() {
-  const grid = document.getElementById('projects-grid');
-  if (!grid) return;
-
   let data;
   try {
     data = await (await fetch('/data/projects.json')).json();
   } catch {
     return;
   }
+
+  renderFeatured(data.featured);
+
+  const grid = document.getElementById('projects-grid');
+  if (!grid) return;
 
   for (const p of data.projects || []) {
     const card = document.createElement('article');
@@ -48,26 +50,49 @@ async function renderProjects() {
          </figure>`
       : '';
 
-    const links = (p.links || [])
-      .map(
-        (l) =>
-          `<a class="btn btn-sm${l.primary ? ' btn-primary' : ''}" href="${esc(l.href)}"${
-            l.href.startsWith('http') || l.newTab ? ' target="_blank" rel="noopener"' : ''
-          }>${esc(l.label)}</a>`
-      )
-      .join('');
-
     card.innerHTML = `
       <div class="panel-body">
         ${media}
         <h3>${esc(p.name)}</h3>
         ${p.tag ? `<span class="panel-tag">${esc(p.tag)}</span>` : ''}
         <p class="card-blurb">${esc(p.blurb)}</p>
-        ${links ? `<div class="card-links">${links}</div>` : ''}
+        ${p.links ? `<div class="card-links">${linksHtml(p.links)}</div>` : ''}
       </div>
     `;
     grid.appendChild(card);
   }
+}
+
+// The headline project — a full-width lead card above the grid.
+function renderFeatured(f) {
+  const mount = document.getElementById('projects-featured');
+  if (!mount || !f) return;
+
+  const points = (f.points || []).map((p) => `<li>${esc(p)}</li>`).join('');
+
+  mount.innerHTML = `
+    <article class="glass-panel proj-featured reveal">
+      <div class="panel-body">
+        <p class="eyebrow"><span class="star-glyph">✦</span>Featured project</p>
+        <h2>${esc(f.name)}</h2>
+        ${f.tag ? `<span class="panel-tag">${esc(f.tag)}</span>` : ''}
+        <p class="card-blurb">${esc(f.blurb)}</p>
+        ${points ? `<ul class="feat-points">${points}</ul>` : ''}
+        ${f.links ? `<div class="card-links">${linksHtml(f.links)}</div>` : ''}
+      </div>
+    </article>
+  `;
+}
+
+function linksHtml(links) {
+  return (links || [])
+    .map(
+      (l) =>
+        `<a class="btn btn-sm${l.primary ? ' btn-primary' : ''}" href="${esc(l.href)}"${
+          l.href.startsWith('http') || l.newTab ? ' target="_blank" rel="noopener"' : ''
+        }>${esc(l.label)}</a>`
+    )
+    .join('');
 }
 
 function esc(str = '') {

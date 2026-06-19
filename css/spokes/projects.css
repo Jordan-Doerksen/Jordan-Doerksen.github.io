@@ -77,3 +77,44 @@
 }
 .proj-section .atlas-rule::before { background: linear-gradient(90deg, var(--accent), transparent); }
 .proj-section .atlas-rule::after { color: var(--accent); }
+
+/* ----- Featured project (Switch List) — the full-width lead ----- */
+.proj-featured {
+  margin-bottom: clamp(1.4rem, 3vw, 2.2rem);
+  border-color: rgba(79, 227, 208, 0.28) !important;
+}
+.proj-featured::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 60% at 18% -10%, rgba(79, 227, 208, 0.10), transparent 70%);
+}
+.proj-featured .panel-body { position: relative; z-index: 2; padding-block: clamp(1.8rem, 4vw, 2.8rem); }
+.proj-featured .eyebrow { color: var(--accent); margin-bottom: 0.9rem; }
+.proj-featured h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); margin-bottom: 0.5rem; }
+.proj-featured .card-blurb { font-size: 1.02rem; max-width: 62ch; }
+
+.feat-points {
+  list-style: none;
+  padding: 0;
+  margin: 1.2rem 0 0;
+  display: grid;
+  gap: 0.55rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.feat-points li {
+  position: relative;
+  padding-left: 1.4em;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+.feat-points li::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.7em;
+  top: 0.25em;
+}

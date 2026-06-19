@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#050309">
+<title>Echo Bat ✦ Night Harvest</title>
+<style>
+/* ==========================================================================
+   ECHO BAT — a bat in the dark, harvesting glowing fruit by sonar.
+   Mobile-first single file. Fruit is always visible; stone is not.
+   Your voice paints the cave, then the dark takes it back.
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+  --bg: #050309;
+  --panel: rgba(15, 11, 24, 0.78);
+  --line: rgba(179, 157, 245, 0.14);
+  --line-strong: rgba(179, 157, 245, 0.36);
+  --ink: #ece8f8;
+  --muted: #9b92b8;
+  --faint: #5d566f;
+  --violet: #b39df5;
+  --moon: #9db8ff;
+  --fruit: #ffb05e;
+  --danger: #ff5e6b;
+  --radius: 18px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: ui-rounded, 'SF Pro Rounded', 'Segoe UI Variable Display', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  user-select: none; -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  height: 100vh; height: 100dvh;
+}
+#cave { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+.vignette {
+  position: fixed; inset: 0; pointer-events: none; z-index: 3;
+  background: radial-gradient(ellipse at 50% 45%, transparent 52%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+/* ----- HUD ----- */
+#hud {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 6;
+  display: flex; align-items: center; gap: 10px;
+  padding: calc(10px + env(safe-area-inset-top)) calc(14px + env(safe-area-inset-right)) 8px calc(14px + env(safe-area-inset-left));
+  pointer-events: none;
+  font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--faint);
+}
+#hearts { display: flex; gap: 5px; flex: none; }
+#hearts i { width: 9px; height: 9px; border-radius: 999px; border: 1px solid var(--line-strong); }
+#hearts i.lit { background: var(--danger); border-color: var(--danger); box-shadow: 0 0 8px rgba(255, 94, 107, 0.7); }
+#lvlLabel { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#lvlLabel b { color: var(--violet); font-weight: 600; }
+#hud .right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+#fruitCount { color: var(--fruit); font-weight: 600; }
+#score { font-weight: 700; font-size: 1.0rem; color: var(--ink); letter-spacing: 0.02em; }
+#btnMute {
+  pointer-events: auto;
+  width: 40px; height: 40px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--panel);
+  color: var(--muted); font-size: 0.8rem; cursor: pointer; touch-action: manipulation;
+}
+#btnMute.muted { color: var(--faint); text-decoration: line-through; }
+
+/* ----- Toast ----- */
+#toast {
+  position: fixed; top: 18%; left: 50%; z-index: 6;
+  transform: translateX(-50%) translateY(10px);
+  text-align: center; pointer-events: none; opacity: 0;
+  transition: opacity 0.5s var(--ease), transform 0.7s var(--ease);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+#toast .t-eyebrow { font-size: 0.6rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--violet); }
+#toast .t-name {
+  font-weight: 800; font-size: clamp(1.5rem, 7.5vw, 2.3rem); letter-spacing: -0.02em;
+  color: var(--ink); text-shadow: 0 0 26px rgba(179, 157, 245, 0.4);
+}
+
+/* ----- Screens ----- */
+#overlay {
+  position: fixed; inset: 0; z-index: 8;
+  display: grid; place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+  overflow-y: auto;
+}
+#overlay.passthrough { pointer-events: none; }
+.panel {
+  background: var(--panel);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1); backdrop-filter: blur(16px) saturate(1.1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(200, 185, 255, 0.06);
+  padding: clamp(22px, 6vw, 34px);
+  width: min(420px, 100%);
+  text-align: center;
+  animation: rise 0.8s var(--ease) both;
+}
+.panel.wide { width: min(640px, 100%); }
+@keyframes rise { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+.eyebrow { font-size: 0.62rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--violet); margin-bottom: 12px; }
+.panel h1, .panel h2 { font-weight: 800; letter-spacing: -0.03em; line-height: 1.12; text-wrap: balance; }
+.panel h1 { font-size: clamp(1.9rem, 9vw, 2.6rem); }
+.panel h2 { font-size: clamp(1.5rem, 7vw, 2rem); }
+.panel em { font-style: normal; color: var(--violet); }
+.lede { color: var(--muted); font-size: 0.92rem; line-height: 1.65; margin: 12px auto 0; max-width: 38ch; }
+.hint { font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--faint); margin-top: 16px; line-height: 2.1; }
+.hint b { color: var(--fruit); font-weight: 600; }
+.rule { height: 1px; margin: 18px auto; width: 76%; background: linear-gradient(90deg, transparent, var(--line-strong), transparent); }
+.btn {
+  display: inline-block; margin-top: 20px; padding: 15px 34px;
+  border-radius: 999px; border: 1px solid rgba(179, 157, 245, 0.55);
+  background: rgba(179, 157, 245, 0.09); color: var(--violet);
+  font-family: inherit; font-weight: 700; font-size: 1rem; letter-spacing: 0.02em;
+  cursor: pointer; touch-action: manipulation;
+  transition: transform 0.18s var(--ease), background 0.18s;
+}
+.btn:active { transform: scale(0.96); background: rgba(179, 157, 245, 0.16); }
+.btn-ghost {
+  display: inline-block; margin-top: 14px; background: none; border: none;
+  color: var(--faint); font-family: inherit; font-size: 0.62rem; letter-spacing: 0.2em;
+  text-transform: uppercase; cursor: pointer; padding: 10px; touch-action: manipulation;
+}
+.record-line { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--faint); margin-top: 16px; }
+.record-line b { color: var(--fruit); font-weight: 600; }
+.colophon { font-size: 0.54rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--faint); opacity: 0.7; margin-top: 20px; }
+
+/* ----- Upgrade cards ----- */
+#upCards { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 20px; }
+@media (min-width: 640px) { #upCards { grid-template-columns: repeat(3, 1fr); } }
+.card {
+  text-align: left; background: rgba(22, 16, 36, 0.6);
+  border: 1px solid var(--line); border-radius: 12px;
+  padding: 15px 16px; min-height: 64px;
+  cursor: pointer; color: var(--ink); font-family: inherit;
+  transition: transform 0.15s var(--ease), border-color 0.15s, background 0.15s;
+  touch-action: manipulation;
+}
+.card:active { transform: scale(0.97); border-color: var(--violet); background: rgba(179, 157, 245, 0.08); }
+.card .c-tier { font-size: 0.54rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--violet); }
+.card .c-name { font-weight: 800; font-size: 1.02rem; margin: 3px 0 5px; }
+.card .c-desc { font-size: 0.8rem; line-height: 1.5; color: var(--muted); }
+.card.sel { border-color: var(--violet); background: rgba(179, 157, 245, 0.1); }
+.card .c-confirm {
+  display: none;
+  margin-top: 8px;
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--violet);
+  font-weight: 700;
+}
+.card.sel .c-confirm { display: block; }
+
+/* ----- Stats ----- */
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; margin-top: 4px; }
+.stat .k { font-size: 0.56rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--faint); }
+.stat .v { font-weight: 800; font-size: 1.3rem; }
+.stat .v.gold { color: var(--fruit); }
+.stat .v .pr { font-size: 0.5rem; letter-spacing: 0.14em; color: var(--violet); vertical-align: middle; margin-left: 4px; }
+
+/* ----- archive nav — sibling games ----- */
+.archive-nav { display: flex; justify-content: center; gap: 20px; margin-top: 12px; }
+.archive-nav a {
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-decoration: none;
+  padding: 6px 2px;
+  transition: color 0.18s;
+}
+.archive-nav a:hover { color: var(--violet); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="cave" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+
+<header id="hud" hidden>
+  <span id="hearts"></span>
+  <span id="lvlLabel">CAVERN 01 <b>✦</b> THE HOLLOW</span>
+  <div class="right">
+    <span id="fruitCount">0/5</span>
+    <span id="score">0</span>
+    <button id="btnMute" aria-label="toggle sound">♪</button>
+  </div>
+</header>
+
+<div id="toast" aria-live="polite">
+  <div class="t-eyebrow" id="toastEyebrow">CAVERN 01</div>
+  <div class="t-name" id="toastName">THE HOLLOW</div>
+</div>
+
+<div id="overlay">
+  <section id="screenTitle" class="panel" aria-label="title">
+    <div class="eyebrow">Echo Bat ✦ Night Harvest</div>
+    <h1>Sing, and the <em>dark</em> answers.</h1>
+    <p class="lede">You are a small bat in a deep cave. The fruit glows — the stone does not. Your sonar sings on its own; fly by what it shows you, and trust nothing between echoes.</p>
+    <div class="rule"></div>
+    <p class="hint">
+      Drag <b>✦</b> the bat flies above your finger<br>
+      Rest <b>✦</b> and you sink — keep your wings busy<br>
+      Sonar <b>✦</b> pulses on its own — watch the rings<br>
+      Every third cavern <b>✦</b> choose a gift
+    </p>
+    <button id="btnStart" class="btn">Fly into the dark</button>
+    <p class="record-line" id="recordLine" hidden>Best harvest <b id="recordVal">0</b></p>
+    <p class="colophon">N°03 ✦ The Glass Archive ✦ MMXXVI</p>
+    <nav class="archive-nav" aria-label="other games in the archive">
+      <a href="../">N°01 ✦ Star Charter</a>
+      <a href="../Star-Charter-Pro/">N°02 ✦ Star Charter Pro</a>
+    </nav>
+  </section>
+
+  <section id="screenUp" class="panel wide" hidden aria-label="upgrade">
+    <div class="eyebrow" id="upEyebrow">A gift ✦ Cavern 03 cleared</div>
+    <h2>Choose your <em>gift</em>.</h2>
+    <div id="upCards"></div>
+  </section>
+
+  <section id="screenPause" class="panel" hidden aria-label="paused">
+    <div class="eyebrow">Held ✦ Mid-flight</div>
+    <h2>The cave <em>waits</em>.</h2>
+    <button id="btnResume" class="btn">Keep flying</button>
+    <br>
+    <button id="btnQuit" class="btn-ghost">Abandon flight</button>
+  </section>
+
+  <section id="screenOver" class="panel" hidden aria-label="game over">
+    <div class="eyebrow" id="overEyebrow">The dark keeps you</div>
+    <h2>Grounded in <em>the deep</em>.</h2>
+    <div class="rule"></div>
+    <div class="stats">
+      <div class="stat"><div class="k">Harvest</div><div class="v gold" id="stScore">0</div></div>
+      <div class="stat"><div class="k">Cavern reached</div><div class="v" id="stLevel">1</div></div>
+      <div class="stat"><div class="k">Fruit eaten</div><div class="v" id="stFruit">0</div></div>
+      <div class="stat"><div class="k">Best harvest</div><div class="v" id="stBest">0</div></div>
+    </div>
+    <button id="btnAgain" class="btn">Fly again</button>
+    <br>
+    <button id="btnTitle" class="btn-ghost">Back to the mouth of the cave</button>
+  </section>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+// ==========================================================================
+// SETUP
+// ==========================================================================
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const canvas = document.getElementById('cave');
+const ctx = canvas.getContext('2d');
+const $ = (id) => document.getElementById(id);
+const hud = $('hud'), overlay = $('overlay');
+const screens = { title: $('screenTitle'), up: $('screenUp'), pause: $('screenPause'), over: $('screenOver') };
+
+const TAU = Math.PI * 2;
+const rand = (a, b) => a + Math.random() * (b - a);
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+const lerp = (a, b, t) => a + (b - a) * t;
+const dist = (ax, ay, bx, by) => Math.hypot(bx - ax, by - ay);
+function angLerp(a, b, t) {
+  let d = (b - a) % TAU;
+  if (d > Math.PI) d -= TAU;
+  if (d < -Math.PI) d += TAU;
+  return a + d * t;
+}
+const distSeg = (px, py, x, y0, y1) => Math.hypot(px - x, py - clamp(py, y0, y1));
+
+let W = 0, H = 0, S = 1;
+
+const CAVES = [
+  'The Hollow', 'Dripstone Hall', 'The Gullet', 'Glowworm Run', 'The Organ Pipes',
+  "Widow's Span", 'The Larder', 'Echo Vault', 'The Throat', 'Blind Gallery',
+  'The Undercroft', 'Star Sink', 'The Marrow', 'Quiet Chapel', 'The Last Shelf',
+];
+const caveName = (l) => CAVES[(l - 1) % CAVES.length];
+
+// ==========================================================================
+// SAVE
+// ==========================================================================
+const SAVE_KEY = 'echoBatSave';
+let save = { best: 0, bestLevel: 0, muted: false };
+try { Object.assign(save, JSON.parse(localStorage.getItem(SAVE_KEY)) || {}); } catch (e) {}
+function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} }
+
+// ==========================================================================
+// AUDIO — generated, no files
+// ==========================================================================
+const Audio = {
+  ctx: null, master: null, noiseBuf: null,
+  init() {
+    if (this.ctx) return;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    const c = this.ctx = new AC();
+    this.master = c.createGain();
+    this.master.gain.value = save.muted ? 0 : 1;
+    this.master.connect(c.destination);
+    // cave drone — low, damp, patient
+    const droneGain = c.createGain();
+    droneGain.gain.value = 0.02;
+    droneGain.connect(this.master);
+    [48, 72.2].forEach((f, i) => {
+      const o = c.createOscillator();
+      o.type = 'sine'; o.frequency.value = f;
+      const g = c.createGain(); g.gain.value = i ? 0.5 : 1;
+      o.connect(g); g.connect(droneGain); o.start();
+    });
+    const len = c.sampleRate;
+    this.noiseBuf = c.createBuffer(1, len, c.sampleRate);
+    const d = this.noiseBuf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    this.startMusic();
+  },
+  resume() { if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume(); },
+  suspend() { if (this.ctx && this.ctx.state === 'running') this.ctx.suspend(); },
+  tone(freq, dur, vol, type = 'sine', slideTo = null, toEcho = false) {
+    if (!this.ctx) return;
+    const c = this.ctx, t = c.currentTime;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.setValueAtTime(freq, t);
+    if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(toEcho && this.echoIn ? this.echoIn : this.master);
+    o.start(t); o.stop(t + dur + 0.05);
+  },
+  // ----- ambient cave music: a feedback-delay echo chamber, slow bell
+  // tones in a low pentatonic, and the occasional water drip. No files.
+  startMusic() {
+    if (this.echoIn || !this.ctx) return;
+    const c = this.ctx;
+    this.echoIn = c.createGain();
+    const d = c.createDelay(2); d.delayTime.value = 0.58;
+    const fb = c.createGain(); fb.gain.value = 0.42;
+    const damp = c.createBiquadFilter(); damp.type = 'lowpass'; damp.frequency.value = 1400;
+    this.echoIn.connect(d); d.connect(damp); damp.connect(fb); fb.connect(d);
+    const wet = c.createGain(); wet.gain.value = 0.5;
+    d.connect(wet); wet.connect(this.master);
+    this.echoIn.connect(this.master);
+    const NOTES = [110, 130.8, 146.8, 164.8, 196, 220, 261.6]; // A minor pentatonic, down low
+    const note = () => {
+      if (c.state === 'running' && !save.muted) {
+        const f = NOTES[Math.floor(Math.random() * NOTES.length)] * (Math.random() < 0.22 ? 2 : 1);
+        const t = c.currentTime;
+        const o = c.createOscillator(), g = c.createGain();
+        o.type = 'sine'; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.05, t + 0.6);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 3.4);
+        o.connect(g); g.connect(this.echoIn);
+        o.start(t); o.stop(t + 3.6);
+      }
+      setTimeout(note, 2800 + Math.random() * 4500);
+    };
+    note();
+    const drip = () => {
+      if (c.state === 'running' && !save.muted) {
+        const t = c.currentTime;
+        const o = c.createOscillator(), g = c.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(2600 + Math.random() * 900, t);
+        o.frequency.exponentialRampToValueAtTime(700, t + 0.09);
+        g.gain.setValueAtTime(0.055, t);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.13);
+        o.connect(g); g.connect(this.echoIn);
+        o.start(t); o.stop(t + 0.16);
+      }
+      setTimeout(drip, 4000 + Math.random() * 9000);
+    };
+    drip();
+  },
+  noise(dur, vol, freq = 800, type = 'lowpass') {
+    if (!this.ctx) return;
+    const c = this.ctx, t = c.currentTime;
+    const src = c.createBufferSource(); src.buffer = this.noiseBuf;
+    const f = c.createBiquadFilter(); f.type = type; f.frequency.value = freq;
+    const g = c.createGain();
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(f); f.connect(g); g.connect(this.master);
+    src.start(t); src.stop(t + dur);
+  },
+  chirp() { this.tone(1750, 0.16, 0.05, 'sine', 880, true); },
+  fruit() { this.tone(620, 0.18, 0.12, 'sine', null, true); this.tone(930, 0.3, 0.08, 'sine', null, true); },
+  hit() { this.tone(140, 0.35, 0.3, 'sawtooth', 60); this.noise(0.3, 0.22, 500); },
+  death() { this.tone(220, 1.0, 0.26, 'sawtooth', 40); this.noise(0.8, 0.2, 300); },
+  level() { [520, 660, 780].forEach((f, i) => setTimeout(() => this.tone(f, 0.5, 0.1), i * 120)); },
+  gift() { this.tone(330, 0.5, 0.12); setTimeout(() => this.tone(660, 0.5, 0.09), 140); },
+  owl() { this.tone(1180, 0.5, 0.08, 'square', 740); },
+  toggleMute() {
+    save.muted = !save.muted; persist();
+    if (this.master) this.master.gain.setTargetAtTime(save.muted ? 0 : 1, this.ctx.currentTime, 0.05);
+    return save.muted;
+  },
+};
+const buzz = (p) => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
+
+// ==========================================================================
+// UPGRADES — a gift every third cavern
+// ==========================================================================
+const UPGRADES = {
+  throwU: { name: 'Far Cry',      label: 'CRY',    max: 3, desc: 'Your pulse carries farther into the dark before it dies.' },
+  chirp:  { name: 'Quick Chirp',  label: 'CHIRP',  max: 3, desc: 'You sing more often — less silence between echoes.' },
+  echo:   { name: 'Long Echo',    label: 'ECHO',   max: 3, desc: 'Revealed stone stays painted longer before fading back.' },
+  band:   { name: 'Wide Band',    label: 'BAND',   max: 3, desc: 'A thicker reveal, and a soft nightsight glow around you.' },
+  heart:  { name: 'Spare Heart',  label: 'HEART',  max: 3, desc: '+1 heart, and one healed right now.' },
+  guard:  { name: 'Down Feathers', label: 'DOWN',  max: 3, desc: 'Longer safety after a knock. Shake it off, keep flying.' },
+  wings:  { name: 'Swift Wings',  label: 'WING',   max: 3, desc: 'Faster, snappier flight on warm cave air.' },
+  nectar: { name: 'Nectar Sense', label: 'NECTAR', max: 3, desc: 'Ripe fruit leans toward you from farther away.' },
+};
+const ROMAN = ['', 'I', 'II', 'III'];
+let upg = {};
+const pulseInt  = () => 2.6 - 0.45 * upg.chirp;            // seconds between songs
+const pulseMax  = () => (250 + 95 * upg.throwU) * S;       // how far a pulse reaches
+const PULSE_V   = () => 430 * S;
+const pulseBand = () => (26 + 9 * upg.band) * S;
+const echoFade  = () => 1.5 + 0.55 * upg.echo;             // seconds painted
+const nightR    = () => (58 + 38 * upg.band) * S;          // passive close-range sight
+const maxHp     = () => 3 + upg.heart;
+const invWin    = () => 1.5 + 0.4 * upg.guard;
+const accelA    = () => (580 + 95 * upg.wings) * S;
+const vMax      = () => (300 + 45 * upg.wings) * S;
+const nectarR   = () => (42 + 62 * upg.nectar) * S;
+
+// ==========================================================================
+// GAME STATE
+// ==========================================================================
+let state = 'title'; // title | playing | choosing | dying | over | paused
+let time = 0;
+
+const bat = { x: 0, y: 0, vx: 0, vy: 0, r: 11, hp: 3, inv: 0, flap: 0, ang: 0, spin: 0, trail: [] };
+const input = { active: false, x: 0, y: 0, id: null };
+const hover = { x: -100, y: -100, seen: false };
+const keys = { up: 0, down: 0, left: 0, right: 0 };
+const TOUCH_OFFSET = () => 74 * S; // the bat rides above your finger
+
+let level = 1, quota = 5, got = 0, score = 0, fruitTotal = 0;
+let pillars = [], spores = [], owls = [], fruits = [], pulses = [], particles = [], popups = [];
+let pulseT = 0, owlT = 1e9, dieT = 0, flashT = 0, grace = 0, toastT = 0, shake = 0;
+let demo = true; // title attract: the bat flies itself
+
+// ==========================================================================
+// LEVEL GENERATION — a fresh cavern each level
+// ==========================================================================
+function makePillar(x, top, len, w) {
+  // a jagged spike, precomputed as a polygon (local coords, tip at +len)
+  const pts = [];
+  const steps = 5;
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    pts.push([-w / 2 * (1 - t * 0.8) + rand(-2, 2) * S, len * t]);
+  }
+  for (let i = steps; i >= 0; i--) {
+    const t = i / steps;
+    pts.push([w / 2 * (1 - t * 0.8) + rand(-2, 2) * S, len * t]);
+  }
+  return { x, top, len, w, poly: pts, lit: 0 };
+}
+
+function genLevel(L, keepProgress) {
+  pillars = []; spores = []; owls = []; fruits = []; pulses = [];
+  const nP = Math.min(3 + L, 10);
+  for (let tries = 0, placed = 0; placed < nP && tries < 120; tries++) {
+    const x = rand(W * 0.07, W * 0.93);
+    if (Math.abs(x - bat.x) < 90 * S) continue;
+    let ok = true;
+    for (const p of pillars) if (Math.abs(p.x - x) < 64 * S) { ok = false; break; }
+    if (!ok) continue;
+    const top = Math.random() < 0.5;
+    const len = rand(H * 0.16, H * (0.3 + Math.min(0.16, L * 0.012)));
+    pillars.push(makePillar(x, top, len, rand(22, 34) * S));
+    placed++;
+  }
+  const nS = Math.min(1 + Math.floor(L / 2), 6);
+  for (let i = 0; i < nS; i++) {
+    let x, y;
+    for (let t = 0; t < 30; t++) {
+      x = rand(W * 0.1, W * 0.9); y = rand(H * 0.2, H * 0.8);
+      if (dist(x, y, bat.x, bat.y) > 160 * S) break;
+    }
+    const a = rand(0, TAU), sp = (26 + Math.min(30, L * 2.5)) * S;
+    spores.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r: rand(9, 14) * S, lit: 0, t: rand(0, TAU) });
+  }
+  owlT = L >= 4 ? rand(6, 12) : 1e9;
+  if (!keepProgress) { quota = Math.min(4 + L, 11); got = 0; }
+  const want = L >= 6 ? 2 : 1;
+  while (fruits.length < want && got + fruits.length < quota) spawnFruit();
+  pulseT = 0.5;
+  grace = 1.6;
+}
+
+// the orchard: four fruits, each with its own habit
+const FRUIT_KINDS = {
+  berry: { pts: 10, hue: [255, 176, 94] },   // glowberry — the staple
+  plum:  { pts: 15, hue: [196, 154, 255] },  // echo plum — sings a free pulse when eaten
+  moth:  { pts: 30, hue: [255, 228, 150] },  // lantern moth — flutters, and it's shy
+  heart: { pts: 5,  hue: [255, 122, 140] },  // heartfruit — mends a heart, grows where there's hurt
+};
+function makeFruit(x, y) {
+  let kind = 'berry';
+  const roll = Math.random();
+  if (bat.hp < maxHp() && !fruits.some((f) => f.kind === 'heart') && roll < 0.16) kind = 'heart';
+  else if (roll < 0.34) kind = 'plum';
+  else if (roll < 0.48) kind = 'moth';
+  const f = { x, y, r: (kind === 'moth' ? 7.5 : 9) * S, bob: rand(0, TAU), kind };
+  if (kind === 'moth') { f.dir = rand(0, TAU); f.flap = rand(0, TAU); }
+  return f;
+}
+
+function spawnFruit() {
+  for (let t = 0; t < 50; t++) {
+    const x = rand(W * 0.08, W * 0.92), y = rand(H * 0.16, H * 0.86);
+    if (dist(x, y, bat.x, bat.y) < 130 * S) continue;
+    let bad = false;
+    for (const p of pillars) {
+      const y0 = p.top ? 0 : H - p.len, y1 = p.top ? p.len : H;
+      if (distSeg(x, y, p.x, y0, y1) < p.w / 2 + 46 * S) { bad = true; break; }
+    }
+    if (bad) continue;
+    for (const f of fruits) if (dist(x, y, f.x, f.y) < 90 * S) { bad = true; break; }
+    if (bad) continue;
+    fruits.push(makeFruit(x, y));
+    return;
+  }
+  fruits.push(makeFruit(W / 2, H * 0.25)); // last resort
+}
+
+// ==========================================================================
+// UI helpers
+// ==========================================================================
+function showScreen(name) {
+  for (const k in screens) screens[k].hidden = k !== name;
+  overlay.hidden = !name;
+  overlay.classList.toggle('passthrough', !name);
+}
+function setHud() {
+  $('lvlLabel').innerHTML = `CAVERN ${String(level).padStart(2, '0')} <b>✦</b> ${caveName(level).toUpperCase()}`;
+  $('fruitCount').textContent = `${got}/${quota}`;
+  $('score').textContent = score;
+  $('hearts').innerHTML = Array.from({ length: maxHp() },
+    (_, i) => `<i class="${i < bat.hp ? 'lit' : ''}"></i>`).join('');
+}
+function toast(eyebrow, name, dur = 2.2) {
+  $('toastEyebrow').textContent = eyebrow;
+  $('toastName').textContent = name.toUpperCase();
+  $('toast').classList.add('show');
+  toastT = dur;
+}
+function popup(x, y, txt) { popups.push({ x, y, txt, life: 1 }); }
+function sparks(x, y, color, n = 8, speed = 1) {
+  const count = REDUCED ? Math.ceil(n / 2) : n;
+  for (let i = 0; i < count; i++) {
+    const a = rand(0, TAU), v = rand(50, 180) * S * speed;
+    particles.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, decay: rand(1.2, 2.4), color, r: rand(1, 2.4) * S });
+  }
+  if (particles.length > 260) particles.splice(0, particles.length - 260);
+}
+
+// ==========================================================================
+// RUN LIFECYCLE
+// ==========================================================================
+function startGame() {
+  demo = false;
+  level = 1; score = 0; fruitTotal = 0;
+  upg = {};
+  for (const k in UPGRADES) upg[k] = 0;
+  bat.x = W / 2; bat.y = H * 0.5;
+  bat.vx = 0; bat.vy = 0;
+  bat.hp = maxHp(); bat.inv = 0; bat.ang = 0; bat.spin = 0; bat.trail = [];
+  particles = []; popups = []; flashT = 0; shake = 0;
+  genLevel(1);
+  state = 'playing';
+  hud.hidden = false;
+  showScreen(null);
+  setHud();
+  toast(`CAVERN 01 ✦ DESCEND`, caveName(1), 2.0);
+  Audio.resume();
+}
+
+function collectFruit(i) {
+  const f = fruits[i];
+  fruits.splice(i, 1);
+  got++; fruitTotal++;
+  const K = FRUIT_KINDS[f.kind] || FRUIT_KINDS.berry;
+  score += K.pts;
+  popup(f.x, f.y, f.kind === 'heart' ? '♥' : `+${K.pts}`);
+  sparks(f.x, f.y, K.hue, 10, 0.9);
+  if (f.kind === 'heart') { bat.hp = Math.min(bat.hp + 1, maxHp()); }
+  if (f.kind === 'plum') { pulses.push({ x: f.x, y: f.y, r: 6 * S }); Audio.chirp(); } // the plum sings
+  Audio.fruit();
+  buzz(12);
+  if (got >= quota) { levelComplete(); }
+  else {
+    const want = level >= 6 ? 2 : 1;
+    while (fruits.length < want && got + fruits.length < quota) spawnFruit();
+  }
+  setHud();
+}
+
+function levelComplete() {
+  const bonus = 25 + 10 * level;
+  score += bonus;
+  popup(bat.x, bat.y - 26 * S, `+${bonus}`);
+  Audio.level();
+  buzz([14, 28, 20]);
+  if (level % 3 === 0) openGift();
+  else advance();
+}
+
+function advance() {
+  level++;
+  genLevel(level);
+  toast(`CAVERN ${String(level).padStart(2, '0')}`, caveName(level), 2.0);
+  setHud();
+}
+
+let offered = [];
+let giftSel = -1, giftOpenAt = 0;
+function renderGiftCards() {
+  $('upCards').innerHTML = offered.map((k, i) => {
+    const sel = giftSel === i ? ' sel' : '';
+    const confirm = '<div class="c-confirm">✦ tap again to take</div>';
+    if (k === 'snack') {
+      return `<button class="card${sel}" data-i="${i}">
+        <div class="c-tier">Forage</div>
+        <div class="c-name">Moth Snack</div>
+        <div class="c-desc">+50 harvest, and one heart healed. Crunchy.</div>${confirm}</button>`;
+    }
+    const u = UPGRADES[k];
+    return `<button class="card${sel}" data-i="${i}">
+      <div class="c-tier">${u.label} ✦ Tier ${ROMAN[upg[k] + 1]}</div>
+      <div class="c-name">${u.name}</div>
+      <div class="c-desc">${u.desc}</div>${confirm}</button>`;
+  }).join('');
+}
+function openGift() {
+  state = 'choosing';
+  giftSel = -1;
+  giftOpenAt = time;
+  const pool = Object.keys(UPGRADES).filter((k) => upg[k] < UPGRADES[k].max);
+  offered = [];
+  while (offered.length < 3 && pool.length) {
+    offered.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+  }
+  while (offered.length < 3) offered.push('snack');
+  $('upEyebrow').textContent = `A gift ✦ Cavern ${String(level).padStart(2, '0')} cleared`;
+  renderGiftCards();
+  showScreen('up');
+}
+
+function chooseGift(i) {
+  if (state !== 'choosing') return;
+  const k = offered[i];
+  if (!k) return;
+  if (time - giftOpenAt < 0.35) return; // swallow the tap that was still flying the bat
+  if (giftSel !== i) {
+    // first tap selects; a second tap on the same card takes it
+    giftSel = i;
+    renderGiftCards();
+    Audio.chirp();
+    buzz(8);
+    return;
+  }
+  if (k === 'snack') {
+    score += 50;
+    bat.hp = Math.min(bat.hp + 1, maxHp());
+  } else {
+    upg[k]++;
+    if (k === 'heart') bat.hp = Math.min(bat.hp + 1, maxHp());
+  }
+  Audio.gift();
+  Audio.resume();
+  buzz(16);
+  state = 'playing';
+  showScreen(null);
+  advance();
+}
+
+function tryHit(sx, sy) {
+  if (bat.inv > 0 || state !== 'playing' || grace > 0) return;
+  bat.hp--;
+  bat.inv = invWin();
+  flashT = 0.45;
+  shake = REDUCED ? 0 : 12;
+  // knockback away from the thing that bit you
+  const d = dist(sx, sy, bat.x, bat.y) || 1;
+  bat.vx = ((bat.x - sx) / d) * 380 * S;
+  bat.vy = ((bat.y - sy) / d) * 380 * S;
+  sparks(bat.x, bat.y, [255, 94, 107], 14, 1.1);
+  buzz(60);
+  setHud();
+  if (bat.hp <= 0) {
+    state = 'dying';
+    dieT = 1.0;
+    bat.spin = rand(4, 7) * (Math.random() < 0.5 ? -1 : 1);
+    Audio.death();
+    buzz([70, 50, 110]);
+  } else {
+    Audio.hit();
+  }
+}
+
+function endRun() {
+  state = 'over';
+  const prScore = score > save.best;
+  const prLevel = level > save.bestLevel;
+  if (prScore) save.best = score;
+  if (prLevel) save.bestLevel = level;
+  persist();
+  $('overEyebrow').textContent = (prScore || prLevel) ? 'New record ✦ the cave remembers' : 'The dark keeps you';
+  $('stScore').innerHTML = score + (prScore ? ' <span class="pr">✦PR</span>' : '');
+  $('stLevel').innerHTML = level + (prLevel ? ' <span class="pr">✦PR</span>' : '');
+  $('stFruit').textContent = fruitTotal;
+  $('stBest').textContent = save.best;
+  hud.hidden = true;
+  showScreen('over');
+}
+
+function toTitle() {
+  state = 'title';
+  demo = true;
+  hud.hidden = true;
+  level = 1; quota = 5; got = 0;
+  upg = {};
+  for (const k in UPGRADES) upg[k] = 0;
+  bat.x = W / 2; bat.y = H * 0.5; bat.vx = 0; bat.vy = 0; bat.hp = 3; bat.spin = 0;
+  genLevel(2, true); // a modest demo cavern behind the glass
+  fruits = [];
+  spawnFruit(); spawnFruit();
+  $('recordLine').hidden = save.best <= 0;
+  $('recordVal').textContent = save.best;
+  showScreen('title');
+}
+
+function pauseGame() {
+  if (state !== 'playing') return;
+  state = 'paused';
+  Audio.suspend();
+  showScreen('pause');
+}
+function resumeGame() {
+  if (state !== 'paused') return;
+  state = 'playing';
+  Audio.resume();
+  showScreen(null);
+}
+
+// ==========================================================================
+// UPDATE
+// ==========================================================================
+function update(dt) {
+  time += dt;
+  if (toastT > 0) { toastT -= dt; if (toastT <= 0) $('toast').classList.remove('show'); }
+  if (flashT > 0) flashT -= dt;
+  if (shake > 0) shake = Math.max(0, shake - dt * 30);
+
+  particles = particles.filter((p) => p.life > 0);
+  for (const p of particles) {
+    p.life -= p.decay * dt;
+    p.x += p.vx * dt; p.y += p.vy * dt;
+    p.vx *= Math.exp(-dt * 2.2); p.vy *= Math.exp(-dt * 2.2);
+  }
+  popups = popups.filter((p) => p.life > 0);
+  for (const p of popups) { p.life -= dt * 1.1; p.y -= 24 * S * dt; }
+
+  if (state === 'paused' || state === 'choosing' || state === 'over') return;
+
+  if (state === 'dying') {
+    dieT -= dt;
+    bat.vy += 760 * S * dt;
+    bat.x += bat.vx * dt; bat.y += bat.vy * dt;
+    bat.ang += bat.spin * dt;
+    if (bat.y > H + 60 || dieT <= 0) endRun();
+    return;
+  }
+
+  // ----- flight (real or demo) -----
+  if (grace > 0) grace -= dt;
+  if (bat.inv > 0) bat.inv -= dt;
+
+  let tx, ty;
+  const kx = keys.right - keys.left, ky = keys.down - keys.up;
+  if (demo) {
+    // attract: glide toward the nearest fruit, lazily
+    tx = W * 0.5; ty = H * 0.42;
+    let bd = 1e9;
+    for (const f of fruits) {
+      const d = dist(f.x, f.y, bat.x, bat.y);
+      if (d < bd) { bd = d; tx = f.x; ty = f.y; }
+    }
+  } else if (kx || ky) {
+    const d = Math.hypot(kx, ky);
+    tx = bat.x + (kx / d) * 200; ty = bat.y + (ky / d) * 200;
+  } else if (input.active) {
+    tx = input.x; ty = input.y - TOUCH_OFFSET(); // ride above the finger
+  } else if (hover.seen) {
+    tx = hover.x; ty = hover.y;
+  }
+
+  let ax = 0, ay = 0;
+  if (tx !== undefined) {
+    const dx = tx - bat.x, dy = ty - bat.y;
+    const d = Math.hypot(dx, dy);
+    if (d > 4) {
+      const arrive = clamp(d / (64 * S), 0, 1);
+      const A = accelA() * arrive * (demo ? 0.55 : 1);
+      ax += (dx / d) * A; ay += (dy / d) * A;
+    }
+  }
+  // gravity — gentle, but stillness costs altitude. Rest and you sink.
+  ay += 150 * S * (tx === undefined ? 1 : 0.35);
+
+  // soft walls
+  const m = 16, top = 64;
+  if (bat.x < m) ax += (m - bat.x) * 24;
+  if (bat.x > W - m) ax -= (bat.x - (W - m)) * 24;
+  if (bat.y < top) ay += (top - bat.y) * 24;
+  if (bat.y > H - m) ay -= (bat.y - (H - m)) * 24;
+
+  bat.vx += ax * dt; bat.vy += ay * dt;
+  const drag = tx !== undefined ? 2.4 : 1.1;
+  bat.vx *= Math.exp(-dt * drag);
+  bat.vy *= Math.exp(-dt * drag);
+  const cap = vMax() * (demo ? 0.6 : 1);
+  const v = Math.hypot(bat.vx, bat.vy);
+  if (v > cap) { bat.vx *= cap / v; bat.vy *= cap / v; }
+  bat.x += bat.vx * dt; bat.y += bat.vy * dt;
+  bat.x = clamp(bat.x, -20, W + 20);
+  bat.y = clamp(bat.y, -20, H + 20);
+  bat.flap += dt * (5 + v / (24 * S));
+  if (v > 20) bat.ang = angLerp(bat.ang, Math.atan2(bat.vy, bat.vx) * 0.22, Math.min(1, dt * 5));
+  bat.trail.push({ x: bat.x, y: bat.y });
+  if (bat.trail.length > 14) bat.trail.shift();
+
+  // ----- sonar: the bat sings on its own -----
+  pulseT -= dt;
+  if (pulseT <= 0) {
+    pulses.push({ x: bat.x, y: bat.y, r: 10 * S });
+    pulseT = pulseInt();
+    Audio.chirp();
+  }
+  for (let i = pulses.length - 1; i >= 0; i--) {
+    const p = pulses[i];
+    p.r += PULSE_V() * dt;
+    const band = pulseBand();
+    for (const pl of pillars) {
+      const y0 = pl.top ? 0 : H - pl.len, y1 = pl.top ? pl.len : H;
+      const d = distSeg(p.x, p.y, pl.x, y0, y1);
+      if (Math.abs(d - p.r) < band && d < pulseMax()) pl.lit = 1;
+    }
+    for (const sp of spores) {
+      const d = dist(p.x, p.y, sp.x, sp.y);
+      if (Math.abs(d - p.r) < band + sp.r && d < pulseMax()) sp.lit = 1;
+    }
+    if (p.r > pulseMax()) pulses.splice(i, 1);
+  }
+  // passive nightsight + echo fade
+  const nr = nightR();
+  for (const pl of pillars) {
+    const y0 = pl.top ? 0 : H - pl.len, y1 = pl.top ? pl.len : H;
+    if (distSeg(bat.x, bat.y, pl.x, y0, y1) < nr) pl.lit = Math.max(pl.lit, 0.55);
+    pl.lit = Math.max(0, pl.lit - dt / echoFade());
+  }
+  for (const sp of spores) {
+    if (dist(bat.x, bat.y, sp.x, sp.y) < nr + sp.r) sp.lit = Math.max(sp.lit, 0.55);
+    sp.lit = Math.max(0, sp.lit - dt / echoFade());
+  }
+
+  // ----- spores drift and bounce -----
+  for (const sp of spores) {
+    sp.t += dt;
+    sp.x += sp.vx * dt; sp.y += sp.vy * dt;
+    if (sp.x < sp.r + 6 || sp.x > W - sp.r - 6) sp.vx *= -1;
+    if (sp.y < sp.r + 56 || sp.y > H - sp.r - 6) sp.vy *= -1;
+    sp.x = clamp(sp.x, sp.r, W - sp.r);
+    sp.y = clamp(sp.y, 50, H - sp.r);
+  }
+
+  // ----- the owl: telegraphed, then a dive -----
+  owlT -= dt;
+  if (owlT <= 0 && owls.length < (level >= 9 ? 2 : 1)) {
+    const side = Math.random() < 0.5 ? -1 : 1;
+    owls.push({
+      phase: 'tele', t: 0,
+      x: side === -1 ? 40 : W - 40, y: 50,
+      p0: null, p1: null, p2: null, side,
+    });
+    Audio.owl();
+    owlT = rand(9, 15) - Math.min(4, level * 0.25);
+  }
+  for (let i = owls.length - 1; i >= 0; i--) {
+    const o = owls[i];
+    o.t += dt;
+    if (o.phase === 'tele') {
+      if (o.t > 1.25) {
+        o.phase = 'dive';
+        o.t = 0;
+        o.p0 = [o.x, o.y];
+        o.p1 = [bat.x, bat.y + 60 * S];           // dives through where you were
+        o.p2 = [o.side === -1 ? W + 70 : -70, rand(40, H * 0.35)];
+        Audio.owl();
+      }
+    } else {
+      const T = 1.35, t = Math.min(1, o.t / T);
+      const u = 1 - t;
+      o.x = u * u * o.p0[0] + 2 * u * t * o.p1[0] + t * t * o.p2[0];
+      o.y = u * u * o.p0[1] + 2 * u * t * o.p1[1] + t * t * o.p2[1];
+      if (!demo && bat.inv <= 0 && dist(o.x, o.y, bat.x, bat.y) < 15 * S + bat.r * S * 0.62) tryHit(o.x, o.y);
+      if (o.t > T) owls.splice(i, 1);
+    }
+  }
+
+  // ----- fruit: bobbing, leaning, eaten -----
+  for (let i = fruits.length - 1; i >= 0; i--) {
+    const f = fruits[i];
+    f.bob += dt * 2.2;
+    if (f.kind === 'moth') {
+      // the lantern moth wanders, and shies away from open mouths
+      f.flap += dt * 14;
+      f.dir += rand(-1.4, 1.4) * dt;
+      const md = dist(f.x, f.y, bat.x, bat.y);
+      if (md < 90 * S) f.dir = angLerp(f.dir, Math.atan2(f.y - bat.y, f.x - bat.x), 0.06);
+      f.x += Math.cos(f.dir) * 42 * S * dt;
+      f.y += Math.sin(f.dir) * 42 * S * dt;
+      f.x = clamp(f.x, 30, W - 30);
+      f.y = clamp(f.y, 70, H - 30);
+    }
+    const d = dist(f.x, f.y, bat.x, bat.y);
+    const nrr = nectarR();
+    if (d < nrr && d > 1) {
+      const pull = lerp(150, 20, clamp(d / nrr, 0, 1)) * S;
+      f.x += ((bat.x - f.x) / d) * pull * dt;
+      f.y += ((bat.y - f.y) / d) * pull * dt;
+    }
+    if (d < f.r + 15 * S) {
+      if (demo) { sparks(f.x, f.y, [255, 176, 94], 6, 0.6); fruits.splice(i, 1); if (fruits.length < 2) spawnFruit(); }
+      else collectFruit(i);
+    }
+  }
+
+  // ----- collisions with the unseen -----
+  if (!demo && bat.inv <= 0 && grace <= 0 && state === 'playing') {
+    const br = bat.r * S * 0.62;
+    for (const pl of pillars) {
+      const y0 = pl.top ? 0 : H - pl.len, y1 = pl.top ? pl.len : H;
+      const d = distSeg(bat.x, bat.y, pl.x, y0, y1);
+      if (d < pl.w * 0.38 + br) {
+        pl.lit = 1; // the stone announces itself, painfully
+        tryHit(pl.x, clamp(bat.y, y0, y1));
+        break;
+      }
+    }
+    if (state === 'playing') for (const sp of spores) {
+      if (dist(sp.x, sp.y, bat.x, bat.y) < sp.r * 0.85 + br) {
+        sp.lit = 1;
+        tryHit(sp.x, sp.y);
+        break;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// DRAW
+// ==========================================================================
+function drawCaveAmbience() {
+  // the deep — near-black with a breath of violet and moon-blue
+  let g = ctx.createRadialGradient(W * 0.3, H * 0.25, 0, W * 0.3, H * 0.25, Math.max(W, H) * 0.7);
+  g.addColorStop(0, 'rgba(60, 44, 110, 0.10)');
+  g.addColorStop(1, 'transparent');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+  g = ctx.createRadialGradient(W * 0.78, H * 0.8, 0, W * 0.78, H * 0.8, Math.max(W, H) * 0.6);
+  g.addColorStop(0, 'rgba(34, 48, 96, 0.09)');
+  g.addColorStop(1, 'transparent');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+  // faintest dust, drifting
+  if (!REDUCED) {
+    ctx.fillStyle = 'rgba(180, 170, 220, 0.06)';
+    for (let i = 0; i < 16; i++) {
+      const x = (i * 173.3 + time * 6) % W;
+      const y = (i * 97.7 + Math.sin(time * 0.4 + i) * 20) % H;
+      ctx.beginPath(); ctx.arc(x, y < 0 ? y + H : y, 1, 0, TAU); ctx.fill();
+    }
+  }
+}
+
+function drawPillars() {
+  for (const pl of pillars) {
+    const a = 0.05 + 0.9 * pl.lit; // a whisper of ambient, the rest is sonar's gift
+    ctx.save();
+    ctx.translate(pl.x, pl.top ? 0 : H);
+    if (!pl.top) ctx.scale(1, -1);
+    ctx.beginPath();
+    pl.poly.forEach(([px, py], i) => i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py));
+    ctx.closePath();
+    ctx.fillStyle = `rgba(157, 184, 255, ${0.06 * pl.lit})`;
+    ctx.fill();
+    ctx.strokeStyle = `rgba(157, 184, 255, ${a})`;
+    ctx.lineWidth = 1.3;
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+function drawSpores() {
+  for (const sp of spores) {
+    const a = 0.05 + 0.9 * sp.lit;
+    ctx.save();
+    ctx.translate(sp.x, sp.y);
+    ctx.rotate(sp.t * 0.6);
+    ctx.strokeStyle = `rgba(179, 157, 245, ${a})`;
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) {
+      const ang = (i / 8) * TAU;
+      const r1 = sp.r * 0.7, r2 = sp.r * 1.25;
+      ctx.moveTo(Math.cos(ang) * r1, Math.sin(ang) * r1);
+      ctx.lineTo(Math.cos(ang) * r2, Math.sin(ang) * r2);
+    }
+    ctx.stroke();
+    ctx.beginPath(); ctx.arc(0, 0, sp.r * 0.7, 0, TAU); ctx.stroke();
+    ctx.fillStyle = `rgba(179, 157, 245, ${0.1 * sp.lit})`;
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+function drawOwls() {
+  for (const o of owls) {
+    if (o.phase === 'tele') {
+      // two amber eyes blink open in the dark — the only warning
+      const blink = 0.4 + 0.6 * Math.abs(Math.sin(o.t * 6));
+      ctx.fillStyle = `rgba(255, 176, 94, ${blink})`;
+      ctx.beginPath(); ctx.arc(o.x - 5 * S, o.y, 2.6 * S, 0, TAU); ctx.fill();
+      ctx.beginPath(); ctx.arc(o.x + 5 * S, o.y, 2.6 * S, 0, TAU); ctx.fill();
+    } else {
+      // diving: wings spread, self-lit by speed
+      ctx.save();
+      ctx.translate(o.x, o.y);
+      ctx.strokeStyle = 'rgba(220, 205, 255, 0.75)';
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.moveTo(-16 * S, -7 * S);
+      ctx.quadraticCurveTo(-7 * S, 3 * S, 0, 1 * S);
+      ctx.quadraticCurveTo(7 * S, 3 * S, 16 * S, -7 * S);
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(255, 176, 94, 0.95)';
+      ctx.beginPath(); ctx.arc(-3 * S, -1 * S, 1.6 * S, 0, TAU); ctx.fill();
+      ctx.beginPath(); ctx.arc(3 * S, -1 * S, 1.6 * S, 0, TAU); ctx.fill();
+      ctx.restore();
+    }
+  }
+}
+
+function drawFruit() {
+  for (const f of fruits) {
+    const K = FRUIT_KINDS[f.kind] || FRUIT_KINDS.berry;
+    const by = f.y + (f.kind === 'moth' ? 0 : Math.sin(f.bob) * 3 * S);
+    const p = REDUCED ? 0.5 : 0.5 + 0.5 * Math.sin(f.bob * 1.4);
+    const g = ctx.createRadialGradient(f.x, by, 0, f.x, by, f.r * 3.4);
+    g.addColorStop(0, `rgba(${K.hue[0]},${K.hue[1]},${K.hue[2]},${0.36 + p * 0.2})`);
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(f.x, by, f.r * 3.4, 0, TAU); ctx.fill();
+    const body = `rgb(${K.hue[0]},${K.hue[1]},${K.hue[2]})`;
+    if (f.kind === 'moth') {
+      // a pale lantern moth, wings quick and bright
+      const wf = Math.sin(f.flap) * 0.8;
+      ctx.save();
+      ctx.translate(f.x, by);
+      ctx.rotate(f.dir + Math.PI / 2);
+      ctx.fillStyle = body;
+      for (const sgn of [-1, 1]) {
+        ctx.beginPath();
+        ctx.ellipse(sgn * f.r * 0.7, 0, f.r * 0.7, f.r * (0.32 + Math.abs(wf) * 0.3), sgn * wf * 0.5, 0, TAU);
+        ctx.fill();
+      }
+      ctx.fillStyle = 'rgba(255, 255, 240, 0.95)';
+      ctx.beginPath(); ctx.ellipse(0, 0, f.r * 0.22, f.r * 0.55, 0, 0, TAU); ctx.fill();
+      ctx.restore();
+    } else if (f.kind === 'heart') {
+      // heartfruit — two lobes and a point, beating slow
+      const hr = f.r * (0.82 + p * 0.12);
+      ctx.fillStyle = body;
+      ctx.beginPath();
+      ctx.moveTo(f.x, by + hr);
+      ctx.bezierCurveTo(f.x - hr * 1.5, by - hr * 0.3, f.x - hr * 0.55, by - hr * 1.15, f.x, by - hr * 0.45);
+      ctx.bezierCurveTo(f.x + hr * 0.55, by - hr * 1.15, f.x + hr * 1.5, by - hr * 0.3, f.x, by + hr);
+      ctx.fill();
+    } else {
+      ctx.fillStyle = body;
+      ctx.beginPath(); ctx.arc(f.x, by, f.r * 0.85, 0, TAU); ctx.fill();
+      ctx.fillStyle = 'rgba(255, 240, 220, 0.9)';
+      ctx.beginPath(); ctx.arc(f.x - f.r * 0.25, by - f.r * 0.3, f.r * 0.26, 0, TAU); ctx.fill();
+      ctx.strokeStyle = 'rgba(140, 220, 150, 0.8)';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(f.x, by - f.r * 0.8);
+      ctx.quadraticCurveTo(f.x + 4 * S, by - f.r * 1.6, f.x + 7 * S, by - f.r * 1.3);
+      ctx.stroke();
+      if (f.kind === 'plum') {
+        // a second leaf, and a faint ring — it hums with held song
+        ctx.beginPath();
+        ctx.moveTo(f.x, by - f.r * 0.8);
+        ctx.quadraticCurveTo(f.x - 4 * S, by - f.r * 1.6, f.x - 7 * S, by - f.r * 1.3);
+        ctx.stroke();
+        ctx.strokeStyle = `rgba(196, 154, 255, ${0.22 + p * 0.2})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(f.x, by, f.r * (1.6 + p * 0.5), 0, TAU); ctx.stroke();
+      }
+    }
+  }
+}
+
+function drawPulses() {
+  for (const p of pulses) {
+    const fade = 1 - p.r / pulseMax();
+    ctx.strokeStyle = `rgba(157, 184, 255, ${0.4 * fade})`;
+    ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, TAU); ctx.stroke();
+    ctx.strokeStyle = `rgba(179, 157, 245, ${0.18 * fade})`;
+    ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(1, p.r - 5 * S), 0, TAU); ctx.stroke();
+  }
+}
+
+function drawBat() {
+  const blink = bat.inv > 0 && !REDUCED && Math.sin(bat.inv * 26) > 0;
+  if (!REDUCED) {
+    for (let i = 0; i < bat.trail.length - 1; i++) {
+      const t = bat.trail[i];
+      ctx.fillStyle = `rgba(179, 157, 245, ${(i / bat.trail.length) * 0.16})`;
+      ctx.beginPath(); ctx.arc(t.x, t.y, 1 + (i / bat.trail.length) * 1.8 * S, 0, TAU); ctx.fill();
+    }
+  }
+  if (blink) return;
+  const r = bat.r * S;
+  // nightsight halo
+  const g = ctx.createRadialGradient(bat.x, bat.y, 0, bat.x, bat.y, nightR());
+  g.addColorStop(0, 'rgba(179, 157, 245, 0.07)');
+  g.addColorStop(1, 'transparent');
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.arc(bat.x, bat.y, nightR(), 0, TAU); ctx.fill();
+
+  ctx.save();
+  ctx.translate(bat.x, bat.y);
+  ctx.rotate(bat.ang);
+  const flap = Math.sin(bat.flap) * 0.9;
+  // wings — stretched membrane with finger bones and a scalloped
+  // trailing edge: the silhouette that says BAT, not moth
+  ctx.fillStyle = 'rgba(24, 16, 42, 0.97)';
+  ctx.strokeStyle = 'rgba(179, 157, 245, 0.6)';
+  ctx.lineWidth = 1.2;
+  for (const sgn of [-1, 1]) {
+    const wristX = sgn * r * 1.15, wristY = -r * (0.5 + flap * 0.5);
+    const tipX = sgn * r * 2.45,   tipY = -r * (0.1 + flap * 0.95);
+    const f1X = sgn * r * 1.75,    f1Y = r * (0.35 - flap * 0.5);
+    const f2X = sgn * r * 1.0,     f2Y = r * (0.62 - flap * 0.25);
+    const tailX = sgn * r * 0.12,  tailY = r * 0.66;
+    ctx.beginPath();
+    ctx.moveTo(sgn * r * 0.22, -r * 0.18);
+    ctx.quadraticCurveTo(wristX, wristY - r * 0.35, tipX, tipY);
+    ctx.quadraticCurveTo((tipX + f1X) / 2 - sgn * r * 0.3, (tipY + f1Y) / 2 - r * 0.18, f1X, f1Y);
+    ctx.quadraticCurveTo((f1X + f2X) / 2 - sgn * r * 0.22, (f1Y + f2Y) / 2 - r * 0.2, f2X, f2Y);
+    ctx.quadraticCurveTo((f2X + tailX) / 2 - sgn * r * 0.15, (f2Y + tailY) / 2 - r * 0.16, tailX, tailY);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    // finger bones through the membrane
+    ctx.strokeStyle = 'rgba(179, 157, 245, 0.38)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(wristX, wristY); ctx.lineTo(f1X, f1Y);
+    ctx.moveTo(wristX, wristY); ctx.lineTo(f2X, f2Y);
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(179, 157, 245, 0.6)';
+    ctx.lineWidth = 1.2;
+  }
+  // body — small, furred, slung between the wings
+  ctx.fillStyle = '#19112c';
+  ctx.beginPath(); ctx.ellipse(0, 0, r * 0.5, r * 0.74, 0, 0, TAU); ctx.fill();
+  ctx.strokeStyle = 'rgba(179, 157, 245, 0.55)';
+  ctx.lineWidth = 1.1;
+  ctx.stroke();
+  // ears — tall and pricked, always listening
+  ctx.beginPath();
+  ctx.moveTo(-r * 0.34, -r * 0.52);
+  ctx.quadraticCurveTo(-r * 0.62, -r * 1.0, -r * 0.5, -r * 1.42);
+  ctx.quadraticCurveTo(-r * 0.22, -r * 1.05, -r * 0.06, -r * 0.66);
+  ctx.moveTo(r * 0.34, -r * 0.52);
+  ctx.quadraticCurveTo(r * 0.62, -r * 1.0, r * 0.5, -r * 1.42);
+  ctx.quadraticCurveTo(r * 0.22, -r * 1.05, r * 0.06, -r * 0.66);
+  ctx.fillStyle = '#19112c';
+  ctx.fill(); ctx.stroke();
+  ctx.strokeStyle = 'rgba(179, 157, 245, 0.3)';
+  ctx.beginPath();
+  ctx.moveTo(-r * 0.3, -r * 0.62); ctx.lineTo(-r * 0.44, -r * 1.2);
+  ctx.moveTo(r * 0.3, -r * 0.62); ctx.lineTo(r * 0.44, -r * 1.2);
+  ctx.stroke();
+  // a small nose, for a small face
+  ctx.fillStyle = 'rgba(179, 157, 245, 0.75)';
+  ctx.beginPath(); ctx.arc(0, r * 0.04, 1.1 * S, 0, TAU); ctx.fill();
+  // eyes — small, bright, awake
+  ctx.fillStyle = '#ece8f8';
+  ctx.beginPath(); ctx.arc(-r * 0.2, -r * 0.18, 1.5 * S, 0, TAU); ctx.fill();
+  ctx.beginPath(); ctx.arc(r * 0.2, -r * 0.18, 1.5 * S, 0, TAU); ctx.fill();
+  ctx.restore();
+}
+
+function drawParticles() {
+  for (const p of particles) {
+    ctx.fillStyle = `rgba(${p.color[0]},${p.color[1]},${p.color[2]},${clamp(p.life, 0, 1)})`;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, TAU); ctx.fill();
+  }
+}
+function drawPopups() {
+  ctx.font = `600 ${Math.round(11 * S)}px system-ui, sans-serif`;
+  ctx.textAlign = 'center';
+  for (const p of popups) {
+    ctx.fillStyle = `rgba(255, 176, 94, ${clamp(p.life, 0, 1)})`;
+    ctx.fillText(p.txt, p.x, p.y);
+  }
+}
+
+function draw() {
+  ctx.fillStyle = '#050309';
+  ctx.fillRect(0, 0, W, H);
+  ctx.save();
+  if (shake > 0.4) ctx.translate(rand(-shake, shake) * 0.5, rand(-shake, shake) * 0.5);
+  drawCaveAmbience();
+  drawPillars();
+  drawSpores();
+  drawFruit();
+  drawOwls();
+  drawPulses();
+  if (state !== 'over') drawBat();
+  drawParticles();
+  drawPopups();
+  ctx.restore();
+  if (flashT > 0) {
+    ctx.fillStyle = `rgba(255, 94, 107, ${flashT * 0.18})`;
+    ctx.fillRect(0, 0, W, H);
+  }
+}
+
+// ==========================================================================
+// LOOP
+// ==========================================================================
+let last = performance.now(), raf = null;
+function frame(now) {
+  const dt = Math.min((now - last) / 1000, 0.05);
+  last = now;
+  update(dt);
+  draw();
+  raf = requestAnimationFrame(frame);
+}
+
+// ==========================================================================
+// INPUT
+// ==========================================================================
+function firstGesture() { Audio.init(); Audio.resume(); }
+
+canvas.addEventListener('pointerdown', (e) => {
+  e.preventDefault();
+  firstGesture();
+  if (input.id !== null) return;
+  input.id = e.pointerId;
+  input.active = true;
+  input.x = e.clientX; input.y = e.clientY;
+  try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+});
+canvas.addEventListener('pointermove', (e) => {
+  if (e.pointerType === 'mouse') { hover.x = e.clientX; hover.y = e.clientY; hover.seen = true; }
+  if (e.pointerId !== input.id) return;
+  input.x = e.clientX; input.y = e.clientY;
+});
+function releasePointer(e) {
+  if (e.pointerId !== input.id) return;
+  input.id = null;
+  input.active = false;
+}
+canvas.addEventListener('pointerup', releasePointer);
+canvas.addEventListener('pointercancel', releasePointer);
+canvas.addEventListener('pointerout', (e) => { if (!e.relatedTarget && e.pointerType === 'mouse') hover.seen = false; });
+canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+document.addEventListener('touchmove', (e) => { if (state === 'playing') e.preventDefault(); }, { passive: false });
+addEventListener('blur', () => {
+  input.id = null; input.active = false;
+  keys.up = keys.down = keys.left = keys.right = 0;
+});
+
+const KEYMAP = { ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right' };
+addEventListener('keydown', (e) => {
+  if (KEYMAP[e.code]) { keys[KEYMAP[e.code]] = 1; firstGesture(); }
+  else if (e.code === 'KeyP' || e.code === 'Escape') {
+    if (state === 'playing') pauseGame();
+    else if (state === 'paused') resumeGame();
+  }
+  else if (e.code === 'KeyM') $('btnMute').click();
+  else if (e.code === 'Digit1' || e.code === 'Digit2' || e.code === 'Digit3') {
+    if (state === 'choosing') chooseGift(Number(e.code.slice(-1)) - 1);
+  }
+  else if (e.code === 'Enter' || e.code === 'Space') {
+    if (state === 'title' || state === 'over') { firstGesture(); startGame(); }
+    else if (state === 'choosing' && giftSel >= 0) chooseGift(giftSel); // Enter confirms
+  }
+});
+addEventListener('keyup', (e) => { if (KEYMAP[e.code]) keys[KEYMAP[e.code]] = 0; });
+
+// ==========================================================================
+// WIRING
+// ==========================================================================
+$('btnStart').addEventListener('click', () => { firstGesture(); startGame(); });
+$('btnAgain').addEventListener('click', () => { firstGesture(); startGame(); });
+$('btnResume').addEventListener('click', resumeGame);
+$('btnQuit').addEventListener('click', toTitle);
+$('btnTitle').addEventListener('click', toTitle);
+$('btnMute').addEventListener('click', () => {
+  firstGesture();
+  const muted = Audio.toggleMute();
+  $('btnMute').classList.toggle('muted', muted);
+});
+if (save.muted) $('btnMute').classList.add('muted');
+$('upCards').addEventListener('click', (e) => {
+  const card = e.target.closest('.card');
+  if (card) chooseGift(Number(card.dataset.i));
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    if (state === 'playing') pauseGame();
+    else Audio.suspend();
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+  } else {
+    last = performance.now();
+    if (!raf) raf = requestAnimationFrame(frame);
+    if (state !== 'paused' && state !== 'choosing') Audio.resume();
+  }
+});
+
+function resize() {
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  W = innerWidth; H = innerHeight;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  S = clamp(Math.min(W, H) / 560, 0.6, 1.3);
+  bat.x = clamp(bat.x, 20, W - 20);
+  bat.y = clamp(bat.y, 70, H - 20);
+  // re-carve the cavern to fit the new shape, keeping progress
+  if (state === 'playing' || state === 'title') genLevel(level, true);
+}
+addEventListener('resize', resize);
+
+// debug handle for automated checks — not part of the game.
+window.__eb = {
+  get state() { return state; }, get score() { return score; }, get level() { return level; },
+  get upg() { return upg; }, get fruits() { return fruits; }, get pillars() { return pillars; },
+  get spores() { return spores; }, get owls() { return owls; }, get pulses() { return pulses; },
+  get save() { return save; }, get quota() { return quota; }, get got() { return got; },
+  bat, input,
+  start: startGame, choose: chooseGift, advance, end: endRun,
+  give: (k) => { if (UPGRADES[k] && upg[k] < UPGRADES[k].max) { upg[k]++; setHud(); } },
+  setLevel: (l) => { level = l; genLevel(l); setHud(); },
+  eat: () => { if (fruits.length) collectFruit(0); },
+  hit: () => tryHit(bat.x + 10, bat.y),
+};
+
+resize();
+toTitle();
+raf = requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

@@ -25,6 +25,8 @@ guide: [`SECTIONS.md`](SECTIONS.md).
 | Add / edit a Bedroom Weather track | `data/bedroom-weather.json` | `title` + `src`. Shows on `/bedroom-weather/` |
 | Add / edit a 3D print | `data/forge.json` | `img`, `alt`, `name`, `rarity` (`artifact`/`rare`). Shows on `/forge/` |
 | Add / edit a code project | `data/projects.json` | `name`, `tag`, `blurb`, `links[]`; optional `img`. Shows on `/projects/` |
+| Change the featured project | `data/projects.json` → `featured` | Full-width lead card on `/projects/`; supports `points[]`. Currently Switch List |
+| Fold in another standalone app | copy its folder into the repo (e.g. `/switch-list/`, `/echo-bat/`, `/cror-trainer/`) | Then add a card in `data/projects.json` linking to it (use `"newTab": true`). Copy runtime files only — leave out internal docs, PDFs, and anything private |
 | Add a whole new topic page (spoke) | see `docs/SECTIONS.md` §9 | One folder + theme CSS + entry JS + a hub teaser |
 | Replace the hidden essay | `data/oot-essay.md` | Plain Markdown; headings, bold, lists, quotes supported |
 | Update the footer / contact links | `index.html` (Contact) + `js/shell.js` (footer) | The footer markup lives in `shell.js` now |

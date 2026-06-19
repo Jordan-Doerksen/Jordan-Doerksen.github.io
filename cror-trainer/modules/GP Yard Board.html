@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grande Prairie Yard — Interactive Board</title>
+<style>
+  :root{--bg:#14181d;--card:#1d222b;--card2:#232a34;--line:#2c3340;--ink:#eef2f6;--muted:#9aa3b0;--accent:#36d07f;--accent-d:#1f9e5e;--on-accent:#06301c;
+        --yellow:#36d07f;--blue:#4aa3ff;--green:#33c27f;--orange:#ff8a3d;}
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#10131a,#14181d 42%);color:var(--ink);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
+  .wrap{max-width:1280px;margin:0 auto;padding:18px}
+  header{display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:14px}
+  .badge{width:38px;height:38px;border-radius:8px;background:var(--yellow);color:#06301c;font-weight:800;
+         display:flex;align-items:center;justify-content:center;font-size:16px}
+  .title{font-size:17px;font-weight:700}
+  .sub{font-size:12.5px;color:var(--muted)}
+  .layout{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+  .board{flex:1 1 640px;position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;min-width:320px}
+  .board img{display:block;width:100%}
+  .board svg{position:absolute;top:0;left:0;width:100%;height:100%}
+  .hit{fill:transparent;stroke:transparent;stroke-width:2;cursor:pointer;transition:.08s}
+  .hit:hover{fill:rgba(245,179,1,.38);stroke:var(--yellow)}
+  .hit.sel{fill:rgba(74,163,255,.42);stroke:var(--blue)}
+  .sw{fill:var(--orange);stroke:#14181d;stroke-width:1.5;cursor:pointer}
+  .sw:hover{fill:#ffd400}
+  .green{cursor:pointer}
+  .hovname{position:absolute;top:8px;left:8px;background:rgba(14,22,34,.92);color:var(--ink);
+           border:1px solid var(--line);border-radius:6px;padding:4px 9px;font-size:13px;font-family:monospace;display:none}
+  .panel{flex:0 0 320px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .panel h2{font-size:14px;margin:0 0 4px}
+  .panel p.hint{font-size:12.5px;color:var(--muted);margin:0 0 12px}
+  .toggles{display:flex;gap:14px;margin:0 0 14px;font-size:13px}
+  .toggles label{display:flex;align-items:center;gap:6px;cursor:pointer}
+  .swatch{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .sel-box{background:#1d222b;border:1px solid var(--line);border-radius:9px;padding:12px;margin-bottom:14px}
+  .sel-box .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  .sel-box input{width:100%;margin-top:6px;background:#14181d;border:1px solid var(--line);color:var(--ink);
+                 border-radius:7px;padding:8px 10px;font-size:14px;font-family:monospace}
+  .row{display:flex;gap:8px;margin-top:8px}
+  button{font:inherit;border:none;border-radius:7px;padding:8px 12px;font-weight:700;cursor:pointer}
+  .save{background:var(--yellow);color:#06301c}
+  .ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  .ghost:hover{color:var(--ink)}
+  .tracklist{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+  .chip{background:#1d222b;border:1px solid var(--line);border-radius:7px;padding:6px 8px;font-size:12.5px;
+        font-family:monospace;cursor:pointer;text-align:center}
+  .chip:hover{border-color:var(--yellow)}
+  .chip.sel{border-color:var(--blue);color:var(--blue)}
+  .chip.edited{color:var(--green)}
+  .note{font-size:12px;color:#cfe8b0;background:#1b2e1c;border:1px solid #345c33;border-radius:8px;padding:9px 11px;margin-top:12px}
+  .foot{font-size:11.5px;color:var(--muted);margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
+  .copybtn{width:100%;margin-top:12px;background:var(--green);color:#06231a}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="../index.html" style="display:inline-block;color:#9fb2c9;text-decoration:none;font-size:13px;margin:0 0 10px">&larr; All modules</a>
+  <header>
+    <div id="sigmark" title="Clear" aria-label="Signal aspect" style="width:34px;height:48px;border-radius:9px;flex:none;background:var(--card2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;background:#262b34;transition:background .5s,box-shadow .5s"></span><span style="width:8px;height:8px;border-radius:50%;background:#262b34;transition:background .5s,box-shadow .5s"></span><span style="width:8px;height:8px;border-radius:50%;background:#262b34;transition:background .5s,box-shadow .5s"></span></div>
+    <div>
+      <div class="title">Grande Prairie Yard — Interactive Board</div>
+      <div class="sub">Grande Prairie yard map · hover tracks &amp; switches · click a track to rename</div>
+    </div>
+  </header>
+  <div class="layout">
+    <div class="board" id="board">
+      <img src="../assets/GP%20Yard%20(cleaned).png" alt="Grande Prairie Yard">
+      <svg id="ov" viewBox="0 0 1362 1056" preserveAspectRatio="none">
+        <g id="trackG"></g>
+        <g id="swG"></g>
+      </svg>
+      <div class="hovname" id="hov"></div>
+    </div>
+    <div class="panel">
+      <div class="toggles">
+        <label><input type="checkbox" id="tgTracks" checked><span class="swatch" style="background:var(--yellow)"></span>Tracks</label>
+        <label><input type="checkbox" id="tgSwitches" checked><span class="swatch" style="background:var(--orange)"></span>Switches (21)</label>
+      </div>
+      <h2>Selected track</h2>
+      <p class="hint">Track names are editable — click a track, fix the name, and Save. Names stick automatically.</p>
+      <div class="sel-box">
+        <div class="lbl">Track name</div>
+        <input id="nameInput" placeholder="hover/click a track…" disabled>
+        <div class="row">
+          <button class="save" id="saveBtn">Save name</button>
+          <button class="ghost" id="resetBtn">Reset</button>
+        </div>
+      </div>
+      <h2>All tracks</h2>
+      <div class="tracklist" id="chips"></div>
+      <div class="note">Switches (orange) are placed from the yard diagram — toggle them on/off above.</div>
+      <div class="foot">14 tracks (AS65–AS78) + 21 switches, positioned from the CN Grande Prairie yard diagram. This board drives the switch-list and point-protection drills.</div>
+    </div>
+  </div>
+</div>
+<script>
+const TRACKS=[
+ {name:'AS65 (STK)',x:340,y:492,w:1006},
+ {name:'AS66',x:997,y:520,w:191},
+ {name:'AS67',x:815,y:539,w:358},
+ {name:'AS72',x:484,y:542,w:188},
+ {name:'AS68',x:807,y:559,w:255},
+ {name:'AS73',x:471,y:560,w:218},
+ {name:'AS69',x:790,y:576,w:264},
+ {name:'AS74',x:457,y:578,w:244},
+ {name:'AS70',x:783,y:595,w:168},
+ {name:'AS75',x:447,y:596,w:262},
+ {name:'AS71',x:602,y:613,w:352},
+ {name:'AS76',x:188,y:614,w:368},
+ {name:'AS77',x:466,y:636,w:543},
+ {name:'AS78',x:484,y:656,w:505}
+];
+const SWITCHES=[[878.9,191],[822.9,279],[792.9,344],[419.9,408],[502.9,424],[814,453],[916,461],[453.9,480],[851,480],[360.9,484],[1220.3,515],[745,569],[870,520],[1186.3,538],[452.9,550],[1061.2,594],[405.9,588],[451.9,631],[397.9,636],[219.9,645],[471.9,664]];
+const GREEN=[];
+const HIT_H=17;
+let sel=-1, saved={};
+try{saved=JSON.parse(localStorage.getItem('gpYardNames')||'{}');}catch(e){}
+TRACKS.forEach((t,i)=>{ t.orig=t.name; if(saved[i]!==undefined){t.name=saved[i];t.edited=true;} });
+const NS='http://www.w3.org/2000/svg';
+const trackG=document.getElementById('trackG'), swG=document.getElementById('swG');
+const hov=document.getElementById('hov'), chips=document.getElementById('chips'), nameInput=document.getElementById('nameInput');
+function show(t){hov.textContent=t;hov.style.display='block';}
+function hide(){hov.style.display='none';}
+function drawHits(){
+  trackG.innerHTML='';
+  TRACKS.forEach((t,i)=>{
+    const r=document.createElementNS(NS,'rect');
+    r.setAttribute('x',t.x); r.setAttribute('y',t.y-HIT_H/2); r.setAttribute('width',t.w); r.setAttribute('height',HIT_H); r.setAttribute('rx',3);
+    r.setAttribute('class','hit'+(i===sel?' sel':''));
+    r.addEventListener('mouseenter',()=>show(t.name)); r.addEventListener('mouseleave',hide); r.addEventListener('click',()=>select(i));
+    trackG.appendChild(r);
+  });
+}
+function drawSwitches(){
+  swG.innerHTML='';
+  SWITCHES.forEach((p,i)=>{
+    const c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',p[0]); c.setAttribute('cy',p[1]); c.setAttribute('r',6); c.setAttribute('class','sw');
+    c.addEventListener('mouseenter',()=>show('Switch '+(i+1))); c.addEventListener('mouseleave',hide);
+    swG.appendChild(c);
+  });
+  GREEN.forEach(p=>{
+    const c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',p[0]); c.setAttribute('cy',p[1]); c.setAttribute('r',11);
+    c.setAttribute('fill','none'); c.setAttribute('stroke','#9be870'); c.setAttribute('stroke-width','3'); c.setAttribute('class','green');
+    c.addEventListener('mouseenter',()=>show('green mark (?)')); c.addEventListener('mouseleave',hide);
+    swG.appendChild(c);
+  });
+}
+function drawChips(){
+  chips.innerHTML='';
+  TRACKS.forEach((t,i)=>{
+    const c=document.createElement('div');
+    c.className='chip'+(i===sel?' sel':'')+(t.edited?' edited':''); c.textContent=t.name;
+    c.addEventListener('click',()=>select(i)); chips.appendChild(c);
+  });
+}
+function select(i){ sel=i; nameInput.disabled=false; nameInput.value=TRACKS[i].name; nameInput.focus(); drawHits(); drawChips(); }
+function save(){
+  if(sel<0)return;
+  TRACKS[sel].name=nameInput.value.trim()||TRACKS[sel].name;
+  TRACKS[sel].edited=(TRACKS[sel].name!==TRACKS[sel].orig);
+  const map={}; TRACKS.forEach((t,i)=>{ if(t.name!==t.orig) map[i]=t.name; });
+  try{localStorage.setItem('gpYardNames',JSON.stringify(map));}catch(e){}
+  drawHits(); drawChips();
+}
+document.getElementById('saveBtn').addEventListener('click',save);
+nameInput.addEventListener('keydown',e=>{if(e.key==='Enter')save();});
+document.getElementById('resetBtn').addEventListener('click',()=>{ if(sel<0)return; TRACKS[sel].name=TRACKS[sel].orig; TRACKS[sel].edited=false; nameInput.value=TRACKS[sel].name; save(); });
+document.getElementById('tgTracks').addEventListener('change',e=>{trackG.style.display=e.target.checked?'':'none';});
+document.getElementById('tgSwitches').addEventListener('change',e=>{swG.style.display=e.target.checked?'':'none';});
+drawHits(); drawSwitches(); drawChips();
+</script>
+<script>(function(){var m=document.getElementById("sigmark");if(!m)return;var L=m.getElementsByTagName("span"),D="#262b34",C={g:"#36d07f",y:"#f7b733",r:"#e25555"};var A=[{n:"Clear",l:["g",0,0]},{n:"Clear to Medium",l:["y","g",0]},{n:"Clear to Stop",l:["y","r",0]},{n:"Diverging",l:["r","y",0]},{n:"Restricting",l:[0,"r","r"]},{n:"Stop",l:["r","r","r"]}];function s(a){m.title=a.n+" — signal aspect";for(var k=0;k<3;k++){var c=a.l[k];L[k].style.background=c?C[c]:D;L[k].style.boxShadow=c?"0 0 7px "+C[c]:"none";}}s(A[0]);if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;var i=0;setInterval(function(){i=(i+1)%A.length;s(A[i]);},3500);})();</script>
+</body>
+</html>

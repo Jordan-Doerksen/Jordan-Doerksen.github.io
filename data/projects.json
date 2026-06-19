@@ -1,5 +1,35 @@
 {
+  "featured": {
+    "name": "Switch List — Yard Switching Sim",
+    "tag": "rail training · vanilla js + canvas",
+    "blurb": "A free, open training simulator for railway conductors: read the yard, line the road, call PULL / SPOT / KICK, and win in the fewest engine moves. Every mechanic cites a Canadian Rail Operating Rule — built straight out of my own time working freight.",
+    "points": [
+      "Line switches and call moves on a live yard canvas",
+      "Two scores — Moves (the goal) and Joints (couplings)",
+      "“Watch optimal” replays the fewest-moves line in slow motion",
+      "19 jobs, each machine-verified solvable at par before it ships"
+    ],
+    "links": [
+      { "label": "Play the sim →", "href": "/switch-list/", "primary": true, "newTab": true }
+    ]
+  },
   "projects": [
+    {
+      "name": "CROR Trainer — Grande Prairie",
+      "tag": "rail training · 7 modules",
+      "blurb": "A browser study tool for CN freight conductors on the Grande Prairie yard, grounded in the January 2025 Canadian Rail Operating Rules: rule drills, an animated switching sim and puzzle, an interactive yard board, signal reading, and a step-by-step radio walkthrough.",
+      "links": [
+        { "label": "Open the trainer →", "href": "/cror-trainer/", "newTab": true }
+      ]
+    },
+    {
+      "name": "Echo Bat — Night Harvest",
+      "tag": "game · sonar in the dark",
+      "blurb": "A bat in the dark, harvesting glowing fruit by sonar. Your voice paints the cave, then the dark takes it back. A mobile-first, single-file canvas game.",
+      "links": [
+        { "label": "Play Echo Bat →", "href": "/echo-bat/", "primary": true, "newTab": true }
+      ]
+    },
     {
       "name": "Sentinel-Pro",
       "tag": "trading intelligence · self-hosted",
