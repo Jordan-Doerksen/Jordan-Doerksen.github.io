@@ -1,0 +1,122 @@
+/* ==========================================================================
+   SPOKE — SOL OBSCURUS.  A self-contained ritual/brimstone sub-theme.
+   Loaded ONLY on /sol-obscurus/ (layered on top of the shared base CSS),
+   so every override here stays inside the band's room. Cinzel — reserved
+   site-wide for Sol Obscurus + the OoT temple — is allowed throughout here.
+   ========================================================================== */
+
+/* Deepen and warm the night for the ritual (these tokens only load here). */
+:root {
+  --bg: #060308;
+  --bg-soft: #0b0607;
+}
+
+/* ----- Hero ----- */
+.sol-hero {
+  position: relative;
+  min-height: 88svh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(110px, 16vh, 150px) 1.4rem 80px;
+}
+
+/* The ember + rune canvas (driven by js/zones/sol-obscurus.js). */
+.sol-hero .ambient-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sol-hero-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sol-back {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-decoration: none;
+  margin-bottom: 1.6rem;
+  transition: color var(--t-fast);
+}
+.sol-back:hover { color: var(--ember); }
+
+.sol-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin-bottom: 1.1rem;
+}
+
+.sol-hero h1 {
+  font-family: var(--font-rune);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-size: clamp(2.6rem, 9vw, 4.8rem);
+  color: #f0e3c8;
+  text-shadow: 0 0 42px rgba(255, 107, 53, 0.28);
+}
+.sol-hero h1 .ital { color: var(--ember); }
+
+.sol-tag {
+  margin: 1.4rem auto 0;
+  color: var(--text-muted);
+  font-size: clamp(1rem, 2vw, 1.16rem);
+  max-width: 46ch;
+}
+
+/* ----- Content ----- */
+.sol-section { padding-block: clamp(60px, 9vw, 120px); position: relative; }
+
+.sol-section h2,
+.sol-section h3 {
+  font-family: var(--font-rune);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #f0e3c8;
+}
+
+/* The band's panels carry the brimstone accent + an upward ember glow. */
+.sol-section .glass-panel { border-color: rgba(216, 172, 78, 0.18); }
+.sol-section .glass-panel:hover { border-color: rgba(216, 172, 78, 0.34); }
+.sol-section .glass-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 85% 55% at 50% 112%, rgba(255, 107, 53, 0.16), transparent 72%);
+}
+.sol-section .panel-head,
+.sol-section .panel-body { position: relative; z-index: 2; }
+
+/* ----- Track list (rendered from data/sol-obscurus.json) ----- */
+#sol-tracks { display: grid; gap: 1.15rem; }
+#sol-tracks .track {
+  display: grid;
+  gap: 0.45rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+#sol-tracks .track:last-child { border-bottom: 0; padding-bottom: 0; }
+#sol-tracks .panel-tag { color: rgba(216, 172, 78, 0.82); }
+#sol-tracks audio { width: 100%; height: 38px; }
+#sol-tracks .btn { justify-self: start; margin-top: 0.3rem; }
+.sol-section .btn:hover {
+  border-color: var(--ember);
+  background: rgba(255, 107, 53, 0.09);
+}

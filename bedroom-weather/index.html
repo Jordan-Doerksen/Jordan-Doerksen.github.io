@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bedroom Weather — Jordan Doerksen</title>
+  <meta name="description" content="Bedroom Weather — quieter recordings made at home. Sketches, collaborations, and songs that sound like rain against a window. A room in Jordan Doerksen's Observatory." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,300..600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/tokens.css?v=3" />
+  <link rel="stylesheet" href="/css/base.css?v=3" />
+  <link rel="stylesheet" href="/css/glass.css?v=3" />
+  <link rel="stylesheet" href="/css/components.css?v=3" />
+  <link rel="stylesheet" href="/css/fx-global.css?v=3" />
+  <link rel="stylesheet" href="/css/spokes/bedroom-weather.css?v=3" />
+</head>
+<body data-page="bedroom-weather">
+  <a class="skip-link" href="#tracks">Skip to the music</a>
+
+  <div id="shell-nav"></div>
+
+  <!-- ================= HERO ================= -->
+  <header class="bw-hero" id="top" data-effect="rain" data-sky="#c084fc">
+    <canvas class="ambient-canvas" aria-hidden="true"></canvas>
+    <div class="bw-hero-inner">
+      <a class="bw-back" href="/">← The Observatory</a>
+      <p class="bw-eyebrow">A room in the Observatory · solo / collab</p>
+      <h1>Bedroom <span class="ital">Weather</span></h1>
+      <!-- ✏️ EDIT: project tagline -->
+      <p class="bw-tag">Quieter recordings made at home — sketches, collaborations, and songs that sound like rain against a window.</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= TRACKS ================= -->
+    <section class="section bw-section" id="tracks" data-sky="#c084fc">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="star-glyph">✦</span>The tape deck</p>
+          <h2>Songs for a <span class="ital">grey</span> afternoon</h2>
+          <p class="lede">Headphones recommended. Tracks are edited in <code>data/bedroom-weather.json</code>.</p>
+          <div class="atlas-rule" aria-hidden="true"></div>
+        </div>
+
+        <div class="glass-panel reveal">
+          <header class="panel-head">
+            <h3>Recordings</h3>
+            <span class="panel-tag">listen</span>
+          </header>
+          <div class="panel-body">
+            <!-- Rendered from data/bedroom-weather.json by js/spokes/bedroom-weather.js -->
+            <div id="bw-tracks"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="shell-footer"></div>
+
+  <script type="module" src="/js/spokes/bedroom-weather.js?v=3"></script>
+</body>
+</html>

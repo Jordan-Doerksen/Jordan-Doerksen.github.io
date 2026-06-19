@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Warcraft III — The Codex — Jordan Doerksen</title>
+  <meta name="description" content="Warcraft III custom maps scripted in Lua — including a browser-playable homage to Coin Survival. A room in Jordan Doerksen's Observatory." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,300..600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/tokens.css?v=3" />
+  <link rel="stylesheet" href="/css/base.css?v=3" />
+  <link rel="stylesheet" href="/css/glass.css?v=3" />
+  <link rel="stylesheet" href="/css/components.css?v=3" />
+  <link rel="stylesheet" href="/css/fx-global.css?v=3" />
+  <link rel="stylesheet" href="/css/spokes/warcraft.css?v=3" />
+</head>
+<body data-page="warcraft">
+  <a class="skip-link" href="#codex">Skip to the maps</a>
+
+  <div id="shell-nav"></div>
+
+  <!-- ================= HERO ================= -->
+  <header class="codex-hero" id="top" data-sky="#6aa9ff">
+    <div class="codex-hero-inner">
+      <a class="codex-back" href="/projects/">← Projects</a>
+      <p class="codex-eyebrow">A room in the Observatory · custom maps · lua</p>
+      <h1>Warcraft III — <span class="ital">The Codex</span></h1>
+      <!-- ✏️ EDIT: intro -->
+      <p class="codex-tag">Custom maps scripted in Lua. Below is a browser-sized homage to the real Coin Survival map — play it right here.</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= THE MAPS ================= -->
+    <section class="section codex-section" id="codex" data-sky="#6aa9ff">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="star-glyph">✦</span>The codex</p>
+          <h2>Maps I <span class="ital">scripted</span></h2>
+          <div class="atlas-rule" aria-hidden="true"></div>
+        </div>
+
+        <article class="glass-panel reveal">
+          <header class="panel-head">
+            <h3>Coin Survival</h3>
+            <span class="panel-tag">survival · lua</span>
+          </header>
+          <div class="panel-body">
+            <div class="codex-grid">
+              <div>
+                <!-- ✏️ EDIT: 2–3 sentence map description -->
+                <p class="card-blurb">A custom survival map: coins rain from the sky, so do worse things. Catch coins and gems, dodge skulls — the longer you last, the meaner it gets.</p>
+
+                <div class="game-shell" style="margin-top:1rem">
+                  <canvas id="coin-game" role="img" aria-label="Coin Survival mini-game. Use arrow keys or your mouse to catch falling coins and dodge skulls."></canvas>
+                  <div class="game-overlay" id="coin-overlay">
+                    <div>
+                      <button class="btn" id="coin-start">▶ &nbsp;Insert coin</button>
+                      <p>← → or mouse to move · catch coins · dodge skulls</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-links">
+                  <a class="btn btn-sm" href="/assets/maps/coin_survival_v3.lua" download>Download coin_survival_v3.lua</a>
+                </div>
+              </div>
+
+              <div>
+                <div class="code-block">
+                  <div class="code-title"><span>coin_survival_v3.lua</span><span>excerpt</span></div>
+<pre><code><span class="tok-com">-- Spawn a coin somewhere in the arena; speed up each wave</span>
+<span class="tok-kw">function</span> <span class="tok-fn">SpawnCoin</span>()
+  <span class="tok-kw">local</span> x = <span class="tok-fn">GetRandomReal</span>(<span class="tok-fn">GetRectMinX</span>(gg_rct_Arena),
+                          <span class="tok-fn">GetRectMaxX</span>(gg_rct_Arena))
+  <span class="tok-kw">local</span> y = <span class="tok-fn">GetRandomReal</span>(<span class="tok-fn">GetRectMinY</span>(gg_rct_Arena),
+                          <span class="tok-fn">GetRectMaxY</span>(gg_rct_Arena))
+  <span class="tok-fn">CreateItem</span>(<span class="tok-fn">FourCC</span>(<span class="tok-str">'gold'</span>), x, y)
+  <span class="tok-kw">local</span> delay = <span class="tok-fn">math.max</span>(<span class="tok-num">0.25</span>, <span class="tok-num">0.85</span> - <span class="tok-num">0.01</span> * wave)
+  <span class="tok-fn">TimerStart</span>(<span class="tok-fn">CreateTimer</span>(), delay, <span class="tok-kw">false</span>, SpawnCoin)
+<span class="tok-kw">end</span></code></pre>
+                </div>
+
+                <h4 style="font-size:1.05rem;display:flex;align-items:center;gap:.6rem">
+                  Maze map <span class="badge badge-wip">In development</span>
+                </h4>
+                <!-- ✏️ EDIT: maze map blurb -->
+                <p class="card-blurb" style="margin-top:.4rem">A two-player teamwork maze where each hero's abilities diverge — neither of you can finish it alone, and that's the point.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="shell-footer"></div>
+
+  <script type="module" src="/js/spokes/warcraft.js?v=3"></script>
+</body>
+</html>

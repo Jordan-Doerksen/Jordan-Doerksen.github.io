@@ -194,3 +194,55 @@ missing.
 - Decorative motion should respect reduced-motion — CSS animations already do
   (see the global rule at the bottom of `css/base.css`); canvas modules check
   `prefers-reduced-motion` themselves
+
+---
+
+## 9. Spokes — giving a topic its own page
+
+A *section* is a plate on the one-page hub. A **spoke** is a whole separate page
+for a topic deep enough to deserve its own room (the band, the print shop, the
+code log), with its own self-contained look. The hub stays the cinematic entry;
+a spoke's plate on the hub becomes a short **teaser** that links out. Sol
+Obscurus (`/sol-obscurus/`) is the reference implementation — copy it.
+
+**The shared shell.** The logo, star-chart nav, sky canvas, and footer are
+defined once in `js/shell.js` and injected into mount points, so you never
+hand-copy chrome between pages. To add a topic to the nav on *every* page, edit
+the `SECTIONS` array in `js/shell.js` — once.
+
+**The recipe (one new folder + four files, no chrome duplication):**
+
+1. **Make the folder + page:** `your-topic/index.html`. Copy
+   `sol-obscurus/index.html` as the template. In it:
+   - set `<body data-page="your-topic">`,
+   - keep the `<div id="shell-nav"></div>` and `<div id="shell-footer"></div>`
+     mounts (shell.js fills them),
+   - use **root-absolute** asset paths (`/css/…`, `/js/…`, `/assets/…`) — spokes
+     live in a subfolder, so relative paths would break,
+   - load the shared base CSS **plus** your own theme file,
+   - point the module script at your entry: `/js/spokes/your-topic.js?v=N`.
+
+2. **Theme it:** `css/spokes/your-topic.css`. This loads *only* on your page, so
+   it's the place for the topic's distinct look — you can even re-declare tokens
+   like `--bg` here and it stays inside this room (see how Sol Obscurus deepens
+   the night). Same spirit as zones (§4), scaled up to a whole page.
+
+3. **Data (optional but encouraged):** `data/your-topic.json` for lists
+   (tracks, projects, prints), rendered by your entry module — mirrors
+   `data/books.json`. Then "adding a project" is a JSON edit, not HTML surgery.
+
+4. **Entry module:** `js/spokes/your-topic.js`. Copy
+   `js/spokes/sol-obscurus.js`. It `import`s `renderShell` and whichever shared
+   effects you want (`initSky`, `initReveal`, `initCursor`, `initClickFx`, a
+   zone effect…), then renders your data. **Render data lists *before*
+   `initReveal()`** so the scroll-in observer picks the new nodes up. Fetch data
+   with a root-absolute path (`/data/your-topic.json`).
+
+5. **Add a hub teaser:** trim the topic's plate in `index.html` to a blurb + one
+   highlight + an `<a class="btn btn-primary" href="/your-topic/">Enter →</a>`.
+
+6. **Bump `?v=`** on the new page's `<link>`/`<script>` tags (and the hub's, if
+   you touched shared CSS/JS) — same cache rule as everywhere else.
+
+No build step, no router — GitHub Pages serves `/your-topic/index.html` at the
+clean URL `/your-topic/` automatically.

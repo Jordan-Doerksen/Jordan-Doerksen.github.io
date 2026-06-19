@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sol Obscurus — Jordan Doerksen</title>
+  <meta name="description" content="Sol Obscurus — heavy, ritual-minded music written with friends. Tuned low, played loud. A room in Jordan Doerksen's Observatory." />
+
+  <!-- Fonts (same set as the hub; Cinzel is the ritual display face here) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,300..600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Cinzel:wght@600&display=swap" rel="stylesheet" />
+
+  <!-- Shared base, then this spoke's self-contained theme. Bump ?v= on edits. -->
+  <link rel="stylesheet" href="/css/tokens.css?v=3" />
+  <link rel="stylesheet" href="/css/base.css?v=3" />
+  <link rel="stylesheet" href="/css/glass.css?v=3" />
+  <link rel="stylesheet" href="/css/components.css?v=3" />
+  <link rel="stylesheet" href="/css/fx-global.css?v=3" />
+  <link rel="stylesheet" href="/css/spokes/sol-obscurus.css?v=3" />
+</head>
+<body data-page="sol-obscurus">
+  <a class="skip-link" href="#tracks">Skip to the music</a>
+
+  <!-- Shared chrome (logo, star-chart nav, footer) is injected by js/shell.js -->
+  <div id="shell-nav"></div>
+
+  <!-- ================= HERO ================= -->
+  <header class="sol-hero" id="top" data-effect="ritual" data-sky="#ff6b35">
+    <canvas class="ambient-canvas" aria-hidden="true"></canvas>
+    <div class="sol-hero-inner">
+      <a class="sol-back" href="/">← The Observatory</a>
+      <p class="sol-eyebrow">A room in the Observatory · band</p>
+      <h1>Sol <span class="ital">Obscurus</span></h1>
+      <!-- ✏️ EDIT: band tagline -->
+      <p class="sol-tag">Heavy, ritual-minded music written with friends. Tuned low, played loud, occasionally on fire.</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= TRACKS ================= -->
+    <section class="section sol-section" id="tracks" data-sky="#ff6b35">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="star-glyph">✦</span>The reliquary</p>
+          <h2>Songs from the <span class="ital">dark</span></h2>
+          <p class="lede">Press play. Sheet music is attached where it exists. Tracks are edited in <code>data/sol-obscurus.json</code>.</p>
+          <div class="atlas-rule" aria-hidden="true"></div>
+        </div>
+
+        <div class="glass-panel reveal">
+          <header class="panel-head">
+            <h3>Recordings</h3>
+            <span class="panel-tag">listen</span>
+          </header>
+          <div class="panel-body">
+            <!-- Rendered from data/sol-obscurus.json by js/spokes/sol-obscurus.js -->
+            <div id="sol-tracks"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared footer (injected by js/shell.js) -->
+  <div id="shell-footer"></div>
+
+  <script type="module" src="/js/spokes/sol-obscurus.js?v=3"></script>
+</body>
+</html>

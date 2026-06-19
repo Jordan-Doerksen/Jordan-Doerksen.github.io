@@ -1,0 +1,79 @@
+/* ==========================================================================
+   SPOKE — PROJECTS / CODE.  A self-contained teal "tech" theme.
+   Loaded ONLY on /projects/. The projects-grid, card-media, and faux-window
+   classes come from the shared components.css; this file adds the teal accent.
+   ========================================================================== */
+
+:root {
+  --bg: #03080b;
+  --bg-soft: #061013;
+}
+
+/* ----- Hero ----- */
+.proj-hero {
+  position: relative;
+  min-height: 62svh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(110px, 15vh, 150px) 1.4rem 70px;
+}
+.proj-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 50% at 50% 8%, rgba(79, 227, 208, 0.10), transparent 70%);
+}
+.proj-hero-inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+
+.proj-back {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-decoration: none;
+  margin-bottom: 1.6rem;
+  transition: color var(--t-fast);
+}
+.proj-back:hover { color: var(--accent); }
+
+.proj-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.1rem;
+}
+
+.proj-hero h1 {
+  font-size: clamp(2.4rem, 8vw, 4.4rem);
+  color: #d8fff8;
+  text-shadow: 0 0 42px rgba(79, 227, 208, 0.2);
+}
+.proj-hero h1 .ital { color: var(--accent); }
+
+.proj-tag {
+  margin: 1.4rem auto 0;
+  color: var(--text-muted);
+  font-size: clamp(1rem, 2vw, 1.16rem);
+  max-width: 50ch;
+}
+
+/* ----- Content ----- */
+.proj-section { padding-block: clamp(50px, 8vw, 110px); position: relative; }
+.proj-section h2, .proj-section h3 { color: #d8fff8; }
+.proj-section .glass-panel { border-color: rgba(79, 227, 208, 0.14); }
+.proj-section .glass-panel:hover { border-color: rgba(79, 227, 208, 0.3); }
+.proj-section .panel-tag { color: rgba(79, 227, 208, 0.7); }
+.proj-section .btn:hover {
+  border-color: var(--accent);
+  background: rgba(79, 227, 208, 0.07);
+}
+.proj-section .atlas-rule::before { background: linear-gradient(90deg, var(--accent), transparent); }
+.proj-section .atlas-rule::after { color: var(--accent); }

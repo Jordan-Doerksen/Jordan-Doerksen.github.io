@@ -1,0 +1,125 @@
+/* ==========================================================================
+   SPOKE — WARCRAFT III: THE CODEX.  A self-contained arcane-blue deep dive.
+   Loaded ONLY on /warcraft/. The .code-block + .badge classes come from the
+   shared components.css; the game-shell + codex-grid rules below are lifted
+   from the old zones.css block so the playable map lives entirely in here.
+   ========================================================================== */
+
+:root {
+  --bg: #04060e;
+  --bg-soft: #070b16;
+}
+
+/* ----- Hero ----- */
+.codex-hero {
+  position: relative;
+  min-height: 64svh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(110px, 15vh, 150px) 1.4rem 70px;
+}
+.codex-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(106, 169, 255, 0.12), transparent 70%);
+}
+.codex-hero-inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+
+.codex-back {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-decoration: none;
+  margin-bottom: 1.6rem;
+  transition: color var(--t-fast);
+}
+.codex-back:hover { color: var(--codex-blue); }
+
+.codex-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--codex-blue);
+  margin-bottom: 1.1rem;
+}
+
+.codex-hero h1 {
+  font-size: clamp(2.4rem, 8vw, 4.4rem);
+  color: #dcebff;
+  text-shadow: 0 0 42px rgba(106, 169, 255, 0.22);
+}
+.codex-hero h1 .ital { color: var(--codex-blue); }
+
+.codex-tag {
+  margin: 1.4rem auto 0;
+  color: var(--text-muted);
+  font-size: clamp(1rem, 2vw, 1.16rem);
+  max-width: 50ch;
+}
+
+/* ----- Content ----- */
+.codex-section { padding-block: clamp(50px, 8vw, 110px); position: relative; }
+.codex-section h2, .codex-section h3, .codex-section h4 { color: #dcebff; }
+.codex-section .glass-panel { border-color: rgba(106, 169, 255, 0.16); }
+.codex-section .glass-panel:hover { border-color: rgba(106, 169, 255, 0.32); }
+.codex-section .panel-tag { color: rgba(106, 169, 255, 0.7); }
+.codex-section .btn:hover {
+  border-color: var(--codex-blue);
+  background: rgba(106, 169, 255, 0.07);
+}
+.codex-section .atlas-rule::before { background: linear-gradient(90deg, var(--codex-blue), transparent); }
+.codex-section .atlas-rule::after { color: var(--codex-blue); }
+
+/* Two-column layout: playable map beside the code (from the old codex zone). */
+.codex-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(1.2rem, 3vw, 2rem);
+  align-items: start;
+}
+.codex-grid > * { min-width: 0; }
+@media (max-width: 840px) { .codex-grid { grid-template-columns: 1fr; } }
+
+/* ----- Coin Survival mini-game (driven by js/projects/coin-survival.js) ----- */
+.game-shell { position: relative; }
+#coin-game {
+  width: 100%;
+  height: 340px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: #060910;
+  touch-action: none;
+}
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: rgba(6, 9, 16, 0.82);
+  border-radius: var(--radius-sm);
+}
+.game-overlay[hidden] { display: none; }
+.game-overlay p {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.7rem;
+}
+.game-hint {
+  margin-top: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--text-faint);
+  text-align: center;
+}
+.game-hint code { color: var(--text-muted); }

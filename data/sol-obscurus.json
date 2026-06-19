@@ -1,0 +1,26 @@
+{
+  "tracks": [
+    {
+      "title": "Brutal",
+      "src": "/assets/audio/sol_obscurus/brutal.mp3"
+    },
+    {
+      "title": "Death March",
+      "src": "/assets/audio/sol_obscurus/death_march.mp3",
+      "pdf": "/assets/pdf/death_march.pdf"
+    },
+    {
+      "title": "Nameless Choir — Voiceless Sky",
+      "src": "/assets/audio/sol_obscurus/nameless_choir_voiceless_sky.mp3",
+      "pdf": "/assets/pdf/nameless_choir.pdf"
+    },
+    {
+      "title": "Pantheon of False Gods (Remaster)",
+      "src": "/assets/audio/sol_obscurus/pantheon_of_false_gods_remaster.mp3"
+    },
+    {
+      "title": "Screams",
+      "src": "/assets/audio/sol_obscurus/screams.mp3"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "projects": [
+    {
+      "name": "Sentinel-Pro",
+      "tag": "monitoring · github pages",
+      "img": "/assets/img/sentinel_dashboard.png",
+      "alt": "Sentinel-Pro dashboard screenshot",
+      "blurb": "A monitoring dashboard with a dark, frosted interface — a sibling of this site's design language. Built to be deployed in minutes on GitHub Pages.",
+      "links": [
+        { "label": "Live demo", "href": "https://jordan-doerksen.github.io/sentinel-pro-showcase/" },
+        { "label": "Repo + deploy guide", "href": "https://github.com/Jordan-Doerksen/sentinel-pro-showcase" }
+      ]
+    },
+    {
+      "name": "Warcraft III — The Codex",
+      "tag": "custom maps · lua",
+      "blurb": "Custom survival and maze maps scripted in Lua — including a browser-playable homage to Coin Survival you can run right now.",
+      "links": [
+        { "label": "Enter the Codex →", "href": "/warcraft/", "primary": true }
+      ]
+    }
+  ]
+}

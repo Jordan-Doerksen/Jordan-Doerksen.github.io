@@ -1,0 +1,90 @@
+/* ==========================================================================
+   SPOKE — RED RIVER 3D (the Forge).  A self-contained amber print-shop theme.
+   Loaded ONLY on /forge/. The gallery + cta-block classes come from the
+   shared components.css; this file adds the amber accent and rarity tags.
+   ========================================================================== */
+
+:root {
+  --bg: #0a0703;
+  --bg-soft: #100a04;
+}
+
+/* ----- Hero ----- */
+.forge-hero {
+  position: relative;
+  min-height: 72svh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(110px, 15vh, 150px) 1.4rem 70px;
+}
+.forge-hero::before {
+  /* a forge glow rising from the floor */
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 55% at 50% 118%, rgba(255, 170, 68, 0.16), transparent 70%);
+}
+.forge-hero-inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+
+.forge-back {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-decoration: none;
+  margin-bottom: 1.6rem;
+  transition: color var(--t-fast);
+}
+.forge-back:hover { color: var(--forge); }
+
+.forge-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--forge);
+  margin-bottom: 1.1rem;
+}
+
+.forge-hero h1 {
+  font-size: clamp(2.6rem, 9vw, 4.8rem);
+  color: #ffe9c8;
+  text-shadow: 0 0 42px rgba(255, 170, 68, 0.22);
+}
+.forge-hero h1 .ital { color: var(--forge); }
+
+.forge-tag {
+  margin: 1.4rem auto 0;
+  color: var(--text-muted);
+  font-size: clamp(1rem, 2vw, 1.16rem);
+  max-width: 48ch;
+}
+
+/* ----- Content ----- */
+.forge-section { padding-block: clamp(50px, 8vw, 110px); position: relative; }
+.forge-section .glass-panel { border-color: rgba(255, 170, 68, 0.16); }
+.forge-section .glass-panel:hover { border-color: rgba(255, 170, 68, 0.3); }
+.forge-section .panel-tag { color: rgba(255, 170, 68, 0.7); }
+.forge-section .btn:hover {
+  border-color: var(--forge);
+  background: rgba(255, 170, 68, 0.08);
+}
+.forge-section .atlas-rule::before { background: linear-gradient(90deg, var(--forge), transparent); }
+.forge-section .atlas-rule::after { color: var(--forge); }
+
+/* Rarity tags on each print (rendered into the gallery captions). */
+.rarity {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.rarity-artifact { color: var(--forge); }
+.rarity-rare { color: var(--codex-blue); }
+.gallery figcaption .print-name { color: var(--text); margin-right: 0.6em; }

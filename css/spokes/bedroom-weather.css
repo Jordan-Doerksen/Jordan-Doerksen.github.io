@@ -1,0 +1,106 @@
+/* ==========================================================================
+   SPOKE — BEDROOM WEATHER.  A self-contained "rain at 2am" sub-theme.
+   Loaded ONLY on /bedroom-weather/. The quieter, violet counterpart to
+   Sol Obscurus's fire — same shell, opposite weather.
+   ========================================================================== */
+
+:root {
+  --bg: #060611;
+  --bg-soft: #0a0a16;
+}
+
+/* ----- Hero ----- */
+.bw-hero {
+  position: relative;
+  min-height: 88svh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(110px, 16vh, 150px) 1.4rem 80px;
+}
+
+/* The rain + cloud canvas (driven by js/zones/bedroom-weather.js). */
+.bw-hero .ambient-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bw-hero-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bw-back {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-decoration: none;
+  margin-bottom: 1.6rem;
+  transition: color var(--t-fast);
+}
+.bw-back:hover { color: var(--music-mystic); }
+
+.bw-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--music-mystic);
+  margin-bottom: 1.1rem;
+}
+
+.bw-hero h1 {
+  font-size: clamp(2.6rem, 9vw, 4.8rem);
+  color: #e6d9fb;
+  text-shadow: 0 0 42px rgba(192, 132, 252, 0.25);
+}
+.bw-hero h1 .ital { color: var(--music-mystic); }
+
+.bw-tag {
+  margin: 1.4rem auto 0;
+  color: var(--text-muted);
+  font-size: clamp(1rem, 2vw, 1.16rem);
+  max-width: 46ch;
+}
+
+/* ----- Content ----- */
+.bw-section { padding-block: clamp(60px, 9vw, 120px); position: relative; }
+.bw-section h2, .bw-section h3 { color: #e6d9fb; }
+
+.bw-section .glass-panel { border-color: rgba(192, 132, 252, 0.16); }
+.bw-section .glass-panel:hover { border-color: rgba(192, 132, 252, 0.32); }
+.bw-section .glass-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 95% 55% at 50% -8%, rgba(192, 132, 252, 0.13), transparent 72%);
+}
+.bw-section .panel-head, .bw-section .panel-body { position: relative; z-index: 2; }
+
+/* ----- Track list (rendered from data/bedroom-weather.json) ----- */
+#bw-tracks { display: grid; gap: 1.15rem; }
+#bw-tracks .track {
+  display: grid;
+  gap: 0.45rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+#bw-tracks .track:last-child { border-bottom: 0; padding-bottom: 0; }
+#bw-tracks .panel-tag { color: rgba(192, 132, 252, 0.78); }
+#bw-tracks audio { width: 100%; height: 38px; }
+
+.bw-section .atlas-rule::before { background: linear-gradient(90deg, var(--music-mystic), transparent); }
+.bw-section .atlas-rule::after { color: var(--music-mystic); }

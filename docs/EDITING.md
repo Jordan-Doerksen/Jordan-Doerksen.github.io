@@ -21,8 +21,13 @@ guide: [`SECTIONS.md`](SECTIONS.md).
 | Edit the Jasper / Grande Prairie CN Rail stories | `data/places.json` | The `story` field is the long tooltip text |
 | Add / move books | `data/books.json` | `status` must be `"reading"` or `"recommended"` |
 | Add offline quotes | `data/quotes-fallback.json` | `text`, `author`, optional `work` |
+| Add / edit a Sol Obscurus track | `data/sol-obscurus.json` | `title` + `src`; optional `pdf` for sheet music. Shows on `/sol-obscurus/` |
+| Add / edit a Bedroom Weather track | `data/bedroom-weather.json` | `title` + `src`. Shows on `/bedroom-weather/` |
+| Add / edit a 3D print | `data/forge.json` | `img`, `alt`, `name`, `rarity` (`artifact`/`rare`). Shows on `/forge/` |
+| Add / edit a code project | `data/projects.json` | `name`, `tag`, `blurb`, `links[]`; optional `img`. Shows on `/projects/` |
+| Add a whole new topic page (spoke) | see `docs/SECTIONS.md` §9 | One folder + theme CSS + entry JS + a hub teaser |
 | Replace the hidden essay | `data/oot-essay.md` | Plain Markdown; headings, bold, lists, quotes supported |
-| Update the footer / contact links | `index.html` | Contact section near the bottom |
+| Update the footer / contact links | `index.html` (Contact) + `js/shell.js` (footer) | The footer markup lives in `shell.js` now |
 
 ## Media
 
@@ -31,10 +36,9 @@ guide: [`SECTIONS.md`](SECTIONS.md).
 | Your portrait | `assets/img/portrait.jpg` | Appears automatically |
 | Sentinel-Pro screenshot | `assets/img/sentinel-screenshot.png` | Appears automatically |
 | WC3 screenshot | `assets/img/wc3/coin-survival.jpg` | Appears automatically |
-| Red River 3D print photos | `assets/img/forge/print-01.jpg` … `print-03.jpg` | To add a 4th+, copy a `<figure>` in `index.html` |
-| The downloadable map | `assets/maps/coin-survival.w3x` | Download button starts working |
-| Band audio / sheet PDFs | `assets/audio/`, `assets/pdf/` | Link them from `index.html` |
-| YouTube / Bandcamp embeds | `index.html` | Each Music panel has a commented `media-stack` slot — paste the embed `<iframe>` there |
+| Red River 3D print photos | `assets/img/forge/` | Drop the photo, then add an entry to `data/forge.json` |
+| The downloadable map | `assets/maps/` | Linked from `/warcraft/` (download button) |
+| Band audio / sheet PDFs | `assets/audio/`, `assets/pdf/` | Then reference them in `data/sol-obscurus.json` / `data/bedroom-weather.json` |
 
 ## Look & feel
 

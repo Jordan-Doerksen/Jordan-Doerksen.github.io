@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Red River 3D — Jordan Doerksen</title>
+  <meta name="description" content="Red River 3D — functional parts, fan pieces, and the occasional artifact, designed and printed in Winnipeg. Commissions open. A room in Jordan Doerksen's Observatory." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,300..600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/tokens.css?v=3" />
+  <link rel="stylesheet" href="/css/base.css?v=3" />
+  <link rel="stylesheet" href="/css/glass.css?v=3" />
+  <link rel="stylesheet" href="/css/components.css?v=3" />
+  <link rel="stylesheet" href="/css/fx-global.css?v=3" />
+  <link rel="stylesheet" href="/css/spokes/forge.css?v=3" />
+</head>
+<body data-page="forge">
+  <a class="skip-link" href="#vault">Skip to the prints</a>
+
+  <div id="shell-nav"></div>
+
+  <!-- ================= HERO ================= -->
+  <header class="forge-hero" id="top" data-sky="#ffaa44">
+    <div class="forge-hero-inner">
+      <a class="forge-back" href="/">← The Observatory</a>
+      <p class="forge-eyebrow">A room in the Observatory · prints &amp; commissions</p>
+      <h1>Red River <span class="ital">3D</span></h1>
+      <!-- ✏️ EDIT: shop tagline -->
+      <p class="forge-tag">Functional parts, fan pieces, and the occasional artifact — designed and printed in Winnipeg.</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= THE VAULT ================= -->
+    <section class="section forge-section" id="vault" data-sky="#ffaa44">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="star-glyph">✦</span>The print vault</p>
+          <h2>Things that came off the <span class="ital">bed</span></h2>
+          <p class="lede">Prints are edited in <code>data/forge.json</code> — drop a photo in <code>assets/img/forge/</code> and add an entry.</p>
+          <div class="atlas-rule" aria-hidden="true"></div>
+        </div>
+
+        <div class="glass-panel reveal">
+          <header class="panel-head">
+            <h3>Gallery</h3>
+            <span class="panel-tag">prints</span>
+          </header>
+          <div class="panel-body">
+            <!-- Rendered from data/forge.json by js/spokes/forge.js -->
+            <div class="gallery" id="forge-gallery"></div>
+
+            <div class="cta-block">
+              <div>
+                <b>Commissions &amp; custom prints</b>
+                <p style="color:var(--text-muted);font-size:.85rem;margin-top:2px">Have something in mind? Send a note with rough dimensions and a reference image.</p>
+              </div>
+              <a class="btn" href="mailto:Doerksen.Jordan@gmail.com?subject=Red%20River%203D%20Inquiry">Email Red River 3D</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="shell-footer"></div>
+
+  <script type="module" src="/js/spokes/forge.js?v=3"></script>
+</body>
+</html>

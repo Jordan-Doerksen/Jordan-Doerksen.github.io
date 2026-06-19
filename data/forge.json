@@ -1,0 +1,8 @@
+{
+  "prints": [
+    { "img": "/assets/img/forge/print_bust.png", "alt": "3D printed bust", "name": "Bust", "rarity": "artifact" },
+    { "img": "/assets/img/forge/print_deer.jpg", "alt": "3D printed deer figure", "name": "Deer", "rarity": "rare" },
+    { "img": "/assets/img/forge/print_ditto.jpg", "alt": "3D printed Ditto figure", "name": "Ditto", "rarity": "rare" },
+    { "img": "/assets/img/forge/print_stand.jpg", "alt": "3D printed display stand", "name": "Display stand", "rarity": "rare" }
+  ]
+}
