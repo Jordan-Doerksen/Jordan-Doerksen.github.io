@@ -2,13 +2,13 @@
   "projects": [
     {
       "name": "Sentinel-Pro",
-      "tag": "monitoring · github pages",
+      "tag": "trading intelligence · self-hosted",
       "img": "/assets/img/sentinel_dashboard.png",
       "alt": "Sentinel-Pro dashboard screenshot",
-      "blurb": "A monitoring dashboard with a dark, frosted interface — a sibling of this site's design language. Built to be deployed in minutes on GitHub Pages.",
+      "blurb": "A read-only trading-intelligence cockpit for S&P 500 futures: live market microstructure (depth, order-flow delta, volatility skew) fused with local-AI news classification — all self-hosted, no cloud. The demo runs the real dashboard on simulated data.",
       "links": [
-        { "label": "Live demo", "href": "https://jordan-doerksen.github.io/sentinel-pro-showcase/" },
-        { "label": "Repo + deploy guide", "href": "https://github.com/Jordan-Doerksen/sentinel-pro-showcase" }
+        { "label": "Live demo", "href": "/sentinel/demo.html", "newTab": true },
+        { "label": "Install guide", "href": "/sentinel/install-checklist.html", "newTab": true }
       ]
     },
     {

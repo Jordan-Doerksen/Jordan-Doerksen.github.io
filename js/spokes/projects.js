@@ -52,7 +52,7 @@ async function renderProjects() {
       .map(
         (l) =>
           `<a class="btn btn-sm${l.primary ? ' btn-primary' : ''}" href="${esc(l.href)}"${
-            l.href.startsWith('http') ? ' target="_blank" rel="noopener"' : ''
+            l.href.startsWith('http') || l.newTab ? ' target="_blank" rel="noopener"' : ''
           }>${esc(l.label)}</a>`
       )
       .join('');
