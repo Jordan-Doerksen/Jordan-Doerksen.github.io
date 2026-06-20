@@ -61,21 +61,13 @@
       "tag": "game · canvas ARPG",
       "blurb": "A single-file canvas action-RPG — a vertical slice from town through the moor and the den to Blood Raven, with three classes and D2-style safe-zone map generation.",
       "links": [
-        { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen", "newTab": true }
+        { "label": "Play Act 1 →", "href": "/diablo-act1/", "primary": true, "newTab": true }
       ]
     },
     {
       "name": "Wave Survival",
       "tag": "game · tower defence",
       "blurb": "A slice-based tower-defence game — economy, a tech tree, escalating waves, and a multi-map campaign, built one playable slice at a time.",
-      "links": [
-        { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen", "newTab": true }
-      ]
-    },
-    {
-      "name": "Altar of Sol Obscurus",
-      "tag": "interactive · ritual piece",
-      "blurb": "A quieter, ritual interactive piece — the rare door where the Cinzel voice and the ember are allowed out of the archive.",
       "links": [
         { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen", "newTab": true }
       ]
