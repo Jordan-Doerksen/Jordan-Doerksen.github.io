@@ -1,12 +1,12 @@
 {
   "tracks": [
     { "title": "8-Bit Journey", "src": "/assets/audio/bedroom_weather/8-bit_journey.mp3" },
-    { "title": "Dying Alone", "src": "/assets/audio/bedroom_weather/dying_alone.mp3" },
+    { "title": "Overcast", "src": "/assets/audio/bedroom_weather/overcast.mp3" },
     { "title": "Hellfire", "src": "/assets/audio/bedroom_weather/hellfire.mp3" },
-    { "title": "Love or Limerence, Who Cares", "src": "/assets/audio/bedroom_weather/love_or_limerence_who_cares.mp3" },
+    { "title": "Heat Lightning", "src": "/assets/audio/bedroom_weather/heat_lightning.mp3" },
     { "title": "Opiate", "src": "/assets/audio/bedroom_weather/opiate.mp3" },
     { "title": "Soaring", "src": "/assets/audio/bedroom_weather/soaring.mp3" },
     { "title": "Trap 2P", "src": "/assets/audio/bedroom_weather/trap_2p.mp3" },
-    { "title": "Whole Heart", "src": "/assets/audio/bedroom_weather/whole_heart.mp3" }
+    { "title": "Undertow", "src": "/assets/audio/bedroom_weather/undertow.mp3" }
   ]
 }
