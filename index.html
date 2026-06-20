@@ -13,12 +13,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,300..600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Cinzel:wght@600&display=swap" rel="stylesheet" />
 
   <!-- The ?v= number busts stale caches — bump it whenever you edit CSS/JS -->
-  <link rel="stylesheet" href="css/tokens.css?v=3" />
+  <link rel="stylesheet" href="css/tokens.css?v=4" />
   <link rel="stylesheet" href="css/base.css?v=3" />
   <link rel="stylesheet" href="css/glass.css?v=4" />
   <link rel="stylesheet" href="css/components.css?v=3" />
   <link rel="stylesheet" href="css/fx-global.css?v=3" />
   <link rel="stylesheet" href="css/zones.css?v=3" />
+  <link rel="stylesheet" href="css/editions.css?v=3" />
 </head>
 <body data-page="hub">
   <a class="skip-link" href="#about">Skip to content</a>
@@ -169,15 +170,17 @@
         <div class="section-head reveal">
           <p class="eyebrow"><span class="plate-no">Plate 04</span><span class="star-glyph">✦</span>Projects</p>
           <h2>Things I've <span class="ital">built</span></h2>
+          <p class="lede">A collection of editions — each its own build, in its own hue.</p>
           <div class="atlas-rule" aria-hidden="true"></div>
         </div>
 
         <!-- Teaser cards — the full build log (with the live Particle Window and
              playable Coin Survival) lives at /projects/ and /warcraft/. -->
         <div class="projects-grid reveal-stagger">
-          <!-- Switch List — the featured project -->
-          <article class="glass-panel reveal span-2" data-zone="tech">
+          <!-- N°01 Switch List — the featured edition -->
+          <article class="glass-panel reveal span-2" data-zone="sky">
             <div class="panel-body">
+              <span class="edition-no">Edition N°01 · rail</span>
               <span class="panel-tag">featured · rail training</span>
               <h3>Switch List — Yard Switching Sim</h3>
               <p class="card-blurb">A free, open training simulator for railway conductors: line the road, call PULL / SPOT / KICK, and win in the fewest engine moves — every mechanic cites a CROR rule. Built from my own time working freight through the mountains.</p>
@@ -188,23 +191,71 @@
             </div>
           </article>
 
-          <!-- Sentinel-Pro -->
-          <article class="glass-panel reveal" data-zone="tech">
+          <!-- N°02 Sentinel-Pro -->
+          <article class="glass-panel reveal" data-zone="watch">
             <div class="panel-body">
-              <figure class="card-media" data-src="assets/img/sentinel_dashboard.png">
-                <img src="assets/img/sentinel_dashboard.png" alt="Sentinel-Pro dashboard screenshot"
-                     loading="lazy" onerror="this.closest('figure').classList.add('img-missing')" />
-              </figure>
+              <span class="edition-no">Edition N°02 · trading</span>
+              <div class="mini-mock" data-mock="sentinel" role="img" aria-label="A miniature live Sentinel-Pro cockpit">
+                <div class="mm-top">
+                  <span class="mm-eye"></span>
+                  <span class="mm-sym">ES</span>
+                  <span class="mm-px" data-px>7368.25</span>
+                  <span class="mm-chg up" data-chg>▲ 1.50</span>
+                  <span class="mm-live">● LIVE</span>
+                </div>
+                <div class="mm-bars" data-bars><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="mm-foot">
+                  <span>OBI <b class="up" data-obi>+0.18</b></span>
+                  <span>CVD <b class="dn" data-cvd>−1,840</b></span>
+                  <span>VWAP <b data-vwap>7375.25</b></span>
+                </div>
+              </div>
               <h3>Sentinel-Pro</h3>
-              <p class="card-blurb">A read-only trading-intelligence cockpit for S&amp;P 500 futures: live market microstructure fused with local-AI news classification — all self-hosted, no cloud.</p>
+              <p class="card-blurb">A read-only intelligence cockpit for ES &amp; NQ futures — live order flow, volatility, structure, and macro news on one screen, with a data-free Discord feed. Self-hosted; it watches the market and never touches it.</p>
+              <div class="card-links">
+                <a class="btn btn-sm" href="https://jordan-doerksen.github.io/sentinel-pro-showcase/" target="_blank" rel="noopener">See the showcase →</a>
+              </div>
             </div>
           </article>
 
-          <!-- Warcraft III — playable in the Codex spoke -->
+          <!-- N°03 CN Conductor Trainer -->
           <article class="glass-panel reveal" data-zone="codex">
             <div class="panel-body">
-              <h3>Warcraft III — The Codex</h3>
+              <span class="edition-no">Edition N°03 · rail</span>
+              <span class="panel-tag">rail training</span>
+              <h3>CN Conductor Trainer</h3>
+              <p class="card-blurb">A CROR training game where every mechanic cites a rule — drawn from real time on the job.</p>
+              <div class="mini-yard" data-mock="conductor" role="img" aria-label="A miniature yard-switching puzzle solving itself, then resetting"><canvas></canvas></div>
+            </div>
+          </article>
+
+          <!-- N°04 Star Charter -->
+          <article class="glass-panel reveal" data-zone="tech">
+            <div class="panel-body">
+              <span class="edition-no">Edition N°04 · game</span>
+              <div class="mini-canvas" data-mock="starcharter" role="img" aria-label="A miniature space scene — drifting asteroids and the occasional black hole"><canvas></canvas></div>
+              <span class="panel-tag">single-file game</span>
+              <h3>Star Charter</h3>
+              <p class="card-blurb">A browser arcade in one file — a rAF loop, generated audio, particles, a starfield. No dependencies.</p>
+            </div>
+          </article>
+
+          <!-- N°05 Diablo — Act 1 -->
+          <article class="glass-panel reveal" data-zone="ember">
+            <div class="panel-body">
+              <span class="edition-no">Edition N°05 · game</span>
+              <span class="panel-tag">canvas ARPG</span>
+              <h3>Diablo — Act 1</h3>
+              <p class="card-blurb">A single-file canvas ARPG: town to Blood Raven, three classes, D2-style safe-zone map generation.</p>
+            </div>
+          </article>
+
+          <!-- N°06 Warcraft III — playable in the Codex spoke -->
+          <article class="glass-panel reveal" data-zone="codex">
+            <div class="panel-body">
+              <span class="edition-no">Edition N°06 · maps</span>
               <span class="panel-tag">custom maps · lua</span>
+              <h3>Warcraft III — The Codex</h3>
               <p class="card-blurb">Survival and maze maps scripted in Lua — including a browser-playable homage to Coin Survival.</p>
               <div class="card-links">
                 <a class="btn btn-sm" href="/warcraft/">Play in the Codex →</a>
@@ -341,5 +392,6 @@
   </div>
 
   <script type="module" src="js/main.js?v=3"></script>
+  <script type="module" src="js/mini-mock.js?v=4"></script>
 </body>
 </html>

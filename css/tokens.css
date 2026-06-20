@@ -16,7 +16,7 @@
   --line-strong: rgba(190, 205, 255, 0.2);
   --text: #e9edf6;
   --text-muted: #97a0b5;
-  --text-faint: #5e677d;
+  --text-faint: #76808f;   /* lifted from #5e677d -> ~5:1 on --bg (passes AA) */
   --starlight: #f2f4fa;
 
   /* ----- Accents — each one is a nebula over its own region of sky ----- */

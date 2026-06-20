@@ -42,12 +42,10 @@
     {
       "name": "Sentinel-Pro",
       "tag": "trading intelligence · self-hosted",
-      "img": "/assets/img/sentinel_dashboard.png",
-      "alt": "Sentinel-Pro dashboard screenshot",
-      "blurb": "A read-only trading-intelligence cockpit for S&P 500 futures: live market microstructure (depth, order-flow delta, volatility skew) fused with local-AI news classification — all self-hosted, no cloud. The demo runs the real dashboard on simulated data.",
+      "blurb": "A read-only intelligence cockpit for ES & NQ futures: live order flow, volatility, structure, and macro news on one screen, with a data-free Discord feed. Self-hosted, no cloud — it watches the market and never touches it.",
       "links": [
-        { "label": "Live demo", "href": "/sentinel/demo.html", "newTab": true },
-        { "label": "Install guide", "href": "/sentinel/install-checklist.html", "newTab": true }
+        { "label": "See the showcase →", "href": "https://jordan-doerksen.github.io/sentinel-pro-showcase/", "primary": true, "newTab": true },
+        { "label": "Live demo →", "href": "https://jordan-doerksen.github.io/sentinel-pro-showcase/dashboard/", "newTab": true }
       ]
     },
     {
@@ -56,6 +54,38 @@
       "blurb": "Custom survival and maze maps scripted in Lua — including a browser-playable homage to Coin Survival you can run right now.",
       "links": [
         { "label": "Enter the Codex →", "href": "/warcraft/", "primary": true }
+      ]
+    },
+    {
+      "name": "Diablo — Act 1",
+      "tag": "game · canvas ARPG",
+      "blurb": "A single-file canvas action-RPG — a vertical slice from town through the moor and the den to Blood Raven, with three classes and D2-style safe-zone map generation.",
+      "links": [
+        { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen", "newTab": true }
+      ]
+    },
+    {
+      "name": "Wave Survival",
+      "tag": "game · tower defence",
+      "blurb": "A slice-based tower-defence game — economy, a tech tree, escalating waves, and a multi-map campaign, built one playable slice at a time.",
+      "links": [
+        { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen", "newTab": true }
+      ]
+    },
+    {
+      "name": "Altar of Sol Obscurus",
+      "tag": "interactive · ritual piece",
+      "blurb": "A quieter, ritual interactive piece — the rare door where the Cinzel voice and the ember are allowed out of the archive.",
+      "links": [
+        { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen", "newTab": true }
+      ]
+    },
+    {
+      "name": "The Boys' Bots",
+      "tag": "bots · node + discord.js",
+      "blurb": "Node + discord.js bots for the group server — a token-leak fun-police and a Groq-powered personality bot. Small, useful, self-hosted.",
+      "links": [
+        { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen", "newTab": true }
       ]
     },
     {

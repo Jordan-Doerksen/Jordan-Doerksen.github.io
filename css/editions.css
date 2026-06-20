@@ -1,0 +1,83 @@
+/* ==========================================================================
+   EDITIONS — the catalog layer over zones.css.
+   A couple of extra hues the zones didn't define (watch / sky / ember) and
+   the "Edition N°" catalog number on a project card. Loaded after zones.css.
+   ========================================================================== */
+
+[data-zone='watch'] { border-color: rgba(255, 47, 58, 0.18); }
+[data-zone='watch']:hover { border-color: rgba(255, 47, 58, 0.34); }
+[data-zone='watch'] h3 { color: #ffd9da; }
+[data-zone='watch'] .panel-tag { color: rgba(255, 96, 96, 0.78); }
+
+[data-zone='sky'] { border-color: rgba(143, 183, 255, 0.18); }
+[data-zone='sky']:hover { border-color: rgba(143, 183, 255, 0.34); }
+[data-zone='sky'] h3 { color: #e2ecff; }
+[data-zone='sky'] .panel-tag { color: rgba(143, 183, 255, 0.78); }
+
+[data-zone='ember'] { border-color: rgba(255, 107, 53, 0.18); }
+[data-zone='ember']:hover { border-color: rgba(255, 107, 53, 0.34); }
+[data-zone='ember'] h3 { color: #ffe0cf; }
+[data-zone='ember'] .panel-tag { color: rgba(255, 140, 90, 0.78); }
+
+/* the catalog number on each edition card */
+.edition-no {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.55rem;
+}
+[data-zone='watch'] .edition-no { color: rgba(255, 96, 96, 0.85); }
+[data-zone='tech']  .edition-no { color: rgba(79, 227, 208, 0.85); }
+[data-zone='forge'] .edition-no { color: rgba(255, 170, 68, 0.85); }
+[data-zone='codex'] .edition-no { color: rgba(106, 169, 255, 0.85); }
+[data-zone='sky']   .edition-no { color: rgba(143, 183, 255, 0.85); }
+[data-zone='ember'] .edition-no { color: rgba(255, 140, 90, 0.85); }
+[data-zone='rain']  .edition-no { color: rgba(192, 132, 252, 0.85); }
+
+/* ── mini live mock (Sentinel cockpit, inside a project card) ── */
+.mini-mock {
+  background: #0a0709; border: 1px solid rgba(255, 47, 58, 0.18);
+  border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 14px;
+  font-family: var(--font-mono); display: flex; flex-direction: column; gap: 8px; overflow: hidden;
+}
+.mm-top { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.mm-eye { width: 9px; height: 9px; border-radius: 50%; background: #ff3b46;
+  box-shadow: 0 0 9px #ff2f3a; flex: none; animation: mm-pulse 3s ease-in-out infinite; }
+@keyframes mm-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+.mm-sym { color: var(--text-muted); letter-spacing: 0.1em; }
+.mm-px { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+.mm-chg { font-size: 11px; font-variant-numeric: tabular-nums; }
+.mm-chg.up { color: #3ddc84; } .mm-chg.dn { color: #ff5d6c; }
+.mm-live { margin-left: auto; font-size: 9px; letter-spacing: 0.14em; color: #ff5d6c; }
+.mm-bars { display: flex; align-items: flex-end; gap: 3px; height: 34px; }
+.mm-bars i { flex: 1; background: rgba(79, 227, 208, 0.5); border-radius: 1px 1px 0 0;
+  height: 40%; transition: height 0.5s var(--ease-out); }
+.mm-foot { display: flex; justify-content: space-between; gap: 8px; font-size: 10px; color: var(--text-faint); }
+.mm-foot b { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.mm-foot b.up { color: #3ddc84; } .mm-foot b.dn { color: #ff5d6c; }
+
+/* ── mini rail strip (CN Conductor card) ── */
+.mini-strip { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 13px; }
+.cn-track { display: flex; align-items: center; gap: 4px; height: 18px; }
+.cn-track .cn-eng { width: 24px; height: 14px; border-radius: 2px; background: var(--codex-blue);
+  box-shadow: 0 0 8px rgba(106, 169, 255, 0.4); flex: none; }
+.cn-track .cn-car { width: 18px; height: 11px; border-radius: 2px; background: rgba(106, 169, 255, 0.26);
+  border: 1px solid rgba(106, 169, 255, 0.45); flex: none; }
+.cn-track .cn-gap { width: 12px; flex: none; }
+.cn-track .cn-kick { animation: cn-roll 4.2s var(--ease-soft) infinite; }
+@keyframes cn-roll { 0%, 72% { transform: translateX(0); } 86% { transform: translateX(13px); } 100% { transform: translateX(0); } }
+.cn-call { margin-top: 9px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--text-faint); }
+.cn-call b { color: var(--codex-blue); }
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-eye { animation: none; } .mm-bars i { transition: none; } .cn-track .cn-kick { animation: none; }
+}
+
+/* ── canvas mini-scenes (Star Charter field, CN auto-solving yard) ── */
+.mini-canvas { margin: 0 0 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; background: #060912; }
+.mini-canvas canvas { display: block; width: 100%; height: 104px; }
+.mini-yard { margin-top: 13px; border-top: 1px solid var(--line); padding-top: 11px; }
+.mini-yard canvas { display: block; width: 100%; height: 90px; }
