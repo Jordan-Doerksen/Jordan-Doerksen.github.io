@@ -41,14 +41,14 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
   height: 5px;
   margin: -2.5px 0 0 -2.5px;
   background: var(--starlight);
-  box-shadow: 0 0 8px rgba(242, 244, 250, 0.8);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--starlight) 80%, transparent);
 }
 
 .cursor-ring {
   width: 34px;
   height: 34px;
   margin: -17px 0 0 -17px;
-  border: 1px solid rgba(216, 172, 78, 0.5);
+  border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);   /* rides the skin accent */
   transition: width var(--t-fast), height var(--t-fast), margin var(--t-fast),
               border-color var(--t-fast), background var(--t-fast);
 }
@@ -58,7 +58,7 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
   height: 50px;
   margin: -25px 0 0 -25px;
   border-color: var(--gold);
-  background: rgba(216, 172, 78, 0.07);
+  background: color-mix(in srgb, var(--gold) 8%, transparent);
 }
 
 .cursor-hidden .cursor-dot,
@@ -73,5 +73,5 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
   height: 5px;
   border-radius: 50%;
   background: var(--gold);
-  box-shadow: 0 0 6px rgba(216, 172, 78, 0.8);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--gold) 80%, transparent);
 }

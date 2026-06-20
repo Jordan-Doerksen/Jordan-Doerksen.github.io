@@ -5,6 +5,16 @@
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+function hexToRgb(hex) {
+  const n = parseInt(hex.replace('#', ''), 16);
+  return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
+}
+// the rain hue = the Music accent (--music-mystic), so it deepens on light skins
+function readRainRgb() {
+  const v = getComputedStyle(document.documentElement).getPropertyValue('--music-mystic').trim();
+  return hexToRgb(v || '#c084fc');
+}
+
 export function initBedroomWeather() {
   const zone = document.querySelector('[data-effect="rain"]');
   if (!zone) return;
@@ -14,6 +24,7 @@ export function initBedroomWeather() {
   let w = 0, h = 0, t = 0, raf = null;
   let drops = [];
   let clouds = [];
+  let rainRgb = readRainRgb();
 
   function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -46,7 +57,7 @@ export function initBedroomWeather() {
   function drawClouds(moving) {
     for (const c of clouds) {
       const g = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, c.r);
-      g.addColorStop(0, 'rgba(192, 132, 252, 0.07)');
+      g.addColorStop(0, `rgba(${rainRgb}, 0.08)`);
       g.addColorStop(1, 'transparent');
       ctx.fillStyle = g;
       ctx.beginPath();
@@ -63,7 +74,7 @@ export function initBedroomWeather() {
     ctx.lineWidth = 1;
     ctx.lineCap = 'round';
     for (const d of drops) {
-      ctx.strokeStyle = `rgba(192, 160, 252, ${d.a})`;
+      ctx.strokeStyle = `rgba(${rainRgb}, ${d.a})`;
       ctx.beginPath();
       ctx.moveTo(d.x, d.y);
       ctx.lineTo(d.x - 2.4, d.y + d.len); // wind-blown slant
@@ -92,6 +103,7 @@ export function initBedroomWeather() {
 
   resize();
   addEventListener('resize', resize);
+  window.addEventListener('skinchange', () => { rainRgb = readRainRgb(); if (reduced) drawStatic(); });
 
   if (reduced) {
     drawStatic();

@@ -28,6 +28,12 @@
   --ember: #ff6b35;         /* Sol Obscurus fire */
   --places-blue: #8fb7ff;   /* the Places constellation */
 
+  /* ----- Buttons + accent-as-text (per-skin; ink is always picked for contrast on the fill) ----- */
+  --btn-fill: #d8ac4e;        /* primary CTA background — solid accent, never a wash */
+  --btn-ink: #1c1408;         /* text ON the fill — never inherits a light colour */
+  --btn-border: #e6bd66;      /* primary border + hover ring */
+  --gold-ink: var(--gold);    /* thread colour, but safe as small text (deepened on light skins) */
+
   /* ----- Type: high-tech leads, fantasy whispers ----- */
   --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif; /* headings, nav */
   --font-accent: 'Fraunces', Georgia, serif;  /* italic accent words + quotes ONLY */

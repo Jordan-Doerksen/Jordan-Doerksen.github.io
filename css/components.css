@@ -14,6 +14,7 @@
   font-weight: 550;
   letter-spacing: 0.01em;
   text-decoration: none;
+  color: var(--text);
   border: 1px solid var(--line-strong);
   background: rgba(220, 230, 255, 0.04);
   overflow: hidden;
@@ -33,19 +34,25 @@
   pointer-events: none;
 }
 .btn:hover {
-  border-color: var(--gold);
-  background: rgba(216, 172, 78, 0.09);
+  border-color: var(--gold-ink);
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
   transform: translateY(-2px);
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(216, 172, 78, 0.12);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.35), 0 0 0 1px color-mix(in srgb, var(--gold) 20%, transparent);
 }
 .btn:hover::after { left: 120%; }
 
 .btn-sm { padding: 8px 17px; font-size: 0.79rem; }
 
 .btn-primary {
-  border-color: rgba(216, 172, 78, 0.55);
-  background: rgba(216, 172, 78, 0.1);
-  color: #f4e3bb;
+  background: var(--btn-fill);
+  color: var(--btn-ink);
+  border-color: var(--btn-border);
+}
+.btn-primary:hover {
+  background: var(--btn-fill);
+  border-color: var(--btn-border);
+  filter: brightness(1.06);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--btn-border);
 }
 
 /* ----- Route log (About) — a train manifest in mono ----- */
@@ -67,7 +74,7 @@
   margin-bottom: 0.2rem;
 }
 .route-log .stop { white-space: nowrap; }
-.route-log .arr { color: var(--gold); margin: 0 0.15em; }
+.route-log .arr { color: var(--gold-ink); margin: 0 0.15em; }
 
 /* ----- Grids ----- */
 /* Canvases set their bitmap width to clientWidth × devicePixelRatio; without
@@ -144,7 +151,7 @@
   border: 1px solid var(--line-strong);
   color: var(--text-muted);
 }
-.badge-wip { border-color: rgba(216, 172, 78, 0.5); color: var(--gold); }
+.badge-wip { border-color: rgba(216, 172, 78, 0.5); color: var(--gold-ink); }
 
 /* ----- Code block (Lua snippet) ----- */
 .code-block {

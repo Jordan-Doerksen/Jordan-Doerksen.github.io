@@ -1,0 +1,28 @@
+/* ==========================================================================
+   SKIN · SENTINEL — the red watcher. Dark void, red thread, scanlines.
+   Panels run more opaque + less blur so the body text stays readable.
+   ========================================================================== */
+
+:root[data-skin="sentinel"] {
+  --bg: #08070a; --bg-soft: #0c0a0e;
+  --panel: rgba(20, 17, 23, 0.82);          /* opaque enough to read over the void */
+  --panel-solid: #15121a;
+  --glass-blur: 7px;
+  --line: rgba(255, 255, 255, 0.10);
+  --line-strong: rgba(255, 47, 58, 0.42);
+  --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-panel: 0 22px 60px rgba(0, 0, 0, 0.6);
+  --text: #eceaf0; --text-muted: #9aa0ad; --text-faint: #7a8390; --starlight: #ffffff;
+
+  --gold: #ff2f3a;            /* the wayfinding thread -> red */
+  --accent: #4fe3d0; --forge: #ff6b35; --music-mystic: #c084fc;
+  --codex-blue: #6aa9ff; --ember: #ff6b35; --places-blue: #8fb7ff;
+
+  --sky-mode: datarain;
+  --hero-motif: dataeye;
+  --sky-nebula: #ff2f3a; --sky-warm: 255, 90, 80; --sky-meteor: 255, 120, 120;
+  --sky-follow-sections: 0;
+
+  /* primary button — deep alarm-red so white text passes AA (5:1); thread stays vivid */
+  --btn-fill: #d8222c; --btn-ink: #ffffff; --btn-border: #ff3b44;
+}

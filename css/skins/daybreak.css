@@ -1,0 +1,63 @@
+/* ==========================================================================
+   SKIN · DAYBREAK — a rare light mode. Warm paper, dark text, no night sky.
+   Panels run near-opaque so text reads on the light backdrop. sky-mode = plain
+   (no canvas particles for now; a "daylight" renderer can come in its 1x1 pass).
+   ========================================================================== */
+
+:root[data-skin="daybreak"] {
+  color-scheme: light;
+  --bg: #f4efe6; --bg-soft: #ece4d6;
+  --panel: #fffdf8;                          /* solid light -> readable */
+  --panel-solid: #fffdf8;
+  --glass-blur: 8px;
+  --line: rgba(70, 56, 30, 0.16);
+  --line-strong: rgba(70, 56, 30, 0.30);
+  --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --shadow-panel: 0 18px 44px rgba(90, 66, 30, 0.14);
+  --text: #2b2620; --text-muted: #5f574a; --text-faint: #837b6b; --starlight: #3a342a;
+
+  --gold: #bd7e22; --accent: #0e8a6a; --forge: #c2691a; --music-mystic: #7a55c0;
+  --codex-blue: #2f6fb8; --ember: #c0492b; --places-blue: #4a78b8;
+
+  --font-display: 'Fraunces', Georgia, serif;   /* warm editorial headings */
+  --sky-mode: daylight;
+  --hero-motif: sunrise;
+
+  /* primary button — deep bronze fill carries cream text (4.7:1); gold-ink = gold safe as text */
+  --btn-fill: #9a6614; --btn-ink: #fff8ec; --btn-border: #9a6614;
+  --gold-ink: #8a5a12;
+}
+
+[data-skin="daybreak"] body::before { opacity: .18; }   /* faint paper grain */
+[data-skin="daybreak"] body::after {                     /* warm light vignette, not the dark one */
+  background: radial-gradient(ellipse 120% 90% at 50% 38%, transparent 62%, rgba(120, 90, 40, 0.09) 100%);
+}
+
+/* On light, panels are SOLID — no glass blur (the in-panel canvases + blur made
+   text brutal to read). Flat paper cards instead. */
+[data-skin="daybreak"] .glass-panel,
+[data-skin="daybreak"] .skin-toggle,
+[data-skin="daybreak"] .skin-menu {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+[data-skin="daybreak"] .glass-panel { background: #fffdf8; }
+
+/* secondary (ghost) buttons wear the gold outline on light */
+[data-skin="daybreak"] .btn:not(.btn-primary) { border-color: var(--gold); }
+
+/* ----- Zone headings on light -----
+   Every zone bakes a LIGHT accent into its <h3> (and some panel-tags) — great on
+   the void, invisible on paper. Re-tone each to a deep, readable version of its
+   own accent (all ~5:1+ on the #fffdf8 panel). The ambient canvases re-tone in JS
+   via their accent token; the dark mini-mock screens + OoT modal keep their own. */
+[data-skin="daybreak"] [data-zone='sol'] h3,
+[data-skin="daybreak"] [data-zone='sol'] .panel-tag { color: var(--gold-ink); }
+[data-skin="daybreak"] [data-zone='rain'] h3,
+[data-skin="daybreak"] [data-zone='rain'] .panel-tag { color: #6a3fb0; }
+[data-skin="daybreak"] [data-zone='tech'] h3 { color: #0c6f5c; }
+[data-skin="daybreak"] [data-zone='codex'] h3,
+[data-skin="daybreak"] [data-zone='sky'] h3 { color: #245f9e; }
+[data-skin="daybreak"] [data-zone='watch'] h3 { color: #b0384a; }
+[data-skin="daybreak"] [data-zone='ember'] h3 { color: #a8550f; }
+[data-skin="daybreak"] [data-zone='forge'] .panel-tag { color: #a8550f; }

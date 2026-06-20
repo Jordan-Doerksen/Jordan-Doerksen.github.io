@@ -5,35 +5,8 @@
     "type": "home",
     "x": 0.18,
     "y": 0.2,
-    "blurb": "The first life.",
-    "story": "Where I started. I left it to find out what else I could be."
-  },
-  {
-    "id": "gta",
-    "label": "GTA, ON",
-    "type": "home",
-    "x": 0.1,
-    "y": 0.42,
-    "blurb": "The Greater Toronto orbit — the early years.",
-    "story": "✏️ EDIT: a line or two about your GTA chapter."
-  },
-  {
-    "id": "red-deer",
-    "label": "Red Deer, AB",
-    "type": "work",
-    "x": 0.3,
-    "y": 0.31,
-    "blurb": "A stop in the searching years.",
-    "story": "✏️ EDIT: what Red Deer was — the work, the people, what it taught you."
-  },
-  {
-    "id": "jasper",
-    "label": "Jasper, AB",
-    "type": "work",
-    "x": 0.43,
-    "y": 0.15,
-    "blurb": "Driving freight through the mountains.",
-    "story": "Almost two years through the railway training system — layoffs, lockouts, restarts — and more than a hundred runs through these mountains. The people I met out here changed my life forever."
+    "blurb": "Where I grew up.",
+    "story": "Hometown, and the starting point."
   },
   {
     "id": "bc-homestead",
@@ -41,8 +14,35 @@
     "type": "work",
     "x": 0.54,
     "y": 0.4,
-    "blurb": "Homestead summers in the mountains.",
-    "story": "A few summers living on a homestead — wood, water, weather, and quiet. Some of the best problem-solving school there is."
+    "blurb": "Homestead summers.",
+    "story": "A few summers on a homestead in the mountains — off-grid, hands-on work."
+  },
+  {
+    "id": "gta",
+    "label": "GTA, ON",
+    "type": "home",
+    "x": 0.1,
+    "y": 0.42,
+    "blurb": "The Greater Toronto area.",
+    "story": "A stretch of the early years around the city."
+  },
+  {
+    "id": "red-deer",
+    "label": "Red Deer, AB",
+    "type": "work",
+    "x": 0.3,
+    "y": 0.31,
+    "blurb": "A prairie stop.",
+    "story": "A while out west for work."
+  },
+  {
+    "id": "jasper",
+    "label": "Jasper, AB",
+    "type": "work",
+    "x": 0.43,
+    "y": 0.15,
+    "blurb": "Freight through the mountains.",
+    "story": "Close to two years in railway work, running freight through the mountains."
   },
   {
     "id": "winnipeg",
@@ -50,8 +50,8 @@
     "type": "home",
     "x": 0.66,
     "y": 0.62,
-    "blurb": "Home base. The restart that stuck.",
-    "story": "Prairie skies, guitar amps, the 3D printer humming — and the desk where this site was built."
+    "blurb": "Home base.",
+    "story": "Where I'm based now — guitars, a 3D printer, and the desk this site was built at."
   },
   {
     "id": "atlin",
@@ -68,7 +68,7 @@
     "type": "explore",
     "x": 0.21,
     "y": 0.56,
-    "blurb": "Where the mountains meet the sea.",
+    "blurb": "Coast and mountains.",
     "story": ""
   },
   {
@@ -86,7 +86,7 @@
     "type": "explore",
     "x": 0.47,
     "y": 0.73,
-    "blurb": "Northern lights territory.",
+    "blurb": "Northern Alberta.",
     "story": ""
   },
   {
@@ -104,7 +104,7 @@
     "type": "explore",
     "x": 0.78,
     "y": 0.24,
-    "blurb": "The Atlantic edge.",
+    "blurb": "On the Atlantic coast.",
     "story": ""
   },
   {
@@ -113,7 +113,7 @@
     "type": "explore",
     "x": 0.89,
     "y": 0.4,
-    "blurb": "Red dirt island.",
+    "blurb": "Red dirt and coastline.",
     "story": ""
   },
   {
@@ -122,7 +122,7 @@
     "type": "explore",
     "x": 0.74,
     "y": 0.82,
-    "blurb": "South of every winter.",
+    "blurb": "A winter trip south.",
     "story": ""
   },
   {
@@ -131,7 +131,7 @@
     "type": "explore",
     "x": 0.88,
     "y": 0.66,
-    "blurb": "Salt water and slow time.",
+    "blurb": "A Caribbean trip.",
     "story": ""
   }
 ]

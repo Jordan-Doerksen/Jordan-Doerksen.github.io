@@ -1,0 +1,52 @@
+/* ==========================================================================
+   SKINS — framework. The `--sky-*` defaults (observatory) the sky dispatcher
+   reads, plus the topbar picker. Each skin's own overrides live in a separate
+   file: css/skins/<skin>.css (linked in index.html, registered in js/skins.js).
+   A skin sets: palette tokens + panel treatment (--panel / --glass-blur /
+   --line / --inner-light / --shadow-panel) + --sky-mode + texture (+ optional
+   font / ornament).
+   ========================================================================== */
+
+:root {
+  --sky-mode: nightsky;          /* which background renderer js/sky.js runs */
+  --hero-motif: jd;              /* which hero centrepiece js/hero.js draws */
+  --sky-nebula: #d8ac4e;
+  --sky-deep: 59, 74, 143;
+  --sky-star: 233, 237, 246;
+  --sky-warm: 232, 200, 140;
+  --sky-meteor: 240, 240, 250;
+  --sky-star-alpha: 1;
+  --sky-follow-sections: 1;      /* 1 = nebula follows each section's data-sky */
+}
+
+/* ---- the skin picker (fixed glass pill, top-right) ---- */
+.skin-picker { position: fixed; top: 16px; right: 18px; z-index: 60; font-family: var(--font-mono); }
+.skin-toggle {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  padding: 8px 13px; border-radius: 999px; font-size: 12px; letter-spacing: .04em;
+  color: var(--text-muted); border: 1px solid var(--line);
+  background: var(--panel); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  transition: color var(--t-fast), border-color var(--t-fast);
+}
+.skin-toggle:hover { color: var(--text); border-color: var(--line-strong); }
+.skin-toggle .skin-star { color: var(--gold-ink); }
+.skin-toggle .skin-caret { font-size: 9px; opacity: .7; }
+.skin-menu {
+  list-style: none; margin: 8px 0 0; padding: 6px; position: absolute; right: 0; min-width: 168px;
+  border-radius: var(--radius-sm); border: 1px solid var(--line);
+  background: var(--panel-solid); box-shadow: var(--shadow-panel);
+}
+.skin-menu[hidden] { display: none; }
+.skin-menu li { margin: 0; }
+.skin-menu button {
+  display: flex; width: 100%; align-items: center; gap: 9px; text-align: left; cursor: pointer;
+  padding: 8px 10px; border: 0; background: transparent; border-radius: 7px;
+  font-family: var(--font-mono); font-size: 12.5px; color: var(--text-muted);
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.skin-menu button:hover { background: var(--panel); color: var(--text); }
+.skin-menu button[aria-current="true"] { color: var(--gold-ink); }
+.skin-menu button::before { content: '✦'; font-size: .8em; color: var(--gold-ink); opacity: .45; }
+.skin-menu button[aria-current="true"]::before { opacity: 1; }
+@media (max-width: 760px) { .skin-picker { top: 12px; right: 62px; } }
+@media (prefers-reduced-motion: reduce) { .skin-toggle, .skin-menu button { transition: none; } }

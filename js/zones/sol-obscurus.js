@@ -6,6 +6,17 @@
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const RUNES = 'ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗ';
 
+function hexToRgb(hex) {
+  const n = parseInt(hex.replace('#', ''), 16);
+  return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
+}
+// sigils ride the gold thread, embers the ember accent — both deepen on light
+function readColors() {
+  const cs = getComputedStyle(document.documentElement);
+  const v = (n, fb) => hexToRgb(cs.getPropertyValue(n).trim() || fb);
+  return { sigil: v('--gold', '#d4a843'), ember: v('--ember', '#ff6b35') };
+}
+
 export function initSolObscurus() {
   const zone = document.querySelector('[data-effect="ritual"]');
   if (!zone) return;
@@ -14,6 +25,7 @@ export function initSolObscurus() {
 
   let w = 0, h = 0, t = 0, raf = null;
   let embers = [];
+  let colors = readColors();
 
   function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -45,11 +57,11 @@ export function initSolObscurus() {
         ctx.save();
         ctx.translate(cx, cy);
         if (rotating) ctx.rotate(t * 0.04 * ring.dir);
-        ctx.strokeStyle = 'rgba(212, 168, 67, 0.11)';
+        ctx.strokeStyle = `rgba(${colors.sigil}, 0.13)`;
         ctx.beginPath();
         ctx.arc(0, 0, ring.r, 0, Math.PI * 2);
         ctx.stroke();
-        ctx.fillStyle = 'rgba(212, 168, 67, 0.16)';
+        ctx.fillStyle = `rgba(${colors.sigil}, 0.18)`;
         ctx.font = '13px serif';
         ctx.textAlign = 'center';
         for (let i = 0; i < ring.n; i++) {
@@ -71,11 +83,11 @@ export function initSolObscurus() {
       const a = e.life * flicker;
       const x = e.x + Math.sin(t * 1.4 + e.sway) * 9;
       // soft heat halo behind each ember (cheap: a second, larger circle)
-      ctx.fillStyle = `rgba(255, 90, 40, ${a * 0.22})`;
+      ctx.fillStyle = `rgba(${colors.ember}, ${a * 0.22})`;
       ctx.beginPath();
       ctx.arc(x, e.y, e.r * 2.8, 0, Math.PI * 2);
       ctx.fill();
-      ctx.fillStyle = `rgba(255, 130, 60, ${a * 0.8})`;
+      ctx.fillStyle = `rgba(${colors.ember}, ${a * 0.85})`;
       ctx.beginPath();
       ctx.arc(x, e.y, e.r, 0, Math.PI * 2);
       ctx.fill();
@@ -100,6 +112,7 @@ export function initSolObscurus() {
 
   resize();
   addEventListener('resize', resize);
+  window.addEventListener('skinchange', () => { colors = readColors(); if (reduced) drawStatic(); });
 
   if (reduced) {
     drawStatic();

@@ -119,7 +119,7 @@ p { max-width: 66ch; }
   margin-bottom: 1.1rem;
 }
 .eyebrow .star-glyph {
-  color: var(--gold);
+  color: var(--gold-ink);
   font-size: 0.85em;
   letter-spacing: 0;
 }
@@ -158,7 +158,7 @@ p { max-width: 66ch; }
 .atlas-rule::after {
   content: '✦';
   font-size: 0.55rem;
-  color: var(--gold);
+  color: var(--gold-ink);
   opacity: 0.8;
 }
 

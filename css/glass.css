@@ -68,7 +68,7 @@
   align-items: baseline;
   gap: 2px;
 }
-.obs-logo span { color: var(--gold); font-size: 0.7em; transform: translateY(-0.45em); }
+.obs-logo span { color: var(--gold-ink); font-size: 0.7em; transform: translateY(-0.45em); }
 
 /* --- Desktop rail --- */
 .star-rail {
@@ -114,10 +114,11 @@
   transform: translateX(8px);
   transition: opacity var(--t-fast), transform var(--t-fast), color var(--t-fast);
   white-space: nowrap;
-  /* readable even when it floats over panel content */
+  /* readable even when it floats over panel content — rides the skin's bg */
   padding: 3px 9px;
   border-radius: 999px;
-  background: rgba(4, 6, 12, 0.72);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  border: 1px solid var(--line);
 }
 
 .star-rail .rail-star {
@@ -138,9 +139,9 @@
 .star-rail a.is-active .rail-star {
   background: var(--gold);
   transform: scale(1.55);
-  filter: drop-shadow(0 0 6px rgba(216, 172, 78, 0.9));
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gold) 90%, transparent));
 }
-.star-rail a.is-active .rail-label { opacity: 1; transform: none; color: var(--gold); }
+.star-rail a.is-active .rail-label { opacity: 1; transform: none; color: var(--gold-ink); }
 
 /* --- Mobile top bar --- */
 .obs-topbar {
@@ -173,7 +174,7 @@
   text-transform: uppercase;
   color: var(--text);
 }
-.chart-toggle::before { content: '✦'; color: var(--gold); font-size: 0.8em; }
+.chart-toggle::before { content: '✦'; color: var(--gold-ink); font-size: 0.8em; }
 
 @media (max-width: 880px) {
   .star-rail { display: none; }
@@ -255,14 +256,14 @@
   color: var(--text);
   transition: color var(--t-fast);
 }
-.star-map a:hover .map-name { color: var(--gold); }
+.star-map a:hover .map-name { color: var(--gold-ink); }
 .star-map a.is-active .map-name {
   /* the current room gets the serif whisper */
   font-family: var(--font-accent);
   font-style: italic;
-  color: var(--gold);
+  color: var(--gold-ink);
 }
-.star-map a.is-active .map-no { color: var(--gold); }
+.star-map a.is-active .map-no { color: var(--gold-ink); }
 
 .map-close {
   position: absolute;
@@ -459,7 +460,7 @@
   content: '✦';
   display: block;
   margin-bottom: 1.2rem;
-  color: var(--gold);
+  color: var(--gold-ink);
   opacity: 0.5;
   font-size: 0.6rem;
 }
