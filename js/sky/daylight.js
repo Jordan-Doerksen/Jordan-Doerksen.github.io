@@ -1,11 +1,11 @@
 // ==========================================================================
-// SKY MODE · DAYLIGHT — Daybreak. A warm wash, a soft sun bloom high in the
-// sky, gentle godrays, low haze wisps (NOT fat white blobs), and rising motes.
-// Kept deliberately faint so it reads as sky, not as smudges on the paper.
+// SKY MODE · DAYLIGHT — Daybreak. A warm wash with low haze wisps drifting
+// behind the sunrise hero. Kept deliberately faint so it reads as sky, not as
+// smudges on the paper.
 // ==========================================================================
 
 export function makeDaylight(ctx) {
-  let w = 0, h = 0, wisps = [], motes = [];
+  let w = 0, h = 0, wisps = [];
 
   function resize(_w, _h) {
     w = _w; h = _h;
@@ -14,10 +14,6 @@ export function makeDaylight(ctx) {
       x: Math.random() * w, y: h * (0.45 + Math.random() * 0.4),
       r: 130 + Math.random() * 150, v: 4 + Math.random() * 5,
       a: 0.05 + Math.random() * 0.05,
-    }));
-    motes = Array.from({ length: 26 }, () => ({
-      x: Math.random() * w, y: Math.random() * h, r: 0.6 + Math.random() * 1.2,
-      vx: (Math.random() - 0.5) * 4, vy: -(3 + Math.random() * 6), p: Math.random() * 6.28,
     }));
   }
 
@@ -33,9 +29,7 @@ export function makeDaylight(ctx) {
     ctx.restore();
   }
 
-  function draw(dt, env) {
-    const { t } = env;
-
+  function draw(dt) {
     // warm wash, strongest at the top
     let g = ctx.createLinearGradient(0, 0, 0, h);
     g.addColorStop(0, 'rgba(255, 236, 200, 0.42)');
@@ -50,12 +44,6 @@ export function makeDaylight(ctx) {
     for (const c of wisps) {
       if (dt) { c.x += c.v * dt; if (c.x - c.r > w) c.x = -c.r; }
       drawWisp(c);
-    }
-    for (const m of motes) {
-      if (dt) { m.x += m.vx * dt; m.y += m.vy * dt; if (m.y < -4) { m.y = h + 4; m.x = Math.random() * w; } }
-      const a = 0.07 + 0.09 * Math.abs(Math.sin(m.p + t));
-      ctx.fillStyle = `rgba(228, 188, 120, ${a})`;
-      ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, 6.2832); ctx.fill();
     }
   }
 

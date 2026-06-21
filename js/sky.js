@@ -8,7 +8,7 @@
 
 import { makeNightSky } from './sky/nightsky.js';
 import { makeDataRain } from './sky/datarain.js';
-import { makeDaylight } from './sky/daylight.js?v=3';
+import { makeDaylight } from './sky/daylight.js?v=4';
 import { makePlain } from './sky/plain.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
