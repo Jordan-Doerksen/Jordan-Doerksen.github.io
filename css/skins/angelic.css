@@ -1,0 +1,67 @@
+/* ==========================================================================
+   SKIN · ANGELIC — "empyrean." A luminous LIGHT skin: pearl-white, a soft gold
+   thread, celestial-blue accent. Bright, airy heaven. Like Daybreak it's light,
+   so panels go SOLID (no glass blur) and every dark-baked zone colour gets a
+   deep, readable override. Background = halo bokeh; hero = unfurling wings.
+   ========================================================================== */
+
+:root[data-skin="angelic"] {
+  color-scheme: light;
+  --bg: #f6f7fb; --bg-soft: #eef1f8;
+  --panel: #ffffff;                          /* solid -> text reads */
+  --panel-solid: #ffffff;
+  --glass-blur: 8px;
+  --line: rgba(60, 72, 110, 0.14);
+  --line-strong: rgba(60, 72, 110, 0.28);
+  --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --shadow-panel: 0 18px 44px rgba(90, 110, 160, 0.16);
+  --text: #2a2e3a; --text-muted: #5a6172; --text-faint: #646b7e; --starlight: #3a4150;
+
+  --gold: #c9a24a;            /* the soft-gold thread (vivid, for big elements) */
+  --accent: #5a93da;          /* celestial blue */
+  --forge: #c2691a; --music-mystic: #7a55c0;
+  --codex-blue: #2f6fb8; --ember: #c0492b; --places-blue: #4a78b8;
+
+  --font-display: 'Fraunces', Georgia, serif;   /* ethereal editorial headings */
+  --sky-mode: aurora;
+  --hero-motif: seraph;
+  --sky-nebula: #c9a24a;             /* halo + warm orbs */
+  --sky-warm: 201, 162, 74;          /* gold orbs */
+  --sky-meteor: 127, 176, 230;       /* celestial-blue orbs */
+  --sky-follow-sections: 0;          /* one heaven, site-wide */
+
+  /* primary button — deep gold carries cream text (~4.9:1); thread stays soft */
+  --btn-fill: #8a6416; --btn-ink: #fff8ec; --btn-border: #8a6416;
+  --gold-ink: #876518;               /* soft gold deepened so it's safe as small text */
+}
+
+[data-skin="angelic"] body::before { opacity: .14; }      /* faint grain */
+[data-skin="angelic"] body::after {                         /* cool light vignette */
+  background: radial-gradient(ellipse 120% 90% at 50% 36%, transparent 62%, rgba(70, 90, 140, 0.08) 100%);
+}
+
+/* On light, panels are SOLID — no glass blur (blur + in-panel canvases wreck readability). */
+[data-skin="angelic"] .glass-panel,
+[data-skin="angelic"] .skin-toggle,
+[data-skin="angelic"] .skin-menu {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+[data-skin="angelic"] .glass-panel { background: #ffffff; }
+
+/* secondary (ghost) buttons wear the gold outline on light */
+[data-skin="angelic"] .btn:not(.btn-primary) { border-color: var(--gold); }
+
+/* ----- Zone headings on light -----
+   Each zone bakes a LIGHT accent into its <h3>/panel-tag — invisible on pearl.
+   Re-tone each to a deep, readable version (all ~5:1+ on the #ffffff panel). */
+[data-skin="angelic"] [data-zone='sol'] h3,
+[data-skin="angelic"] [data-zone='sol'] .panel-tag { color: var(--gold-ink); }
+[data-skin="angelic"] [data-zone='rain'] h3,
+[data-skin="angelic"] [data-zone='rain'] .panel-tag { color: #6a3fb0; }
+[data-skin="angelic"] [data-zone='tech'] h3 { color: #245f9e; }
+[data-skin="angelic"] [data-zone='codex'] h3,
+[data-skin="angelic"] [data-zone='sky'] h3 { color: #245f9e; }
+[data-skin="angelic"] [data-zone='watch'] h3 { color: #b0384a; }
+[data-skin="angelic"] [data-zone='ember'] h3 { color: #a8550f; }
+[data-skin="angelic"] [data-zone='forge'] .panel-tag { color: #a8550f; }

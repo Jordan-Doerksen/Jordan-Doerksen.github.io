@@ -10,10 +10,11 @@ import { makeNightSky } from './sky/nightsky.js';
 import { makeDataRain } from './sky/datarain.js';
 import { makeDaylight } from './sky/daylight.js?v=4';
 import { makeHudField } from './sky/hudfield.js?v=3';
+import { makeAurora } from './sky/aurora.js?v=2';
 import { makePlain } from './sky/plain.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const RENDERERS = { nightsky: makeNightSky, datarain: makeDataRain, daylight: makeDaylight, hudfield: makeHudField, plain: makePlain };
+const RENDERERS = { nightsky: makeNightSky, datarain: makeDataRain, daylight: makeDaylight, hudfield: makeHudField, aurora: makeAurora, plain: makePlain };
 
 function hexToRgb(hex) {
   const n = parseInt(hex.replace('#', ''), 16);

@@ -10,9 +10,10 @@ import { makeJd } from './hero/jd.js';
 import { makeDataEye } from './hero/dataeye.js';
 import { makeSunrise } from './hero/sunrise.js';
 import { makeTargetLock } from './hero/targetlock.js';
+import { makeSeraph } from './hero/seraph.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const MOTIFS = { jd: makeJd, dataeye: makeDataEye, sunrise: makeSunrise, targetlock: makeTargetLock };
+const MOTIFS = { jd: makeJd, dataeye: makeDataEye, sunrise: makeSunrise, targetlock: makeTargetLock, seraph: makeSeraph };
 
 function rgbStr(hex) {
   const n = parseInt(hex.replace('#', ''), 16);
