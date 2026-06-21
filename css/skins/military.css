@@ -1,0 +1,44 @@
+/* ==========================================================================
+   SKIN · MILITARY — "tactical net." Modern Canadian Army + CADPAT digi-camo,
+   dressed in an XCOM: Enemy Within HUD: olive-green void, a glowing tactical
+   lime thread, holo-cyan data, amber for alerts. A faint CADPAT camo textures
+   the backdrop; the sky runs a cockpit HUD field and the hero is a targeting
+   lock. Dark skin — panels stay opaque-ish so body text reads over the void.
+   ========================================================================== */
+
+:root[data-skin="military"] {
+  --bg: #0a0d0b; --bg-soft: #0d110e;
+  --panel: rgba(20, 26, 21, 0.82);          /* dark olive-charcoal, reads over the void */
+  --panel-solid: #161d17;
+  --glass-blur: 7px;
+  --line: rgba(180, 210, 150, 0.10);
+  --line-strong: rgba(159, 214, 74, 0.34);
+  --inner-light: inset 0 1px 0 rgba(200, 230, 160, 0.05);
+  --shadow-panel: 0 22px 60px rgba(0, 0, 0, 0.62);
+  --text: #e8ede6; --text-muted: #9aa597; --text-faint: #818d7e; --starlight: #f0f4ee;
+
+  --gold: #9fd64a;            /* the wayfinding thread -> tactical lime (CADPAT glow) */
+  --accent: #45c8e8;          /* holo-cyan data (XCOM) */
+  --forge: #ff8c1f; --music-mystic: #a78bf0;
+  --codex-blue: #6aa9ff; --ember: #ff6a2a; --places-blue: #8fb7ff;
+
+  --sky-mode: hudfield;
+  --hero-motif: targetlock;
+  --sky-nebula: #9fd64a;             /* ambient glow + reticle line tone */
+  --sky-warm: 159, 214, 74;          /* grid + brackets (green) */
+  --sky-meteor: 69, 200, 232;        /* telemetry ticks / blips (cyan) */
+  --sky-follow-sections: 0;          /* hold one tactical palette site-wide */
+
+  /* primary button — solid tactical green carries near-black ink (~10:1); thread stays vivid */
+  --btn-fill: #8cc63f; --btn-ink: #0c1208; --btn-border: #b6e063;
+  --gold-ink: var(--gold);           /* lime is bright on the near-black void — safe as small text */
+}
+
+/* The CADPAT digi-camo is drawn in the HUD canvas (js/sky/hudfield.js) so it can
+   parallax with scroll/mouse — the default film grain (body::before) stays. */
+[data-skin="military"] body::after {            /* deepen the vignette, green-black */
+  background: radial-gradient(ellipse 120% 90% at 50% 40%, transparent 56%, rgba(3, 6, 3, 0.6) 100%);
+}
+
+/* secondary (ghost) buttons wear the tactical-lime outline */
+[data-skin="military"] .btn:not(.btn-primary) { border-color: var(--gold); }

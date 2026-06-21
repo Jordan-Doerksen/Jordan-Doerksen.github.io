@@ -8,13 +8,14 @@
 // caches them hard. When you edit a module, bump the ?v= on its import here
 // (and in any other file that imports it) so a normal reload picks it up.
 import { renderShell } from './shell.js';
-import { initSky } from './sky.js?v=4';
-import { initHero } from './hero.js';
+import { initSky } from './sky.js?v=7';
+import { initHero } from './hero.js?v=2';
 import { initStarChart } from './starchart-nav.js';
 import { initCursor } from './cursor.js';
 import { initClickFx } from './click-fx.js';
 import { initReveal } from './reveal.js';
 import { initSkins } from './skins.js';
+import { initMilitaryProps } from './skins/military-props.js?v=4';
 import { initConstellation } from './constellation.js?v=13';
 import { initSolObscurus } from './zones/sol-obscurus.js?v=2';
 import { initBedroomWeather } from './zones/bedroom-weather.js?v=2';
@@ -32,6 +33,7 @@ function boot() {
 
   initSky();
   initHero();
+  initMilitaryProps();   // tank convoy + howitzer, only while the Military skin is active
   initStarChart();
   initCursor();
   initClickFx();

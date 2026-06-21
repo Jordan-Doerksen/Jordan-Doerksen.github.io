@@ -9,10 +9,11 @@
 import { makeNightSky } from './sky/nightsky.js';
 import { makeDataRain } from './sky/datarain.js';
 import { makeDaylight } from './sky/daylight.js?v=4';
+import { makeHudField } from './sky/hudfield.js?v=3';
 import { makePlain } from './sky/plain.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const RENDERERS = { nightsky: makeNightSky, datarain: makeDataRain, daylight: makeDaylight, plain: makePlain };
+const RENDERERS = { nightsky: makeNightSky, datarain: makeDataRain, daylight: makeDaylight, hudfield: makeHudField, plain: makePlain };
 
 function hexToRgb(hex) {
   const n = parseInt(hex.replace('#', ''), 16);
@@ -79,6 +80,7 @@ export function initSky() {
   addEventListener('scroll', () => { if (!raf) drawStatic(); }, { passive: true });
   addEventListener('mousemove', (e) => { mx = e.clientX / w; my = e.clientY / h; }, { passive: true });
   window.addEventListener('skinchange', applySkin);
+  window.addEventListener('sky-redraw', () => { if (!raf) drawStatic(); });   // a renderer (e.g. hudfield camo) finished loading an asset
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') stop();
     else start();

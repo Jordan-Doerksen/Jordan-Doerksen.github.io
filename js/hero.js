@@ -9,9 +9,10 @@
 import { makeJd } from './hero/jd.js';
 import { makeDataEye } from './hero/dataeye.js';
 import { makeSunrise } from './hero/sunrise.js';
+import { makeTargetLock } from './hero/targetlock.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const MOTIFS = { jd: makeJd, dataeye: makeDataEye, sunrise: makeSunrise };
+const MOTIFS = { jd: makeJd, dataeye: makeDataEye, sunrise: makeSunrise, targetlock: makeTargetLock };
 
 function rgbStr(hex) {
   const n = parseInt(hex.replace('#', ''), 16);
@@ -20,7 +21,7 @@ function rgbStr(hex) {
 function readHero() {
   const cs = getComputedStyle(document.documentElement);
   const v = (n, fb) => (cs.getPropertyValue(n).trim() || fb);
-  return { motif: v('--hero-motif', 'jd'), accent: rgbStr(v('--gold', '#d8ac4e')), light: rgbStr(v('--starlight', '#f2f4fa')) };
+  return { motif: v('--hero-motif', 'jd'), accent: rgbStr(v('--gold', '#d8ac4e')), data: rgbStr(v('--accent', '#4fe3d0')), light: rgbStr(v('--starlight', '#f2f4fa')) };
 }
 
 export function initHero() {
