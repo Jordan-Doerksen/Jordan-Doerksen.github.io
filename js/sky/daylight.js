@@ -43,25 +43,9 @@ export function makeDaylight(ctx) {
     g.addColorStop(1, 'transparent');
     ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
 
-    // a soft sun bloom, high and to one side (no hard disc)
-    const sx = w * 0.74, sy = h * 0.12, sr = Math.min(w, h) * 0.55;
-    g = ctx.createRadialGradient(sx, sy, 0, sx, sy, sr);
-    g.addColorStop(0, 'rgba(255, 224, 154, 0.20)');
-    g.addColorStop(0.5, 'rgba(255, 232, 178, 0.06)');
-    g.addColorStop(1, 'transparent');
-    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
-
-    // gentle godrays fanning from the sun
-    ctx.save(); ctx.translate(sx, sy);
-    for (let i = 0; i < 6; i++) {
-      const a = (i - 2.5) * 0.17;
-      const x2 = Math.sin(a) * h * 1.6, y2 = Math.cos(a) * h * 1.6;
-      const gr = ctx.createLinearGradient(0, 0, x2, y2);
-      gr.addColorStop(0, 'rgba(255, 226, 160, 0.05)'); gr.addColorStop(1, 'transparent');
-      ctx.strokeStyle = gr; ctx.lineWidth = 46; ctx.lineCap = 'round';
-      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(x2, y2); ctx.stroke();
-    }
-    ctx.restore();
+    // NOTE: no sun bloom / godrays in the sky — the sunrise HERO is the only
+    // sun. A second light source up here competed with it and fired shafts off
+    // to one side. The sky is just warm haze behind the hero now.
 
     for (const c of wisps) {
       if (dt) { c.x += c.v * dt; if (c.x - c.r > w) c.x = -c.r; }
