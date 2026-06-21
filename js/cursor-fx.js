@@ -200,7 +200,25 @@ function makeGlam(ctx) {
   };
 }
 
-export const CURSORS = { observatory: makeStardust, sentinel: makeScanner, daybreak: makeWarmDust, military: makeHud, angelic: makeHaloTrail, demonic: makeInferno, nature: makeGrove, chic: makeGlam };
+// ---------- PRO · precise crosshair + ink trail + ring click ----------
+function makeExec(ctx) {
+  let trail = [], rings = [];
+  return {
+    frame(dt, env) {
+      const { mx, my, pal } = env;
+      trail.push({ x: mx, y: my, age: 0 }); for (const p of trail) p.age += dt; trail = trail.filter((p) => p.age < 0.3);
+      for (const p of trail) { const f = 1 - p.age / 0.3; ctx.fillStyle = `rgba(${pal.gold}, ${0.3 * f})`; ctx.beginPath(); ctx.arc(p.x, p.y, 1.4 * f + 0.4, 0, 6.2832); ctx.fill(); }   // ink trail
+      for (const r of rings) { r.age += dt; if (r.age < 0) continue; const f = 1 - r.age / r.ttl; ctx.strokeStyle = `rgba(${pal.gold}, ${0.6 * f})`; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(r.x, r.y, 4 + (r.maxr - 4) * (r.age / r.ttl), 0, 6.2832); ctx.stroke(); }
+      rings = rings.filter((r) => r.age < r.ttl);
+      ctx.strokeStyle = `rgba(${pal.gold}, 0.9)`; ctx.lineWidth = 1.2;                                  // precise crosshair
+      ctx.beginPath(); ctx.moveTo(mx - 6, my); ctx.lineTo(mx - 2, my); ctx.moveTo(mx + 2, my); ctx.lineTo(mx + 6, my); ctx.moveTo(mx, my - 6); ctx.lineTo(mx, my - 2); ctx.moveTo(mx, my + 2); ctx.lineTo(mx, my + 6); ctx.stroke();
+      ctx.fillStyle = `rgba(${pal.accent}, 0.95)`; ctx.fillRect(mx - 1, my - 1, 2, 2);
+    },
+    click(env) { const { mx, my } = env; rings.push({ x: mx, y: my, maxr: 30, age: 0, ttl: 0.5 }, { x: mx, y: my, maxr: 18, age: -0.1, ttl: 0.5 }); },
+  };
+}
+
+export const CURSORS = { observatory: makeStardust, sentinel: makeScanner, daybreak: makeWarmDust, military: makeHud, angelic: makeHaloTrail, demonic: makeInferno, nature: makeGrove, chic: makeGlam, pro: makeExec };
 
 export function initCursorFx() {
   if (reduced || !matchMedia('(pointer: fine)').matches) return;

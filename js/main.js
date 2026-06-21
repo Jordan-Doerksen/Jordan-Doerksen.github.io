@@ -8,10 +8,10 @@
 // caches them hard. When you edit a module, bump the ?v= on its import here
 // (and in any other file that imports it) so a normal reload picks it up.
 import { renderShell } from './shell.js';
-import { initSky } from './sky.js?v=16';
-import { initHero } from './hero.js?v=8';
+import { initSky } from './sky.js?v=18';
+import { initHero } from './hero.js?v=9';
 import { initStarChart } from './starchart-nav.js';
-import { initCursorFx } from './cursor-fx.js?v=4';
+import { initCursorFx } from './cursor-fx.js?v=5';
 import { initReveal } from './reveal.js';
 import { initSkins } from './skins.js?v=2';
 import { initMilitaryProps } from './skins/military-props.js?v=4';
@@ -19,6 +19,7 @@ import { initAngelicProps } from './skins/angelic-props.js?v=2';
 import { initDemonicProps } from './skins/demonic-props.js?v=4';
 import { initNatureProps } from './skins/nature-props.js?v=2';
 import { initChicProps } from './skins/chic-props.js';
+import { initProProps } from './skins/pro-props.js';
 import { initConstellation } from './constellation.js?v=13';
 import { initSolObscurus } from './zones/sol-obscurus.js?v=2';
 import { initBedroomWeather } from './zones/bedroom-weather.js?v=2';
@@ -41,6 +42,7 @@ function boot() {
   initDemonicProps();    // imps + bats + hellgate + ash, only while the Demonic skin is active
   initNatureProps();     // critters + hawk, only while the Nature skin is active
   initChicProps();       // runway + sparkle + champagne + gold dust, only while the Chic skin is active
+  initProProps();        // commuters + stat cards + paper planes, only while the Pro skin is active
   initStarChart();
   initCursorFx();   // per-skin cursor trail + click FX (replaces the old cursor/click-fx)
   initReveal();

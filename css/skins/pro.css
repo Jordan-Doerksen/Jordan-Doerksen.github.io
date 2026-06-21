@@ -1,0 +1,93 @@
+/* ==========================================================================
+   SKIN · PRO — "pinstripe & ink." The ultra-professional power skin: warm ivory,
+   an ink-navy thread, an oxblood power-tie accent. A LIGHT skin, so panels go
+   SOLID and dark-baked zone colours get readable overrides. Background = rising
+   market charts; hero = a rotating wireframe globe. Tailored, no-nonsense.
+   ========================================================================== */
+
+:root[data-skin="pro"] {
+  color-scheme: light;
+  --bg: #f6f3ec; --bg-soft: #efe9dd;
+  --panel: #ffffff;                          /* solid -> text reads */
+  --panel-solid: #ffffff;
+  --glass-blur: 8px;
+  --line: rgba(28, 42, 68, 0.14);
+  --line-strong: rgba(28, 42, 68, 0.30);
+  --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --shadow-panel: 0 18px 44px rgba(40, 55, 85, 0.14);
+  --text: #1c2433; --text-muted: #51596a; --text-faint: #5e6678; --starlight: #1c2a44;
+
+  --gold: #1c2a44;            /* the thread -> ink navy (dark, safe as text) */
+  --accent: #7a2230;          /* oxblood power-tie */
+  --forge: #b5651d; --music-mystic: #6a4fb0;
+  --codex-blue: #2f6fb8; --ember: #a8421f; --places-blue: #2f6fb8;
+
+  --font-display: 'Fraunces', Georgia, serif;   /* editorial authority */
+  --sky-mode: quant;
+  --hero-motif: globe;
+  --sky-nebula: #1c2a44;             /* navy lines */
+  --sky-warm: 28, 42, 68;            /* navy */
+  --sky-meteor: 46, 125, 82;         /* market green (gains) */
+  --sky-follow-sections: 0;          /* one boardroom, site-wide */
+
+  /* primary button — ink-navy fill carries ivory text (high contrast); thread = same navy */
+  --btn-fill: #1c2a44; --btn-ink: #f6f3ec; --btn-border: #1c2a44;
+  --gold-ink: var(--gold);           /* ink navy is dark — safe as small text on ivory */
+}
+
+[data-skin="pro"] body::before { opacity: .10; }      /* faint grain */
+[data-skin="pro"] body::after {                         /* cool ink vignette */
+  background: radial-gradient(ellipse 120% 90% at 50% 36%, transparent 60%, rgba(28, 42, 68, 0.08) 100%);
+}
+
+/* On light, panels are SOLID — no glass blur. */
+[data-skin="pro"] .glass-panel,
+[data-skin="pro"] .skin-toggle,
+[data-skin="pro"] .skin-menu {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+[data-skin="pro"] .glass-panel { background: #ffffff; }
+
+/* secondary (ghost) buttons wear the ink-navy outline */
+[data-skin="pro"] .btn:not(.btn-primary) { border-color: var(--gold); }
+
+/* ----- Readability over the busy quant backdrop -----
+   The text floating over the #sky terminal (hero, section heads, About bio,
+   footer) sits on warm CREAMY PARCHMENT cards (opaque, no frost) so the ink
+   text reads cleanly. Text inside the white glass-panels is untouched. */
+[data-skin="pro"] .section-head,
+[data-skin="pro"] .about-grid > .reveal {
+  background: rgba(244, 236, 214, 0.96);
+  border: 1px solid rgba(120, 95, 45, 0.22);
+  border-radius: var(--radius-sm);
+  padding: clamp(16px, 2.4vw, 26px);
+  box-shadow: 0 10px 28px rgba(80, 62, 35, 0.16), inset 0 1px 0 rgba(255, 252, 244, 0.5);
+}
+[data-skin="pro"] .hero-eyebrow,
+[data-skin="pro"] .hero-inner h1,
+[data-skin="pro"] .hero-tag,
+[data-skin="pro"] .hero-scroll,
+[data-skin="pro"] .site-footer p {
+  display: inline-block; width: fit-content; max-width: 100%;
+  background: rgba(244, 236, 214, 0.96);
+  border: 1px solid rgba(120, 95, 45, 0.20);
+  border-radius: 14px;
+  padding: 0.28em 0.82em;
+  box-shadow: 0 8px 22px rgba(80, 62, 35, 0.16);
+}
+[data-skin="pro"] .hero-eyebrow,
+[data-skin="pro"] .hero-scroll,
+[data-skin="pro"] .site-footer p { border-radius: 999px; }
+
+/* ----- Zone headings on light ----- deep, readable per-zone overrides (~5:1+ on #fff) */
+[data-skin="pro"] [data-zone='sol'] h3,
+[data-skin="pro"] [data-zone='sol'] .panel-tag { color: #a8550f; }
+[data-skin="pro"] [data-zone='rain'] h3,
+[data-skin="pro"] [data-zone='rain'] .panel-tag { color: #5a3fa0; }
+[data-skin="pro"] [data-zone='tech'] h3 { color: #1f6a5a; }
+[data-skin="pro"] [data-zone='codex'] h3,
+[data-skin="pro"] [data-zone='sky'] h3 { color: #245f9e; }
+[data-skin="pro"] [data-zone='watch'] h3 { color: #9a2433; }
+[data-skin="pro"] [data-zone='ember'] h3 { color: #a8421f; }
+[data-skin="pro"] [data-zone='forge'] .panel-tag { color: #a8550f; }
