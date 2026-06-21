@@ -1,0 +1,44 @@
+/* ==========================================================================
+   SKIN · CHIC — "champagne noir." Black-tie couture: warm charcoal, a champagne-
+   gold thread, ivory text. Dark skin (panels stay opaque-ish over the void).
+   Background = drifting gold dust; hero = a rotating faceted gem. Editorial
+   Fraunces headlines. Quiet luxe.
+   ========================================================================== */
+
+:root[data-skin="chic"] {
+  --bg: #0c0b0a; --bg-soft: #100e0c;
+  --panel: rgba(24, 21, 17, 0.82);          /* warm charcoal, reads over the void */
+  --panel-solid: #1a1713;
+  --glass-blur: 8px;
+  --line: rgba(216, 182, 106, 0.12);
+  --line-strong: rgba(216, 182, 106, 0.34);
+  --inner-light: inset 0 1px 0 rgba(243, 236, 224, 0.06);
+  --shadow-panel: 0 22px 60px rgba(0, 0, 0, 0.62);
+  --text: #f3ece0; --text-muted: #b8ab97; --text-faint: #8f8473; --starlight: #fff8ee;
+
+  --gold: #d8b66a;            /* the thread -> champagne gold */
+  --accent: #ece1c8;          /* warm platinum / ivory glint */
+  --forge: #e0a23a; --music-mystic: #c39ce8;
+  --codex-blue: #8fb6e0; --ember: #d98a4a; --places-blue: #d8c08a;
+
+  --font-display: 'Fraunces', Georgia, serif;   /* couture editorial headlines */
+  --sky-mode: golddust;
+  --hero-motif: gem;
+  --sky-nebula: #d8b66a;             /* gold glow */
+  --sky-warm: 216, 182, 106;         /* gold motes */
+  --sky-meteor: 236, 225, 200;       /* ivory sparkle */
+  --sky-follow-sections: 0;          /* one champagne haze, site-wide */
+
+  /* primary button — champagne-gold fill carries charcoal ink (high contrast); thread stays gold */
+  --btn-fill: #d8b66a; --btn-ink: #1a1410; --btn-border: #e6cb86;
+  --gold-ink: var(--gold);           /* champagne gold is bright on charcoal — safe as small text */
+}
+
+[data-skin="chic"] body::after {                /* deepen vignette + a faint gold glow up top */
+  background:
+    radial-gradient(ellipse 80% 40% at 50% -6%, rgba(216, 182, 106, 0.10), transparent 70%),
+    radial-gradient(ellipse 120% 90% at 50% 40%, transparent 56%, rgba(4, 3, 2, 0.6) 100%);
+}
+
+/* secondary (ghost) buttons wear the champagne outline */
+[data-skin="chic"] .btn:not(.btn-primary) { border-color: var(--gold); }

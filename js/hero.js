@@ -13,9 +13,10 @@ import { makeTargetLock } from './hero/targetlock.js';
 import { makeSeraph } from './hero/seraph.js';
 import { makeSigilGate } from './hero/sigilgate.js';
 import { makeTreeOfLife } from './hero/treeoflife.js';
+import { makeGem } from './hero/gem.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const MOTIFS = { jd: makeJd, dataeye: makeDataEye, sunrise: makeSunrise, targetlock: makeTargetLock, seraph: makeSeraph, sigilgate: makeSigilGate, treeoflife: makeTreeOfLife };
+const MOTIFS = { jd: makeJd, dataeye: makeDataEye, sunrise: makeSunrise, targetlock: makeTargetLock, seraph: makeSeraph, sigilgate: makeSigilGate, treeoflife: makeTreeOfLife, gem: makeGem };
 
 function rgbStr(hex) {
   const n = parseInt(hex.replace('#', ''), 16);

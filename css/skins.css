@@ -20,7 +20,7 @@
 }
 
 /* ---- the skin picker (fixed glass pill, top-right) ---- */
-.skin-picker { position: fixed; top: 16px; right: 18px; z-index: 60; font-family: var(--font-mono); }
+.skin-picker { position: fixed; top: 16px; right: 18px; z-index: 120; font-family: var(--font-mono); }   /* above the star-rail (110), below the star-map modal (160) */
 .skin-toggle {
   display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
   padding: 8px 13px; border-radius: 999px; font-size: 12px; letter-spacing: .04em;
@@ -48,5 +48,7 @@
 .skin-menu button[aria-current="true"] { color: var(--gold-ink); }
 .skin-menu button::before { content: '✦'; font-size: .8em; color: var(--gold-ink); opacity: .45; }
 .skin-menu button[aria-current="true"]::before { opacity: 1; }
-@media (max-width: 760px) { .skin-picker { top: 12px; right: 62px; } }
+/* On mobile the top bar shows the "Star chart" button (top-right); stack the
+   skin picker below it so they never overlap (matches the 880px breakpoint). */
+@media (max-width: 880px) { .skin-picker { top: 60px; right: 18px; } }
 @media (prefers-reduced-motion: reduce) { .skin-toggle, .skin-menu button { transition: none; } }

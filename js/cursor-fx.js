@@ -179,7 +179,28 @@ function makeGrove(ctx) {
   };
 }
 
-export const CURSORS = { observatory: makeStardust, sentinel: makeScanner, daybreak: makeWarmDust, military: makeHud, angelic: makeHaloTrail, demonic: makeInferno, nature: makeGrove };
+// ---------- CHIC · gold sparkle trail + shine click ----------
+function makeGlam(ctx) {
+  let ps = [], rings = [];
+  function glint(x, y, L, col, a) { ctx.strokeStyle = `rgba(${col}, ${a})`; ctx.lineWidth = 1.1; ctx.beginPath(); ctx.moveTo(x - L, y); ctx.lineTo(x + L, y); ctx.moveTo(x, y - L); ctx.lineTo(x, y + L); ctx.stroke(); }
+  return {
+    frame(dt, env) {
+      const { mx, my, speed, t, pal } = env;
+      const n = Math.min(3, Math.floor(speed * 0.05));
+      for (let i = 0; i < n; i++) ps.push({ x: mx + (Math.random() - 0.5) * 6, y: my + (Math.random() - 0.5) * 6, vx: (Math.random() - 0.5) * 12, vy: (Math.random() - 0.5) * 12, age: 0, ttl: 0.6 + Math.random() * 0.6, sz: 1 + Math.random() * 1.4, ivory: Math.random() < 0.4, star: Math.random() < 0.3 });
+      for (const p of ps) { p.age += dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= 0.94; p.vy *= 0.94; }
+      ps = ps.filter((p) => p.age < p.ttl);
+      for (const p of ps) { const f = 1 - p.age / p.ttl, c = p.ivory ? pal.accent : pal.gold; if (p.star) glint(p.x, p.y, p.sz + 2, c, 0.8 * f); else { ctx.fillStyle = `rgba(${c}, ${0.8 * f})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.sz * f + 0.4, 0, 6.2832); ctx.fill(); } }
+      for (const r of rings) { r.age += dt; const f = 1 - r.age / r.ttl; ctx.strokeStyle = `rgba(${pal.gold}, ${0.6 * f})`; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.arc(r.x, r.y, 4 + (r.maxr - 4) * (r.age / r.ttl), 0, 6.2832); ctx.stroke(); }
+      rings = rings.filter((r) => r.age < r.ttl);
+      const tw = 0.7 + 0.3 * Math.sin(t * 5); glint(mx, my, 5 + tw * 2, pal.gold, 0.9);                  // cursor sparkle
+      ctx.fillStyle = `rgba(${pal.accent}, 0.95)`; ctx.beginPath(); ctx.arc(mx, my, 1.5, 0, 6.2832); ctx.fill();
+    },
+    click(env) { const { mx, my } = env; rings.push({ x: mx, y: my, maxr: 34, age: 0, ttl: 0.55 }); for (let i = 0; i < 14; i++) { const a = i / 14 * 6.2832, sp = 50 + Math.random() * 60; ps.push({ x: mx, y: my, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, age: 0, ttl: 0.6 + Math.random() * 0.4, sz: 1.3 + Math.random() * 1.3, ivory: Math.random() < 0.5, star: Math.random() < 0.5 }); } },
+  };
+}
+
+export const CURSORS = { observatory: makeStardust, sentinel: makeScanner, daybreak: makeWarmDust, military: makeHud, angelic: makeHaloTrail, demonic: makeInferno, nature: makeGrove, chic: makeGlam };
 
 export function initCursorFx() {
   if (reduced || !matchMedia('(pointer: fine)').matches) return;

@@ -13,10 +13,11 @@ import { makeHudField } from './sky/hudfield.js?v=3';
 import { makeAurora } from './sky/aurora.js?v=2';
 import { makeSigils } from './sky/sigils.js';
 import { makeValley } from './sky/valley.js?v=3';
+import { makeGoldDust } from './sky/golddust.js';
 import { makePlain } from './sky/plain.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const RENDERERS = { nightsky: makeNightSky, datarain: makeDataRain, daylight: makeDaylight, hudfield: makeHudField, aurora: makeAurora, sigils: makeSigils, valley: makeValley, plain: makePlain };
+const RENDERERS = { nightsky: makeNightSky, datarain: makeDataRain, daylight: makeDaylight, hudfield: makeHudField, aurora: makeAurora, sigils: makeSigils, valley: makeValley, golddust: makeGoldDust, plain: makePlain };
 
 function hexToRgb(hex) {
   const n = parseInt(hex.replace('#', ''), 16);
