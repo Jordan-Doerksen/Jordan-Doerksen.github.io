@@ -132,7 +132,33 @@ function makeHaloTrail(ctx) {
   };
 }
 
-export const CURSORS = { observatory: makeStardust, sentinel: makeScanner, daybreak: makeWarmDust, military: makeHud, angelic: makeHaloTrail };
+// ---------- DEMONIC · molten ember trail + summoning-circle click ----------
+function makeInferno(ctx) {
+  let ps = [], rings = [];
+  return {
+    frame(dt, env) {
+      const { mx, my, speed, pal } = env;
+      const n = Math.min(4, Math.floor(speed * 0.06));
+      for (let i = 0; i < n; i++) ps.push({ x: mx + (Math.random() - 0.5) * 5, y: my + (Math.random() - 0.5) * 5, vx: (Math.random() - 0.5) * 16, vy: -10 - Math.random() * 24, age: 0, ttl: 0.6 + Math.random() * 0.5, sz: 1 + Math.random() * 1.6, amber: Math.random() < 0.3 });
+      for (const p of ps) { p.age += dt; p.vy += 8 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= 0.95; }   // embers rise then fall
+      ps = ps.filter((p) => p.age < p.ttl);
+      for (const p of ps) { const f = 1 - p.age / p.ttl, c = p.amber ? pal.amber : pal.gold; ctx.fillStyle = `rgba(${c}, ${0.85 * f})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.sz * f + 0.4, 0, 6.2832); ctx.fill(); }
+      for (const r of rings) {
+        r.age += dt; const f = 1 - r.age / r.ttl, rr = 4 + (r.maxr - 4) * (r.age / r.ttl);
+        ctx.strokeStyle = `rgba(${pal.gold}, ${0.7 * f})`; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(r.x, r.y, rr, 0, 6.2832); ctx.stroke();
+        ctx.beginPath(); for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + r.age * 3 + i * 4 * Math.PI / 5, px = r.x + Math.cos(a) * rr * 0.9, py = r.y + Math.sin(a) * rr * 0.9; i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.closePath(); ctx.stroke();
+      }
+      rings = rings.filter((r) => r.age < r.ttl);
+      const g = ctx.createRadialGradient(mx, my, 0, mx, my, 10); g.addColorStop(0, `rgba(${pal.gold}, 0.6)`); g.addColorStop(1, 'transparent');   // molten cursor
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(mx, my, 10, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = 'rgba(255, 240, 220, 0.95)'; ctx.beginPath(); ctx.arc(mx, my, 2, 0, 6.2832); ctx.fill();
+    },
+    click(env) { const { mx, my } = env; rings.push({ x: mx, y: my, maxr: 36, age: 0, ttl: 0.6 }); for (let i = 0; i < 14; i++) { const a = i / 14 * 6.2832, sp = 50 + Math.random() * 60; ps.push({ x: mx, y: my, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, age: 0, ttl: 0.6 + Math.random() * 0.4, sz: 1.4 + Math.random() * 1.3, amber: Math.random() < 0.3 }); } },
+  };
+}
+
+export const CURSORS = { observatory: makeStardust, sentinel: makeScanner, daybreak: makeWarmDust, military: makeHud, angelic: makeHaloTrail, demonic: makeInferno };
 
 export function initCursorFx() {
   if (reduced || !matchMedia('(pointer: fine)').matches) return;

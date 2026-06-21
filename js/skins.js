@@ -11,6 +11,7 @@ const SKINS = [
   { id: 'daybreak', name: 'Daybreak' },
   { id: 'military', name: 'Military' },
   { id: 'angelic', name: 'Angelic' },
+  { id: 'demonic', name: 'Demonic' },
 ];
 
 export function initSkins() {

@@ -8,14 +8,15 @@
 // caches them hard. When you edit a module, bump the ?v= on its import here
 // (and in any other file that imports it) so a normal reload picks it up.
 import { renderShell } from './shell.js';
-import { initSky } from './sky.js?v=10';
-import { initHero } from './hero.js?v=4';
+import { initSky } from './sky.js?v=11';
+import { initHero } from './hero.js?v=5';
 import { initStarChart } from './starchart-nav.js';
-import { initCursorFx } from './cursor-fx.js';
+import { initCursorFx } from './cursor-fx.js?v=2';
 import { initReveal } from './reveal.js';
 import { initSkins } from './skins.js?v=2';
 import { initMilitaryProps } from './skins/military-props.js?v=4';
 import { initAngelicProps } from './skins/angelic-props.js?v=2';
+import { initDemonicProps } from './skins/demonic-props.js?v=4';
 import { initConstellation } from './constellation.js?v=13';
 import { initSolObscurus } from './zones/sol-obscurus.js?v=2';
 import { initBedroomWeather } from './zones/bedroom-weather.js?v=2';
@@ -34,7 +35,8 @@ function boot() {
   initSky();
   initHero();
   initMilitaryProps();   // tank convoy + howitzer, only while the Military skin is active
-  initAngelicProps();    // doves + angel flypast + feathers, only while the Angelic skin is active
+  initAngelicProps();    // doves, only while the Angelic skin is active
+  initDemonicProps();    // imps + bats + hellgate + ash, only while the Demonic skin is active
   initStarChart();
   initCursorFx();   // per-skin cursor trail + click FX (replaces the old cursor/click-fx)
   initReveal();

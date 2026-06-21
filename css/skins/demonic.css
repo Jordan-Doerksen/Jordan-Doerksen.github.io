@@ -1,0 +1,43 @@
+/* ==========================================================================
+   SKIN · DEMONIC — "the pit." Hellfire obsidian: warm near-black, a molten
+   orange thread, sulfur-gold + ember-red accents. Dark skin (panels stay
+   opaque-ish over the void). Background = summoning sigils; hero = a summoning
+   sigil-gate. Whole lot of fire and ritual.
+   ========================================================================== */
+
+:root[data-skin="demonic"] {
+  --bg: #0a0604; --bg-soft: #0e0806;
+  --panel: rgba(22, 14, 10, 0.82);          /* warm dark, reads over the pit */
+  --panel-solid: #170f0a;
+  --glass-blur: 7px;
+  --line: rgba(255, 120, 60, 0.10);
+  --line-strong: rgba(255, 90, 31, 0.40);
+  --inner-light: inset 0 1px 0 rgba(255, 160, 90, 0.05);
+  --shadow-panel: 0 22px 60px rgba(0, 0, 0, 0.66);
+  --text: #f0e6df; --text-muted: #b09a8e; --text-faint: #93806f; --starlight: #fff3ea;
+
+  --gold: #ff5a1f;            /* the wayfinding thread -> molten orange */
+  --accent: #e8b53a;          /* sulfur-gold (sigils / secondary data) */
+  --forge: #ff7a2a; --music-mystic: #b052e0;
+  --codex-blue: #6aa9ff; --ember: #e23b2a; --places-blue: #ff8f6a;
+
+  --sky-mode: sigils;
+  --hero-motif: sigilgate;
+  --sky-nebula: #ff5a1f;             /* hell-glow + rune tone */
+  --sky-warm: 255, 90, 31;           /* molten runes */
+  --sky-meteor: 232, 181, 58;        /* sulfur glyphs */
+  --sky-follow-sections: 0;          /* one pit, site-wide */
+
+  /* primary button — deep molten so white text passes AA (~4.7:1); thread stays vivid */
+  --btn-fill: #c83a16; --btn-ink: #fff3ea; --btn-border: #ff5a1f;
+  --gold-ink: var(--gold);           /* molten orange is bright on obsidian — safe as small text */
+}
+
+[data-skin="demonic"] body::after {            /* deepen the vignette, warm-black + a low hell-glow */
+  background:
+    radial-gradient(ellipse 90% 50% at 50% 108%, rgba(255, 90, 31, 0.12), transparent 70%),
+    radial-gradient(ellipse 120% 90% at 50% 38%, transparent 56%, rgba(8, 3, 1, 0.62) 100%);
+}
+
+/* secondary (ghost) buttons wear the molten outline */
+[data-skin="demonic"] .btn:not(.btn-primary) { border-color: var(--gold); }
