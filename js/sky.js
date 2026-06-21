@@ -14,7 +14,7 @@ import { makeAurora } from './sky/aurora.js?v=2';
 import { makeSigils } from './sky/sigils.js';
 import { makeValley } from './sky/valley.js?v=3';
 import { makeGoldDust } from './sky/golddust.js';
-import { makeQuant } from './sky/quant.js';
+import { makeQuant } from './sky/quant.js?v=2';
 import { makePlain } from './sky/plain.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;

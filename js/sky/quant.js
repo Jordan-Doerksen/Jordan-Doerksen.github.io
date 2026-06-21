@@ -57,7 +57,20 @@ export function makeQuant(ctx) {
 
     // physics node-network (bounces, leans toward the cursor)
     const cxp = (smx || 0.5) * w, cyp = (smy || 0.5) * h;
-    if (dt) for (const n of nodes) { n.vx += (cxp - n.x) * 0.06 * dt; n.vy += (cyp - n.y) * 0.06 * dt; n.x += n.vx * dt; n.y += n.vy * dt; if (n.x < 0 || n.x > w) { n.vx *= -1; n.x = Math.max(0, Math.min(w, n.x)); } if (n.y < 0 || n.y > h) { n.vy *= -1; n.y = Math.max(0, Math.min(h, n.y)); } n.vx *= 0.995; n.vy *= 0.995; }
+    if (dt) {
+      for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {   // mutual repulsion so they spread, not clump
+        const a = nodes[i], b = nodes[j], dx = a.x - b.x, dy = a.y - b.y, d = Math.hypot(dx, dy) || 1;
+        if (d < 120) { const f = (120 - d) / 120 * 1100 * dt, ux = dx / d, uy = dy / d; a.vx += ux * f; a.vy += uy * f; b.vx -= ux * f; b.vy -= uy * f; }
+      }
+      for (const n of nodes) {
+        n.vx += (cxp - n.x) * 0.05 * dt; n.vy += (cyp - n.y) * 0.05 * dt;                 // gentle pull toward the cursor
+        const sp = Math.hypot(n.vx, n.vy); if (sp > 220) { n.vx *= 220 / sp; n.vy *= 220 / sp; }   // cap speed (keeps it calm)
+        n.x += n.vx * dt; n.y += n.vy * dt;
+        if (n.x < 0 || n.x > w) { n.vx *= -1; n.x = Math.max(0, Math.min(w, n.x)); }
+        if (n.y < 0 || n.y > h) { n.vy *= -1; n.y = Math.max(0, Math.min(h, n.y)); }
+        n.vx *= 0.99; n.vy *= 0.99;
+      }
+    }
     for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
       const a = nodes[i], b = nodes[j], dx = a.x - b.x, dy = a.y - b.y, d2 = dx * dx + dy * dy;
       if (d2 < 150 * 150) { ctx.strokeStyle = `rgba(${navy}, ${0.18 * (1 - Math.sqrt(d2) / 150)})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }

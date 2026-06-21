@@ -8,7 +8,7 @@
 // caches them hard. When you edit a module, bump the ?v= on its import here
 // (and in any other file that imports it) so a normal reload picks it up.
 import { renderShell } from './shell.js';
-import { initSky } from './sky.js?v=18';
+import { initSky } from './sky.js?v=19';
 import { initHero } from './hero.js?v=9';
 import { initStarChart } from './starchart-nav.js';
 import { initCursorFx } from './cursor-fx.js?v=5';
