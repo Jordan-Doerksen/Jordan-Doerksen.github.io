@@ -158,7 +158,28 @@ function makeInferno(ctx) {
   };
 }
 
-export const CURSORS = { observatory: makeStardust, sentinel: makeScanner, daybreak: makeWarmDust, military: makeHud, angelic: makeHaloTrail, demonic: makeInferno };
+// ---------- NATURE · leaf + pollen trail, bloom click (light skin) ----------
+function makeGrove(ctx) {
+  let ps = [], rings = [];
+  function leaf(x, y, rot, sz, col, a) { ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.fillStyle = `rgba(${col}, ${a})`; ctx.beginPath(); ctx.moveTo(0, -sz * 2.4); ctx.quadraticCurveTo(sz * 1.6, 0, 0, sz * 2.4); ctx.quadraticCurveTo(-sz * 1.6, 0, 0, -sz * 2.4); ctx.closePath(); ctx.fill(); ctx.restore(); }
+  return {
+    frame(dt, env) {
+      const { mx, my, speed, t, pal } = env;
+      const n = Math.min(3, Math.floor(speed * 0.05));
+      for (let i = 0; i < n; i++) ps.push({ x: mx + (Math.random() - 0.5) * 6, y: my + (Math.random() - 0.5) * 6, vx: (Math.random() - 0.5) * 10, vy: -6 - Math.random() * 8, age: 0, ttl: 0.9 + Math.random() * 0.7, leaf: Math.random() < 0.45, rot: Math.random() * 6.28, vr: (Math.random() - 0.5) * 3, sz: 1 + Math.random() * 1.4 });
+      for (const p of ps) { p.age += dt; p.vy += 10 * dt; p.x += (p.vx + Math.sin(t * 3 + p.x) * 4) * dt; p.y += p.vy * dt; p.rot += p.vr * dt; }   // float + sway + gravity
+      ps = ps.filter((p) => p.age < p.ttl);
+      for (const p of ps) { const f = 1 - p.age / p.ttl; if (p.leaf) leaf(p.x, p.y, p.rot, p.sz, pal.gold, 0.7 * f); else { ctx.fillStyle = `rgba(${pal.accent}, ${0.7 * f})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.sz * 0.7 + 0.3, 0, 6.2832); ctx.fill(); } }
+      for (const r of rings) { r.age += dt; const f = 1 - r.age / r.ttl; ctx.strokeStyle = `rgba(${pal.gold}, ${0.6 * f})`; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(r.x, r.y, 4 + (r.maxr - 4) * (r.age / r.ttl), 0, 6.2832); ctx.stroke(); }
+      rings = rings.filter((r) => r.age < r.ttl);
+      leaf(mx, my, 0.5 + Math.sin(t * 2) * 0.1, 2.4, pal.gold, 0.92);                       // cursor leaf
+      ctx.strokeStyle = `rgba(${pal.accent}, 0.6)`; ctx.lineWidth = 0.8; ctx.beginPath(); ctx.moveTo(mx, my - 5.5); ctx.lineTo(mx, my + 5.5); ctx.stroke();
+    },
+    click(env) { const { mx, my } = env; rings.push({ x: mx, y: my, maxr: 30, age: 0, ttl: 0.6 }); for (let i = 0; i < 10; i++) { const a = i / 10 * 6.2832, sp = 40 + Math.random() * 40; ps.push({ x: mx, y: my, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, age: 0, ttl: 0.7 + Math.random() * 0.4, leaf: Math.random() < 0.6, rot: a, vr: (Math.random() - 0.5) * 3, sz: 1.3 + Math.random() }); } },
+  };
+}
+
+export const CURSORS = { observatory: makeStardust, sentinel: makeScanner, daybreak: makeWarmDust, military: makeHud, angelic: makeHaloTrail, demonic: makeInferno, nature: makeGrove };
 
 export function initCursorFx() {
   if (reduced || !matchMedia('(pointer: fine)').matches) return;

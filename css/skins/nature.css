@@ -1,0 +1,95 @@
+/* ==========================================================================
+   SKIN · NATURE — "misty alpine." A cool LIGHT skin: soft blue-grey mist, a
+   deep evergreen thread, river-cyan accent. Mountains + rivers. Like the other
+   light skins, panels go SOLID and dark-baked zone colours get readable
+   overrides. Background = pollen motes + mist; hero = a mountain-and-river scene.
+   ========================================================================== */
+
+:root[data-skin="nature"] {
+  color-scheme: light;
+  --bg: #e8eef0; --bg-soft: #dde6e9;
+  --panel: #ffffff;                          /* solid -> text reads on the mist */
+  --panel-solid: #ffffff;
+  --glass-blur: 8px;
+  --line: rgba(40, 70, 80, 0.14);
+  --line-strong: rgba(40, 70, 80, 0.30);
+  --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --shadow-panel: 0 18px 44px rgba(60, 90, 100, 0.16);
+  --text: #1f2a2c; --text-muted: #50605f; --text-faint: #5d6b69; --starlight: #2c3a3a;
+
+  --gold: #2c5d52;            /* the thread -> deep evergreen (dark, safe as text) */
+  --accent: #2f86a0;          /* river / glacier cyan */
+  --forge: #b3651f; --music-mystic: #6a55c0;
+  --codex-blue: #2f6fb8; --ember: #b34a2b; --places-blue: #357a96;
+
+  --font-display: 'Fraunces', Georgia, serif;   /* organic editorial headings */
+  --sky-mode: valley;
+  --hero-motif: treeoflife;
+  --sky-nebula: #2c5d52;             /* mist tint */
+  --sky-warm: 120, 160, 120;         /* pollen-green motes */
+  --sky-meteor: 63, 155, 176;        /* river-cyan motes */
+  --sky-follow-sections: 0;          /* one valley, site-wide */
+
+  /* primary button — deep evergreen fill carries cream text (~9:1); thread = same green */
+  --btn-fill: #2c5d52; --btn-ink: #f3f8f6; --btn-border: #2c5d52;
+  --gold-ink: var(--gold);           /* evergreen is dark — safe as small text on white */
+}
+
+[data-skin="nature"] body::before { opacity: .12; }      /* faint grain */
+[data-skin="nature"] body::after {                         /* cool misty vignette */
+  background: radial-gradient(ellipse 120% 90% at 50% 36%, transparent 60%, rgba(40, 70, 85, 0.09) 100%);
+}
+
+/* On light, panels are SOLID — no glass blur. */
+[data-skin="nature"] .glass-panel,
+[data-skin="nature"] .skin-toggle,
+[data-skin="nature"] .skin-menu {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+[data-skin="nature"] .glass-panel { background: #ffffff; }
+
+/* secondary (ghost) buttons wear the evergreen outline */
+[data-skin="nature"] .btn:not(.btn-primary) { border-color: var(--gold); }
+
+/* ----- Readability over the busy valley backdrop -----
+   The text that floats over the #sky landscape (hero, section heads, the About
+   bio, footer) sits on soft frosted cards, so normal dark text always has a
+   readable surface while the full landscape stays visible behind everything.
+   Text inside the solid white glass-panels is untouched. */
+[data-skin="nature"] .section-head,
+[data-skin="nature"] .about-grid > .reveal {
+  background: rgba(255, 255, 255, 0.74);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border: 1px solid rgba(40, 70, 80, 0.12);
+  border-radius: var(--radius-sm);
+  padding: clamp(16px, 2.4vw, 26px);
+  box-shadow: 0 12px 30px rgba(50, 80, 90, 0.14);
+}
+[data-skin="nature"] .hero-eyebrow,
+[data-skin="nature"] .hero-inner h1,
+[data-skin="nature"] .hero-tag,
+[data-skin="nature"] .hero-scroll,
+[data-skin="nature"] .site-footer p {
+  display: inline-block; width: fit-content; max-width: 100%;
+  background: rgba(255, 255, 255, 0.74);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 0.28em 0.82em;
+  box-shadow: 0 8px 22px rgba(50, 80, 90, 0.14);
+}
+[data-skin="nature"] .hero-eyebrow,
+[data-skin="nature"] .hero-scroll,
+[data-skin="nature"] .site-footer p { border-radius: 999px; }
+
+/* ----- Zone headings on light ----- deep, readable per-zone overrides (~5:1+ on #fff) */
+[data-skin="nature"] [data-zone='sol'] h3,
+[data-skin="nature"] [data-zone='sol'] .panel-tag { color: #a8550f; }
+[data-skin="nature"] [data-zone='rain'] h3,
+[data-skin="nature"] [data-zone='rain'] .panel-tag { color: #5a3fa0; }
+[data-skin="nature"] [data-zone='tech'] h3 { color: #1f6a5a; }
+[data-skin="nature"] [data-zone='codex'] h3,
+[data-skin="nature"] [data-zone='sky'] h3 { color: #245f9e; }
+[data-skin="nature"] [data-zone='watch'] h3 { color: #b0384a; }
+[data-skin="nature"] [data-zone='ember'] h3 { color: #a8550f; }
+[data-skin="nature"] [data-zone='forge'] .panel-tag { color: #a8550f; }
