@@ -118,8 +118,9 @@ function starField(w, h) {
 // ---- ③ CN Conductor — an endless night train ------------------------------
 function railRun(w, h) {
   const railY = Math.round(h * 0.66), groundY = railY + 6, trainX = Math.round(w * 0.30), speed = 54;
-  let dist = 0, t = 0, trees = [], smoke = [], signalX = null, signalColor = '#3ddc84', animal = null;
+  let dist = 0, t = 0, trees = [], smoke = [], signalX = null, signalAsp = null, animal = null;
   let treeIn = 0, signalIn = 3 + Math.random() * 3, animalIn = 4 + Math.random() * 4;
+  const dualAspect = () => ({ top: Math.random() < 0.6 ? '#3ddc84' : '#ffaa44', bottom: Math.random() < 0.6 ? '#3ddc84' : '#ffaa44' });  // green/yellow, never red
   const stars = Array.from({ length: 9 }, () => ({ x: Math.random() * w, y: Math.random() * h * 0.42, r: Math.random() * 0.9 + 0.3, p: Math.random() * 6.28 }));
   const moon = { x: Math.round(w * 0.8), y: Math.round(h * 0.22), r: 6.5 };
   function spawnTree() { trees.push({ x: w + 16, h: 12 + Math.random() * 16, layer: Math.random() < 0.45 ? 1 : 0.65 }); }
@@ -132,12 +133,15 @@ function railRun(w, h) {
     ctx.beginPath(); ctx.moveTo(x, groundY - h); ctx.lineTo(x - wd, groundY - 1); ctx.lineTo(x + wd, groundY - 1); ctx.closePath(); ctx.fill();
     ctx.beginPath(); ctx.moveTo(x, groundY - h * 0.6); ctx.lineTo(x - wd * 1.25, groundY + 2); ctx.lineTo(x + wd * 1.25, groundY + 2); ctx.closePath(); ctx.fill();
   }
-  function signal(ctx, x, color) {
+  function signal(ctx, x, asp) {
     ctx.strokeStyle = 'rgba(150,165,200,.6)'; ctx.lineWidth = 1.4;
-    ctx.beginPath(); ctx.moveTo(x, groundY); ctx.lineTo(x, groundY - 26); ctx.stroke();
-    ctx.fillStyle = 'rgba(36,46,64,.95)'; roundRect(ctx, x - 3.2, groundY - 33, 6.4, 11, 2); ctx.fill();
-    ctx.globalAlpha = 0.35; ctx.fillStyle = color; ctx.beginPath(); ctx.arc(x, groundY - 27.5, 4.2, 0, 6.28); ctx.fill();
-    ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(x, groundY - 27.5, 2.1, 0, 6.28); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(x, groundY); ctx.lineTo(x, groundY - 24); ctx.stroke();
+    ctx.fillStyle = 'rgba(36,46,64,.95)'; roundRect(ctx, x - 3.4, groundY - 41, 6.8, 17, 2); ctx.fill();
+    const lamp = (cy, c) => {
+      ctx.globalAlpha = 0.35; ctx.fillStyle = c; ctx.beginPath(); ctx.arc(x, cy, 4, 0, 6.28); ctx.fill();
+      ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(x, cy, 2, 0, 6.28); ctx.fill();
+    };
+    lamp(groundY - 35, asp.top); lamp(groundY - 28, asp.bottom);
   }
   function critter(ctx, a) {
     if (a.kind === 'deer') {
@@ -210,8 +214,8 @@ function railRun(w, h) {
     if (animal) { animal.x -= speed * (animal.kind === 'bat' ? 1.15 : 0.9) * dt; animal.ph += dt; critter(ctx, animal); if (animal.x < -14) { animal = null; animalIn = 5 + Math.random() * 6; } }
     // signal (once in a while)
     signalIn -= dt;
-    if (signalX === null && signalIn <= 0) { signalX = w + 12; signalColor = ['#3ddc84', '#ffaa44', '#ff5d6c'][Math.floor(Math.random() * 3)]; }
-    if (signalX !== null) { signalX -= speed * dt; signal(ctx, signalX, signalColor); if (signalX < -8) { signalX = null; signalIn = 5 + Math.random() * 5; } }
+    if (signalX === null && signalIn <= 0) { signalX = w + 12; signalAsp = dualAspect(); }
+    if (signalX !== null) { signalX -= speed * dt; signal(ctx, signalX, signalAsp); if (signalX < -8) { signalX = null; signalIn = 5 + Math.random() * 5; } }
     // ground + rail + ties
     ctx.strokeStyle = 'rgba(190,205,255,.10)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(w, groundY); ctx.stroke();
     ctx.strokeStyle = 'rgba(120,150,200,.4)'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(0, railY + 3); ctx.lineTo(w, railY + 3); ctx.stroke();
