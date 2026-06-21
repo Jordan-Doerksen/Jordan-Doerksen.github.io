@@ -11,8 +11,7 @@ import { renderShell } from './shell.js';
 import { initSky } from './sky.js?v=10';
 import { initHero } from './hero.js?v=4';
 import { initStarChart } from './starchart-nav.js';
-import { initCursor } from './cursor.js';
-import { initClickFx } from './click-fx.js';
+import { initCursorFx } from './cursor-fx.js';
 import { initReveal } from './reveal.js';
 import { initSkins } from './skins.js?v=2';
 import { initMilitaryProps } from './skins/military-props.js?v=4';
@@ -37,8 +36,7 @@ function boot() {
   initMilitaryProps();   // tank convoy + howitzer, only while the Military skin is active
   initAngelicProps();    // doves + angel flypast + feathers, only while the Angelic skin is active
   initStarChart();
-  initCursor();
-  initClickFx();
+  initCursorFx();   // per-skin cursor trail + click FX (replaces the old cursor/click-fx)
   initReveal();
 
   // Themed panels — the hub Music teasers keep their ambient effects;
