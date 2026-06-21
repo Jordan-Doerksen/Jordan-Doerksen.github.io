@@ -15,6 +15,14 @@
   },
   "projects": [
     {
+      "name": "CROR Training Assistant",
+      "tag": "rail reference · vanilla js, no build",
+      "blurb": "A reference-first study companion for railway conductors: search any rule, signal, or definition and get a fast answer with its Canadian Rail Operating Rules citation and a trust flag — rulebook, special instruction, or verified with an SME. Built for re-qualification and recert prep — the thing you keep open the night before.",
+      "links": [
+        { "label": "Open the assistant →", "href": "/training-assistant/", "primary": true, "newTab": true }
+      ]
+    },
+    {
       "name": "CROR Trainer — Grande Prairie",
       "tag": "rail training · 7 modules",
       "blurb": "A browser study tool for CN freight conductors on the Grande Prairie yard, grounded in the January 2025 Canadian Rail Operating Rules: rule drills, an animated switching sim and puzzle, an interactive yard board, signal reading, and a step-by-step radio walkthrough.",

@@ -147,7 +147,7 @@ function railRun(w, h) {
       ctx.fillRect(x - 4, y - 1, 1.6, 4); ctx.fillRect(x + 3, y - 1, 1.6, 4);
       ctx.fillRect(x + 4.5, y - 11, 1.8, 6); ctx.fillRect(x + 4, y - 13, 4, 3);
     } else {
-      // a little bat, wings flapping (Kourtney's cameo)
+      // a little bat, wings flapping
       const x = a.x, y = a.y, f = Math.sin(a.ph * 13) * 2.6;
       ctx.fillStyle = 'rgba(32,36,50,.92)';
       ctx.beginPath();
