@@ -52,8 +52,8 @@
       "tag": "trading intelligence · self-hosted",
       "blurb": "A read-only intelligence cockpit for ES & NQ futures: live order flow, volatility, structure, and macro news on one screen, with a data-free Discord feed. Self-hosted, no cloud — it watches the market and never touches it.",
       "links": [
-        { "label": "See the showcase →", "href": "https://jordan-doerksen.github.io/sentinel-pro-showcase/", "primary": true, "newTab": true },
-        { "label": "Live demo →", "href": "https://jordan-doerksen.github.io/sentinel-pro-showcase/dashboard/", "newTab": true }
+        { "label": "See the showcase →", "href": "https://jordan-doerksen.github.io/sentinel/", "primary": true, "newTab": true },
+        { "label": "See it live →", "href": "https://jordan-doerksen.github.io/sentinel/#live", "newTab": true }
       ]
     },
     {
