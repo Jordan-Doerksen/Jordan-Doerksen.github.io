@@ -7,8 +7,7 @@ import { renderShell } from '../shell.js';
 import { initStarChart } from '../starchart-nav.js';
 import { initSky } from '../sky.js';
 import { initReveal } from '../reveal.js';
-import { initCursor } from '../cursor.js';
-import { initClickFx } from '../click-fx.js';
+import { initCursorFx } from '../cursor-fx.js';
 
 async function boot() {
   renderShell();
@@ -18,8 +17,7 @@ async function boot() {
 
   initSky();
   initReveal();
-  initCursor();
-  initClickFx();
+  initCursorFx();
 }
 
 async function renderGallery() {

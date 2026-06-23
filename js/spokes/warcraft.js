@@ -7,8 +7,7 @@ import { renderShell } from '../shell.js';
 import { initStarChart } from '../starchart-nav.js';
 import { initSky } from '../sky.js';
 import { initReveal } from '../reveal.js';
-import { initCursor } from '../cursor.js';
-import { initClickFx } from '../click-fx.js';
+import { initCursorFx } from '../cursor-fx.js';
 import { initCoinSurvival } from '../projects/coin-survival.js';
 
 function boot() {
@@ -17,8 +16,7 @@ function boot() {
 
   initSky();
   initReveal();
-  initCursor();
-  initClickFx();
+  initCursorFx();
   initCoinSurvival(); // #coin-game + #coin-overlay + #coin-start
 }
 

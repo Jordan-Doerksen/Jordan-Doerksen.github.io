@@ -228,43 +228,97 @@ function railRun(w, h) {
   return { frame };
 }
 
-// ---- ④ Switch List — a cut rolls in and couples (a switching move) ---------
+// ---- ④ Switch List — a full switching move (the train moves, not the world):
+//   pull the cut in from the left past the switch · stop · throw the switch (spark)
+//   · back the cut down into the siding · cut away · run the engine light back to
+//   the main and off. A clear locomotive hauling a six-car cut.
 function switchYard(w, h) {
-  const railY = Math.round(h * 0.60), carW = 24, gap = 3;
-  const standX = Math.round(w * 0.44);              // right edge of the standing cut
-  let dist = 0, t = 0, spark = 0, phase = 'in', wait = 0;
-  let roller = { x: w + 20, vx: -(30 + Math.random() * 8) };
-  const stars = Array.from({ length: 7 }, () => ({ x: Math.random() * w, y: Math.random() * h * 0.42, r: Math.random() * 0.8 + 0.3, p: Math.random() * 6.28 }));
-  function boxcar(ctx, x, y, lit) {
-    ctx.fillStyle = lit ? 'rgba(150,170,205,.95)' : 'rgba(110,135,175,.88)';
-    roundRect(ctx, x - carW, y - 11, carW, 11, 2); ctx.fill();
-    ctx.fillStyle = 'rgba(58,78,112,.7)'; ctx.fillRect(x - carW * 0.6, y - 9, 5, 9);            // door
+  const mainY = Math.round(h * 0.60), sidingY = mainY + 16, groundY = mainY + 7;
+  const switchX = Math.round(w * 0.55), ramp = 20;
+  const N = 9;                                   // cars in the cut
+  const carW = 20, carH = 13, pitch = carW + 4;
+  const engW = 36, speed = 72;
+  const stars = Array.from({ length: 16 }, () => ({ x: Math.random() * w, y: Math.random() * (mainY - 16), r: Math.random() * 0.9 + 0.3, a: 0.16 + Math.random() * 0.3 }));
+  const moon = { x: Math.round(w * 0.86), y: Math.round((mainY - 16) * 0.42), r: 7 };
+  const trees = Array.from({ length: Math.max(5, Math.round(w / 90)) }, () => ({ x: 14 + Math.random() * (w - 28), hh: 13 + Math.random() * 15, layer: Math.random() < 0.5 ? 1 : 0.6 }));
+  let engineX, carXs, carYs, phase, switched, spark, coupled, carsA, wait, dropped, relined;
+  function reset() {
+    engineX = -8; carXs = new Array(N).fill(-99); carYs = new Array(N).fill(0);
+    phase = 'pullin'; switched = false; spark = 0; coupled = true; carsA = 1; wait = 0; dropped = false; relined = false;
+  }
+  reset();
+  function layout() { for (let i = 0; i < N; i++) carXs[i] = engineX - engW - 2 - i * pitch; }
+  function pathY(cx) {
+    if (!switched) return mainY;
+    if (cx >= switchX) return mainY;
+    if (cx >= switchX - ramp) return mainY + (sidingY - mainY) * (switchX - cx) / ramp;
+    return sidingY;
+  }
+  function wheels(ctx, x0, x1, y) {
     ctx.fillStyle = '#05070d';
-    ctx.beginPath(); ctx.arc(x - carW + 5, y + 1, 2.2, 0, 6.28); ctx.fill();
-    ctx.beginPath(); ctx.arc(x - 5, y + 1, 2.2, 0, 6.28); ctx.fill();
+    [x0 + 3, x1 - 3].forEach((wx) => { ctx.beginPath(); ctx.arc(wx, y + 1, 2, 0, 6.28); ctx.fill(); });
+  }
+  function boxcar(ctx, x, y) {                    // x = right edge, y = rail level
+    ctx.fillStyle = 'rgba(112,137,177,.92)';
+    roundRect(ctx, x - carW, y - carH, carW, carH, 2); ctx.fill();
+    ctx.fillStyle = 'rgba(58,78,112,.7)'; ctx.fillRect(x - carW * 0.58, y - carH + 2, 5, carH - 2);   // door
+    ctx.fillStyle = 'rgba(160,178,212,.2)'; ctx.fillRect(x - carW + 2, y - carH + 2, carW - 4, 1.3);  // roof seam
+    wheels(ctx, x - carW, x, y);
+  }
+  function engine(ctx, x) {                       // x = right edge; the nose leads right
+    const y = pathY(x - engW / 2);
+    ctx.fillStyle = '#3f4d66'; ctx.fillRect(x - engW, y - 2, engW, 2);                              // frame
+    ctx.fillStyle = '#58698a'; roundRect(ctx, x - engW + 2, y - 12, engW - 4, 10, 2); ctx.fill();   // long hood
+    ctx.fillStyle = '#6b7d9e'; roundRect(ctx, x - engW, y - 18, 14, 16, 2); ctx.fill();             // cab (rear/left)
+    ctx.fillStyle = '#9fd0ff'; ctx.fillRect(x - engW + 2.5, y - 16, 4.5, 4.5); ctx.fillRect(x - engW + 8, y - 16, 4.5, 4.5); // two windows
+    ctx.fillStyle = 'rgba(216,172,78,.9)'; ctx.fillRect(x - engW + 14, y - 7, engW - 17, 1.7);      // gold stripe
+    ctx.fillStyle = '#58698a'; roundRect(ctx, x - 7, y - 9, 7, 7, 1.5); ctx.fill();                 // nose
+    ctx.fillStyle = 'rgba(255,240,180,.9)'; ctx.beginPath(); ctx.arc(x - 3.5, y - 6, 1.8, 0, 6.28); ctx.fill(); // headlight
+    ctx.fillStyle = '#05070d';
+    [x - engW + 7, x - engW + 12, x - 12, x - 7].forEach((wx) => { ctx.beginPath(); ctx.arc(wx, y + 1, 2.4, 0, 6.28); ctx.fill(); }); // two trucks
+  }
+  function tree(ctx, tx, th, layer) {
+    const wd = th * 0.42, a = 0.1 + 0.18 * layer;
+    ctx.fillStyle = `rgba(58,78,108,${a})`;
+    ctx.beginPath(); ctx.moveTo(tx, groundY - th); ctx.lineTo(tx - wd, groundY - 1); ctx.lineTo(tx + wd, groundY - 1); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(tx, groundY - th * 0.62); ctx.lineTo(tx - wd * 1.2, groundY + 1); ctx.lineTo(tx + wd * 1.2, groundY + 1); ctx.closePath(); ctx.fill();
   }
   function frame(dt, ctx) {
-    t += dt; dist += 11 * dt;
-    for (const s of stars) { ctx.fillStyle = `rgba(233,237,246,${0.22 + 0.24 * Math.abs(Math.sin(s.p + t))})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.28); ctx.fill(); }
-    ctx.strokeStyle = 'rgba(190,205,255,.10)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, railY + 7); ctx.lineTo(w, railY + 7); ctx.stroke();
-    ctx.strokeStyle = 'rgba(120,150,200,.4)'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(0, railY + 3); ctx.lineTo(w, railY + 3); ctx.stroke();
-    ctx.strokeStyle = 'rgba(120,150,200,.2)'; ctx.lineWidth = 2;
-    const g = 14, off = dist % g;
-    for (let x = -off; x < w; x += g) { ctx.beginPath(); ctx.moveTo(x, railY + 1); ctx.lineTo(x, railY + 5); ctx.stroke(); }
-    ctx.strokeStyle = 'rgba(120,150,200,.16)'; ctx.lineWidth = 1.2;                              // turnout stub
-    ctx.beginPath(); ctx.moveTo(standX - carW * 2, railY + 3); ctx.lineTo(standX - carW * 2 - 22, railY + 15); ctx.lineTo(0, railY + 15); ctx.stroke();
-    boxcar(ctx, standX, railY, spark > 0);
-    boxcar(ctx, standX - carW - gap, railY, false);
-    if (roller) {
-      if (dt && phase === 'in') roller.x += roller.vx * dt;
-      boxcar(ctx, roller.x, railY, false);
-      if (phase === 'in' && roller.x <= standX + carW + gap) { roller.x = standX + carW + gap; phase = 'wait'; wait = 1.5; spark = 0.45; }
-    }
-    if (phase === 'wait') { wait -= dt; if (wait <= 0) { phase = 'in'; roller = { x: w + 20, vx: -(30 + Math.random() * 8) }; } }
+    // sky + scenery — static (only the train moves, not the world)
+    for (const s of stars) { ctx.fillStyle = `rgba(233,237,246,${s.a})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.28); ctx.fill(); }
+    ctx.fillStyle = 'rgba(214,219,236,.42)'; ctx.beginPath(); ctx.arc(moon.x, moon.y, moon.r, 0, 6.28); ctx.fill();
+    for (const tr of trees) tree(ctx, tr.x, tr.hh, tr.layer);
+    // track scene
+    ctx.strokeStyle = 'rgba(190,205,255,.08)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, mainY + 6); ctx.lineTo(w, mainY + 6); ctx.stroke();
+    ctx.strokeStyle = 'rgba(120,150,200,.42)'; ctx.lineWidth = 1.4;
+    ctx.beginPath(); ctx.moveTo(0, mainY + 3); ctx.lineTo(w, mainY + 3); ctx.stroke();    // main
+    ctx.strokeStyle = 'rgba(120,150,200,.3)';
+    ctx.beginPath(); ctx.moveTo(0, sidingY + 3); ctx.lineTo(switchX - ramp, sidingY + 3); ctx.lineTo(switchX, mainY + 3); ctx.stroke(); // siding + ramp
+    ctx.strokeStyle = 'rgba(120,150,200,.15)'; ctx.lineWidth = 2;
+    for (let x = 8; x < w; x += 14) { ctx.beginPath(); ctx.moveTo(x, mainY + 1); ctx.lineTo(x, mainY + 5); ctx.stroke(); }
+    for (let x = 8; x < switchX - ramp; x += 14) { ctx.beginPath(); ctx.moveTo(x, sidingY + 1); ctx.lineTo(x, sidingY + 5); ctx.stroke(); }
+    ctx.fillStyle = switched ? 'rgba(216,172,78,.8)' : 'rgba(120,150,200,.5)';
+    ctx.beginPath(); ctx.arc(switchX, mainY + 3, 2, 0, 6.28); ctx.fill();                 // switch points
+
+    // choreography — pull in · throw · shove to siding · cut · depart light · fade
+    if (phase === 'pullin') { engineX += speed * dt; layout(); if (carXs[N - 1] - carW >= switchX + 5) { phase = 'throw'; switched = true; spark = 0.8; wait = 0.9; } }
+    else if (phase === 'throw') { wait -= dt; if (wait <= 0) phase = 'shove'; }
+    else if (phase === 'shove') { engineX -= speed * dt; layout(); if (engineX <= switchX - 5) { for (let i = 0; i < N; i++) carYs[i] = pathY(carXs[i] - carW / 2); dropped = true; phase = 'cut'; coupled = false; wait = 0.9; } }
+    else if (phase === 'cut') { wait -= dt; if (wait <= 0) phase = 'depart'; }
+    else if (phase === 'depart') { engineX += speed * dt; if (!relined && engineX - engW > switchX + 5) { switched = false; relined = true; spark = 0.7; } if (engineX - engW > w + 12) { phase = 'fade'; carsA = 1; } }
+    else if (phase === 'fade') { carsA -= dt * 1.1; if (carsA <= 0) reset(); }
+
+    // draw cars (the dropped cut) then the engine
+    ctx.globalAlpha = clamp(carsA, 0, 1);
+    for (let i = 0; i < N; i++) if (carXs[i] > -carW - 2 && carXs[i] < w + carW) boxcar(ctx, carXs[i], dropped ? carYs[i] : pathY(carXs[i] - carW / 2));
+    ctx.globalAlpha = 1;
+    if (phase !== 'fade') engine(ctx, engineX);
+
     if (spark > 0) {
-      spark -= dt; const a = clamp(spark / 0.45, 0, 1);
-      ctx.fillStyle = `rgba(216,172,78,${0.65 * a})`;
-      ctx.beginPath(); ctx.arc(standX + 2, railY - 5, 1.5 + (1 - a) * 4, 0, 6.28); ctx.fill();
+      spark -= dt; const a = clamp(spark / 0.8, 0, 1);
+      ctx.fillStyle = `rgba(216,172,78,${0.75 * a})`;
+      ctx.beginPath(); ctx.arc(switchX, mainY + 3, 1.5 + (1 - a) * 5, 0, 6.28); ctx.fill();
     }
   }
   return { frame };
