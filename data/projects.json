@@ -15,6 +15,14 @@
   },
   "projects": [
     {
+      "name": "The Bench — JD-PORTFOLIO REV 1",
+      "tag": "résumé · a circuit board you probe",
+      "blurb": "My second portfolio, and the cold opposite of this one: a printed circuit board where every project is a component you probe for a full datasheet — architecture, electrical characteristics, pin description, and a live readout. Built for the technical read, with a print-to-PDF spec-sheet résumé. Single file, no build.",
+      "links": [
+        { "label": "Probe the board →", "href": "https://jordan-doerksen.github.io/the-bench/", "primary": true, "newTab": true }
+      ]
+    },
+    {
       "name": "CROR Training Assistant",
       "tag": "rail reference · vanilla js, no build",
       "blurb": "A reference-first study companion for railway conductors, grounded in the January 2025 Canadian Rail Operating Rules: search any rule, signal, or definition and get a fast answer with its citation and a trust flag. Then drill it — flashcards, multiple choice, and rule-number recall generated straight from the reference — and track your weak spots over time. The thing you keep open the night before.",
@@ -35,7 +43,7 @@
       "tag": "game · constellation roguelite",
       "blurb": "Pilot a survey probe with heavy, drifty momentum, trace each constellation's blueprint on the atlas plate, and refit your instruments every third plate — dodging asteroids, black holes, and drifting space-fauna. A single-file roguelite built in this site's own night-sky style.",
       "links": [
-        { "label": "Play Star Charter Pro →", "href": "/star-charter/Star-Charter-Pro/", "primary": true, "newTab": true },
+        { "label": "Play Star Charter Pro →", "href": "/star-charter-pro/", "primary": true, "newTab": true },
         { "label": "The collection →", "href": "/star-charter/", "newTab": true }
       ]
     },
@@ -44,7 +52,23 @@
       "tag": "game · sonar in the dark",
       "blurb": "A bat in the dark, harvesting glowing fruit by sonar. Your voice paints the cave, then the dark takes it back. A mobile-first, single-file canvas game. Part of the Star Charter collection.",
       "links": [
-        { "label": "Play Echo Bat →", "href": "/star-charter/Echo-Bat/", "primary": true, "newTab": true }
+        { "label": "Play Echo Bat →", "href": "/echo-bat/", "primary": true, "newTab": true }
+      ]
+    },
+    {
+      "name": "Glass Atlas",
+      "tag": "generative · seeded star plates",
+      "blurb": "A generative star-atlas plate generator. Every reroll is a 1-of-1 print; the seed rides in the URL so any plate is shareable and re-rollable, and saves as a PNG. Single file, deterministic.",
+      "links": [
+        { "label": "Generate a plate →", "href": "/glass-atlas/", "primary": true, "newTab": true }
+      ]
+    },
+    {
+      "name": "Orbital Field",
+      "tag": "toy · orbital gravity",
+      "blurb": "A quiet gravity toy: drag to fling a world, hold to bend gravity, tap for an orbit. Bodies trace and decay across a dark field. No goals, no score — just orbits.",
+      "links": [
+        { "label": "Open the field →", "href": "/orbital-field/", "primary": true, "newTab": true }
       ]
     },
     {
