@@ -228,7 +228,50 @@ function railRun(w, h) {
   return { frame };
 }
 
+// ---- ④ Switch List — a cut rolls in and couples (a switching move) ---------
+function switchYard(w, h) {
+  const railY = Math.round(h * 0.60), carW = 24, gap = 3;
+  const standX = Math.round(w * 0.44);              // right edge of the standing cut
+  let dist = 0, t = 0, spark = 0, phase = 'in', wait = 0;
+  let roller = { x: w + 20, vx: -(30 + Math.random() * 8) };
+  const stars = Array.from({ length: 7 }, () => ({ x: Math.random() * w, y: Math.random() * h * 0.42, r: Math.random() * 0.8 + 0.3, p: Math.random() * 6.28 }));
+  function boxcar(ctx, x, y, lit) {
+    ctx.fillStyle = lit ? 'rgba(150,170,205,.95)' : 'rgba(110,135,175,.88)';
+    roundRect(ctx, x - carW, y - 11, carW, 11, 2); ctx.fill();
+    ctx.fillStyle = 'rgba(58,78,112,.7)'; ctx.fillRect(x - carW * 0.6, y - 9, 5, 9);            // door
+    ctx.fillStyle = '#05070d';
+    ctx.beginPath(); ctx.arc(x - carW + 5, y + 1, 2.2, 0, 6.28); ctx.fill();
+    ctx.beginPath(); ctx.arc(x - 5, y + 1, 2.2, 0, 6.28); ctx.fill();
+  }
+  function frame(dt, ctx) {
+    t += dt; dist += 11 * dt;
+    for (const s of stars) { ctx.fillStyle = `rgba(233,237,246,${0.22 + 0.24 * Math.abs(Math.sin(s.p + t))})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.28); ctx.fill(); }
+    ctx.strokeStyle = 'rgba(190,205,255,.10)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, railY + 7); ctx.lineTo(w, railY + 7); ctx.stroke();
+    ctx.strokeStyle = 'rgba(120,150,200,.4)'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(0, railY + 3); ctx.lineTo(w, railY + 3); ctx.stroke();
+    ctx.strokeStyle = 'rgba(120,150,200,.2)'; ctx.lineWidth = 2;
+    const g = 14, off = dist % g;
+    for (let x = -off; x < w; x += g) { ctx.beginPath(); ctx.moveTo(x, railY + 1); ctx.lineTo(x, railY + 5); ctx.stroke(); }
+    ctx.strokeStyle = 'rgba(120,150,200,.16)'; ctx.lineWidth = 1.2;                              // turnout stub
+    ctx.beginPath(); ctx.moveTo(standX - carW * 2, railY + 3); ctx.lineTo(standX - carW * 2 - 22, railY + 15); ctx.lineTo(0, railY + 15); ctx.stroke();
+    boxcar(ctx, standX, railY, spark > 0);
+    boxcar(ctx, standX - carW - gap, railY, false);
+    if (roller) {
+      if (dt && phase === 'in') roller.x += roller.vx * dt;
+      boxcar(ctx, roller.x, railY, false);
+      if (phase === 'in' && roller.x <= standX + carW + gap) { roller.x = standX + carW + gap; phase = 'wait'; wait = 1.5; spark = 0.45; }
+    }
+    if (phase === 'wait') { wait -= dt; if (wait <= 0) { phase = 'in'; roller = { x: w + 20, vx: -(30 + Math.random() * 8) }; } }
+    if (spark > 0) {
+      spark -= dt; const a = clamp(spark / 0.45, 0, 1);
+      ctx.fillStyle = `rgba(216,172,78,${0.65 * a})`;
+      ctx.beginPath(); ctx.arc(standX + 2, railY - 5, 1.5 + (1 - a) * 4, 0, 6.28); ctx.fill();
+    }
+  }
+  return { frame };
+}
+
 // ---- boot ------------------------------------------------------------------
 document.querySelectorAll('.mini-mock[data-mock="sentinel"]').forEach(sentinel);
 document.querySelectorAll('.mini-canvas[data-mock="starcharter"] canvas').forEach((c) => runScene(c, starField));
 document.querySelectorAll('.mini-yard[data-mock="conductor"] canvas').forEach((c) => runScene(c, railRun));
+document.querySelectorAll('.mini-yard[data-mock="switchlist"] canvas').forEach((c) => runScene(c, switchYard));
