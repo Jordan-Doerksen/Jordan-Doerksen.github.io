@@ -329,3 +329,28 @@
   list-style: none;
   padding: 0;
 }
+
+/* ===== About portrait — pull the daylight selfie into the archive ===== */
+#about .portrait {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-panel), inset 0 0 0 1px var(--line);
+}
+#about .portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: brightness(0.64) contrast(1.08) saturate(0.58);
+}
+#about .portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(120% 85% at 50% 20%, rgba(216, 172, 78, 0.08), transparent 55%),
+    radial-gradient(135% 120% at 50% 40%, transparent 40%, rgba(4, 6, 12, 0.85)),
+    linear-gradient(180deg, transparent 24%, rgba(4, 6, 12, 0.85));
+}

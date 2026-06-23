@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="css/tokens.css?v=5" />
   <link rel="stylesheet" href="css/base.css?v=4" />
   <link rel="stylesheet" href="css/glass.css?v=6" />
-  <link rel="stylesheet" href="css/components.css?v=4" />
+  <link rel="stylesheet" href="css/components.css?v=6" />
   <link rel="stylesheet" href="css/fx-global.css?v=4" />
   <link rel="stylesheet" href="css/zones.css?v=5" />
   <link rel="stylesheet" href="css/editions.css?v=3" />
@@ -69,14 +69,16 @@
       <div class="container">
         <div class="section-head reveal">
           <p class="eyebrow"><span class="plate-no">Plate 01</span><span class="star-glyph">✦</span>About</p>
+          <h2>Builder by <span class="ital">habit</span></h2>
+          <p class="lede">Self-taught, mostly from scratch.</p>
           <div class="atlas-rule" aria-hidden="true"></div>
         </div>
 
         <div class="about-grid grid-2 reveal-stagger">
           <!-- ✏️ EDIT: your bio. Plain and direct. -->
           <div class="reveal">
-            <p>I build things — software, music, games, 3D prints — mostly from scratch. Before this: roofing, arborist work, a homestead summer in B.C., and a couple of years driving freight trains through the mountains. Now in Winnipeg.</p>
-            <p style="margin-top:1em">Most of what I make is on this page; a few things are hidden.</p>
+            <p>I drove freight trains through the mountains for a couple of years. Before that: roofing, arborist work, a homestead summer in B.C. Now I'm in Winnipeg, building things — software, games, music, 3D prints — mostly from scratch.</p>
+            <p style="margin-top:1em">Most of what I make is on this page. A few things are hidden.</p>
 
             <!-- The route log: lived & worked stops, in order -->
             <p class="route-log">
@@ -180,7 +182,7 @@
         <div class="section-head reveal">
           <p class="eyebrow"><span class="plate-no">Plate 04</span><span class="star-glyph">✦</span>Projects</p>
           <h2>Things I've <span class="ital">built</span></h2>
-          <p class="lede">A collection of editions — each its own build, in its own hue.</p>
+          <p class="lede">Most of it built in the last few months — each its own repo, its own hue.</p>
           <div class="atlas-rule" aria-hidden="true"></div>
         </div>
 
@@ -205,13 +207,14 @@
           <article class="glass-panel reveal" data-zone="watch">
             <div class="panel-body">
               <span class="edition-no">Edition N°02 · trading</span>
-              <div class="mini-mock" data-mock="sentinel" role="img" aria-label="A miniature live Sentinel-Pro cockpit">
+              <span class="panel-tag">v2 · in rebuild</span>
+              <div class="mini-mock" data-mock="sentinel" role="img" aria-label="A miniature Sentinel-Pro cockpit, in rebuild">
                 <div class="mm-top">
                   <span class="mm-eye"></span>
                   <span class="mm-sym">ES</span>
                   <span class="mm-px" data-px>7368.25</span>
                   <span class="mm-chg up" data-chg>▲ 1.50</span>
-                  <span class="mm-live">● LIVE</span>
+                  <span class="mm-live">v2 · rebuilding</span>
                 </div>
                 <div class="mm-bars" data-bars><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
                 <div class="mm-foot">
@@ -221,9 +224,9 @@
                 </div>
               </div>
               <h3>Sentinel-Pro</h3>
-              <p class="card-blurb">A read-only intelligence cockpit for ES &amp; NQ futures — live order flow, volatility, structure, and macro news on one screen, with a data-free Discord feed. Self-hosted; it watches the market and never touches it.</p>
+              <p class="card-blurb">A read-only intelligence cockpit for ES &amp; NQ futures. The first model is retired — its market-data feed proved unreliable, so it's being rebuilt on a source I can trust. The honesty is the point: it watches the market, never touches it, and shows nothing it can't stand behind.</p>
               <div class="card-links">
-                <a class="btn btn-sm" href="https://jordan-doerksen.github.io/sentinel/" target="_blank" rel="noopener">See the showcase →</a>
+                <a class="btn btn-sm" href="https://jordan-doerksen.github.io/sentinel/" target="_blank" rel="noopener">See the v1 showcase →</a>
               </div>
             </div>
           </article>
@@ -240,41 +243,29 @@
             </div>
           </article>
 
-          <!-- N°04 Star Charter -->
-          <article class="glass-panel reveal" data-zone="tech">
-            <div class="panel-body">
-              <span class="edition-no">Edition N°04 · game</span>
-              <div class="mini-canvas" data-mock="starcharter" role="img" aria-label="A miniature space scene — drifting asteroids and the occasional black hole"><canvas></canvas></div>
-              <span class="panel-tag">single-file game</span>
-              <h3>Star Charter Pro</h3>
-              <p class="card-blurb">A constellation roguelite in one file — drifty momentum, generated audio, particles, a living starfield. No dependencies.</p>
-              <div class="card-links"><a class="btn btn-sm" href="/star-charter/Star-Charter-Pro/" target="_blank" rel="noopener">Play →</a></div>
-            </div>
-          </article>
-
-          <!-- N°05 Diablo — Act 1 -->
-          <article class="glass-panel reveal" data-zone="ember">
-            <div class="panel-body">
-              <span class="edition-no">Edition N°05 · game</span>
-              <span class="panel-tag">canvas ARPG</span>
-              <h3>Diablo — Act 1</h3>
-              <p class="card-blurb">A single-file canvas ARPG: town to Blood Raven, three classes, D2-style safe-zone map generation.</p>
-              <div class="card-links"><a class="btn btn-sm" href="/diablo-act1/" target="_blank" rel="noopener">Play Act 1 →</a></div>
-            </div>
-          </article>
-
-          <!-- N°06 Warcraft III — playable in the Codex spoke -->
+          <!-- N°04 The Bench -->
           <article class="glass-panel reveal" data-zone="codex">
             <div class="panel-body">
-              <span class="edition-no">Edition N°06 · maps</span>
-              <span class="panel-tag">custom maps · lua</span>
-              <h3>Warcraft III — The Codex</h3>
-              <p class="card-blurb">Survival and maze maps scripted in Lua — including a browser-playable homage to Coin Survival.</p>
-              <div class="card-links">
-                <a class="btn btn-sm" href="/warcraft/">Play in the Codex →</a>
-              </div>
+              <span class="edition-no">Edition N°04 · portfolio</span>
+              <span class="panel-tag">engineer's résumé · single file</span>
+              <h3>The Bench</h3>
+              <p class="card-blurb">A second portfolio built as a circuit board you probe — every project a component with a full datasheet, plus a print-to-PDF spec-sheet résumé. The cold, technical counterpart to this one.</p>
+              <div class="card-links"><a class="btn btn-sm" href="https://jordan-doerksen.github.io/the-bench/" target="_blank" rel="noopener">Probe the board →</a></div>
             </div>
           </article>
+
+          <!-- N°05 The Glass Archive — games & toys (collection) -->
+          <article class="glass-panel reveal" data-zone="tech">
+            <div class="panel-body">
+              <span class="edition-no">Edition N°05 · collection</span>
+              <div class="mini-canvas" data-mock="starcharter" role="img" aria-label="A miniature space scene — drifting asteroids and the occasional black hole"><canvas></canvas></div>
+              <span class="panel-tag">single-file games &amp; generative toys</span>
+              <h3>The Glass Archive — games &amp; toys</h3>
+              <p class="card-blurb">A body of single-file pieces, each its own repo and live page: Star Charter and the Pro edition, Echo Bat, Glass Atlas, Orbital Field, and a Diablo Act 1 tribute. No build, no dependencies — open and play.</p>
+              <div class="card-links"><a class="btn btn-sm" href="/projects/">Enter the collection →</a></div>
+            </div>
+          </article>
+
         </div>
 
         <div style="text-align:center;margin-top:2.4rem" class="reveal">

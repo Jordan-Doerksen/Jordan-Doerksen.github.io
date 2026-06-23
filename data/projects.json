@@ -73,11 +73,10 @@
     },
     {
       "name": "Sentinel-Pro",
-      "tag": "trading intelligence · self-hosted",
-      "blurb": "A read-only intelligence cockpit for ES & NQ futures: live order flow, volatility, structure, and macro news on one screen, with a data-free Discord feed. Self-hosted, no cloud — it watches the market and never touches it.",
+      "tag": "trading intelligence · v2 in rebuild",
+      "blurb": "A read-only intelligence cockpit for ES & NQ futures. The first model is retired — its market-data feed proved unreliable, so it's being rebuilt on a source I can trust. The honesty is the point: it watches the market, never touches it, and shows nothing it can't stand behind.",
       "links": [
-        { "label": "See the showcase →", "href": "https://jordan-doerksen.github.io/sentinel/", "primary": true, "newTab": true },
-        { "label": "See it live →", "href": "https://jordan-doerksen.github.io/sentinel/#live", "newTab": true }
+        { "label": "See the v1 showcase →", "href": "https://jordan-doerksen.github.io/sentinel/", "primary": true, "newTab": true }
       ]
     },
     {
@@ -94,14 +93,6 @@
       "blurb": "A single-file canvas action-RPG — a vertical slice from town through the moor and the den to Blood Raven, with three classes and D2-style safe-zone map generation.",
       "links": [
         { "label": "Play Act 1 →", "href": "/diablo-act1/", "primary": true, "newTab": true }
-      ]
-    },
-    {
-      "name": "Wave Survival",
-      "tag": "game · tower defence",
-      "blurb": "A slice-based tower-defence game — economy, a tech tree, escalating waves, and a multi-map campaign, built one playable slice at a time.",
-      "links": [
-        { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen", "newTab": true }
       ]
     },
     {
