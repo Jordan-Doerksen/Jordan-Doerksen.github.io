@@ -96,6 +96,14 @@
       ]
     },
     {
+      "name": "Macroscope",
+      "tag": "markets · local llm + discord",
+      "blurb": "Doomfeed's market-desk sibling. It reads a wide spread of macro and market news, has a local LLM weigh each headline for likely impact — which market, which way, how big, how sure — and posts the movers as colour-coded severity cards to Discord and a light equity-research dashboard. Sentiment only: it reads the tape, never trades it, and a blank card beats a wrong one.",
+      "links": [
+        { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen/macroscope", "primary": true, "newTab": true }
+      ]
+    },
+    {
       "name": "Doomfeed",
       "tag": "bot · local llm + discord",
       "blurb": "A self-hosted feed of the world's worst news. It scrapes wars, shootings, and disasters, has a local LLM write a flat, factual summary — severity rated, location tagged, no cloud model and no API keys — and posts each one as a colour-coded card to a Discord channel. It does not do good news.",
