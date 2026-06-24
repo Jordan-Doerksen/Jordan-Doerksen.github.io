@@ -96,6 +96,14 @@
       ]
     },
     {
+      "name": "Doomfeed",
+      "tag": "bot · local llm + discord",
+      "blurb": "A self-hosted feed of the world's worst news. It scrapes wars, shootings, and disasters, has a local LLM write a flat, factual summary — severity rated, location tagged, no cloud model and no API keys — and posts each one as a colour-coded card to a Discord channel. It does not do good news.",
+      "links": [
+        { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen/doomfeed", "primary": true, "newTab": true }
+      ]
+    },
+    {
       "name": "The Boys' Bots",
       "tag": "bots · node + discord.js",
       "blurb": "Node + discord.js bots for the group server — a token-leak fun-police and a Groq-powered personality bot. Small, useful, self-hosted.",
