@@ -104,6 +104,14 @@
       ]
     },
     {
+      "name": "Spectrum",
+      "tag": "news · rust + tauri + local llm",
+      "blurb": "The one that ate the other three. Doomfeed, Macroscope, and Richter folded into a single Rust engine: it reads a wide spread of finance, politics, tech, and world news, has a local LLM sort each headline into one band and weigh it, and posts the ones that matter as themed cards to the matching Discord channel. A small Tauri control panel rides on top — start it, stop it, watch it work. One read per headline, no dashboards, no cloud model, no API keys; a quiet channel beats a wrong card.",
+      "links": [
+        { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen/spectrum", "primary": true, "newTab": true }
+      ]
+    },
+    {
       "name": "Macroscope",
       "tag": "markets · local llm + discord",
       "blurb": "Doomfeed's market-desk sibling. It reads a wide spread of macro and market news, has a local LLM weigh each headline for likely impact — which market, which way, how big, how sure — and posts the movers as colour-coded severity cards to Discord and a light equity-research dashboard. Sentiment only: it reads the tape, never trades it, and a blank card beats a wrong one.",
