@@ -106,7 +106,7 @@
     {
       "name": "The Boys' Bots",
       "tag": "bots · node + discord.js",
-      "blurb": "Node + discord.js bots for the group server — a token-leak fun-police and a Groq-powered personality bot. Small, useful, self-hosted.",
+      "blurb": "Node + discord.js bots for the group server — Ask-Johnny, a deadpan Groq-powered persona bot, and Fun-Police, a tiny ban-list bot. Small, useful, self-hosted.",
       "links": [
         { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen", "newTab": true }
       ]
@@ -116,7 +116,7 @@
       "tag": "web design · concept site",
       "blurb": "A multi-page concept site for a Wolseley café — menu, story, and visit pages, built mobile-first.",
       "links": [
-        { "label": "View the site →", "href": "/sites/bonnie-day/", "primary": true, "newTab": true }
+        { "label": "View the site →", "href": "https://jordan-doerksen.github.io/bonnie-day-pitch/", "primary": true, "newTab": true }
       ]
     },
     {
@@ -124,7 +124,7 @@
       "tag": "web design · concept site",
       "blurb": "A one-page concept site for a Pembina Hwy diner — menu, hours, reviews, and tap-to-call, in a warm old-school style.",
       "links": [
-        { "label": "View the site →", "href": "/sites/garwood-grill/", "primary": true, "newTab": true }
+        { "label": "View the site →", "href": "https://jordan-doerksen.github.io/garwood-grill-pitch/", "primary": true, "newTab": true }
       ]
     },
     {
@@ -132,7 +132,15 @@
       "tag": "web design · concept site",
       "blurb": "A one-page concept site for a South Osborne sub shop.",
       "links": [
-        { "label": "View the site →", "href": "/sites/hoagie-boyz/", "primary": true, "newTab": true }
+        { "label": "View the site →", "href": "https://jordan-doerksen.github.io/hoagie-boyz-pitch/", "primary": true, "newTab": true }
+      ]
+    },
+    {
+      "name": "Caddy Shed Golf",
+      "tag": "web design · concept site",
+      "blurb": "A pitch for a Winnipeg golf-simulator lounge — a hub presenting three full design directions (Premium Heritage, Modern Sport, Local & Warm) plus a printable proposal. Pick a lane, then build it.",
+      "links": [
+        { "label": "View the pitch →", "href": "https://jordan-doerksen.github.io/caddy-shed-golf-pitch/", "primary": true, "newTab": true }
       ]
     }
   ]
