@@ -112,6 +112,14 @@
       ]
     },
     {
+      "name": "Richter",
+      "tag": "world news · local llm + discord",
+      "blurb": "Macroscope's world-desk sibling. It reads a wide spread of world, political, and breaking news, has a local LLM score each headline for how big and how loud it is — arena, heat, virality, stakes, how sure — and posts the loudest as magnitude-scored cards to Discord and a broadsheet wire-desk dashboard. Newsworthiness only: it reads the room, never the truth, and a blank card beats a false alarm.",
+      "links": [
+        { "label": "On GitHub →", "href": "https://github.com/Jordan-Doerksen/richter", "primary": true, "newTab": true }
+      ]
+    },
+    {
       "name": "Doomfeed",
       "tag": "bot · local llm + discord",
       "blurb": "A self-hosted feed of the world's worst news. It scrapes wars, shootings, and disasters, has a local LLM write a flat, factual summary — severity rated, location tagged, no cloud model and no API keys — and posts each one as a colour-coded card to a Discord channel. It does not do good news.",
