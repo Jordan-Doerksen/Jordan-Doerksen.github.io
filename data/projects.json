@@ -23,6 +23,14 @@
       ]
     },
     {
+      "name": "The Index",
+      "tag": "résumé · the work, plainly",
+      "blurb": "My third portfolio, and the plainest of the three: no night sky, no circuit board, no lore — just every project I've shipped, in one filterable capability matrix. Selected work up top, the full index below, a print-to-PDF résumé, and counts that can't drift because they're tallied straight from the data. The one you hand a recruiter.",
+      "links": [
+        { "label": "Open the index →", "href": "https://jordan-doerksen.github.io/the-index/", "primary": true, "newTab": true }
+      ]
+    },
+    {
       "name": "CROR Training Assistant",
       "tag": "rail reference · vanilla js, no build",
       "blurb": "A reference-first study companion for railway conductors, grounded in the January 2025 Canadian Rail Operating Rules: search any rule, signal, or definition and get a fast answer with its citation and a trust flag. Then drill it — flashcards, multiple choice, and rule-number recall generated straight from the reference — and track your weak spots over time. The thing you keep open the night before.",
