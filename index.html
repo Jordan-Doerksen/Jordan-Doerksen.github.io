@@ -1,402 +1,364 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>try{var s=localStorage.getItem('obs-skin');if(s)document.documentElement.dataset.skin=s;}catch(e){}</script>
-  <title>Jordan Doerksen — The Observatory</title>
-  <meta name="description" content="Jordan Doerksen — code, guitar, trains, and the worlds in between. An observatory of the things I make. Winnipeg, Manitoba." />
-
-  <!-- Fonts: Space Grotesk (tech display), Fraunces italic (the serif whisper),
-       Inter (UI), JetBrains Mono (labels), Cinzel (Sol Obscurus + OoT temple only) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,300..600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Cinzel:wght@600&display=swap" rel="stylesheet" />
-
-  <!-- The ?v= number busts stale caches — bump it whenever you edit CSS/JS -->
-  <link rel="stylesheet" href="css/tokens.css?v=5" />
-  <link rel="stylesheet" href="css/base.css?v=4" />
-  <link rel="stylesheet" href="css/glass.css?v=6" />
-  <link rel="stylesheet" href="css/components.css?v=6" />
-  <link rel="stylesheet" href="css/fx-global.css?v=4" />
-  <link rel="stylesheet" href="css/zones.css?v=5" />
-  <link rel="stylesheet" href="css/editions.css?v=4" />
-  <link rel="stylesheet" href="css/skins.css?v=5" />
-  <link rel="stylesheet" href="css/skins/sentinel.css?v=4" />
-  <link rel="stylesheet" href="css/skins/daybreak.css?v=5" />
-  <link rel="stylesheet" href="css/skins/military.css?v=2" />
-  <link rel="stylesheet" href="css/skins/angelic.css?v=2" />
-  <link rel="stylesheet" href="css/skins/demonic.css?v=1" />
-  <link rel="stylesheet" href="css/skins/nature.css?v=5" />
-  <link rel="stylesheet" href="css/skins/chic.css?v=1" />
-  <link rel="stylesheet" href="css/skins/pro.css?v=4" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jordan Doerksen — I make things that work.</title>
+<meta name="description" content="Portfolio of Jordan Doerksen — rail conductor in Winnipeg, self-taught maker. Trading cockpits, rail trainers, browser games, and the occasional useful tool, each with a repo behind it.">
+<meta name="theme-color" content="#f6f1e7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f6f1e7'/%3E%3Ctext x='50' y='72' font-size='64' text-anchor='middle' fill='%23b8860b'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/style.css">
+<style>
+/* page-specific: linked category tiles + the full-archive index.
+   Components come from styles/style.css; this is layout glue only. */
+a.cat{text-decoration:none;color:inherit}
+.arc-group{margin-bottom:clamp(30px,4.5vh,50px)}
+.arc-group:last-child{margin-bottom:0}
+.arc-cat{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent-ink);display:flex;align-items:center;gap:12px;margin-bottom:4px;
+}
+.arc-cat::after{content:"";height:1px;flex:1;background:var(--hair)}
+.arc-list{list-style:none;margin:0;padding:0}
+.arc-row{
+  display:flex;align-items:baseline;gap:6px 14px;padding:13px 0;
+  border-bottom:1px solid var(--hair);flex-wrap:wrap;
+}
+.arc-list .arc-row:last-child{border-bottom:0}
+.arc-name{font-weight:600;color:var(--ink)}
+.arc-blurb{color:var(--muted);font-size:.95rem;flex:1 1 26ch;min-width:0}
+.arc-link{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  color:var(--accent-ink);text-decoration:none;white-space:nowrap;margin-left:auto;
+}
+.arc-link:hover,.arc-link:focus-visible{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.arc-note{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);padding:18px 0;
+}
+@media (max-width:560px){ .arc-row{gap:4px 10px} .arc-link{margin-left:0;flex-basis:100%} }
+</style>
 </head>
-<body data-page="hub">
-  <a class="skip-link" href="#about">Skip to content</a>
+<body>
 
-  <!-- The living sky — one canvas behind everything -->
-  <canvas id="sky" aria-hidden="true"></canvas>
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <filter id="paperNoise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter>
+    <rect width="100%" height="100%" filter="url(#paperNoise)"/>
+  </svg>
+  <div class="rules" aria-hidden="true"></div>
+  <div class="sun" id="sun" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
 
-  <!-- ================= NAVIGATION =================
-       Logo + star rail + mobile star map are injected here by js/shell.js,
-       so the hub and every spoke share one nav definition. -->
-  <div id="shell-nav"></div>
+  <div class="wrap">
+    <header class="site">
+      <a href="#top" class="wordmark">JORDAN <span>DOERKSEN</span></a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#work" class="n-work">Work</a>
+        <a href="#categories">Categories</a>
+        <a href="#about">About</a>
+      </nav>
+    </header>
 
-  <!-- ================= HERO ================= -->
-  <header class="hero" id="top" data-sky="#d8ac4e">
-    <div class="hero-inner">
-      <!-- The J·D sigil, drawn in stars by js/sigil.js -->
-      <canvas id="sigil" role="img" aria-label="A constellation of stars forming the initials J D"></canvas>
-
-      <p class="hero-eyebrow">Winnipeg · Manitoba &nbsp;<span class="coords">49.90° N — 97.14° W</span></p>
-      <h1>Jordan <span class="ital">Doerksen</span></h1>
-      <!-- ✏️ EDIT: your one-line tagline -->
-      <p class="hero-tag">Code, music, games, and 3D prints — the things I make.</p>
-      <a class="btn btn-primary" href="#about">Enter the observatory</a>
-    </div>
-
-    <!-- Invisible Triforce hotspots — click top, then bottom-left, then bottom-right -->
-    <button class="tri-spot" data-tri="1" tabindex="-1" aria-hidden="true"></button>
-    <button class="tri-spot" data-tri="2" tabindex="-1" aria-hidden="true"></button>
-    <button class="tri-spot" data-tri="3" tabindex="-1" aria-hidden="true"></button>
-
-    <a class="hero-scroll" href="#about">Descend</a>
-  </header>
-
-  <main>
-    <!-- ================= ABOUT ================= -->
-    <section class="section" id="about" data-sky="#d8ac4e">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow"><span class="plate-no">Plate 01</span><span class="star-glyph">✦</span>About</p>
-          <h2>Builder by <span class="ital">habit</span></h2>
-          <p class="lede">Self-taught, mostly from scratch.</p>
-          <div class="atlas-rule" aria-hidden="true"></div>
+    <main id="top">
+      <!-- HERO -->
+      <section class="hero" aria-labelledby="hero-h">
+        <p class="eyebrow">Portfolio · Jordan Doerksen · MMXXVI</p>
+        <h1 id="hero-h" class="reveal">I make things that <em>work.</em></h1>
+        <p class="subline reveal">
+          <strong>Rail conductor in Winnipeg. Self-taught maker.</strong>
+          Trading cockpits, rail trainers, browser games, and the occasional useful tool — each with a repo behind it.
+        </p>
+        <div class="cta-row reveal">
+          <a href="#work" class="btn btn-primary" id="magnet">See the work <span class="arw">→</span></a>
+          <a href="#about" class="btn btn-ghost">About</a>
         </div>
 
-        <div class="about-grid grid-2 reveal-stagger">
-          <!-- ✏️ EDIT: your bio. Plain and direct. -->
-          <div class="reveal">
-            <p>I drove freight trains through the mountains for a couple of years. Before that: roofing, arborist work, a homestead summer in B.C. Now I'm in Winnipeg, building things — software, games, music, 3D prints — mostly from scratch.</p>
-            <p style="margin-top:1em">Most of what I make is on this page. A few things are hidden.</p>
+        <div class="stats reveal">
+          <!-- fallback must match the registry count — a mismatch makes the count-up
+               animate to the wrong number, then visibly snap (the reflow Jordan forbids) -->
+          <div class="stat"><div class="num" id="statProjects" data-count="20">0</div><div class="lbl">Projects</div></div>
+          <div class="stat"><div class="num" id="statCategories" data-count="7">0</div><div class="lbl">Categories</div></div>
+          <div class="stat"><div class="num" data-count="0">0</div><div class="lbl">Build tools</div></div>
+        </div>
+      </section>
 
-            <!-- The route log: lived & worked stops, in order -->
-            <p class="route-log">
-              <span class="rl-label">Route log — lived &amp; worked</span>
-              <span class="stop">Oshawa</span> <span class="arr">→</span> <span class="stop">B.C. Interior</span> <span class="arr">→</span> <span class="stop">GTA</span> <span class="arr">→</span> <span class="stop">Red Deer</span> <span class="arr">→</span> <span class="stop">Jasper</span> <span class="arr">→</span> <span class="stop">Winnipeg</span>
-            </p>
-          </div>
-
-          <!-- Portrait -->
-          <aside class="reveal">
-            <!-- ✏️ EDIT: drop your photo in as assets/img/portrait.jpg -->
-            <figure class="card-media portrait" data-src="assets/img/portrait.jpg">
-              <img src="assets/img/portrait.jpg" alt="Portrait of Jordan Doerksen"
-                   loading="lazy" onerror="this.closest('figure').classList.add('img-missing')" />
-            </figure>
-          </aside>
+      <!-- CATEGORY TICKER (static fallback; rebuilt from the registry) -->
+      <div class="ticker reveal" aria-hidden="true">
+        <div class="ticker__track" id="tickerTrack">
+          <span class="ticker__item">Rail</span><span class="ticker__item">Games</span><span class="ticker__item">Trading</span><span class="ticker__item">Studio</span><span class="ticker__item">Signals</span><span class="ticker__item">Bots</span><span class="ticker__item">Tools</span>
+          <span class="ticker__item">Rail</span><span class="ticker__item">Games</span><span class="ticker__item">Trading</span><span class="ticker__item">Studio</span><span class="ticker__item">Signals</span><span class="ticker__item">Bots</span><span class="ticker__item">Tools</span>
         </div>
       </div>
-    </section>
 
-    <!-- ================= MUSIC ================= -->
-    <section class="section" id="music" data-sky="#c084fc">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow"><span class="plate-no">Plate 02</span><span class="star-glyph">✦</span>Music</p>
-          <h2>Two music <span class="ital">projects</span></h2>
-          <p class="lede">One heavy, one quiet.</p>
-          <div class="atlas-rule" aria-hidden="true"></div>
+      <!-- CATEGORY GRID -->
+      <section id="categories" aria-labelledby="cat-h">
+        <div class="sec-head reveal">
+          <h2 id="cat-h">What's in the archive</h2>
+          <span class="idx" id="catIdx">§ 01 — Seven categories</span>
         </div>
+        <div class="cat-grid reveal" id="catGrid"></div>
+      </section>
 
-        <div class="grid-2 reveal-stagger">
-          <!-- Sol Obscurus: fire + sigils -->
-          <article class="glass-panel ambient-zone reveal" data-zone="sol" data-effect="ritual">
-            <canvas class="ambient-canvas" aria-hidden="true"></canvas>
-            <header class="panel-head">
-              <h3>Sol Obscurus</h3>
-              <span class="panel-tag">band</span>
-            </header>
-            <div class="panel-body">
-              <!-- ✏️ EDIT: band blurb. This is a teaser — the full track list,
-                   sheet music, and ritual theme live at /sol-obscurus/. -->
-              <p>Heavy, ritual-minded music written with friends. Tuned low, played loud, occasionally on fire.</p>
-              <div class="media-stack">
-                <div class="track">
-                  <span class="panel-tag">Featured · Brutal</span>
-                  <audio controls src="assets/audio/sol_obscurus/brutal.mp3" preload="none"></audio>
-                </div>
-              </div>
-              <div class="card-links">
-                <a class="btn btn-primary" href="/sol-obscurus/">Enter Sol Obscurus →</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Bedroom Weather: rain. Solo + collab work lives here. -->
-          <article class="glass-panel ambient-zone reveal" data-zone="rain" data-effect="rain">
-            <canvas class="ambient-canvas" aria-hidden="true"></canvas>
-            <header class="panel-head">
-              <h3>Bedroom Weather</h3>
-              <span class="panel-tag">solo / collab</span>
-            </header>
-            <div class="panel-body">
-              <!-- ✏️ EDIT: blurb. Teaser — the full 8-track list lives at /bedroom-weather/. -->
-              <p>Quieter recordings made at home — sketches and collaborations.</p>
-              <div class="media-stack">
-                <div class="track">
-                  <span class="panel-tag">Featured · Opiate</span>
-                  <audio controls src="assets/audio/bedroom_weather/opiate.mp3" preload="none"></audio>
-                </div>
-              </div>
-              <div class="card-links">
-                <a class="btn btn-primary" href="/bedroom-weather/">Enter Bedroom Weather →</a>
-              </div>
-            </div>
-          </article>
+      <!-- FEATURED WORK -->
+      <section id="work" aria-labelledby="work-h">
+        <div class="sec-head reveal">
+          <h2 id="work-h">Featured work</h2>
+          <span class="idx">§ 02 — Selected pieces</span>
         </div>
-      </div>
-    </section>
+        <div class="work reveal" id="workGrid"></div>
+      </section>
 
-    <!-- ================= PLACES ================= -->
-    <section class="section" id="places" data-sky="#8fb7ff">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow"><span class="plate-no">Plate 03</span><span class="star-glyph">✦</span>Places</p>
-          <h2>A personal <span class="ital">constellation</span></h2>
-          <p class="lede">Places I've lived and worked. Hover a star to hold it still.</p>
-          <div class="atlas-rule" aria-hidden="true"></div>
+      <!-- FULL INDEX -->
+      <section id="index" aria-labelledby="arc-h">
+        <div class="sec-head reveal">
+          <h2 id="arc-h">The full archive</h2>
+          <span class="idx" id="arcIdx">§ 03 — Every project</span>
         </div>
+        <div id="archive"></div>
+        <noscript><p class="arc-note">This index renders with JavaScript. The repos live at github.com/Jordan-Doerksen.</p></noscript>
+      </section>
 
-        <div class="glass-panel constellation-wrap reveal" id="constellation">
-          <canvas id="constellation-canvas" role="img" aria-label="Interactive constellation of places Jordan has lived, worked, and explored. Hover or tap a star to read its story."></canvas>
-          <div class="constellation-tip glass-panel" aria-hidden="true"></div>
+      <!-- ABOUT -->
+      <section id="about" aria-labelledby="about-h">
+        <div class="sec-head reveal">
+          <h2 id="about-h">About</h2>
+          <span class="idx">§ 04 — The short version</span>
         </div>
-        <p class="game-hint reveal">Stars drift. Edit them in <code>data/places.json</code>.</p>
-      </div>
-    </section>
+        <p class="subline reveal">
+          Rail conductor in Winnipeg. Self-taught, which mostly means learning in public
+          and keeping the receipts. I build things I actually need — trading cockpits,
+          rule trainers, browser games, the occasional useful tool — and every one of
+          them has a repo you can read.
+        </p>
+      </section>
+    </main>
 
-    <!-- ================= PROJECTS ================= -->
-    <section class="section" id="projects" data-sky="#4fe3d0">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow"><span class="plate-no">Plate 04</span><span class="star-glyph">✦</span>Projects</p>
-          <h2>Things I've <span class="ital">built</span></h2>
-          <p class="lede">Most of it built in the last few months — each its own repo, its own hue.</p>
-          <div class="atlas-rule" aria-hidden="true"></div>
-        </div>
-
-        <!-- Teaser cards — the full build log (with the live Particle Window and
-             playable Coin Survival) lives at /projects/ and /warcraft/. -->
-        <div class="projects-grid reveal-stagger">
-          <!-- N°01 Switch List — the featured edition -->
-          <article class="glass-panel reveal span-2" data-zone="sky">
-            <div class="panel-body">
-              <span class="edition-no">Edition N°01 · rail</span>
-              <span class="panel-tag">featured · rail training</span>
-              <h3>Switch List — Yard Switching Sim</h3>
-              <p class="card-blurb">A free, open training simulator for railway conductors: line the road, call PULL / SPOT / KICK, and win in the fewest engine moves — every mechanic cites a CROR rule. Built from my own time working freight through the mountains.</p>
-              <div class="mini-yard" data-mock="switchlist" role="img" aria-label="A miniature switching yard — a cut rolling in and coupling"><canvas></canvas></div>
-              <div class="card-links">
-                <a class="btn btn-sm btn-primary" href="/switch-list/" target="_blank" rel="noopener">Play the sim →</a>
-                <a class="btn btn-sm" href="/projects/">More projects →</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- N°02 Sentinel-Pro -->
-          <article class="glass-panel reveal" data-zone="watch">
-            <div class="panel-body">
-              <span class="edition-no">Edition N°02 · trading</span>
-              <span class="panel-tag">v2 · in rebuild</span>
-              <div class="mini-mock" data-mock="sentinel" role="img" aria-label="A miniature Sentinel-Pro cockpit, in rebuild">
-                <div class="mm-top">
-                  <span class="mm-eye"></span>
-                  <span class="mm-sym">ES</span>
-                  <span class="mm-px" data-px>7368.25</span>
-                  <span class="mm-chg up" data-chg>▲ 1.50</span>
-                  <span class="mm-live">v2 · rebuilding</span>
-                </div>
-                <div class="mm-bars" data-bars><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                <div class="mm-foot">
-                  <span>OBI <b class="up" data-obi>+0.18</b></span>
-                  <span>CVD <b class="dn" data-cvd>−1,840</b></span>
-                  <span>VWAP <b data-vwap>7375.25</b></span>
-                </div>
-              </div>
-              <h3>Sentinel-Pro</h3>
-              <p class="card-blurb">A read-only intelligence cockpit for ES &amp; NQ futures. The first model is retired — its market-data feed proved unreliable, so it's being rebuilt on a source I can trust. The honesty is the point: it watches the market, never touches it, and shows nothing it can't stand behind.</p>
-              <div class="card-links">
-                <a class="btn btn-sm" href="https://jordan-doerksen.github.io/sentinel/" target="_blank" rel="noopener">See the v1 showcase →</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- N°03 CN Conductor Trainer -->
-          <article class="glass-panel reveal" data-zone="codex">
-            <div class="panel-body">
-              <span class="edition-no">Edition N°03 · rail</span>
-              <span class="panel-tag">rail training</span>
-              <h3>CN Conductor Trainer</h3>
-              <p class="card-blurb">A CROR training game where every mechanic cites a rule — drawn from real time on the job.</p>
-              <div class="mini-yard" data-mock="conductor" role="img" aria-label="A miniature yard-switching puzzle solving itself, then resetting"><canvas></canvas></div>
-              <div class="card-links"><a class="btn btn-sm" href="/cror-trainer/" target="_blank" rel="noopener">Open the trainer →</a></div>
-            </div>
-          </article>
-
-          <!-- N°04 The Bench -->
-          <article class="glass-panel reveal" data-zone="codex">
-            <div class="panel-body">
-              <span class="edition-no">Edition N°04 · portfolio</span>
-              <span class="panel-tag">engineer's résumé · single file</span>
-              <h3>The Bench</h3>
-              <p class="card-blurb">A second portfolio built as a circuit board you probe — every project a component with a full datasheet, plus a print-to-PDF spec-sheet résumé. The cold, technical counterpart to this one.</p>
-              <div class="card-links"><a class="btn btn-sm" href="https://jordan-doerksen.github.io/the-bench/" target="_blank" rel="noopener">Probe the board →</a></div>
-            </div>
-          </article>
-
-          <!-- N°05 The Glass Archive — games & toys (collection) -->
-          <article class="glass-panel reveal" data-zone="tech">
-            <div class="panel-body">
-              <span class="edition-no">Edition N°05 · collection</span>
-              <div class="mini-canvas" data-mock="starcharter" role="img" aria-label="A miniature space scene — drifting asteroids and the occasional black hole"><canvas></canvas></div>
-              <span class="panel-tag">single-file games &amp; generative toys</span>
-              <h3>The Glass Archive — games &amp; toys</h3>
-              <p class="card-blurb">A body of single-file pieces, each its own repo and live page: Star Charter and the Pro edition, Echo Bat, Glass Atlas, Orbital Field, and a Diablo Act 1 tribute. No build, no dependencies — open and play.</p>
-              <div class="card-links"><a class="btn btn-sm" href="/projects/">Enter the collection →</a></div>
-            </div>
-          </article>
-
-        </div>
-
-        <div style="text-align:center;margin-top:2.4rem" class="reveal">
-          <a class="btn btn-primary" href="/projects/">Enter Projects →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= FORGE ================= -->
-    <section class="section" id="forge" data-sky="#ffaa44">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow"><span class="plate-no">Plate 05</span><span class="star-glyph">✦</span>Forge</p>
-          <h2>Red River <span class="ital">3D</span></h2>
-          <p class="lede">Functional parts, fan pieces, and the occasional artifact — designed and printed in Winnipeg.</p>
-          <div class="atlas-rule" aria-hidden="true"></div>
-        </div>
-
-        <div class="glass-panel reveal" data-zone="forge">
-          <header class="panel-head">
-            <h3>The print vault</h3>
-            <span class="panel-tag">prints &amp; commissions</span>
-          </header>
-          <div class="panel-body">
-            <!-- ✏️ EDIT: drop photos into assets/img/forge/ and update filenames.
-                 Add or remove <figure> blocks freely. -->
-            <div class="gallery">
-              <figure data-src="assets/img/forge/print_bust.png">
-                <img src="assets/img/forge/print_bust.png" alt="3D printed bust" loading="lazy"
-                     onerror="this.closest('figure').classList.add('img-missing')" />
-                <figcaption><span class="rarity rarity-artifact">Artifact</span></figcaption>
-              </figure>
-              <figure data-src="assets/img/forge/print_deer.jpg">
-                <img src="assets/img/forge/print_deer.jpg" alt="3D printed deer figure" loading="lazy"
-                     onerror="this.closest('figure').classList.add('img-missing')" />
-                <figcaption><span class="rarity rarity-rare">Rare</span></figcaption>
-              </figure>
-              <figure data-src="assets/img/forge/print_ditto.jpg">
-                <img src="assets/img/forge/print_ditto.jpg" alt="3D printed Ditto figure" loading="lazy"
-                     onerror="this.closest('figure').classList.add('img-missing')" />
-                <figcaption><span class="rarity rarity-rare">Rare</span></figcaption>
-              </figure>
-              <figure data-src="assets/img/forge/print_stand.jpg">
-                <img src="assets/img/forge/print_stand.jpg" alt="3D printed display stand" loading="lazy"
-                     onerror="this.closest('figure').classList.add('img-missing')" />
-                <figcaption><span class="rarity rarity-rare">Rare</span></figcaption>
-              </figure>
-            </div>
-
-            <div style="text-align:center">
-              <a class="btn btn-primary" href="/forge/">Enter the forge → prints &amp; commissions</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= LIBRARY ================= -->
-    <section class="section" id="library" data-sky="#d8ac4e">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow"><span class="plate-no">Plate 06</span><span class="star-glyph">✦</span>Library</p>
-          <h2>The <span class="ital">shelf</span></h2>
-          <p class="lede">Books are edited in <code>data/books.json</code> — no HTML required.</p>
-          <div class="atlas-rule" aria-hidden="true"></div>
-        </div>
-
-        <div class="grid-2 reveal-stagger">
-          <div class="glass-panel reveal">
-            <header class="panel-head"><h3>Currently reading</h3></header>
-            <div class="panel-body"><ul class="book-list" id="books-reading"></ul></div>
-          </div>
-          <div class="glass-panel reveal">
-            <header class="panel-head"><h3>Recommended</h3></header>
-            <div class="panel-body"><ul class="book-list" id="books-recommended"></ul></div>
-          </div>
-        </div>
-
-        <div style="text-align:center;margin-top:2.4rem" class="reveal">
-          <button class="btn" id="quote-btn">Open a random page</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= CONTACT ================= -->
-    <section class="section" id="contact" data-sky="#6aa9ff">
-      <div class="container">
-        <div class="contact-pane reveal">
-          <p class="eyebrow"><span class="plate-no">Plate 07</span><span class="star-glyph">✦</span>Contact</p>
-          <h2>Get <span class="ital">in touch</span></h2>
-          <p class="lede">Music, prints, maps, code, or anything else — drop me a line.</p>
-          <!-- ✏️ EDIT: confirm/replace URLs -->
-          <ul class="social-row">
-            <li><a class="btn btn-primary" href="mailto:doerksen.jordan@gmail.com">Email</a></li>
-            <li><a class="btn" href="https://github.com/Jordan-Doerksen" target="_blank" rel="noopener">GitHub</a></li>
-            <li><a class="btn" href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
-            <li><a class="btn" href="#music">Sol Obscurus</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer injected by js/shell.js -->
-  <div id="shell-footer"></div>
-
-  <!-- ================= QUOTE MODAL ================= -->
-  <div class="modal" id="quote-modal" hidden role="dialog" aria-modal="true" aria-labelledby="quote-text">
-    <div class="modal-backdrop" data-close></div>
-    <div class="modal-card glass-panel">
-      <button class="modal-close" data-close aria-label="Close quote">✕</button>
-      <p class="quote-text" id="quote-text"></p>
-      <p class="quote-attrib" id="quote-attrib"></p>
-      <p class="quote-source" id="quote-source"></p>
-    </div>
+    <footer class="site">
+      <p class="ftxt reveal">Everything here has a repo behind it.</p>
+      <p class="fmark reveal">✦ Jordan Doerksen · <span>2026</span></p>
+    </footer>
   </div>
 
-  <!-- ================= HIDDEN: OOT TEMPLE MODAL ================= -->
-  <div class="modal modal-full" id="oot-modal" hidden role="dialog" aria-modal="true" aria-label="Hidden essay">
-    <div class="modal-backdrop" data-close></div>
-    <div class="modal-card glass-panel">
-      <button class="modal-close" data-close aria-label="Close essay">✕</button>
-      <p class="oot-eyebrow">You found the temple</p>
-      <div class="oot-content" id="oot-content">
-        <p style="color:var(--text-muted)">Loading…</p>
-      </div>
-    </div>
-  </div>
+<script src="styles/effects.js" defer></script>
+<script>
+/* Registry-driven render. effects.js runs at DOMContentLoaded (before this
+   fetch resolves), so anything it wires per-element — count-up targets, card
+   tilt, cursor growth — is re-handled here for dynamically created nodes.
+   Defensive throughout: a failed fetch or missing fields renders nothing broken. */
+(function () {
+  "use strict";
 
-  <script type="module" src="js/main.js?v=44"></script>
-  <script type="module" src="js/mini-mock.js?v=8"></script>
+  var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var coarse  = window.matchMedia && window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+  var WORDS = ["Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve"];
+  function numWord(n) { return (n >= 0 && n < WORDS.length) ? WORDS[n] : String(n); }
+
+  /* Stat strip: effects.js reads [data-count] on its own schedule. Update the
+     attribute (so a not-yet-fired count-up targets the right number) AND the
+     text (so an already-finished one is corrected), then re-assert after its
+     1100ms animation so an in-flight count-up can't finish on a stale value. */
+  function setStat(id, n) {
+    var s = document.getElementById(id);
+    if (!s || typeof n !== "number" || !isFinite(n)) return;
+    if (parseInt(s.getAttribute("data-count"), 10) === n) return;
+    s.setAttribute("data-count", String(n));
+    s.textContent = String(n);
+    setTimeout(function () { s.textContent = String(n); }, 1400);
+  }
+
+  /* Same tilt math as effects.js, for cards created after it already ran. */
+  function attachTilt(card) {
+    if (reduced || coarse) return;
+    var MAX_TILT = 6, LIFT = 8, rect = null;
+    card.addEventListener("mouseenter", function () { rect = card.getBoundingClientRect(); });
+    card.addEventListener("mousemove", function (e) {
+      if (!rect) rect = card.getBoundingClientRect();
+      var px = (e.clientX - rect.left) / rect.width;
+      var py = (e.clientY - rect.top) / rect.height;
+      card.style.transform = "translateY(-" + LIFT + "px) rotateX(" + ((0.5 - py) * MAX_TILT * 2).toFixed(2) +
+        "deg) rotateY(" + ((px - 0.5) * MAX_TILT * 2).toFixed(2) + "deg)";
+    });
+    card.addEventListener("mouseleave", function () { rect = null; card.style.transform = ""; });
+  }
+
+  /* Delegated cursor growth so dynamically rendered links behave like static ones
+     (effects.js only binds elements that existed at DOMContentLoaded). */
+  (function () {
+    if (reduced || coarse) return;
+    var HOT = "a, button, .card, .btn, .cat";
+    document.addEventListener("mouseover", function (e) {
+      var c = document.getElementById("cursor");
+      if (c && e.target.closest && e.target.closest(HOT)) c.classList.add("hot");
+    });
+    document.addEventListener("mouseout", function (e) {
+      var c = document.getElementById("cursor");
+      if (!c || !e.target.closest || !e.target.closest(HOT)) return;
+      var to = e.relatedTarget;
+      if (!(to && to.closest && to.closest(HOT))) c.classList.remove("hot");
+    });
+  })();
+
+  function projectHref(p) { return p.url || p.repo || null; }
+  function statusLabel(p) {
+    return "[" + String(p.status || (p.url ? "live" : "code")).toUpperCase() + "]";
+  }
+
+  function renderCategories(cats) {
+    var grid = document.getElementById("catGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    cats.forEach(function (c, i) {
+      if (!c) return;
+      var a = el("a", "cat");
+      a.href = c.slug ? c.slug + "/" : "#categories";
+      a.appendChild(el("span", "num", c.num || pad2(i + 1)));
+      var body = el("div");
+      var h3 = el("h3", null, c.name || c.slug || "—");
+      h3.appendChild(el("span", "tick", " ✦"));
+      body.appendChild(h3);
+      body.appendChild(el("p", null, c.desc || ""));
+      a.appendChild(body);
+      grid.appendChild(a);
+    });
+    var idx = document.getElementById("catIdx");
+    if (idx && cats.length) idx.textContent = "§ 01 — " + numWord(cats.length) + " categories";
+  }
+
+  function renderTicker(cats) {
+    var track = document.getElementById("tickerTrack");
+    if (!track || !cats.length) return;
+    track.innerHTML = "";
+    for (var r = 0; r < 2; r++) {
+      cats.forEach(function (c) {
+        if (c && (c.name || c.slug)) track.appendChild(el("span", "ticker__item", c.name || c.slug));
+      });
+    }
+  }
+
+  function renderFeatured(projects) {
+    var grid = document.getElementById("workGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    projects.filter(function (p) { return p && p.featured; }).forEach(function (p) {
+      var href = projectHref(p);
+      var card = el(href ? "a" : "div", "card");
+      if (href) card.href = href;
+      card.appendChild(el("span", "kicker", "Featured"));
+      card.appendChild(el("h3", null, p.name || p.slug || "—"));
+      card.appendChild(el("p", null, p.blurb || ""));
+      var tags = el("div", "tags");
+      (Array.isArray(p.tags) ? p.tags : []).forEach(function (t) { tags.appendChild(el("span", "tag", t)); });
+      card.appendChild(tags);
+      if (p.spec) card.appendChild(el("span", "spec", p.spec));
+      grid.appendChild(card);
+      attachTilt(card);
+    });
+  }
+
+  function renderArchive(cats, projects) {
+    var host = document.getElementById("archive");
+    if (!host) return;
+    host.innerHTML = "";
+    var groups = [], bySlug = {};
+    cats.forEach(function (c, i) {
+      if (!c) return;
+      var g = { name: c.name || c.slug || "—", num: c.num || pad2(i + 1), items: [] };
+      groups.push(g);
+      if (c.slug) bySlug[c.slug] = g;
+    });
+    var rest = { name: "More", num: "—", items: [] };
+    projects.forEach(function (p) {
+      if (!p) return;
+      (bySlug[p.category] || rest).items.push(p);
+    });
+    if (rest.items.length) groups.push(rest);
+    groups.forEach(function (g) {
+      if (!g.items.length) return;
+      var sec = el("div", "arc-group");
+      sec.appendChild(el("h3", "arc-cat", g.num + " · " + g.name));
+      var ul = el("ul", "arc-list");
+      g.items.forEach(function (p) {
+        var li = el("li", "arc-row");
+        li.appendChild(el("span", "arc-name", p.name || p.slug || "—"));
+        li.appendChild(el("span", "arc-blurb", p.blurb || ""));
+        var href = projectHref(p);
+        if (href) {
+          var a = el("a", "arc-link", statusLabel(p));
+          a.href = href;
+          li.appendChild(a);
+        }
+        ul.appendChild(li);
+      });
+      sec.appendChild(ul);
+      host.appendChild(sec);
+    });
+    if (!host.children.length) {
+      host.appendChild(el("p", "arc-note", "Nothing indexed yet."));
+    }
+    var idx = document.getElementById("arcIdx");
+    if (idx && projects.length) idx.textContent = "§ 03 — " + projects.length + " projects";
+  }
+
+  fetch("data/registry.json")
+    .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(function (reg) {
+      reg = reg || {};
+      var cats = Array.isArray(reg.categories) ? reg.categories : [];
+      var projects = Array.isArray(reg.projects) ? reg.projects : [];
+      renderCategories(cats);
+      renderTicker(cats);
+      renderFeatured(projects);
+      renderArchive(cats, projects);
+      if (cats.length) setStat("statCategories", cats.length);
+      if (projects.length) setStat("statProjects", projects.length);
+      /* Safety net: effects.js observed the grids while they were still empty
+         (zero height); if the IntersectionObserver misses the resize, reveal
+         anything already in the viewport. Below-fold reveals stay scroll-driven. */
+      setTimeout(function () {
+        document.querySelectorAll(".reveal:not(.in)").forEach(function (n) {
+          if (n.getBoundingClientRect().top < window.innerHeight) n.classList.add("in");
+        });
+      }, 1600);
+    })
+    .catch(function () {
+      /* A failed fetch must not strand the page: the category tiles are the ONLY
+         navigation to the hub pages, so rebuild them from static constants
+         (they're stable), and say plainly that the rest of the index is out. */
+      var FALLBACK_CATS = [
+        { slug: "rail",    name: "Rail",    num: "01", desc: "CROR trainers & switching sims" },
+        { slug: "games",   name: "Games",   num: "02", desc: "Single-file browser games" },
+        { slug: "trading", name: "Trading", num: "03", desc: "Read-only market cockpits" },
+        { slug: "studio",  name: "Studio",  num: "04", desc: "Client websites" },
+        { slug: "signals", name: "Signals", num: "05", desc: "Local-LLM news engines" },
+        { slug: "bots",    name: "Bots",    num: "06", desc: "Discord bots for the boys" },
+        { slug: "tools",   name: "Tools",   num: "07", desc: "Small tools that kill real friction" }
+      ];
+      var catGrid = document.getElementById("catGrid");
+      if (catGrid && !catGrid.children.length) renderCategories(FALLBACK_CATS);
+      var work = document.getElementById("workGrid");
+      if (work && !work.children.length) {
+        work.appendChild(el("p", "arc-note", "The index didn't load — the categories above still work."));
+      }
+      var host = document.getElementById("archive");
+      if (host && !host.children.length) {
+        host.appendChild(el("p", "arc-note", "Index unavailable — the repos are still on GitHub."));
+      }
+    });
+})();
+</script>
+<!-- same no-JS fallback the hub pages carry: without it every .reveal stays at opacity 0 -->
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 </body>
 </html>

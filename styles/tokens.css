@@ -1,0 +1,64 @@
+/* ============================================================================
+   tokens.css — Daybreak Editorial house style · single source of truth
+   ----------------------------------------------------------------------------
+   The :root design tokens for the "Daybreak Editorial" house style. Load this
+   FIRST; style.css (and every downstream project) consumes these via var(--x).
+   Do not rename tokens — effects.js, the demo, and future projects depend on
+   these exact custom-property names.
+
+   PALETTE — warm paper under a drifting sun.
+     Paper (bg)        --paper #f6f1e7 / --paper-2 #fbf8f1 (never pure white)
+     Ink (text)        --ink #17140f / --muted #6f685c
+     Hairlines         --hair #d8cfbf
+     Accent — LOCKED to Goldenrod:
+       --accent      #b8860b   raw hue — fills / shapes / washes / spine
+       --accent-ink  #8a6508   AA-safe text shade (5.9:1 on paper) — words/links
+       --accent-rgb  184,134,11 for rgba() tints
+       derived: --accent-soft / --accent-tint / --accent-line
+
+   TYPE VOICES — locked to "Technical":
+     --display  Space Grotesk  → hero, headings, big numerals (the artwork)
+     --sans     Inter          → body copy, UI
+     --mono     JetBrains Mono → labels, tags, eyebrows, spec lines (UPPERCASE,
+                                 wide tracking)
+   (Fonts are linked from the HTML, not imported here.)
+
+   Also: spacing/layout (--mar, --maxw), and the two layered card-depth shadow
+   tokens (--card-rest / --card-hover).
+   ============================================================================ */
+
+:root{
+  --paper:#f6f1e7;
+  --paper-2:#fbf8f1;
+  --ink:#17140f;
+  --muted:#6f685c;
+  --hair:#d8cfbf;
+
+  /* accent LOCKED to Goldenrod */
+  --accent:#b8860b;         /* raw hue — fills / shapes / washes / spine */
+  --accent-ink:#8a6508;     /* AA-safe text shade — accent words / links (5.9:1 on paper) */
+  --accent-rgb:184,134,11;  /* rgb of raw hue for rgba() tints */
+
+  --accent-soft:rgba(var(--accent-rgb),.14);
+  --accent-tint:rgba(var(--accent-rgb),.07);
+  --accent-line:rgba(var(--accent-rgb),.34);
+
+  /* ---- TYPE = TECHNICAL (locked) ---- */
+  --sans:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
+  --display:"Space Grotesk","Inter",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --display-weight:500;
+
+  --mar:clamp(20px,5vw,84px);
+  --maxw:1180px;
+
+  /* card depth shadows (accent-neutral warm browns; scale with elevation) */
+  --card-rest:
+    0 1px 0 rgba(255,255,255,.7) inset,           /* top highlight */
+    0 2px 3px -1px rgba(120,66,38,.14),            /* tight contact */
+    0 10px 22px -12px rgba(120,66,38,.26);         /* broad ambient */
+  --card-hover:
+    0 1px 0 rgba(255,255,255,.85) inset,
+    0 6px 10px -4px rgba(120,66,38,.20),           /* tighter directional */
+    0 26px 50px -18px rgba(120,66,38,.42);         /* grown ambient */
+}

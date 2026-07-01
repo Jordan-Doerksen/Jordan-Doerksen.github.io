@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio — Jordan Doerksen</title>
+<meta name="description" content="Client websites — Jordan Doerksen, The Archive.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/tokens.css">
+<link rel="stylesheet" href="../styles/style.css">
+<style>
+/* Hub-specific layout ONLY — every component rule lives in ../styles/style.css. */
+.hero--hub{padding:clamp(14px,3vh,32px) 0 clamp(36px,6vh,64px)}
+.hero--hub h1{font-size:clamp(3rem,9vw,7.5rem)}
+.hero--hub .subline{margin-bottom:0}
+.empty-note{
+  grid-column:1/-1;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);padding:clamp(24px,4vh,40px) 0;
+}
+.card .spec.spec-private{color:var(--muted)}
+.card .spec.spec-private::before{color:var(--muted)}
+.fback{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;transition:color .25s ease;
+}
+.fback:hover,.fback:focus-visible{color:var(--accent-ink)}
+</style>
+</head>
+<body>
+
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <filter id="paperNoise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter>
+    <rect width="100%" height="100%" filter="url(#paperNoise)"/>
+  </svg>
+  <div class="rules" aria-hidden="true"></div>
+  <div class="sun" id="sun" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header class="site">
+      <a href="../" class="wordmark">JORDAN <span>DOERKSEN</span></a>
+      <nav class="site-nav" aria-label="Breadcrumb">
+        <a href="../" class="n-work">← The Archive</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO — compact hub variant -->
+      <section class="hero hero--hub" aria-labelledby="hero-h">
+        <p class="eyebrow">Category 04</p>
+        <h1 id="hero-h" class="reveal"><em>Studio</em></h1>
+        <p class="subline reveal">Client websites</p>
+      </section>
+
+      <!-- PROJECT GRID — cards come from ../data/registry.json at runtime -->
+      <section id="work" aria-labelledby="work-h">
+        <div class="sec-head reveal">
+          <h2 id="work-h">In this wing</h2>
+          <span class="idx" id="sec-idx">§ 04</span>
+        </div>
+        <div class="work" id="grid">
+          <noscript><p class="empty-note">the catalogue needs JavaScript</p></noscript>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site">
+      <p class="ftxt reveal">Part of the archive.</p>
+      <p class="fmark reveal">✦ Jordan Doerksen · <span>2026</span></p>
+      <a class="fback reveal" href="../">← The Archive</a>
+    </footer>
+  </div>
+
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+<script>
+(function () {
+  "use strict";
+  var CATEGORY = "studio";
+  var SECTION = "§ 04";
+
+  var grid = document.getElementById("grid");
+  var idx = document.getElementById("sec-idx");
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text) n.textContent = text;
+    return n;
+  }
+
+  function emptyNote() {
+    if (!grid) return;
+    grid.textContent = "";
+    grid.appendChild(el("p", "empty-note", "nothing catalogued yet"));
+  }
+
+  function buildCard(p) {
+    var href = p.url || p.repo || null;
+    var card = document.createElement(href ? "a" : "div");
+    card.className = "card reveal";
+    if (href) card.href = href;
+    card.appendChild(el("span", "kicker", p.status || "project"));
+    card.appendChild(el("h3", null, p.name || p.slug || "Untitled"));
+    card.appendChild(el("p", null, p.blurb || ""));
+    if (Array.isArray(p.tags) && p.tags.length) {
+      var tags = el("div", "tags");
+      p.tags.forEach(function (t) { tags.appendChild(el("span", "tag", t)); });
+      card.appendChild(tags);
+    }
+    /* both url and repo null → unlinked card with a muted PRIVATE spec */
+    card.appendChild(href
+      ? el("span", "spec", p.spec || "open")
+      : el("span", "spec spec-private", "private"));
+    return card;
+  }
+
+  function render(data) {
+    if (!grid) return;
+    var list = (data && Array.isArray(data.projects))
+      ? data.projects.filter(function (p) { return p && p.category === CATEGORY; })
+      : [];
+    if (!list.length) { emptyNote(); return; }
+    grid.textContent = "";
+    list.forEach(function (p) { grid.appendChild(buildCard(p)); });
+    if (idx) idx.textContent = SECTION + " · " + list.length + (list.length === 1 ? " project" : " projects");
+  }
+
+  /* WORKAROUND: effects.js binds its hooks (reveal observer, card tilt, hot-cursor
+     targets) to whatever is in the DOM when it runs — cards fetched later would miss
+     all of it. So instead of a static <script defer>, we inject effects.js AFTER the
+     grid is rendered (or after the fetch fails), so the cards get the full treatment. */
+  function loadEffects() {
+    var s = document.createElement("script");
+    s.src = "../styles/effects.js";
+    document.body.appendChild(s);
+  }
+
+  fetch("../data/registry.json")
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error(r.status)); })
+    .then(function (data) { try { render(data); } catch (e) { emptyNote(); } })
+    .catch(emptyNote)
+    .finally(loadEffects);
+})();
+</script>
+</body>
+</html>
