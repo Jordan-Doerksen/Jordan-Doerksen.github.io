@@ -96,6 +96,11 @@
   details summary { cursor: pointer; color: var(--ink); font-weight: 600; }
   footer { margin-top: 28px; color: var(--dim); font-size: 12px; border-top: 1px solid var(--line); padding-top: 14px; }
   code { background: var(--panel2); padding: 1px 5px; border-radius: 4px; font-size: 12.5px; }
+  /* prefers-reduced-motion: kill decorative animation/transitions site-wide.
+     The sim's own canvas motion is content (the switching moves), not effect. */
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
 </style>
 </head>
 <body>

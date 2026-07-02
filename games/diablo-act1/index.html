@@ -489,7 +489,9 @@ function blood(x,y,col){ G.parts.push({x,y,vx:rand(-90,90),vy:rand(-90,90),
   life:rand(.25,.55),max:.55,col,r:rand(2,4)}); }
 function showFloat(x,y,t,col,big){ G.floats.push({x,y,t:''+t,col,life:.9,max:.9,big}); }
 function ring(x,y,r,col){ G.parts.push({x,y,ring:true,r0:8,r:r,life:.35,max:.35,col}); }
-let shakeAmt=0; function shake(a){ shakeAmt=Math.max(shakeAmt,a); }
+/* prefers-reduced-motion: screen shake is a pure effect — skip it entirely when set */
+const REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let shakeAmt=0; function shake(a){ if(REDUCED_MOTION) return; shakeAmt=Math.max(shakeAmt,a); }
 function showMsg(t,sub){ G.msg={t,sub}; G.msgT=3.2; }
 
 // ---------------------------------------------------------------------------

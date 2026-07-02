@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jordan Doerksen — I make things that work.</title>
-<meta name="description" content="Portfolio of Jordan Doerksen — self-taught maker. Trading cockpits, training tools, browser games, and pipelines, each with a repo behind it.">
+<title>Jordan Doerksen — portfolio &amp; index</title>
+<meta name="description" content="Portfolio and index of Jordan Doerksen's software systems — a market-data suite, rail training tools, a news pipeline, browser games. What each system is, how it's architected, and why it's built the way it is.">
 <meta name="theme-color" content="#f6f1e7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f6f1e7'/%3E%3Ctext x='50' y='72' font-size='64' text-anchor='middle' fill='%23b8860b'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -120,6 +120,59 @@ a.cat{text-decoration:none;color:inherit}
 .dg-bound{fill:none;stroke:var(--accent);stroke-opacity:.6;stroke-width:1.2;stroke-dasharray:2 5}
 .dg-shell{fill:none;stroke:var(--accent-line);stroke-width:1.2;stroke-dasharray:7 6}
 .dg-shell-label{fill:var(--accent-ink);font-size:10px;letter-spacing:.12em}
+
+/* ---- README-shaped document chrome (this page only) ----
+   The root page reads as a document: document-title scale instead of the
+   billboard hero, a static mono metadata line instead of the stat strip,
+   a real table of contents, a numbered principles list, and one mono GOAL
+   line per system. All built on the system tokens; nothing global changes. */
+.hero h1{font-size:clamp(2.5rem,6vw,4.2rem);line-height:1.05;max-width:24ch}
+.hero .subline{max-width:70ch}
+.doc-start{margin-top:4px}
+.doc-start a{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent-ink);text-decoration:none;
+}
+.doc-start a:hover,.doc-start a:focus-visible{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.doc-meta{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);line-height:2;
+  margin-top:clamp(34px,6vh,60px);padding-top:clamp(18px,3vh,28px);
+  border-top:1px solid var(--hair);
+}
+
+.toc{list-style:none;margin:0;padding:0;max-width:760px}
+.toc li{border-bottom:1px solid var(--hair)}
+.toc li:last-child{border-bottom:0}
+.toc a{display:flex;align-items:baseline;gap:16px;padding:13px 2px;text-decoration:none;color:var(--ink)}
+.toc-num{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--accent-ink);flex:none}
+.toc-name{font-family:var(--mono);font-size:13px;letter-spacing:.06em;font-weight:500}
+.toc-note{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--muted);margin-left:auto;text-align:right}
+.toc a:hover .toc-name,.toc a:focus-visible .toc-name{color:var(--accent-ink);text-decoration:underline;text-underline-offset:3px}
+@media (max-width:560px){ .toc-note{display:none} }
+
+.princ{list-style:none;margin:0;padding:0;max-width:76ch;counter-reset:princ}
+.princ li{
+  counter-increment:princ;display:flex;gap:18px;padding:14px 0;
+  border-bottom:1px solid var(--hair);
+  color:var(--muted);line-height:1.55;font-size:.98rem;
+}
+.princ li::before{
+  content:counter(princ,decimal-leading-zero);
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  color:var(--accent-ink);flex:none;padding-top:4px;
+}
+.princ li:last-child{border-bottom:0}
+
+.cs-goal{
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;
+  color:var(--ink);line-height:1.8;max-width:74ch;
+  margin-bottom:clamp(16px,2.5vh,26px);
+}
+.cs-goal .k{color:var(--accent-ink);letter-spacing:.16em}
+
+#colophon .subline{max-width:70ch;margin-bottom:18px}
+#colophon .subline:last-child{margin-bottom:0}
 </style>
 </head>
 <body>
@@ -129,55 +182,79 @@ a.cat{text-decoration:none;color:inherit}
     <rect width="100%" height="100%" filter="url(#paperNoise)"/>
   </svg>
   <div class="rules" aria-hidden="true"></div>
-  <div class="sun" id="sun" aria-hidden="true"></div>
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <div class="wrap">
     <header class="site">
       <a href="#top" class="wordmark">JORDAN <span>DOERKSEN</span></a>
       <nav class="site-nav" aria-label="Primary">
-        <a href="#work" class="n-work">Work</a>
-        <a href="#categories">Categories</a>
-        <a href="#about">About</a>
+        <a href="#principles">Principles</a>
+        <a href="#sentinel-suite">Systems</a>
+        <a href="#index" class="n-work">Index</a>
+        <a href="#colophon">About</a>
       </nav>
     </header>
 
     <main id="top">
-      <!-- HERO -->
-      <section class="hero" aria-labelledby="hero-h">
-        <p class="eyebrow">Portfolio · Jordan Doerksen · MMXXVI</p>
-        <h1 id="hero-h" class="reveal">I make things that <em>work.</em></h1>
+      <!-- DOCUMENT HEADER — this page is README-shaped on purpose. No kinetic
+           headline (the h1 deliberately does NOT carry id="hero-h"), no stat
+           count-up, no ticker: the metadata line below is static text. -->
+      <section class="hero" aria-labelledby="doc-h">
+        <p class="eyebrow">Jordan Doerksen — portfolio &amp; index</p>
+        <h1 id="doc-h" class="reveal">Software, <em>documented.</em></h1>
         <p class="subline reveal">
-          <strong>Self-taught.</strong> I design and build real systems — trading cockpits,
-          training tools, games, and pipelines — each with a repo behind it.
+          I design and build software systems — a market-data suite, rail training
+          tools, a news pipeline, browser games. Each one is planned before it's
+          built, built to stated principles, and documented. This page is the index:
+          what each system is, how it's architected, and why it's built the way it is.
         </p>
-        <div class="cta-row reveal">
-          <a href="#work" class="btn btn-primary" id="magnet">See the work <span class="arw">→</span></a>
-          <a href="#about" class="btn btn-ghost">About</a>
-        </div>
+        <p class="doc-start reveal"><a href="#index">Start with the index →</a></p>
 
-        <div class="stats reveal">
-          <!-- fallback must match the registry count — a mismatch makes the count-up
-               animate to the wrong number, then visibly snap (the reflow Jordan forbids) -->
-          <div class="stat"><div class="num" id="statProjects" data-count="21">0</div><div class="lbl">Projects</div></div>
-          <div class="stat"><div class="num" id="statCategories" data-count="7">0</div><div class="lbl">Categories</div></div>
-          <div class="stat"><div class="num" data-count="0">0</div><div class="lbl">Exclamation marks</div></div>
-        </div>
+        <p class="doc-meta reveal">21 PROJECTS · 7 CATEGORIES · UPDATED 2026-07-02 · WINNIPEG</p>
       </section>
 
-      <!-- CATEGORY TICKER (static fallback; rebuilt from the registry) -->
-      <div class="ticker reveal" aria-hidden="true">
-        <div class="ticker__track" id="tickerTrack">
-          <span class="ticker__item">Rail</span><span class="ticker__item">Games</span><span class="ticker__item">Trading</span><span class="ticker__item">Studio</span><span class="ticker__item">Signals</span><span class="ticker__item">Bots</span><span class="ticker__item">Tools</span>
-          <span class="ticker__item">Rail</span><span class="ticker__item">Games</span><span class="ticker__item">Trading</span><span class="ticker__item">Studio</span><span class="ticker__item">Signals</span><span class="ticker__item">Bots</span><span class="ticker__item">Tools</span>
+      <!-- § 00 — CONTENTS -->
+      <section id="contents" aria-labelledby="toc-h">
+        <div class="sec-head reveal">
+          <h2 id="toc-h">Contents</h2>
+          <span class="idx">§ 00</span>
         </div>
-      </div>
+        <ol class="toc reveal">
+          <li><a href="#principles"><span class="toc-num">01</span><span class="toc-name">Principles</span><span class="toc-note">how I build</span></a></li>
+          <li><a href="#sentinel-suite"><span class="toc-num">02</span><span class="toc-name">System: Sentinel Suite</span><span class="toc-note">read-only market-data suite</span></a></li>
+          <li><a href="#clear-board"><span class="toc-num">03</span><span class="toc-name">System: Clear Board</span><span class="toc-note">CROR qualification trainer</span></a></li>
+          <li><a href="#spectrum"><span class="toc-num">04</span><span class="toc-name">System: Spectrum</span><span class="toc-note">local-LLM news pipeline</span></a></li>
+          <li><a href="#categories"><span class="toc-num">05</span><span class="toc-name">Categories</span><span class="toc-note">seven, registry-driven</span></a></li>
+          <li><a href="#index"><span class="toc-num">06</span><span class="toc-name">Full index</span><span class="toc-note">every project, one row each</span></a></li>
+          <li><a href="#colophon"><span class="toc-num">07</span><span class="toc-name">Colophon</span><span class="toc-note">about this document</span></a></li>
+        </ol>
+      </section>
 
-      <!-- CASE STUDIES — three systems, end to end. Facts come from the project
+      <!-- § 01 — PRINCIPLES. Stated literally; each line is a real convention
+           the repos can be checked against, not a value statement. -->
+      <section id="principles" aria-labelledby="pr-h">
+        <div class="sec-head reveal">
+          <h2 id="pr-h">How I build</h2>
+          <span class="idx">§ 01 — Principles</span>
+        </div>
+        <ol class="princ reveal">
+          <li>Plan first when it matters: anything touching money, safety, or trust starts with a spec and a decisions log, not code. Clear Board's spec is dated before its repo existed.</li>
+          <li>Documentation is part of the build: the systems carry their working docs — spec, decisions log, changelog — in the repo. Doc debt is technical debt.</li>
+          <li>Market tools are read-only by construction — order-placement code does not exist in them.</li>
+          <li>Show nothing rather than something false: a blank panel beats a wrong number.</li>
+          <li>Safety-critical content is cited, never guessed: every rail rule carries its CROR citation.</li>
+          <li>Start with the smallest version that works; single file until that hurts.</li>
+          <li>Accessibility is not optional: motion effects respect prefers-reduced-motion.</li>
+          <li>Secrets live in gitignored env files. Always.</li>
+        </ol>
+      </section>
+
+      <!-- SYSTEMS § 02–04 — three systems, end to end. Facts come from the project
            briefs/DECISIONS; nothing here is claimed beyond what was verified. -->
-      <section class="cs" id="work" aria-labelledby="cs1-h">
-        <p class="eyebrow reveal">Case study 01</p>
+      <section class="cs" id="sentinel-suite" aria-labelledby="cs1-h">
+        <p class="eyebrow reveal">§ 02 — System: Sentinel Suite</p>
         <h2 id="cs1-h" class="cs-title reveal">Sentinel <em>Suite</em></h2>
+        <p class="cs-goal reveal"><span class="k">GOAL:</span> see market microstructure clearly, in real time, without ever being able to act on it.</p>
         <p class="cs-story reveal">
           A cockpit watches ES/NQ live through TWS and writes every session to a
           flight-recorder tape; three research tools read that tape and the session
@@ -189,7 +266,7 @@ a.cat{text-decoration:none;color:inherit}
           Python ports, so the three codebases cannot silently drift apart.
         </p>
         <figure class="diagram reveal">
-          <div class="diagram-well">
+          <div class="diagram-well" tabindex="0" aria-label="Architecture diagram — scrolls horizontally">
             <svg viewBox="0 0 1000 560" role="img" aria-label="Sentinel Suite data flow. Market data flows one way from TWS/IBKR through the sentinel-core Rust kernels into the Pro cockpit, which posts data-free signals to a Discord webhook and writes tapes and a session report. Stage 2 and the Iceberg study read the tapes; the Analyst reads the report. Forty-seven golden vectors pin the math in sentinel-core, Stage 2, and the Iceberg study.">
               <defs>
                 <marker id="sen-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
@@ -254,9 +331,10 @@ a.cat{text-decoration:none;color:inherit}
         </div>
       </section>
 
-      <section class="cs" aria-labelledby="cs2-h">
-        <p class="eyebrow reveal">Case study 02</p>
+      <section class="cs" id="clear-board" aria-labelledby="cs2-h">
+        <p class="eyebrow reveal">§ 03 — System: Clear Board</p>
         <h2 id="cs2-h" class="cs-title reveal">Clear <em>Board</em></h2>
+        <p class="cs-goal reveal"><span class="k">GOAL:</span> one free tool that takes a hiring-class candidate to qualification.</p>
         <p class="cs-story reveal">
           I had built four separate CROR training tools — a conductor trainer, a
           switching sim, a signals app, a study assistant — and they overlapped
@@ -269,7 +347,7 @@ a.cat{text-decoration:none;color:inherit}
           Free, tip-jar only; safety knowledge is never paywalled.
         </p>
         <figure class="diagram reveal">
-          <div class="diagram-well">
+          <div class="diagram-well" tabindex="0" aria-label="Architecture diagram — scrolls horizontally">
             <svg viewBox="0 0 1000 480" role="img" aria-label="Clear Board architecture. Four absorbed tools — CN Conductor Trainer, switch-list, cror-signals, and training-assistant — feed one cited content library. Verified items flow into one core with SM-2-lite retention, which serves five stations and takes grades back. The library also passes an npm run check trust firewall that gates the React and Vite web build, which ships again as a Tauri v2 desktop exe.">
               <defs>
                 <marker id="cb-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
@@ -331,9 +409,10 @@ a.cat{text-decoration:none;color:inherit}
         </div>
       </section>
 
-      <section class="cs" aria-labelledby="cs3-h">
-        <p class="eyebrow reveal">Case study 03</p>
+      <section class="cs" id="spectrum" aria-labelledby="cs3-h">
+        <p class="eyebrow reveal">§ 04 — System: Spectrum</p>
         <h2 id="cs3-h" class="cs-title reveal"><em>Spectrum</em></h2>
+        <p class="cs-goal reveal"><span class="k">GOAL:</span> three news engines' jobs done by one local process, output where I already read.</p>
         <p class="cs-story reveal">
           Three separate news engines — crisis, markets, world politics — each ran as
           its own process, polled its own feeds, and hit the same local LLM
@@ -345,7 +424,7 @@ a.cat{text-decoration:none;color:inherit}
           it, stop it, watch it work.
         </p>
         <figure class="diagram reveal">
-          <div class="diagram-well">
+          <div class="diagram-well" tabindex="0" aria-label="Architecture diagram — scrolls horizontally">
             <svg viewBox="0 0 1000 500" role="img" aria-label="Spectrum data flow. Inside one Tauri 2 control panel, a pooled RSS feed list flows through a persistent seen store, a classify-once local Ollama model, a band router, and a drip queue. Finished cards leave the panel to three Discord channels: money, politics plus tech, and catastrophe.">
               <defs>
                 <marker id="sp-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
@@ -409,37 +488,42 @@ a.cat{text-decoration:none;color:inherit}
         </div>
       </section>
 
-      <!-- CATEGORY GRID -->
+      <!-- § 05 — CATEGORY GRID -->
       <section id="categories" aria-labelledby="cat-h">
         <div class="sec-head reveal">
-          <h2 id="cat-h">What's in the archive</h2>
-          <span class="idx" id="catIdx">§ 01 — Seven categories</span>
+          <h2 id="cat-h">Categories</h2>
+          <span class="idx" id="catIdx">§ 05 — Seven categories</span>
         </div>
         <div class="cat-grid reveal" id="catGrid"></div>
       </section>
 
-      <!-- FULL INDEX -->
+      <!-- § 06 — FULL INDEX -->
       <section id="index" aria-labelledby="arc-h">
         <div class="sec-head reveal">
-          <h2 id="arc-h">The full archive</h2>
-          <span class="idx" id="arcIdx">§ 02 — Every project</span>
+          <h2 id="arc-h">Full index</h2>
+          <span class="idx" id="arcIdx">§ 06 — Every project</span>
         </div>
         <div id="archive"></div>
         <noscript><p class="arc-note">This index renders with JavaScript. The repos live at github.com/Jordan-Doerksen.</p></noscript>
       </section>
 
-      <!-- ABOUT -->
-      <section id="about" aria-labelledby="about-h">
+      <!-- § 07 — COLOPHON -->
+      <section id="colophon" aria-labelledby="colo-h">
         <div class="sec-head reveal">
-          <h2 id="about-h">About</h2>
-          <span class="idx">§ 03 — The short version</span>
+          <h2 id="colo-h">Colophon</h2>
+          <span class="idx">§ 07 — About this document</span>
         </div>
         <p class="subline reveal">
           Self-taught in Winnipeg, which mostly means learning in public and keeping
-          the receipts. I build tools I believe in — read-only trading instruments,
-          free training tools for railroaders, games, news pipelines — and the training
-          tools stay free because safety knowledge shouldn't sit behind a paywall.
-          Every one of them has a repo behind it; all but one you can read.
+          the receipts. I build read-only trading instruments, free training tools
+          for railroaders, browser games, and news pipelines. The training tools stay
+          free because safety knowledge should not sit behind a paywall. Every project
+          has a repo behind it; all but three are public.
+        </p>
+        <p class="subline reveal">
+          This site is a single static monorepo: no build step at the root, one
+          registry file drives the index, and the style system is its own repo.
+          It follows the same principles as everything it documents.
         </p>
       </section>
     </main>
@@ -453,8 +537,9 @@ a.cat{text-decoration:none;color:inherit}
 <script src="styles/effects.js" defer></script>
 <script>
 /* Registry-driven render. effects.js runs at DOMContentLoaded (before this
-   fetch resolves), so anything it wires per-element — count-up targets, cursor
-   growth — is re-handled here for dynamically created nodes.
+   fetch resolves), so anything it wires per-element — cursor growth — is
+   re-handled here for dynamically created nodes. The header metadata line is
+   deliberately static text (no [data-count] hooks on this page).
    Defensive throughout: a failed fetch or missing fields renders nothing broken. */
 (function () {
   "use strict";
@@ -471,19 +556,6 @@ a.cat{text-decoration:none;color:inherit}
   function pad2(n) { return (n < 10 ? "0" : "") + n; }
   var WORDS = ["Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve"];
   function numWord(n) { return (n >= 0 && n < WORDS.length) ? WORDS[n] : String(n); }
-
-  /* Stat strip: effects.js reads [data-count] on its own schedule. Update the
-     attribute (so a not-yet-fired count-up targets the right number) AND the
-     text (so an already-finished one is corrected), then re-assert after its
-     1100ms animation so an in-flight count-up can't finish on a stale value. */
-  function setStat(id, n) {
-    var s = document.getElementById(id);
-    if (!s || typeof n !== "number" || !isFinite(n)) return;
-    if (parseInt(s.getAttribute("data-count"), 10) === n) return;
-    s.setAttribute("data-count", String(n));
-    s.textContent = String(n);
-    setTimeout(function () { s.textContent = String(n); }, 1400);
-  }
 
   /* Delegated cursor growth so dynamically rendered links behave like static ones
      (effects.js only binds elements that existed at DOMContentLoaded). */
@@ -525,18 +597,7 @@ a.cat{text-decoration:none;color:inherit}
       grid.appendChild(a);
     });
     var idx = document.getElementById("catIdx");
-    if (idx && cats.length) idx.textContent = "§ 01 — " + numWord(cats.length) + " categories";
-  }
-
-  function renderTicker(cats) {
-    var track = document.getElementById("tickerTrack");
-    if (!track || !cats.length) return;
-    track.innerHTML = "";
-    for (var r = 0; r < 2; r++) {
-      cats.forEach(function (c) {
-        if (c && (c.name || c.slug)) track.appendChild(el("span", "ticker__item", c.name || c.slug));
-      });
-    }
+    if (idx && cats.length) idx.textContent = "§ 05 — " + numWord(cats.length) + " categories";
   }
 
   function renderArchive(cats, projects) {
@@ -580,7 +641,7 @@ a.cat{text-decoration:none;color:inherit}
       host.appendChild(el("p", "arc-note", "Nothing indexed yet."));
     }
     var idx = document.getElementById("arcIdx");
-    if (idx && projects.length) idx.textContent = "§ 02 — " + projects.length + " projects";
+    if (idx && projects.length) idx.textContent = "§ 06 — " + projects.length + " projects";
   }
 
   fetch("data/registry.json")
@@ -590,10 +651,7 @@ a.cat{text-decoration:none;color:inherit}
       var cats = Array.isArray(reg.categories) ? reg.categories : [];
       var projects = Array.isArray(reg.projects) ? reg.projects : [];
       renderCategories(cats);
-      renderTicker(cats);
       renderArchive(cats, projects);
-      if (cats.length) setStat("statCategories", cats.length);
-      if (projects.length) setStat("statProjects", projects.length);
       /* Safety net: effects.js observed the grids while they were still empty
          (zero height); if the IntersectionObserver misses the resize, reveal
          anything already in the viewport. Below-fold reveals stay scroll-driven. */

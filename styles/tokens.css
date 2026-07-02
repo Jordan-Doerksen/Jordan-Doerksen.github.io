@@ -12,7 +12,7 @@
      Hairlines         --hair #d8cfbf
      Accent — LOCKED to Goldenrod:
        --accent      #b8860b   raw hue — fills / shapes / washes / spine
-       --accent-ink  #8a6508   AA-safe text shade (5.9:1 on paper) — words/links
+       --accent-ink  #8a6508   AA-safe text shade (4.7:1 on paper — AA) — words/links
        --accent-rgb  184,134,11 for rgba() tints
        derived: --accent-soft / --accent-tint / --accent-line
 
@@ -36,7 +36,7 @@
 
   /* accent LOCKED to Goldenrod */
   --accent:#b8860b;         /* raw hue — fills / shapes / washes / spine */
-  --accent-ink:#8a6508;     /* AA-safe text shade — accent words / links (5.9:1 on paper) */
+  --accent-ink:#8a6508;     /* AA-safe text shade — accent words / links (4.7:1 on paper — AA) */
   --accent-rgb:184,134,11;  /* rgb of raw hue for rgba() tints */
 
   --accent-soft:rgba(var(--accent-rgb),.14);
