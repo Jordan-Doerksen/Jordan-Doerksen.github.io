@@ -1,0 +1,558 @@
+[
+  {
+    "id": "sig.405",
+    "domain": "signals",
+    "type": "signal",
+    "title": "405 CLEAR SIGNAL",
+    "plain": "Proceed.",
+    "citation": { "source": "CROR", "ref": "CROR 405", "relatedRef": null, "verbatim": "Clear — Proceed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["G"],"type":"mast"},
+      {"heads":["G"],"type":"dwarf"},
+      {"heads":["G","R","R"],"type":"mast"},
+      {"heads":["G"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.406",
+    "domain": "signals",
+    "type": "signal",
+    "title": "406 CLEAR TO LIMITED",
+    "plain": "Proceed, approaching next signal at LIMITED speed.",
+    "citation": { "source": "CROR", "ref": "CROR 406", "relatedRef": null, "verbatim": "Clear to Limited — Proceed, approaching next signal at LIMITED speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["Y","Gf"],"type":"mast"},
+      {"heads":["G","R","Gf"],"type":"mast"},
+      {"heads":["Y","G"],"type":"dwarf","plaque":"L"},
+      {"heads":["Y","Gf"],"type":"mast"},
+      {"heads":["Y","G"],"type":"mast","plaque":"L"},
+      {"heads":["Y","Gf"],"type":"dwarf"},
+      {"heads":["Y","Gf","R"],"type":"mast"},
+      {"heads":["Y","G"],"type":"mast","plaque":"L","stagger":true}
+    ] }
+  },
+  {
+    "id": "sig.407",
+    "domain": "signals",
+    "type": "signal",
+    "title": "407 CLEAR TO MEDIUM",
+    "plain": "Proceed, approaching next signal at MEDIUM speed.",
+    "citation": { "source": "CROR", "ref": "CROR 407", "relatedRef": null, "verbatim": "Clear to Medium — Proceed, approaching next signal at MEDIUM speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["Y","G"],"type":"mast"},
+      {"heads":["Y","G"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.408",
+    "domain": "signals",
+    "type": "signal",
+    "title": "408 CLEAR TO DIVERGING",
+    "plain": "Proceed, approaching next signal at DIVERGING speed.",
+    "citation": { "source": "CROR", "ref": "CROR 408", "relatedRef": null, "verbatim": "Clear to Diverging — Proceed, approaching next signal at DIVERGING speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["Y","Y"],"type":"dwarf","plaque":"DV"},
+      {"heads":["Y","Y"],"type":"dwarf","plaque":"DV"},
+      {"heads":["G","R","Yf"],"type":"mast","plaque":"DV"},
+      {"heads":["Y","Yf"],"type":"mast","plaque":"DV","stagger":true}
+    ] }
+  },
+  {
+    "id": "sig.409",
+    "domain": "signals",
+    "type": "signal",
+    "title": "409 CLEAR TO SLOW",
+    "plain": "Proceed, approaching next signal at SLOW speed.",
+    "citation": { "source": "CROR", "ref": "CROR 409", "relatedRef": null, "verbatim": "Clear to Slow — Proceed, approaching next signal at SLOW speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["Y","Y"],"type":"dwarf"},
+      {"heads":["Y","Y"],"type":"dwarf"},
+      {"heads":["Y","Y"],"type":"mast"},
+      {"heads":["Y","Y"],"type":"mast","stagger":true},
+      {"heads":["Y","Y","R"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.410",
+    "domain": "signals",
+    "type": "signal",
+    "title": "410 CLEAR TO RESTRICTING",
+    "plain": "Proceed, next signal is displaying restricting signal.",
+    "citation": { "source": "CROR", "ref": "CROR 410", "relatedRef": null, "verbatim": "Clear to Restricting — Proceed, next signal is displaying restricting signal.", "trust": "needs-review" },
+    "payload": { "aspects": [] }
+  },
+  {
+    "id": "sig.411",
+    "domain": "signals",
+    "type": "signal",
+    "title": "411 CLEAR TO STOP",
+    "plain": "Proceed, preparing to stop at next signal.",
+    "citation": { "source": "CROR", "ref": "CROR 411", "relatedRef": null, "verbatim": "Clear to Stop — Proceed, preparing to stop at next signal.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["Y","R"],"type":"mast"},
+      {"heads":["Y","R","R"],"type":"mast"},
+      {"heads":["Y"],"type":"mast"},
+      {"heads":["Y","R"],"type":"mast","stagger":true},
+      {"heads":["Y","R"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.412",
+    "domain": "signals",
+    "type": "signal",
+    "title": "412 ADVANCE CLEAR TO LIMITED",
+    "plain": "Proceed, approaching second signal at LIMITED speed.",
+    "citation": { "source": "CROR", "ref": "CROR 412", "relatedRef": null, "verbatim": "Advance Clear to Limited — Proceed, approaching second signal at LIMITED speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["Yf","Gf"],"type":"mast"},
+      {"heads":["Yf","Gf","R"],"type":"mast"},
+      {"heads":["Yf","Gf"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.413",
+    "domain": "signals",
+    "type": "signal",
+    "title": "413 ADVANCE CLEAR TO MEDIUM",
+    "plain": "Proceed, approaching second signal at MEDIUM speed.",
+    "citation": { "source": "CROR", "ref": "CROR 413", "relatedRef": null, "verbatim": "Advance Clear to Medium — Proceed, approaching second signal at MEDIUM speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["Yf","G"],"type":"mast"},
+      {"heads":["Yf","G"],"type":"mast"},
+      {"heads":["Yf","G"],"type":"mast","stagger":true},
+      {"heads":["Yf","G","R"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.414",
+    "domain": "signals",
+    "type": "signal",
+    "title": "414 ADVANCE CLEAR TO SLOW",
+    "plain": "Proceed, approaching second signal at SLOW speed.",
+    "citation": { "source": "CROR", "ref": "CROR 414", "relatedRef": null, "verbatim": "Advance Clear to Slow — Proceed, approaching second signal at SLOW speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["Yf","Y"],"type":"mast"},
+      {"heads":["Yf","Y","R"],"type":"mast"},
+      {"heads":["Yf","Y"],"type":"mast","stagger":true},
+      {"heads":["Yf","Y"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.414A",
+    "domain": "signals",
+    "type": "signal",
+    "title": "414A ADVANCE CLEAR TO DIVERGING",
+    "plain": "Proceed, approaching second signal at DIVERGING speed.",
+    "citation": { "source": "CROR", "ref": "CROR 414A", "relatedRef": null, "verbatim": "Advance Clear to Diverging — Proceed, approaching second signal at DIVERGING speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["Yf","Y"],"type":"mast","plaque":"DV"},
+      {"heads":["Yf","Y"],"type":"mast","plaque":"DV","stagger":true},
+      {"heads":["Yf","Y","R"],"type":"mast","plaque":"DV"},
+      {"heads":["Yf","Y"],"type":"mast","plaque":"DV"}
+    ] }
+  },
+  {
+    "id": "sig.415",
+    "domain": "signals",
+    "type": "signal",
+    "title": "415 ADVANCE CLEAR TO STOP",
+    "plain": "Proceed, prepared to Stop at second signal.",
+    "citation": { "source": "CROR", "ref": "CROR 415", "relatedRef": null, "verbatim": "Advance Clear to Stop — Proceed, prepared to Stop at second signal.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["Yf","R"],"type":"mast"},
+      {"heads":["Yf"],"type":"mast"},
+      {"heads":["Yf","R"],"type":"mast","stagger":true},
+      {"heads":["Yf","R","R"],"type":"mast"},
+      {"heads":["Yf","R"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.416",
+    "domain": "signals",
+    "type": "signal",
+    "title": "416 LIMITED TO CLEAR",
+    "plain": "Proceed, LIMITED speed passing signal and through turnouts.",
+    "citation": { "source": "CROR", "ref": "CROR 416", "relatedRef": null, "verbatim": "Limited to Clear — Proceed, LIMITED speed passing signal and through turnouts.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","G","R"],"type":"mast","plaque":"L"},
+      {"heads":["R","G","R"],"type":"mast","plaque":"L"},
+      {"heads":["Gf","R"],"type":"dwarf"},
+      {"heads":["G","R"],"type":"dwarf","plaque":"L"}
+    ] }
+  },
+  {
+    "id": "sig.417",
+    "domain": "signals",
+    "type": "signal",
+    "title": "417 LIMITED TO LIMITED",
+    "plain": "Proceed, LIMITED speed passing signal and through turnouts, approaching next signal at LIMITED speed.",
+    "citation": { "source": "CROR", "ref": "CROR 417", "relatedRef": null, "verbatim": "Limited to Limited — Proceed, LIMITED speed passing signal and through turnouts, approaching next signal at LIMITED speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Gf","Gf"],"type":"mast"},
+      {"heads":["R","Gf","Gf"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.418",
+    "domain": "signals",
+    "type": "signal",
+    "title": "418 LIMITED TO MEDIUM",
+    "plain": "Proceed, LIMITED speed passing signal and through turnouts, approaching next signal at MEDIUM speed.",
+    "citation": { "source": "CROR", "ref": "CROR 418", "relatedRef": null, "verbatim": "Limited to Medium — Proceed, LIMITED speed passing signal and through turnouts, approaching next signal at MEDIUM speed.", "trust": "needs-review" },
+    "payload": { "aspects": [] }
+  },
+  {
+    "id": "sig.419",
+    "domain": "signals",
+    "type": "signal",
+    "title": "419 LIMITED TO SLOW",
+    "plain": "Proceed, LIMITED speed passing signal and through turnouts, approaching next signal at SLOW speed.",
+    "citation": { "source": "CROR", "ref": "CROR 419", "relatedRef": null, "verbatim": "Limited to Slow — Proceed, LIMITED speed passing signal and through turnouts, approaching next signal at SLOW speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Gf","Yf"],"type":"mast"},
+      {"heads":["R","Gf","Yf"],"type":"mast"},
+      {"heads":["Gf","Yf"],"type":"dwarf"}
+    ] }
+  },
+  {
+    "id": "sig.419A",
+    "domain": "signals",
+    "type": "signal",
+    "title": "419A LIMITED TO DIVERGING",
+    "plain": "Proceed, LIMITED speed passing signal and through turnouts, approaching next signal at DIVERGING speed.",
+    "citation": { "source": "CROR", "ref": "CROR 419A", "relatedRef": null, "verbatim": "Limited to Diverging — Proceed, LIMITED speed passing signal and through turnouts, approaching next signal at DIVERGING speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["Gf","Yf"],"type":"dwarf","plaque":"DV"},
+      {"heads":["Gf","Yf"],"type":"dwarf","plaque":"DV"},
+      {"heads":["R","Gf","Yf"],"type":"mast","plaque":"DV"}
+    ] }
+  },
+  {
+    "id": "sig.420",
+    "domain": "signals",
+    "type": "signal",
+    "title": "420 LIMITED TO RESTRICTING",
+    "plain": "Proceed, LIMITED speed passing signal and through turnouts, next signal is displaying restricting signal.",
+    "citation": { "source": "CROR", "ref": "CROR 420", "relatedRef": null, "verbatim": "Limited to Restricting — Proceed, LIMITED speed passing signal and through turnouts, next signal is displaying restricting signal.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["Gf","Rf"],"type":"mast","stagger":true},
+      {"heads":["Gf","Rf"],"type":"mast","stagger":true},
+      {"heads":["R","Y","Rf"],"type":"mast","plaque":"L"},
+      {"heads":["Y","Rf"],"type":"dwarf","plaque":"L"}
+    ] }
+  },
+  {
+    "id": "sig.421",
+    "domain": "signals",
+    "type": "signal",
+    "title": "421 LIMITED TO STOP",
+    "plain": "Proceed, LIMITED speed passing signal and through turnouts, preparing to stop at next signal.",
+    "citation": { "source": "CROR", "ref": "CROR 421", "relatedRef": null, "verbatim": "Limited to Stop — Proceed, LIMITED speed passing signal and through turnouts, preparing to stop at next signal.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Y","R"],"type":"mast","plaque":"L"},
+      {"heads":["R","Y","R"],"type":"mast","plaque":"L"},
+      {"heads":["R","Yf","R"],"type":"mast"},
+      {"heads":["Yf","R"],"type":"dwarf"}
+    ] }
+  },
+  {
+    "id": "sig.422",
+    "domain": "signals",
+    "type": "signal",
+    "title": "422 MEDIUM TO CLEAR",
+    "plain": "Proceed, MEDIUM speed passing signal and through turnouts.",
+    "citation": { "source": "CROR", "ref": "CROR 422", "relatedRef": null, "verbatim": "Medium to Clear — Proceed, MEDIUM speed passing signal and through turnouts.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","G","R"],"type":"mast"},
+      {"heads":["R","G","R"],"type":"mast"},
+      {"heads":["G","R"],"type":"dwarf"}
+    ] }
+  },
+  {
+    "id": "sig.423",
+    "domain": "signals",
+    "type": "signal",
+    "title": "423 MEDIUM TO LIMITED",
+    "plain": "Proceed, MEDIUM speed passing signal and through turnouts, approaching next signal at LIMITED speed.",
+    "citation": { "source": "CROR", "ref": "CROR 423", "relatedRef": null, "verbatim": "Medium to Limited — Proceed, MEDIUM speed passing signal and through turnouts, approaching next signal at LIMITED speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["G","Gf"],"type":"dwarf"},
+      {"heads":["G","Gf"],"type":"dwarf"},
+      {"heads":["R","G","Gf"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.424",
+    "domain": "signals",
+    "type": "signal",
+    "title": "424 MEDIUM TO MEDIUM",
+    "plain": "Proceed, MEDIUM speed passing signal and through turnouts, approaching next signal at MEDIUM speed.",
+    "citation": { "source": "CROR", "ref": "CROR 424", "relatedRef": null, "verbatim": "Medium to Medium — Proceed, MEDIUM speed passing signal and through turnouts, approaching next signal at MEDIUM speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","G","G"],"type":"mast"},
+      {"heads":["R","G","G"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.425",
+    "domain": "signals",
+    "type": "signal",
+    "title": "425 MEDIUM TO SLOW",
+    "plain": "Proceed, MEDIUM speed passing signal and through turnouts, approaching next signal at SLOW speed.",
+    "citation": { "source": "CROR", "ref": "CROR 425", "relatedRef": null, "verbatim": "Medium to Slow — Proceed, MEDIUM speed passing signal and through turnouts, approaching next signal at SLOW speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","G","Yf"],"type":"mast"},
+      {"heads":["R","G","Yf"],"type":"mast"},
+      {"heads":["G","Yf"],"type":"dwarf"}
+    ] }
+  },
+  {
+    "id": "sig.425A",
+    "domain": "signals",
+    "type": "signal",
+    "title": "425A MEDIUM TO DIVERGING",
+    "plain": "Proceed, MEDIUM speed passing signal and through turnouts, approaching next signal at DIVERGING speed.",
+    "citation": { "source": "CROR", "ref": "CROR 425A", "relatedRef": null, "verbatim": "Medium to Diverging — Proceed, MEDIUM speed passing signal and through turnouts, approaching next signal at DIVERGING speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["G","Yf"],"type":"dwarf","plaque":"DV"},
+      {"heads":["G","Yf"],"type":"dwarf","plaque":"DV"}
+    ] }
+  },
+  {
+    "id": "sig.426",
+    "domain": "signals",
+    "type": "signal",
+    "title": "426 MEDIUM TO RESTRICTING",
+    "plain": "Proceed, MEDIUM speed passing signal and through turnouts, next signal is displaying restricting signal.",
+    "citation": { "source": "CROR", "ref": "CROR 426", "relatedRef": null, "verbatim": "Medium to Restricting — Proceed, MEDIUM speed passing signal and through turnouts, next signal is displaying restricting signal.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["G","Rf"],"type":"mast","stagger":true},
+      {"heads":["G","Rf"],"type":"mast","stagger":true},
+      {"heads":["R","Y","Rf"],"type":"mast"},
+      {"heads":["Y","Rf"],"type":"dwarf"}
+    ] }
+  },
+  {
+    "id": "sig.427",
+    "domain": "signals",
+    "type": "signal",
+    "title": "427 MEDIUM TO STOP",
+    "plain": "Proceed, MEDIUM speed passing signal and through turnouts, preparing to stop at next signal.",
+    "citation": { "source": "CROR", "ref": "CROR 427", "relatedRef": null, "verbatim": "Medium to Stop — Proceed, MEDIUM speed passing signal and through turnouts, preparing to stop at next signal.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Y","R"],"type":"mast"},
+      {"heads":["Y","R"],"type":"dwarf"},
+      {"heads":["R","Y","R"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.428",
+    "domain": "signals",
+    "type": "signal",
+    "title": "428 DIVERGING TO CLEAR",
+    "plain": "Proceed, DIVERGING speed passing signal and through turnouts.",
+    "citation": { "source": "CROR", "ref": "CROR 428", "relatedRef": null, "verbatim": "Diverging to Clear — Proceed, DIVERGING speed passing signal and through turnouts.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","G"],"type":"dwarf","plaque":"DV"},
+      {"heads":["R","G"],"type":"dwarf","plaque":"DV"},
+      {"heads":["G"],"type":"dwarf","plaque":"DV"},
+      {"heads":["R","G"],"type":"mast","plaque":"DV"}
+    ] }
+  },
+  {
+    "id": "sig.429",
+    "domain": "signals",
+    "type": "signal",
+    "title": "429 DIVERGING TO STOP",
+    "plain": "Proceed, DIVERGING speed passing signal and through turnouts preparing to stop at next signal.",
+    "citation": { "source": "CROR", "ref": "CROR 429", "relatedRef": null, "verbatim": "Diverging to Stop — Proceed, DIVERGING speed passing signal and through turnouts preparing to stop at next signal.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Yf"],"type":"dwarf","plaque":"DV"},
+      {"heads":["R","Yf"],"type":"dwarf","plaque":"DV","stagger":true},
+      {"heads":["Yf"],"type":"dwarf","plaque":"DV"},
+      {"heads":["R","Yf"],"type":"mast","plaque":"DV"},
+      {"heads":["R","Yf"],"type":"dwarf","plaque":"DV"}
+    ] }
+  },
+  {
+    "id": "sig.430",
+    "domain": "signals",
+    "type": "signal",
+    "title": "430 DIVERGING",
+    "plain": "Proceed at REDUCED speed, not exceeding DIVERGING speed passing signal and through turnouts.",
+    "citation": { "source": "CROR", "ref": "CROR 430", "relatedRef": null, "verbatim": "Diverging — Proceed at REDUCED speed, not exceeding DIVERGING speed passing signal and through turnouts.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Y"],"type":"dwarf","plaque":"DV"},
+      {"heads":["R","Y"],"type":"dwarf","plaque":"DV"},
+      {"heads":["Y"],"type":"dwarf","plaque":"DV"},
+      {"heads":["R","R","Y"],"type":"mast","plaque":"DV"},
+      {"heads":["R","Y"],"type":"mast","plaque":"DV"}
+    ] }
+  },
+  {
+    "id": "sig.431",
+    "domain": "signals",
+    "type": "signal",
+    "title": "431 SLOW TO CLEAR",
+    "plain": "Proceed, SLOW speed passing signal and through turnouts.",
+    "citation": { "source": "CROR", "ref": "CROR 431", "relatedRef": null, "verbatim": "Slow to Clear — Proceed, SLOW speed passing signal and through turnouts.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","G"],"type":"mast"},
+      {"heads":["R","G"],"type":"mast","stagger":true},
+      {"heads":["G"],"type":"dwarf"},
+      {"heads":["R","G"],"type":"dwarf"},
+      {"heads":["R","G"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.432",
+    "domain": "signals",
+    "type": "signal",
+    "title": "432 SLOW TO LIMITED",
+    "plain": "Proceed, SLOW speed passing signal and through turnouts, approaching next signal at LIMITED speed.",
+    "citation": { "source": "CROR", "ref": "CROR 432", "relatedRef": null, "verbatim": "Slow to Limited — Proceed, SLOW speed passing signal and through turnouts, approaching next signal at LIMITED speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Yf","Gf"],"type":"mast"},
+      {"heads":["R","Yf","Gf"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.432A",
+    "domain": "signals",
+    "type": "signal",
+    "title": "432A DIVERGING TO LIMITED",
+    "plain": "Proceed, DIVERGING speed passing signal and through turnouts, approaching next signal at LIMITED speed.",
+    "citation": { "source": "CROR", "ref": "CROR 432A", "relatedRef": null, "verbatim": "Diverging to Limited — Proceed, DIVERGING speed passing signal and through turnouts, approaching next signal at LIMITED speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Yf","Gf"],"type":"mast","plaque":"DV"},
+      {"heads":["R","Yf","Gf"],"type":"mast","plaque":"DV"}
+    ] }
+  },
+  {
+    "id": "sig.433",
+    "domain": "signals",
+    "type": "signal",
+    "title": "433 SLOW TO MEDIUM",
+    "plain": "Proceed, SLOW speed passing signal and through turnouts, approaching next signal at MEDIUM speed.",
+    "citation": { "source": "CROR", "ref": "CROR 433", "relatedRef": null, "verbatim": "Slow to Medium — Proceed, SLOW speed passing signal and through turnouts, approaching next signal at MEDIUM speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Yf","G"],"type":"mast"},
+      {"heads":["R","Yf","G"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.433A",
+    "domain": "signals",
+    "type": "signal",
+    "title": "433A DIVERGING TO MEDIUM",
+    "plain": "Proceed, DIVERGING speed passing signal and through turnouts, approaching next signal at MEDIUM speed.",
+    "citation": { "source": "CROR", "ref": "CROR 433A", "relatedRef": null, "verbatim": "Diverging to Medium — Proceed, DIVERGING speed passing signal and through turnouts, approaching next signal at MEDIUM speed.", "trust": "needs-review" },
+    "payload": { "aspects": [] }
+  },
+  {
+    "id": "sig.434",
+    "domain": "signals",
+    "type": "signal",
+    "title": "434 SLOW TO SLOW",
+    "plain": "Proceed, SLOW speed passing signal and through turnouts, approaching next signal at SLOW speed.",
+    "citation": { "source": "CROR", "ref": "CROR 434", "relatedRef": null, "verbatim": "Slow to Slow — Proceed, SLOW speed passing signal and through turnouts, approaching next signal at SLOW speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Yf","Yf"],"type":"mast"},
+      {"heads":["R","Yf","Yf"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.434A",
+    "domain": "signals",
+    "type": "signal",
+    "title": "434A DIVERGING TO DIVERGING",
+    "plain": "Proceed, DIVERGING speed passing signal and through turnouts, approaching next signal at DIVERGING speed.",
+    "citation": { "source": "CROR", "ref": "CROR 434A", "relatedRef": null, "verbatim": "Diverging to Diverging — Proceed, DIVERGING speed passing signal and through turnouts, approaching next signal at DIVERGING speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Yf","Yf"],"type":"mast","plaque":"DV"},
+      {"heads":["R","Yf","Yf"],"type":"mast","plaque":"DV"}
+    ] }
+  },
+  {
+    "id": "sig.435",
+    "domain": "signals",
+    "type": "signal",
+    "title": "435 SLOW TO STOP",
+    "plain": "Proceed, SLOW speed passing signal and through turnouts, preparing to stop at next signal.",
+    "citation": { "source": "CROR", "ref": "CROR 435", "relatedRef": null, "verbatim": "Slow to Stop — Proceed, SLOW speed passing signal and through turnouts, preparing to stop at next signal.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Yf"],"type":"dwarf"},
+      {"heads":["R","Yf"],"type":"dwarf"},
+      {"heads":["Yf"],"type":"dwarf"},
+      {"heads":["R","Yf"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.436",
+    "domain": "signals",
+    "type": "signal",
+    "title": "436 RESTRICTING",
+    "plain": "Proceed at RESTRICTED speed.",
+    "citation": { "source": "CROR", "ref": "CROR 436", "relatedRef": null, "verbatim": "Restricting — Proceed at RESTRICTED speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","R"],"type":"mast","stagger":true,"plaque":"R"},
+      {"heads":["R","R","Y"],"type":"mast"},
+      {"heads":["Y"],"type":"dwarf"},
+      {"heads":["R","R"],"type":"mast","plaque":"R","stagger":true},
+      {"heads":["R","Y"],"type":"mast"},
+      {"heads":["R","Y"],"type":"dwarf"}
+    ] }
+  },
+  {
+    "id": "sig.437",
+    "domain": "signals",
+    "type": "signal",
+    "title": "437 STOP AND PROCEED",
+    "plain": "Stop, then proceed at RESTRICTED speed.",
+    "citation": { "source": "CROR", "ref": "CROR 437", "relatedRef": null, "verbatim": "Stop and Proceed — Stop, then proceed at RESTRICTED speed.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","R"],"type":"mast","stagger":true},
+      {"heads":["R"],"type":"mast"},
+      {"heads":["R","R"],"type":"mast","stagger":true}
+    ] }
+  },
+  {
+    "id": "sig.438",
+    "domain": "signals",
+    "type": "signal",
+    "title": "438 TAKE OR LEAVE SIDING OR OTHER TRACK",
+    "plain": "Indications will be specified in special instructions for each specific application of this signal.",
+    "citation": { "source": "CROR", "ref": "CROR 438", "relatedRef": null, "verbatim": "Take or Leave Siding or Other Track — Indications will be specified in special instructions for each specific application of this signal.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R","Rf"],"type":"mast"},
+      {"heads":["R","Rf"],"type":"mast"},
+      {"heads":["R","Rf"],"type":"dwarf"},
+      {"heads":["Rf"],"type":"dwarf"},
+      {"heads":["R","R","Rf"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.439",
+    "domain": "signals",
+    "type": "signal",
+    "title": "439 STOP",
+    "plain": "Stop.",
+    "citation": { "source": "CROR", "ref": "CROR 439", "relatedRef": null, "verbatim": "Stop — Stop.", "trust": "verified" },
+    "payload": { "aspects": [
+      {"heads":["R"],"type":"mast"},
+      {"heads":["R","R","R"],"type":"mast"},
+      {"heads":["R","R"],"type":"mast"},
+      {"heads":["R","R"],"type":"dwarf"},
+      {"heads":["R"],"type":"mast"}
+    ] }
+  },
+  {
+    "id": "sig.440",
+    "domain": "signals",
+    "type": "signal",
+    "title": "440 DIRECTION INDICATOR",
+    "plain": "Flashing arrow indicators used in conjunction with block signals; when illuminated, identify that the route at the next controlled location is displaying a permissive signal and the route is lined and secured as indicated by the direction of the arrow.",
+    "citation": { "source": "CROR", "ref": "CROR 440", "relatedRef": null, "verbatim": "Direction Indicator — Flashing arrow indicators used in conjunction with block signals; when illuminated, identify that the route at the next controlled location is displaying a permissive signal and the route is lined and secured as indicated by the direction of the arrow.", "trust": "needs-review" },
+    "payload": { "aspects": [] }
+  }
+]

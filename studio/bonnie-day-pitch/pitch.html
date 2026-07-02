@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Website for Bonnie Day — Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Bonnie Day's own brand — warm cream, espresso ink, one clay thread */
+  :root{
+    --bg:#f7f2ea;        /* warm cream */
+    --bg-2:#efe6d8;      /* deeper cream */
+    --paper:#fdfbf6;     /* card paper */
+    --ink:#2c2521;       /* espresso text */
+    --ink-soft:#7a6e63;  /* muted */
+    --accent:#a4633f;    /* clay */
+    --accent-soft:#bd7c52;
+    --line:rgba(44,37,33,.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Jost',system-ui,sans-serif;color:var(--ink);background:var(--bg-2);font-weight:300;font-size:16px;line-height:1.7;padding:30px 16px;-webkit-font-smoothing:antialiased}
+  .sheet{width:min(820px,100%);margin:0 auto;background:var(--bg);box-shadow:0 18px 50px rgba(44,37,33,.18);border-radius:4px;overflow:hidden}
+  h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:300;letter-spacing:.01em;line-height:1.15}
+  .label{font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;font-weight:400;color:var(--accent)}
+  .stage{font-family:'Fraunces',serif;font-style:italic;color:var(--ink-soft);font-size:.98rem;letter-spacing:.02em}
+
+  .head{background:var(--ink);color:var(--bg);padding:48px 44px;text-align:center}
+  .head .label{color:var(--accent-soft);margin:0 0 18px;display:block}
+  .head h1{font-size:clamp(2.2rem,6vw,3.2rem);color:var(--bg)}
+  .head h1 em{font-style:italic;color:var(--accent-soft)}
+  .head .tag{margin-top:1rem;font-family:'Fraunces',serif;font-style:italic;color:rgba(247,242,234,.85);font-size:1.02rem}
+  .head .mark{font-size:.85rem;letter-spacing:1em;color:var(--accent-soft);margin-top:1.4rem}
+
+  .body{padding:42px 44px}
+  .body p{margin-bottom:18px}
+  h2{color:var(--ink);font-size:1.55rem;margin:38px 0 16px;display:flex;align-items:center;gap:14px}
+  h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--accent),transparent)}
+  .lead{font-size:1.12rem;color:var(--ink-soft);font-family:'Fraunces',serif;font-style:italic}
+  b{font-weight:500;color:var(--ink)}
+
+  ul{list-style:none;margin:6px 0 4px}
+  li{padding:8px 0 8px 28px;position:relative;color:var(--ink-soft)}
+  li::before{content:"✦";position:absolute;left:2px;top:9px;color:var(--accent);font-size:.7rem}
+  li b{color:var(--ink)}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:18px 0 6px}
+  .card{border:1px solid var(--line);border-radius:3px;padding:26px 20px;background:var(--paper);text-align:center}
+  .card.feature{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .card .tier{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--accent)}
+  .card.feature .tier{color:var(--accent-soft)}
+  .card .price{font-family:'Fraunces',serif;font-weight:400;font-size:2.2rem;color:var(--ink);margin:10px 0 2px}
+  .card.feature .price{color:var(--bg)}
+  .card .per{font-size:.8rem;color:var(--ink-soft);display:block;margin-bottom:12px}
+  .card.feature .per{color:rgba(247,242,234,.7)}
+  .card .desc{font-size:.92rem;line-height:1.6;color:var(--ink-soft)}
+  .card.feature .desc{color:rgba(247,242,234,.85)}
+  .ribbon{display:inline-block;background:var(--accent);color:var(--bg);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;padding:4px 13px;border-radius:20px;margin-bottom:10px}
+  .note{font-size:.9rem;font-style:italic;font-family:'Fraunces',serif;color:var(--ink-soft);text-align:center;margin-top:16px}
+
+  .cta{background:var(--bg-2);border:1px solid var(--line);border-radius:3px;padding:30px 32px;margin-top:34px;text-align:center}
+  .cta .mark{font-size:.8rem;letter-spacing:.8em;color:var(--accent);margin-bottom:14px}
+  .cta h3{color:var(--ink);font-size:1.5rem;margin-bottom:10px}
+  .cta p{color:var(--ink-soft)}
+  .cta a{color:var(--accent);font-weight:400;text-decoration:none;border-bottom:1px solid var(--line)}
+  .cta a:hover{color:var(--accent-soft)}
+
+  .foot{background:var(--ink);color:var(--bg);text-align:center;padding:26px;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;opacity:.92}
+  .foot .mark{color:var(--accent-soft)}
+
+  @media(max-width:620px){.cards{grid-template-columns:1fr}.body,.head{padding:30px 26px}}
+  @media print{body{background:#fff;padding:0}.sheet{box-shadow:none;border-radius:0}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="head">
+    <div class="label">A Website Proposal For</div>
+    <h1>Bonnie <em>Day</em></h1>
+    <p class="tag">Wolseley's resto, café &amp; bar — a play in two acts.</p>
+    <div class="mark">✦</div>
+  </div>
+  <div class="body">
+    <p class="lead">Hello — I'm a local web designer in Winnipeg. I rebuilt the Bonnie Day website, free to look at, no strings attached. It's finished and ready to go whenever you are.</p>
+
+    <h2>Why Bonnie Day deserves a better one</h2>
+    <p>Folks already love this place — Westminster Avenue's candlelit corner, with a kitchen that's as generous to vegans and gluten-free guests as it is to everyone else. But when someone new searches "dinner in Wolseley" or "café near Westminster," the first impression should feel like the room: warm, considered, worth showing off.</p>
+    <p>A clean, modern site does exactly that. New guests find your menu, your hours, your story, and one-tap directions and reservations — right from their phone, before they ever walk in. The food and the room sell themselves; the website just needs to get out of the way and set the scene.</p>
+
+    <h2>What's included</h2>
+    <ul>
+      <li><b>A full multi-page website</b> — looks lovely on phones, tablets and computers</li>
+      <li><b>Your two acts, café and resto</b>, front and centre — morning coffee and candlelit suppers, each in its own light</li>
+      <li><b>Real hours, phone number and a tap-to-call button</b> for reservations</li>
+      <li><b>One-tap directions</b> to 898 Westminster Avenue, in the heart of Wolseley</li>
+      <li><b>The menu, told well</b> — signatures like the whipped feta and sweet potato gnocchi given room to shine</li>
+      <li><b>Your story</b> — the playwright, the two words, the good idea — kept exactly as it should be</li>
+      <li><b>Styling that feels like Bonnie Day</b> — literary, warm, candlelit, never generic</li>
+      <li><b>Easy to update</b> — new menu, new staff, new photos or a seasonal change, just ask</li>
+    </ul>
+
+    <h2>Simple options</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="tier">Just the Site</div>
+        <div class="price">$600</div><span class="per">one-time</span>
+        <div class="desc">The finished website, set up and live. It's yours to keep.</div>
+      </div>
+      <div class="card feature">
+        <div class="ribbon">Most Popular</div>
+        <div class="tier">Site + Care</div>
+        <div class="price">$600</div><span class="per">+ $25 / month</span>
+        <div class="desc">Hosting, your domain, and unlimited small updates handled for you.</div>
+      </div>
+      <div class="card">
+        <div class="tier">Try It First</div>
+        <div class="price">$0</div><span class="per">to look</span>
+        <div class="desc">Review the live demo with zero commitment. Pay only if you love it.</div>
+      </div>
+    </div>
+    <p class="note">Flexible — happy to adjust to whatever suits the house. Prices shown are a starting point, and yes — staff, photos and the menu are all easy to keep current.</p>
+
+    <div class="cta">
+      <div class="mark">✦</div>
+      <h3>Want to see it live?</h3>
+      <p>I'll walk you through the website in person or over the phone — takes five minutes, no pressure.</p>
+      <p style="margin-top:10px"><b>Jordan</b> · <a href="mailto:doerksen.jordan@gmail.com">doerksen.jordan@gmail.com</a></p>
+    </div>
+  </div>
+  <div class="foot"><span class="mark">✦</span> &nbsp; Built with care for Bonnie Day · 898 Westminster Avenue, Winnipeg &nbsp; <span class="mark">✦</span></div>
+</div>
+</body>
+</html>

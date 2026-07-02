@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+<title>Orbital Field — The Glass Archive</title>
+<meta name="theme-color" content="#04060c" />
+<style>
+  html,body{margin:0;height:100%;background:#04060c;overflow:hidden;overscroll-behavior:none;}
+  body{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;}
+  canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;}
+  #bg{z-index:0;} #fg{z-index:1;}
+  .hint{position:fixed;left:50%;bottom:14%;transform:translateX(-50%);z-index:3;
+    color:#97a0b5;font:500 12px/1.7 'JetBrains Mono',monospace;letter-spacing:.14em;
+    text-transform:uppercase;text-align:center;pointer-events:none;
+    transition:opacity 1.2s ease;text-shadow:0 1px 8px #000;}
+  .hint b{color:#d8ac4e;font-weight:600;}
+  .colo{position:fixed;left:0;right:0;bottom:max(10px,env(safe-area-inset-bottom));z-index:2;
+    text-align:center;color:#5e677d;font:500 10px/1 'JetBrains Mono',monospace;letter-spacing:.28em;
+    text-transform:uppercase;pointer-events:none;}
+  .colo b{color:#9a7a33;font-weight:500;}
+</style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <canvas id="fg"></canvas>
+  <div class="hint" id="hint"><b>drag</b> to fling a world &nbsp;·&nbsp; <b>hold</b> to bend gravity &nbsp;·&nbsp; <b>tap</b> for an orbit</div>
+  <div class="colo">✦ &nbsp; The Glass Archive &nbsp; <b>·</b> &nbsp; orbital field</div>
+<script>
+// ===========================================================================
+// ORBITAL FIELD — a no-goal gravity sandbox. A star at center pulls everything;
+// tap = an instant orbit, drag = fling a world, hold = a gravity well under your
+// finger. Additive glow + fading trails (light-painting). Glass Archive palette.
+// Touch + mouse via Pointer Events. prefers-reduced-motion calms the ambient.
+// ===========================================================================
+const bg=document.getElementById('bg'), fg=document.getElementById('fg');
+const bx=bg.getContext('2d'), fx=fg.getContext('2d');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const HUES=['#4fe3d0','#c084fc','#6aa9ff','#ffaa44','#8fb7ff','#5fd6a0','#d8ac4e'];
+const GOLD='#d8ac4e';
+let W,H,DPR,cx,cy, star;
+const GM=3.2e6, SOFT=26, FM=1.7e6, FSOFT=46;
+const MAX=110;
+let bodies=[], P=null, lastSpawn=0;
+
+const rr=(a,b)=>a+Math.random()*(b-a);
+const clamp=(v,m)=>Math.max(-m,Math.min(m,v));
+function hexA(hex,a){const n=parseInt(hex.slice(1),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;}
+
+function resize(){
+  DPR=Math.min(2,window.devicePixelRatio||1);
+  W=innerWidth; H=innerHeight; cx=W/2; cy=H/2;
+  [bg,fg].forEach(c=>{c.width=W*DPR;c.height=H*DPR;});
+  bx.setTransform(DPR,0,0,DPR,0,0); fx.setTransform(DPR,0,0,DPR,0,0);
+  star={x:cx,y:cy};
+  paintBg();
+}
+addEventListener('resize',resize);
+
+function paintBg(){
+  bx.clearRect(0,0,W,H);
+  bx.fillStyle='#04060c'; bx.fillRect(0,0,W,H);
+  // nebula blooms (two hues)
+  bx.globalCompositeOperation='lighter';
+  const ha=HUES[Math.floor(rr(0,6))], hb=HUES[Math.floor(rr(0,6))];
+  for(let i=0;i<5;i++){
+    const x=rr(0,W),y=rr(0,H),r=rr(W*.18,W*.5),col=i%2?ha:hb;
+    const g=bx.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0,hexA(col,rr(.05,.12))); g.addColorStop(1,hexA(col,0));
+    bx.fillStyle=g; bx.beginPath(); bx.arc(x,y,r,0,7); bx.fill();
+  }
+  bx.globalCompositeOperation='source-over';
+  // distant starfield
+  for(let i=0;i<Math.round(W*H/5200);i++){
+    const a=rr(.15,.8); bx.fillStyle=`rgba(242,244,250,${a})`;
+    const r=Math.pow(Math.random(),2.5)*1.5+.3;
+    bx.beginPath(); bx.arc(rr(0,W),rr(0,H),r,0,7); bx.fill();
+  }
+  // vignette
+  const v=bx.createRadialGradient(cx,cy,Math.min(W,H)*.2,cx,cy,Math.max(W,H)*.75);
+  v.addColorStop(0,'rgba(4,6,12,0)'); v.addColorStop(1,'rgba(4,6,12,.9)');
+  bx.fillStyle=v; bx.fillRect(0,0,W,H);
+}
+
+function addBody(x,y,vx,vy,hue){
+  if(bodies.length>=MAX) bodies.shift();
+  bodies.push({x,y,vx,vy,hue:hue||HUES[Math.floor(rr(0,HUES.length))],r:rr(1.8,3.6)});
+}
+function spawnOrbit(x,y){
+  let dx=x-star.x, dy=y-star.y, r=Math.hypot(dx,dy); if(r<48){r=48;}
+  const ux=dx/r, uy=dy/r, dir=Math.random()<.5?1:-1;
+  const v=Math.sqrt(GM/r)*rr(.85,1.08);
+  addBody(x,y, -uy*v*dir, ux*v*dir);
+}
+function seed(){ for(let i=0;i<7;i++){ const ang=rr(0,7), r=rr(90,Math.min(W,H)*.42); spawnOrbit(star.x+Math.cos(ang)*r, star.y+Math.sin(ang)*r);} }
+
+// ---- input (pointer = mouse + touch) ----
+fg.addEventListener('pointerdown',e=>{ fg.setPointerCapture(e.pointerId);
+  P={x:e.clientX,y:e.clientY,dx:e.clientX,dy:e.clientY,t:performance.now(),moved:false}; fade(); });
+fg.addEventListener('pointermove',e=>{ if(!P)return; P.x=e.clientX;P.y=e.clientY;
+  if(Math.hypot(P.x-P.dx,P.y-P.dy)>10)P.moved=true; });
+function release(e){ if(!P)return; const dt=(performance.now()-P.t)/1000;
+  if(!P.moved && dt<.35){ spawnOrbit(P.dx,P.dy); }
+  else { const vx=clamp((e.clientX-P.dx)/Math.max(.06,dt),780), vy=clamp((e.clientY-P.dy)/Math.max(.06,dt),780);
+         addBody(e.clientX,e.clientY,vx,vy); }
+  P=null; }
+fg.addEventListener('pointerup',release);
+fg.addEventListener('pointercancel',()=>P=null);
+
+let hintEl=document.getElementById('hint'), faded=false;
+function fade(){ if(faded)return; faded=true; hintEl.style.opacity='0'; }
+if(!reduce) setTimeout(fade,6500);
+
+// ---- sim + render ----
+let last=performance.now();
+function frame(now){
+  const dt=Math.min(.033,(now-last)/1000); last=now;
+  // physics
+  for(let i=bodies.length-1;i>=0;i--){
+    const b=bodies[i];
+    let dx=star.x-b.x, dy=star.y-b.y, r2=dx*dx+dy*dy+SOFT*SOFT, r=Math.sqrt(r2), a=GM/r2;
+    b.vx+=a*dx/r*dt; b.vy+=a*dy/r*dt;
+    if(P){ let fdx=P.x-b.x, fdy=P.y-b.y, fr2=fdx*fdx+fdy*fdy+FSOFT*FSOFT, fr=Math.sqrt(fr2), fa=FM/fr2;
+           b.vx+=fa*fdx/fr*dt; b.vy+=fa*fdy/fr*dt; }
+    b.x+=b.vx*dt; b.y+=b.vy*dt;
+    // absorb into star, cull strays
+    if(r<26){ flash(b.x,b.y,b.hue); bodies.splice(i,1); continue; }
+    if(b.x<-W||b.x>2*W||b.y<-H||b.y>2*H){ bodies.splice(i,1); }
+  }
+  // keep the field alive
+  if(!reduce && bodies.length<6 && now-lastSpawn>900){ const ang=rr(0,7),rad=rr(120,Math.min(W,H)*.4);
+    spawnOrbit(star.x+Math.cos(ang)*rad, star.y+Math.sin(ang)*rad); lastSpawn=now; }
+
+  // fade previous frame toward transparent (light-painting trails)
+  fx.globalCompositeOperation='destination-out';
+  fx.fillStyle='rgba(0,0,0,'+(reduce?0.14:0.075)+')'; fx.fillRect(0,0,W,H);
+  // additive glow
+  fx.globalCompositeOperation='lighter';
+  // the star
+  const pulse=reduce?1:(1+0.06*Math.sin(now/700));
+  glow(fx,star.x,star.y,46*pulse,GOLD,.16); glow(fx,star.x,star.y,15*pulse,'#fff7e0',.6);
+  // finger well marker
+  if(P){ glow(fx,P.x,P.y,40,GOLD,.10); fx.strokeStyle=hexA(GOLD,.5); fx.lineWidth=1; fx.beginPath(); fx.arc(P.x,P.y,16,0,7); fx.stroke(); }
+  // bodies
+  for(const b of bodies){ glow(fx,b.x,b.y,b.r*5,b.hue,.32); fx.globalAlpha=.9; fx.fillStyle='#fff'; fx.beginPath(); fx.arc(b.x,b.y,b.r*.7,0,7); fx.fill(); fx.globalAlpha=1; }
+  // flashes
+  for(let i=flashes.length-1;i>=0;i--){ const f=flashes[i]; f.r+=260*dt; f.a-=dt*1.6;
+    if(f.a<=0){flashes.splice(i,1);continue;} fx.strokeStyle=hexA(f.hue,f.a); fx.lineWidth=2; fx.beginPath(); fx.arc(f.x,f.y,f.r,0,7); fx.stroke(); }
+  fx.globalCompositeOperation='source-over';
+  requestAnimationFrame(frame);
+}
+function glow(c,x,y,r,col,a){ const g=c.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,hexA(col,a)); g.addColorStop(1,hexA(col,0)); c.fillStyle=g; c.beginPath(); c.arc(x,y,r,0,7); c.fill(); }
+let flashes=[]; function flash(x,y,hue){ flashes.push({x,y,r:4,a:.9,hue}); }
+
+resize(); seed(); requestAnimationFrame(frame);
+</script>
+</body>
+</html>

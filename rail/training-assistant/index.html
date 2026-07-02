@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CROR Training Assistant</title>
+  <meta name="description" content="A reference-first, CROR-cited training assistant for conductors. Search rules, signals, and definitions — fast." />
+  <meta name="theme-color" content="#1a1e24" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="CROR Assistant" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="icon" href="icon.svg" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/"><span class="mark" aria-hidden="true"></span>CROR&nbsp;<b>Assistant</b></a>
+    <nav class="nav">
+      <a class="navlink is-on" data-nav="ref" href="#/">Reference</a>
+      <a class="navlink" data-nav="study" href="#/study">Study</a>
+      <a class="navlink" data-nav="drills" href="#/drills">Drills</a>
+      <a class="navlink" data-nav="progress" href="#/progress">Progress</a>
+      <a class="navlink" data-nav="guide" href="#/guide">Guide</a>
+    </nav>
+    <input id="q" type="search" placeholder="Search rules, signals, definitions…   ( press / )" autocomplete="off" spellcheck="false" aria-label="Search" />
+    <span class="hint">Jan 2025 CROR · cited</span>
+  </header>
+
+  <div id="firstrun" class="firstrun" hidden>
+    <span class="fr-text"><b>New here?</b> Take a 1-minute tour of how to actually study with this.</span>
+    <span class="fr-actions">
+      <button id="fr-tour" class="dbtn dbtn-go" type="button">Take the tour</button>
+      <button id="fr-dismiss" class="fr-x" type="button" aria-label="Dismiss">Not now</button>
+    </span>
+  </div>
+
+  <main id="view" class="view" aria-live="polite"></main>
+
+  <footer class="foot">
+    <canvas class="footer-train" data-train aria-hidden="true"></canvas>
+    <span class="foot-text">Reference + drill assistant · built from the Jan 28 2025 CROR ·
+    <strong>study aid, not the official rulebook</strong> — verify against the CROR &amp; your SME.</span>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/footer-train.js"></script>
+</body>
+</html>

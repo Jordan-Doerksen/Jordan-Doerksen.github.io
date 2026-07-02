@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Glass Atlas — a plate generator</title>
+<meta name="description" content="A generative star-atlas plate. Each one a one-off. The Glass Archive." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: dark;
+    --bg:#04060c; --bg-soft:#070a13;
+    --panel:rgba(10,14,24,0.58); --line:rgba(190,205,255,0.09); --line-strong:rgba(190,205,255,0.2);
+    --text:#e9edf6; --text-muted:#97a0b5; --text-faint:#5e677d; --starlight:#f2f4fa;
+    --gold:#d8ac4e;
+    --font-display:'Space Grotesk','Inter',system-ui,sans-serif;
+    --font-accent:'Fraunces',Georgia,serif;
+    --font-mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0; background:
+      radial-gradient(1200px 700px at 50% -10%, #0a1020 0%, var(--bg) 60%) fixed, var(--bg);
+    color:var(--text); font-family:var(--font-display);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    min-height:100dvh; gap:20px; padding:24px 16px;
+  }
+  .stage{ position:relative; }
+  canvas#plate{
+    display:block; height:min(86dvh,1140px); width:auto; max-width:94vw;
+    border-radius:6px; box-shadow:0 30px 90px rgba(0,0,0,.6), inset 0 1px 0 rgba(220,230,255,.06);
+    cursor:pointer;
+  }
+  .toolbar{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center;
+    background:var(--panel); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px;
+  }
+  .btn{
+    font:600 13px/1 var(--font-display); letter-spacing:.02em; color:var(--text);
+    background:rgba(216,172,78,.08); border:1px solid var(--line-strong); border-radius:10px;
+    padding:11px 16px; cursor:pointer; transition:border-color .18s, background .18s, transform .06s;
+  }
+  .btn:hover{ border-color:var(--gold); background:rgba(216,172,78,.14); }
+  .btn:active{ transform:translateY(1px); }
+  .btn.gold{ color:#1a1305; background:var(--gold); border-color:var(--gold); font-weight:700; }
+  .btn.gold:hover{ filter:brightness(1.06); }
+  .eyebrow{ font:500 11px/1 var(--font-mono); letter-spacing:.22em; text-transform:uppercase; color:var(--text-faint); }
+  .hint{ font:400 11px/1.5 var(--font-mono); letter-spacing:.06em; color:var(--text-faint); text-align:center; }
+  .hint b{ color:var(--text-muted); font-weight:500; }
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+</style>
+</head>
+<body>
+  <h1 class="sr-only">The Glass Atlas — a generative star-chart plate generator.</h1>
+  <div class="stage">
+    <canvas id="plate" width="800" height="1200" role="img" aria-label="A generative star-atlas plate"></canvas>
+  </div>
+  <div class="toolbar">
+    <span class="eyebrow" id="seedLabel">SEED ····</span>
+    <button class="btn gold" id="reroll">✦ Reroll</button>
+    <button class="btn" id="save">Save plate</button>
+  </div>
+  <p class="hint"><b>Space</b> reroll · <b>S</b> save · click the plate to reroll — <b>each plate is a one-off</b></p>
+
+<script>
+// ===========================================================================
+// THE GLASS ATLAS — a generative star-atlas plate. Deterministic per seed
+// (shareable via #hash), Glass-Archive styled. Static poster + a faint twinkle
+// (skipped under prefers-reduced-motion). ✦ The Glass Archive ✦
+// ===========================================================================
+const cv = document.getElementById('plate'), ctx = cv.getContext('2d');
+const W = 800, H = 1200;
+const DPR = Math.min(2, window.devicePixelRatio || 1);
+cv.width = W * DPR; cv.height = H * DPR; ctx.scale(DPR, DPR);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// --- seeded RNG (mulberry32) ---
+let rng = Math.random;
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+const rand = ()=>rng();
+const rr = (a,b)=>a+(b-a)*rand();
+const ri = (a,b)=>Math.floor(rr(a,b+1));
+const pick = (arr)=>arr[ri(0,arr.length-1)];
+
+// --- word lists (deadpan / celestial) ---
+const ART = ['The','A'];
+const ADJ = ['Quiet','Folded','Patient','Hollow','Distant','Unhurried','Pale','Vast','Slow','Forgotten','Drifting','Tilted','Northern','Sunken','Borrowed','Narrow','Late','Half-lit'];
+const NOUN = ['Meridian','Drift','Horizon','Expanse','Threshold','Lantern','Passage','Reach','Vault','Lattice','Aperture','Wake','Veil','Furrow','Anchorage','Causeway','Ledger','Margin'];
+const GREEK = ['α','β','γ','δ','ε','ζ','η','θ','ι','κ','λ','μ','ν','ξ','ο','π','ρ','σ','τ'];
+const CONST = ['And','Lyr','Cyg','Ori','Vel','Dra','Aql','Crv','Lup','Vol','Pyx','Cae','Ant','Hor','Tuc','Gru','Pic'];
+const HUES = [ // nebula hue per plate — sky changes, gold stays the thread
+  {a:'#4fe3d0',b:'#1d6e8c'}, {a:'#c084fc',b:'#5b3a8c'}, {a:'#6aa9ff',b:'#27406e'},
+  {a:'#ffaa44',b:'#7a3f1e'}, {a:'#8fb7ff',b:'#34507e'}, {a:'#5fd6a0',b:'#1f6e54'}, {a:'#ff7a8a',b:'#7a2f3e'}
+];
+const GOLD = '#d8ac4e', STAR = '#f2f4fa', TEXT = '#e9edf6', MUTE='#97a0b5', FAINT='#5e677d';
+const M = 52; // margin
+
+// roman year for the colophon
+const roman = 'MMXXVI';
+
+let state = null, base = null, twinkles = [];
+
+function hex6(n){ return (n>>>0).toString(16).padStart(8,'0').slice(0,6).toUpperCase(); }
+
+function generate(seed){
+  rng = mulberry32(seed);
+  const hue = pick(HUES);
+  const plate = ri(1,99);
+  const title = { art: pick(ART), adj: pick(ADJ), noun: pick(NOUN) };
+  const nStars = ri(260,460);
+  // catalog
+  const cat = {
+    desig: 'GA–' + ri(1000,9989) + pick(['','',' '+pick(GREEK)+' '+pick(CONST)]),
+    ra: `RA ${String(ri(0,23)).padStart(2,'0')}h ${String(ri(0,59)).padStart(2,'0')}m ${String(ri(0,59)).padStart(2,'0')}s`,
+    dec: `DEC ${rand()<.5?'+':'−'}${String(ri(0,89)).padStart(2,'0')}° ${String(ri(0,59)).padStart(2,'0')}′ ${String(ri(0,59)).padStart(2,'0')}″`,
+    mag: 'MAG +' + rr(0.2,5.8).toFixed(2),
+    field: 'FIELD ' + nStars + ' ✦',
+    seed: 'SEED ' + hex6(seed)
+  };
+  // stars
+  const stars = [];
+  for(let i=0;i<nStars;i++){
+    const warm = rand();
+    stars.push({
+      x: rr(M, W-M), y: rr(M+70, H-250),
+      r: Math.pow(rand(),2.4)*1.8 + 0.35,
+      a: rr(.25,.95),
+      c: warm<.12 ? '#ffd9a8' : warm>.9 ? '#bcd0ff' : STAR,
+      tw: rand()<.16
+    });
+  }
+  // feature stars (bright, with spikes)
+  const feats = [];
+  const nf = ri(2,4);
+  for(let i=0;i<nf;i++) feats.push({ x: rr(M+60,W-M-60), y: rr(M+120,H-330), r: rr(2.2,4.2), gold: rand()<.5 });
+  // constellations: 1–2 chains of nodes connected nearest-neighbour
+  const consts = [];
+  const nc = ri(1,2);
+  for(let c=0;c<nc;c++){
+    const k = ri(5,9);
+    const cxp = rr(W*.25,W*.75), cyp = rr(H*.22,H*.58), spread = rr(110,210);
+    let pts = [];
+    for(let i=0;i<k;i++) pts.push({ x: cxp+rr(-spread,spread), y: cyp+rr(-spread,spread) });
+    // greedy nearest-neighbour path
+    const path=[pts.shift()];
+    while(pts.length){
+      let bi=0,bd=1e9; const last=path[path.length-1];
+      pts.forEach((p,idx)=>{const d=(p.x-last.x)**2+(p.y-last.y)**2; if(d<bd){bd=d;bi=idx;}});
+      path.push(pts.splice(bi,1)[0]);
+    }
+    consts.push(path);
+  }
+  state = { seed, hue, plate, title, cat, stars, feats, consts, nStars };
+  drawBase();
+  twinkles = stars.filter(s=>s.tw);
+  if(reduce){ ctx.drawImage(base,0,0,W,H); } else { loop(); }
+  document.getElementById('seedLabel').textContent = 'PLATE N°' + String(plate).padStart(2,'0') + ' · ' + hex6(seed);
+  location.replace('#' + seed.toString(36));
+}
+
+function drawBase(){
+  base = document.createElement('canvas'); base.width=W*DPR; base.height=H*DPR;
+  const g = base.getContext('2d'); g.scale(DPR,DPR);
+  const s = state;
+  // background
+  g.fillStyle = '#04060c'; g.fillRect(0,0,W,H);
+  // nebula blooms
+  g.globalCompositeOperation = 'lighter';
+  const blooms = ri(3,5);
+  for(let i=0;i<blooms;i++){
+    const bx=rr(W*.1,W*.9), by=rr(H*.08,H*.62), br=rr(150,360);
+    const col = rand()<.5 ? s.hue.a : s.hue.b;
+    const rg = g.createRadialGradient(bx,by,0,bx,by,br);
+    rg.addColorStop(0, hexA(col, rr(.10,.22))); rg.addColorStop(1, hexA(col,0));
+    g.fillStyle=rg; g.beginPath(); g.arc(bx,by,br,0,7); g.fill();
+  }
+  g.globalCompositeOperation = 'source-over';
+  // faint atlas graticule
+  g.strokeStyle = 'rgba(190,205,255,0.05)'; g.lineWidth=1;
+  for(let x=M+40;x<W-M;x+=64){ g.beginPath(); g.moveTo(x,M+70); g.lineTo(x,H-250); g.stroke(); }
+  for(let y=M+70;y<H-250;y+=64){ g.beginPath(); g.moveTo(M,y); g.lineTo(W-M,y); g.stroke(); }
+  // stars
+  s.stars.forEach(st=>{ if(st.tw) return; g.globalAlpha=st.a; g.fillStyle=st.c; dot(g,st.x,st.y,st.r); });
+  g.globalAlpha=1;
+  // constellation chains
+  s.consts.forEach(path=>{
+    g.strokeStyle = hexA(GOLD,.5); g.lineWidth=1; g.beginPath();
+    path.forEach((p,i)=> i?g.lineTo(p.x,p.y):g.moveTo(p.x,p.y)); g.stroke();
+    path.forEach(p=>{ g.fillStyle=hexA(GOLD,.18); dot(g,p.x,p.y,5); g.fillStyle=GOLD; dot(g,p.x,p.y,1.8); });
+  });
+  // feature stars w/ diffraction spikes
+  s.feats.forEach(f=> feature(g,f));
+  // vignette
+  const vg = g.createRadialGradient(W/2,H*.42,W*.2,W/2,H*.42,W*.78);
+  vg.addColorStop(0,'rgba(4,6,12,0)'); vg.addColorStop(1,'rgba(4,6,12,.85)');
+  g.fillStyle=vg; g.fillRect(0,0,W,H);
+  // frame + plate furniture
+  furniture(g);
+}
+
+function feature(g,f){
+  const col = f.gold ? GOLD : STAR;
+  const glow = g.createRadialGradient(f.x,f.y,0,f.x,f.y,f.r*9);
+  glow.addColorStop(0, hexA(col,.9)); glow.addColorStop(.4, hexA(col,.18)); glow.addColorStop(1, hexA(col,0));
+  g.fillStyle=glow; g.beginPath(); g.arc(f.x,f.y,f.r*9,0,7); g.fill();
+  g.strokeStyle = hexA(col,.6); g.lineWidth=1;
+  const L=f.r*10;
+  [[0,1],[1,0]].forEach(([dx,dy])=>{ g.beginPath(); g.moveTo(f.x-dx*L,f.y-dy*L); g.lineTo(f.x+dx*L,f.y+dy*L); g.stroke(); });
+  g.fillStyle=STAR; dot(g,f.x,f.y,f.r);
+}
+
+function furniture(g){
+  const s=state;
+  // hairline frame
+  g.strokeStyle = hexA(GOLD,.55); g.lineWidth=1; g.strokeRect(M-18,M-18,W-2*(M-18),H-2*(M-18));
+  g.strokeStyle = 'rgba(190,205,255,0.1)'; g.strokeRect(M-12,M-12,W-2*(M-12),H-2*(M-12));
+  // top eyebrow
+  g.fillStyle=FAINT; g.font='500 12px "JetBrains Mono",monospace'; g.textBaseline='alphabetic';
+  g.textAlign='left'; g.fillText('PLATE N°'+String(s.plate).padStart(2,'0'), M, M+6);
+  g.textAlign='right'; g.fillText('A FIELD SURVEY', W-M, M+6);
+  g.textAlign='center'; g.fillStyle=hexA(GOLD,.8); g.fillText('✦', W/2, M+7);
+  // bottom plate band
+  const by = H-188;
+  g.strokeStyle=hexA(GOLD,.5); g.lineWidth=1; g.beginPath(); g.moveTo(M,by); g.lineTo(W-M,by); g.stroke();
+  g.fillStyle=hexA(GOLD,.9); g.beginPath(); // small ✦ centred on the rule
+  g.font='12px "JetBrains Mono",monospace'; g.textAlign='center'; g.fillText('✦', W/2, by+4);
+  // title — display + ONE serif-italic whisper (the adjective)
+  g.textAlign='left'; g.textBaseline='alphabetic';
+  let tx=M, ty=by+58;
+  g.fillStyle=TEXT;
+  g.font='600 40px "Space Grotesk",sans-serif'; const w1=g.measureText(s.title.art+' ').width;
+  g.fillText(s.title.art+' ', tx, ty);
+  g.fillStyle=GOLD; g.font='italic 500 42px "Fraunces",Georgia,serif';
+  const w2=g.measureText(s.title.adj+' ').width; g.fillText(s.title.adj+' ', tx+w1, ty);
+  g.fillStyle=TEXT; g.font='600 40px "Space Grotesk",sans-serif';
+  g.fillText(s.title.noun, tx+w1+w2, ty);
+  // sub caption (deadpan)
+  g.fillStyle=MUTE; g.font='400 14px "Space Grotesk",sans-serif';
+  g.fillText('Surveyed once. Unlikely to recur.', M, ty+26);
+  // catalog block (mono, right)
+  g.fillStyle=MUTE; g.font='400 13px "JetBrains Mono",monospace'; g.textAlign='right';
+  const lines=[s.cat.desig, s.cat.ra, s.cat.dec, s.cat.mag, s.cat.field];
+  lines.forEach((ln,i)=> g.fillText(ln, W-M, by+30+i*20));
+  g.fillStyle=FAINT; g.fillText(s.cat.seed, W-M, by+30+lines.length*20);
+  // colophon
+  g.fillStyle=FAINT; g.font='500 11px "JetBrains Mono",monospace'; g.textAlign='center';
+  g.fillText('N°'+String(s.plate).padStart(2,'0')+'   ✦   THE GLASS ARCHIVE   ✦   '+roman, W/2, H-M-2);
+}
+
+function dot(g,x,y,r){ g.beginPath(); g.arc(x,y,r,0,7); g.fill(); }
+function hexA(hex,a){ const n=parseInt(hex.slice(1),16); return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; }
+
+// twinkle overlay (screen only)
+let raf=0;
+function loop(){
+  ctx.clearRect(0,0,W,H); ctx.drawImage(base,0,0,W,H);
+  const t=performance.now()/1000;
+  twinkles.forEach((s,i)=>{
+    const a = s.a*(0.45+0.55*Math.abs(Math.sin(t*0.9+i)));
+    ctx.globalAlpha=a; ctx.fillStyle=s.c; dot(ctx,s.x,s.y,s.r);
+  });
+  ctx.globalAlpha=1; raf=requestAnimationFrame(loop);
+}
+
+function reroll(){ cancelAnimationFrame(raf); generate((Math.random()*4294967296)>>>0); }
+function save(){
+  cancelAnimationFrame(raf); ctx.clearRect(0,0,W,H); ctx.drawImage(base,0,0,W,H);
+  cv.toBlob(b=>{ const u=URL.createObjectURL(b); const a=document.createElement('a');
+    a.href=u; a.download='glass-atlas-'+hex6(state.seed)+'.png'; a.click(); URL.revokeObjectURL(u);
+    if(!reduce) loop();
+  },'image/png');
+}
+
+document.getElementById('reroll').addEventListener('click', reroll);
+document.getElementById('save').addEventListener('click', save);
+cv.addEventListener('click', reroll);
+addEventListener('keydown', e=>{ if(e.code==='Space'){e.preventDefault();reroll();} else if(e.key.toLowerCase()==='s'){save();} });
+
+// boot — seed from #hash if present (shareable), else random
+const fromHash = location.hash.slice(1);
+const seed0 = fromHash ? (parseInt(fromHash,36)>>>0) : ((Math.random()*4294967296)>>>0);
+if(document.fonts && document.fonts.ready){ document.fonts.ready.then(()=>generate(seed0)); setTimeout(()=>{ if(!state) generate(seed0); },600); }
+else generate(seed0);
+</script>
+</body>
+</html>

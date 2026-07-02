@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Website for Caddy Shed Golf Stores — Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Classic fairway-heritage palette (matches the site) */
+  :root{--brand:#1f4a35;--brand-deep:#143726;--paper:#faf6ec;--accent:#c79233;--accent-bright:#e6c069;--gold-deep:#7a5a16;--cta:#2c5e44;--ink:#2b2a22;--muted:#6d6452}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Work Sans',system-ui,sans-serif;color:var(--ink);background:#e8e0cd;font-size:16px;line-height:1.65;padding:30px 16px}
+  .sheet{width:min(820px,100%);margin:0 auto;background:var(--paper);box-shadow:0 18px 50px rgba(20,40,30,.22);border-radius:14px;overflow:hidden}
+  h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:700;line-height:1.15}
+  .label{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:3px}
+  .flag{width:1em;height:1em;fill:currentColor;vertical-align:-.05em}
+  .head{background:var(--brand);color:var(--paper);padding:38px 44px;text-align:center}
+  .head .label{color:var(--accent-bright);font-size:14px;margin:0 0 14px;display:flex;align-items:center;justify-content:center;gap:9px}
+  .head h1{font-size:34px;color:var(--paper);font-weight:800}
+  .head h1 .a{color:var(--accent-bright);font-style:italic}
+  .head p{margin-top:12px;font-style:italic;opacity:.95}
+  .body{padding:36px 44px}
+  .body p{margin-bottom:16px}
+  h2{color:var(--brand);font-size:22px;margin:30px 0 12px;display:flex;align-items:center;gap:10px}
+  h2::after{content:"";flex:1;height:3px;background:linear-gradient(90deg,var(--accent),transparent);border-radius:2px}
+  .lead{font-size:18px}
+  ul{list-style:none;margin:6px 0 4px}
+  li{padding:7px 0 7px 26px;position:relative}
+  li::before{content:"›";position:absolute;left:4px;top:5px;color:var(--gold-deep);font-weight:700;font-size:18px}
+  li b{color:var(--brand)}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0 6px}
+  .card{border:2px solid var(--brand);border-radius:12px;padding:22px 18px;background:#fff;text-align:center}
+  .card.feature{background:var(--brand);color:var(--paper)}
+  .card .tier{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:14px;color:var(--gold-deep)}
+  .card.feature .tier{color:var(--accent-bright)}
+  .card .price{font-family:'Playfair Display',serif;font-weight:800;font-size:32px;color:var(--brand);margin:8px 0}
+  .card.feature .price{color:var(--accent-bright)}
+  .card .per{font-size:13px;opacity:.8;display:block;margin-bottom:10px}
+  .card .desc{font-size:14px;line-height:1.5}
+  .ribbon{display:inline-block;background:var(--accent-bright);color:var(--brand-deep);font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:1px;font-size:12px;font-weight:600;padding:3px 12px;border-radius:20px;margin-bottom:8px}
+  .note{font-size:13.5px;font-style:italic;color:var(--muted);text-align:center;margin-top:12px}
+  .cta{background:var(--cta);color:var(--paper);border-radius:12px;padding:24px 28px;margin-top:30px;text-align:center}
+  .cta h3{color:var(--accent-bright);font-size:21px;margin-bottom:8px}
+  .cta a{color:var(--accent-bright);font-weight:700;text-decoration:none}
+  .foot{background:var(--brand-deep);color:var(--paper);text-align:center;padding:20px;font-size:13px}
+  .foot .flag{color:var(--accent-bright)}
+  @media(max-width:620px){.cards{grid-template-columns:1fr}.body,.head{padding:26px 24px}}
+  @media print{body{background:#fff;padding:0}.sheet{box-shadow:none;border-radius:0}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="head">
+    <div class="label"><svg class="flag" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.1" y="2.5" width="1.7" height="19" rx=".8"/><path d="M7.8 3.4h10l-2.8 3 2.8 3h-10z"/></svg> A Website Proposal For</div>
+    <h1>Caddy Shed <span class="a">Golf Stores</span></h1>
+    <p>Manitoba's #1 locally owned golf shop — custom-fit since 1982.</p>
+  </div>
+  <div class="body">
+    <p class="lead">Hi there — I'm a local web designer, and I built the Caddy Shed a complete new website, free to look at, no strings attached. Here it is, ready to go.</p>
+
+    <h2>Why the Caddy Shed deserves a better one</h2>
+    <p>Folks already love this place — a <b>4.9★ rating from 87+ reviews</b> and forty years of loyal Winnipeg customers. But when someone new searches "golf store near me" or "custom club fitting Winnipeg," they land on a site that's hard to read on a phone and doesn't show off what makes the Caddy Shed special.</p>
+    <p>A clean, modern site fixes that. New customers see your fitting promise, your hours, your reviews, and one-tap directions to Portage Avenue — right from their phone, before they ever walk in. The free fitting sells itself; the website just needs to get out of the way.</p>
+
+    <h2>What's included</h2>
+    <ul>
+      <li><b>A full one-page website</b> — looks great on phones, tablets and computers</li>
+      <li><b>Your custom-fitting promise front and centre</b> — the first thing new customers see</li>
+      <li><b>Real hours, phone number and a tap-to-call button</b></li>
+      <li><b>A built-in map</b> with one-tap directions to 2630 Portage Avenue</li>
+      <li><b>Your best reviews featured</b> — that 4.9★ reputation, working for you</li>
+      <li><b>The brands you carry</b> and an easy-to-update shop section</li>
+      <li><b>Styling that feels like the Caddy Shed</b> — classic, local, trustworthy</li>
+      <li><b>Easy to update</b> — new season, new models, new staff or photos, just ask</li>
+    </ul>
+
+    <h2>Simple options</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="tier">Just the Site</div>
+        <div class="price">$600</div><span class="per">one-time</span>
+        <div class="desc">The finished website, set up and live. It's yours to keep.</div>
+      </div>
+      <div class="card feature">
+        <div class="ribbon">Most Popular</div>
+        <div class="tier">Site + Care</div>
+        <div class="price">$600</div><span class="per">+ $25 / month</span>
+        <div class="desc">Hosting, your domain, and unlimited small updates handled for you.</div>
+      </div>
+      <div class="card">
+        <div class="tier">Try It First</div>
+        <div class="price">$0</div><span class="per">to look</span>
+        <div class="desc">Review the live demo with zero commitment. Pay only if you love it.</div>
+      </div>
+    </div>
+    <p class="note">Flexible — happy to adjust to whatever works for the shop. Prices shown are a starting point, and yes, staff, photos and brands are all easy to keep current.</p>
+
+    <div class="cta">
+      <h3>Want to see it live?</h3>
+      <p>I'll walk you through the website in person or over the phone — takes five minutes, no pressure.</p>
+      <p style="margin-top:8px"><b>Jordan</b> · <a href="mailto:doerksen.jordan@gmail.com">doerksen.jordan@gmail.com</a></p>
+    </div>
+  </div>
+  <div class="foot"><svg class="flag" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.1" y="2.5" width="1.7" height="19" rx=".8"/><path d="M7.8 3.4h10l-2.8 3 2.8 3h-10z"/></svg> Built with care for Caddy Shed Golf Stores · 2630 Portage Avenue, Winnipeg</div>
+</div>
+</body>
+</html>

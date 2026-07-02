@@ -1,0 +1,1502 @@
+[
+  {
+    "id": "rule.1",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 1",
+    "plain": "Notice of a new timetable/supplement is posted by operating bulletin at least 72 hours prior, and given by GBO at least 24 hours prior.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 1",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.2",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 2",
+    "plain": "Rule 2 (Watches): conductors, LEs, foremen, etc. must use a reliable watch indicating hours, minutes and seconds and keep it correct.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 2",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.11",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 11",
+    "plain": "Rule 11: a fusee should not be placed on a public crossing at grade or where it may cause fire.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 11",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.12",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 12",
+    "plain": "Rule 12 (Hand Signals): hand, lantern or flag indications — STOP = swung from side to side at right angle to the track; MOVE BACKWARD = swung in a circle at right angle to the track (speed proportional); MOVE FORWARD = raised and lowered (speed proportional); APPLY AIR BRAKES = raised and swung horizontally above the head; RELEASE AIR BRAKES = raised and held at arm's length above the head; REDUCE SPEED = held horizontally at arm's length. Any object waved violently by anyone on or near the track means STOP. If there is doubt as to a signal's meaning or for whom it is intended, regard it as STOP; if the signaller (or the signal lights) disappears from view, that too is STOP. Forward/backward are relative to the front of the controlling locomotive.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 12",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.14",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 14",
+    "plain": "Rule 14 (Engine Whistle Signals) prescribes the crossing whistle signal; 'engine whistle' also refers to 'engine horn.'",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 14",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.26",
+    "domain": "signals",
+    "type": "rule",
+    "title": "Rule 26",
+    "plain": "Blue signal protection: workmen are about the equipment; it must not be coupled to or moved until those workmen remove the signal.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 26",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.40",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 40",
+    "plain": "Rule 40(a): special instructions specify when Rules 42/842, 43/843 and 849 are applicable on non-main track.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 40",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.41",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 41",
+    "plain": "Rule 41 is not applicable on main tracks outside of cautionary limits, signalled sidings and other signalled tracks, or tracks specified in special instructions.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 41",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.42",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 42",
+    "plain": "Rule 42(a): when protection is required, the request must be in writing and on the prescribed form.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 42",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.43",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 43",
+    "plain": "Rule 43: the request must be in writing (when practicable on the prescribed form); after GBO protection, the speed restriction(s) and limits are confirmed to the foreman in writing.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 43",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.66",
+    "domain": "securement",
+    "type": "rule",
+    "title": "Rule 66",
+    "plain": "Rule 66 — Securing Equipment After an Emergency Brake Application on Grade — adds requirements on top of the general Rule 112 securement.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 66",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.103.1",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 103.1",
+    "plain": "Rule 103.1(a): the minimum-required-time observation applies unless manual protection is provided at the crossing.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 103.1",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.104",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 104",
+    "plain": "Rule 104: hand-operated switches in sidings may be considered lined for the normal position unless advised otherwise — but verify, because 'considered' is not 'confirmed.'",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 104",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.104.1",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 104.1",
+    "plain": "Rule 104.1(a): a spring switch is identified by a spring-switch sign bearing the letters 'SS'.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 104.1",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.104.3",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 104.3",
+    "plain": "Rule 104.3: a crew member must observe that the points are lined for the authorized route before the movement proceeds over a power-operated switch at a stop signal.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 104.3",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.104.4",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 104.4",
+    "plain": "Rule 104.4(a): a semi-automatic switch is equipped with reflectorized targets.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 104.4",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.104.5",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 104.5",
+    "plain": "Rule 104.5: a derail is switch-stand operated and identified by a reflective red letter 'D' on a reflective yellow target (or a 'Special Derail' sign), visible when in the derailing position.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 104.5",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.105",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 105",
+    "plain": "Non-main track: REDUCED speed, not exceeding 15 MPH unless signal indication or special instructions allow more.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 105",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.106",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 106",
+    "plain": "Rule 106: all crew members are responsible for the safe operation of movements/equipment in their charge and for the observance of the rules.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 106",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.109",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 109",
+    "plain": "Rule 109: removing the reverser (unless excepted) prevents the locomotive from being powered/moved while the engineer is away from the controls.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 109",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.112",
+    "domain": "securement",
+    "type": "rule",
+    "title": "Rule 112",
+    "plain": "Rule 112(ii): parking brakes are considered to be hand brakes.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 112",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.113.0",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 113.0",
+    "plain": "Ensure at least one knuckle is open before coupling — otherwise you get a missed (by-pass) coupling.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 113.0",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.113.1",
+    "domain": "securement",
+    "type": "rule",
+    "title": "Rule 113.1",
+    "plain": "Rule 113.1(a): equipment is considered uncoupled once the uncoupling lever has been lifted.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 113.1",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.113.2",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 113.2",
+    "plain": "Rule 113.2: equipment must be stretched; after stretching and before moving, check that it is coupled and for applied hand brakes that may normally be expected.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 113.2",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.113.3",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 113.3",
+    "plain": "Air must be used when switching on a grade greater than 0.4% AND with more than 2000 tons.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 113.3",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.113.4",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 113.4",
+    "plain": "Rule 113.4 prohibits them on main track, subdivision track, a siding, high-risk locations, shop tracks, and onto/with passenger equipment.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 113.4",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.113.5",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 113.5",
+    "plain": "Rule 113.5(a): on tracks not listed in Rule 113.4, unless otherwise indicated in special instructions, the kicking of equipment is prohibited.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 113.5",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.113.6",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 113.6",
+    "plain": "Rule 113.6(a): it must be verified that the switch and hand brakes are in working order before the move is commenced.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 113.6",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.114",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 114",
+    "plain": "Rule 114(b): a movement must not foul a track until the switches connected with the move are properly lined (or, for semi-automatic/spring switches, the conflicting route is known to be clear).",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 114",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.115",
+    "domain": "switching",
+    "type": "rule",
+    "title": "Rule 115",
+    "plain": "Rule 115 needs a crew member positioned to observe and control the shove — EXCEPT where the track is known to be clear. 'Known to be clear' is a high bar, not a convenience.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 115",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.120",
+    "domain": "radio",
+    "type": "rule",
+    "title": "Rule 120",
+    "plain": "Rule 120(a): “OVER” = transmission is ended and a response is expected.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 120",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.121",
+    "domain": "radio",
+    "type": "rule",
+    "title": "Rule 121",
+    "plain": "The initiator ends the initial call with “OVER”; each party ends its FINAL transmission with “OUT” (121(c)).",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 121",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.122",
+    "domain": "radio",
+    "type": "rule",
+    "title": "Rule 122",
+    "plain": "Rule 122: keep it brief and to the point, containing only essential instructions or information.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 122",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.123",
+    "domain": "radio",
+    "type": "rule",
+    "title": "Rule 123",
+    "plain": "Verification (Rule 123): safety-affecting radio instructions must be repeated back to the sender — this is why the engineer repeats each car/distance count.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 123",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.123.2",
+    "domain": "radio",
+    "type": "rule",
+    "title": "Rule 123.2",
+    "plain": "Rule 123.2(v): if there is doubt as to meaning or that the communication is for your movement, stop. Doubt is always a stop, radio or hand signal.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 123.2",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.131",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 131",
+    "plain": "Rule 131: the RTC maintains a complete record (book or computer-assisted system) made prior to or during the transmission.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 131",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.132",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 132",
+    "plain": "Rule 132: brief but clear, in the prescribed form, without erasure or any condition that may render it difficult to read.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 132",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.133",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 133",
+    "plain": "Rule 133: separate series per desk (except where computer-controlled) keeps numbering from colliding between desks and adjacent territories.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 133",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.134",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 134",
+    "plain": "Rule 134 (Designation of Movements): authorities are addressed clearly and concisely to those who must execute and observe them.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 134",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.135",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 135",
+    "plain": "Rule 135: the crew member copying a GBO/clearance must ensure those addressed receive a copy.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 135",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.136",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 136",
+    "plain": "Rule 136(a): copy as transmitted and repeat back from the copy received all applicable written/pre-printed portions, spelling out station names.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 136",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.142",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 142",
+    "plain": "Rule 142: read and have a proper understanding of all GBO/clearances as soon as possible, and make them available to other crew members as soon as practicable.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 142",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.143",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 143",
+    "plain": "Rule 143: GBO numbers applicable to a movement are shown on its clearance, so the crew knows which bulletins govern.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 143",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.151",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 151",
+    "plain": "Rule 151 (Identical Meaning to All): the body of each GBO must be given in the same words and figures to everyone addressed.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 151",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.152",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 152",
+    "plain": "Rule 152 (Delivery of GBO): the RTC must ensure affected movements receive a copy or are otherwise secured.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 152",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.153",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 153",
+    "plain": "Rule 153: don't confirm protection to a foreman until all affected movements have a copy of the GBO or are otherwise secured — that's what makes the limits safe.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 153",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.156",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 156",
+    "plain": "Rule 156: don't move where a DOB is applicable unless in possession of the current DOB (or a TGBO applicable within those limits).",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 156",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.157",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 157",
+    "plain": "Rule 157: don't move where a TGBO is applicable unless in possession of a TGBO addressed to the movement.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 157",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.301",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 301",
+    "plain": "Rule 301: the RTC supervises OCS territory by means of clearances, TOP, GBO and other instructions as required.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 301",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.302",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 302",
+    "plain": "Rule 302(b): the clearance is sent direct to the crew; before acting on it the conductor and locomotive engineer must both confirm/understand it.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 302",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.303",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 303",
+    "plain": "Rule 303: where specified, protection against following trains/transfers must be provided before the RTC authorizes a movement to follow a preceding one.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 303",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.304",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 304",
+    "plain": "Rule 304: do not leave the point named until it is positively known the opposing train(s)/transfer(s) named on the clearance have arrived.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 304",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.304.1",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 304.1",
+    "plain": "Rule 304.1: stop clear of the route to be used by another train or transfer (stopping clear of the fouling point).",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 304.1",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.305",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 305",
+    "plain": "Rule 305: before issuing clearance authority, the RTC must provide protection against all conflicting movements.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 305",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.306",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 306",
+    "plain": "Rule 306: in multi-track OCS, a clearance must specify the track(s) to be used.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 306",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.308",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 308",
+    "plain": "Rule 308(b): a work clearance remains in effect until superseded or cancelled, and permits movement in either direction within the named limits.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 308",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.309",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 309",
+    "plain": "Rule 309: you must protect against the named work — don't enter or move within its limits without the required authority/contact.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 309",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.311",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 311",
+    "plain": "Rule 311 (OCS): a movement is restricted by its clearance to protect against a foreman's working limits — you don't enter without that protection.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 311",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.403",
+    "domain": "signals",
+    "type": "rule",
+    "title": "Rule 403",
+    "plain": "A DV (diverging) plate upgrades the indication; remove it and the same lamp aspect downgrades to the Slow family.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 403",
+      "relatedRef": "CROR 405–440",
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.405",
+    "domain": "signals",
+    "type": "rule",
+    "title": "Rule 405",
+    "plain": "Clear (405): Proceed. A single green — two greens is Clear to Medium (407), not Clear.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 405",
+      "relatedRef": "CROR 405–440",
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.411",
+    "domain": "signals",
+    "type": "rule",
+    "title": "Rule 411",
+    "plain": "Clear to Stop (411): proceed, preparing to stop at the next signal — your block is clear, the next is not.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 411",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.415",
+    "domain": "signals",
+    "type": "rule",
+    "title": "Rule 415",
+    "plain": "The flash adds a block of advance warning: 415 prepares you to stop at the second signal, not the first.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 415",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.416",
+    "domain": "signals",
+    "type": "rule",
+    "title": "Rule 416",
+    "plain": "Flashing green = LIMITED; steady green = Medium/Clear. The flash is the tell that separates the Limited family from the Medium family.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 416",
+      "relatedRef": "CROR 416–435",
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.430",
+    "domain": "signals",
+    "type": "rule",
+    "title": "Rule 430",
+    "plain": "The DV plate is the upgrade: it raises Slow to Diverging. Remove it and the aspect downgrades to the Slow family.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 430",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.436",
+    "domain": "signals",
+    "type": "rule",
+    "title": "Rule 436",
+    "plain": "Two staggered reds with an R plate = Restricting (436); the same two staggered reds with no plate = Stop and Proceed (437).",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 436",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.437",
+    "domain": "signals",
+    "type": "rule",
+    "title": "Rule 437",
+    "plain": "Two staggered reds with no plate = a non-controlled (automatic) signal: Stop and Proceed (437) — stop, then proceed at restricted speed.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 437",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.439",
+    "domain": "signals",
+    "type": "rule",
+    "title": "Rule 439",
+    "plain": "A single red on a controlled signal = Stop (439): an absolute stop with no proceeding (contrast the permissive two-staggered-reds of 437).",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 439",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.505",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 505",
+    "plain": "Rule 505: block signals govern use of the blocks; they do not dispense with other signals and do not authorize main track occupancy.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 505",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.507",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 507",
+    "plain": "Rule 507: when ABS signals are withdrawn from service, movements are governed by RTC instructions or special instructions.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 507",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.509",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 509",
+    "plain": "Rule 509(a): a movement must have instructions from the RTC to pass a block signal indicating Stop.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 509",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.513",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 513",
+    "plain": "Rule 513(a): reverse the switch and wait five minutes (unless a greater period is specified), remaining at the switch, before moving foul of the main track.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 513",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.515",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 515",
+    "plain": "Rule 515: move at REDUCED speed to the next signal — unless there are no switches between, or until the track is seen to be clear.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 515",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.560",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 560",
+    "plain": "Rule 560: CTC is supervised by the RTC and block signals govern the operation of trains or transfers.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 560",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.561",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 561",
+    "plain": "Rule 561: when CTC is withdrawn from service, trains and transfers are governed by special instructions.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 561",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.563",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 563",
+    "plain": "Rule 563: when two opposing movements are lined into the same non-signalled siding, each locomotive engineer must be advised before the permitting signal is requested.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 563",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.564",
+    "domain": "signals",
+    "type": "rule",
+    "title": "Rule 564",
+    "plain": "A controlled signal is held at Stop by the RTC; you need authority (Rule 564) to pass it. An automatic block signal's red is permissive (stop and proceed).",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 564",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.565",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 565",
+    "plain": "Rule 565: the movement is governed by Rule 564 within CTC and Rule 509 within ABS.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 565",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.566",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 566",
+    "plain": "Rule 566: work authority permits moving in either direction within the specified limits.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 566",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.566.1",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 566.1",
+    "plain": "Rule 566.1: such authority is included with work authority (566/567); the indications of those signals are suspended while switching.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 566.1",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.567",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 567",
+    "plain": "Rule 567 (joint work authority): each movement operates protecting against the other within the specified limits.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 567",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.573",
+    "domain": "signals",
+    "type": "rule",
+    "title": "Rule 573",
+    "plain": "",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 573",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.601",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 601",
+    "plain": "Rule 601: within interlocking limits, interlocking signal indications govern the routes, and a signalman may issue instructions when necessary.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 601",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.602",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 602",
+    "plain": "Rule 602(a): except in emergency, radio or hand signals must not be used when the proper indication can be displayed by the interlocking signals.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 602",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.604",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 604",
+    "plain": "Rule 604(a): don't restore an approach signal to Stop unless the LE has acknowledged they're stopped or able to stop without passing the signal being restored.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 604",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.605",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 605",
+    "plain": "Rule 605: approach prepared to stop if occupying the timing circuit in excess of the time specified in special instructions.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 605",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.606",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 606",
+    "plain": "Rule 606: where there's no advance signal, approach interlocking limits prepared to comply with a signal indicating Stop.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 606",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.607",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 607",
+    "plain": "Rule 607: the applicable rule is set by the interlocking type (per special instructions) — 608/609/610/611.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 607",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.608",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 608",
+    "plain": "Rule 608: movements operating through the limits of a manual interlocking are governed by special instructions.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 608",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.609",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 609",
+    "plain": "Rule 609: a movement must have authority to pass a locally-controlled interlocking signal at Stop; the signalman may authorize it after the required checks.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 609",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.610",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 610",
+    "plain": "Rule 610: a movement must have authority; the signalman may authorize the pass only after ensuring no conflicting movement in the route.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 610",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.611",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 611",
+    "plain": "Rule 611: (a)/(b)/(c) apply when no other movement or track work is evident; (d) applies when track work IS evident.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 611",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.612",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 612",
+    "plain": "Rule 612: if you stop before fully passing a signal you'd accepted, you may proceed only after permission from the signalman or under the rule's provisions.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 612",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.614",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 614",
+    "plain": "Rule 614: when an interlocking is in ABS or CTC, the last interlocking signal's indication also governs the movement to the next signal or Block End sign.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 614",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.615",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 615",
+    "plain": "Rule 615: don't leave a single unit of equipment standing on a movable drawbridge portion or within the interlocking limits of a railway crossing at grade.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 615",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.616",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 616",
+    "plain": "Rule 616 (Damage to Interlocking) governs the response when a derailment or damage to the interlocking is known or suspected.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 616",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.620",
+    "domain": "authority",
+    "type": "rule",
+    "title": "Rule 620",
+    "plain": "Rule 620(b): operation beyond the governing stop sign must not be made until it's ascertained the route is properly lined (special instructions govern when an attendant is in charge).",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 620",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.849",
+    "domain": "operating",
+    "type": "rule",
+    "title": "Rule 849",
+    "plain": "A TOP (Track Occupancy Permit) is the authority a foreman holds for the protection of track work and operation of track units.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR 849",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.general-a",
+    "domain": "operating",
+    "type": "rule",
+    "title": "General Rule A",
+    "plain": "General Rule A(xi): sleeping or assuming the position of sleeping is prohibited, as is the use of personal entertainment devices.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR General Rule A",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.general-b",
+    "domain": "operating",
+    "type": "rule",
+    "title": "General Rule B",
+    "plain": "General Rule B: special instructions appear in timetables, general operating instructions, operating bulletins, or GBO.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR General Rule B",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "rule.general-c",
+    "domain": "operating",
+    "type": "rule",
+    "title": "General Rule C",
+    "plain": "General Rule C(i): be vigilant to avoid the risk of injury to yourself or others.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR General Rule C",
+      "relatedRef": null,
+      "verbatim": null,
+      "trust": "verified"
+    },
+    "payload": null
+  }
+]

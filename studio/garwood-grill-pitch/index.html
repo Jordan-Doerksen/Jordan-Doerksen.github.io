@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garwood Grill — Winnipeg's Hidden Gem Since the Good Ol' Days</title>
+<meta name="description" content="Garwood Grill on Pembina Hwy in Winnipeg — a legendary old-school diner serving hearty breakfasts all day, char-grilled steaks, killer pizza, burgers and homestyle classics in epic portions. Open 7 days a week.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bitter:ital,wght@0,400;0,600;0,700;1,400&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon:#6b1d1d;
+    --maroon-deep:#511414;
+    --cream:#f6eede;
+    --cream-soft:#fbf6ec;
+    --gold:#c8941f;
+    --gold-bright:#e0a92b;
+    --green:#2f4a37;
+    --charcoal:#2a211b;
+    --ink:#3a2c22;
+    --shadow:rgba(40,25,15,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Bitter',Georgia,serif;
+    color:var(--ink);
+    background:var(--cream);
+    font-size:19px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Alfa Slab One',Georgia,serif;font-weight:400;letter-spacing:.5px;line-height:1.1}
+  .label{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:3px}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{width:min(1120px,92vw);margin:0 auto}
+
+  /* ---------- top bar ---------- */
+  .topbar{background:var(--maroon-deep);color:var(--cream);font-family:'Oswald',sans-serif;font-size:14px;letter-spacing:1.5px;text-transform:uppercase}
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;padding:8px 0;flex-wrap:wrap;gap:6px}
+  .topbar a{text-decoration:none;color:var(--gold-bright)}
+
+  /* ---------- nav ---------- */
+  nav{position:sticky;top:0;z-index:50;background:var(--maroon);box-shadow:0 3px 14px var(--shadow)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+  .brand{display:flex;align-items:center;gap:12px;color:var(--cream);text-decoration:none}
+  .brand .leaf{font-size:30px;line-height:1}
+  .brand b{font-family:'Alfa Slab One',serif;font-size:24px;letter-spacing:.5px;color:var(--gold-bright)}
+  .brand span{display:block;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cream);opacity:.85}
+  .navlinks{display:flex;gap:26px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:15px}
+  .navlinks a{color:var(--cream);text-decoration:none;padding:4px 0;border-bottom:2px solid transparent;transition:.2s}
+  .navlinks a:hover{color:var(--gold-bright);border-color:var(--gold-bright)}
+  .navtoggle{display:none;background:none;border:2px solid var(--cream);color:var(--cream);font-size:22px;padding:4px 12px;border-radius:6px;cursor:pointer}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;color:var(--cream);text-align:center;
+    padding:90px 0 100px;
+    background:
+      linear-gradient(rgba(40,15,12,.78),rgba(50,18,15,.82)),
+      url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=70');
+    background-size:cover;background-position:center;
+  }
+  .hero .badge{display:inline-block;border:2px solid var(--gold-bright);color:var(--gold-bright);font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:4px;font-size:14px;padding:8px 20px;border-radius:40px;margin-bottom:26px}
+  .hero h1{font-size:clamp(40px,7vw,82px);color:var(--cream);text-shadow:0 4px 18px rgba(0,0,0,.5)}
+  .hero h1 .gold{color:var(--gold-bright)}
+  .hero p.tag{font-size:clamp(19px,2.4vw,26px);margin:22px auto 8px;max-width:720px;font-style:italic}
+  .hero .sub{font-family:'Oswald',sans-serif;letter-spacing:3px;text-transform:uppercase;font-size:15px;opacity:.9}
+  .cta-row{margin-top:38px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:16px;padding:15px 30px;border-radius:8px;text-decoration:none;font-weight:500;transition:.2s;border:2px solid transparent}
+  .btn-gold{background:var(--gold-bright);color:var(--maroon-deep)}
+  .btn-gold:hover{background:#f0bd3e;transform:translateY(-2px)}
+  .btn-ghost{border-color:var(--cream);color:var(--cream)}
+  .btn-ghost:hover{background:var(--cream);color:var(--maroon-deep)}
+
+  /* ---------- strip ---------- */
+  .strip{background:var(--gold);color:var(--maroon-deep)}
+  .strip .wrap{display:flex;justify-content:space-around;flex-wrap:wrap;gap:10px;padding:18px 0;text-align:center;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:15px;font-weight:600}
+  .strip .wrap span{display:flex;align-items:center;gap:8px}
+
+  /* ---------- sections ---------- */
+  section{padding:80px 0}
+  .eyebrow{color:var(--gold);font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:4px;font-size:15px;text-align:center;margin-bottom:12px}
+  .sec-title{text-align:center;font-size:clamp(30px,5vw,48px);color:var(--maroon);margin-bottom:14px}
+  .sec-intro{text-align:center;max-width:740px;margin:0 auto 50px;font-size:20px}
+  .rule{width:90px;height:4px;background:var(--gold);margin:0 auto 40px;border-radius:3px}
+
+  /* about */
+  #about{background:var(--cream-soft)}
+  .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
+  .about-grid h2{color:var(--maroon);font-size:clamp(28px,4vw,40px);margin-bottom:20px}
+  .about-grid p{margin-bottom:18px}
+  .about-card{background:var(--maroon);color:var(--cream);padding:34px;border-radius:14px;box-shadow:0 16px 40px var(--shadow)}
+  .about-card .big{font-family:'Alfa Slab One',serif;font-size:54px;color:var(--gold-bright);line-height:1}
+  .about-card hr{border:none;border-top:1px solid rgba(255,255,255,.2);margin:22px 0}
+  .about-card .row{display:flex;align-items:baseline;gap:14px;margin:14px 0}
+  .about-card .row b{font-family:'Alfa Slab One',serif;color:var(--gold-bright);font-size:26px;min-width:64px}
+
+  /* menu */
+  #menu{background:var(--cream)}
+  .menu-cats{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:46px}
+  .menu-cats button{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:14px;padding:11px 20px;border:2px solid var(--maroon);background:transparent;color:var(--maroon);border-radius:40px;cursor:pointer;transition:.2s}
+  .menu-cats button:hover{background:var(--maroon);color:var(--cream)}
+  .menu-cats button.active{background:var(--maroon);color:var(--cream)}
+  .menu-board{background:var(--cream-soft);border:3px solid var(--maroon);border-radius:16px;padding:40px clamp(20px,4vw,50px);box-shadow:0 16px 40px var(--shadow)}
+  .menu-block{margin-bottom:46px}
+  .menu-block:last-child{margin-bottom:0}
+  .menu-block h3{color:var(--maroon);font-size:26px;display:flex;align-items:center;gap:14px;margin-bottom:6px}
+  .menu-block h3::after{content:"";flex:1;height:3px;background:linear-gradient(90deg,var(--gold),transparent);border-radius:2px}
+  .menu-block .note{font-style:italic;color:#7a6a55;margin-bottom:22px;font-size:17px}
+  .item{display:flex;align-items:baseline;gap:12px;margin-bottom:18px}
+  .item .nm{font-weight:700;color:var(--ink)}
+  .item .ds{display:block;font-size:16px;color:#6b5b48;font-style:italic;font-weight:400}
+  .item .dots{flex:1;border-bottom:2px dotted #c9b48f;transform:translateY(-5px)}
+  .item .pr{font-family:'Oswald',sans-serif;font-weight:600;color:var(--maroon);white-space:nowrap;font-size:19px}
+  .menu-foot{text-align:center;margin-top:36px;font-style:italic;color:#7a6a55;font-size:17px}
+
+  /* signatures */
+  #signatures{background:var(--green);color:var(--cream)}
+  #signatures .eyebrow{color:var(--gold-bright)}
+  #signatures .sec-title{color:var(--cream)}
+  .sig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .sig{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.12);border-radius:14px;overflow:hidden;transition:.25s}
+  .sig:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(0,0,0,.35)}
+  .sig .ph{height:190px;background-size:cover;background-position:center}
+  .sig .bd{padding:22px}
+  .sig h3{font-size:22px;color:var(--gold-bright);margin-bottom:8px}
+  .sig p{font-size:17px;opacity:.92}
+
+  /* reviews */
+  #reviews{background:var(--cream-soft)}
+  .stars{text-align:center;color:var(--gold);font-size:30px;letter-spacing:4px;margin-bottom:6px}
+  .rev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;margin-top:10px}
+  .rev{background:#fff;border-radius:14px;padding:30px;box-shadow:0 10px 28px var(--shadow);border-left:6px solid var(--gold)}
+  .rev .q{font-size:19px;font-style:italic;margin-bottom:16px}
+  .rev .who{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:14px;color:var(--maroon)}
+  .rev .st{color:var(--gold);letter-spacing:2px}
+
+  /* visit */
+  #visit{background:var(--maroon);color:var(--cream)}
+  #visit .eyebrow{color:var(--gold-bright)}
+  #visit .sec-title{color:var(--cream)}
+  .visit-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:stretch}
+  .visit-info{display:flex;flex-direction:column;gap:26px}
+  .vcard{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:26px 28px}
+  .vcard h3{color:var(--gold-bright);font-size:21px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .hours-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed rgba(255,255,255,.18);font-size:18px}
+  .hours-row:last-child{border:none}
+  .hours-row span:first-child{font-family:'Oswald',sans-serif;letter-spacing:1px}
+  .vcard a{color:var(--gold-bright);text-decoration:none;font-weight:600}
+  .map-wrap{border-radius:14px;overflow:hidden;min-height:340px;border:3px solid var(--gold);box-shadow:0 14px 34px rgba(0,0,0,.35)}
+  .map-wrap iframe{width:100%;height:100%;min-height:340px;border:0;display:block}
+
+  /* footer */
+  footer{background:var(--maroon-deep);color:var(--cream);text-align:center;padding:48px 0 30px}
+  footer .leaf{font-size:34px}
+  footer .fbrand{font-family:'Alfa Slab One',serif;color:var(--gold-bright);font-size:28px;margin:8px 0}
+  footer .fl{margin:18px 0;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:14px;display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
+  footer .fl a{color:var(--cream);text-decoration:none}
+  footer .fl a:hover{color:var(--gold-bright)}
+  footer .fine{opacity:.6;font-size:14px;margin-top:18px;line-height:1.6}
+
+  /* responsive */
+  @media(max-width:880px){
+    .about-grid,.visit-grid{grid-template-columns:1fr}
+    .sig-grid{grid-template-columns:1fr 1fr}
+    .rev-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:620px){
+    body{font-size:18px}
+    .navlinks{display:none;position:absolute;top:100%;left:0;right:0;background:var(--maroon);flex-direction:column;gap:0;padding:8px 0;box-shadow:0 10px 20px var(--shadow)}
+    .navlinks.open{display:flex}
+    .navlinks a{padding:14px 22px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .navtoggle{display:block}
+    .sig-grid{grid-template-columns:1fr}
+    section{padding:60px 0}
+  }
+</style>
+</head>
+<body>
+
+<!-- top bar -->
+<div class="topbar"><div class="wrap">
+  <div>📍 435 Pembina Hwy, Winnipeg, MB</div>
+  <div>🍳 Breakfast served ALL day &nbsp;·&nbsp; ☎ <a href="tel:+12044533012">204-453-3012</a></div>
+</div></div>
+
+<!-- nav -->
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <span class="leaf">🍁</span>
+      <span><b>Garwood Grill</b><span>Winnipeg · Est. on Pembina</span></span>
+    </a>
+    <div class="navlinks" id="navlinks">
+      <a href="#about">Our Story</a>
+      <a href="#menu">Menu</a>
+      <a href="#signatures">Favourites</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#visit">Visit</a>
+    </div>
+    <button class="navtoggle" id="navtoggle" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<!-- hero -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="badge">Winnipeg's Old-School Hidden Gem</span>
+    <h1>Hearty Food.<br><span class="gold">Honest Prices.</span><br>Epic Portions.</h1>
+    <p class="tag">"The only downside is there's too much food — and it's so good you can't stop eating."</p>
+    <p class="sub">Breakfast · Burgers · Steaks · Pizza · Homestyle Classics</p>
+    <div class="cta-row">
+      <a class="btn btn-gold" href="#menu">See the Menu</a>
+      <a class="btn btn-ghost" href="tel:+12044533012">Call 204-453-3012</a>
+    </div>
+  </div>
+</header>
+
+<!-- strip -->
+<div class="strip"><div class="wrap">
+  <span>⭐ 4.5 / 5 Local Rating</span>
+  <span>🍁 A Pembina Hwy Institution</span>
+  <span>🍽️ Open 7 Days a Week</span>
+  <span>💵 Most Plates $11–$25</span>
+</div></div>
+
+<!-- about -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <p class="eyebrow" style="text-align:left">Our Story</p>
+        <h2>A Winnipeg classic that never went out of style.</h2>
+        <p>Tucked into the bustle of Pembina Highway, Garwood Grill has been quietly feeding Winnipeg the way grandma intended — generous plates, fair prices, and a friendly face behind the counter who remembers your usual.</p>
+        <p>There's no fuss here. Just the smell of bacon on the flat-top, a pot of coffee that never runs dry, and the kind of pizza, steak and burgers that have kept families coming back for decades.</p>
+        <p>Come as a stranger, leave as a regular. That's the Garwood way.</p>
+      </div>
+      <div class="about-card">
+        <div class="big">35+</div>
+        <p class="label" style="font-size:14px;margin-top:6px">Years of homestyle cooking</p>
+        <hr>
+        <div class="row"><b>All&nbsp;Day</b><span>Breakfast served from open to close</span></div>
+        <div class="row"><b>7&nbsp;Days</b><span>Open every single day of the week</span></div>
+        <div class="row"><b>$$</b><span>Budget-friendly, family-sized plates</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- menu -->
+<section id="menu">
+  <div class="wrap">
+    <p class="eyebrow">Bring Your Appetite</p>
+    <h2 class="sec-title">The Menu</h2>
+    <div class="rule"></div>
+    <p class="sec-intro">Hearty, made-to-order, and never skimpy. Here's a taste of what's on the griddle — from sunrise breakfasts to char-grilled steaks.</p>
+
+    <div class="menu-cats">
+      <button class="active" data-cat="all">All</button>
+      <button data-cat="breakfast">Breakfast</button>
+      <button data-cat="burgers">Burgers &amp; Sandwiches</button>
+      <button data-cat="grill">From the Grill</button>
+      <button data-cat="pizza">Pizza &amp; Greek</button>
+      <button data-cat="extras">Sides &amp; Sweets</button>
+    </div>
+
+    <div class="menu-board">
+
+      <div class="menu-block" data-cat="breakfast">
+        <h3>🍳 All-Day Breakfast</h3>
+        <p class="note">Served from the moment we open 'til the moment we close. Because some days call for pancakes at 6pm.</p>
+        <div class="item"><span class="nm">The Garwood Big Breakfast<span class="ds">Three eggs, bacon, sausage, ham, hash browns &amp; toast</span></span><span class="dots"></span><span class="pr">$16.95</span></div>
+        <div class="item"><span class="nm">Two-Egg Classic<span class="ds">Two eggs any style, choice of meat, hash browns &amp; toast</span></span><span class="dots"></span><span class="pr">$12.95</span></div>
+        <div class="item"><span class="nm">Western Omelette<span class="ds">Ham, onion &amp; green pepper, three eggs, hash browns &amp; toast</span></span><span class="dots"></span><span class="pr">$14.50</span></div>
+        <div class="item"><span class="nm">Buttermilk Pancakes<span class="ds">Tall stack with real butter &amp; syrup — add bacon for $3</span></span><span class="dots"></span><span class="pr">$11.50</span></div>
+        <div class="item"><span class="nm">Steak &amp; Eggs<span class="ds">Grilled sirloin, two eggs, hash browns &amp; toast</span></span><span class="dots"></span><span class="pr">$18.95</span></div>
+        <div class="item"><span class="nm">French Toast<span class="ds">Thick-cut, golden, dusted with cinnamon sugar</span></span><span class="dots"></span><span class="pr">$11.95</span></div>
+      </div>
+
+      <div class="menu-block" data-cat="burgers">
+        <h3>🍔 Burgers &amp; Sandwiches</h3>
+        <p class="note">Every burger comes with a mountain of fries. We warned you.</p>
+        <div class="item"><span class="nm">Garwood Cheeseburger<span class="ds">Half-pound patty, cheddar, all the fixings, fries</span></span><span class="dots"></span><span class="pr">$15.95</span></div>
+        <div class="item"><span class="nm">Bacon Mushroom Melt<span class="ds">Smothered in mushrooms, bacon &amp; Swiss, fries</span></span><span class="dots"></span><span class="pr">$17.50</span></div>
+        <div class="item"><span class="nm">Hot Hamburger Platter<span class="ds">Open-faced on bread, smothered in gravy &amp; fries</span></span><span class="dots"></span><span class="pr">$15.50</span></div>
+        <div class="item"><span class="nm">Hot Turkey Sandwich<span class="ds">Roast turkey, real gravy, fries — a regular favourite</span></span><span class="dots"></span><span class="pr">$15.95</span></div>
+        <div class="item"><span class="nm">Clubhouse<span class="ds">Triple-decker turkey, bacon, lettuce &amp; tomato, fries</span></span><span class="dots"></span><span class="pr">$16.50</span></div>
+        <div class="item"><span class="nm">Denver Sandwich<span class="ds">Old-school ham &amp; egg, grilled, with fries</span></span><span class="dots"></span><span class="pr">$13.95</span></div>
+      </div>
+
+      <div class="menu-block" data-cat="grill">
+        <h3>🥩 From the Grill</h3>
+        <p class="note">"For a good steak on a budget, this is a great place to go." — a happy regular</p>
+        <div class="item"><span class="nm">8oz Sirloin Steak<span class="ds">Char-grilled, with potato, garlic toast &amp; veg</span></span><span class="dots"></span><span class="pr">$24.95</span></div>
+        <div class="item"><span class="nm">Liver &amp; Onions<span class="ds">Pan-fried with bacon &amp; smothered onions, potato &amp; veg</span></span><span class="dots"></span><span class="pr">$17.95</span></div>
+        <div class="item"><span class="nm">Grilled Halibut<span class="ds">Fresh fillet, lemon, potato &amp; veg</span></span><span class="dots"></span><span class="pr">$22.50</span></div>
+        <div class="item"><span class="nm">Hot Chicken Dinner<span class="ds">Roast chicken, gravy, mashed potato &amp; veg</span></span><span class="dots"></span><span class="pr">$18.95</span></div>
+        <div class="item"><span class="nm">Fish &amp; Chips<span class="ds">Beer-battered cod, thick fries &amp; tartar</span></span><span class="dots"></span><span class="pr">$16.95</span></div>
+      </div>
+
+      <div class="menu-block" data-cat="pizza">
+        <h3>🍕 Pizza &amp; Greek Plates</h3>
+        <p class="note">"Killer pizza — loads of meat and cheese." House specialty, made to order.</p>
+        <div class="item"><span class="nm">Garwood Deluxe Pizza<span class="ds">Pepperoni, mushroom, green pepper, onion &amp; extra cheese (12")</span></span><span class="dots"></span><span class="pr">$22.95</span></div>
+        <div class="item"><span class="nm">Pepperoni &amp; Cheese Pizza<span class="ds">Classic, loaded the way you remember it (12")</span></span><span class="dots"></span><span class="pr">$18.95</span></div>
+        <div class="item"><span class="nm">Beef or Chicken Gyro<span class="ds">Warm pita, tzatziki, tomato &amp; onion, with fries or Greek salad</span></span><span class="dots"></span><span class="pr">$15.50</span></div>
+        <div class="item"><span class="nm">Greek Salad<span class="ds">Crisp veg, feta, olives, house dressing — "FANTASTIC"</span></span><span class="dots"></span><span class="pr">$12.95</span></div>
+        <div class="item"><span class="nm">Souvlaki Dinner<span class="ds">Grilled skewers, rice, Greek salad &amp; pita</span></span><span class="dots"></span><span class="pr">$19.95</span></div>
+      </div>
+
+      <div class="menu-block" data-cat="extras">
+        <h3>🍟 Sides &amp; Something Sweet</h3>
+        <p class="note">Save room. Or don't — that's what take-home boxes are for.</p>
+        <div class="item"><span class="nm">Hand-Cut Fries<span class="ds">Big basket, golden &amp; crispy — add gravy $2</span></span><span class="dots"></span><span class="pr">$6.95</span></div>
+        <div class="item"><span class="nm">Onion Rings<span class="ds">Beer-battered, stacked high</span></span><span class="dots"></span><span class="pr">$7.50</span></div>
+        <div class="item"><span class="nm">Bowl of Soup<span class="ds">Made fresh daily — ask your server</span></span><span class="dots"></span><span class="pr">$5.95</span></div>
+        <div class="item"><span class="nm">Homemade Pie<span class="ds">Apple, cherry or banana cream — à la mode $2</span></span><span class="dots"></span><span class="pr">$6.50</span></div>
+        <div class="item"><span class="nm">Bottomless Coffee<span class="ds">The cup that never runs dry</span></span><span class="dots"></span><span class="pr">$2.95</span></div>
+      </div>
+
+    </div>
+    <p class="menu-foot">Sample menu — prices &amp; items are illustrative and easy to update. Ask about daily specials in-house.</p>
+  </div>
+</section>
+
+<!-- signatures -->
+<section id="signatures">
+  <div class="wrap">
+    <p class="eyebrow">Why People Keep Coming Back</p>
+    <h2 class="sec-title">House Favourites</h2>
+    <div class="rule"></div>
+    <div class="sig-grid">
+      <div class="sig">
+        <div class="ph" style="background-image:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=70')"></div>
+        <div class="bd"><h3>The Killer Pizza</h3><p>Loaded edge-to-edge with meat and melty cheese. Locals say it's the best in town — we're inclined to agree.</p></div>
+      </div>
+      <div class="sig">
+        <div class="ph" style="background-image:url('https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=800&q=70')"></div>
+        <div class="bd"><h3>The Garwood Burger</h3><p>A half-pound of char-grilled comfort with a fries basket so big it should come with a warning.</p></div>
+      </div>
+      <div class="sig">
+        <div class="ph" style="background-image:url('https://images.unsplash.com/photo-1432139555190-58524dae6a55?auto=format&fit=crop&w=800&q=70')"></div>
+        <div class="bd"><h3>Steak on a Budget</h3><p>A proper char-grilled sirloin that won't empty your wallet. Honest beef, done right.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- reviews -->
+<section id="reviews">
+  <div class="wrap">
+    <p class="eyebrow">Straight From the Regulars</p>
+    <h2 class="sec-title">What Winnipeg Says</h2>
+    <div class="stars">★ ★ ★ ★ ½</div>
+    <p class="sec-intro" style="margin-bottom:30px">4.5 out of 5 — real reviews from real Garwood Grill diners.</p>
+    <div class="rev-grid">
+      <div class="rev"><p class="q">"Never had a bad experience here — the only downside is there's too much food, which you can't stop eating because it's so good."</p><p class="who">Tynan C. <span class="st">★★★★★</span></p></div>
+      <div class="rev"><p class="q">"A great family restaurant from breakfast to dinner. The waitresses are extremely friendly and polite. Love the place."</p><p class="who">M. Fla <span class="st">★★★★★</span></p></div>
+      <div class="rev"><p class="q">"The BEST food, best service, best pricing!!!"</p><p class="who">Glen <span class="st">★★★★★</span></p></div>
+      <div class="rev"><p class="q">"Super, totally amazing pizza... and they serve breakfast all day long. I'll be back, 100%."</p><p class="who">Happy Regular <span class="st">★★★★★</span></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- visit -->
+<section id="visit">
+  <div class="wrap">
+    <p class="eyebrow">Come On By</p>
+    <h2 class="sec-title">Find Us &amp; Hours</h2>
+    <div class="rule" style="background:var(--gold-bright)"></div>
+    <div class="visit-grid">
+      <div class="visit-info">
+        <div class="vcard">
+          <h3>🕘 Opening Hours</h3>
+          <div class="hours-row"><span>Monday</span><span>9:00 am – 9:00 pm</span></div>
+          <div class="hours-row"><span>Tuesday</span><span>9:00 am – 9:00 pm</span></div>
+          <div class="hours-row"><span>Wednesday</span><span>9:00 am – 9:00 pm</span></div>
+          <div class="hours-row"><span>Thursday</span><span>9:00 am – 9:00 pm</span></div>
+          <div class="hours-row"><span>Friday</span><span>9:00 am – 9:00 pm</span></div>
+          <div class="hours-row"><span>Saturday</span><span>9:00 am – 4:00 pm</span></div>
+          <div class="hours-row"><span>Sunday</span><span>9:00 am – 4:00 pm</span></div>
+        </div>
+        <div class="vcard">
+          <h3>📍 Find Us</h3>
+          <p style="margin-bottom:10px">435 Pembina Hwy<br>Winnipeg, MB&nbsp; R3M 2K9</p>
+          <p style="margin-bottom:6px">☎ <a href="tel:+12044533012">204-453-3012</a></p>
+          <p>🚗 <a href="https://maps.apple.com/place?place-id=I44E9D5F77547D47" target="_blank" rel="noopener">Get directions</a> &nbsp;·&nbsp; Free parking out front</p>
+        </div>
+      </div>
+      <div class="map-wrap">
+        <iframe loading="lazy" title="Garwood Grill location map" src="https://www.google.com/maps?q=435+Pembina+Hwy,+Winnipeg,+MB+R3M+2K9&output=embed"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer>
+  <div class="wrap">
+    <div class="leaf">🍁</div>
+    <div class="fbrand">Garwood Grill</div>
+    <p class="label" style="font-size:13px;opacity:.85">Winnipeg's Old-School Hidden Gem</p>
+    <div class="fl">
+      <a href="#about">Our Story</a>
+      <a href="#menu">Menu</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#visit">Hours &amp; Location</a>
+      <a href="tel:+12044533012">204-453-3012</a>
+    </div>
+    <p class="fine">435 Pembina Hwy, Winnipeg, MB R3M 2K9 · Open 7 days a week · Breakfast served all day<br>
+    © 2026 Garwood Grill. Website concept &amp; design — a portfolio pitch. Menu items and prices shown are illustrative samples.</p>
+  </div>
+</footer>
+
+<script>
+  // mobile nav
+  var t=document.getElementById('navtoggle'),l=document.getElementById('navlinks');
+  t.addEventListener('click',function(){l.classList.toggle('open')});
+  l.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){l.classList.remove('open')})});
+
+  // menu filter
+  var btns=document.querySelectorAll('.menu-cats button'),blocks=document.querySelectorAll('.menu-block');
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.classList.remove('active')});b.classList.add('active');
+    var c=b.dataset.cat;
+    blocks.forEach(function(bl){bl.style.display=(c==='all'||bl.dataset.cat===c)?'block':'none'});
+  })});
+</script>
+</body>
+</html>

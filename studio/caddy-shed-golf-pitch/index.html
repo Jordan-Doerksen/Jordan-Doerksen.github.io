@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caddy Shed Golf — Website Directions to Choose From</title>
+<meta name="description" content="Three website design directions for Caddy Shed Golf Stores, Winnipeg. Pick the one that feels like the shop.">
+<meta property="og:title" content="Caddy Shed Golf — Website Directions">
+<meta property="og:description" content="Three design directions for the new Caddy Shed website. Take a look and pick your favourite.">
+<meta name="theme-color" content="#1f4a35">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brand:#1f4a35;--brand-deep:#143726;--brand-soft:#2c5e44;
+    --paper:#f5f0e3;--paper-soft:#faf6ec;
+    --gold-deep:#7a5a16;--gold:#c79233;--gold-bright:#e6c069;
+    --ink:#2b2a22;--muted:#6d6452;--shadow:rgba(20,40,30,.16);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Work Sans',system-ui,sans-serif;color:var(--ink);background:var(--paper);font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:700;line-height:1.14}
+  .label{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:3px}
+  a{color:inherit}
+  .wrap{width:min(1120px,92vw);margin:0 auto}
+  .flag{width:1em;height:1em;flex:none;fill:currentColor}
+
+  /* hero */
+  header.hero{color:var(--paper);text-align:center;padding:70px 0 64px;background:var(--brand-deep);
+    background-image:linear-gradient(rgba(15,40,28,.86),rgba(18,45,32,.94)),url('https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=1600&q=70');
+    background-size:cover;background-position:center}
+  .hero .badge{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--gold-bright);color:var(--gold-bright);font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:4px;font-size:13px;padding:7px 18px;border-radius:40px;margin-bottom:22px}
+  .hero h1{font-size:clamp(34px,6vw,64px);text-shadow:0 4px 20px rgba(0,0,0,.45)}
+  .hero h1 .gold{color:var(--gold-bright);font-style:italic}
+  .hero p{font-size:clamp(17px,2.2vw,21px);max-width:680px;margin:20px auto 0;opacity:.95;line-height:1.55}
+  .hero .who{margin-top:18px;font-size:14px;opacity:.8}
+
+  /* directions */
+  main{padding:66px 0 30px}
+  .intro{text-align:center;max-width:720px;margin:0 auto 46px}
+  .intro .eyebrow{color:var(--gold-deep);font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:4px;font-size:15px;margin-bottom:10px}
+  .intro h2{color:var(--brand);font-size:clamp(26px,4vw,40px);margin-bottom:10px}
+  .intro p{color:var(--muted)}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .card{background:#fff;border:2px solid #e2d9c2;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 26px var(--shadow);transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-4px);box-shadow:0 18px 38px var(--shadow)}
+  .card .top{padding:26px 24px 20px;border-top:5px solid var(--gold)}
+  .card .num{font-family:'Barlow Condensed',sans-serif;letter-spacing:2px;font-size:13px;color:var(--gold-deep);text-transform:uppercase}
+  .card h3{color:var(--brand);font-size:25px;margin:6px 0 4px}
+  .card .vibe{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:13px;color:var(--muted);margin-bottom:14px}
+  .card p{font-size:15.5px;color:var(--ink);line-height:1.6}
+  .card .feat{list-style:none;margin:14px 0 0;padding:0}
+  .card .feat li{position:relative;padding:5px 0 5px 22px;font-size:14.5px;color:var(--muted)}
+  .card .feat li::before{content:"›";position:absolute;left:2px;top:4px;color:var(--gold-deep);font-weight:700}
+  .card .go{margin-top:auto;padding:0 24px 24px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:17px;padding:13px 22px;border-radius:9px;text-decoration:none;background:var(--brand);color:var(--paper);transition:.2s;border:2px solid var(--brand)}
+  .btn:hover{background:var(--brand-deep);border-color:var(--brand-deep)}
+
+  /* dark sport card tint */
+  .card.sport .top{border-top-color:#9ee84f}
+  .card.sport .num,.card.sport .feat li::before{color:#3f7a16}
+  .card.sport .btn{background:#0f2117;border-color:#0f2117}
+  .card.sport .btn:hover{background:#091610}
+  /* warm card tint */
+  .card.warm .top{border-top-color:#d9a441}
+  .card.warm .num,.card.warm .feat li::before{color:#b6802a}
+
+  /* secondary row */
+  .more{margin-top:54px;border-top:1px solid #e2d9c2;padding-top:34px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .mcard{display:flex;align-items:center;gap:16px;background:var(--paper-soft);border:1.5px solid #e2d9c2;border-radius:13px;padding:20px 22px;text-decoration:none;transition:.2s}
+  .mcard:hover{border-color:var(--gold);background:#fff}
+  .mcard .ic{font-size:26px;line-height:1}
+  .mcard b{display:block;color:var(--brand);font-family:'Playfair Display',serif;font-size:19px}
+  .mcard span{font-size:14px;color:var(--muted)}
+  .mcard .arr{margin-left:auto;color:var(--gold-deep);font-size:22px}
+
+  footer{background:var(--brand-deep);color:var(--paper);text-align:center;padding:40px 0 30px;margin-top:60px}
+  footer .flag{font-size:30px;color:var(--gold-bright)}
+  .fbrand{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;margin:6px 0 2px}
+  .fsub{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:12px;color:var(--gold-bright);margin-bottom:14px}
+  footer .meta{opacity:.85;font-size:14px;line-height:1.8}
+  footer .meta a{color:var(--gold-bright);text-decoration:none}
+  .colophon{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.14);font-size:12.5px;opacity:.7;font-style:italic}
+
+  @media(max-width:900px){.cards{grid-template-columns:1fr}.more{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap">
+  <div class="badge">
+    <svg class="flag" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.1" y="2.5" width="1.7" height="19" rx=".8"/><path d="M7.8 3.4h10l-2.8 3 2.8 3h-10z"/></svg>
+    Caddy Shed Golf Stores · Winnipeg
+  </div>
+  <h1>Three Ways to <span class="gold">Build It.</span></h1>
+  <p>I designed the new Caddy Shed website three different ways, so you can see the options side by side. Open each one, take it for a swing, and tell me which feels most like the shop.</p>
+  <p class="who">Prepared by Jordan · all three are full, working demos</p>
+</div></header>
+
+<main><div class="wrap">
+
+  <div class="intro">
+    <div class="eyebrow">Pick a Direction</div>
+    <h2>Same shop, three personalities</h2>
+    <p>Every version has the same content — the free-fitting promise, the brands, your reviews, hours and map. What changes is the feel.</p>
+  </div>
+
+  <div class="cards">
+
+    <article class="card heritage">
+      <div class="top">
+        <div class="num">Direction 01</div>
+        <h3>Premium Heritage</h3>
+        <div class="vibe">Refined · Editorial · Timeless</div>
+        <p>The private-club feel. Elegant serif type on cream paper, deep green, a single brass thread. Quiet and trustworthy — 40 years of reputation, dressed the part.</p>
+        <ul class="feat">
+          <li>Magazine-style numbered sections</li>
+          <li>Calm whitespace, fine detailing</li>
+          <li>Best for an upscale, classic impression</li>
+        </ul>
+      </div>
+      <div class="go"><a class="btn" href="premium-heritage.html">Open Direction 01 →</a></div>
+    </article>
+
+    <article class="card sport">
+      <div class="top">
+        <div class="num">Direction 02</div>
+        <h3>Modern Sport</h3>
+        <div class="vibe">Bold · Dark · Performance</div>
+        <p>The big-brand energy. Dark forest backdrop, an electric green accent, oversized type. The "21 feet per degree" stat becomes a showpiece. Feels brand-new and athletic.</p>
+        <ul class="feat">
+          <li>Fitting shown like a tech spec sheet</li>
+          <li>Animated stat + sticky "Book a Fitting"</li>
+          <li>Best for standing out as the modern shop</li>
+        </ul>
+      </div>
+      <div class="go"><a class="btn" href="modern-sport.html">Open Direction 02 →</a></div>
+    </article>
+
+    <article class="card warm">
+      <div class="top">
+        <div class="num">Direction 03</div>
+        <h3>Local &amp; Warm</h3>
+        <div class="vibe">Friendly · Family · Community</div>
+        <p>The neighbour's shop that happens to be excellent. Warm cream and honey tones, friendly type, the Keats-family story front and centre. Makes a stranger feel like a regular.</p>
+        <ul class="feat">
+          <li>Story-forward, people-first</li>
+          <li>Live "Open now / Closed" indicator</li>
+          <li>Best for leaning into local &amp; trusted</li>
+        </ul>
+      </div>
+      <div class="go"><a class="btn" href="local-warm.html">Open Direction 03 →</a></div>
+    </article>
+
+  </div>
+
+  <div class="more">
+    <a class="mcard" href="pitch.html">
+      <span class="ic">📄</span>
+      <span><b>The Proposal</b><span>What's included, simple pricing, and how it works.</span></span>
+      <span class="arr">→</span>
+    </a>
+    <a class="mcard" href="original-concept.html">
+      <span class="ic">🏌️</span>
+      <span><b>Original Concept</b><span>The first single-page draft these three grew out of.</span></span>
+      <span class="arr">→</span>
+    </a>
+  </div>
+
+</div></main>
+
+<footer>
+  <svg class="flag" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.1" y="2.5" width="1.7" height="19" rx=".8"/><path d="M7.8 3.4h10l-2.8 3 2.8 3h-10z"/><ellipse cx="7" cy="22" rx="3.4" ry="1.1" opacity=".45"/></svg>
+  <div class="fbrand">Caddy Shed Golf Stores</div>
+  <div class="fsub">Custom-Fit Since 1982</div>
+  <div class="meta">
+    2630 Portage Avenue, Winnipeg, MB R3J 0P8<br>
+    <a href="tel:+12048375854">(204) 837-5854</a> · Mon–Fri 10–6 · Sat 10–4
+  </div>
+  <div class="colophon">Website concept &amp; design — a portfolio pitch. Not the official Caddy Shed site.</div>
+</footer>
+
+</body>
+</html>

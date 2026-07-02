@@ -1,0 +1,947 @@
+[
+  {
+    "id": "def.advance-signal",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "ADVANCE SIGNAL",
+    "plain": "A fixed signal that works with other signals to control how a movement approaches them.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A fixed signal used in connection with one or more signals to govern the approach of a movement to such signal.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.advanced-train-dispatching-system",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "ADVANCED TRAIN DISPATCHING SYSTEM",
+    "plain": "Train-control technology that helps protect overlapping authorities and can show signal indications into protected track.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Train control technologies that provide enhancements for protecting overlapping authorities with ability to provide signal indications into protected track.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.automatic-block-signal-system",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "AUTOMATIC BLOCK SIGNAL SYSTEM (ABS)",
+    "plain": "A run of consecutive blocks where ABS rules apply.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A series of consecutive blocks in which ABS rules apply.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.block",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "BLOCK",
+    "plain": "A defined stretch of track whose use by a movement is governed by block signals.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A length of track of defined limits, the use of which by a movement is governed by block signals.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.block-signal",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "BLOCK SIGNAL",
+    "plain": "A fixed signal at a block's entrance that governs movements entering or using that block.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A fixed signal at the entrance to a block to govern a movement entering or using that block.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.cautionary-limits",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "CAUTIONARY LIMITS",
+    "plain": "The part of the main track(s) bounded by cautionary limit signs.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "That portion of the main track or main tracks within limits defined by cautionary limit sign(s).",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.centralized-traffic-control-system",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "CENTRALIZED TRAFFIC CONTROL SYSTEM (CTC)",
+    "plain": "A system in which CTC rules apply.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A system in which CTC rules apply.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.controlled-block",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "CONTROLLED BLOCK",
+    "plain": "A CTC block lying between two consecutive controlled locations or points.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A block in CTC between consecutive controlled locations or points.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.controlled-location",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "CONTROLLED LOCATION",
+    "plain": "A CTC location whose limits are set by opposing controlled signals.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A location in CTC the limits of which are defined by opposing controlled signals.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.controlled-point",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "CONTROLLED POINT",
+    "plain": "A CTC signal location with controlled signals facing only one direction.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A signal location in CTC consisting of controlled signal(s) in one direction only.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.controlled-signal",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "CONTROLLED SIGNAL",
+    "plain": "A CTC block signal that holds a Stop indication until the RTC requests a less restrictive one.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A CTC block signal which is capable of displaying a Stop indication until requested to display a less restrictive indication by the RTC.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.crossover",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "CROSSOVER",
+    "plain": "A track that connects two adjacent main tracks, or a main track to another track.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A track joining adjacent main tracks, or a main track and another track.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.daily-operating-bulletin",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "DAILY OPERATING BULLETIN (DOB)",
+    "plain": "A document that gathers the relevant GBO information, instructions, and other compliance information for the limits set in special instructions.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A document containing applicable information from each GBO, instructions and other information requiring compliance within limits indicated in special instructions.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.electronic-communications-method",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "ELECTRONIC COMMUNICATIONS METHOD (ECM)",
+    "plain": "An electronic way to send and cancel authorities, instructions, or information.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "An electronic method for transmission and cancellation of authorities, instructions or information.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.engine",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "ENGINE",
+    "plain": "One or more locomotives run from a single control (or a cab control car) in train, transfer, or yard service.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A locomotive(s) operated from a single control or a cab control car, used in train, transfer or yard service.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.engine-in-yard-service",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "ENGINE IN YARD SERVICE",
+    "plain": "An engine, with or without cars, used only for switching, marshalling, humping, trimming, and industrial switching.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "An engine with or without cars utilized exclusively in switching, marshalling, humping, trimming and industrial switching.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.equipment",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "EQUIPMENT",
+    "plain": "One or more engines and/or cars that can be handled on their own wheels in a movement.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "One or more engines and/or cars which can be handled on their own wheels in a movement.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.exclusive-top",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "EXCLUSIVE TOP",
+    "plain": "A TOP giving one foreman sole occupancy of the track; at most two track units may work within its limits.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A TOP that provides exclusive occupancy of the track to one foreman. No more than two track units can operate within the limits of an Exclusive TOP.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.exclusive-track-unit-speed",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "EXCLUSIVE TRACK UNIT SPEED",
+    "plain": "Under an Exclusive TOP, a speed that lets a track unit stop short of a switch not properly lined; track units handling equipment must not exceed the lowest applicable freight, passenger, or temporary speed restriction.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "When protected by an Exclusive TOP, a speed that permits a track unit to stop short of a switch not properly lined. Track units handling equipment must not exceed the lesser of authorized freight, passenger or temporary speed restrictions.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.fixed-signal",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "FIXED SIGNAL",
+    "plain": "A signal or sign in a fixed spot that shows a condition affecting how a movement operates.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A signal or sign at a fixed location indicating a condition affecting the operation of a movement.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.follow-up-top",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "FOLLOW-UP TOP",
+    "plain": "A TOP issued within the limits of a movement that the foreman has identified, or will identify, as having passed the foreman's location.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A TOP issued within limits of a movement(s) that has passed or will be identified by the foreman as having passed the foreman's location.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.general-bulletin-order",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "GENERAL BULLETIN ORDER(S) (GBO)",
+    "plain": "Instructions about track-condition restrictions and other information affecting the safety and operation of a movement.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Instructions regarding track condition restrictions and other information that affect the safety and operation of a movement.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.grade-crossing",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "GRADE CROSSING",
+    "plain": "Where a railway track crosses an authorized road, sidewalk, path, or trail - not counting Railway Company Grade Crossings.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Any location where a railway track intersects with an authorized road, sidewalk, path, or trail, excluding Railway Company Grade Crossings.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.gravity-drop",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "GRAVITY DROP",
+    "plain": "Letting standing equipment go so it rolls on its own momentum.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Releasing stationary equipment and permitting it to roll under its own momentum.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.heavy-grade",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "HEAVY GRADE",
+    "plain": "A stretch of track at least 2 miles long with an average grade over 1.0% but no more than 1.8%.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A portion of a track 2 miles in length or greater, with an average grade greater than 1.0%, and less than or equal to 1.8%.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.high-risk-location",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "HIGH RISK LOCATION",
+    "plain": "A track (or part of one), other than a main track, subdivision track, or siding, named in special instructions where unattended equipment must follow Rule 112(a).",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A track, or portion of a track, other than a main track, subdivision track, or siding; identified in special instructions, on which unattended equipment requires the application of Rule 112(a).",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.humping",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "HUMPING",
+    "plain": "Pushing equipment at a controlled speed, then releasing it to roll on its own, in a built-up environment where automated or assisted devices control route and speed.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Pushing equipment at a regulated speed then releasing it under its own momentum, in an engineered environment where the route and speed are controlled through automated or assisted devices.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.interlocking",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "INTERLOCKING",
+    "plain": "A set-up of interconnected signals and appliances governed by interlocking rules and special instructions.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "An arrangement of interconnected signals and signal appliances for which interlocking rules and special instructions are in effect.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.interlocking-limits",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "INTERLOCKING LIMITS",
+    "plain": "The tracks lying between the outermost opposing interlocking signals.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "The tracks between the extreme or outer opposing interlocking signals of an interlocking.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.interlocking-signal",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "INTERLOCKING SIGNAL",
+    "plain": "A fixed signal at or inside interlocking limits that governs use of the routes.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A fixed signal at the entrance to or within interlocking limits to govern the use of the routes.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.kicking",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "KICKING",
+    "plain": "Pushing equipment and then releasing it to roll on its own - but not humping.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Pushing equipment then releasing it under its own momentum. Does not include humping.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.main-track",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "MAIN TRACK",
+    "plain": "A subdivision track running through and between stations, governed by one or more methods of control, where movements, track units, and track work must be authorized.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A track of a subdivision extending through and between stations governed by one or more methods of control upon which movements, track units and track work must be authorized.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.marker",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "MARKER",
+    "plain": "A device that marks the last piece of equipment in a movement - a red light, a red reflectorized plaque, an SBU, or an occupied caboose, distributed-power remote consist, or distributed braking car when it is the last piece in the direction of travel.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "When used, will indicate the last piece of equipment in a movement. It will be one of the following: a red light, a red reflectorized plaque, a sense and braking unit (SBU); or an occupied caboose, distributed power remote locomotive consist or distributed braking car, when the last piece of equipment in the direction of travel.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.method-of-control",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "METHOD OF CONTROL",
+    "plain": "The rules and/or special instructions that govern how a track is used.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Rules and/or special instructions governing the use of a track(s).",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.mountain-grade",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "MOUNTAIN GRADE",
+    "plain": "A stretch of track at least 2 miles long with an average grade over 1.8%.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A portion of a track 2 miles in length or greater, with an average grade greater than 1.8%.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.movement",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "MOVEMENT(S)",
+    "plain": "The rules' catch-all term meaning the rule applies to trains, transfers, or engines in yard service.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "The term used in these rules to indicate that the rule is applicable to trains, transfers or engines in yard service.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.multi-track",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "MULTI-TRACK",
+    "plain": "Two or more of a subdivision's main tracks at the same location.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Two or more main tracks of a subdivision at the same location.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.non-main-track",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "NON-MAIN TRACK (NMT)",
+    "plain": "Any track not listed in the time table as having CTC, OCS, ABS, or Cautionary Limits; unless stated otherwise, it must be operated at REDUCED speed.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Any track(s) other than those listed in time table columns as having CTC, OCS, ABS or Cautionary Limits applicable and unless otherwise provided include a requirement to operate at REDUCED speed.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.non-signalled-siding",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "NON-SIGNALLED SIDING",
+    "plain": "A siding governed by non-main track rules, whose use may be set by special instructions.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A siding where non-main track rules apply, the use of which may be governed by special instructions.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.occupancy-control-system",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "OCCUPANCY CONTROL SYSTEM (OCS)",
+    "plain": "A system in which OCS rules apply.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A system in which OCS rules apply.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.railway-company-grade-crossing",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "RAILWAY COMPANY GRADE CROSSING",
+    "plain": "Where a railway track crosses a road, sidewalk, path, or trail that a railway company opens or maintains and solely controls.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Any location where a railway track intersects with a road, sidewalk, path, or trail, that is opened or maintained by a railway company that is the sole authority of the crossing.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.running-switch",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "RUNNING SWITCH",
+    "plain": "Pulling equipment and then releasing it to roll on its own.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Pulling equipment then releasing it under its own momentum.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.schedule",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "SCHEDULE",
+    "plain": "Information about a passenger train's operating times.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Information pertaining to the operating times of a passenger train.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.siding",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "SIDING",
+    "plain": "A track next to and connected to the main track, designated as a siding in the time table, GBO, or operating bulletin.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A track adjacent and connected to the main track which is so designated in the time table, GBO or operating bulletin.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.siding-control-territory",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "SIDING CONTROL TERRITORY (SCT)",
+    "plain": "Non-signalled sidings named in special instructions where SCT rules apply.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Non-signalled sidings indicated in special instructions where SCT rules are applicable.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.signal-indication",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "SIGNAL INDICATION",
+    "plain": "The information a fixed signal conveys.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "The information conveyed by a fixed signal.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.signalled-siding",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "SIGNALLED SIDING",
+    "plain": "A siding where CTC rules apply.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A siding where CTC rules apply.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.single-track",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "SINGLE TRACK",
+    "plain": "A single main track on a subdivision at a given location.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "One main track on a subdivision at a location.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.station",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "STATION",
+    "plain": "A place marked by a station name sign and listed under that name in the time table.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A location identified by a station name sign and designated by that name in the time table.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.subdivision",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "SUBDIVISION",
+    "plain": "Railway trackage that the time table designates.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Railway trackage designated by time table.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.subdivision-track",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "SUBDIVISION TRACK",
+    "plain": "A non-main track marked as such in the time table's method-of-control column that extends the main track and is the through track there, defined by subdivision mile posts; REDUCED speed applies up to the time-table maximum, and transfers must not exceed 15 MPH.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A Non-Main Track so indicated in the time table method of control column that is an extension of the main track, and the through track at that location, defined with subdivision mile posts. REDUCED speed is applicable to a maximum speed as indicated in the time table. Transfers must not exceed 15 MPH.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.tabular-general-bulletin-order",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "TABULAR GENERAL BULLETIN ORDER (TGBO)",
+    "plain": "A movement-specific document gathering the relevant GBO information, instructions, and other compliance information for the limits shown in the TGBO.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A document specific to a movement, containing applicable information from each GBO, instructions and other information requiring compliance within limits indicated in the TGBO.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.time-table",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "TIME TABLE",
+    "plain": "The special instruction holding subdivision descriptions and footnotes about operating movements and track units.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "The special instruction that contains subdivision description information and footnotes relating to the operation of movements and track units.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.track-occupancy-permit",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "TRACK OCCUPANCY PERMIT (TOP)",
+    "plain": "An authority issued to protect track units and track work.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Authority issued for the protection of track units and track work.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.track-unit",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "TRACK UNIT (TU)",
+    "plain": "A vehicle or machine that can run on the track, used for track inspection, track work, and other railway activities while on a track.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A vehicle or machine capable of on-track operation utilized for track inspection, track work and other railway activities when on a track.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.track-unit-speed",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "TRACK UNIT SPEED",
+    "plain": "A speed that lets a track unit stop within half the range of vision of equipment or another track unit, stop short of a switch not properly lined or any obstruction or defect, and never exceed the track unit's maximum authorized speed.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A speed that (a) permits a track unit to stop within one-half the range of vision of equipment or a track unit; (b) permits a track unit to stop short of a switch not properly lined or any obstruction or track defect that may prevent safe passage; and (c) does not exceed maximum authorized speed for that track unit.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.track-work",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "TRACK WORK",
+    "plain": "Any work on or near the track that could make it unsafe for movements at normal speed, or where employees and machines doing track construction or repairs may need protection from movements.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "Any work on or near the track that may render the track unsafe for movements at normal speed or where protection against movements may be required for employees and machines involved in track construction and repairs.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.trailing-end",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "TRAILING END",
+    "plain": "The rear end of the last piece of equipment in a movement, in the direction of travel.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "The tail end of the last piece of equipment in a movement in the direction of travel.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.train",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "TRAIN",
+    "plain": "An engine, with or without cars, meant to run on the main track above 15 MPH - or a track unit when designated as a train.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "An engine with or without cars intended to operate on the main track at speeds in excess of 15 MPH or a track unit when so designated.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.train-information-braking-system",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "TRAIN INFORMATION BRAKING SYSTEM (TIBS)",
+    "plain": "A system whose front and rear components monitor brake-pipe pressure on the rear car, calculate distance, and can trigger an emergency brake application at the rear from the controlling locomotive.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A system with rear and front communication components capable of monitoring brake pipe pressure on the rear car, calculating distance, and initiating an emergency brake application at the rear of the train from the controlling locomotive.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.transfer",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "TRANSFER",
+    "plain": "An engine, with or without cars, running on the main track at no more than 15 MPH.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "An engine with or without cars operating on main track at speeds not exceeding 15 MPH.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.unattended",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "UNATTENDED",
+    "plain": "When no employee is close enough to take effective action.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "When an employee is not in close enough proximity to take effective action.",
+      "trust": "verified"
+    },
+    "payload": null
+  },
+  {
+    "id": "def.yard",
+    "domain": "definitions",
+    "type": "definition",
+    "title": "YARD",
+    "plain": "A network of non-main tracks used for switching and other purposes, where movements operate under the prescribed signals, rules, and special instructions.",
+    "citation": {
+      "source": "CROR",
+      "ref": "CROR Definitions",
+      "relatedRef": null,
+      "verbatim": "A system of non-main tracks, utilized to switch equipment and for other purposes over which movements may operate subject to prescribed signals, rules and special instructions.",
+      "trust": "verified"
+    },
+    "payload": null
+  }
+]

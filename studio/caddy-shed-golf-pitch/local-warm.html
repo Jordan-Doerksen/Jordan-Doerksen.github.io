@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Caddy Shed Golf Stores — Your Winnipeg Golf Shop Since 1982</title>
+<meta name="description" content="Caddy Shed Golf Stores — family-owned in Winnipeg since 1982. Manitoba's #1 locally owned golf shop. Free custom club fitting with every set. 2630 Portage Avenue." />
+<meta name="theme-color" content="#1f4a35" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Caddy Shed Golf Stores — Your Winnipeg Golf Shop Since 1982" />
+<meta property="og:description" content="Family-owned in Winnipeg since 1982. Manitoba's #1 locally owned golf shop. Free custom fitting with every set." />
+<meta property="og:locale" content="en_CA" />
+<meta property="og:image" content="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=1200&q=80" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    /* Warm, tactile palette */
+    --paper:        #f6efe2;   /* warm cream paper */
+    --paper-2:      #fbf7ee;   /* lighter card paper */
+    --oat:          #efe6d4;   /* oatmeal */
+    --ink:          #28332b;   /* warm dark ink */
+    --ink-soft:     #56615a;   /* muted text */
+    --fairway:      #2f6f4e;   /* friendly fairway green */
+    --fairway-deep: #1f4a35;   /* deep green */
+    --fairway-tint: #e4efe6;   /* pale green wash */
+    --honey:        #d9a441;   /* soft honey gold */
+    --honey-deep:   #b9842a;
+    --sky:          #6ea7c4;   /* gentle prairie sky */
+    --sky-tint:     #e6f0f4;
+    --line:         #e3d7c2;   /* warm hairline */
+    --shadow-sm:    0 2px 8px rgba(40,51,43,.06);
+    --shadow:       0 14px 40px rgba(40,51,43,.10);
+    --shadow-lg:    0 26px 70px rgba(40,51,43,.16);
+    --radius:       18px;
+    --radius-lg:    28px;
+    --radius-pill:  999px;
+    --maxw:         1160px;
+    --serif:        'Fraunces', Georgia, 'Times New Roman', serif;
+    --sans:         'Nunito Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+  }
+
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.65;
+    font-size:17px;
+    /* subtle paper grain via layered radial dots */
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(217,164,65,.05) 0, transparent 38%),
+      radial-gradient(circle at 90% 30%, rgba(110,167,196,.05) 0, transparent 40%);
+  }
+
+  h1,h2,h3,h4{ font-family:var(--serif); font-weight:500; line-height:1.12; color:var(--ink); margin:0 0 .4em; letter-spacing:-.01em; }
+  h2{ font-size:clamp(1.9rem,4.2vw,2.9rem); }
+  h3{ font-size:1.45rem; font-weight:600; }
+  p{ margin:0 0 1rem; }
+  a{ color:var(--fairway-deep); }
+  img{ display:block; max-width:100%; }
+
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+  .section{ padding:84px 0; position:relative; }
+  .center{ text-align:center; }
+
+  .whisper{ font-family:var(--serif); font-style:italic; font-weight:400; color:var(--honey-deep); }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:.5rem;
+    font-family:var(--sans); font-weight:800; font-size:.74rem;
+    letter-spacing:.16em; text-transform:uppercase;
+    color:var(--fairway); margin-bottom:1rem;
+  }
+  .eyebrow .dot{ width:7px; height:7px; border-radius:50%; background:var(--honey); }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
+    font-family:var(--sans); font-weight:800; font-size:1rem;
+    padding:.85rem 1.5rem; border-radius:var(--radius-pill);
+    text-decoration:none; cursor:pointer; border:2px solid transparent;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+    line-height:1;
+  }
+  .btn svg{ width:18px; height:18px; }
+  .btn-primary{ background:var(--fairway); color:#fff; box-shadow:0 10px 24px rgba(47,111,78,.28); }
+  .btn-primary:hover{ background:var(--fairway-deep); transform:translateY(-2px); box-shadow:0 16px 30px rgba(47,111,78,.34); }
+  .btn-honey{ background:var(--honey); color:#3a2c08; box-shadow:0 10px 24px rgba(217,164,65,.34); }
+  .btn-honey:hover{ background:var(--honey-deep); color:#fff; transform:translateY(-2px); }
+  .btn-ghost{ background:transparent; color:var(--fairway-deep); border-color:var(--fairway); }
+  .btn-ghost:hover{ background:var(--fairway-tint); transform:translateY(-2px); }
+  .btn-white{ background:#fff; color:var(--ink); border-color:var(--line); box-shadow:var(--shadow-sm); }
+  .btn-white:hover{ transform:translateY(-2px); box-shadow:var(--shadow); }
+  @media (prefers-reduced-motion: reduce){ .btn:hover{ transform:none; } }
+
+  :focus-visible{ outline:3px solid var(--honey); outline-offset:3px; border-radius:6px; }
+
+  /* ---------- Nav ---------- */
+  .nav{
+    position:sticky; top:0; z-index:60;
+    background:rgba(246,239,226,.86);
+    backdrop-filter:saturate(140%) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; height:72px; }
+  .brand{ display:flex; align-items:center; gap:.65rem; text-decoration:none; color:var(--ink); }
+  .brand-badge{
+    width:40px; height:40px; border-radius:12px; background:var(--fairway-deep);
+    display:grid; place-items:center; box-shadow:inset 0 0 0 2px rgba(255,255,255,.12), var(--shadow-sm);
+    flex:0 0 auto;
+  }
+  .brand-badge svg{ width:22px; height:22px; }
+  .brand-name{ font-family:var(--serif); font-weight:600; font-size:1.16rem; line-height:1; }
+  .brand-sub{ font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); font-weight:700; }
+
+  .nav-links{ display:flex; align-items:center; gap:.35rem; }
+  .nav-links a{
+    text-decoration:none; color:var(--ink); font-weight:700; font-size:.95rem;
+    padding:.5rem .7rem; border-radius:var(--radius-pill); transition:background .15s, color .15s;
+  }
+  .nav-links a:hover{ background:var(--fairway-tint); color:var(--fairway-deep); }
+  .nav-cta{ margin-left:.4rem; }
+
+  .hamburger{
+    display:none; background:none; border:2px solid var(--line); border-radius:12px;
+    width:46px; height:46px; cursor:pointer; padding:0; align-items:center; justify-content:center;
+  }
+  .hamburger span{ display:block; width:20px; height:2px; background:var(--ink); position:relative; transition:.2s; }
+  .hamburger span::before,.hamburger span::after{ content:""; position:absolute; left:0; width:20px; height:2px; background:var(--ink); transition:.2s; }
+  .hamburger span::before{ top:-6px; } .hamburger span::after{ top:6px; }
+  .hamburger[aria-expanded="true"] span{ background:transparent; }
+  .hamburger[aria-expanded="true"] span::before{ top:0; transform:rotate(45deg); }
+  .hamburger[aria-expanded="true"] span::after{ top:0; transform:rotate(-45deg); }
+
+  @media (max-width: 900px){
+    .hamburger{ display:flex; }
+    .nav-links{
+      position:absolute; top:72px; left:0; right:0;
+      flex-direction:column; align-items:stretch; gap:.15rem;
+      background:var(--paper-2); border-bottom:1px solid var(--line);
+      padding:14px 24px 22px; box-shadow:var(--shadow);
+      transform:translateY(-12px); opacity:0; pointer-events:none; transition:.2s;
+    }
+    .nav-links.open{ transform:translateY(0); opacity:1; pointer-events:auto; }
+    .nav-links a{ padding:.8rem .7rem; font-size:1.05rem; }
+    .nav-cta{ margin:.4rem 0 0; }
+    .btn.nav-cta{ width:100%; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{ position:relative; overflow:hidden; padding:64px 0 72px; }
+  .hero-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:54px; align-items:center; }
+  .hero-tag{
+    display:inline-flex; align-items:center; gap:.5rem; background:var(--paper-2);
+    border:1px solid var(--line); border-radius:var(--radius-pill); padding:.4rem .9rem;
+    font-weight:800; font-size:.82rem; color:var(--fairway-deep); box-shadow:var(--shadow-sm); margin-bottom:1.3rem;
+  }
+  .hero h1{ font-size:clamp(2.5rem,6vw,4.3rem); line-height:1.02; margin-bottom:.5rem; }
+  .hero h1 .whisper{ display:block; font-size:.62em; margin-top:.18em; }
+  .hero-lead{ font-size:1.18rem; color:var(--ink-soft); max-width:36ch; margin-bottom:1.7rem; }
+  .hero-actions{ display:flex; flex-wrap:wrap; gap:.8rem; margin-bottom:1.6rem; }
+  .hero-meta{ display:flex; flex-wrap:wrap; gap:1.3rem; align-items:center; font-weight:700; color:var(--ink-soft); font-size:.92rem; }
+  .hero-meta .stars{ color:var(--honey-deep); letter-spacing:1px; }
+
+  .hero-media{ position:relative; }
+  .hero-photo{
+    width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-lg); border:6px solid #fff; transform:rotate(-1.4deg);
+  }
+  .hero-sticker{
+    position:absolute; bottom:-22px; left:-22px; background:var(--honey); color:#3a2c08;
+    width:128px; height:128px; border-radius:50%; display:grid; place-content:center; text-align:center;
+    transform:rotate(-9deg); box-shadow:var(--shadow); border:4px dashed rgba(58,44,8,.4);
+    font-weight:800; line-height:1.05;
+  }
+  .hero-sticker b{ font-family:var(--serif); font-size:2rem; display:block; }
+  .hero-sticker small{ font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; }
+  .hero-card{
+    position:absolute; top:18px; right:-14px; background:#fff; border-radius:16px; padding:.85rem 1.1rem;
+    box-shadow:var(--shadow); display:flex; align-items:center; gap:.7rem; transform:rotate(2deg); max-width:230px;
+  }
+  .hero-card .av{ width:38px; height:38px; border-radius:50%; background:var(--fairway-tint); display:grid; place-items:center; flex:0 0 auto; }
+  .hero-card .av svg{ width:20px; height:20px; }
+  .hero-card small{ display:block; color:var(--ink-soft); font-weight:700; font-size:.74rem; }
+  .hero-card strong{ font-family:var(--serif); font-size:1rem; }
+
+  @media (max-width: 880px){
+    .hero-grid{ grid-template-columns:1fr; gap:48px; }
+    .hero-media{ max-width:440px; margin:0 auto; }
+    .hero-lead{ max-width:46ch; }
+  }
+
+  /* ---------- Trust strip ---------- */
+  .trust{ background:var(--fairway-deep); color:#f3ecdc; padding:24px 0; }
+  .trust-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:18px 40px; align-items:center; }
+  .trust-item{ display:flex; align-items:center; gap:.6rem; font-weight:700; font-size:.96rem; }
+  .trust-item svg{ width:22px; height:22px; color:var(--honey); flex:0 0 auto; }
+  .trust-item .stars{ color:var(--honey); }
+
+  /* ---------- Section heading block ---------- */
+  .head{ max-width:62ch; }
+  .head.center{ margin:0 auto; }
+  .head p{ color:var(--ink-soft); font-size:1.08rem; }
+
+  /* ---------- Fitting (lead) ---------- */
+  #fitting{ background:linear-gradient(180deg, var(--paper) 0%, var(--oat) 100%); }
+  .fit-grid{ display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; }
+  .fit-photo{ border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:6px solid #fff; transform:rotate(1deg); }
+  .fit-photo img{ width:100%; aspect-ratio:5/4; object-fit:cover; }
+  .stat-banner{
+    background:var(--paper-2); border:1px solid var(--line); border-left:6px solid var(--honey);
+    border-radius:14px; padding:1.1rem 1.3rem; box-shadow:var(--shadow-sm); margin:1.2rem 0 1.5rem;
+  }
+  .stat-banner b{ font-family:var(--serif); color:var(--fairway-deep); font-size:1.25rem; }
+  .fit-list{ list-style:none; padding:0; margin:1.4rem 0 0; display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .fit-list li{ background:var(--paper-2); border:1px solid var(--line); border-radius:14px; padding:.9rem 1rem; box-shadow:var(--shadow-sm); }
+  .fit-list h4{ font-family:var(--sans); font-weight:800; font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--fairway); margin:0 0 .25rem; display:flex; align-items:center; gap:.45rem; }
+  .fit-list h4 svg{ width:16px; height:16px; }
+  .fit-list p{ margin:0; font-size:.92rem; color:var(--ink-soft); }
+  @media (max-width: 860px){
+    .fit-grid{ grid-template-columns:1fr; gap:36px; }
+    .fit-photo{ order:-1; }
+  }
+  @media (max-width: 520px){ .fit-list{ grid-template-columns:1fr; } }
+
+  /* ---------- The Shop ---------- */
+  .shop-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:40px; }
+  .shop-card{
+    background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius);
+    padding:1.5rem; box-shadow:var(--shadow-sm); transition:transform .2s, box-shadow .2s;
+  }
+  .shop-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
+  @media (prefers-reduced-motion: reduce){ .shop-card:hover{ transform:none; } }
+  .shop-icon{ width:48px; height:48px; border-radius:14px; background:var(--fairway-tint); display:grid; place-items:center; margin-bottom:1rem; }
+  .shop-icon svg{ width:26px; height:26px; color:var(--fairway-deep); }
+  .shop-card h3{ font-size:1.22rem; }
+  .shop-card p{ margin:0; color:var(--ink-soft); font-size:.96rem; }
+  @media (max-width: 860px){ .shop-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width: 560px){ .shop-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- Brands ---------- */
+  #brands{ background:var(--oat); }
+  .brand-strip{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:34px; }
+  .brand-chip{
+    background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-pill);
+    padding:.7rem 1.4rem; font-family:var(--serif); font-weight:600; font-size:1.1rem; color:var(--ink);
+    box-shadow:var(--shadow-sm); transition:transform .18s, color .18s, border-color .18s;
+  }
+  .brand-chip:hover{ transform:translateY(-3px); color:var(--fairway-deep); border-color:var(--honey); }
+  @media (prefers-reduced-motion: reduce){ .brand-chip:hover{ transform:none; } }
+  .brand-chip.more{ background:var(--fairway); color:#fff; border-color:var(--fairway); }
+
+  /* ---------- Our Story ---------- */
+  .story-grid{ display:grid; grid-template-columns:.95fr 1.05fr; gap:54px; align-items:center; }
+  .story-media{ position:relative; }
+  .story-photo{ width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); border:6px solid #fff; transform:rotate(-1.5deg); }
+  .story-badge{
+    position:absolute; bottom:-20px; right:-16px; background:var(--paper-2); border:1px solid var(--line);
+    border-radius:16px; padding:.9rem 1.1rem; box-shadow:var(--shadow); transform:rotate(2.5deg); text-align:center;
+  }
+  .story-badge b{ font-family:var(--serif); font-size:1.7rem; color:var(--fairway-deep); display:block; line-height:1; }
+  .story-badge small{ font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); font-weight:800; }
+  .story-quote{
+    font-family:var(--serif); font-style:italic; font-size:1.4rem; color:var(--fairway-deep);
+    border-left:4px solid var(--honey); padding-left:1.1rem; margin:1.4rem 0; line-height:1.3;
+  }
+  .signature{ font-family:var(--serif); font-style:italic; font-size:1.5rem; color:var(--ink); margin-top:1.2rem; }
+  .signature small{ display:block; font-family:var(--sans); font-style:normal; font-weight:700; font-size:.82rem; color:var(--ink-soft); letter-spacing:.04em; }
+  .story-tags{ display:flex; flex-wrap:wrap; gap:10px; margin-top:1.2rem; }
+  .story-tags span{ background:var(--sky-tint); color:#2c596e; border-radius:var(--radius-pill); padding:.45rem 1rem; font-weight:700; font-size:.86rem; }
+  @media (max-width: 880px){
+    .story-grid{ grid-template-columns:1fr; gap:48px; }
+    .story-media{ max-width:420px; margin:0 auto; }
+  }
+
+  /* ---------- Reviews ---------- */
+  #reviews{ background:linear-gradient(180deg, var(--oat) 0%, var(--paper) 100%); }
+  .review-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:40px; }
+  .review-card{
+    background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius);
+    padding:1.5rem; box-shadow:var(--shadow-sm); position:relative; display:flex; flex-direction:column;
+  }
+  .review-card .stars{ color:var(--honey-deep); letter-spacing:1px; margin-bottom:.6rem; }
+  .review-card .quote{ font-family:var(--serif); font-size:1.04rem; line-height:1.5; color:var(--ink); margin:0 0 1.1rem; flex:1; }
+  .review-who{ display:flex; align-items:center; gap:.7rem; }
+  .review-who .av{ width:40px; height:40px; border-radius:50%; display:grid; place-items:center; font-family:var(--serif); font-weight:600; color:#fff; flex:0 0 auto; }
+  .review-who b{ display:block; font-size:.96rem; }
+  .review-who small{ color:var(--ink-soft); font-size:.8rem; font-weight:700; }
+  @media (max-width: 860px){ .review-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- Visit ---------- */
+  #visit{ background:var(--fairway-deep); color:#f1e9d8; }
+  #visit h2,#visit h3{ color:#fff; }
+  #visit .eyebrow{ color:var(--honey); }
+  #visit .head p{ color:#d9ddcf; }
+  .visit-grid{ display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:42px; align-items:start; }
+  .visit-card{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:var(--radius-lg); padding:1.6rem; }
+  .map-frame{ border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:6px solid rgba(255,255,255,.1); }
+  .map-frame iframe{ display:block; width:100%; height:360px; border:0; }
+
+  .visit-line{ display:flex; align-items:flex-start; gap:.8rem; margin-bottom:1rem; }
+  .visit-line svg{ width:22px; height:22px; color:var(--honey); flex:0 0 auto; margin-top:2px; }
+  .visit-line a{ color:#fff; text-decoration:none; font-weight:700; }
+  .visit-line a:hover{ text-decoration:underline; }
+
+  .open-pill{
+    display:inline-flex; align-items:center; gap:.5rem; border-radius:var(--radius-pill);
+    padding:.5rem 1rem; font-weight:800; font-size:.92rem; margin-bottom:1.2rem;
+  }
+  .open-pill .ind{ width:10px; height:10px; border-radius:50%; }
+  .open-pill.is-open{ background:rgba(140,200,140,.16); color:#bff0bf; }
+  .open-pill.is-open .ind{ background:#7ee07e; box-shadow:0 0 0 4px rgba(126,224,126,.2); }
+  .open-pill.is-closed{ background:rgba(224,140,140,.16); color:#f4c3c3; }
+  .open-pill.is-closed .ind{ background:#e88; }
+
+  .hours{ width:100%; border-collapse:collapse; margin-top:.4rem; }
+  .hours th,.hours td{ text-align:left; padding:.6rem .4rem; border-bottom:1px solid rgba(255,255,255,.12); font-weight:700; }
+  .hours th{ color:#cdd3c4; font-weight:800; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; }
+  .hours td:last-child{ text-align:right; }
+  .hours tr.today td{ color:#fff; }
+  .hours tr.today{ background:rgba(217,164,65,.16); }
+  .hours tr.today td:first-child{ border-left:3px solid var(--honey); }
+  .today-tag{ display:inline-block; background:var(--honey); color:#3a2c08; font-size:.62rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; border-radius:var(--radius-pill); padding:.12rem .5rem; margin-left:.5rem; }
+  .visit-actions{ display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1.3rem; }
+  @media (max-width: 860px){ .visit-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- CTA band ---------- */
+  .cta-band{ background:var(--honey); color:#3a2c08; text-align:center; }
+  .cta-band h2{ color:#3a2c08; }
+  .cta-band p{ color:#5a4715; font-weight:600; max-width:50ch; margin:0 auto 1.6rem; }
+  .cta-actions{ display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; }
+
+  /* ---------- Footer ---------- */
+  .footer{ background:#1a3b2b; color:#cfd8cb; padding:56px 0 30px; }
+  .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px; }
+  .footer .brand-name,.footer h4{ color:#fff; }
+  .footer h4{ font-family:var(--sans); font-weight:800; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:var(--honey); margin:0 0 1rem; }
+  .footer a{ color:#cfd8cb; text-decoration:none; }
+  .footer a:hover{ color:#fff; text-decoration:underline; }
+  .footer ul{ list-style:none; padding:0; margin:0; display:grid; gap:.5rem; font-weight:600; }
+  .footer .blurb{ max-width:34ch; color:#aebca8; margin-top:1rem; font-size:.95rem; }
+  .foot-brand{ display:flex; align-items:center; gap:.6rem; }
+  .footer .brand-badge{ background:rgba(255,255,255,.08); }
+  .colophon{ border-top:1px solid rgba(255,255,255,.12); margin-top:40px; padding-top:22px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; font-size:.84rem; color:#9bab95; }
+  @media (max-width: 760px){ .footer-grid{ grid-template-columns:1fr; gap:30px; } }
+
+  /* ---------- Hand-drawn path divider ---------- */
+  .path-divider{ display:block; width:100%; height:40px; color:var(--honey); opacity:.7; }
+
+  /* ---------- Reveal animation ---------- */
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
+  }
+
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Caddy Shed Golf Stores — home">
+      <span class="brand-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#d9a441" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 3v18"/><path d="M7 4h10l-3 4 3 4H7"/>
+        </svg>
+      </span>
+      <span>
+        <span class="brand-name">Caddy Shed</span>
+        <span class="brand-sub">Winnipeg · Since 1982</span>
+      </span>
+    </a>
+
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="#fitting">Custom Fitting</a>
+      <a href="#shop">The Shop</a>
+      <a href="#brands">Brands</a>
+      <a href="#story">Our Story</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#visit">Visit</a>
+      <a class="btn btn-honey nav-cta" href="tel:+12048375854">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call Us
+      </a>
+    </nav>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-controls="navLinks" aria-expanded="false">
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy reveal">
+        <span class="hero-tag">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d9a441" stroke-width="2.4" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.7 1.4 6.8L12 17.8 5.9 20.5l1.4-6.8L2.2 9l6.9-.7L12 2z"/></svg>
+          4.9★ · 87+ Winnipeg golfers
+        </span>
+        <h1>Your Winnipeg golf shop
+          <span class="whisper">since 1982.</span>
+        </h1>
+        <p class="hero-lead">Family-owned, on Portage Avenue for 40+ years. Big enough to carry the best names — small enough to know your name.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#fitting">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z"/><path d="M12 6v6l4 2"/></svg>
+            Book a Free Fitting
+          </a>
+          <a class="btn btn-ghost" href="#visit">Find the Shop</a>
+        </div>
+        <div class="hero-meta">
+          <span class="stars">★★★★★</span>
+          <span>“Owned by Manitobans, for Manitobans.”</span>
+        </div>
+      </div>
+
+      <div class="hero-media reveal">
+        <img class="hero-photo"
+             src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=900&q=80"
+             alt="A wall of golf clubs and bags on display inside a friendly local golf shop"
+             onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22750%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%232f6f4e%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%23f6efe2%22 font-family=%22Georgia%22 font-size=%2236%22 text-anchor=%22middle%22>Caddy Shed</text></svg>';" />
+        <div class="hero-sticker" aria-hidden="true">
+          <span><b>FREE</b><small>Fitting with every set</small></span>
+        </div>
+        <div class="hero-card">
+          <span class="av" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1f4a35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          <span>
+            <small>On the floor most days</small>
+            <strong>Darrin Keats, owner</strong>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRUST STRIP ============ -->
+  <section class="trust" aria-label="Why golfers choose us">
+    <div class="wrap trust-row">
+      <span class="trust-item"><span class="stars">★★★★★</span> 4.9 from 87+ reviews</span>
+      <span class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
+        Family-owned since 1982
+      </span>
+      <span class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z"/><path d="m9 12 2 2 4-4"/></svg>
+        Free fitting, every set
+      </span>
+      <span class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        2630 Portage Ave, Winnipeg
+      </span>
+    </div>
+  </section>
+
+  <!-- ============ CUSTOM FITTING (LEAD) ============ -->
+  <section class="section" id="fitting">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow"><span class="dot"></span> The lead — and the difference</span>
+        <h2>No set leaves the door without a <span class="whisper">proper fitting.</span></h2>
+        <p>And it's <strong>free with every set.</strong> Our in-house master club fitter dials in lie, length, shaft flex, grip size and driver loft — then helps build your set make-up around the way you actually play. Not the way a catalogue says you should.</p>
+      </div>
+
+      <div class="fit-grid" style="margin-top:42px;">
+        <div class="reveal">
+          <div class="stat-banner">
+            <b>For every single degree your irons sit off — too flat or too upright — you can miss your target by up to 21 feet.</b><br/>
+            <span style="color:var(--ink-soft);">And that's on a flawless swing. Numbers are tighter than they look.</span>
+          </div>
+          <p>We're not here to upsell you a name. We're here to put the right clubs in your hands and make sure they fit, so your good swings actually go where you aimed.</p>
+
+          <ul class="fit-list">
+            <li>
+              <h4><svg viewBox="0 0 24 24" fill="none" stroke="#2f6f4e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20 18 6"/><path d="m14 4 6 6"/></svg> Irons</h4>
+              <p>Lie &amp; loft, length, shaft flex, grip size.</p>
+            </li>
+            <li>
+              <h4><svg viewBox="0 0 24 24" fill="none" stroke="#2f6f4e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/></svg> Driver &amp; Woods</h4>
+              <p>Loft, shaft flex, length, head settings.</p>
+            </li>
+            <li>
+              <h4><svg viewBox="0 0 24 24" fill="none" stroke="#2f6f4e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5"/><path d="M14 5h5v5"/></svg> Wedges</h4>
+              <p>Bounce, grind, gapping.</p>
+            </li>
+            <li>
+              <h4><svg viewBox="0 0 24 24" fill="none" stroke="#2f6f4e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg> Putter</h4>
+              <p>Length, lie, loft.</p>
+            </li>
+          </ul>
+          <p style="margin-top:1.4rem;">Certified clubmaker on hand for re-grips, re-shafts and repairs, too. Bring in the old gamer — we'll bring it back to life.</p>
+          <a class="btn btn-primary" href="tel:+12048375854" style="margin-top:.4rem;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Call to book your fitting
+          </a>
+        </div>
+
+        <div class="fit-photo reveal">
+          <img src="https://images.unsplash.com/photo-1592919505780-303950717480?auto=format&fit=crop&w=800&q=80"
+               alt="A golfer being measured and fitted for a set of irons at a custom club fitting"
+               onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22640%22 height=%22512%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%231f4a35%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%23f6efe2%22 font-family=%22Georgia%22 font-size=%2230%22 text-anchor=%22middle%22>Custom Fitting</text></svg>';" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- hand-drawn path divider -->
+  <svg class="path-divider" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 20 C 150 0, 300 40, 450 20 S 750 0, 900 20 1200 20 1200 20" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="2 12" stroke-linecap="round"/>
+  </svg>
+
+  <!-- ============ THE SHOP ============ -->
+  <section class="section" id="shop">
+    <div class="wrap">
+      <div class="head center reveal">
+        <span class="eyebrow"><span class="dot"></span> What you'll find inside</span>
+        <h2>Small store. <span class="whisper">Huge inventory.</span></h2>
+        <p>Convenience, service and selection in one compact package — exactly the way a Winnipeg golfer wants it.</p>
+      </div>
+
+      <div class="shop-grid">
+        <article class="shop-card reveal">
+          <div class="shop-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 18 6"/><path d="m14 4 6 6"/><circle cx="6" cy="18" r="2"/></svg></div>
+          <h3>This year's gear</h3>
+          <p>Current drivers, irons and wedges — in stock and ready to demo.</p>
+        </article>
+        <article class="shop-card reveal">
+          <div class="shop-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M5 8h14"/><path d="M7 8 9 4h6l2 4"/></svg></div>
+          <h3>Custom-built sets</h3>
+          <p>Assembled in-house to your fitting numbers — and fitted free.</p>
+        </article>
+        <article class="shop-card reveal">
+          <div class="shop-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4l1.5 13h13L20 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></div>
+          <h3>Apparel, gloves &amp; shoes</h3>
+          <p>FootJoy and more — seasonal styles to keep you comfortable out there.</p>
+        </article>
+        <article class="shop-card reveal">
+          <div class="shop-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="m8 12 3 3 5-6"/></svg></div>
+          <h3>Pre-owned &amp; trade-ins</h3>
+          <p>Quality used clubs, plus real value toward your old set when you upgrade.</p>
+        </article>
+        <article class="shop-card reveal">
+          <div class="shop-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h3>Putters, bags, balls</h3>
+          <p>Odyssey putters and the accessories you reach for — always stocked.</p>
+        </article>
+        <article class="shop-card reveal">
+          <div class="shop-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7l-9 9 3 3 9-9"/><path d="m14 7 3-3 3 3-3 3-3-3z"/></svg></div>
+          <h3>Repair &amp; re-shafting</h3>
+          <p>Done by a certified clubmaker — re-grips, re-shafts, the lot.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BRANDS ============ -->
+  <section class="section" id="brands">
+    <div class="wrap">
+      <div class="head center reveal">
+        <span class="eyebrow"><span class="dot"></span> The names you trust</span>
+        <h2>All the big brands — <span class="whisper">and people who know them.</span></h2>
+        <p>Anyone can stock the boxes. We can tell you which one's actually right for your swing.</p>
+      </div>
+      <div class="brand-strip reveal">
+        <span class="brand-chip">Titleist</span>
+        <span class="brand-chip">TaylorMade</span>
+        <span class="brand-chip">Callaway</span>
+        <span class="brand-chip">PING</span>
+        <span class="brand-chip">Mizuno</span>
+        <span class="brand-chip">Cleveland</span>
+        <span class="brand-chip">Cobra</span>
+        <span class="brand-chip">Odyssey</span>
+        <span class="brand-chip">FootJoy</span>
+        <span class="brand-chip more">&amp; more</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUR STORY ============ -->
+  <section class="section" id="story">
+    <div class="wrap">
+      <div class="story-grid">
+        <div class="story-media reveal">
+          <img class="story-photo"
+               src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?auto=format&fit=crop&w=760&q=80"
+               alt="A welcoming local golf shop counter with a friendly atmosphere"
+               onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22750%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%232f6f4e%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%23f6efe2%22 font-family=%22Georgia%22 font-size=%2232%22 text-anchor=%22middle%22>The Keats Family</text></svg>';" />
+          <div class="story-badge" aria-hidden="true">
+            <b>40+</b><small>Years on Portage</small>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <span class="eyebrow"><span class="dot"></span> Our story</span>
+          <h2>A family shop, in the <span class="whisper">truest sense.</span></h2>
+          <p>We've been part of Winnipeg golf since 1982 — 40-plus years on Portage Avenue, through every season this province can throw at us. Founded by the Keats family, and still run by them today.</p>
+          <p>Owner <strong>Darrin Keats</strong> is on the floor most days, ready to talk through your game over the counter. That's not a marketing line — it's just how a family shop works. Proud to be <strong>Manitoba's #1 locally owned and operated golf store.</strong></p>
+
+          <blockquote class="story-quote">“This is our community, and your game is our business.”</blockquote>
+
+          <p>You'll see our name around town, too — charity scrambles, wedding socials, the small stuff that makes a city feel like home. We're not just selling clubs; we're neighbours who happen to be very good at golf gear.</p>
+
+          <div class="story-tags">
+            <span>Charity scrambles</span>
+            <span>Wedding socials</span>
+            <span>Around town</span>
+            <span>Owned by Manitobans</span>
+          </div>
+
+          <div class="signature">Darrin Keats
+            <small>Owner — on the floor most days</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REVIEWS ============ -->
+  <section class="section" id="reviews">
+    <div class="wrap">
+      <div class="head center reveal">
+        <span class="eyebrow"><span class="dot"></span> 4.9★ · 87+ reviews</span>
+        <h2>What Winnipeg <span class="whisper">says about us.</span></h2>
+        <p>The same faces, season after season. That's the part we're proudest of.</p>
+      </div>
+
+      <div class="review-grid">
+        <article class="review-card reveal">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="quote">“Finally, a golf store owned by Manitobans, for Manitobans. The local ownership is what makes the Caddy Shed such a great place to shop!”</p>
+          <div class="review-who"><span class="av" style="background:#2f6f4e" aria-hidden="true">A</span><span><b>Al Johnson</b><small>Winnipeg</small></span></div>
+        </article>
+        <article class="review-card reveal">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="quote">“Small store, yet a huge inventory. Convenience, service and selection, all in one compact package!”</p>
+          <div class="review-who"><span class="av" style="background:#d9a441;color:#3a2c08" aria-hidden="true">R</span><span><b>Randy Hunt</b><small>Winnipeg</small></span></div>
+        </article>
+        <article class="review-card reveal">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="quote">“The real difference with the Caddy Shed is that they want you there. That atmosphere makes you want to come back, time after time!”</p>
+          <div class="review-who"><span class="av" style="background:#6ea7c4" aria-hidden="true">K</span><span><b>Kevin Kowerko</b><small>Winnipeg</small></span></div>
+        </article>
+        <article class="review-card reveal">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="quote">“If there's a golf store in Winnipeg dedicated to helping you improve your game, the Caddy Shed is it!”</p>
+          <div class="review-who"><span class="av" style="background:#1f4a35" aria-hidden="true">D</span><span><b>Dave Crowe</b><small>Winnipeg</small></span></div>
+        </article>
+        <article class="review-card reveal">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="quote">“From wedding socials to charity functions, they're real community citizens. I see the Caddy Shed name everywhere!”</p>
+          <div class="review-who"><span class="av" style="background:#b9842a" aria-hidden="true">A</span><span><b>Andre Lambert</b><small>St. Vital</small></span></div>
+        </article>
+        <article class="review-card reveal">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="quote">“The first thing that comes to mind when I think about the Caddy Shed? Fair. That's the word.”</p>
+          <div class="review-who"><span class="av" style="background:#2f6f4e" aria-hidden="true">J</span><span><b>Jim Parkhurst</b><small>Winnipeg</small></span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VISIT ============ -->
+  <section class="section" id="visit">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow"><span class="dot"></span> Come say hi</span>
+        <h2>Drop in. We'll <span class="whisper">know your name soon enough.</span></h2>
+        <p>Right on Portage Avenue, easy parking, and someone who actually plays the game behind the counter.</p>
+      </div>
+
+      <div class="visit-grid">
+        <div class="visit-card reveal">
+          <div class="open-pill" id="openPill" role="status">
+            <span class="ind" aria-hidden="true"></span>
+            <span id="openText">Checking hours…</span>
+          </div>
+
+          <div class="visit-line">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span><strong style="color:#fff">2630 Portage Avenue</strong><br/>Winnipeg, MB R3J 0P8</span>
+          </div>
+          <div class="visit-line">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <a href="tel:+12048375854">(204) 837-5854</a>
+          </div>
+
+          <h3 style="margin-top:1.6rem;font-family:var(--sans);font-weight:800;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:#cdd3c4;">Hours</h3>
+          <table class="hours" id="hoursTable">
+            <thead class="sr-only"><tr><th>Day</th><th>Hours</th></tr></thead>
+            <tbody>
+              <tr data-day="0"><td>Sunday</td><td>Closed</td></tr>
+              <tr data-day="1"><td>Monday</td><td>10:00 – 6:00</td></tr>
+              <tr data-day="2"><td>Tuesday</td><td>10:00 – 6:00</td></tr>
+              <tr data-day="3"><td>Wednesday</td><td>10:00 – 6:00</td></tr>
+              <tr data-day="4"><td>Thursday</td><td>10:00 – 6:00</td></tr>
+              <tr data-day="5"><td>Friday</td><td>10:00 – 6:00</td></tr>
+              <tr data-day="6"><td>Saturday</td><td>10:00 – 4:00</td></tr>
+            </tbody>
+          </table>
+
+          <div class="visit-actions">
+            <a class="btn btn-honey" href="tel:+12048375854">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Tap to Call
+            </a>
+            <a class="btn btn-white" href="https://www.google.com/maps/dir/?api=1&destination=2630+Portage+Ave,+Winnipeg,+MB+R3J+0P8" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 19-9-9 19-2-8-8-2z"/></svg>
+              Get Directions
+            </a>
+          </div>
+        </div>
+
+        <div class="map-frame reveal">
+          <iframe
+            src="https://www.google.com/maps?q=2630+Portage+Ave,+Winnipeg,+MB+R3J+0P8&output=embed"
+            title="Map to Caddy Shed Golf Stores, 2630 Portage Avenue, Winnipeg"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA BAND ============ -->
+  <section class="section cta-band">
+    <div class="wrap reveal">
+      <span class="eyebrow" style="color:#7a5d12;justify-content:center;"><span class="dot" style="background:#3a2c08;"></span> Fit to a tee</span>
+      <h2>Ready to play clubs that <span class="whisper" style="color:#7a5d12;">actually fit you?</span></h2>
+      <p>Come in for a free fitting, or just call and we'll point you the right way. No pressure — that's never been our style.</p>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="tel:+12048375854">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          (204) 837-5854
+        </a>
+        <a class="btn btn-white" href="https://www.google.com/maps/dir/?api=1&destination=2630+Portage+Ave,+Winnipeg,+MB+R3J+0P8" target="_blank" rel="noopener">Get Directions</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <div class="foot-brand">
+        <span class="brand-badge" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d9a441" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v18"/><path d="M7 4h10l-3 4 3 4H7"/></svg>
+        </span>
+        <span class="brand-name" style="font-family:var(--serif);font-weight:600;font-size:1.2rem;">Caddy Shed Golf Stores</span>
+      </div>
+      <p class="blurb">Manitoba's #1 locally owned &amp; operated golf store. Owned by Manitobans, for Manitobans — since 1982.</p>
+    </div>
+
+    <div>
+      <h4>Visit Us</h4>
+      <ul>
+        <li>2630 Portage Avenue</li>
+        <li>Winnipeg, MB R3J 0P8</li>
+        <li><a href="tel:+12048375854">(204) 837-5854</a></li>
+        <li><a href="https://www.google.com/maps/dir/?api=1&destination=2630+Portage+Ave,+Winnipeg,+MB+R3J+0P8" target="_blank" rel="noopener">Get directions →</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Hours</h4>
+      <ul>
+        <li>Mon – Fri · 10:00 – 6:00</li>
+        <li>Saturday · 10:00 – 4:00</li>
+        <li>Sunday · Closed</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap colophon">
+    <span>© <span id="year"></span> Caddy Shed Golf Stores · Winnipeg, Manitoba</span>
+    <span>Website concept &amp; design — a portfolio pitch. Not the official Caddy Shed site.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---- Mobile nav toggle ----
+  var burger = document.getElementById('hamburger');
+  var links  = document.getElementById('navLinks');
+  if (burger && links){
+    burger.addEventListener('click', function(){
+      var open = burger.getAttribute('aria-expanded') === 'true';
+      burger.setAttribute('aria-expanded', String(!open));
+      links.classList.toggle('open', !open);
+    });
+    // Close on link tap (mobile)
+    links.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        if (window.innerWidth <= 900){
+          burger.setAttribute('aria-expanded', 'false');
+          links.classList.remove('open');
+        }
+      });
+    });
+  }
+
+  // ---- Footer year ----
+  var y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+
+  // ---- Hours: highlight today + open/closed indicator ----
+  // Hours model: [openMinutes, closeMinutes] or null for closed. Index = getDay() (0=Sun)
+  var HOURS = [
+    null,            // Sun closed
+    [600, 1080],     // Mon 10:00–18:00
+    [600, 1080],     // Tue
+    [600, 1080],     // Wed
+    [600, 1080],     // Thu
+    [600, 1080],     // Fri
+    [600, 960]       // Sat 10:00–16:00
+  ];
+  var DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  var now = new Date();
+  var todayIdx = now.getDay();
+  var nowMin = now.getHours() * 60 + now.getMinutes();
+
+  // highlight today's row
+  var todayRow = document.querySelector('#hoursTable tr[data-day="' + todayIdx + '"]');
+  if (todayRow){
+    todayRow.classList.add('today');
+    var firstCell = todayRow.querySelector('td');
+    if (firstCell){
+      var tag = document.createElement('span');
+      tag.className = 'today-tag';
+      tag.textContent = 'Today';
+      firstCell.appendChild(tag);
+    }
+  }
+
+  // open / closed indicator
+  var pill = document.getElementById('openPill');
+  var txt  = document.getElementById('openText');
+  if (pill && txt){
+    var today = HOURS[todayIdx];
+    var isOpen = !!today && nowMin >= today[0] && nowMin < today[1];
+
+    function fmt(min){
+      var h = Math.floor(min/60), m = min % 60;
+      var ampm = h >= 12 ? 'PM' : 'AM';
+      var hr = h % 12; if (hr === 0) hr = 12;
+      return hr + (m ? ':' + (m<10?'0'+m:m) : '') + ' ' + ampm;
+    }
+
+    if (isOpen){
+      pill.classList.add('is-open');
+      txt.textContent = 'Open now · until ' + fmt(today[1]);
+    } else {
+      pill.classList.add('is-closed');
+      // find next opening day
+      var msg = 'Closed now';
+      for (var i = 1; i <= 7; i++){
+        var d = (todayIdx + i) % 7;
+        if (HOURS[d]){
+          // if it's still today but before open
+          if (i === 1 && today && nowMin < today[0]){
+            // handled below by checking today first
+          }
+          var label = (i === 1) ? 'tomorrow' : DAY_NAMES[d];
+          msg = 'Closed now · opens ' + label + ' at ' + fmt(HOURS[d][0]);
+          break;
+        }
+      }
+      // special case: open later today
+      if (today && nowMin < today[0]){
+        msg = 'Closed now · opens today at ' + fmt(today[0]);
+      }
+      txt.textContent = msg;
+    }
+  }
+
+  // ---- Scroll reveal (respects reduced motion) ----
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealEls = document.querySelectorAll('.reveal');
+  if (prefersReduced || !('IntersectionObserver' in window)){
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>

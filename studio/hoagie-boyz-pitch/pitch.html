@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Website for Hoagie Boyz — Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+  /* Hoagie Boyz brand — brutalist sub-shop (matches the site) */
+  :root{
+    --paper:#f6ecd8;--paper-2:#efe0c4;--cream:#fffaf0;
+    --ink:#241c14;--ink-soft:#5a4d3d;
+    --tomato:#cf2e22;--tomato-deep:#9e2018;--mustard:#e6a52c;--olive:#5f6a2f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"DM Sans",system-ui,sans-serif;color:var(--ink);background:var(--paper-2);
+    background-image:
+      radial-gradient(circle at 12% 20%, rgba(230,165,44,.10), transparent 42%),
+      radial-gradient(circle at 88% 4%, rgba(207,46,34,.08), transparent 40%);
+    font-size:16px;line-height:1.6;padding:30px 16px}
+  h1,h2,h3{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;line-height:.98;letter-spacing:.01em}
+  .marker{font-family:"Permanent Marker",cursive;text-transform:none}
+  .sheet{width:min(820px,100%);margin:0 auto;background:var(--cream);
+    border:3px solid var(--ink);border-radius:18px;box-shadow:10px 10px 0 var(--ink);overflow:hidden}
+
+  /* Header */
+  .head{background:var(--tomato);color:var(--cream);padding:40px 44px;text-align:center;border-bottom:3px solid var(--ink)}
+  .head .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--cream);
+    font-weight:700;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;padding:6px 14px;border-radius:999px;margin-bottom:18px}
+  .head h1{font-size:clamp(2.4rem,7vw,3.6rem);color:var(--cream);text-shadow:4px 4px 0 var(--ink)}
+  .head h1 .a{color:var(--mustard)}
+  .head p{margin-top:14px;font-family:"Permanent Marker",cursive;font-size:1.08rem;color:var(--mustard)}
+
+  /* Body */
+  .body{padding:38px 44px}
+  .body p{margin-bottom:16px}
+  .lead{font-size:18px;font-weight:500}
+  h2{color:var(--tomato);font-size:clamp(1.5rem,4vw,2rem);margin:34px 0 14px;display:flex;align-items:center;gap:12px}
+  h2::after{content:"";flex:1;height:3px;background:var(--ink);border-radius:2px}
+  .kicker{font-family:"Permanent Marker",cursive;color:var(--tomato);font-size:1rem;margin:30px 0 -2px}
+  b{color:var(--tomato-deep)}
+  ul{list-style:none;margin:8px 0 4px}
+  li{padding:8px 0 8px 28px;position:relative}
+  li::before{content:"★";position:absolute;left:2px;top:8px;color:var(--mustard);font-size:15px}
+  li b{color:var(--ink)}
+
+  /* Tier cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0 6px}
+  .card{border:3px solid var(--ink);border-radius:16px;padding:24px 18px;background:var(--cream);
+    text-align:center;box-shadow:5px 5px 0 var(--ink)}
+  .card.feature{background:var(--ink);color:var(--cream);box-shadow:5px 5px 0 var(--mustard)}
+  .card .tier{font-family:"Anton",sans-serif;text-transform:uppercase;letter-spacing:.06em;font-size:.9rem;color:var(--tomato-deep)}
+  .card.feature .tier{color:var(--mustard)}
+  .card .price{font-family:"Anton",sans-serif;font-size:2.2rem;color:var(--tomato);margin:8px 0 2px}
+  .card.feature .price{color:var(--mustard)}
+  .card .per{font-size:13px;font-weight:700;opacity:.85;display:block;margin-bottom:10px}
+  .card .desc{font-size:14px;line-height:1.5}
+  .card.feature .desc{color:rgba(255,250,240,.92)}
+  .ribbon{display:inline-block;background:var(--mustard);color:var(--ink);font-family:"Anton",sans-serif;
+    text-transform:uppercase;letter-spacing:.06em;font-size:12px;padding:4px 12px;border:2.5px solid var(--ink);border-radius:999px;margin-bottom:10px}
+  .note{font-size:13.5px;font-style:italic;color:var(--ink-soft);text-align:center;margin-top:14px}
+
+  /* CTA */
+  .cta{background:var(--mustard);color:var(--ink);border:3px solid var(--ink);border-radius:16px;
+    padding:26px 28px;margin-top:32px;text-align:center;box-shadow:6px 6px 0 var(--ink)}
+  .cta h3{color:var(--tomato-deep);font-size:1.6rem;margin-bottom:10px}
+  .cta a{color:var(--tomato-deep);font-weight:700;text-decoration:none;border-bottom:2px solid var(--tomato-deep)}
+
+  /* Footer */
+  .foot{background:var(--ink);color:var(--paper);text-align:center;padding:22px;font-size:13px;border-top:3px solid var(--ink)}
+  .foot .star{color:var(--mustard)}
+
+  @media(max-width:620px){.cards{grid-template-columns:1fr}.body,.head{padding:28px 24px}}
+  @media print{
+    body{background:#fff;padding:0}
+    .sheet{box-shadow:none;border:1px solid #000;border-radius:0}
+    .card,.cta,.card.feature{box-shadow:none}
+    .head h1{text-shadow:none}
+    a{color:#000;border:0}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="head">
+    <div class="eyebrow">★ A Website Proposal For</div>
+    <h1>Hoagie <span class="a">Boyz</span></h1>
+    <p>Dank-ass Italian subs · 513 Osborne St, South Osborne</p>
+  </div>
+  <div class="body">
+    <p class="lead">Hey Boyz — I'm a local web designer. I built you a complete new website, free to look at, no strings attached. It's done and ready to go. Have a poke around.</p>
+
+    <h2>Why bother</h2>
+    <p>People already love this place — <b>4.7★ from 200+ reviews</b> and a cult following that drives across town for a sub. But when somebody new searches "Italian subs Winnipeg" or "best hoagie South Osborne," they should land somewhere that looks as good as the food tastes — on their phone, in two seconds, before they ever walk in.</p>
+    <p>A clean, fast site does exactly that. New customers see the heavy hitters, the hours, one-tap directions to Osborne, and the tap-to-call button — without fighting a clunky page. The donkey-dragging-a-sandwich energy stays; the website just gets out of the way and lets the subs sell themselves.</p>
+
+    <h2>What you get</h2>
+    <ul>
+      <li><b>A full one-page website</b> — looks sharp on phones, tablets and computers</li>
+      <li><b>The heavy hitters up top</b> — Adam Sandoozle and the favourites front and centre</li>
+      <li><b>Real hours, phone number and a tap-to-call button</b> — 204-306-BOYZ, one tap</li>
+      <li><b>One-tap directions</b> to 513 Osborne St</li>
+      <li><b>Your story, told right</b> — basement ghost kitchen to blue-collar sub shop</li>
+      <li><b>Your 4.7★ reputation</b> working for you, not buried</li>
+      <li><b>Styling that feels like Hoagie Boyz</b> — loud, deadpan, blue-collar, dialed in</li>
+      <li><b>Easy to keep current</b> — new specials, staff, photos or prices, just ask</li>
+    </ul>
+
+    <h2>Simple options</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="tier">Just the Site</div>
+        <div class="price">$600</div><span class="per">one-time</span>
+        <div class="desc">The finished website, set up and live. It's yours to keep.</div>
+      </div>
+      <div class="card feature">
+        <div class="ribbon">Most Popular</div>
+        <div class="tier">Site + Care</div>
+        <div class="price">$600</div><span class="per">+ $25 / month</span>
+        <div class="desc">Hosting, your domain, and unlimited small updates handled for you.</div>
+      </div>
+      <div class="card">
+        <div class="tier">Try It First</div>
+        <div class="price">$0</div><span class="per">to look</span>
+        <div class="desc">Check out the live demo, zero commitment. Pay only if you love it.</div>
+      </div>
+    </div>
+    <p class="note">Flexible — happy to adjust to whatever works for the shop. Prices shown are a starting point, and yes, staff, photos and the menu are all easy to keep current.</p>
+
+    <div class="cta">
+      <h3>Want to see it live?</h3>
+      <p>I'll walk you through the site in person or over the phone — takes five minutes, no pressure.</p>
+      <p style="margin-top:10px"><b>Jordan</b> · <a href="mailto:doerksen.jordan@gmail.com">doerksen.jordan@gmail.com</a></p>
+    </div>
+  </div>
+  <div class="foot"><span class="star">★</span> Built with care for Hoagie Boyz · 513 Osborne St, Winnipeg, MB</div>
+</div>
+</body>
+</html>

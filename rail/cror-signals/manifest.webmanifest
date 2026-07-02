@@ -1,0 +1,16 @@
+{
+  "name": "CROR Signals — every signal, drawn",
+  "short_name": "CROR Signals",
+  "description": "Every Canadian Rail Operating Rules signal aspect, drawn. Learn, quiz, build, and master block & interlocking signals. Free, correct, offline.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f7fb",
+  "theme_color": "#ffffff",
+  "categories": ["education", "books"],
+  "lang": "en-CA",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
