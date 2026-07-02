@@ -210,6 +210,21 @@
       "spec": "SINGLE FILE · TRIBUTE"
     },
     {
+      "slug": "closing-bell",
+      "name": "Closing Bell",
+      "category": "games",
+      "blurb": "A day-trading roguelite. Survive to the bell, bank it, buy upgrades. Repeat.",
+      "tags": [
+        "Game",
+        "Roguelite"
+      ],
+      "status": "live",
+      "url": "/games/closing-bell/",
+      "repo": null,
+      "featured": false,
+      "spec": "SINGLE FILE · SURVIVE TO 4PM"
+    },
+    {
       "slug": "sentinel-pro",
       "name": "Sentinel-Pro",
       "category": "trading",
