@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jordan Doerksen — I make things that work.</title>
-<meta name="description" content="Portfolio of Jordan Doerksen — rail conductor in Winnipeg, self-taught maker. Trading cockpits, rail trainers, browser games, and the occasional useful tool, each with a repo behind it.">
+<meta name="description" content="Portfolio of Jordan Doerksen — self-taught maker. Trading cockpits, training tools, browser games, and pipelines, each with a repo behind it.">
 <meta name="theme-color" content="#f6f1e7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f6f1e7'/%3E%3Ctext x='50' y='72' font-size='64' text-anchor='middle' fill='%23b8860b'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,6 +41,85 @@ a.cat{text-decoration:none;color:inherit}
   color:var(--muted);padding:18px 0;
 }
 @media (max-width:560px){ .arc-row{gap:4px 10px} .arc-link{margin-left:0;flex-basis:100%} }
+
+/* ---- case studies (.cs-) + architecture diagrams (.diagram-, .dg-) ----
+   Page-specific and namespaced, built on the system tokens. Chips reuse .tag,
+   eyebrows reuse .eyebrow — no system component is redefined here. */
+.cs + .cs{border-top:1px solid var(--hair)}
+.cs-title{
+  font-family:var(--display);font-weight:600;line-height:1.02;
+  font-size:clamp(2.2rem,5vw,3.6rem);letter-spacing:-.02em;
+  margin-bottom:clamp(18px,3vh,28px);
+}
+.cs-title em{font-style:normal;color:var(--accent-ink)}
+.cs-story{font-size:clamp(1rem,1.3vw,1.18rem);line-height:1.65;color:var(--muted);max-width:70ch}
+.cs-h{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent-ink);font-weight:500;
+  display:flex;align-items:center;gap:12px;margin-bottom:14px;
+}
+.cs-h::after{content:"";height:1px;flex:1;background:var(--hair)}
+.cs-meta{
+  display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+  gap:clamp(26px,4vw,60px);margin-top:clamp(28px,4vh,44px);
+}
+.cs-stack{display:flex;flex-wrap:wrap;gap:8px}
+.cs-dlist{list-style:none;margin:0;padding:0}
+.cs-dlist li{padding:12px 0;border-bottom:1px solid var(--hair);font-size:.95rem;line-height:1.55;color:var(--muted)}
+.cs-dlist li:last-child{border-bottom:0;padding-bottom:0}
+.cs-dlist strong{color:var(--ink);font-weight:600}
+.cs-outcome{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent-ink);line-height:1.9;display:flex;gap:9px;
+  margin-top:clamp(22px,3vh,32px);
+}
+.cs-outcome::before{content:"✦";color:var(--accent);flex:none}
+.cs-links{display:flex;gap:10px 26px;align-items:baseline;flex-wrap:wrap;margin-top:14px}
+.cs-link{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent-ink);text-decoration:none;
+}
+.cs-link:hover,.cs-link:focus-visible{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.cs-note{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:820px){ .cs-meta{grid-template-columns:1fr} }
+
+.diagram{margin:clamp(30px,5vh,48px) 0 0}
+/* the well scrolls sideways on narrow screens instead of shrinking the
+   diagram below legibility (min-width on the svg holds the floor) */
+.diagram-well{
+  border:1px solid var(--hair);border-radius:14px;
+  background:linear-gradient(180deg,#fff,var(--paper-2));
+  overflow-x:auto;padding:clamp(12px,1.8vw,24px);
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 2px 6px -3px rgba(120,66,38,.12);
+}
+.diagram-well svg{display:block;width:100%;min-width:880px;height:auto;font-family:var(--mono)}
+.diagram-cap{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-top:12px;display:flex;align-items:center;gap:10px;
+}
+.diagram-cap::before{content:"";width:22px;height:1px;background:var(--accent);flex:none}
+
+/* diagram internals — hover highlight only, no animated draws or pulses, so
+   there is no motion to gate; the global reduced-motion rule kills the
+   transitions anyway */
+.dg-node rect{fill:#fff;stroke:var(--hair);stroke-width:1;transition:stroke .2s ease}
+.dg-node:hover rect{stroke:var(--accent);stroke-width:1.5}
+.dg-node .n{fill:var(--ink);font-size:12px;letter-spacing:.06em;font-weight:500}
+.dg-node .r{fill:var(--muted);font-size:10px;letter-spacing:.02em}
+/* stroke-opacity .8 keeps muted edges above the 3:1 non-text contrast floor on the white well (was .5 ≈ 2.07:1) */
+.dg-edge path{fill:none;stroke:var(--muted);stroke-opacity:.8;stroke-width:1.2;transition:stroke .2s ease,stroke-opacity .2s ease,stroke-width .2s ease}
+.dg-edge.gold path{stroke:var(--accent);stroke-opacity:.9;stroke-width:1.6}
+.dg-edge.dash path{stroke-dasharray:5 4}
+.dg-edge text{fill:var(--muted);font-size:9.5px;letter-spacing:.04em}
+.dg-edge.lit path{stroke:var(--accent-ink);stroke-opacity:1;stroke-width:1.9}
+.dg-edge.lit text{fill:var(--accent-ink)}
+.dg-arrow-a{fill:var(--accent);fill-opacity:.9}
+.dg-arrow-m{fill:var(--muted);fill-opacity:.85}
+.dg-callout{fill:var(--accent-ink);font-size:10px;letter-spacing:.08em}
+.dg-callout-sub{fill:var(--muted);font-size:9.5px;letter-spacing:.03em}
+.dg-bound{fill:none;stroke:var(--accent);stroke-opacity:.6;stroke-width:1.2;stroke-dasharray:2 5}
+.dg-shell{fill:none;stroke:var(--accent-line);stroke-width:1.2;stroke-dasharray:7 6}
+.dg-shell-label{fill:var(--accent-ink);font-size:10px;letter-spacing:.12em}
 </style>
 </head>
 <body>
@@ -69,8 +148,8 @@ a.cat{text-decoration:none;color:inherit}
         <p class="eyebrow">Portfolio · Jordan Doerksen · MMXXVI</p>
         <h1 id="hero-h" class="reveal">I make things that <em>work.</em></h1>
         <p class="subline reveal">
-          <strong>Rail conductor in Winnipeg. Self-taught maker.</strong>
-          Trading cockpits, rail trainers, browser games, and the occasional useful tool — each with a repo behind it.
+          <strong>Self-taught.</strong> I design and build real systems — trading cockpits,
+          training tools, games, and pipelines — each with a repo behind it.
         </p>
         <div class="cta-row reveal">
           <a href="#work" class="btn btn-primary" id="magnet">See the work <span class="arw">→</span></a>
@@ -82,7 +161,7 @@ a.cat{text-decoration:none;color:inherit}
                animate to the wrong number, then visibly snap (the reflow Jordan forbids) -->
           <div class="stat"><div class="num" id="statProjects" data-count="21">0</div><div class="lbl">Projects</div></div>
           <div class="stat"><div class="num" id="statCategories" data-count="7">0</div><div class="lbl">Categories</div></div>
-          <div class="stat"><div class="num" data-count="0">0</div><div class="lbl">Build tools</div></div>
+          <div class="stat"><div class="num" data-count="0">0</div><div class="lbl">Exclamation marks</div></div>
         </div>
       </section>
 
@@ -94,6 +173,242 @@ a.cat{text-decoration:none;color:inherit}
         </div>
       </div>
 
+      <!-- CASE STUDIES — three systems, end to end. Facts come from the project
+           briefs/DECISIONS; nothing here is claimed beyond what was verified. -->
+      <section class="cs" id="work" aria-labelledby="cs1-h">
+        <p class="eyebrow reveal">Case study 01</p>
+        <h2 id="cs1-h" class="cs-title reveal">Sentinel <em>Suite</em></h2>
+        <p class="cs-story reveal">
+          A cockpit watches ES/NQ live through TWS and writes every session to a
+          flight-recorder tape; three research tools read that tape and the session
+          report back — evidence tables, an iceberg study, an end-of-day read from a
+          local model. The cockpit's job is deliberately narrow: watch live and record,
+          nothing else. It cannot place an order because no order surface exists
+          anywhere in the code — read-only by construction, not by policy. The same
+          47 golden vectors pin the indicator math across the Rust kernels and both
+          Python ports, so the three codebases cannot silently drift apart.
+        </p>
+        <figure class="diagram reveal">
+          <div class="diagram-well">
+            <svg viewBox="0 0 1000 560" role="img" aria-label="Sentinel Suite data flow. Market data flows one way from TWS/IBKR through the sentinel-core Rust kernels into the Pro cockpit, which posts data-free signals to a Discord webhook and writes tapes and a session report. Stage 2 and the Iceberg study read the tapes; the Analyst reads the report. Forty-seven golden vectors pin the math in sentinel-core, Stage 2, and the Iceberg study.">
+              <defs>
+                <marker id="sen-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+                <marker id="sen-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+              </defs>
+
+              <!-- edges -->
+              <g class="dg-edge gold e-tws e-core"><path d="M140 178 H196" marker-end="url(#sen-a)"/></g>
+              <g class="dg-edge gold e-core e-cockpit"><path d="M360 178 H426" marker-end="url(#sen-a)"/><text x="393" y="143" text-anchor="middle">market state</text></g>
+              <g class="dg-edge e-cockpit e-discord"><path d="M585 150 L654 64" marker-end="url(#sen-m)"/><text x="596" y="100" text-anchor="middle">signals</text></g>
+              <g class="dg-edge gold e-cockpit e-tapes"><path d="M600 178 H656" marker-end="url(#sen-a)"/><text x="628" y="170" text-anchor="middle">records</text></g>
+              <g class="dg-edge e-cockpit e-report"><path d="M515 206 V276" marker-end="url(#sen-m)"/><text x="527" y="246">exports</text></g>
+              <g class="dg-edge gold e-tapes e-stage2"><path d="M700 206 L692 426" marker-end="url(#sen-a)"/><text x="712" y="320">tapes</text></g>
+              <g class="dg-edge gold e-tapes e-iceberg"><path d="M770 206 L888 426" marker-end="url(#sen-a)"/><text x="846" y="318">tapes</text></g>
+              <g class="dg-edge e-report e-analyst"><path d="M515 336 L463 426" marker-end="url(#sen-m)"/><text x="496" y="385">report</text></g>
+              <g class="dg-edge dash e-golden e-core"><path d="M130 430 L277 210" marker-end="url(#sen-m)"/><text x="150" y="322" text-anchor="middle">pins math</text></g>
+              <g class="dg-edge dash e-golden e-iceberg"><path d="M130 486 V512 H897 V490" marker-end="url(#sen-m)"/><text x="905" y="507">parity</text></g>
+              <g class="dg-edge dash e-golden e-stage2"><path d="M690 512 V490" marker-end="url(#sen-m)"/><text x="700" y="507">parity</text></g>
+
+              <!-- read-only boundary -->
+              <path class="dg-bound" d="M170 118 V246"/>
+              <text class="dg-callout" x="10" y="96">[ READ-ONLY — DATA FLOWS ONE WAY, IN ]</text>
+              <text class="dg-callout-sub" x="10" y="112">no order surface exists anywhere in the code</text>
+
+              <!-- nodes -->
+              <g class="dg-node" data-n="tws"><rect x="10" y="150" width="130" height="56" rx="8"/><text class="n" x="75" y="174" text-anchor="middle">TWS / IBKR</text><text class="r" x="75" y="192" text-anchor="middle">live ES/NQ data</text></g>
+              <g class="dg-node" data-n="core"><rect x="200" y="150" width="160" height="56" rx="8"/><text class="n" x="280" y="174" text-anchor="middle">SENTINEL-CORE</text><text class="r" x="280" y="192" text-anchor="middle">Rust · pinned kernels</text></g>
+              <g class="dg-node" data-n="cockpit"><rect x="430" y="150" width="170" height="56" rx="8"/><text class="n" x="515" y="174" text-anchor="middle">PRO COCKPIT</text><text class="r" x="515" y="192" text-anchor="middle">Tauri · observe + record</text></g>
+              <g class="dg-node" data-n="discord"><rect x="660" y="30" width="160" height="56" rx="8"/><text class="n" x="740" y="54" text-anchor="middle">DISCORD WEBHOOK</text><text class="r" x="740" y="72" text-anchor="middle">data-free signal feed</text></g>
+              <g class="dg-node" data-n="tapes"><rect x="660" y="150" width="160" height="56" rx="8"/><text class="n" x="740" y="174" text-anchor="middle">TAPES</text><text class="r" x="740" y="192" text-anchor="middle">recordings/*.jsonl.gz</text></g>
+              <g class="dg-node" data-n="report"><rect x="430" y="280" width="170" height="56" rx="8"/><text class="n" x="515" y="304" text-anchor="middle">SESSION REPORT</text><text class="r" x="515" y="322" text-anchor="middle">sentinel.session.v1</text></g>
+              <g class="dg-node" data-n="analyst"><rect x="370" y="430" width="180" height="56" rx="8"/><text class="n" x="460" y="454" text-anchor="middle">ANALYST</text><text class="r" x="460" y="472" text-anchor="middle">Ollama EOD read · Python</text></g>
+              <g class="dg-node" data-n="stage2"><rect x="600" y="430" width="180" height="56" rx="8"/><text class="n" x="690" y="454" text-anchor="middle">STAGE 2</text><text class="r" x="690" y="472" text-anchor="middle">evidence tables · Python</text></g>
+              <g class="dg-node" data-n="iceberg"><rect x="805" y="430" width="185" height="56" rx="8"/><text class="n" x="897" y="454" text-anchor="middle">ICEBERG STUDY</text><text class="r" x="897" y="472" text-anchor="middle">absorption FSM · Python</text></g>
+              <g class="dg-node" data-n="golden"><rect x="10" y="430" width="240" height="56" rx="8"/><text class="n" x="130" y="454" text-anchor="middle">GOLDEN VECTORS · 47</text><text class="r" x="130" y="472" text-anchor="middle">cross-language math oracle</text></g>
+
+              <text class="dg-callout" x="500" y="548" text-anchor="middle">[ ONE ORACLE — 47 VECTORS PIN THE MATH IN RUST AND BOTH PYTHON PORTS ]</text>
+            </svg>
+          </div>
+          <figcaption class="diagram-cap">FIG 01 — SENTINEL SUITE DATA FLOW</figcaption>
+        </figure>
+        <div class="cs-meta reveal">
+          <div>
+            <h3 class="cs-h">Stack</h3>
+            <div class="cs-stack">
+              <span class="tag">Rust</span><span class="tag">Tauri</span><span class="tag">Python (stdlib)</span><span class="tag">TWS API (IBKR)</span><span class="tag">Ollama</span><span class="tag">Discord webhook</span>
+            </div>
+            <p class="cs-outcome">v1.0.0 · field-verified live · 47 golden vectors green · code private</p>
+            <div class="cs-links">
+              <a class="cs-link" href="/trading/sentinel/">The showcase →</a>
+              <span class="cs-note">code private</span>
+            </div>
+          </div>
+          <div>
+            <h3 class="cs-h">Key decisions</h3>
+            <ul class="cs-dlist">
+              <li><strong>Consolidate, don't rewrite.</strong> A ground-up rewrite would throw away the only field-verified release and the golden-vector parity contract; the value was in consolidation and guardrails, not new code.</li>
+              <li><strong>Extend the oracle, not just the fix.</strong> A real one-sided-book divergence was invisible to all 45 vectors, so two boundary cases were added (45 → 47) — that regression now fails in all three codebases.</li>
+              <li><strong>Slim the cockpit to observe + record.</strong> In-cockpit replay and manual tagging moved to the graded research pipeline; UI-only and reversible, with the 233-test workspace and 47 vectors staying green untouched.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="cs" aria-labelledby="cs2-h">
+        <p class="eyebrow reveal">Case study 02</p>
+        <h2 id="cs2-h" class="cs-title reveal">Clear <em>Board</em></h2>
+        <p class="cs-story reveal">
+          I had built four separate CROR training tools — a conductor trainer, a
+          switching sim, a signals app, a study assistant — and they overlapped
+          everywhere: two signal apps, two switching sims, two quizzes. Clear Board
+          absorbs all four into one app with a single content library, one profile,
+          and one qualification path, built for the people a dense rulebook failed.
+          The content discipline is the hard part: every rule carries a CROR citation
+          and a trust flag, nothing is ever re-derived from scratch, and anything not
+          fully verified is reference-only — it never appears in a graded drill.
+          Free, tip-jar only; safety knowledge is never paywalled.
+        </p>
+        <figure class="diagram reveal">
+          <div class="diagram-well">
+            <svg viewBox="0 0 1000 480" role="img" aria-label="Clear Board architecture. Four absorbed tools — CN Conductor Trainer, switch-list, cror-signals, and training-assistant — feed one cited content library. Verified items flow into one core with SM-2-lite retention, which serves five stations and takes grades back. The library also passes an npm run check trust firewall that gates the React and Vite web build, which ships again as a Tauri v2 desktop exe.">
+              <defs>
+                <marker id="cb-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+                <marker id="cb-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+              </defs>
+
+              <!-- edges -->
+              <g class="dg-edge e-cn e-lib"><path d="M190 56 L262 168" marker-end="url(#cb-m)"/></g>
+              <g class="dg-edge e-sw e-lib"><path d="M190 144 L262 182" marker-end="url(#cb-m)"/></g>
+              <g class="dg-edge e-cs e-lib"><path d="M190 232 L262 196" marker-end="url(#cb-m)"/></g>
+              <g class="dg-edge e-ta e-lib"><path d="M190 320 L262 210" marker-end="url(#cb-m)"/></g>
+              <g class="dg-edge gold e-lib e-core"><path d="M465 162 L506 94" marker-end="url(#cb-a)"/><text x="476" y="128" text-anchor="middle">verified items only</text></g>
+              <g class="dg-edge gold e-core e-stations"><path d="M670 78 H786" marker-end="url(#cb-a)"/><text x="728" y="70" text-anchor="middle">one mastery model</text></g>
+              <g class="dg-edge e-stations e-core"><path d="M790 98 H674" marker-end="url(#cb-m)"/><text x="728" y="112" text-anchor="middle">grades write back</text></g>
+              <g class="dg-edge e-lib e-gates"><path d="M430 218 L496 312" marker-end="url(#cb-m)"/><text x="455" y="268" text-anchor="middle">trust firewall</text></g>
+              <g class="dg-edge e-gates e-web"><path d="M680 328 H776" marker-end="url(#cb-m)"/><text x="728" y="293" text-anchor="middle">deploys on green</text></g>
+              <g class="dg-edge e-web e-exe"><path d="M880 356 V396" marker-end="url(#cb-m)"/><text x="892" y="380">same bundle</text></g>
+
+              <!-- nodes -->
+              <g class="dg-node" data-n="cn"><rect x="10" y="30" width="180" height="52" rx="8"/><text class="n" x="100" y="52" text-anchor="middle">CN CONDUCTOR TRAINER</text><text class="r" x="100" y="70" text-anchor="middle">rule question bank</text></g>
+              <g class="dg-node" data-n="sw"><rect x="10" y="118" width="180" height="52" rx="8"/><text class="n" x="100" y="140" text-anchor="middle">SWITCH-LIST</text><text class="r" x="100" y="158" text-anchor="middle">solver-verified puzzles</text></g>
+              <g class="dg-node" data-n="cs"><rect x="10" y="206" width="180" height="52" rx="8"/><text class="n" x="100" y="228" text-anchor="middle">CROR-SIGNALS</text><text class="r" x="100" y="246" text-anchor="middle">signal aspect encodings</text></g>
+              <g class="dg-node" data-n="ta"><rect x="10" y="294" width="180" height="52" rx="8"/><text class="n" x="100" y="316" text-anchor="middle">TRAINING-ASSISTANT</text><text class="r" x="100" y="334" text-anchor="middle">verbatim CROR + definitions</text></g>
+              <g class="dg-node" data-n="lib"><rect x="265" y="150" width="200" height="68" rx="8"/><text class="n" x="365" y="172" text-anchor="middle">CITED CONTENT LIBRARY</text><text class="r" x="365" y="190" text-anchor="middle">four verified JSON files</text><text class="r" x="365" y="204" text-anchor="middle">each item cited + trust-flagged</text></g>
+              <g class="dg-node" data-n="core"><rect x="510" y="60" width="160" height="56" rx="8"/><text class="n" x="590" y="84" text-anchor="middle">CORE</text><text class="r" x="590" y="102" text-anchor="middle">one profile · SM-2-lite</text></g>
+              <g class="dg-node" data-n="stations"><rect x="790" y="48" width="200" height="80" rx="8"/><text class="n" x="890" y="74" text-anchor="middle">FIVE STATIONS</text><text class="r" x="890" y="92" text-anchor="middle">Home · Reference · Drill</text><text class="r" x="890" y="106" text-anchor="middle">The Yard · Radio</text></g>
+              <g class="dg-node" data-n="gates"><rect x="500" y="300" width="180" height="56" rx="8"/><text class="n" x="590" y="324" text-anchor="middle">NPM RUN CHECK</text><text class="r" x="590" y="342" text-anchor="middle">solver + trust gates</text></g>
+              <g class="dg-node" data-n="web"><rect x="780" y="300" width="200" height="56" rx="8"/><text class="n" x="880" y="324" text-anchor="middle">REACT + VITE BUILD</text><text class="r" x="880" y="342" text-anchor="middle">GitHub Actions → Pages</text></g>
+              <g class="dg-node" data-n="exe"><rect x="780" y="400" width="200" height="56" rx="8"/><text class="n" x="880" y="424" text-anchor="middle">TAURI V2 DESKTOP EXE</text><text class="r" x="880" y="442" text-anchor="middle">Clear Board.exe · ~18 MB</text></g>
+
+              <!-- callouts -->
+              <text class="dg-callout-sub" x="265" y="240">copied untouched — nothing re-derived from scratch</text>
+              <text class="dg-callout" x="340" y="398">[ NEEDS-REVIEW = REFERENCE-ONLY — NEVER DRILLED, NEVER GRADED ]</text>
+              <text class="dg-callout-sub" x="340" y="416">a red check gate blocks the deploy entirely</text>
+            </svg>
+          </div>
+          <figcaption class="diagram-cap">FIG 02 — CLEAR BOARD CONSOLIDATION &amp; TRUST PIPELINE</figcaption>
+        </figure>
+        <div class="cs-meta reveal">
+          <div>
+            <h3 class="cs-h">Stack</h3>
+            <div class="cs-stack">
+              <span class="tag">React 19</span><span class="tag">TypeScript</span><span class="tag">Vite</span><span class="tag">Tauri v2</span><span class="tag">HashRouter</span><span class="tag">SM-2-lite</span><span class="tag">Node check harness</span><span class="tag">GitHub Actions</span>
+            </div>
+            <p class="cs-outcome">live — web + desktop exe · 19/19 puzzles proven winnable · open: PWA + app icon</p>
+            <div class="cs-links">
+              <a class="cs-link" href="/rail/clear-board/">Use it →</a>
+              <a class="cs-link" href="https://github.com/Jordan-Doerksen/clear-board">Code →</a>
+            </div>
+          </div>
+          <div>
+            <h3 class="cs-h">Key decisions</h3>
+            <ul class="cs-dlist">
+              <li><strong>Free, always.</strong> No tier, no store, tip jar only — the paid signals product folded its content in free rather than paywall safety knowledge.</li>
+              <li><strong>Honest trust migration.</strong> Content carries its real verification status; unverified items may appear in Reference, flagged, but never in a graded drill.</li>
+              <li><strong>Reversed my own no-build rule.</strong> Vanilla ES modules gave way to React + Vite + Tauri for real UI state and a clean exe — while the verified data files and signal renderer stayed byte-for-byte.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="cs" aria-labelledby="cs3-h">
+        <p class="eyebrow reveal">Case study 03</p>
+        <h2 id="cs3-h" class="cs-title reveal"><em>Spectrum</em></h2>
+        <p class="cs-story reveal">
+          Three separate news engines — crisis, markets, world politics — each ran as
+          its own process, polled its own feeds, and hit the same local LLM
+          independently. Spectrum collapses them into one always-on Rust + Tauri app:
+          pooled RSS in, one Ollama read per unique headline returning a category, a
+          read, and a severity, themed cards out to the matching Discord channel. No
+          cloud model, no API keys, and the dashboards were dropped on purpose —
+          Discord is the interface. A small desktop control panel rides on top: start
+          it, stop it, watch it work.
+        </p>
+        <figure class="diagram reveal">
+          <div class="diagram-well">
+            <svg viewBox="0 0 1000 500" role="img" aria-label="Spectrum data flow. Inside one Tauri 2 control panel, a pooled RSS feed list flows through a persistent seen store, a classify-once local Ollama model, a band router, and a drip queue. Finished cards leave the panel to three Discord channels: money, politics plus tech, and catastrophe.">
+              <defs>
+                <marker id="sp-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+              </defs>
+
+              <!-- shell: the control panel around the engine -->
+              <rect class="dg-shell" x="20" y="50" width="760" height="430" rx="14"/>
+              <text class="dg-shell-label" x="36" y="40">TAURI 2 CONTROL PANEL — start · stop · dry-run · tuning · log</text>
+
+              <!-- edges -->
+              <g class="dg-edge gold e-rss e-seen"><path d="M240 119 H306" marker-end="url(#sp-a)"/><text x="273" y="83" text-anchor="middle">fetched once</text></g>
+              <g class="dg-edge gold e-seen e-llm"><path d="M500 119 H566" marker-end="url(#sp-a)"/><text x="533" y="83" text-anchor="middle">unseen only</text></g>
+              <g class="dg-edge gold e-llm e-router"><path d="M665 148 V226" marker-end="url(#sp-a)"/><text x="677" y="191">classified once</text></g>
+              <g class="dg-edge gold e-router e-drip"><path d="M665 296 V376" marker-end="url(#sp-a)"/><text x="677" y="331">cleared cards</text><text x="677" y="345">severity ≥ floor</text></g>
+              <g class="dg-edge gold e-drip e-money"><path d="M760 392 L821 132" marker-end="url(#sp-a)"/><text x="800" y="196" text-anchor="end">dripped</text></g>
+              <g class="dg-edge gold e-drip e-pol"><path d="M760 402 L821 264" marker-end="url(#sp-a)"/></g>
+              <g class="dg-edge gold e-drip e-cata"><path d="M760 411 L821 397" marker-end="url(#sp-a)"/></g>
+
+              <!-- nodes -->
+              <g class="dg-node" data-n="rss"><rect x="50" y="90" width="190" height="58" rx="8"/><text class="n" x="145" y="114" text-anchor="middle">RSS FEED POOL</text><text class="r" x="145" y="132" text-anchor="middle">34 sources · four bands</text></g>
+              <g class="dg-node" data-n="seen"><rect x="310" y="90" width="190" height="58" rx="8"/><text class="n" x="405" y="114" text-anchor="middle">SEEN STORE</text><text class="r" x="405" y="132" text-anchor="middle">fingerprints · cap 4000</text></g>
+              <g class="dg-node" data-n="llm"><rect x="570" y="90" width="190" height="58" rx="8"/><text class="n" x="665" y="114" text-anchor="middle">CLASSIFY-ONCE LLM</text><text class="r" x="665" y="132" text-anchor="middle">Ollama · llama3.1:8b</text></g>
+              <g class="dg-node" data-n="router"><rect x="570" y="230" width="190" height="66" rx="8"/><text class="n" x="665" y="254" text-anchor="middle">BAND ROUTER</text><text class="r" x="665" y="272" text-anchor="middle">four bands · card skins</text><text class="r" x="665" y="286" text-anchor="middle">category picks the webhook</text></g>
+              <g class="dg-node" data-n="drip"><rect x="570" y="380" width="190" height="58" rx="8"/><text class="n" x="665" y="404" text-anchor="middle">DRIP QUEUE</text><text class="r" x="665" y="422" text-anchor="middle">strongest first · paced</text></g>
+              <g class="dg-node" data-n="money"><rect x="825" y="100" width="170" height="58" rx="8"/><text class="n" x="910" y="124" text-anchor="middle">MONEY</text><text class="r" x="910" y="142" text-anchor="middle">Discord webhook</text></g>
+              <g class="dg-node" data-n="pol"><rect x="825" y="230" width="170" height="72" rx="8"/><text class="n" x="910" y="254" text-anchor="middle">POLITICS (+TECH)</text><text class="r" x="910" y="272" text-anchor="middle">Discord webhook</text><text class="r" x="910" y="286" text-anchor="middle">+ tech, in its TECH skin</text></g>
+              <g class="dg-node" data-n="cata"><rect x="825" y="370" width="170" height="58" rx="8"/><text class="n" x="910" y="394" text-anchor="middle">CATASTROPHE</text><text class="r" x="910" y="412" text-anchor="middle">Discord webhook</text></g>
+
+              <!-- callouts -->
+              <text class="dg-callout" x="50" y="250">[ CLASSIFY ONCE, NEVER TWICE ]</text>
+              <text class="dg-callout-sub" x="50" y="268">every headline is fingerprinted the moment it's read;</text>
+              <text class="dg-callout-sub" x="50" y="283">one LLM pass per story, across all feeds</text>
+              <text class="dg-callout" x="50" y="327">[ THE READ IS FULLY LOCAL ]</text>
+              <text class="dg-callout-sub" x="50" y="345">no cloud model, no API keys — the only thing that</text>
+              <text class="dg-callout-sub" x="50" y="360">leaves the machine is the finished card, to Discord</text>
+              <text class="dg-callout-sub" x="50" y="404">first run seeds the backlog silently — no day-one dump</text>
+            </svg>
+          </div>
+          <figcaption class="diagram-cap">FIG 03 — SPECTRUM CLASSIFY-ONCE PIPELINE</figcaption>
+        </figure>
+        <div class="cs-meta reveal">
+          <div>
+            <h3 class="cs-h">Stack</h3>
+            <div class="cs-stack">
+              <span class="tag">Rust</span><span class="tag">Tauri 2</span><span class="tag">Ollama (llama3.1:8b)</span><span class="tag">Discord webhooks</span><span class="tag">RSS</span><span class="tag">tokio + reqwest</span><span class="tag">vanilla JS panel</span>
+            </div>
+            <p class="cs-outcome">M0–M5 complete · verified live to all three channels · predecessors retired</p>
+            <div class="cs-links">
+              <a class="cs-link" href="https://github.com/Jordan-Doerksen/spectrum">Code →</a>
+              <span class="cs-note">runs local · no live demo</span>
+            </div>
+          </div>
+          <div>
+            <h3 class="cs-h">Key decisions</h3>
+            <ul class="cs-dlist">
+              <li><strong>One pipeline, route by category.</strong> Pool all feeds, fetch once, one LLM read per unique story, one dedupe store, three webhooks — kills the 3× polling and LLM waste and the cross-engine duplicate-post risk.</li>
+              <li><strong>Seed silently, classify once, drip from a queue.</strong> First run marks the whole backlog seen without posting; each poll classifies only unseen items; a drip pacer trickles cards out — no day-one history dump, no re-reads, no bursts.</li>
+              <li><strong>A C-free dependency tree.</strong> reqwest on native-tls → Windows SChannel instead of rustls/aws-lc-rs, so no build ever depends on finding a C compiler; one HTTP client de-risks all networking.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <!-- CATEGORY GRID -->
       <section id="categories" aria-labelledby="cat-h">
         <div class="sec-head reveal">
@@ -103,20 +418,11 @@ a.cat{text-decoration:none;color:inherit}
         <div class="cat-grid reveal" id="catGrid"></div>
       </section>
 
-      <!-- FEATURED WORK -->
-      <section id="work" aria-labelledby="work-h">
-        <div class="sec-head reveal">
-          <h2 id="work-h">Featured work</h2>
-          <span class="idx">§ 02 — Selected pieces</span>
-        </div>
-        <div class="work reveal" id="workGrid"></div>
-      </section>
-
       <!-- FULL INDEX -->
       <section id="index" aria-labelledby="arc-h">
         <div class="sec-head reveal">
           <h2 id="arc-h">The full archive</h2>
-          <span class="idx" id="arcIdx">§ 03 — Every project</span>
+          <span class="idx" id="arcIdx">§ 02 — Every project</span>
         </div>
         <div id="archive"></div>
         <noscript><p class="arc-note">This index renders with JavaScript. The repos live at github.com/Jordan-Doerksen.</p></noscript>
@@ -126,13 +432,14 @@ a.cat{text-decoration:none;color:inherit}
       <section id="about" aria-labelledby="about-h">
         <div class="sec-head reveal">
           <h2 id="about-h">About</h2>
-          <span class="idx">§ 04 — The short version</span>
+          <span class="idx">§ 03 — The short version</span>
         </div>
         <p class="subline reveal">
-          Rail conductor in Winnipeg. Self-taught, which mostly means learning in public
-          and keeping the receipts. I build things I actually need — trading cockpits,
-          rule trainers, browser games, the occasional useful tool — and every one of
-          them has a repo you can read.
+          Self-taught in Winnipeg, which mostly means learning in public and keeping
+          the receipts. I build tools I believe in — read-only trading instruments,
+          free training tools for railroaders, games, news pipelines — and the training
+          tools stay free because safety knowledge shouldn't sit behind a paywall.
+          Every one of them has a repo behind it; all but one you can read.
         </p>
       </section>
     </main>
@@ -146,8 +453,8 @@ a.cat{text-decoration:none;color:inherit}
 <script src="styles/effects.js" defer></script>
 <script>
 /* Registry-driven render. effects.js runs at DOMContentLoaded (before this
-   fetch resolves), so anything it wires per-element — count-up targets, card
-   tilt, cursor growth — is re-handled here for dynamically created nodes.
+   fetch resolves), so anything it wires per-element — count-up targets, cursor
+   growth — is re-handled here for dynamically created nodes.
    Defensive throughout: a failed fetch or missing fields renders nothing broken. */
 (function () {
   "use strict";
@@ -176,21 +483,6 @@ a.cat{text-decoration:none;color:inherit}
     s.setAttribute("data-count", String(n));
     s.textContent = String(n);
     setTimeout(function () { s.textContent = String(n); }, 1400);
-  }
-
-  /* Same tilt math as effects.js, for cards created after it already ran. */
-  function attachTilt(card) {
-    if (reduced || coarse) return;
-    var MAX_TILT = 6, LIFT = 8, rect = null;
-    card.addEventListener("mouseenter", function () { rect = card.getBoundingClientRect(); });
-    card.addEventListener("mousemove", function (e) {
-      if (!rect) rect = card.getBoundingClientRect();
-      var px = (e.clientX - rect.left) / rect.width;
-      var py = (e.clientY - rect.top) / rect.height;
-      card.style.transform = "translateY(-" + LIFT + "px) rotateX(" + ((0.5 - py) * MAX_TILT * 2).toFixed(2) +
-        "deg) rotateY(" + ((px - 0.5) * MAX_TILT * 2).toFixed(2) + "deg)";
-    });
-    card.addEventListener("mouseleave", function () { rect = null; card.style.transform = ""; });
   }
 
   /* Delegated cursor growth so dynamically rendered links behave like static ones
@@ -247,26 +539,6 @@ a.cat{text-decoration:none;color:inherit}
     }
   }
 
-  function renderFeatured(projects) {
-    var grid = document.getElementById("workGrid");
-    if (!grid) return;
-    grid.innerHTML = "";
-    projects.filter(function (p) { return p && p.featured; }).forEach(function (p) {
-      var href = projectHref(p);
-      var card = el(href ? "a" : "div", "card");
-      if (href) card.href = href;
-      card.appendChild(el("span", "kicker", "Featured"));
-      card.appendChild(el("h3", null, p.name || p.slug || "—"));
-      card.appendChild(el("p", null, p.blurb || ""));
-      var tags = el("div", "tags");
-      (Array.isArray(p.tags) ? p.tags : []).forEach(function (t) { tags.appendChild(el("span", "tag", t)); });
-      card.appendChild(tags);
-      if (p.spec) card.appendChild(el("span", "spec", p.spec));
-      grid.appendChild(card);
-      attachTilt(card);
-    });
-  }
-
   function renderArchive(cats, projects) {
     var host = document.getElementById("archive");
     if (!host) return;
@@ -308,7 +580,7 @@ a.cat{text-decoration:none;color:inherit}
       host.appendChild(el("p", "arc-note", "Nothing indexed yet."));
     }
     var idx = document.getElementById("arcIdx");
-    if (idx && projects.length) idx.textContent = "§ 03 — " + projects.length + " projects";
+    if (idx && projects.length) idx.textContent = "§ 02 — " + projects.length + " projects";
   }
 
   fetch("data/registry.json")
@@ -319,7 +591,6 @@ a.cat{text-decoration:none;color:inherit}
       var projects = Array.isArray(reg.projects) ? reg.projects : [];
       renderCategories(cats);
       renderTicker(cats);
-      renderFeatured(projects);
       renderArchive(cats, projects);
       if (cats.length) setStat("statCategories", cats.length);
       if (projects.length) setStat("statProjects", projects.length);
@@ -347,15 +618,42 @@ a.cat{text-decoration:none;color:inherit}
       ];
       var catGrid = document.getElementById("catGrid");
       if (catGrid && !catGrid.children.length) renderCategories(FALLBACK_CATS);
-      var work = document.getElementById("workGrid");
-      if (work && !work.children.length) {
-        work.appendChild(el("p", "arc-note", "The index didn't load — the categories above still work."));
-      }
       var host = document.getElementById("archive");
       if (host && !host.children.length) {
         host.appendChild(el("p", "arc-note", "Index unavailable — the repos are still on GitHub."));
       }
+      /* same late-reveal safety net as the success path: the fallback tiles render
+         into a grid effects.js observed while it was empty, so re-reveal anything
+         in the viewport or the only navigation to the hubs stays hidden */
+      setTimeout(function () {
+        document.querySelectorAll(".reveal:not(.in)").forEach(function (n) {
+          if (n.getBoundingClientRect().top < window.innerHeight) n.classList.add("in");
+        });
+      }, 1600);
     });
+})();
+
+/* Case-study diagrams: hovering a node lights its connected edges. Edges carry
+   one e-<node> class per endpoint; nodes carry data-n. Pure highlight — no
+   motion, so it needs no prefers-reduced-motion gate (the CSS kill switch
+   already zeroes the transitions). */
+(function () {
+  "use strict";
+  document.querySelectorAll(".diagram-well svg").forEach(function (svg) {
+    function nodeOf(t) { return (t && t.closest) ? t.closest(".dg-node") : null; }
+    svg.addEventListener("mouseover", function (e) {
+      var n = nodeOf(e.target);
+      if (!n) return;
+      svg.querySelectorAll(".dg-edge.e-" + n.getAttribute("data-n")).forEach(function (ed) {
+        ed.classList.add("lit");
+      });
+    });
+    svg.addEventListener("mouseout", function (e) {
+      var n = nodeOf(e.target);
+      if (!n || nodeOf(e.relatedTarget) === n) return;
+      svg.querySelectorAll(".dg-edge.lit").forEach(function (ed) { ed.classList.remove("lit"); });
+    });
+  });
 })();
 </script>
 <!-- same no-JS fallback the hub pages carry: without it every .reveal stays at opacity 0 -->
