@@ -176,6 +176,33 @@ footer.site .fmark::first-letter{color:var(--gold)} /* the ✦ is the first glyp
 .cat{box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 2px 6px -3px rgba(30,52,74,.14),0 8px 18px -12px rgba(30,52,74,.18)}
 .cat:hover{box-shadow:0 1px 0 rgba(255,255,255,.85) inset,0 6px 12px -6px rgba(30,52,74,.20),0 18px 34px -16px rgba(30,52,74,.30)}
 .tag{box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 2px 4px -1px rgba(30,52,74,.20)}
+
+/* ---- Warden demo reel — four hand-drawn mock screens (this page only) ----
+   Every frame is invented shape, not a capture: no real credentials, paths,
+   ports, or live numbers (the CR-1 shape-only rule). Frames swap by display
+   toggle (no motion); auto-advance is gated off under prefers-reduced-motion
+   and pauses on hover/focus. Fixed aspect via the SVG viewBox so the stage
+   never reflows the page. */
+.reel{margin:clamp(26px,4vh,40px) 0 0}
+.reel-stage{
+  border:1px solid var(--hair);border-radius:14px;overflow:hidden;
+  background:#0f1621;
+  box-shadow:0 1px 0 rgba(255,255,255,.7),0 2px 6px -3px rgba(30,52,74,.12);
+}
+.reel-frame{display:none}
+.reel-frame.on{display:block}
+.reel-frame svg{display:block;width:100%;height:auto;font-family:var(--mono)}
+.reel-bar{display:flex;align-items:center;gap:12px 18px;margin-top:12px;flex-wrap:wrap}
+.reel-btn{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent-ink);background:none;border:1px solid var(--hair);border-radius:999px;
+  padding:5px 13px;cursor:pointer;transition:color .2s ease,border-color .2s ease;
+}
+.reel-btn:hover,.reel-btn:focus-visible{color:var(--ink);border-color:var(--accent-line)}
+.reel-cap{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);flex:1;min-width:24ch}
+.reel-dots{display:flex;gap:7px}
+.reel-dot{width:8px;height:8px;border-radius:50%;background:var(--hair);border:0;padding:0;cursor:pointer}
+.reel-dot.on{background:var(--accent)}
 </style>
 </head>
 <body>
@@ -281,6 +308,162 @@ footer.site .fmark::first-letter{color:var(--gold)} /* the ✦ is the first glyp
             </svg>
           </div>
           <figcaption class="diagram-cap">FIG 01 — WARDEN: THE DESK INSIDE THE WORKSPACE</figcaption>
+        </figure>
+
+        <figure class="reel reveal" id="wardenReel">
+          <div class="reel-stage" role="group" aria-roledescription="carousel" aria-label="Warden walkthrough — four illustrative mock screens">
+
+            <!-- frame 1 — sign in -->
+            <div class="reel-frame on" role="img" aria-label="Mock screen: Warden sign-in page. A centered card with an operator field, a password field, and a sign-in button. Footnote: local network only, nothing leaves the machine.">
+              <svg viewBox="0 0 960 540" aria-hidden="true">
+                <rect width="960" height="540" fill="#0f1621"/>
+                <rect width="960" height="36" fill="#131c28"/>
+                <circle cx="22" cy="18" r="5" fill="#e0655a"/><circle cx="40" cy="18" r="5" fill="#e0b25a"/><circle cx="58" cy="18" r="5" fill="#57c481"/>
+                <text x="82" y="22" font-size="10" letter-spacing="2" fill="#7b8794">WARDEN · LOCAL</text>
+                <text x="940" y="22" font-size="9" letter-spacing="2" fill="#61707e" text-anchor="end">DEMO REEL — MOCK</text>
+                <rect x="330" y="120" width="300" height="290" rx="12" fill="#141e2a" stroke="#24303e"/>
+                <text x="480" y="172" font-size="19" letter-spacing="6" fill="#d7e0e8" text-anchor="middle"><tspan fill="#b8860b">✦</tspan> WARDEN</text>
+                <text x="480" y="196" font-size="8.5" letter-spacing="3" fill="#7b8794" text-anchor="middle">SELF-HOSTED WORKSPACE</text>
+                <text x="360" y="234" font-size="8.5" letter-spacing="2" fill="#7b8794">OPERATOR</text>
+                <rect x="360" y="242" width="240" height="34" rx="6" fill="#0f1621" stroke="#24303e"/>
+                <text x="373" y="263" font-size="11" fill="#d7e0e8">operator</text>
+                <text x="360" y="296" font-size="8.5" letter-spacing="2" fill="#7b8794">PASSWORD</text>
+                <rect x="360" y="304" width="240" height="34" rx="6" fill="#0f1621" stroke="#24303e"/>
+                <text x="373" y="326" font-size="11" fill="#d7e0e8">••••••••••</text>
+                <rect x="360" y="356" width="240" height="34" rx="6" fill="#0e7490"/>
+                <text x="480" y="377" font-size="10.5" letter-spacing="3" fill="#eafbf9" text-anchor="middle">SIGN IN</text>
+                <text x="480" y="452" font-size="9" letter-spacing="1.5" fill="#61707e" text-anchor="middle">LOCAL NETWORK ONLY — NOTHING LEAVES THE MACHINE</text>
+              </svg>
+            </div>
+
+            <!-- frame 2 — the workspace, clicking Sentinel -->
+            <div class="reel-frame" role="img" aria-label="Mock screen: the Warden workspace home. A sidebar lists notes, todos, python, docs, research, and calendar; the Sentinel entry is highlighted with the cursor on it, and a toast reads opening Sentinel.">
+              <svg viewBox="0 0 960 540" aria-hidden="true">
+                <rect width="960" height="540" fill="#0f1621"/>
+                <rect width="960" height="36" fill="#131c28"/>
+                <circle cx="22" cy="18" r="5" fill="#e0655a"/><circle cx="40" cy="18" r="5" fill="#e0b25a"/><circle cx="58" cy="18" r="5" fill="#57c481"/>
+                <text x="82" y="22" font-size="10" letter-spacing="2" fill="#7b8794">WARDEN · LOCAL</text>
+                <text x="940" y="22" font-size="9" letter-spacing="2" fill="#61707e" text-anchor="end">DEMO REEL — MOCK</text>
+                <rect x="0" y="36" width="190" height="504" fill="#121b26"/>
+                <text x="22" y="70" font-size="12" letter-spacing="3" fill="#d7e0e8"><tspan fill="#b8860b">✦</tspan> WARDEN</text>
+                <text x="28" y="112" font-size="10.5" letter-spacing="2" fill="#7b8794">NOTES</text>
+                <text x="28" y="146" font-size="10.5" letter-spacing="2" fill="#7b8794">TODOS</text>
+                <text x="28" y="180" font-size="10.5" letter-spacing="2" fill="#7b8794">PYTHON</text>
+                <text x="28" y="214" font-size="10.5" letter-spacing="2" fill="#7b8794">DOCS</text>
+                <text x="28" y="248" font-size="10.5" letter-spacing="2" fill="#7b8794">RESEARCH</text>
+                <text x="28" y="282" font-size="10.5" letter-spacing="2" fill="#7b8794">CALENDAR</text>
+                <rect x="10" y="300" width="170" height="30" rx="6" fill="#1b2836" stroke="#e05252" stroke-opacity=".55"/>
+                <text x="28" y="319" font-size="10.5" letter-spacing="2" fill="#e08585">SENTINEL</text>
+                <circle cx="164" cy="315" r="3" fill="#e05252"/>
+                <path d="M148 308 v19 l4.5-4.5 3.5 8.5 4.5-2-3.5-8h6.5z" fill="#e8eef4" stroke="#0f1621" stroke-width="1"/>
+                <text x="230" y="92" font-size="16" fill="#d7e0e8">Good evening, operator.</text>
+                <rect x="230" y="120" width="330" height="150" rx="10" fill="#141e2a" stroke="#24303e"/>
+                <text x="250" y="146" font-size="8.5" letter-spacing="2" fill="#7b8794">TODAY</text>
+                <rect x="250" y="162" width="250" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="250" y="182" width="200" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="250" y="202" width="230" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="580" y="120" width="330" height="150" rx="10" fill="#141e2a" stroke="#24303e"/>
+                <text x="600" y="146" font-size="8.5" letter-spacing="2" fill="#7b8794">NOTES</text>
+                <rect x="600" y="162" width="260" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="600" y="182" width="180" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="230" y="292" width="680" height="180" rx="10" fill="#141e2a" stroke="#24303e"/>
+                <text x="250" y="318" font-size="8.5" letter-spacing="2" fill="#7b8794">RESEARCH</text>
+                <rect x="250" y="334" width="560" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="250" y="354" width="480" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="250" y="374" width="520" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="690" y="490" width="240" height="32" rx="8" fill="#1b2836" stroke="#2dd4bf" stroke-opacity=".35"/>
+                <text x="810" y="510" font-size="10" letter-spacing="2" fill="#5eead4" text-anchor="middle">OPENING SENTINEL…</text>
+              </svg>
+            </div>
+
+            <!-- frame 3 — the desk -->
+            <div class="reel-frame" role="img" aria-label="Mock screen: the Sentinel desk dashboard inside Warden. A read-only banner, a scoreboard strip of four session stats, an evidence table, an iceberg verdict card, and a 0DTE skew panel. All numbers are invented for the demo.">
+              <svg viewBox="0 0 960 540" aria-hidden="true">
+                <rect width="960" height="540" fill="#0f1621"/>
+                <rect width="960" height="36" fill="#131c28"/>
+                <circle cx="22" cy="18" r="5" fill="#e0655a"/><circle cx="40" cy="18" r="5" fill="#e0b25a"/><circle cx="58" cy="18" r="5" fill="#57c481"/>
+                <text x="82" y="22" font-size="10" letter-spacing="2" fill="#7b8794">WARDEN · LOCAL</text>
+                <text x="940" y="22" font-size="9" letter-spacing="2" fill="#61707e" text-anchor="end">DEMO REEL — MOCK</text>
+                <rect x="0" y="36" width="960" height="40" fill="#121b26"/>
+                <text x="20" y="61" font-size="11" letter-spacing="2.5" fill="#e08585">SENTINEL — READ-ONLY DESK</text>
+                <text x="940" y="61" font-size="10" letter-spacing="1.5" fill="#7b8794" text-anchor="end">SESSION 2026-07-03 · ES · <tspan fill="#5eead4">VERDICT: BALANCED</tspan></text>
+                <rect x="20" y="92" width="215" height="70" rx="10" fill="#141e2a" stroke="#24303e"/>
+                <text x="36" y="116" font-size="8.5" letter-spacing="2" fill="#7b8794">OPEN DRIVE</text>
+                <text x="36" y="144" font-size="15" fill="#d7e0e8">FADED</text>
+                <rect x="255" y="92" width="215" height="70" rx="10" fill="#141e2a" stroke="#24303e"/>
+                <text x="271" y="116" font-size="8.5" letter-spacing="2" fill="#7b8794">VWAP</text>
+                <text x="271" y="144" font-size="15" fill="#5eead4">RECLAIMED</text>
+                <rect x="490" y="92" width="215" height="70" rx="10" fill="#141e2a" stroke="#24303e"/>
+                <text x="506" y="116" font-size="8.5" letter-spacing="2" fill="#7b8794">DELTA</text>
+                <text x="506" y="144" font-size="15" fill="#d7e0e8">−8.4K</text>
+                <rect x="725" y="92" width="215" height="70" rx="10" fill="#141e2a" stroke="#24303e"/>
+                <text x="741" y="116" font-size="8.5" letter-spacing="2" fill="#7b8794">ICEBERGS</text>
+                <text x="741" y="144" font-size="15" fill="#d7e0e8">3</text>
+                <rect x="20" y="182" width="560" height="330" rx="10" fill="#141e2a" stroke="#24303e"/>
+                <text x="40" y="210" font-size="8.5" letter-spacing="2" fill="#7b8794">EVIDENCE</text>
+                <text x="40" y="242" font-size="10.5" fill="#7b8794">09:31:12</text><text x="120" y="242" font-size="10.5" fill="#aab6c2">5291.50 · sweep absorbed at the bid</text>
+                <text x="40" y="272" font-size="10.5" fill="#7b8794">09:38:47</text><text x="120" y="272" font-size="10.5" fill="#aab6c2">5288.25 · passive refresh ×6 — absorption</text>
+                <text x="40" y="302" font-size="10.5" fill="#7b8794">09:52:03</text><text x="120" y="302" font-size="10.5" fill="#aab6c2">5290.00 · delta divergence into vwap</text>
+                <rect x="40" y="326" width="500" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="40" y="350" width="440" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="40" y="374" width="470" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="40" y="398" width="410" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="40" y="422" width="490" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="40" y="446" width="430" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="600" y="182" width="340" height="150" rx="10" fill="#141e2a" stroke="#24303e"/>
+                <text x="620" y="210" font-size="8.5" letter-spacing="2" fill="#7b8794">ICEBERG STUDY</text>
+                <text x="620" y="240" font-size="14" fill="#5eead4">ABSORPTION — CONFIRMED</text>
+                <text x="620" y="264" font-size="10.5" fill="#aab6c2">bid 5288.25 · refreshed 6× · held</text>
+                <rect x="620" y="286" width="300" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="620" y="304" width="240" height="8" rx="4" fill="#1d2a38"/>
+                <rect x="600" y="352" width="340" height="160" rx="10" fill="#141e2a" stroke="#24303e"/>
+                <text x="620" y="380" font-size="8.5" letter-spacing="2" fill="#7b8794">0DTE SKEW</text>
+                <rect x="630" y="470" width="22" height="24" fill="#1d2a38"/>
+                <rect x="662" y="452" width="22" height="42" fill="#1d2a38"/>
+                <rect x="694" y="430" width="22" height="64" fill="#2dd4bf" fill-opacity=".8"/>
+                <rect x="726" y="410" width="22" height="84" fill="#2dd4bf" fill-opacity=".8"/>
+                <rect x="758" y="438" width="22" height="56" fill="#1d2a38"/>
+                <rect x="790" y="458" width="22" height="36" fill="#1d2a38"/>
+                <rect x="822" y="472" width="22" height="22" fill="#1d2a38"/>
+                <text x="877" y="490" font-size="9" fill="#7b8794">PUT SIDE</text>
+              </svg>
+            </div>
+
+            <!-- frame 4 — ask the tape -->
+            <div class="reel-frame" role="img" aria-label="Mock screen: the Warden chat with a session tape attached. The user asks what happened at the open; the local model answers with an absorption read. Footer: local model, read from the tape, nothing left the machine.">
+              <svg viewBox="0 0 960 540" aria-hidden="true">
+                <rect width="960" height="540" fill="#0f1621"/>
+                <rect width="960" height="36" fill="#131c28"/>
+                <circle cx="22" cy="18" r="5" fill="#e0655a"/><circle cx="40" cy="18" r="5" fill="#e0b25a"/><circle cx="58" cy="18" r="5" fill="#57c481"/>
+                <text x="82" y="22" font-size="10" letter-spacing="2" fill="#7b8794">WARDEN · LOCAL</text>
+                <text x="940" y="22" font-size="9" letter-spacing="2" fill="#61707e" text-anchor="end">DEMO REEL — MOCK</text>
+                <rect x="0" y="36" width="960" height="40" fill="#121b26"/>
+                <text x="20" y="61" font-size="11" letter-spacing="2.5" fill="#e08585">SENTINEL — ASK THE DESK</text>
+                <rect x="250" y="96" width="460" height="40" rx="8" fill="#141e2a" stroke="#24303e"/>
+                <circle cx="274" cy="116" r="6" fill="#b8860b"/>
+                <text x="292" y="121" font-size="10.5" fill="#aab6c2">es-2026-07-03.jsonl.gz — session tape · attached</text>
+                <rect x="480" y="166" width="430" height="44" rx="10" fill="#0e7490"/>
+                <text x="500" y="193" font-size="11.5" fill="#eafbf9">what happened at the open?</text>
+                <rect x="50" y="240" width="640" height="158" rx="10" fill="#141e2a" stroke="#24303e"/>
+                <text x="70" y="272" font-size="11" fill="#c6d1db">Heavy absorption on the bid at 5288.25 through the first twelve</text>
+                <text x="70" y="296" font-size="11" fill="#c6d1db">minutes — passive size refreshed six times, and delta never</text>
+                <text x="70" y="320" font-size="11" fill="#c6d1db">confirmed the push lower. The open drive faded at VWAP.</text>
+                <text x="70" y="352" font-size="11" fill="#5eead4">Read: balanced-to-long into the second hour.</text>
+                <text x="70" y="382" font-size="8.5" letter-spacing="1.5" fill="#61707e">LOCAL MODEL · READ FROM THE TAPE · NOTHING LEFT THE MACHINE</text>
+                <rect x="50" y="460" width="860" height="44" rx="10" fill="#121b26" stroke="#24303e"/>
+                <text x="70" y="487" font-size="11" fill="#61707e">Ask the desk…</text>
+                <text x="890" y="488" font-size="12" fill="#5eead4" text-anchor="end">▶</text>
+              </svg>
+            </div>
+          </div>
+
+          <div class="reel-bar">
+            <button class="reel-btn" type="button" data-reel="prev" aria-label="Previous screen">← Prev</button>
+            <button class="reel-btn" type="button" data-reel="next" aria-label="Next screen">Next →</button>
+            <span class="reel-cap" aria-live="polite" data-reel="cap">01 / 04 — SIGN IN · SELF-HOSTED, LOCAL NETWORK</span>
+            <span class="reel-dots" data-reel="dots"></span>
+          </div>
+          <figcaption class="diagram-cap">FIG 01C — WARDEN WALKTHROUGH · MOCK SCREENS, ILLUSTRATIVE ONLY — NOT LIVE DATA</figcaption>
         </figure>
 
         <h3 class="cs-h reveal" id="sentinel-suite">The engine room — Sentinel Suite</h3>
@@ -812,6 +995,54 @@ footer.site .fmark::first-letter{color:var(--gold)} /* the ✦ is the first glyp
       svg.querySelectorAll(".dg-edge.lit").forEach(function (ed) { ed.classList.remove("lit"); });
     });
   });
+})();
+
+/* Warden demo reel: display-toggle slideshow, no motion. Auto-advance only
+   when the user hasn't asked for reduced motion, and it pauses whenever the
+   pointer or focus is inside the reel; any manual step stops it for good. */
+(function () {
+  "use strict";
+  var reel = document.getElementById("wardenReel");
+  if (!reel) return;
+  var frames = reel.querySelectorAll(".reel-frame");
+  var cap = reel.querySelector('[data-reel="cap"]');
+  var dotsWrap = reel.querySelector('[data-reel="dots"]');
+  var caps = [
+    "01 / 04 — SIGN IN · SELF-HOSTED, LOCAL NETWORK",
+    "02 / 04 — THE WORKSPACE · SENTINEL IS A FIRST-CLASS SECTION",
+    "03 / 04 — THE DESK · SCOREBOARD, EVIDENCE, ICEBERG, SKEW",
+    "04 / 04 — ASK THE TAPE · LOCAL MODEL, NOTHING LEAVES"
+  ];
+  var i = 0, timer = null;
+  var dots = [];
+  frames.forEach(function (_, n) {
+    var d = document.createElement("button");
+    d.type = "button";
+    d.className = "reel-dot" + (n === 0 ? " on" : "");
+    d.setAttribute("aria-label", "Screen " + (n + 1) + " of " + frames.length);
+    d.addEventListener("click", function () { stop(); show(n); });
+    dotsWrap.appendChild(d);
+    dots.push(d);
+  });
+  function show(n) {
+    frames[i].classList.remove("on"); dots[i].classList.remove("on");
+    i = (n + frames.length) % frames.length;
+    frames[i].classList.add("on"); dots[i].classList.add("on");
+    cap.textContent = caps[i];
+  }
+  var manual = false;
+  function pause() { if (timer) { clearInterval(timer); timer = null; } }
+  function stop() { manual = true; pause(); }
+  function resume() { if (!manual && !timer) timer = setInterval(function () { show(i + 1); }, 5000); }
+  reel.querySelector('[data-reel="prev"]').addEventListener("click", function () { stop(); show(i - 1); });
+  reel.querySelector('[data-reel="next"]').addEventListener("click", function () { stop(); show(i + 1); });
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    resume();
+    reel.addEventListener("mouseenter", pause);
+    reel.addEventListener("mouseleave", resume);
+    reel.addEventListener("focusin", pause);
+    reel.addEventListener("focusout", resume);
+  }
 })();
 </script>
 <!-- same no-JS fallback the hub pages carry: without it every .reveal stays at opacity 0 -->
