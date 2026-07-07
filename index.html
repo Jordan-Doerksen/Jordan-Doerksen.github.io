@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jordan Doerksen — portfolio &amp; index</title>
 <meta name="description" content="Portfolio and index of Jordan Doerksen's software systems — a market-data suite, rail training tools, a news pipeline, browser games. What each system is, how it's architected, and why it's built the way it is.">
-<meta name="theme-color" content="#f6f1e7">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f6f1e7'/%3E%3Ctext x='50' y='72' font-size='64' text-anchor='middle' fill='%23b8860b'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#f7f9fb">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f7f9fb'/%3E%3Ctext x='50' y='72' font-size='64' text-anchor='middle' fill='%23b8860b'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -90,7 +90,7 @@ a.cat{text-decoration:none;color:inherit}
   border:1px solid var(--hair);border-radius:14px;
   background:linear-gradient(180deg,#fff,var(--paper-2));
   overflow-x:auto;padding:clamp(12px,1.8vw,24px);
-  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 2px 6px -3px rgba(120,66,38,.12);
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 2px 6px -3px rgba(30,52,74,.12);
 }
 .diagram-well svg{display:block;width:100%;min-width:880px;height:auto;font-family:var(--mono)}
 .diagram-cap{
@@ -152,6 +152,30 @@ a.cat{text-decoration:none;color:inherit}
 }
 .cs-goal .k{color:var(--accent-ink);letter-spacing:.16em}
 
+/* ---- fintech desk skin (this page ONLY — CR-3) ----
+   Token override cools the parchment to an equity-research desk: cool white
+   paper, graphite ink, blue-teal accent. Everything downstream (sun, tints,
+   diagram gold edges) derives from these tokens, so one block reskins the
+   page; the goldenrod thread survives only in the ✦ marks. The shared
+   styles/tokens.css and every other page stay Daybreak-warm. */
+:root{
+  --paper:#f7f9fb;
+  --paper-2:#eef2f6;
+  --ink:#101822;
+  --muted:#5a6470;
+  --hair:#d9e0e7;
+  --accent:#0e7490;         /* desk blue-teal — fills / shapes / spine */
+  --accent-ink:#0d5c72;     /* text-safe shade (≈7:1 on the cool paper — AA) */
+  --accent-rgb:14,116,144;
+  --gold:#b8860b;           /* the surviving goldenrod thread — ✦ only */
+}
+body{font-variant-numeric:tabular-nums}
+.cs-outcome::before{color:var(--gold)}
+footer.site .fmark::first-letter{color:var(--gold)} /* the ✦ is the first glyph */
+/* shared card shadows are warm-brown rgba(120,66,38,…) — cool them here */
+.cat{box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 2px 6px -3px rgba(30,52,74,.14),0 8px 18px -12px rgba(30,52,74,.18)}
+.cat:hover{box-shadow:0 1px 0 rgba(255,255,255,.85) inset,0 6px 12px -6px rgba(30,52,74,.20),0 18px 34px -16px rgba(30,52,74,.30)}
+.tag{box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 2px 4px -1px rgba(30,52,74,.20)}
 </style>
 </head>
 <body>
@@ -195,30 +219,81 @@ a.cat{text-decoration:none;color:inherit}
           <span class="idx">§ 00</span>
         </div>
         <ol class="toc reveal">
-          <li><a href="#sentinel-suite"><span class="toc-num">01</span><span class="toc-name">System: Sentinel Suite</span><span class="toc-note">read-only market-data suite</span></a></li>
+          <li><a href="#warden"><span class="toc-num">01</span><span class="toc-name">System: Warden</span><span class="toc-note">the workspace · the whole desk inside</span></a></li>
           <li><a href="#clear-board"><span class="toc-num">02</span><span class="toc-name">System: Clear Board</span><span class="toc-note">CROR qualification trainer</span></a></li>
           <li><a href="#spectrum"><span class="toc-num">03</span><span class="toc-name">System: Spectrum</span><span class="toc-note">local-LLM news pipeline</span></a></li>
-          <li><a href="#warden"><span class="toc-num">04</span><span class="toc-name">System: Warden</span><span class="toc-note">the desk inside the workspace</span></a></li>
+          <li><a href="#fulfillment"><span class="toc-num">04</span><span class="toc-name">Game: Fulfillment</span><span class="toc-note">deterministic Godot roguelite</span></a></li>
           <li><a href="#categories"><span class="toc-num">05</span><span class="toc-name">Categories</span><span class="toc-note">seven, registry-driven</span></a></li>
           <li><a href="#index"><span class="toc-num">06</span><span class="toc-name">Full index</span><span class="toc-note">every project, one row each</span></a></li>
         </ol>
       </section>
 
-      <!-- SYSTEMS § 01–03 — three systems, end to end. Facts come from the project
+      <!-- SYSTEMS § 01–04 — four systems, end to end. Facts come from the project
            briefs/DECISIONS; nothing here is claimed beyond what was verified. -->
-      <section class="cs" id="sentinel-suite" aria-labelledby="cs1-h">
-        <p class="eyebrow reveal">§ 01 — System: Sentinel Suite</p>
-        <h2 id="cs1-h" class="cs-title reveal">Sentinel <em>Suite</em></h2>
-        <p class="cs-goal reveal"><span class="k">GOAL:</span> see market microstructure clearly, in real time, without ever being able to act on it.</p>
+      <section class="cs" id="warden" aria-labelledby="cs1-h">
+        <p class="eyebrow reveal">§ 01 — System: Warden</p>
+        <h2 id="cs1-h" class="cs-title reveal"><em>Warden</em></h2>
+        <p class="cs-goal reveal"><span class="k">GOAL:</span> one place where the desk work lives — a self-hosted workspace with the entire Sentinel desk, engines and all, running inside it.</p>
         <p class="cs-story reveal">
-          A cockpit watches ES/NQ live through TWS and writes every session to a
-          flight-recorder tape; three research tools read that tape and the session
-          report back — evidence tables, an iceberg study, an end-of-day read from a
-          local model. The cockpit's job is deliberately narrow: watch live and record,
-          nothing else. It cannot place an order because no order surface exists
-          anywhere in the code — read-only by construction, not by policy. The same
-          47 golden vectors pin the indicator math across the Rust kernels and both
-          Python ports, so the three codebases cannot silently drift apart.
+          A self-hosted AI workspace, forked from an open-source base, with the whole
+          Sentinel desk integrated as a first-class section: native panels render the
+          session scoreboard, order-flow evidence, iceberg verdicts, 0DTE skew reads,
+          and a cross-session backtest grid, while the workspace's local model writes
+          the end-of-day analyst read and a four-persona council argues with it. The
+          integration is deliberately thin — new files plus a handful of core edits,
+          so upstream updates merge cleanly — and it imports the suite's real engines
+          instead of re-implementing the math. Like everything upstream of it,
+          read-only: no order surface exists anywhere.
+        </p>
+        <figure class="diagram reveal">
+          <div class="diagram-well" tabindex="0" aria-label="Architecture diagram — scrolls horizontally">
+            <svg viewBox="0 0 1000 500" role="img" aria-label="Warden data flow. The Sentinel suite watches TWS/IBKR live data on the host and records tapes and session reports. Those artifacts are mounted read-only into Warden, the self-hosted workspace. Inside it, an engine bridge imports the suite's real engines and feeds native desk panels — evidence, iceberg, 0DTE skew, backtest — while a local Ollama model writes the analyst read and a four-persona council adds second reads. A read-only boundary separates the desk from the capture side; no order surface exists anywhere.">
+              <defs>
+                <marker id="wd-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+                <marker id="wd-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+              </defs>
+
+              <rect class="dg-shell" x="575" y="45" width="415" height="330" rx="14"/>
+              <text class="dg-shell-label" x="590" y="35">WARDEN — SELF-HOSTED WORKSPACE · THE DESK LIVES INSIDE</text>
+
+              <g class="dg-edge gold e-tws e-suite"><path d="M140 178 H181" marker-end="url(#wd-a)"/></g>
+              <g class="dg-edge gold e-suite e-tapes"><path d="M345 178 H386" marker-end="url(#wd-a)"/><text x="366" y="168" text-anchor="middle">records</text></g>
+              <g class="dg-edge gold e-tapes e-bridge"><path d="M540 170 L596 126" marker-end="url(#wd-a)"/><text x="550" y="142" text-anchor="end">read-only mount</text></g>
+              <g class="dg-edge gold e-bridge e-panels"><path d="M770 118 H786" marker-end="url(#wd-a)"/></g>
+              <g class="dg-edge e-panels e-llm"><path d="M860 162 L710 244" marker-end="url(#wd-m)"/><text x="800" y="212">session context</text></g>
+              <g class="dg-edge e-llm e-council"><path d="M770 278 H786" marker-end="url(#wd-m)"/></g>
+
+              <path class="dg-bound" d="M560 70 V440"/>
+              <text class="dg-callout" x="10" y="70">[ READ-ONLY — NO ORDER SURFACE EXISTS ANYWHERE ]</text>
+              <text class="dg-callout-sub" x="10" y="86">the desk watches and reads; it cannot act</text>
+              <text class="dg-callout" x="10" y="420">[ THE MODEL IS LOCAL — NOTHING LEAVES THE MACHINE ]</text>
+              <text class="dg-callout-sub" x="10" y="436">analyst and council run on Ollama; no cloud, no API keys</text>
+
+              <g class="dg-node" data-n="tws"><rect x="10" y="150" width="130" height="56" rx="8"/><text class="n" x="75" y="174" text-anchor="middle">TWS / IBKR</text><text class="r" x="75" y="192" text-anchor="middle">live market data</text></g>
+              <g class="dg-node" data-n="suite"><rect x="185" y="150" width="160" height="56" rx="8"/><text class="n" x="265" y="174" text-anchor="middle">SENTINEL SUITE</text><text class="r" x="265" y="192" text-anchor="middle">observe + record · host</text></g>
+              <g class="dg-node" data-n="tapes"><rect x="390" y="150" width="150" height="56" rx="8"/><text class="n" x="465" y="174" text-anchor="middle">TAPES + REPORTS</text><text class="r" x="465" y="192" text-anchor="middle">session artifacts</text></g>
+              <g class="dg-node" data-n="bridge"><rect x="600" y="90" width="170" height="56" rx="8"/><text class="n" x="685" y="114" text-anchor="middle">ENGINE BRIDGE</text><text class="r" x="685" y="132" text-anchor="middle">thin adapter · returns JSON</text></g>
+  <text class="dg-callout-sub" x="600" y="168">imports the suite's real engines —</text>
+  <text class="dg-callout-sub" x="600" y="182">the math is never re-implemented</text>
+              <g class="dg-node" data-n="panels"><rect x="790" y="90" width="185" height="68" rx="8"/><text class="n" x="882" y="112" text-anchor="middle">DESK PANELS</text><text class="r" x="882" y="130" text-anchor="middle">evidence · iceberg · backtest</text><text class="r" x="882" y="144" text-anchor="middle">0DTE skew · scoreboard</text></g>
+              <g class="dg-node" data-n="llm"><rect x="600" y="250" width="170" height="56" rx="8"/><text class="n" x="685" y="274" text-anchor="middle">LOCAL MODEL</text><text class="r" x="685" y="292" text-anchor="middle">Ollama · analyst read</text></g>
+              <g class="dg-node" data-n="council"><rect x="790" y="250" width="185" height="56" rx="8"/><text class="n" x="882" y="274" text-anchor="middle">COUNCIL</text><text class="r" x="882" y="292" text-anchor="middle">four-persona second read</text></g>
+            </svg>
+          </div>
+          <figcaption class="diagram-cap">FIG 01 — WARDEN: THE DESK INSIDE THE WORKSPACE</figcaption>
+        </figure>
+
+        <h3 class="cs-h reveal" id="sentinel-suite">The engine room — Sentinel Suite</h3>
+        <p class="cs-story reveal">
+          The desk Warden hosts is the Sentinel Suite. A cockpit watches ES/NQ live
+          through TWS and writes every session to a flight-recorder tape; three
+          research tools read that tape and the session report back — evidence tables,
+          an iceberg study, an end-of-day read from a local model. The cockpit's job
+          is deliberately narrow: watch live and record, nothing else. It cannot place
+          an order because no order surface exists anywhere in the code — read-only by
+          construction, not by policy. The same 47 golden vectors pin the indicator
+          math across the Rust kernels and both Python ports, so the three codebases
+          cannot silently drift apart.
         </p>
         <figure class="diagram reveal">
           <div class="diagram-well" tabindex="0" aria-label="Architecture diagram — scrolls horizontally">
@@ -261,26 +336,29 @@ a.cat{text-decoration:none;color:inherit}
               <text class="dg-callout" x="500" y="548" text-anchor="middle">[ ONE ORACLE — 47 VECTORS PIN THE MATH IN RUST AND BOTH PYTHON PORTS ]</text>
             </svg>
           </div>
-          <figcaption class="diagram-cap">FIG 01 — SENTINEL SUITE DATA FLOW</figcaption>
+          <figcaption class="diagram-cap">FIG 01B — SENTINEL SUITE DATA FLOW · THE ENGINES WARDEN IMPORTS</figcaption>
         </figure>
         <div class="cs-meta reveal">
           <div>
             <h3 class="cs-h">Stack</h3>
             <div class="cs-stack">
-              <span class="tag">Rust</span><span class="tag">Tauri</span><span class="tag">Python (stdlib)</span><span class="tag">TWS API (IBKR)</span><span class="tag">Ollama</span><span class="tag">Discord webhook</span>
+              <span class="tag">Rust</span><span class="tag">Tauri</span><span class="tag">Python (stdlib)</span><span class="tag">FastAPI</span><span class="tag">Docker Compose</span><span class="tag">TWS API (IBKR)</span><span class="tag">Ollama</span><span class="tag">open-source fork</span>
             </div>
-            <p class="cs-outcome">v1.0.0 · field-verified live · 47 golden vectors green · code private</p>
+            <p class="cs-outcome">suite v1.0.0 field-verified live · 47 golden vectors green · desk panels + analyst + council live in the workspace · code private</p>
             <div class="cs-links">
-              <a class="cs-link" href="/trading/sentinel/">The showcase →</a>
+              <a class="cs-link" href="/trading/sentinel/">The Sentinel showcase →</a>
+              <a class="cs-link" href="atlas/?p=warden">Atlas entry →</a>
               <span class="cs-note">code private</span>
             </div>
           </div>
           <div>
             <h3 class="cs-h">Key decisions</h3>
             <ul class="cs-dlist">
-              <li><strong>Consolidate, don't rewrite.</strong> A ground-up rewrite would throw away the only field-verified release and the golden-vector parity contract; the value was in consolidation and guardrails, not new code.</li>
+              <li><strong>Additive fork, thin seam.</strong> New files plus a handful of core edits — upstream workspace updates merge cleanly instead of forking away from them.</li>
+              <li><strong>Import, never copy.</strong> The bridge calls the suite's real engines; the golden-vector math keeps one source of truth instead of drifting across two codebases.</li>
+              <li><strong>Consolidate, don't rewrite.</strong> A ground-up rewrite of the suite would throw away the only field-verified release and the golden-vector parity contract; the value was in consolidation and guardrails, not new code.</li>
               <li><strong>Extend the oracle, not just the fix.</strong> A real one-sided-book divergence was invisible to all 45 vectors, so two boundary cases were added (45 → 47) — that regression now fails in all three codebases.</li>
-              <li><strong>Slim the cockpit to observe + record.</strong> In-cockpit replay and manual tagging moved to the graded research pipeline; UI-only and reversible, with the 233-test workspace and 47 vectors staying green untouched.</li>
+              <li><strong>Local model, local data.</strong> Analyst and council reads run on Ollama; a session never leaves the machine, and the desk layer has no way to place an order.</li>
             </ul>
           </div>
         </div>
@@ -443,76 +521,82 @@ a.cat{text-decoration:none;color:inherit}
         </div>
       </section>
 
-      <section class="cs" id="warden" aria-labelledby="cs4-h">
-        <p class="eyebrow reveal">§ 04 — System: Warden</p>
-        <h2 id="cs4-h" class="cs-title reveal"><em>Warden</em></h2>
-        <p class="cs-goal reveal"><span class="k">GOAL:</span> one place where the desk work lives — watch, record, and read the market from inside the same workspace that holds everything else.</p>
+      <section class="cs" id="fulfillment" aria-labelledby="cs4-h">
+        <p class="eyebrow reveal">§ 04 — Game: Fulfillment</p>
+        <h2 id="cs4-h" class="cs-title reveal"><em>Fulfillment</em></h2>
+        <p class="cs-goal reveal"><span class="k">GOAL:</span> a wave-survival roguelite built like the desk tools — deterministic to the frame, tuned from config, verified headless.</p>
         <p class="cs-story reveal">
-          A self-hosted AI workspace, forked from an open-source base, with the whole
-          Sentinel desk integrated as a first-class section: native panels render the
-          session scoreboard, order-flow evidence, iceberg verdicts, 0DTE skew reads,
-          and a cross-session backtest grid, while the workspace's local model writes
-          the end-of-day analyst read and a four-persona council argues with it. The
-          integration is deliberately thin — new files plus a handful of core edits,
-          so upstream updates merge cleanly — and it imports the suite's real engines
-          instead of re-implementing the math. Like everything upstream of it,
-          read-only: no order surface exists anywhere.
+          Two browser builds of a space wave-survival roguelite taught me what the
+          genre actually needs; Fulfillment is the ground-up rebuild in a real engine.
+          You fly deliveries for a soulless megacorp, survive escalating waves, draft
+          weapons, and climb each gun Mk I → III until a single fork card offers two
+          pre-authored final forms — pick one, it's terminal. Under the corporate
+          parody sits the same discipline as the trading tools: a 60 Hz simulation
+          with seeded RNG and pooled state that a hybrid renderer reads one way and
+          never writes; every tunable lives in typed resource files; and two headless
+          probes — one walks every screen, one autopilots a full run, bosses and save
+          included — must pass before any push. Same seed, same run, every time.
         </p>
         <figure class="diagram reveal">
           <div class="diagram-well" tabindex="0" aria-label="Architecture diagram — scrolls horizontally">
-            <svg viewBox="0 0 1000 500" role="img" aria-label="Warden data flow. The Sentinel suite watches TWS/IBKR live data on the host and records tapes and session reports. Those artifacts are mounted read-only into Warden, the self-hosted workspace. Inside it, an engine bridge imports the suite's real engines and feeds native desk panels — evidence, iceberg, 0DTE skew, backtest — while a local Ollama model writes the analyst read and a four-persona council adds second reads. A read-only boundary separates the desk from the capture side; no order surface exists anywhere.">
+            <svg viewBox="0 0 1000 500" role="img" aria-label="Fulfillment architecture. Typed balance resources load into a deterministic 60 Hz simulation running at fixed tick with seeded RNG and pooled state. Inside the sim, a wave director, the arsenal, and the metagame all write into one pooled game world. A hybrid renderer reads the world one way and never writes back, drawing a batched swarm layer plus real nodes, and feeds the cockpit HUD. Two headless probes — a layout walk and an autopiloted full run — must pass before any push.">
               <defs>
-                <marker id="wd-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
-                <marker id="wd-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+                <marker id="ff-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+                <marker id="ff-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
               </defs>
 
-              <rect class="dg-shell" x="575" y="45" width="415" height="330" rx="14"/>
-              <text class="dg-shell-label" x="590" y="35">WARDEN — SELF-HOSTED WORKSPACE · THE DESK LIVES INSIDE</text>
+              <rect class="dg-shell" x="235" y="60" width="430" height="330" rx="14"/>
+              <text class="dg-shell-label" x="250" y="50">DETERMINISTIC SIM — 60 HZ · SEEDED RNG · POOLED STATE</text>
 
-              <g class="dg-edge gold e-tws e-suite"><path d="M140 178 H181" marker-end="url(#wd-a)"/></g>
-              <g class="dg-edge gold e-suite e-tapes"><path d="M345 178 H386" marker-end="url(#wd-a)"/><text x="366" y="168" text-anchor="middle">records</text></g>
-              <g class="dg-edge gold e-tapes e-bridge"><path d="M540 170 L596 126" marker-end="url(#wd-a)"/><text x="550" y="142" text-anchor="end">read-only mount</text></g>
-              <g class="dg-edge gold e-bridge e-panels"><path d="M770 118 H786" marker-end="url(#wd-a)"/></g>
-              <g class="dg-edge e-panels e-llm"><path d="M860 162 L710 244" marker-end="url(#wd-m)"/><text x="800" y="212">session context</text></g>
-              <g class="dg-edge e-llm e-council"><path d="M770 278 H786" marker-end="url(#wd-m)"/></g>
+              <!-- edges -->
+              <g class="dg-edge gold e-config e-arsenal"><path d="M190 222 H256" marker-end="url(#ff-a)"/><text x="223" y="212" text-anchor="middle">loaded once</text></g>
+              <g class="dg-edge e-director e-world"><path d="M440 128 L490 186" marker-end="url(#ff-m)"/></g>
+              <g class="dg-edge e-arsenal e-world"><path d="M440 228 H466" marker-end="url(#ff-m)"/></g>
+              <g class="dg-edge e-meta e-world"><path d="M440 330 L490 260" marker-end="url(#ff-m)"/></g>
+              <g class="dg-edge gold e-world e-renderer"><path d="M640 210 L716 190" marker-end="url(#ff-a)"/><text x="678" y="180" text-anchor="middle">one-way read</text></g>
+              <g class="dg-edge e-renderer e-hud"><path d="M815 214 V286" marker-end="url(#ff-m)"/><text x="827" y="254">draws</text></g>
+              <g class="dg-edge dash e-probes e-world"><path d="M130 406 L480 262" marker-end="url(#ff-m)"/><text x="290" y="322" text-anchor="middle">replay must match</text></g>
 
-              <path class="dg-bound" d="M560 70 V440"/>
-              <text class="dg-callout" x="10" y="70">[ READ-ONLY — NO ORDER SURFACE EXISTS ANYWHERE ]</text>
-              <text class="dg-callout-sub" x="10" y="86">the desk watches and reads; it cannot act</text>
-              <text class="dg-callout" x="10" y="420">[ THE MODEL IS LOCAL — NOTHING LEAVES THE MACHINE ]</text>
-              <text class="dg-callout-sub" x="10" y="436">analyst and council run on Ollama; no cloud, no API keys</text>
+              <!-- callouts -->
+              <text class="dg-callout" x="10" y="70">[ SAME SEED, SAME RUN — DETERMINISM IS THE CONTRACT ]</text>
+              <text class="dg-callout-sub" x="10" y="86">all gameplay state lives in pooled data; the RNG is seeded,</text>
+              <text class="dg-callout-sub" x="10" y="101">and a diverging replay fails the probe, not the player</text>
+              <text class="dg-callout" x="700" y="420">[ THE RENDERER READS — IT NEVER WRITES ]</text>
+              <text class="dg-callout-sub" x="700" y="436">gameplay never depends on what is drawn</text>
+              <text class="dg-callout-sub" x="10" y="478">both probes run without a GPU — verified before it is ever played</text>
 
-              <g class="dg-node" data-n="tws"><rect x="10" y="150" width="130" height="56" rx="8"/><text class="n" x="75" y="174" text-anchor="middle">TWS / IBKR</text><text class="r" x="75" y="192" text-anchor="middle">live market data</text></g>
-              <g class="dg-node" data-n="suite"><rect x="185" y="150" width="160" height="56" rx="8"/><text class="n" x="265" y="174" text-anchor="middle">SENTINEL SUITE</text><text class="r" x="265" y="192" text-anchor="middle">observe + record · host</text></g>
-              <g class="dg-node" data-n="tapes"><rect x="390" y="150" width="150" height="56" rx="8"/><text class="n" x="465" y="174" text-anchor="middle">TAPES + REPORTS</text><text class="r" x="465" y="192" text-anchor="middle">session artifacts</text></g>
-              <g class="dg-node" data-n="bridge"><rect x="600" y="90" width="170" height="56" rx="8"/><text class="n" x="685" y="114" text-anchor="middle">ENGINE BRIDGE</text><text class="r" x="685" y="132" text-anchor="middle">thin adapter · returns JSON</text></g>
-  <text class="dg-callout-sub" x="600" y="168">imports the suite's real engines —</text>
-  <text class="dg-callout-sub" x="600" y="182">the math is never re-implemented</text>
-              <g class="dg-node" data-n="panels"><rect x="790" y="90" width="185" height="68" rx="8"/><text class="n" x="882" y="112" text-anchor="middle">DESK PANELS</text><text class="r" x="882" y="130" text-anchor="middle">evidence · iceberg · backtest</text><text class="r" x="882" y="144" text-anchor="middle">0DTE skew · scoreboard</text></g>
-              <g class="dg-node" data-n="llm"><rect x="600" y="250" width="170" height="56" rx="8"/><text class="n" x="685" y="274" text-anchor="middle">LOCAL MODEL</text><text class="r" x="685" y="292" text-anchor="middle">Ollama · analyst read</text></g>
-              <g class="dg-node" data-n="council"><rect x="790" y="250" width="185" height="56" rx="8"/><text class="n" x="882" y="274" text-anchor="middle">COUNCIL</text><text class="r" x="882" y="292" text-anchor="middle">four-persona second read</text></g>
+              <!-- nodes -->
+              <g class="dg-node" data-n="config"><rect x="10" y="190" width="180" height="64" rx="8"/><text class="n" x="100" y="212" text-anchor="middle">BALANCE RESOURCES</text><text class="r" x="100" y="230" text-anchor="middle">typed .tres configs</text><text class="r" x="100" y="244" text-anchor="middle">nothing hardcoded</text></g>
+              <g class="dg-node" data-n="director"><rect x="260" y="90" width="180" height="56" rx="8"/><text class="n" x="350" y="114" text-anchor="middle">WAVE DIRECTOR</text><text class="r" x="350" y="132" text-anchor="middle">escalation · 6 bosses</text></g>
+              <g class="dg-node" data-n="arsenal"><rect x="260" y="196" width="180" height="64" rx="8"/><text class="n" x="350" y="218" text-anchor="middle">ARSENAL</text><text class="r" x="350" y="236" text-anchor="middle">draft · Mk I–III tiers</text><text class="r" x="350" y="250" text-anchor="middle">Mk★ fork · 18 finals</text></g>
+              <g class="dg-node" data-n="meta"><rect x="260" y="310" width="180" height="56" rx="8"/><text class="n" x="350" y="334" text-anchor="middle">METAGAME</text><text class="r" x="350" y="352" text-anchor="middle">scrip · depot riders · save</text></g>
+              <g class="dg-node" data-n="world"><rect x="470" y="186" width="170" height="66" rx="8"/><text class="n" x="555" y="210" text-anchor="middle">GAME WORLD</text><text class="r" x="555" y="228" text-anchor="middle">pooled entities</text><text class="r" x="555" y="242" text-anchor="middle">element wheel · 4+1</text></g>
+              <g class="dg-node" data-n="renderer"><rect x="720" y="150" width="190" height="64" rx="8"/><text class="n" x="815" y="172" text-anchor="middle">HYBRID RENDERER</text><text class="r" x="815" y="190" text-anchor="middle">batched swarm layer</text><text class="r" x="815" y="204" text-anchor="middle">+ real ship &amp; boss nodes</text></g>
+              <g class="dg-node" data-n="hud"><rect x="720" y="290" width="190" height="56" rx="8"/><text class="n" x="815" y="314" text-anchor="middle">COCKPIT HUD</text><text class="r" x="815" y="332" text-anchor="middle">glass + glow · shift review</text></g>
+              <g class="dg-node" data-n="probes"><rect x="10" y="400" width="240" height="56" rx="8"/><text class="n" x="130" y="424" text-anchor="middle">HEADLESS PROBES</text><text class="r" x="130" y="442" text-anchor="middle">layout walk · autopiloted full run</text></g>
             </svg>
           </div>
-          <figcaption class="diagram-cap">FIG 04 — WARDEN: THE DESK INSIDE THE WORKSPACE</figcaption>
+          <figcaption class="diagram-cap">FIG 04 — FULFILLMENT: SIM/RENDER SPLIT &amp; VERIFY GATE</figcaption>
         </figure>
         <div class="cs-meta reveal">
           <div>
             <h3 class="cs-h">Stack</h3>
             <div class="cs-stack">
-              <span class="tag">FastAPI</span><span class="tag">vanilla JS</span><span class="tag">Docker Compose</span><span class="tag">Sentinel engines (imported)</span><span class="tag">Ollama</span><span class="tag">open-source fork</span>
+              <span class="tag">Godot 4.7</span><span class="tag">GDScript</span><span class="tag">typed .tres configs</span><span class="tag">seeded RNG</span><span class="tag">headless probes</span><span class="tag">procedural synth audio</span>
             </div>
-            <p class="cs-outcome">active · desk panels + analyst + council live in the workspace · code private</p>
+            <p class="cs-outcome">full loop built · title → run → review → depot → back in · both probes green · in play-test</p>
             <div class="cs-links">
-              <a class="cs-link" href="atlas/?p=warden">Atlas entry →</a>
-              <span class="cs-note">code private</span>
+              <a class="cs-link" href="atlas/?p=fulfillment">Atlas entry →</a>
+              <span class="cs-note">desktop build · in owner play-test</span>
             </div>
           </div>
           <div>
             <h3 class="cs-h">Key decisions</h3>
             <ul class="cs-dlist">
-              <li><strong>Additive fork, thin seam.</strong> New files plus a handful of core edits — upstream workspace updates merge cleanly instead of forking away from them.</li>
-              <li><strong>Import, never copy.</strong> The bridge calls the suite's real engines; the golden-vector math keeps one source of truth instead of drifting across two codebases.</li>
-              <li><strong>Local model, local data.</strong> Analyst and council reads run on Ollama; a session never leaves the machine, and the desk layer has no way to place an order.</li>
+              <li><strong>Sim first, pixels second.</strong> A deterministic 60 Hz sim with pooled state and seeded RNG; the hybrid renderer reads one way. A diverging replay is a failing test, not a shrug.</li>
+              <li><strong>A fork, not a recipe tree.</strong> Every gun climbs Mk I–III; at the top one card offers two pre-authored final forms. No invisible planning to punish, and 18 authored finals still ship.</li>
+              <li><strong>Regenerating ammo, no reload.</strong> Capacity, regen, and a firing-suppression window per weapon give heavy guns a burst identity without a dead reload penalty — all knobs in config.</li>
+              <li><strong>Verified headless before played.</strong> Two probes gate every push: one walks every app state, one autopilots a full run through bosses, the fork, and the save. The game is testable without a GPU.</li>
             </ul>
           </div>
         </div>
