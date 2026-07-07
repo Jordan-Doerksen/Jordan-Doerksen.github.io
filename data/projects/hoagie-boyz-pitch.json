@@ -1,0 +1,35 @@
+{
+  "slug": "hoagie-boyz-pitch",
+  "name": "Hoagie Boyz",
+  "category": "studio",
+  "status": "live",
+  "statusNote": "Shipped concept/pitch site, live. Dressed to the client's own meme-brutalist brand rather than the house style; real transactions defer to the shop's actual ordering site.",
+  "oneLiner": "A one-page concept site for a brutalist, meme-branded Italian sub shop in South Osborne, built speculatively as a pitch.",
+  "stack": ["plain HTML/CSS/JS, no build tools", "single self-contained HTML files", "Google Fonts CDN, Open Graph meta"],
+  "components": [
+    { "name": "index.html", "desc": "Sticky nav with hamburger, hero, scrolling marquee banner, Featured grid, two-column menu, dark-band Story section, Visit section, footer" },
+    { "name": "Hero SVG", "desc": "Inline hand-drawn SVG of a donkey dragging a giant submarine sandwich — a nod to the shop's original sign" },
+    { "name": "Hours highlighter", "desc": "JS highlights today's line in the hours list" },
+    { "name": "pitch.html", "desc": "The proposal, styled in a brutalist tomato/mustard/ink palette with print-friendly rules" }
+  ],
+  "dataFlow": [
+    "Single-page scrolling site; nav anchors navigate within the document.",
+    "CTAs: tel: click-to-call, an external Apple Maps link, and an outbound link to the shop's real live ordering site — the concept defers real transactions there.",
+    "No embedded map iframe and no contact form; the map is an external deep link."
+  ],
+  "integrations": [
+    "Google Fonts (Anton, DM Sans, Permanent Marker)",
+    "Apple Maps deep link",
+    "Outbound link to the shop's real ordering domain",
+    "Facebook link"
+  ],
+  "decisions": [
+    "Deliberately deadpan meme voice matching the shop's real brand personality — client work wears the client's brand, not the house style.",
+    "Brutalist look: thick borders, hard shadows, sticker chips.",
+    "No stock photography — the only imagery is the hand-drawn inline SVG.",
+    "Marquee banner disabled under prefers-reduced-motion.",
+    "Menu disclaims that prices are recent and may shift."
+  ],
+  "links": { "live": "/studio/hoagie-boyz-pitch/", "repo": "https://github.com/Jordan-Doerksen/hoagie-boyz-pitch" },
+  "diagram": "/assets/diagrams/hoagie-boyz-pitch.svg"
+}

@@ -1,0 +1,26 @@
+<svg viewBox="0 0 1000 430" role="img" aria-label="Bonnie Day pitch data flow. A true multi-page site: the home page links through a persistent top nav to separate menu, story, and visit pages. Visit is the terminal reservation page, ending in a tel: click-to-call — there is no live booking form. A printable pitch.html proposal ships alongside, and every photo is captioned as a placeholder.">
+  <defs>
+    <marker id="bd-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="bd-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-home e-menu"><path d="M260 165 L396 85" marker-end="url(#bd-a)"/><text x="322" y="108" text-anchor="middle">persistent nav</text></g>
+  <g class="dg-edge gold e-home e-story"><path d="M260 179 H396" marker-end="url(#bd-a)"/><text x="328" y="170" text-anchor="middle">nav + in-content CTAs</text></g>
+  <g class="dg-edge gold e-home e-visit"><path d="M260 193 L396 273" marker-end="url(#bd-a)"/><text x="322" y="252" text-anchor="middle">to the finale</text></g>
+  <g class="dg-edge gold e-visit e-phone"><path d="M620 279 H736" marker-end="url(#bd-a)"/><text x="678" y="268" text-anchor="middle">reserve by phone</text></g>
+  <g class="dg-edge e-home e-pitch"><path d="M155 208 V296" marker-end="url(#bd-m)"/><text x="167" y="255">ships alongside</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="home"><rect x="50" y="150" width="210" height="58" rx="8"/><text class="n" x="155" y="174" text-anchor="middle">INDEX.HTML</text><text class="r" x="155" y="192" text-anchor="middle">act I café · act II resto</text></g>
+  <g class="dg-node" data-n="menu"><rect x="400" y="50" width="220" height="58" rx="8"/><text class="n" x="510" y="74" text-anchor="middle">MENU.HTML</text><text class="r" x="510" y="92" text-anchor="middle">café / resto toggle tabs</text></g>
+  <g class="dg-node" data-n="story"><rect x="400" y="150" width="220" height="58" rx="8"/><text class="n" x="510" y="174" text-anchor="middle">STORY.HTML</text><text class="r" x="510" y="192" text-anchor="middle">acts · cast grid · dedication</text></g>
+  <g class="dg-node" data-n="visit"><rect x="400" y="250" width="220" height="58" rx="8"/><text class="n" x="510" y="274" text-anchor="middle">VISIT.HTML</text><text class="r" x="510" y="292" text-anchor="middle">hours · reservation panel</text></g>
+  <g class="dg-node" data-n="phone"><rect x="740" y="250" width="230" height="58" rx="8"/><text class="n" x="855" y="274" text-anchor="middle">TEL: CLICK-TO-CALL</text><text class="r" x="855" y="292" text-anchor="middle">no live booking form</text></g>
+  <g class="dg-node" data-n="pitch"><rect x="50" y="300" width="210" height="58" rx="8"/><text class="n" x="155" y="324" text-anchor="middle">PITCH.HTML</text><text class="r" x="155" y="342" text-anchor="middle">the printable proposal</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="620" y="370">[ EVERY PHOTO A CAPTIONED PLACEHOLDER ]</text>
+  <text class="dg-callout-sub" x="620" y="388">stock images are explicitly flagged for swap with the</text>
+  <text class="dg-callout-sub" x="620" y="403">business's own photography — nothing overpromises</text>
+</svg>

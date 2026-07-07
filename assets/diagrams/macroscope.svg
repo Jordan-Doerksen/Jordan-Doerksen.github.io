@@ -1,0 +1,30 @@
+<svg viewBox="0 0 1000 460" role="img" aria-label="Macroscope data flow. Thirteen macro and market RSS feeds are fetched and deduped against a capped seen-store, a lexicon pre-filter drops headlines with no market vocabulary, and survivors get a local Ollama impact read scored as severity equals magnitude times confidence. Scored cards post paced to an outbound-only Discord webhook and are recorded to a local feed file that a static dashboard polls every thirty seconds; if Ollama is down, the lexicon runs as an offline fallback read.">
+  <defs>
+    <marker id="ms-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="ms-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-rss e-seen"><path d="M210 119 H255" marker-end="url(#ms-a)"/><text x="235" y="83" text-anchor="middle">new items</text></g>
+  <g class="dg-edge gold e-seen e-lex"><path d="M430 119 H475" marker-end="url(#ms-a)"/><text x="455" y="83" text-anchor="middle">unseen only</text></g>
+  <g class="dg-edge gold e-lex e-llm"><path d="M670 119 H715" marker-end="url(#ms-a)"/><text x="693" y="83" text-anchor="middle">survivors</text></g>
+  <g class="dg-edge gold e-llm e-disc"><path d="M855 148 V235" marker-end="url(#ms-a)"/><text x="867" y="196">scored cards</text></g>
+  <g class="dg-edge e-llm e-feed"><path d="M760 148 L570 235" marker-end="url(#ms-m)"/><text x="700" y="195">card recorded</text></g>
+  <g class="dg-edge e-feed e-dashb"><path d="M440 269 H356" marker-end="url(#ms-m)"/><text x="398" y="255" text-anchor="middle">polled 30 s</text></g>
+  <g class="dg-edge dash e-lex e-feed"><path d="M575 148 L505 235" marker-end="url(#ms-m)"/><text x="495" y="200" text-anchor="end">offline fallback</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="rss"><rect x="30" y="90" width="180" height="58" rx="8"/><text class="n" x="120" y="114" text-anchor="middle">RSS FEEDS</text><text class="r" x="120" y="132" text-anchor="middle">13 macro · market sources</text></g>
+  <g class="dg-node" data-n="seen"><rect x="260" y="90" width="170" height="58" rx="8"/><text class="n" x="345" y="114" text-anchor="middle">DEDUPE STORE</text><text class="r" x="345" y="132" text-anchor="middle">capped seen-file</text></g>
+  <g class="dg-node" data-n="lex"><rect x="480" y="90" width="190" height="58" rx="8"/><text class="n" x="575" y="114" text-anchor="middle">LEXICON PREFILTER</text><text class="r" x="575" y="132" text-anchor="middle">market vocab or drop</text></g>
+  <g class="dg-node" data-n="llm"><rect x="720" y="90" width="250" height="58" rx="8"/><text class="n" x="845" y="114" text-anchor="middle">OLLAMA IMPACT READ</text><text class="r" x="845" y="132" text-anchor="middle">severity = magnitude × confidence</text></g>
+  <g class="dg-node" data-n="disc"><rect x="740" y="240" width="230" height="58" rx="8"/><text class="n" x="855" y="264" text-anchor="middle">DISCORD WEBHOOK</text><text class="r" x="855" y="282" text-anchor="middle">paced posts · outbound only</text></g>
+  <g class="dg-node" data-n="feed"><rect x="440" y="240" width="200" height="58" rx="8"/><text class="n" x="540" y="264" text-anchor="middle">FEED FILE</text><text class="r" x="540" y="282" text-anchor="middle">last-60 cards · local JSON</text></g>
+  <g class="dg-node" data-n="dashb"><rect x="120" y="240" width="230" height="58" rx="8"/><text class="n" x="235" y="264" text-anchor="middle">DASHBOARD</text><text class="r" x="235" y="282" text-anchor="middle">static page · polls every 30 s</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="30" y="360">[ SENTIMENT ONLY — NO TRADING APIS ]</text>
+  <text class="dg-callout-sub" x="30" y="378">no brokerage feeds, no order surface — not trading advice</text>
+  <text class="dg-callout" x="30" y="412">[ THE LLM IS THE BRAIN ]</text>
+  <text class="dg-callout-sub" x="30" y="430">the lexicon only pre-filters — and stands in when Ollama is down</text>
+</svg>

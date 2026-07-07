@@ -1,0 +1,49 @@
+{
+  "slug": "portfolio-monorepo",
+  "name": "jordan-doerksen.github.io",
+  "category": "studio",
+  "status": "active",
+  "statusNote": "Actively being redesigned; two design generations (Daybreak Editorial and the older Observatory) currently coexist mid-migration.",
+  "oneLiner": "The portfolio monorepo itself — the site this atlas lives on, documenting the site that documents it.",
+  "stack": [
+    "Plain HTML/CSS/vanilla JS — no build tools, no npm, no framework",
+    "Content as JSON under data/, fetched at runtime",
+    "GitHub Pages, deploy-from-branch (any push redeploys)"
+  ],
+  "components": [
+    { "name": "Root portfolio", "desc": "index.html — document-shaped front door: TOC, numbered principles, three flagship case studies, full project index." },
+    { "name": "7 category hubs", "desc": "rail/, games/, trading/, studio/, signals/, bots/, tools/ — thin shells that fetch the registry and render cards client-side." },
+    { "name": "Project pages", "desc": "Every project's page lives inside its category folder in this same repo." },
+    { "name": "data/registry.json", "desc": "Single source of truth for categories and project cards." },
+    { "name": "styles/", "desc": "Copied Daybreak Editorial snapshot: tokens.css, style.css, effects.js." },
+    { "name": "Redirect stubs", "desc": "One-line meta-refresh pages keeping every old top-level URL alive." },
+    { "name": "Legacy Observatory layer", "desc": "Prior-generation css/js and spoke pages, still present mid-migration." }
+  ],
+  "dataFlow": [
+    "data/registry.json holds categories and one object per project.",
+    "The root page fetches it and renders the category summary plus a full grouped archive list.",
+    "Each hub fetches it, filters projects by its hardcoded category, and renders one card per match.",
+    "A card links to its in-repo url, falls back to the external repo, else renders unlinked as private.",
+    "effects.js is injected after cards exist in the DOM so reveal and hover effects bind to fresh elements.",
+    "Adding a project is one JSON object appended to the registry — no hub code changes."
+  ],
+  "integrations": [
+    "GitHub Pages",
+    "Google Fonts CDN",
+    "A free public quote API with a local JSON fallback",
+    "Cross-links to every standalone project repo"
+  ],
+  "decisions": [
+    "No build tools for the shell layer, ever.",
+    "Registry-driven categories instead of hand-coded hub HTML.",
+    "Per-repo GitHub Pages off everywhere except this monorepo (plus Resume and style-library).",
+    "Redirect stubs preserve every old URL.",
+    "Cards with no url or repo render explicitly as private — show nothing rather than something false.",
+    "Effects script deliberately injected post-render so it binds to freshly created cards."
+  ],
+  "links": {
+    "live": "/",
+    "repo": "https://github.com/Jordan-Doerksen/jordan-doerksen.github.io"
+  },
+  "diagram": "/assets/diagrams/portfolio-monorepo.svg"
+}

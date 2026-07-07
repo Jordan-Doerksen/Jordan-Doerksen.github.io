@@ -1,0 +1,47 @@
+{
+  "slug": "cror-signals",
+  "name": "CROR Signals",
+  "category": "rail",
+  "status": "live",
+  "statusNote": "A content source superseded at parity by Clear Board — its aspect encodings feed Clear Board's Signals station — but kept live on its own page.",
+  "oneLiner": "A focused signal-aspect trainer for Canadian railway conductors and engineers — every block and interlocking signal aspect rendered as a drawn SVG lamp stack, with Learn, Quiz, Build, Family-drill, and Exam modes.",
+  "stack": [
+    "Vanilla JavaScript, ES modules, no framework or bundler",
+    "Static HTML/CSS/SVG, PWA (manifest + service worker)",
+    "Node used only for a correctness linter; zero external library dependencies"
+  ],
+  "components": [
+    { "name": "Router + boot", "desc": "Hash router, service-worker registration, and an onboarding gate." },
+    { "name": "Signal renderer", "desc": "An audited SVG renderer, ported verbatim from the CN Conductor Trainer." },
+    { "name": "Content dataset", "desc": "The canonical audited aspect dataset plus 30 alternate hardware forms." },
+    { "name": "Quiz generator", "desc": "Ranks wrong answers by confusability, family, and lamp-stack distance so distractors are plausible." },
+    { "name": "Modes", "desc": "Quiz, Build (assemble a lamp stack from a name, checked by deep equality), Family drill, and a timed Exam with an 80% pass bar." },
+    { "name": "Progress + store", "desc": "Leitner spaced repetition (boxes 1-5) behind a single localStorage touchpoint." },
+    { "name": "tools/validate.mjs", "desc": "A correctness linter — duplicate ids, bad lamp codes, forbidden plate types, distractor counts." }
+  ],
+  "dataFlow": [
+    "A quiz question pulls a target aspect, renders a random hardware form, and ranks distractors.",
+    "The tapped answer is checked; the Leitner box and streak update and persist.",
+    "Feedback shows the rule reference and meaning, with an audio cue.",
+    "The last question rolls into a score plus a missed-list with retry.",
+    "Build mode runs the reverse path — assemble the lamp stack, checked by deep-equality diff."
+  ],
+  "integrations": [
+    "Reuses two audited assets from the training-assistant / CN Conductor Trainer lineage: the SVG renderer and the encoded aspect dataset",
+    "30 alternate hardware forms cross-checked against 136 screenshots of a third-party incumbent app",
+    "Distribution path: static host, then a TWA wrap for Google Play"
+  ],
+  "decisions": [
+    "Correctness is the entire product moat — one rulebook edition is the sole authority, and unverified aspects are flagged, never guessed.",
+    "The validator hard-fails on any US-practice plate that doesn't exist in Canadian signalling.",
+    "Distractor quality is treated as a correctness requirement — the validator demands at least three plausible wrong answers.",
+    "Free plus an optional tip, no ads or in-app purchases — superseding an earlier paid plan.",
+    "A light, mobile-first skin — commercial products get a light skin.",
+    "Show nothing rather than something false, carried over explicitly."
+  ],
+  "links": {
+    "live": "/rail/cror-signals/",
+    "repo": "https://github.com/Jordan-Doerksen/cror-signals"
+  },
+  "diagram": "/assets/diagrams/cror-signals.svg"
+}

@@ -1,0 +1,28 @@
+<svg viewBox="0 0 1000 360" role="img" aria-label="CROR Training Assistant data flow. A content registry of 305 verbatim, cited entries — hard-gated by a Node validator that imports the exact same schema and files the app ships — feeds the Search and Reference front door, where every entry shows its citation and trust chip. Drills derive their question pool live from the same entries, each result updates a Leitner box in localStorage, and the Study dashboard hands the due queue back to the same quiz runner. All state is client-side; a service worker serves the app offline." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="tra-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="tra-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-reg e-ref"><path d="M235 119 H291" marker-end="url(#tra-a)"/><text x="263" y="84" text-anchor="middle">front door</text></g>
+  <g class="dg-edge gold e-ref e-drill"><path d="M510 119 H561" marker-end="url(#tra-a)"/><text x="536" y="84" text-anchor="middle">same entries</text></g>
+  <g class="dg-edge gold e-drill e-leit"><path d="M750 119 H796" marker-end="url(#tra-a)"/><text x="773" y="84" text-anchor="middle">result updates box</text></g>
+  <g class="dg-edge gold e-leit e-study"><path d="M892 148 V283 H754" marker-end="url(#tra-a)"/><text x="904" y="220">due queue</text></g>
+  <g class="dg-edge e-study e-drill"><path d="M657 246 V152" marker-end="url(#tra-m)"/><text x="669" y="205">same quiz runner</text></g>
+  <g class="dg-edge dash e-val e-reg"><path d="M130 246 V160" marker-end="url(#tra-m)"/><text x="142" y="209">hard gate</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="reg"><rect x="25" y="90" width="210" height="66" rx="8"/><text class="n" x="130" y="114" text-anchor="middle">CONTENT REGISTRY</text><text class="r" x="130" y="132" text-anchor="middle">305 entries · verbatim</text><text class="r" x="130" y="146" text-anchor="middle">citation + trust level</text></g>
+  <g class="dg-node" data-n="ref"><rect x="295" y="90" width="215" height="58" rx="8"/><text class="n" x="402" y="114" text-anchor="middle">SEARCH + REFERENCE</text><text class="r" x="402" y="132" text-anchor="middle">lookup · trust chip shown</text></g>
+  <g class="dg-node" data-n="drill"><rect x="565" y="90" width="185" height="58" rx="8"/><text class="n" x="657" y="114" text-anchor="middle">DRILLS</text><text class="r" x="657" y="132" text-anchor="middle">questions derived live</text></g>
+  <g class="dg-node" data-n="leit"><rect x="800" y="90" width="185" height="58" rx="8"/><text class="n" x="892" y="114" text-anchor="middle">LEITNER STORE</text><text class="r" x="892" y="132" text-anchor="middle">boxes · localStorage</text></g>
+  <g class="dg-node" data-n="study"><rect x="565" y="250" width="185" height="66" rx="8"/><text class="n" x="657" y="274" text-anchor="middle">STUDY DASHBOARD</text><text class="r" x="657" y="292" text-anchor="middle">due queue · adaptive</text><text class="r" x="657" y="306" text-anchor="middle">30-question mock exam</text></g>
+  <g class="dg-node" data-n="val"><rect x="25" y="250" width="210" height="58" rx="8"/><text class="n" x="130" y="274" text-anchor="middle">NODE VALIDATOR</text><text class="r" x="130" y="292" text-anchor="middle">imports the same schema</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="290" y="262">[ ONE CONTENT SOURCE — ZERO DIVERGENCE ]</text>
+  <text class="dg-callout-sub" x="290" y="280">the validator imports the exact files the app ships</text>
+  <text class="dg-callout-sub" x="290" y="295">drills derive at runtime — no second question bank</text>
+  <text class="dg-callout-sub" x="290" y="310">all state is client-side localStorage — no backend</text>
+</svg>

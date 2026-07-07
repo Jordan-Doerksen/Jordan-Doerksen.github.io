@@ -1,0 +1,46 @@
+{
+  "slug": "cn-conductor-trainer",
+  "name": "CROR Trainer — Grande Prairie",
+  "category": "rail",
+  "status": "live",
+  "statusNote": "A content source superseded at parity by Clear Board — its rule bank, radio steps, and signal renderer live on there — but kept live on its own page.",
+  "oneLiner": "A browser-based trainer for CN freight-conductor skills — rule recall, switch-list reading, yard switching, signals, and radio walkthroughs — modeled on a real CN yard.",
+  "stack": [
+    "Vanilla JavaScript/HTML, zero build step, zero dependencies",
+    "Each module a single self-contained .html file",
+    "Offline dev tooling only: Node checks, a BFS puzzle solver, Python + OpenCV for the yard-map trace"
+  ],
+  "components": [
+    { "name": "index.html hub", "desc": "A card-grid launcher in a hub-and-spoke layout." },
+    { "name": "CROR Quiz", "desc": "Data-driven quiz, ~325 questions in escalating tiers; every answer cites a rule number." },
+    { "name": "GP Switching Puzzle", "desc": "A state-model switching puzzle with offline-BFS-verified par solutions." },
+    { "name": "GP Switching Sim", "desc": "A newer canvas prototype, spun into its own standalone repo." },
+    { "name": "GP Yard Board", "desc": "A clickable yard map traced from a real photo via OpenCV homography." },
+    { "name": "GP Radio Steps", "desc": "A guided radio-call walkthrough with locked wording." },
+    { "name": "GP Switching Drill", "desc": "A 'classify the cut' quiz." },
+    { "name": "Signal Reading", "desc": "An SVG signal renderer covering ~102 hardware forms across 38 of 42 indications." }
+  ],
+  "dataFlow": [
+    "The official rulebook PDF (gitignored, never redistributed) is parsed offline, then hand-authored into the question bank.",
+    "The quiz orders questions in escalating tiers; every answer shows its citation and collects misses for an end-of-run review.",
+    "Switching puzzles replay a composed move list against the track state, animating each step.",
+    "Wins are graded on correctness and efficiency against an offline-precomputed par."
+  ],
+  "integrations": [
+    "Official CROR PDF and a third-party study aid — gitignored source material, never redistributed",
+    "Yard geometry traced from a real 2020 CN Grande Prairie diagram via OpenCV"
+  ],
+  "decisions": [
+    "A verbatim safety rule in its docs: never guess or infer rule content.",
+    "Rulebook rules and company operating practice are kept strictly distinguishable.",
+    "Never republish the official rulebook itself.",
+    "Yard geometry must come from the processed photo trace — three hand-drawn attempts were rejected as topologically wrong.",
+    "Radio-call wording is locked by a subject-matter expert.",
+    "Every puzzle is machine-verified solvable before it ships."
+  ],
+  "links": {
+    "live": "/rail/cror-trainer/",
+    "repo": "https://github.com/Jordan-Doerksen/cn-conductor-trainer"
+  },
+  "diagram": "/assets/diagrams/cn-conductor-trainer.svg"
+}

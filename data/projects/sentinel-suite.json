@@ -1,0 +1,48 @@
+{
+  "slug": "sentinel-suite",
+  "name": "Sentinel-Suite",
+  "category": "trading",
+  "status": "built",
+  "statusNote": "pro v1.0.0 is field-verified live on a real IBKR/TWS account; everything after v1.0.0 (iceberg hero, 25Δ skew interpolation, freshness chip, live absorption recording) is browser/unit-verified only. All suites green as of 2026-07-01: 233 Rust tests + 47 golden vectors, 19 parity + 30 honesty tests, 28 iceberg pytest cases.",
+  "oneLiner": "A four-tool, strictly read-only trading-intelligence cockpit suite for ES/NQ futures — it observes, records, and reviews; nothing here trades.",
+  "stack": [
+    "Rust + Tauri v2 (cockpit), GNU/mingw-w64 toolchain",
+    "vanilla JS/HTML/CSS webview UI, no framework",
+    "pure Python, stdlib-only (stage2 / analyst / iceberg)",
+    "local Ollama (deepseek-r1:8b default) for the analyst"
+  ],
+  "components": [
+    { "name": "pro/", "desc": "The cockpit: paced engine loop pulling live/sim/replay data through Engine::cycle and the absorption detector into a JSON snapshot the webview polls." },
+    { "name": "sentinel-core", "desc": "Canonical four-factor math (OBI, VWAP, CVD, ATR, skew, confluence), ported 1:1 from v3's Python; pinned by 47 golden vectors." },
+    { "name": "sentinel-ib", "desc": "Read-only IBKR/TWS live source — depth book, trade prints, options chain; no order method anywhere." },
+    { "name": "sentinel-absorption / sentinel-skew", "desc": "Book-vs-tape iceberg/absorption FSM and 0DTE put-call skew types." },
+    { "name": "sentinel-alerting / sentinel-report", "desc": "Outbound-only Discord webhook pump; tape replay into Markdown/HTML session reports." },
+    { "name": "stage2/", "desc": "Research tool turning a session tape into a 4-table evidence dataset, grade, and dashboard." },
+    { "name": "analyst/", "desc": "Feeds a session report to local Ollama for an EOD analyst-style review." },
+    { "name": "iceberg/", "desc": "Re-runs a Python port of the cockpit's absorption FSM over a tape for iceberg/absorption study." }
+  ],
+  "dataFlow": [
+    "The live source reads IBKR/TWS depth, trade prints, and the options-greeks chain (or a simulated/replay source).",
+    "Each cycle the engine computes OBI/VWAP/CVD/ATR/skew while the absorption FSM runs on the same inside quote and tape, stamped with feed-health diagnostics.",
+    "The engine publishes JSON snapshots into shared state; the webview polls about once a second and renders the cockpit.",
+    "Every live or sim cycle writes to a gzipped JSONL recording.",
+    "On demand, the report crate replays the tape into a session report JSON plus Markdown/HTML.",
+    "Downstream and offline: the tape feeds stage2 (evidence dataset + dashboard) and iceberg (iceberg study + HTML); the report JSON feeds the analyst via local Ollama."
+  ],
+  "integrations": [
+    "IBKR TWS / IB Gateway (read-only)",
+    "Discord webhook (outbound-only)",
+    "local Ollama (deepseek-r1:8b default)",
+    "Tauri v2 / WebView2"
+  ],
+  "decisions": [
+    "Consolidate, don't rewrite — zero core-math rewrites in the merge of four repos.",
+    "Fold the standalone iceberg engine in, and fix its classify_sign one-sided-book bug that silently biased CVD.",
+    "Extend the golden vectors 45→47 to pin that fix as the acceptance bar.",
+    "Share the fixture file, not a shared Python core, to keep the two research engines independently editable.",
+    "Rebrand is presentation-only; crate, identifier, and schema names untouched.",
+    "Read-only enforcement is structural: no order method exists anywhere in the IB crate."
+  ],
+  "links": { "live": "/trading/sentinel/", "repo": null },
+  "diagram": "/assets/diagrams/sentinel-suite.svg"
+}

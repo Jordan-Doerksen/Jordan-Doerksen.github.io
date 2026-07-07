@@ -98,7 +98,11 @@
   }
 
   function buildCard(p) {
-    var href = p.url || p.repo || null;
+    /* full-tier projects route to their atlas entry; the atlas page links
+       on to the live app and repo. entry-tier cards keep the old behavior. */
+    var href = (p.tier === "full" && p.slug)
+      ? "../atlas/?p=" + encodeURIComponent(p.slug)
+      : (p.url || p.repo || null);
     var card = document.createElement(href ? "a" : "div");
     card.className = "card reveal";
     if (href) card.href = href;
@@ -111,9 +115,10 @@
       card.appendChild(tags);
     }
     /* both url and repo null → unlinked card with a muted PRIVATE spec */
+    /* unlinked cards say what they honestly are (retired/frozen/private) */
     card.appendChild(href
       ? el("span", "spec", p.spec || "open")
-      : el("span", "spec spec-private", "private"));
+      : el("span", "spec spec-private", p.status || "private"));
     return card;
   }
 

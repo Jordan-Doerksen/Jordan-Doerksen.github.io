@@ -1,0 +1,39 @@
+{
+  "slug": "richter",
+  "name": "Richter",
+  "category": "signals",
+  "status": "built",
+  "statusNote": "Working engine with launchers and a design manifest; later folded into Spectrum alongside its siblings, so this repo stands as the predecessor.",
+  "oneLiner": "A Node news-monitoring bot that scores world headlines for magnitude with a local LLM and posts placard cards to Discord plus a broadsheet dashboard.",
+  "stack": ["Node.js 18+ (ESM)", "Ollama (local LLM, llama3.1:8b default)", "@napi-rs/canvas for card rendering", "Windows .bat launchers"],
+  "components": [
+    { "name": "index.js", "desc": "Main polling and drip-posting loop." },
+    { "name": "prefilter", "desc": "Cheap lexicon gate before any LLM call — includes neutral and positive terms so it isn't all doom." },
+    { "name": "analyze", "desc": "Ollama call that coerces model output into a fixed schema with safe defaults." },
+    { "name": "placard", "desc": "Renders a parchment-style card image via canvas, with a plain-embed fallback." },
+    { "name": "discord", "desc": "Webhook poster with a custom User-Agent that respects rate limits." },
+    { "name": "serve.js + web/", "desc": "Local broadsheet-style dashboard served from stored feed data." },
+    { "name": "tools/", "desc": "Dry-run, test-post, sample-feed, and placard-test utilities." }
+  ],
+  "dataFlow": [
+    "Around 15 world and politics RSS feeds are fetched on a loop.",
+    "A lexicon prefilter drops obvious non-stories before any LLM call.",
+    "Survivors go to a local Ollama model for a structured read: arena, heat, virality, stakes, confidence, stage.",
+    "Not-newsworthy items are dropped; magnitude is computed as virality times confidence.",
+    "A parchment placard card is rendered for each surviving story.",
+    "Cards post to Discord on a metered drip (default one card per four minutes) and are written to a local feed store.",
+    "The dashboard server renders a broadsheet view from that stored data.",
+    "If Ollama is unreachable, a lexicon-only fallback read runs — always labeled low-confidence and degraded."
+  ],
+  "integrations": ["Discord webhook", "Ollama (local)", "~15 RSS and Google News feeds"],
+  "decisions": [
+    "A blank card beats a false alarm — low-confidence reads never post unlabeled.",
+    "Politically neutral by design: the lexicon is a bouncer, not an editor; the LLM does the judging.",
+    "Deliberately paced drip posting so the channel is never flooded.",
+    "Every model-output field is coerced to a known enum with safe defaults — malformed LLM JSON never throws.",
+    "Secrets live in a gitignored .env.",
+    "Same engine shape as Macroscope, different lens — market impact there, world drama here."
+  ],
+  "links": { "live": null, "repo": null },
+  "diagram": "/assets/diagrams/richter.svg"
+}

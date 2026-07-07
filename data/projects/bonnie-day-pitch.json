@@ -1,0 +1,35 @@
+{
+  "slug": "bonnie-day-pitch",
+  "name": "Bonnie Day",
+  "category": "studio",
+  "status": "live",
+  "statusNote": "Shipped concept/pitch site, live. Dressed to the client's own literary branding, not the house style; every photo is explicitly captioned as a placeholder to be swapped for the business's own photography.",
+  "oneLiner": "A rebuilt concept site for a Wolseley resto-café-bar, framed as a play in two acts — café by day, candlelit resto by night.",
+  "stack": ["plain HTML/CSS/JS, no build step", "genuine multi-page static site — separate HTML files per page", "Google Fonts CDN"],
+  "components": [
+    { "name": "index.html", "desc": "Home: theatrical hero, Act I café / Act II resto split features, signature-dish grid, full-bleed room band, hours strip" },
+    { "name": "menu.html", "desc": "Café/resto toggle tabs over dish listings" },
+    { "name": "story.html", "desc": "Prose acts with pull-quotes, a dramatis-personae cast grid, and a dedication section" },
+    { "name": "visit.html", "desc": "Hours table, contact/reservation panel, map band — the terminal reservation page" },
+    { "name": "pitch.html", "desc": "The proposal; what's-included calls out the two-act framing and multi-page structure" }
+  ],
+  "dataFlow": [
+    "True multi-page navigation: home links to menu, story, and visit pages via a persistent top nav plus in-content CTAs.",
+    "visit.html is the terminal reservation page — tel: click-to-call, no live booking form.",
+    "Images use an onerror JS fallback to hide broken images gracefully."
+  ],
+  "integrations": [
+    "Google Fonts (Fraunces, Jost)",
+    "Unsplash stock photography, every image captioned as a placeholder",
+    "tel: and mailto: links",
+    "Instagram link"
+  ],
+  "decisions": [
+    "Literary, theatrical voice — stage-direction italics, a play in two acts, dramatis personae — matching the business's own branding conceit, not the house style.",
+    "The only one of the four pitch sites built as a genuine multi-page site.",
+    "Every photo flagged as a stand-in — the most explicit stock-photo honesty of the four.",
+    "Carries over an in-memoriam dedication from the real business's site — sensitive content preserved, not stripped."
+  ],
+  "links": { "live": "/studio/bonnie-day-pitch/", "repo": "https://github.com/Jordan-Doerksen/bonnie-day-pitch" },
+  "diagram": "/assets/diagrams/bonnie-day-pitch.svg"
+}

@@ -1,0 +1,37 @@
+<svg viewBox="0 0 1000 500" role="img" aria-label="Spectrum data flow. Inside one Tauri 2 control panel, a pooled RSS feed list flows through a persistent seen store, a classify-once local Ollama model, a band router, and a drip queue. Finished cards leave the panel to three Discord channels: money, politics plus tech, and catastrophe.">
+  <defs>
+    <marker id="spm-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+  </defs>
+
+  <!-- shell: the control panel around the engine -->
+  <rect class="dg-shell" x="20" y="50" width="760" height="430" rx="14"/>
+  <text class="dg-shell-label" x="36" y="40">TAURI 2 CONTROL PANEL — start · stop · dry-run · tuning · log</text>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-rss e-seen"><path d="M240 119 H306" marker-end="url(#spm-a)"/><text x="273" y="83" text-anchor="middle">fetched once</text></g>
+  <g class="dg-edge gold e-seen e-llm"><path d="M500 119 H566" marker-end="url(#spm-a)"/><text x="533" y="83" text-anchor="middle">unseen only</text></g>
+  <g class="dg-edge gold e-llm e-router"><path d="M665 148 V226" marker-end="url(#spm-a)"/><text x="677" y="191">classified once</text></g>
+  <g class="dg-edge gold e-router e-drip"><path d="M665 296 V376" marker-end="url(#spm-a)"/><text x="677" y="331">cleared cards</text><text x="677" y="345">severity ≥ floor</text></g>
+  <g class="dg-edge gold e-drip e-money"><path d="M760 392 L821 132" marker-end="url(#spm-a)"/><text x="800" y="196" text-anchor="end">dripped</text></g>
+  <g class="dg-edge gold e-drip e-pol"><path d="M760 402 L821 264" marker-end="url(#spm-a)"/></g>
+  <g class="dg-edge gold e-drip e-cata"><path d="M760 411 L821 397" marker-end="url(#spm-a)"/></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="rss"><rect x="50" y="90" width="190" height="58" rx="8"/><text class="n" x="145" y="114" text-anchor="middle">RSS FEED POOL</text><text class="r" x="145" y="132" text-anchor="middle">34 sources · four bands</text></g>
+  <g class="dg-node" data-n="seen"><rect x="310" y="90" width="190" height="58" rx="8"/><text class="n" x="405" y="114" text-anchor="middle">SEEN STORE</text><text class="r" x="405" y="132" text-anchor="middle">fingerprints · cap 4000</text></g>
+  <g class="dg-node" data-n="llm"><rect x="570" y="90" width="190" height="58" rx="8"/><text class="n" x="665" y="114" text-anchor="middle">CLASSIFY-ONCE LLM</text><text class="r" x="665" y="132" text-anchor="middle">Ollama · llama3.1:8b</text></g>
+  <g class="dg-node" data-n="router"><rect x="570" y="230" width="190" height="66" rx="8"/><text class="n" x="665" y="254" text-anchor="middle">BAND ROUTER</text><text class="r" x="665" y="272" text-anchor="middle">four bands · card skins</text><text class="r" x="665" y="286" text-anchor="middle">category picks the webhook</text></g>
+  <g class="dg-node" data-n="drip"><rect x="570" y="380" width="190" height="58" rx="8"/><text class="n" x="665" y="404" text-anchor="middle">DRIP QUEUE</text><text class="r" x="665" y="422" text-anchor="middle">strongest first · paced</text></g>
+  <g class="dg-node" data-n="money"><rect x="825" y="100" width="170" height="58" rx="8"/><text class="n" x="910" y="124" text-anchor="middle">MONEY</text><text class="r" x="910" y="142" text-anchor="middle">Discord webhook</text></g>
+  <g class="dg-node" data-n="pol"><rect x="825" y="230" width="170" height="72" rx="8"/><text class="n" x="910" y="254" text-anchor="middle">POLITICS (+TECH)</text><text class="r" x="910" y="272" text-anchor="middle">Discord webhook</text><text class="r" x="910" y="286" text-anchor="middle">+ tech, in its TECH skin</text></g>
+  <g class="dg-node" data-n="cata"><rect x="825" y="370" width="170" height="58" rx="8"/><text class="n" x="910" y="394" text-anchor="middle">CATASTROPHE</text><text class="r" x="910" y="412" text-anchor="middle">Discord webhook</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="50" y="250">[ CLASSIFY ONCE, NEVER TWICE ]</text>
+  <text class="dg-callout-sub" x="50" y="268">every headline is fingerprinted the moment it's read;</text>
+  <text class="dg-callout-sub" x="50" y="283">one LLM pass per story, across all feeds</text>
+  <text class="dg-callout" x="50" y="327">[ THE READ IS FULLY LOCAL ]</text>
+  <text class="dg-callout-sub" x="50" y="345">no cloud model, no API keys — the only thing that</text>
+  <text class="dg-callout-sub" x="50" y="360">leaves the machine is the finished card, to Discord</text>
+  <text class="dg-callout-sub" x="50" y="404">first run seeds the backlog silently — no day-one dump</text>
+</svg>

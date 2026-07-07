@@ -1,0 +1,33 @@
+{
+  "slug": "orbital-field",
+  "name": "Orbital Field",
+  "category": "games",
+  "status": "live",
+  "statusNote": "Shipped and live. A stateless toy — no goals, no score, no save system.",
+  "oneLiner": "A no-goal orbital-gravity toy — a central star pulls everything; fling, hold, or tap to spawn small bodies that drift, trail light, and eventually get absorbed or drift away.",
+  "stack": ["single-file HTML/CSS/JS (~159 lines), no build step", "two-canvas Canvas 2D (background + foreground)"],
+  "components": [
+    { "name": "Two-canvas split", "desc": "A static-ish starfield canvas redrawn only on resize, and a foreground canvas redrawn every frame with additive light-painting trails." },
+    { "name": "Body system", "desc": "Up to 110 bodies in a ring-buffer array; spawnOrbit() computes a stable circular-orbit velocity via v = sqrt(GM/r)." },
+    { "name": "Physics loop", "desc": "Integrates star gravity (with softening radii) plus an optional finger-well force into velocity, then position." },
+    { "name": "Input", "desc": "One pointer handler — tap spawns an orbit, drag flings a body, holding bends gravity toward the finger." },
+    { "name": "Lifecycle", "desc": "Absorbed bodies flash and are removed, far-drifted bodies are culled, and a low-population auto-reseed keeps the field populated." }
+  ],
+  "dataFlow": [
+    "Pointer down/move/up resolves to a drag-or-tap state.",
+    "On release, a tap spawns a circular orbit; a drag adds a body with flung velocity.",
+    "Each frame computes gravitational acceleration toward the star, plus the pointer if the finger-well is active.",
+    "Velocity and position integrate; absorption and cull checks run.",
+    "The foreground fades toward transparent rather than clearing, producing trails.",
+    "Star, finger-well marker, bodies, and flashes render additively; rAF reschedules."
+  ],
+  "integrations": ["Shares the palette and JetBrains Mono typography of the game line; fully standalone"],
+  "decisions": [
+    "Explicitly no goals, no score — a quiet instrument, a deliberate departure from every other repo in the set.",
+    "prefers-reduced-motion calms the ambient animation rather than disabling the toy, since the interaction itself is the motion.",
+    "Orbit-spawn math uses the real circular-orbit formula, not an arbitrary value.",
+    "The two-canvas split is a performance decision — only bodies and trails need per-frame redraw."
+  ],
+  "links": { "live": "/games/orbital-field/", "repo": "https://github.com/Jordan-Doerksen/orbital-field" },
+  "diagram": "/assets/diagrams/orbital-field.svg"
+}

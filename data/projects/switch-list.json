@@ -1,0 +1,46 @@
+{
+  "slug": "switch-list",
+  "name": "Switch List",
+  "category": "rail",
+  "status": "live",
+  "statusNote": "A content source superseded at parity by Clear Board — its seven engine modules were absorbed byte-for-byte into Clear Board's Yard station — but kept live on its own page.",
+  "oneLiner": "A free browser switching simulator for yard work — line switches, call PULL/SPOT/KICK moves, secure cuts, and build trains, with every mechanic tied to a real rule citation.",
+  "stack": [
+    "Vanilla JavaScript (ES modules), no build step, no framework",
+    "Canvas 2D rendering, Web Audio synthesized sfx",
+    "Node used only for the offline solver/verification harness"
+  ],
+  "components": [
+    { "name": "geometry.js", "desc": "The schematic ladder-yard layout, switch positions, and car-type table." },
+    { "name": "model.js", "desc": "The rules brain — move mutators paired with pure validators, plus win-check and grading." },
+    { "name": "render.js + anim.js", "desc": "A pure draw function and a sequential tween driver." },
+    { "name": "sound.js", "desc": "Web Audio sound effects." },
+    { "name": "puzzles.js", "desc": "19 hand-authored puzzles with solver-baked par and optimal lines." },
+    { "name": "solver.js", "desc": "A Dijkstra solver over game states that imports the exact same model the UI uses." },
+    { "name": "tools/solve.mjs", "desc": "The Node CI harness — fails the build if any puzzle's par is wrong or suboptimal." }
+  ],
+  "dataFlow": [
+    "Clicking a switch toggles its lined state and repaints.",
+    "A chosen move runs a precheck first — illegal or fouling moves are refused immediately with a cited reason and never animate.",
+    "Legal moves animate, committing the state mutation partway through the tween.",
+    "A win check fires on the goal condition; grading compares moves to par, with joints as a secondary stat.",
+    "The solver replays every puzzle's candidate line through a fresh state to confirm it wins in exactly par moves."
+  ],
+  "integrations": [
+    "Rules source of truth is CN Conductor Trainer's rulebook material and a citation index — switch-list never invents rule content",
+    "Absorbed byte-for-byte into clear-board's Yard station, where rule citations map to the shared mastery model"
+  ],
+  "decisions": [
+    "The headline scoring correction: the prototype optimized fewest joints and produced perverse lines, so moves became the primary par metric with joints a tiebreaker.",
+    "The solver never reimplements the rules — it imports the exact functions the UI calls, so solver/game divergence is structurally impossible.",
+    "Exactly one rule is introduced per difficulty tier.",
+    "Rulebook rules and Special Instructions carry visually distinct badges.",
+    "Fixed, authored puzzles over runtime generation — random generation was tried and abandoned.",
+    "Some puzzles carry a deliberately wrong manifest, to train checking the list against the yard."
+  ],
+  "links": {
+    "live": "/rail/switch-list/",
+    "repo": "https://github.com/Jordan-Doerksen/switch-list"
+  },
+  "diagram": "/assets/diagrams/switch-list.svg"
+}

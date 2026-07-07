@@ -1,0 +1,37 @@
+{
+  "slug": "macroscope",
+  "name": "Macroscope",
+  "category": "signals",
+  "status": "built",
+  "statusNote": "Complete and verified. Its pipeline was later consolidated, alongside two sibling engines, into Spectrum; the code is kept.",
+  "oneLiner": "A Node engine that polls ~13 macro and market RSS feeds, has a local LLM judge each surviving headline's market impact, and posts severity-scored cards to Discord plus a local equity-research-styled dashboard.",
+  "stack": ["Node ≥18, ES modules, no build step", "dotenv + rss-parser only", "local Ollama for analysis", "no database — capped JSON files"],
+  "components": [
+    { "name": "index.js", "desc": "The main polling loop, with a single-instance lock via a local TCP port" },
+    { "name": "serve.js", "desc": "Dependency-free static HTTP server for the dashboard" },
+    { "name": "src/feeds.js", "desc": "The 13-feed source list" },
+    { "name": "src/prefilter.js", "desc": "Lexicon bouncer that pre-filters headlines, doubling as the offline fallback" },
+    { "name": "src/analyze.js", "desc": "The Ollama impact read: market, direction, magnitude, confidence; severity = magnitude × confidence, bucketed 1–4" },
+    { "name": "src/store.js", "desc": "Capped JSON dedupe file plus a last-60-cards feed for the dashboard" },
+    { "name": "src/discord.js", "desc": "Paced card posting to a webhook, outbound only" },
+    { "name": "web/", "desc": "Static dashboard that polls the feed every 30 seconds" }
+  ],
+  "dataFlow": [
+    "RSS feeds are fetched, parsed, and normalized.",
+    "Items are deduped against a capped seen-file.",
+    "The lexicon pre-filter drops headlines with no market vocabulary.",
+    "Survivors go to the local Ollama model for an impact read, with an offline lexicon fallback if the LLM is down.",
+    "Severity is computed as magnitude times confidence and bucketed 1–4.",
+    "Each card is recorded to the local feed file, which the dashboard polls.",
+    "Cards are posted, paced, to a Discord webhook."
+  ],
+  "integrations": ["local Ollama", "Discord webhook (outbound only)", "13 RSS / Google News feeds"],
+  "decisions": [
+    "Forked from an earlier doomfeed pipeline but deliberately kept in Node so it could not be imported back into the Python trading tools.",
+    "The lexicon was demoted to pre-filter and offline fallback only — the LLM is the brain.",
+    "Severity = magnitude × confidence, so low-confidence calls don't read as loud as well-supported ones.",
+    "Sentiment only — no trading APIs, no brokerage feeds, not trading advice."
+  ],
+  "links": { "live": null, "repo": null },
+  "diagram": "/assets/diagrams/macroscope.svg"
+}

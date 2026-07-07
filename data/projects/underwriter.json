@@ -1,0 +1,46 @@
+{
+  "slug": "underwriter",
+  "name": "Underwriter",
+  "category": "trading",
+  "status": "built",
+  "statusNote": "Slice 1 of 5 shipped and running (connection, probes, recorder, calendar, diagnostics); the scanner, scores, gamma map, and exit engine are designed in the SPEC but not fully built.",
+  "oneLiner": "A read-only decision-support desk for selling 0DTE SPX/SPXW credit spreads — it continuously answers whether selling today's options is a defensible idea, and never places an order.",
+  "stack": [
+    "Rust + Tauri 2 desktop shell",
+    "React + TypeScript + Vite frontend",
+    "Rust workspace crates, engine in-process"
+  ],
+  "components": [
+    { "name": "sentinel-core / -ib / -skew / -alerting", "desc": "Crates copied with provenance from the field-verified Sentinel suite; golden vectors carried alongside as the cross-repo contract." },
+    { "name": "uw-math", "desc": "Pure, golden-vectored math crate — expected move, realized vol, bisection IV, vectorized Black-Scholes." },
+    { "name": "uw-chain / uw-spreads / uw-gamma / uw-scoring / uw-risk", "desc": "Domain crates for the option chain, spread candidates, gamma map, scoring, and breaker/stop math." },
+    { "name": "uw-engine", "desc": "Wiring and orchestration — config, connection, cycle, diagnostics, probes." },
+    { "name": "uw-live", "desc": "The adapter dialing TWS: session and connection management on a ~1s background engine cadence." },
+    { "name": "uw-recorder", "desc": "Session recorder writing 14 IPC streams plus a continuous journal; replay fidelity doubles as a regression harness." },
+    { "name": "uw-calendar", "desc": "Market-calendar handling from a hand-seeded 2026 calendar file." },
+    { "name": "Tauri shell + React panels", "desc": "IPC is invoke-command JSON snapshots the UI polls — scanner, gamma map, expected-move panel, position monitor." }
+  ],
+  "dataFlow": [
+    "TWS/IB Gateway (Read-Only API on) feeds a background engine thread.",
+    "It subscribes the SPX index, the ES front-quarterly, and the options chain via secdef discovery.",
+    "The engine cycle runs the math crates: expected move via straddle interpolation, realized vol, gamma map, spread scoring, breaker math.",
+    "The recorder writes 14 IPC streams plus a continuous journal — the single source of truth; breaker state is recomputed from it at every launch.",
+    "The UI polls Tauri IPC snapshots into the scanner, gamma map, expected-move, and position panels.",
+    "Any critical state fans out to a Discord webhook, a cockpit sound, and a Windows toast simultaneously."
+  ],
+  "integrations": [
+    "Interactive Brokers TWS (Read-Only API, its own client id)",
+    "CBOE delayed JSON for open interest",
+    "Discord webhook for alerts"
+  ],
+  "decisions": [
+    "The read-only law is enforced three ways: no order module is ever compiled in, TWS Read-Only API is checked, and no IPC command can describe an order.",
+    "Show nothing rather than something false — unverifiable values are named states (EM_UNAVAILABLE, TWS DOWN), never fabricated.",
+    "Breaker state is recomputed from the journal at every launch, never persisted — a restart-to-bypass exploit is structurally impossible.",
+    "Accept-and-flag: it never refuses to monitor a position; violations are flagged and journaled, not hidden.",
+    "All expected-move math derives from the interpolated ATM straddle mid; broker IV never enters a time-scaling formula.",
+    "KPI honesty — the UI states unconditional 0DTE selling is roughly zero-EV after frictions; POP is never presented as edge."
+  ],
+  "links": { "live": null, "repo": "https://github.com/Jordan-Doerksen/underwriter" },
+  "diagram": "/assets/diagrams/underwriter.svg"
+}

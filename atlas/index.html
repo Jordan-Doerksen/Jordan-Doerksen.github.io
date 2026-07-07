@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas — Jordan Doerksen</title>
+<meta name="description" content="Architecture atlas entry — stack, components, data flow, and design decisions for one of Jordan Doerksen's systems.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f6f1e7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f6f1e7'/%3E%3Ctext x='50' y='72' font-size='64' text-anchor='middle' fill='%23b8860b'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/tokens.css">
+<link rel="stylesheet" href="../styles/style.css">
+<link rel="stylesheet" href="../styles/atlas.css">
+</head>
+<body>
+
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <filter id="paperNoise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter>
+    <rect width="100%" height="100%" filter="url(#paperNoise)"/>
+  </svg>
+  <div class="rules" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header class="site">
+      <a href="../" class="wordmark">JORDAN <span>DOERKSEN</span></a>
+      <nav class="site-nav" aria-label="Breadcrumb">
+        <a href="../" class="n-work">← The Archive</a>
+      </nav>
+    </header>
+
+    <main id="atlas">
+      <noscript><p class="atlas-missing">The atlas renders with JavaScript. The repos live at github.com/Jordan-Doerksen.</p></noscript>
+    </main>
+
+    <footer class="site">
+      <p class="ftxt reveal">One entry in the atlas.</p>
+      <p class="fmark reveal">✦ Jordan Doerksen · <span>2026</span></p>
+      <a class="atlas-link reveal" href="../">← The Archive</a>
+    </footer>
+  </div>
+
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+<script>
+/* One template renders any data/projects/<slug>.json + its diagram SVG.
+   Everything is created via createElement/textContent — the ONLY innerHTML-ish
+   injection is the diagram, and that is our own committed SVG, sanity-checked
+   to start with "<svg" before insertion. Missing slug/json/diagram each render
+   an explicit state, never a blank page. */
+(function () {
+  "use strict";
+
+  var host = document.getElementById("atlas");
+  var slug = new URLSearchParams(location.search).get("p") || "";
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function secHead(title, idxText) {
+    var head = el("div", "sec-head reveal");
+    head.appendChild(el("h2", null, title));
+    head.appendChild(el("span", "idx", idxText));
+    return head;
+  }
+
+  function missing(msg) {
+    host.textContent = "";
+    var p = el("p", "atlas-missing");
+    p.appendChild(document.createTextNode(msg + " "));
+    var a = el("a", null, "← back to the index");
+    a.href = "../";
+    p.appendChild(a);
+    host.appendChild(p);
+    loadEffects();
+  }
+
+  /* WORKAROUND (same as the hubs): effects.js binds reveal/cursor hooks to the
+     DOM present when it runs, so it is injected only after render completes. */
+  function loadEffects() {
+    var s = document.createElement("script");
+    s.src = "../styles/effects.js";
+    document.body.appendChild(s);
+  }
+
+  function render(p) {
+    document.title = (p.name || slug) + " — Atlas — Jordan Doerksen";
+    host.textContent = "";
+    var sec = 1;
+    function idx() { return "§ " + (sec < 10 ? "0" : "") + (sec++); }
+
+    /* header */
+    var head = el("section", "atlas-head");
+    head.appendChild(el("p", "eyebrow reveal", "Atlas — " + (p.category || "uncategorised")));
+    var h1 = el("h1", "reveal");
+    h1.appendChild(el("em", null, p.name || p.slug));
+    head.appendChild(h1);
+    if (p.oneLiner) head.appendChild(el("p", "atlas-oneliner reveal", p.oneLiner));
+    var meta = el("p", "atlas-meta reveal");
+    meta.appendChild(el("span", "atlas-status", String(p.status || "undocumented").toUpperCase()));
+    if (p.category) meta.appendChild(el("span", null, p.category.toUpperCase()));
+    head.appendChild(meta);
+    if (p.statusNote) head.appendChild(el("p", "atlas-note reveal", p.statusNote));
+
+    /* links live in the header — the atlas documents; the app is elsewhere */
+    var links = el("div", "atlas-links reveal");
+    if (p.links && p.links.live) {
+      var live = el("a", "atlas-link", "Open it →");
+      live.href = p.links.live;
+      links.appendChild(live);
+    }
+    if (p.links && p.links.repo) {
+      var repo = el("a", "atlas-link", "Code →");
+      repo.href = p.links.repo;
+      links.appendChild(repo);
+    }
+    if (!(p.links && (p.links.live || p.links.repo))) {
+      links.appendChild(el("span", "atlas-private", "code private"));
+    }
+    head.appendChild(links);
+    host.appendChild(head);
+
+    /* stack */
+    if (Array.isArray(p.stack) && p.stack.length) {
+      var s1 = el("section", "atlas-sec");
+      s1.appendChild(secHead("Stack", idx() + " — What it's made of"));
+      var st = el("div", "atlas-stack reveal");
+      p.stack.forEach(function (t) { st.appendChild(el("span", "tag", t)); });
+      s1.appendChild(st);
+      host.appendChild(s1);
+    }
+
+    /* diagram (only if the JSON names one; fetch-injected so .dg-* CSS applies) */
+    if (p.diagram) {
+      var s2 = el("section", "atlas-sec");
+      s2.appendChild(secHead("Data flow", idx() + " — Diagram"));
+      var fig = el("figure", "diagram reveal");
+      var well = el("div", "diagram-well");
+      well.setAttribute("tabindex", "0");
+      well.setAttribute("aria-label", "Architecture diagram — scrolls horizontally");
+      fig.appendChild(well);
+      var cap = el("figcaption", "diagram-cap", "FIG 01 — " + (p.name || p.slug).toUpperCase() + " DATA FLOW");
+      fig.appendChild(cap);
+      s2.appendChild(fig);
+      host.appendChild(s2);
+      fetch(".." + p.diagram)
+        .then(function (r) { return r.ok ? r.text() : Promise.reject(new Error(r.status)); })
+        .then(function (svg) {
+          if (svg.trim().indexOf("<svg") === 0) { well.innerHTML = svg; wireDiagram(well); }
+          else s2.remove();
+        })
+        .catch(function () { s2.remove(); });  /* no diagram beats a broken well */
+    }
+
+    /* data flow steps */
+    if (Array.isArray(p.dataFlow) && p.dataFlow.length) {
+      var s3 = el("section", "atlas-sec");
+      s3.appendChild(secHead("Step by step", idx() + " — Data flow"));
+      var ol = el("ol", "atlas-flow reveal");
+      p.dataFlow.forEach(function (step) { ol.appendChild(el("li", null, step)); });
+      s3.appendChild(ol);
+      host.appendChild(s3);
+    }
+
+    /* components */
+    if (Array.isArray(p.components) && p.components.length) {
+      var s4 = el("section", "atlas-sec");
+      s4.appendChild(secHead("Components", idx() + " — The pieces"));
+      var ul = el("ul", "atlas-comp reveal");
+      p.components.forEach(function (c) {
+        if (!c) return;
+        var li = el("li");
+        li.appendChild(el("span", "c-name", c.name || "—"));
+        li.appendChild(el("span", "c-desc", c.desc || ""));
+        ul.appendChild(li);
+      });
+      s4.appendChild(ul);
+      host.appendChild(s4);
+    }
+
+    /* integrations */
+    if (Array.isArray(p.integrations) && p.integrations.length) {
+      var s5 = el("section", "atlas-sec");
+      s5.appendChild(secHead("Talks to", idx() + " — Integrations"));
+      var ints = el("div", "atlas-int reveal");
+      p.integrations.forEach(function (t) { ints.appendChild(el("span", "tag", t)); });
+      s5.appendChild(ints);
+      host.appendChild(s5);
+    }
+
+    /* decisions */
+    if (Array.isArray(p.decisions) && p.decisions.length) {
+      var s6 = el("section", "atlas-sec");
+      s6.appendChild(secHead("Why it's built this way", idx() + " — Decisions"));
+      var dl = el("ul", "atlas-dlist reveal");
+      p.decisions.forEach(function (d) { dl.appendChild(el("li", null, d)); });
+      s6.appendChild(dl);
+      host.appendChild(s6);
+    }
+
+    loadEffects();
+  }
+
+  /* node-hover lights connected edges — pure highlight, no motion to gate */
+  function wireDiagram(well) {
+    var svg = well.querySelector("svg");
+    if (!svg) return;
+    function nodeOf(t) { return (t && t.closest) ? t.closest(".dg-node") : null; }
+    svg.addEventListener("mouseover", function (e) {
+      var n = nodeOf(e.target);
+      if (!n) return;
+      svg.querySelectorAll(".dg-edge.e-" + n.getAttribute("data-n")).forEach(function (ed) { ed.classList.add("lit"); });
+    });
+    svg.addEventListener("mouseout", function (e) {
+      var n = nodeOf(e.target);
+      if (!n || nodeOf(e.relatedTarget) === n) return;
+      svg.querySelectorAll(".dg-edge.lit").forEach(function (ed) { ed.classList.remove("lit"); });
+    });
+  }
+
+  if (!host) return;
+  if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
+    missing("No atlas entry named — nothing to show.");
+    return;
+  }
+  fetch("../data/projects/" + slug + ".json")
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error(r.status)); })
+    .then(function (p) { try { render(p); } catch (e) { missing("This entry failed to render."); } })
+    .catch(function () { missing("No atlas entry for “" + slug + "”."); });
+})();
+</script>
+</body>
+</html>

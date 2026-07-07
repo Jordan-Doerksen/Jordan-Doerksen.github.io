@@ -1,0 +1,29 @@
+<svg viewBox="0 0 1000 430" role="img" aria-label="Switch List data flow. Player input — switch clicks and move calls — goes to model.js, the rules brain of move mutators paired with pure validators; illegal or fouling moves are refused immediately with a cited reason and never animate. Legal moves animate through the render and tween driver, committing state mid-tween, then a win check grades moves against par with joints as tiebreaker. Nineteen authored puzzles supply state, goal, and solver-baked par; the Dijkstra solver imports the exact same model functions the UI calls, and a Node CI harness replays every puzzle's line, failing the build if any par is wrong." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="swl-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="swl-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-input e-model"><path d="M200 119 H256" marker-end="url(#swl-a)"/><text x="228" y="84" text-anchor="middle">move call</text></g>
+  <g class="dg-edge gold e-model e-render"><path d="M480 119 H536" marker-end="url(#swl-a)"/><text x="508" y="84" text-anchor="middle">legal moves animate</text></g>
+  <g class="dg-edge gold e-render e-grade"><path d="M740 119 H791" marker-end="url(#swl-a)"/><text x="766" y="84" text-anchor="middle">committed state</text></g>
+  <g class="dg-edge e-puzzles e-model"><path d="M300 276 V152" marker-end="url(#swl-m)"/><text x="312" y="220">state · goal · par</text></g>
+  <g class="dg-edge dash e-solver e-model"><path d="M460 276 V152" marker-end="url(#swl-m)"/><text x="472" y="240">imports the exact rules</text></g>
+  <g class="dg-edge e-ci e-solver"><path d="M696 309 H644" marker-end="url(#swl-m)"/><text x="670" y="302" text-anchor="middle">replays</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="input"><rect x="25" y="90" width="175" height="58" rx="8"/><text class="n" x="112" y="114" text-anchor="middle">PLAYER INPUT</text><text class="r" x="112" y="132" text-anchor="middle">switch clicks · moves</text></g>
+  <g class="dg-node" data-n="model"><rect x="260" y="90" width="220" height="66" rx="8"/><text class="n" x="370" y="114" text-anchor="middle">MODEL.JS</text><text class="r" x="370" y="132" text-anchor="middle">move mutators paired</text><text class="r" x="370" y="146" text-anchor="middle">with pure validators</text></g>
+  <g class="dg-node" data-n="render"><rect x="540" y="90" width="200" height="58" rx="8"/><text class="n" x="640" y="114" text-anchor="middle">RENDER + ANIM</text><text class="r" x="640" y="132" text-anchor="middle">commit lands mid-tween</text></g>
+  <g class="dg-node" data-n="grade"><rect x="795" y="90" width="190" height="72" rx="8"/><text class="n" x="890" y="114" text-anchor="middle">WIN CHECK + GRADING</text><text class="r" x="890" y="132" text-anchor="middle">moves vs par</text><text class="r" x="890" y="146" text-anchor="middle">joints as tiebreaker</text></g>
+  <g class="dg-node" data-n="puzzles"><rect x="200" y="280" width="200" height="58" rx="8"/><text class="n" x="300" y="304" text-anchor="middle">PUZZLES.JS</text><text class="r" x="300" y="322" text-anchor="middle">19 authored · baked par</text></g>
+  <g class="dg-node" data-n="solver"><rect x="430" y="280" width="210" height="58" rx="8"/><text class="n" x="535" y="304" text-anchor="middle">SOLVER.JS</text><text class="r" x="535" y="322" text-anchor="middle">Dijkstra over game states</text></g>
+  <g class="dg-node" data-n="ci"><rect x="700" y="280" width="200" height="58" rx="8"/><text class="n" x="800" y="304" text-anchor="middle">NODE CI HARNESS</text><text class="r" x="800" y="322" text-anchor="middle">fails the build on bad par</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="25" y="390">[ ILLEGAL MOVES NEVER ANIMATE ]</text>
+  <text class="dg-callout-sub" x="25" y="408">refused at precheck, with a cited reason</text>
+  <text class="dg-callout" x="430" y="390">[ THE SOLVER IMPORTS THE GAME'S OWN RULES ]</text>
+  <text class="dg-callout-sub" x="430" y="408">solver / game divergence is structurally impossible</text>
+</svg>

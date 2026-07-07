@@ -1,0 +1,30 @@
+<svg viewBox="0 0 1000 460" role="img" aria-label="Richter data flow. Around fifteen world and politics RSS feeds are fetched on a loop, a lexicon prefilter drops obvious non-stories before any LLM call, and survivors get a structured local Ollama read of arena, heat, virality, stakes, confidence, and stage. Newsworthy stories become parchment placard cards rendered via canvas, which post to Discord on a metered drip of one card per four minutes and are recorded to a local feed store that a broadsheet dashboard renders. If Ollama is unreachable, a lexicon-only fallback read runs, always labeled low-confidence and degraded.">
+  <defs>
+    <marker id="rc-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="rc-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-rss e-lex"><path d="M240 119 H285" marker-end="url(#rc-a)"/><text x="263" y="83" text-anchor="middle">headlines</text></g>
+  <g class="dg-edge gold e-lex e-llm"><path d="M480 119 H525" marker-end="url(#rc-a)"/><text x="503" y="83" text-anchor="middle">survivors</text></g>
+  <g class="dg-edge gold e-llm e-plac"><path d="M740 119 H785" marker-end="url(#rc-a)"/><text x="763" y="83" text-anchor="middle">newsworthy only</text></g>
+  <g class="dg-edge gold e-plac e-disc"><path d="M870 148 V235" marker-end="url(#rc-a)"/><text x="882" y="196">metered drip</text></g>
+  <g class="dg-edge e-plac e-feed"><path d="M800 148 L580 235" marker-end="url(#rc-m)"/><text x="700" y="190">recorded</text></g>
+  <g class="dg-edge e-feed e-dashb"><path d="M450 269 H376" marker-end="url(#rc-m)"/><text x="413" y="255" text-anchor="middle">renders</text></g>
+  <g class="dg-edge dash e-lex e-feed"><path d="M385 148 L515 235" marker-end="url(#rc-m)"/><text x="438" y="205" text-anchor="end">fallback · labeled degraded</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="rss"><rect x="30" y="90" width="210" height="58" rx="8"/><text class="n" x="135" y="114" text-anchor="middle">WORLD RSS FEEDS</text><text class="r" x="135" y="132" text-anchor="middle">~15 world · politics sources</text></g>
+  <g class="dg-node" data-n="lex"><rect x="290" y="90" width="190" height="58" rx="8"/><text class="n" x="385" y="114" text-anchor="middle">LEXICON PREFILTER</text><text class="r" x="385" y="132" text-anchor="middle">bouncer, not an editor</text></g>
+  <g class="dg-node" data-n="llm"><rect x="530" y="90" width="210" height="58" rx="8"/><text class="n" x="635" y="114" text-anchor="middle">OLLAMA READ</text><text class="r" x="635" y="132" text-anchor="middle">arena · virality · stakes</text></g>
+  <g class="dg-node" data-n="plac"><rect x="790" y="90" width="200" height="58" rx="8"/><text class="n" x="890" y="114" text-anchor="middle">PLACARD RENDERER</text><text class="r" x="890" y="132" text-anchor="middle">canvas parchment card</text></g>
+  <g class="dg-node" data-n="disc"><rect x="750" y="240" width="240" height="58" rx="8"/><text class="n" x="870" y="264" text-anchor="middle">DISCORD WEBHOOK</text><text class="r" x="870" y="282" text-anchor="middle">one card per four minutes</text></g>
+  <g class="dg-node" data-n="feed"><rect x="450" y="240" width="200" height="58" rx="8"/><text class="n" x="550" y="264" text-anchor="middle">FEED STORE</text><text class="r" x="550" y="282" text-anchor="middle">local JSON records</text></g>
+  <g class="dg-node" data-n="dashb"><rect x="140" y="240" width="230" height="58" rx="8"/><text class="n" x="255" y="264" text-anchor="middle">BROADSHEET DASHBOARD</text><text class="r" x="255" y="282" text-anchor="middle">served from stored data</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="30" y="360">[ A BLANK CARD BEATS A FALSE ALARM ]</text>
+  <text class="dg-callout-sub" x="30" y="378">low-confidence reads never post unlabeled</text>
+  <text class="dg-callout" x="30" y="412">[ MALFORMED LLM JSON NEVER THROWS ]</text>
+  <text class="dg-callout-sub" x="30" y="430">every model field is coerced to a known enum with safe defaults</text>
+</svg>

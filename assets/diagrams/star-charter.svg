@@ -1,0 +1,36 @@
+<svg viewBox="0 0 1000 530" role="img" aria-label="Star Charter data flow. Pointer hold-to-thrust or keyboard input feeds update(dt), which computes a thrust vector with arrive-dampening. Physics applies black-hole gravity, soft walls, and drag, then collision checks resolve shield, dodge, or damage against hazards spawned at the edges by per-hazard timers. Waypoint proximity triggers chartStar, which updates score, plate completion, and the refit flow. From there, audio cues fire on events, draw renders the frame, and personal records persist to localStorage.">
+  <defs>
+    <marker id="stc-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="stc-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-input e-update"><path d="M230 123 H286" marker-end="url(#stc-a)"/><text x="258" y="83" text-anchor="middle">hold-to-thrust</text></g>
+  <g class="dg-edge gold e-update e-phys"><path d="M490 123 H546" marker-end="url(#stc-a)"/><text x="518" y="83" text-anchor="middle">thrust vector</text></g>
+  <g class="dg-edge gold e-phys e-coll"><path d="M650 156 V246" marker-end="url(#stc-a)"/><text x="662" y="205">velocity integrates</text></g>
+  <g class="dg-edge e-spawn e-coll"><path d="M490 283 H546" marker-end="url(#stc-m)"/><text x="518" y="272" text-anchor="middle">hazards</text></g>
+  <g class="dg-edge gold e-coll e-chart"><path d="M650 316 V406" marker-end="url(#stc-a)"/><text x="662" y="365">waypoint reached</text></g>
+  <g class="dg-edge gold e-chart e-draw"><path d="M750 443 H816" marker-end="url(#stc-a)"/><text x="783" y="433" text-anchor="middle">draw()</text></g>
+  <g class="dg-edge e-coll e-audio"><path d="M750 283 H816" marker-end="url(#stc-m)"/><text x="783" y="273" text-anchor="middle">cues</text></g>
+  <g class="dg-edge e-chart e-save"><path d="M550 460 H135 V320" marker-end="url(#stc-m)"/><text x="340" y="450" text-anchor="middle">records</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="input"><rect x="40" y="90" width="190" height="66" rx="8"/><text class="n" x="135" y="118" text-anchor="middle">INPUT</text><text class="r" x="135" y="136" text-anchor="middle">pointer or keyboard</text></g>
+  <g class="dg-node" data-n="update"><rect x="290" y="90" width="200" height="66" rx="8"/><text class="n" x="390" y="112" text-anchor="middle">UPDATE(dt)</text><text class="r" x="390" y="129" text-anchor="middle">thrust toward pointer</text><text class="r" x="390" y="143" text-anchor="middle">arrive-dampening</text></g>
+  <g class="dg-node" data-n="phys"><rect x="550" y="90" width="200" height="66" rx="8"/><text class="n" x="650" y="112" text-anchor="middle">PHYSICS</text><text class="r" x="650" y="129" text-anchor="middle">black-hole gravity</text><text class="r" x="650" y="143" text-anchor="middle">soft walls · drag</text></g>
+  <g class="dg-node" data-n="coll"><rect x="550" y="250" width="200" height="66" rx="8"/><text class="n" x="650" y="272" text-anchor="middle">COLLISION</text><text class="r" x="650" y="289" text-anchor="middle">shield · dodge</text><text class="r" x="650" y="303" text-anchor="middle">or damage</text></g>
+  <g class="dg-node" data-n="spawn"><rect x="290" y="250" width="200" height="58" rx="8"/><text class="n" x="390" y="274" text-anchor="middle">SPAWNER</text><text class="r" x="390" y="292" text-anchor="middle">per-hazard timers · edges</text></g>
+  <g class="dg-node" data-n="chart"><rect x="550" y="410" width="200" height="66" rx="8"/><text class="n" x="650" y="432" text-anchor="middle">CHARTSTAR()</text><text class="r" x="650" y="449" text-anchor="middle">score · plate progress</text><text class="r" x="650" y="463" text-anchor="middle">refit every third plate</text></g>
+  <g class="dg-node" data-n="draw"><rect x="820" y="410" width="160" height="66" rx="8"/><text class="n" x="900" y="432" text-anchor="middle">DRAW()</text><text class="r" x="900" y="449" text-anchor="middle">parallax · entities</text><text class="r" x="900" y="463" text-anchor="middle">plate mini-canvas</text></g>
+  <g class="dg-node" data-n="audio"><rect x="820" y="250" width="160" height="66" rx="8"/><text class="n" x="900" y="272" text-anchor="middle">AUDIO</text><text class="r" x="900" y="289" text-anchor="middle">generated WebAudio</text><text class="r" x="900" y="303" text-anchor="middle">no audio files</text></g>
+  <g class="dg-node" data-n="save"><rect x="40" y="250" width="190" height="66" rx="8"/><text class="n" x="135" y="278" text-anchor="middle">SAVE</text><text class="r" x="135" y="296" text-anchor="middle">localStorage records</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="810" y="110">[ WHERE THE LINE WAS BORN ]</text>
+  <text class="dg-callout-sub" x="810" y="128">full combined git history kept</text>
+  <text class="dg-callout-sub" x="810" y="143">from before the pro and</text>
+  <text class="dg-callout-sub" x="810" y="158">echo-bat repos split out</text>
+  <text class="dg-callout" x="185" y="365">[ HEAVY BY DESIGN ]</text>
+  <text class="dg-callout-sub" x="185" y="383">movement is slow to build and shed speed —</text>
+  <text class="dg-callout-sub" x="185" y="398">the refit system is the taming lever</text>
+</svg>

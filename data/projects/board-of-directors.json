@@ -1,0 +1,42 @@
+{
+  "slug": "board-of-directors",
+  "name": "Board of Directors",
+  "category": "tools",
+  "status": "built",
+  "statusNote": "V1 built 2026-06-25; not yet pushed to a public repo as of the last handoff snapshot.",
+  "oneLiner": "Six finance-creator brain models convened as a deliberating board for a money question — a spread of named perspectives with surfaced disagreement, never a verdict, never advice.",
+  "stack": [
+    "Single self-contained index.html (no build step, runs from file://)",
+    "Persona data inline plus a machine-readable data/advisors.json mirror",
+    "Optional local Ollama for the live mode; no API keys"
+  ],
+  "components": [
+    { "name": "Board browser", "desc": "Browse the six seats and their persona write-ups." },
+    { "name": "Convene form", "desc": "Question + situation + seat selection, assembled into a single council prompt." },
+    { "name": "Report loader", "desc": "Feed the board a .md/.txt report via FileReader — works from file://." },
+    { "name": "Convene Live", "desc": "Best-effort path to a local Ollama endpoint; graceful fallback to copy-paste into a chat model." },
+    { "name": "advisors/ + data/advisors.json", "desc": "Six persona write-ups plus the machine-readable mirror." },
+    { "name": "board-reads/", "desc": "Records of convened deliberations, each saved as both Markdown and a formally styled webpage." }
+  ],
+  "dataFlow": [
+    "The user poses a question and selects seats; the app assembles one council prompt with personas, a return-block format, a Chair protocol, and house rules.",
+    "The user copies it into their own chat model (core path) or convenes live against local Ollama (best effort).",
+    "Each seat answers in isolation: stance, confidence, reasoning, and what would change its mind.",
+    "The Chair collects, runs at most two debate rounds, and synthesizes a confidence-weighted vote split plus the strongest dissent — never a buy/sell.",
+    "Report mode: a loaded report with a Questions-for-the-Board section auto-seats those members, who answer grounded in the report's data.",
+    "Board reads of trading-session reports are saved as a paired .md and .html record."
+  ],
+  "integrations": [
+    "Optional local Ollama (no API key, no cloud calls from the app)",
+    "Consumes Sentinel session reports by document-format convention only — no code dependency"
+  ],
+  "decisions": [
+    "Persona docs plus a convene protocol on one strong LLM, not a multi-model roundtable — multi-model infra rejected as unnecessary V1 cost.",
+    "Responsible framing is product behavior, not a disclaimer footer: mandatory dissent, neutral framing, named-lens attribution, no buy/sell ever.",
+    "Persona faithfulness over the brief's assumptions — two personas were deliberately corrected rather than modeled inaccurately.",
+    "Board reads are always recorded as both Markdown and a formal light-themed webpage, since they go to other people.",
+    "No PDF parsing in V1 — kept dependency-free."
+  ],
+  "links": { "live": null, "repo": null },
+  "diagram": "/assets/diagrams/board-of-directors.svg"
+}

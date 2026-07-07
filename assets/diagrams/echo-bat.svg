@@ -1,0 +1,29 @@
+<svg viewBox="0 0 1000 410" role="img" aria-label="Echo Bat data flow. Input from touch, mouse, keys, or the title-screen demo AI sets a target position for the flight physics, which apply arrive-based steering, ambient gravity, and drag. A passive pulse timer counts down each frame and emits a sonar ring on expiry, also firing a synthesized WebAudio chirp. Active rings are tested against pillars and spores; hits toggle lit geometry that fades over time, and draw renders only what is lit or inside the passive nightsight before requestAnimationFrame loops back for the next frame." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="eb-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="eb-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-input e-flight"><path d="M260 109 H306" marker-end="url(#eb-a)"/><text x="283" y="73" text-anchor="middle">target pos</text></g>
+  <g class="dg-edge gold e-flight e-pulse"><path d="M500 109 H551" marker-end="url(#eb-a)"/><text x="525" y="73" text-anchor="middle">each frame</text></g>
+  <g class="dg-edge e-pulse e-audio"><path d="M745 109 H796" marker-end="url(#eb-m)"/><text x="770" y="73" text-anchor="middle">chirp per pulse</text></g>
+  <g class="dg-edge gold e-pulse e-rings"><path d="M650 138 V236" marker-end="url(#eb-a)"/><text x="662" y="192">ring on expiry</text></g>
+  <g class="dg-edge gold e-rings e-lit"><path d="M551 269 H504" marker-end="url(#eb-a)"/><text x="527" y="255" text-anchor="middle">hits light up</text></g>
+  <g class="dg-edge gold e-lit e-draw"><path d="M296 269 H244" marker-end="url(#eb-a)"/><text x="270" y="255" text-anchor="middle">what's lit</text></g>
+  <g class="dg-edge dash e-draw e-input"><path d="M140 240 V142" marker-end="url(#eb-m)"/><text x="152" y="195">rAF next frame</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="input"><rect x="40" y="80" width="220" height="58" rx="8"/><text class="n" x="150" y="104" text-anchor="middle">INPUT</text><text class="r" x="150" y="122" text-anchor="middle">touch · mouse · keys · demo-AI</text></g>
+  <g class="dg-node" data-n="flight"><rect x="310" y="80" width="190" height="58" rx="8"/><text class="n" x="405" y="104" text-anchor="middle">FLIGHT PHYSICS</text><text class="r" x="405" y="122" text-anchor="middle">arrive · gravity · drag</text></g>
+  <g class="dg-node" data-n="pulse"><rect x="555" y="80" width="190" height="58" rx="8"/><text class="n" x="650" y="104" text-anchor="middle">PULSE TIMER</text><text class="r" x="650" y="122" text-anchor="middle">auto-emits sonar rings</text></g>
+  <g class="dg-node" data-n="audio"><rect x="800" y="80" width="180" height="58" rx="8"/><text class="n" x="890" y="104" text-anchor="middle">WEBAUDIO</text><text class="r" x="890" y="122" text-anchor="middle">all cues synthesized</text></g>
+  <g class="dg-node" data-n="rings"><rect x="555" y="240" width="190" height="58" rx="8"/><text class="n" x="650" y="264" text-anchor="middle">SONAR RINGS</text><text class="r" x="650" y="282" text-anchor="middle">tested vs pillars · spores</text></g>
+  <g class="dg-node" data-n="lit"><rect x="300" y="240" width="200" height="58" rx="8"/><text class="n" x="400" y="264" text-anchor="middle">LIT GEOMETRY</text><text class="r" x="400" y="282" text-anchor="middle">lights up · fades over time</text></g>
+  <g class="dg-node" data-n="draw"><rect x="40" y="240" width="200" height="58" rx="8"/><text class="n" x="140" y="264" text-anchor="middle">DRAW</text><text class="r" x="140" y="282" text-anchor="middle">lit + nightsight only</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="40" y="350">[ THE WORLD ONLY EXISTS WHERE SOUND HAS TOUCHED IT ]</text>
+  <text class="dg-callout-sub" x="40" y="368">passive nightsight keeps a baseline glow so the dark plays fair;</text>
+  <text class="dg-callout-sub" x="40" y="383">fruit proximity heals, scores, or sings a free pulse</text>
+</svg>

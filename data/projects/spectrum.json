@@ -1,0 +1,37 @@
+{
+  "slug": "spectrum",
+  "name": "Spectrum",
+  "category": "signals",
+  "status": "active",
+  "statusNote": "v0.1.0, live and running. Milestones M0–M5 done, including a post-handoff dedupe fix; semantic (non-title-string) dedupe is a known remaining gap.",
+  "oneLiner": "A unified Rust news-monitoring engine that replaced three predecessor engines — it pools 34 feeds, has a local LLM sort each headline into one of four bands with a severity score, and posts themed cards to Discord, with a Tauri desktop control panel on top.",
+  "stack": ["Rust 2021, Cargo workspace, GNU toolchain only", "Tauri 2 desktop shell", "vanilla HTML/CSS/JS frontend", "local Ollama (llama3.1:8b) — no cloud LLM", "reqwest on native-tls to keep the dependency tree C-free"],
+  "components": [
+    { "name": "crates/engine", "desc": "The core pipeline: 34-source feed pool, RSS fetch, one-call-per-headline Ollama classification, per-category embed skins, Discord posting, capped dedupe store" },
+    { "name": "engine.rs", "desc": "The Engine orchestrator: seed, poll, drip, status, recent log, live config reload" },
+    { "name": "analyze.rs", "desc": "Single Ollama call per headline, fail-safe coerced to a category enum, defaulting to Drop" },
+    { "name": "crates/headless", "desc": "Thin CLI runner around the same engine" },
+    { "name": "src-tauri", "desc": "Desktop shell: a background thread owns one Engine, seven Tauri commands, live tuning writes, system tray, single-instance guard" },
+    { "name": "ui/", "desc": "Vanilla dark cockpit panel polling the Tauri commands every 2 seconds" }
+  ],
+  "dataFlow": [
+    "34 RSS and Google News feeds are fetched, merged, and deduped.",
+    "The first run seeds the seen-store and posts nothing; subsequent polls only look at unseen items.",
+    "Each unseen headline gets exactly one local Ollama classification and is marked seen regardless of outcome.",
+    "Items that clear the category and severity gates enter an in-memory priority queue.",
+    "The drip step pops the strongest items first, skins them per category, and posts embed cards to the matching Discord channel — or logs a dry-run preview.",
+    "The background thread publishes status and a recent log, which the desktop panel polls every 2 seconds.",
+    "Tuning saved in the UI rewrites the local config and reloads on the next loop."
+  ],
+  "integrations": ["34 RSS / Google News feeds (no API keys)", "local Ollama (llama3.1:8b) — a hard dependency", "Discord webhooks, fire-and-forget"],
+  "decisions": [
+    "One pipeline replaced three separate engines; the predecessors were archived as superseded.",
+    "One LLM read per unique headline, never re-classified — a non-negotiable constraint.",
+    "Local LLM only; no cloud model, no API keys anywhere in the feed pool.",
+    "GNU Rust toolchain with a C-free dependency tree — reqwest forced onto native-tls to avoid a C compiler.",
+    "Restart loses the in-memory drip queue — an accepted V1 trade-off.",
+    "Vanilla UI with withGlobalTauri, mirroring the house Tauri pattern; a React swap is a documented future option."
+  ],
+  "links": { "live": null, "repo": "https://github.com/Jordan-Doerksen/spectrum" },
+  "diagram": "/assets/diagrams/spectrum.svg"
+}

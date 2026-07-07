@@ -1,0 +1,36 @@
+{
+  "slug": "closing-bell",
+  "name": "Closing Bell",
+  "category": "games",
+  "status": "live",
+  "statusNote": "A small, complete single-file build — a low-stakes game, deliberately outside the design-gate discipline applied to the money-handling tools.",
+  "oneLiner": "A day-trading arcade game: survive to the closing bell, bank the day, buy an edge. Not a real trading tool — no live data, no broker, purely a game.",
+  "stack": [
+    "Single self-contained index.html (inline CSS + vanilla JS, no build step)",
+    "Canvas chart",
+    "Double-click .bat launcher"
+  ],
+  "components": [
+    { "name": "Topbar", "desc": "Bankroll, equity, day P&L, and the session clock." },
+    { "name": "Canvas chart", "desc": "Tick-driven price chart with a regime pill, news-tip overlay, and a telegraph indicator." },
+    { "name": "Side panel", "desc": "Position controls — long, short, flat." },
+    { "name": "News tape", "desc": "Scrolling headline ticker; animation disabled under prefers-reduced-motion." },
+    { "name": "Overlays", "desc": "Title, end-of-day summary with an upgrade shop, margin-call game-over, pause." },
+    { "name": "Price generator", "desc": "Box-Muller Gaussian random walk drives the synthetic tape." }
+  ],
+  "dataFlow": [
+    "A synthetic Gaussian random-walk price path is drawn to the canvas each tick.",
+    "The player goes long, short, or flat (mouse or keyboard shortcuts); position and P&L update.",
+    "The clock hits 4:00 — the day-end overlay shows P&L, trades, and bankroll.",
+    "Optional shop spend, then the next day begins with difficulty and edge carried forward.",
+    "The game ends on a margin call with a final summary."
+  ],
+  "integrations": [],
+  "decisions": [
+    "Fully self-contained — no network calls, no dependency on any other repo.",
+    "Styled independently of the house style: its own light blue/white equity-terminal palette.",
+    "prefers-reduced-motion respected even in a throwaway game."
+  ],
+  "links": { "live": "/games/closing-bell/", "repo": null },
+  "diagram": "/assets/diagrams/closing-bell.svg"
+}

@@ -1,0 +1,76 @@
+{
+  "slug": "pentafall-rebuild",
+  "name": "Pentafall (rebuild)",
+  "category": "games",
+  "status": "active",
+  "statusNote": "Under active development, not published: core slices (spine, feel, threat, damage model) complete with 485 automated tests green; build-craft, destination, and content slices partial; polish/ship not started.",
+  "oneLiner": "A ground-up rebuild of pentafall — a deadpan megacorp-satire wave-survival roguelite: a momentum ship with auto-firing turrets, draft-based leveling, escalating bosses, and a full between-run meta-economy.",
+  "stack": [
+    "React 18.3 (menus/HUD shell only)",
+    "Vite 6 + vite-plugin-singlefile (one-file dist)",
+    "Electron 43 desktop wrapper",
+    "hand-rolled Canvas 2D engine, no WebGL, no physics libraries",
+    "Node headless test harness (~485 assertions)"
+  ],
+  "components": [
+    {
+      "name": "bridge.js",
+      "desc": "A ~19-line event bus — the only seam between the vanilla-JS engine and the React shell."
+    },
+    {
+      "name": "game.js + loop.js",
+      "desc": "Owns input and four named scene pipelines; a fixed-timestep loop wrapped in try/catch/finally so a thrown error re-arms rAF instead of freezing."
+    },
+    {
+      "name": "world.js",
+      "desc": "Single state container with documented reset-parity guarantees."
+    },
+    {
+      "name": "Systems",
+      "desc": "Flight, spawn director, enemy AI (9 movement archetypes), turrets, combat damage pipeline with a hard global 10x ceiling, hazards, fighters, progression, autopilot, drydock."
+    },
+    {
+      "name": "Data tables",
+      "desc": "~30 weapons, a 5-type elemental RPS wheel, two-tree evolutions, cards, 4 hulls, 3 boss fights, 7 champion affixes, 30 meta-store glyphs, 6 doctrines."
+    },
+    {
+      "name": "renderer.js",
+      "desc": "~1053 lines of fully procedural pixel-art rendering — flagged as the largest file and a split candidate."
+    },
+    {
+      "name": "React UI + persistence",
+      "desc": "Menus, HUD, 3 save slots, and audio policy — persistence lives entirely in the UI layer, never the engine."
+    },
+    {
+      "name": "Electron wrapper",
+      "desc": "electron-builder portable Windows build for Steam distribution."
+    }
+  ],
+  "dataFlow": [
+    "Player input feeds the active scene's pipeline each tick: flight, spawn director, enemy AI, turret auto-targeting and fire, fighter AI.",
+    "Combat resolves through the damage pipeline and a single killEnemy funnel that drops loot and XP gems.",
+    "Foe shots, asteroids, black holes, and singularity hazards run their physics.",
+    "XP pickup pauses the world at level-up and opens a 3-card draft.",
+    "renderer.js draws the frame; bridge.js emits a stats event and the React HUD re-renders.",
+    "React intents (restart, pick card, buy glyph) flow back through the bridge into engine mutations.",
+    "Attract mode substitutes the autopilot system for player input into the identical pipeline."
+  ],
+  "integrations": [
+    "React, Vite, Electron",
+    "Parts-donor engine for the Boat-Rogue design",
+    "Supersedes pentafall as canonical"
+  ],
+  "decisions": [
+    "The damage model is hard-capped by construction — a global 10x ceiling makes runaway power-scaling structurally impossible.",
+    "First death is the tutorial: the first loss reframes as the shift ending and opens the store in the death panel.",
+    "Determinism is a contract — fixed-seed tests assert byte-identical results across 3 seeds, plus committed outcome fixtures.",
+    "Ship via an Electron wrap, not a rewrite — a 3-agent audit concluded stay on vanilla JS.",
+    "Known design debt is tracked honestly: meta-progression currently leans harder on flat power than intended, and reduced-motion coverage is flagged as a must-fix gap.",
+    "Persistence never touches the engine — save slots and audio settings live in the React layer."
+  ],
+  "links": {
+    "live": null,
+    "repo": null
+  },
+  "diagram": "/assets/diagrams/pentafall-rebuild.svg"
+}

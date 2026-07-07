@@ -1,0 +1,36 @@
+{
+  "slug": "star-charter-pro",
+  "name": "Star Charter Pro",
+  "category": "games",
+  "status": "live",
+  "statusNote": "Shipped and live; split into its own repo from star-charter on 2026-06-23, carrying its 230-line design doc in as the source of truth.",
+  "oneLiner": "The timed-pressure, build-crafting edition of Star Charter — a larger upgrade pool, weapons, soft sectors, probe select, and a persistent local leaderboard.",
+  "stack": ["single-file HTML/CSS/JS, no build step", "Canvas 2D", "generated WebAudio", "desktop-first (touch out of scope for v1)"],
+  "components": [
+    { "name": "Star Charter engine", "desc": "Reuses the original render loop, spawn director, refit system, and save layer as-is — explicit do-not-rebuild rule." },
+    { "name": "Control system", "desc": "Rewritten to direct-follow with an 80px arrive dead-zone, hard speed cap, and a Focus slow-precision mode." },
+    { "name": "Upgrade pool", "desc": "~16 upgrades across four lanes (Movement, Survivability, Charting, Weapons), plus Motes feeding the Magnet Coil." },
+    { "name": "Sectors and milestones", "desc": "Soft milestones at plates 11, 21, and 31." },
+    { "name": "Probes", "desc": "Surveyor vs Skimmer — tuning presets over the same knobs." },
+    { "name": "New hazards", "desc": "Pulsar (telegraphed sweeping beam, plate 13+) and Asteroid Belt (telegraphed stream, plate 8+)." },
+    { "name": "Attract mode", "desc": "An AI probe seeks motes and steers from hazards on the title screen." },
+    { "name": "Records", "desc": "Rich leaderboard persisted in localStorage." }
+  ],
+  "dataFlow": [
+    "Pointer position (no hold needed) drives direct-follow acceleration with a dead-zone.",
+    "The Focus modifier check applies, then drag and velocity integrate.",
+    "Hazard collision and dodge resolve.",
+    "Waypoint proximity charts the star; HUD and plate state update.",
+    "draw() renders and rAF reschedules.",
+    "Attract mode substitutes an AI controller for the pointer feed into the identical pipeline."
+  ],
+  "integrations": ["Shares font/style conventions with star-charter; no shared code file — a fully independent copy diverged after the split"],
+  "decisions": [
+    "Explicit keep-vs-cut discipline: the existing engine is reused as-is, expansion is additive only.",
+    "Weapon pool capped at exactly 3 distinct auto-weapon types — a guardrail against combat overshadowing the chart-not-kill verb.",
+    "Documented mid-build self-corrections (Phase Veil dodge cap lowered 4 to 3; Quick Plot redefined).",
+    "A parked-not-now list keeps alt controls, boss plates, meta-progression, and mobile explicitly out of scope."
+  ],
+  "links": { "live": "/games/star-charter-pro/", "repo": "https://github.com/Jordan-Doerksen/star-charter-pro" },
+  "diagram": "/assets/diagrams/star-charter-pro.svg"
+}

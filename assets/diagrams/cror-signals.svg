@@ -1,0 +1,29 @@
+<svg viewBox="0 0 1000 420" role="img" aria-label="CROR Signals data flow. An audited aspect dataset, hard-gated by a correctness linter, feeds a quiz generator that ranks plausible distractors by confusability and family. The SVG renderer draws the target lamp stack in a random hardware form; the tapped answer is checked and shown with its rule reference and meaning, the Leitner spaced-repetition box and streak persist to localStorage, and the last question rolls into a score with a missed-list retry loop back into the generator." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="crs-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="crs-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-data e-gen"><path d="M205 119 H246" marker-end="url(#crs-a)"/><text x="226" y="84" text-anchor="middle">target aspect</text></g>
+  <g class="dg-edge gold e-gen e-rend"><path d="M440 119 H486" marker-end="url(#crs-a)"/><text x="463" y="84" text-anchor="middle">question</text></g>
+  <g class="dg-edge gold e-rend e-check"><path d="M690 119 H741" marker-end="url(#crs-a)"/><text x="716" y="84" text-anchor="middle">tapped answer</text></g>
+  <g class="dg-edge gold e-check e-leit"><path d="M852 148 V226" marker-end="url(#crs-a)"/><text x="864" y="191">box + streak persist</text></g>
+  <g class="dg-edge gold e-leit e-score"><path d="M852 288 V336" marker-end="url(#crs-a)"/><text x="864" y="316">end of run</text></g>
+  <g class="dg-edge e-score e-gen"><path d="M741 369 H345 V160" marker-end="url(#crs-m)"/><text x="550" y="361" text-anchor="middle">retry missed aspects</text></g>
+  <g class="dg-edge dash e-val e-data"><path d="M115 226 V152" marker-end="url(#crs-m)"/><text x="127" y="192">hard-fail lint</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="data"><rect x="25" y="90" width="180" height="58" rx="8"/><text class="n" x="115" y="114" text-anchor="middle">ASPECT DATASET</text><text class="r" x="115" y="132" text-anchor="middle">audited · 30 alt forms</text></g>
+  <g class="dg-node" data-n="gen"><rect x="250" y="90" width="190" height="66" rx="8"/><text class="n" x="345" y="114" text-anchor="middle">QUIZ GENERATOR</text><text class="r" x="345" y="132" text-anchor="middle">distractors ranked by</text><text class="r" x="345" y="146" text-anchor="middle">confusability · family</text></g>
+  <g class="dg-node" data-n="rend"><rect x="490" y="90" width="200" height="58" rx="8"/><text class="n" x="590" y="114" text-anchor="middle">SVG RENDERER</text><text class="r" x="590" y="132" text-anchor="middle">drawn lamp stacks</text></g>
+  <g class="dg-node" data-n="check"><rect x="745" y="90" width="215" height="58" rx="8"/><text class="n" x="852" y="114" text-anchor="middle">ANSWER CHECK</text><text class="r" x="852" y="132" text-anchor="middle">rule ref · meaning · audio</text></g>
+  <g class="dg-node" data-n="leit"><rect x="745" y="230" width="215" height="58" rx="8"/><text class="n" x="852" y="254" text-anchor="middle">LEITNER STORE</text><text class="r" x="852" y="272" text-anchor="middle">boxes 1–5 · localStorage</text></g>
+  <g class="dg-node" data-n="score"><rect x="745" y="340" width="215" height="58" rx="8"/><text class="n" x="852" y="364" text-anchor="middle">SCORE + MISSED LIST</text><text class="r" x="852" y="382" text-anchor="middle">retry the ones you got wrong</text></g>
+  <g class="dg-node" data-n="val"><rect x="25" y="230" width="180" height="58" rx="8"/><text class="n" x="115" y="254" text-anchor="middle">VALIDATOR</text><text class="r" x="115" y="272" text-anchor="middle">hard-fails bad content</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="25" y="340">[ UNVERIFIED IS FLAGGED, NEVER GUESSED ]</text>
+  <text class="dg-callout-sub" x="25" y="358">one rulebook edition is the sole authority</text>
+  <text class="dg-callout-sub" x="25" y="373">build mode runs the reverse path, deep-equality checked</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg viewBox="0 0 1000 440" role="img" aria-label="Portfolio monorepo data flow. data/registry.json is the single source of truth: the root portfolio fetches it at runtime to render the category summary and full archive, and each of the seven category hubs fetches it, filters by its category, and renders one project card per match. A card links to its in-repo project page, falls back to the external repo, or renders explicitly as private. effects.js is injected after the cards exist so reveal and hover effects bind to fresh elements.">
+  <defs>
+    <marker id="pm-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="pm-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-reg e-root"><path d="M260 192 L356 100" marker-end="url(#pm-a)"/><text x="290" y="135" text-anchor="middle">fetched at runtime</text></g>
+  <g class="dg-edge gold e-reg e-hubs"><path d="M260 209 H356" marker-end="url(#pm-a)"/><text x="308" y="200" text-anchor="middle">fetched · filtered</text></g>
+  <g class="dg-edge gold e-hubs e-cards"><path d="M580 209 H676" marker-end="url(#pm-a)"/><text x="628" y="200" text-anchor="middle">one card per match</text></g>
+  <g class="dg-edge gold e-cards e-pages"><path d="M760 238 L655 336" marker-end="url(#pm-a)"/><text x="725" y="290">url · repo · else private</text></g>
+  <g class="dg-edge e-fx e-cards"><path d="M360 358 L676 240" marker-end="url(#pm-m)"/><text x="470" y="288" text-anchor="middle">binds to fresh cards</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="reg"><rect x="40" y="180" width="220" height="58" rx="8"/><text class="n" x="150" y="204" text-anchor="middle">REGISTRY.JSON</text><text class="r" x="150" y="222" text-anchor="middle">one JSON object per project</text></g>
+  <g class="dg-node" data-n="root"><rect x="360" y="60" width="220" height="58" rx="8"/><text class="n" x="470" y="84" text-anchor="middle">ROOT PORTFOLIO</text><text class="r" x="470" y="102" text-anchor="middle">case studies + full index</text></g>
+  <g class="dg-node" data-n="hubs"><rect x="360" y="180" width="220" height="58" rx="8"/><text class="n" x="470" y="204" text-anchor="middle">7 CATEGORY HUBS</text><text class="r" x="470" y="222" text-anchor="middle">thin shells · filter by category</text></g>
+  <g class="dg-node" data-n="cards"><rect x="680" y="180" width="220" height="58" rx="8"/><text class="n" x="790" y="204" text-anchor="middle">PROJECT CARDS</text><text class="r" x="790" y="222" text-anchor="middle">rendered client-side</text></g>
+  <g class="dg-node" data-n="pages"><rect x="500" y="340" width="220" height="58" rx="8"/><text class="n" x="610" y="364" text-anchor="middle">PROJECT PAGES</text><text class="r" x="610" y="382" text-anchor="middle">in-repo · one per project</text></g>
+  <g class="dg-node" data-n="fx"><rect x="140" y="340" width="220" height="58" rx="8"/><text class="n" x="250" y="364" text-anchor="middle">EFFECTS.JS</text><text class="r" x="250" y="382" text-anchor="middle">injected after render</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="40" y="68">[ ONE JSON OBJECT ADDS A PROJECT ]</text>
+  <text class="dg-callout-sub" x="40" y="86">no hub code edits — the registry drives every card;</text>
+  <text class="dg-callout-sub" x="40" y="101">redirect stubs keep every old URL alive</text>
+  <text class="dg-callout" x="760" y="360">[ TWO DESIGN GENERATIONS COEXIST ]</text>
+  <text class="dg-callout-sub" x="760" y="378">Daybreak Editorial and the older</text>
+  <text class="dg-callout-sub" x="760" y="393">Observatory layer, mid-migration</text>
+</svg>

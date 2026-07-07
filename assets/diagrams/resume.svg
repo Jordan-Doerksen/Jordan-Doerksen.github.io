@@ -1,0 +1,25 @@
+<svg viewBox="0 0 1000 400" role="img" aria-label="Resume data flow. resume.json is the single source of truth. The browser page fetches it, falling back to an inline JSON copy for file:// use, and renders the DOM. Separately, build_resume.py re-reads the same JSON and builds a styled one-page Word doc, converted to PDF via LibreOffice and committed so the live page can link it. Gitignored private reference data feeds only the optional named-references build path and never reaches the public page.">
+  <defs>
+    <marker id="rs-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="rs-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-json e-web"><path d="M250 155 L356 85" marker-end="url(#rs-a)"/><text x="292" y="102" text-anchor="middle">fetched · inline fallback</text></g>
+  <g class="dg-edge gold e-json e-build"><path d="M250 183 L356 240" marker-end="url(#rs-a)"/><text x="290" y="198" text-anchor="middle">same JSON re-read</text></g>
+  <g class="dg-edge gold e-build e-docs"><path d="M590 249 H696" marker-end="url(#rs-a)"/><text x="643" y="240" text-anchor="middle">styled Word build</text></g>
+  <g class="dg-edge e-docs e-web"><path d="M770 216 L570 112" marker-end="url(#rs-m)"/><text x="690" y="150" text-anchor="middle">the page links the PDF</text></g>
+  <g class="dg-edge dash e-priv e-build"><path d="M250 330 L356 262" marker-end="url(#rs-m)"/><text x="280" y="285" text-anchor="middle">optional flag only</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="json"><rect x="40" y="140" width="210" height="58" rx="8"/><text class="n" x="145" y="164" text-anchor="middle">RESUME.JSON</text><text class="r" x="145" y="182" text-anchor="middle">single source of truth</text></g>
+  <g class="dg-node" data-n="web"><rect x="360" y="50" width="230" height="58" rx="8"/><text class="n" x="475" y="74" text-anchor="middle">INDEX.HTML</text><text class="r" x="475" y="92" text-anchor="middle">fetch · fallback · render</text></g>
+  <g class="dg-node" data-n="build"><rect x="360" y="220" width="230" height="58" rx="8"/><text class="n" x="475" y="244" text-anchor="middle">BUILD_RESUME.PY</text><text class="r" x="475" y="262" text-anchor="middle">python-docx · one page</text></g>
+  <g class="dg-node" data-n="docs"><rect x="700" y="220" width="230" height="58" rx="8"/><text class="n" x="815" y="244" text-anchor="middle">DOCX → PDF</text><text class="r" x="815" y="262" text-anchor="middle">LibreOffice · committed</text></g>
+  <g class="dg-node" data-n="priv"><rect x="40" y="310" width="210" height="58" rx="8"/><text class="n" x="145" y="334" text-anchor="middle">PRIVATE DATA</text><text class="r" x="145" y="352" text-anchor="middle">real refs · gitignored</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="620" y="330">[ ONE JSON — WEB AND PRINT NEVER DRIFT ]</text>
+  <text class="dg-callout-sub" x="620" y="348">the page and the Word/PDF build read the same file;</text>
+  <text class="dg-callout-sub" x="620" y="363">private references never reach the public page</text>
+</svg>

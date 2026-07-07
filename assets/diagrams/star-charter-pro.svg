@@ -1,0 +1,33 @@
+<svg viewBox="0 0 1000 520" role="img" aria-label="Star Charter Pro data flow. Pointer position — no hold needed — drives a direct-follow controller with an 80-pixel arrive dead-zone and a hard speed cap; on the title screen, attract mode substitutes an AI probe for the pointer into the identical pipeline. The Focus slow-precision check applies, then drag and velocity integrate. Hazard collision and dodge resolve against pulsar and asteroid-belt hazards, waypoint proximity charts the star and updates HUD and plate state, draw renders the frame, and run records persist to the localStorage leaderboard.">
+  <defs>
+    <marker id="scp-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="scp-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-ptr e-follow"><path d="M230 123 H286" marker-end="url(#scp-a)"/><text x="258" y="83" text-anchor="middle">position only</text></g>
+  <g class="dg-edge dash e-ai e-follow"><path d="M230 283 H395 V160" marker-end="url(#scp-m)"/><text x="250" y="273">substitutes the pointer</text></g>
+  <g class="dg-edge gold e-follow e-phys"><path d="M500 123 H556" marker-end="url(#scp-a)"/><text x="528" y="83" text-anchor="middle">capped velocity</text></g>
+  <g class="dg-edge gold e-phys e-coll"><path d="M660 156 V246" marker-end="url(#scp-a)"/><text x="672" y="205">integrated position</text></g>
+  <g class="dg-edge gold e-coll e-chart"><path d="M660 316 V406" marker-end="url(#scp-a)"/><text x="672" y="365">waypoint charted</text></g>
+  <g class="dg-edge gold e-chart e-draw"><path d="M760 443 H816" marker-end="url(#scp-a)"/><text x="788" y="433" text-anchor="middle">frame</text></g>
+  <g class="dg-edge e-chart e-rec"><path d="M760 425 H890 V320" marker-end="url(#scp-m)"/><text x="902" y="380">run records</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="ptr"><rect x="40" y="90" width="190" height="66" rx="8"/><text class="n" x="135" y="118" text-anchor="middle">POINTER</text><text class="r" x="135" y="136" text-anchor="middle">no hold needed</text></g>
+  <g class="dg-node" data-n="follow"><rect x="290" y="90" width="210" height="66" rx="8"/><text class="n" x="395" y="112" text-anchor="middle">DIRECT-FOLLOW</text><text class="r" x="395" y="129" text-anchor="middle">80px arrive dead-zone</text><text class="r" x="395" y="143" text-anchor="middle">hard speed cap</text></g>
+  <g class="dg-node" data-n="phys"><rect x="560" y="90" width="200" height="66" rx="8"/><text class="n" x="660" y="112" text-anchor="middle">FOCUS + PHYSICS</text><text class="r" x="660" y="129" text-anchor="middle">slow-precision check</text><text class="r" x="660" y="143" text-anchor="middle">drag · velocity integrate</text></g>
+  <g class="dg-node" data-n="ai"><rect x="40" y="250" width="190" height="66" rx="8"/><text class="n" x="135" y="272" text-anchor="middle">ATTRACT AI</text><text class="r" x="135" y="289" text-anchor="middle">title-screen probe seeks</text><text class="r" x="135" y="303" text-anchor="middle">motes, steers from hazards</text></g>
+  <g class="dg-node" data-n="coll"><rect x="560" y="250" width="200" height="66" rx="8"/><text class="n" x="660" y="272" text-anchor="middle">HAZARD COLLISION</text><text class="r" x="660" y="289" text-anchor="middle">pulsar · asteroid belt</text><text class="r" x="660" y="303" text-anchor="middle">dodge resolves</text></g>
+  <g class="dg-node" data-n="chart"><rect x="560" y="410" width="200" height="66" rx="8"/><text class="n" x="660" y="432" text-anchor="middle">CHART</text><text class="r" x="660" y="449" text-anchor="middle">HUD + plate state update</text><text class="r" x="660" y="463" text-anchor="middle">milestones at 11 · 21 · 31</text></g>
+  <g class="dg-node" data-n="draw"><rect x="820" y="410" width="160" height="66" rx="8"/><text class="n" x="900" y="432" text-anchor="middle">DRAW()</text><text class="r" x="900" y="449" text-anchor="middle">renders, then rAF</text><text class="r" x="900" y="463" text-anchor="middle">reschedules</text></g>
+  <g class="dg-node" data-n="rec"><rect x="820" y="250" width="160" height="66" rx="8"/><text class="n" x="900" y="272" text-anchor="middle">RECORDS</text><text class="r" x="900" y="289" text-anchor="middle">localStorage</text><text class="r" x="900" y="303" text-anchor="middle">leaderboard</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="40" y="370">[ CHART, NOT KILL ]</text>
+  <text class="dg-callout-sub" x="40" y="388">auto-weapons hard-capped at three types —</text>
+  <text class="dg-callout-sub" x="40" y="403">combat never overshadows the charting verb</text>
+  <text class="dg-callout" x="40" y="445">[ ADDITIVE ONLY ]</text>
+  <text class="dg-callout-sub" x="40" y="463">the Star Charter engine is reused as-is;</text>
+  <text class="dg-callout-sub" x="40" y="478">expansion never rewrites it</text>
+</svg>

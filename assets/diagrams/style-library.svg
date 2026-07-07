@@ -1,0 +1,29 @@
+<svg viewBox="0 0 1000 415" role="img" aria-label="Style Library data flow. A consuming page links Google Fonts first, then tokens.css, then style.css — order enforced. tokens.css defines the root custom properties and style.css consumes them via var(). effects.js loads last, runs on DOMContentLoaded, and silently skips missing optional hooks; every motion branch checks prefers-reduced-motion first. The in-repo index.html is the reference build showing every component. Downstream, a human hand-copies the three files into each consuming repo — no sync tooling.">
+  <defs>
+    <marker id="sl-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="sl-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge e-fonts e-page"><path d="M250 89 L676 165" marker-end="url(#sl-m)"/><text x="400" y="100" text-anchor="middle">linked first</text></g>
+  <g class="dg-edge gold e-tokens e-style"><path d="M250 199 H336" marker-end="url(#sl-a)"/><text x="293" y="190" text-anchor="middle">never renamed</text></g>
+  <g class="dg-edge gold e-style e-page"><path d="M560 190 L676 183" marker-end="url(#sl-a)"/><text x="618" y="170" text-anchor="middle">load order enforced</text></g>
+  <g class="dg-edge e-fx e-page"><path d="M560 320 L676 210" marker-end="url(#sl-m)"/><text x="548" y="258" text-anchor="end">loads last · skips missing hooks</text></g>
+  <g class="dg-edge dash e-demo e-page"><path d="M790 296 V220" marker-end="url(#sl-m)"/><text x="802" y="262">in-repo reference</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="fonts"><rect x="40" y="60" width="210" height="58" rx="8"/><text class="n" x="145" y="84" text-anchor="middle">GOOGLE FONTS</text><text class="r" x="145" y="102" text-anchor="middle">the only external dependency</text></g>
+  <g class="dg-node" data-n="tokens"><rect x="40" y="170" width="210" height="58" rx="8"/><text class="n" x="145" y="194" text-anchor="middle">TOKENS.CSS</text><text class="r" x="145" y="212" text-anchor="middle">root custom properties</text></g>
+  <g class="dg-node" data-n="style"><rect x="340" y="170" width="220" height="58" rx="8"/><text class="n" x="450" y="194" text-anchor="middle">STYLE.CSS</text><text class="r" x="450" y="212" text-anchor="middle">consumes tokens via var()</text></g>
+  <g class="dg-node" data-n="page"><rect x="680" y="150" width="260" height="66" rx="8"/><text class="n" x="810" y="174" text-anchor="middle">CONSUMING PAGE</text><text class="r" x="810" y="192" text-anchor="middle">scaffolding markup · wrapper</text><text class="r" x="810" y="206" text-anchor="middle">effects.js on DOMContentLoaded</text></g>
+  <g class="dg-node" data-n="fx"><rect x="340" y="300" width="220" height="58" rx="8"/><text class="n" x="450" y="324" text-anchor="middle">EFFECTS.JS</text><text class="r" x="450" y="342" text-anchor="middle">one IIFE · motion-checked</text></g>
+  <g class="dg-node" data-n="demo"><rect x="680" y="300" width="220" height="58" rx="8"/><text class="n" x="790" y="324" text-anchor="middle">INDEX.HTML</text><text class="r" x="790" y="342" text-anchor="middle">demo of every component</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="40" y="300">[ HAND-COPIED — NO SYNC TOOLING ]</text>
+  <text class="dg-callout-sub" x="40" y="318">a human copies the three files into each</text>
+  <text class="dg-callout-sub" x="40" y="333">consuming repo; this repo is canonical</text>
+  <text class="dg-callout" x="40" y="375">[ REDUCED-MOTION IS LAW ]</text>
+  <text class="dg-callout-sub" x="40" y="393">every effect checks it first — motion dies,</text>
+  <text class="dg-callout-sub" x="40" y="408">cards stay in a static elevated state</text>
+</svg>

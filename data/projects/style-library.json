@@ -1,0 +1,60 @@
+{
+  "slug": "style-library",
+  "name": "Style Library",
+  "category": "studio",
+  "status": "live",
+  "statusNote": "Canonical: if anything labelled Daybreak Editorial disagrees with this repo, the repo wins. The prior Glass Archive system is quarantined in legacy-glass-archive/, reference only.",
+  "oneLiner": "The canonical Daybreak Editorial design system — three files that get copied into every personal project.",
+  "stack": [
+    "Plain HTML/CSS/JS, no build step, no package manager",
+    "Vanilla JS effects in one IIFE, file://-safe by design",
+    "Google Fonts (Space Grotesk, Inter, JetBrains Mono) — the only external dependency"
+  ],
+  "components": [
+    {
+      "name": "tokens.css",
+      "desc": "Single source of truth for CSS custom properties; tokens are never renamed."
+    },
+    {
+      "name": "style.css",
+      "desc": "Reset, typography, paper grain, drifting sun, ink cursor, kinetic headline, depth cards, footer, reduced-motion override block."
+    },
+    {
+      "name": "effects.js",
+      "desc": "One IIFE: kinetic headline, scroll reveal, count-up stats, card tilt, custom cursor, magnetic buttons, sun parallax — every branch checks reduced-motion first."
+    },
+    {
+      "name": "index.html",
+      "desc": "Reference/demo page showing every component."
+    },
+    {
+      "name": "legacy-glass-archive/",
+      "desc": "The retired prior system, quarantined — do not build new work from here."
+    }
+  ],
+  "dataFlow": [
+    "Consuming HTML links Google Fonts, then tokens.css, then style.css — order enforced.",
+    "tokens.css defines root custom properties; style.css consumes them via var().",
+    "Page markup includes the required scaffolding elements inside the wrapper.",
+    "effects.js loads last, runs on DOMContentLoaded, and silently skips missing optional hooks.",
+    "Reduced-motion and hover:none are checked once at start; motion branches short-circuit to a static end-state.",
+    "Downstream, a human manually copies the three files into each consuming repo — no registry, no sync tooling."
+  ],
+  "integrations": [
+    "Google Fonts CDN",
+    "The portfolio monorepo holds its own copied snapshot in styles/"
+  ],
+  "decisions": [
+    "Paper, never pure white.",
+    "One Goldenrod thread, locked, with an accent/accent-ink split for AA-safe text.",
+    "Three type voices, strictly role-locked.",
+    "Depth cards are the signature component; the ✦ is the only ornament.",
+    "prefers-reduced-motion is absolute law — motion dies but cards stay in a static elevated state.",
+    "file://-safe by design: no fetch, no ES modules."
+  ],
+  "links": {
+    "live": "https://jordan-doerksen.github.io/style-library/",
+    "repo": "https://github.com/Jordan-Doerksen/style-library"
+  },
+  "diagram": "/assets/diagrams/style-library.svg"
+}

@@ -1,0 +1,38 @@
+{
+  "slug": "echo-bat",
+  "name": "Echo Bat — Night Harvest",
+  "category": "games",
+  "status": "live",
+  "statusNote": "Shipped and live; split into its own repo from star-charter on 2026-06-23. Design intent lives in the README and code comments — the SPEC doc is an unfilled template.",
+  "oneLiner": "A sonar-in-the-dark game — a bat navigates a cavern by echolocation, collecting fruit and dodging pillars and owls; the world only exists where sound has touched it.",
+  "stack": ["single-file HTML/CSS/JS (~1390 lines), no build step", "Canvas 2D", "procedural WebAudio"],
+  "components": [
+    { "name": "Sonar mechanic", "desc": "An auto-emitting pulse timer spawns expanding rings tested against geometry each frame; hits light up and fade, plus an always-on passive nightsight radius." },
+    { "name": "Flight physics", "desc": "Arrive-based acceleration toward the target, ambient gravity that grows when not steering, soft walls, drag, speed cap." },
+    { "name": "Level generation", "desc": "genLevel() — jagged pillar spikes, drifting spores, owls gated from level 4+, level-scaled fruit quota." },
+    { "name": "Fruit system", "desc": "Berry, plum (sings a free pulse), moth, heart." },
+    { "name": "Upgrades", "desc": "Eight tiered upgrades: Far Cry, Quick Chirp, Long Echo, Wide Band, Spare Heart, Down Feathers, Swift Wings, Nectar Sense." },
+    { "name": "Audio", "desc": "chirp() per pulse plus pickup/hit/death cues, all synthesized." },
+    { "name": "Save", "desc": "localStorage-backed progress." },
+    { "name": "Input", "desc": "Touch, mouse, keys, and a demo-AI autopilot on the title screen." }
+  ],
+  "dataFlow": [
+    "Input (touch, mouse, keys, or demo-AI) sets a target position.",
+    "update(dt) applies arrive-based acceleration plus ambient gravity and drag, then integrates position with soft-wall forces.",
+    "The passive pulse timer counts down and spawns a new ring on expiry.",
+    "Active rings are tested against pillar and spore distances each frame to toggle lit state; lit state decays over time.",
+    "Fruit-proximity checks award score, healing, or pulse refresh; collisions cost HP.",
+    "draw() renders only what is lit or in passive nightsight, plus UI chrome.",
+    "Audio.chirp() fires on every pulse; other cues on pickup, hit, and death."
+  ],
+  "integrations": ["Shares the visual language of its siblings; no runtime dependency on star-charter or star-charter-pro"],
+  "decisions": [
+    "The whole design is built around geometry only existing where sound has touched it — the echo plum's free pulse reinforces the theme.",
+    "Passive nightsight gives baseline visibility so the blackout mechanic isn't punishingly opaque.",
+    "Rest-and-you-sink ambient gravity discourages passive play.",
+    "Owls are level-gated to 4+ so players learn the core mechanic hazard-free first.",
+    "Single file, zero dependencies is a locked decision — module-splitting deferred until it hurts."
+  ],
+  "links": { "live": "/games/echo-bat/", "repo": "https://github.com/Jordan-Doerksen/echo-bat" },
+  "diagram": "/assets/diagrams/echo-bat.svg"
+}

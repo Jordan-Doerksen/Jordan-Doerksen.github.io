@@ -1,0 +1,31 @@
+<svg viewBox="0 0 1000 520" role="img" aria-label="Ask-Johnny data flow. Discord interactions and mentions reach the index.js router, which resolves slash commands through a handler map with a per-user cooldown, then defers and replies. Commands either ask the Groq persona, Llama 3.3 70B, for an in-character answer, or call real-data libraries whose facts are shown verbatim. Stateful commands write to a single JSON store with atomic debounced writes; a twenty-second scheduler ticks against that store to fire reminders, close polls, and post a daily backup; and on boot the router forks the vendored fun-police bot as an isolated child process with its own credentials.">
+  <defs>
+    <marker id="aj-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="aj-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-disc e-router"><path d="M220 119 H275" marker-end="url(#aj-a)"/><text x="248" y="83" text-anchor="middle">slash · @mention</text></g>
+  <g class="dg-edge gold e-router e-groq"><path d="M490 105 L615 71" marker-end="url(#aj-a)"/><text x="540" y="76" text-anchor="middle">persona ask</text></g>
+  <g class="dg-edge e-router e-rdata"><path d="M490 125 L615 163" marker-end="url(#aj-m)"/><text x="555" y="128" text-anchor="middle">facts, verbatim</text></g>
+  <g class="dg-edge e-router e-store"><path d="M490 145 L615 257" marker-end="url(#aj-m)"/><text x="515" y="215" text-anchor="middle">state writes</text></g>
+  <g class="dg-edge e-store e-sched"><path d="M735 286 V317" marker-end="url(#aj-m)"/><text x="747" y="305">20 s tick</text></g>
+  <g class="dg-edge dash e-router e-fp"><path d="M385 156 V445 H615" marker-end="url(#aj-m)"/><text x="397" y="310">forked at boot · own token</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="disc"><rect x="30" y="90" width="190" height="58" rx="8"/><text class="n" x="125" y="114" text-anchor="middle">DISCORD SERVER</text><text class="r" x="125" y="132" text-anchor="middle">interactions · messages</text></g>
+  <g class="dg-node" data-n="router"><rect x="280" y="90" width="210" height="66" rx="8"/><text class="n" x="385" y="114" text-anchor="middle">INDEX.JS ROUTER</text><text class="r" x="385" y="132" text-anchor="middle">handler map · cooldown</text><text class="r" x="385" y="146" text-anchor="middle">defers, then replies</text></g>
+  <g class="dg-node" data-n="groq"><rect x="620" y="40" width="230" height="58" rx="8"/><text class="n" x="735" y="64" text-anchor="middle">GROQ PERSONA</text><text class="r" x="735" y="82" text-anchor="middle">Llama 3.3 70B · in character</text></g>
+  <g class="dg-node" data-n="rdata"><rect x="620" y="134" width="230" height="58" rx="8"/><text class="n" x="735" y="158" text-anchor="middle">REAL-DATA LIBS</text><text class="r" x="735" y="176" text-anchor="middle">weather · wiki · dictionary</text></g>
+  <g class="dg-node" data-n="store"><rect x="620" y="228" width="230" height="58" rx="8"/><text class="n" x="735" y="252" text-anchor="middle">JSON STORE</text><text class="r" x="735" y="270" text-anchor="middle">one file · atomic writes</text></g>
+  <g class="dg-node" data-n="sched"><rect x="620" y="322" width="230" height="58" rx="8"/><text class="n" x="735" y="346" text-anchor="middle">SCHEDULER</text><text class="r" x="735" y="364" text-anchor="middle">reminders · polls · backup</text></g>
+  <g class="dg-node" data-n="fp"><rect x="620" y="416" width="230" height="58" rx="8"/><text class="n" x="735" y="440" text-anchor="middle">FUN-POLICE (CHILD)</text><text class="r" x="735" y="458" text-anchor="middle">forked · own credentials</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="30" y="250">[ FACTS AND VOICE NEVER MIX ]</text>
+  <text class="dg-callout-sub" x="30" y="268">real data is shown verbatim —</text>
+  <text class="dg-callout-sub" x="30" y="283">the persona only adds the quip</text>
+  <text class="dg-callout" x="30" y="330">[ MEMORY: TIMESTAMPS ONLY ]</text>
+  <text class="dg-callout-sub" x="30" y="348">activity tracking never stores</text>
+  <text class="dg-callout-sub" x="30" y="363">message content</text>
+</svg>

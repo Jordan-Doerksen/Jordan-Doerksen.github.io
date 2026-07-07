@@ -1,0 +1,31 @@
+<svg viewBox="0 0 1000 360" role="img" aria-label="CROR Trainer data flow, two lanes. Quiz lane: the official rulebook PDF, gitignored and never redistributed, is parsed offline and hand-authored into a question bank of about 325 cited questions; the quiz serves them in escalating tiers and collects misses for an end-of-run review with citations. Yard lane: a real 2020 Grande Prairie yard photo is traced via OpenCV homography into yard geometry, the switching puzzle replays composed move lists against the track state, and wins are graded against an offline BFS-precomputed par." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="cct-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="cct-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-pdf e-bank"><path d="M225 109 H281" marker-end="url(#cct-a)"/><text x="253" y="74" text-anchor="middle">parsed offline</text></g>
+  <g class="dg-edge gold e-bank e-quiz"><path d="M495 109 H546" marker-end="url(#cct-a)"/><text x="520" y="74" text-anchor="middle">escalating tiers</text></g>
+  <g class="dg-edge gold e-quiz e-review"><path d="M740 109 H786" marker-end="url(#cct-a)"/><text x="763" y="74" text-anchor="middle">misses collected</text></g>
+  <g class="dg-edge e-photo e-trace"><path d="M225 299 H281" marker-end="url(#cct-m)"/><text x="253" y="264" text-anchor="middle">traced</text></g>
+  <g class="dg-edge e-trace e-puzzle"><path d="M495 299 H546" marker-end="url(#cct-m)"/><text x="520" y="264" text-anchor="middle">yard geometry</text></g>
+  <g class="dg-edge dash e-bfs e-puzzle"><path d="M786 299 H744" marker-end="url(#cct-m)"/><text x="765" y="264" text-anchor="middle">par oracle</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="pdf"><rect x="25" y="80" width="200" height="58" rx="8"/><text class="n" x="125" y="104" text-anchor="middle">CROR RULEBOOK PDF</text><text class="r" x="125" y="122" text-anchor="middle">gitignored · never shipped</text></g>
+  <g class="dg-node" data-n="bank"><rect x="285" y="80" width="210" height="66" rx="8"/><text class="n" x="390" y="104" text-anchor="middle">QUESTION BANK</text><text class="r" x="390" y="122" text-anchor="middle">~325 hand-authored</text><text class="r" x="390" y="136" text-anchor="middle">every answer cited</text></g>
+  <g class="dg-node" data-n="quiz"><rect x="550" y="80" width="190" height="58" rx="8"/><text class="n" x="645" y="104" text-anchor="middle">CROR QUIZ</text><text class="r" x="645" y="122" text-anchor="middle">tiers · rule numbers</text></g>
+  <g class="dg-node" data-n="review"><rect x="790" y="80" width="195" height="58" rx="8"/><text class="n" x="887" y="104" text-anchor="middle">MISS REVIEW</text><text class="r" x="887" y="122" text-anchor="middle">end-of-run citations</text></g>
+  <g class="dg-node" data-n="photo"><rect x="25" y="270" width="200" height="58" rx="8"/><text class="n" x="125" y="294" text-anchor="middle">YARD PHOTO</text><text class="r" x="125" y="312" text-anchor="middle">real 2020 GP diagram</text></g>
+  <g class="dg-node" data-n="trace"><rect x="285" y="270" width="210" height="58" rx="8"/><text class="n" x="390" y="294" text-anchor="middle">OPENCV TRACE</text><text class="r" x="390" y="312" text-anchor="middle">homography, not hand-drawn</text></g>
+  <g class="dg-node" data-n="puzzle"><rect x="550" y="270" width="190" height="58" rx="8"/><text class="n" x="645" y="294" text-anchor="middle">SWITCHING PUZZLE</text><text class="r" x="645" y="312" text-anchor="middle">replays composed moves</text></g>
+  <g class="dg-node" data-n="bfs"><rect x="790" y="270" width="195" height="58" rx="8"/><text class="n" x="887" y="294" text-anchor="middle">BFS SOLVER</text><text class="r" x="887" y="312" text-anchor="middle">offline · verified par</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="25" y="190">[ NEVER GUESS A RULE ]</text>
+  <text class="dg-callout-sub" x="25" y="208">rulebook rules and operating practice kept strictly distinct</text>
+  <text class="dg-callout-sub" x="25" y="223">the rulebook itself is never republished</text>
+  <text class="dg-callout" x="550" y="190">[ EVERY PUZZLE MACHINE-VERIFIED SOLVABLE ]</text>
+  <text class="dg-callout-sub" x="550" y="208">graded on correctness and efficiency against par</text>
+</svg>

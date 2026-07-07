@@ -1,0 +1,34 @@
+{
+  "slug": "diablo-act1",
+  "name": "Diablo — Act 1",
+  "category": "games",
+  "status": "live",
+  "statusNote": "A playable, winnable slice, still in development. A personal fan tribute, deliberately kept out of any commercial framing.",
+  "oneLiner": "A single-file canvas ARPG tribute to Diablo II's Act 1 — Rogue Encampment through Blood Moor and the Den of Evil to the Blood Raven boss fight, with three playable classes.",
+  "stack": ["single-file HTML/CSS/JS, no build step", "Canvas 2D, requestAnimationFrame loop"],
+  "components": [
+    { "name": "Data tables", "desc": "CLASSES (Sorceress, Barbarian, Amazon with real stat spreads and 4-skill kits), SKILLS (9 across projectile/spread/nova/melee/leap), MON (five monster types incl. the boss), BASES (per-class item bases)." },
+    { "name": "Zone system", "desc": "Four hand-authored zone builders (town, moor, den, burial), each placing monster packs procedurally while guaranteeing a clear entry point." },
+    { "name": "Combat / skills", "desc": "tryCast() validates cooldown and mana, then branches on skill kind." },
+    { "name": "Enemy AI", "desc": "Per-monster aggro/range/attack-cooldown state machine; the Fallen Shaman heals allies, Blood Raven is a dedicated boss." },
+    { "name": "Loot and progression", "desc": "Chance-gated drops (guaranteed on the boss), stat and skill points on level-up and quest completion." },
+    { "name": "Render chain", "desc": "Zone, decorations, torches, NPCs, monsters, projectiles, items, particles, HUD, and overlay screens." }
+  ],
+  "dataFlow": [
+    "Left-click is context-sensitive move-or-attack; right-click casts the bound skill; 1/2/3 rebind it; Q/E potions; I/C panels.",
+    "update(dt) advances zone timers and runs monster AI (aggro, chase, attack).",
+    "tryCast resolves through the cooldown/mana gate and spawns the effect.",
+    "Projectile and melee collisions resolve; deaths drop loot and XP, possibly leveling.",
+    "Zone-exit collision transitions to the next zone.",
+    "The render chain paints the frame and rAF reschedules."
+  ],
+  "integrations": ["None beyond the browser — fully self-contained, no shared code with the other games"],
+  "decisions": [
+    "A prominent IP-tribute disclaimer: a personal fan tribute, not affiliated with or endorsed by Blizzard; the MIT license explicitly excludes referenced IP.",
+    "Kept out of commercial framing deliberately — it showcases range without IP risk.",
+    "Safe-zone spawn generation is a deliberate nod to D2's own map-generation discipline.",
+    "The skill system mirrors D2's class-identity structure (one primary + a 3-skill kit) rather than a generic combo system."
+  ],
+  "links": { "live": "/games/diablo-act1/", "repo": "https://github.com/Jordan-Doerksen/diablo-act1" },
+  "diagram": "/assets/diagrams/diablo-act1.svg"
+}

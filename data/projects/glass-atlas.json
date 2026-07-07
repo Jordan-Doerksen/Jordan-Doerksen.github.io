@@ -1,0 +1,35 @@
+{
+  "slug": "glass-atlas",
+  "name": "Glass Atlas",
+  "category": "games",
+  "status": "live",
+  "statusNote": "Shipped and live. Not a game — a generative art toy; the SPEC doc is an unfilled template.",
+  "oneLiner": "A seeded star-atlas plate generator — every reroll is a unique procedural printing plate of a fictional star field, reproducible via a seed in the URL and exportable as a PNG.",
+  "stack": ["single-file HTML/CSS/JS, no build step", "Canvas 2D (offscreen base + visible plate canvas)", "deterministic seeded PRNG (mulberry32)"],
+  "components": [
+    { "name": "PRNG", "desc": "Hand-rolled mulberry32 32-bit PRNG, re-seeded per generation, with rand/range/int/pick wrappers." },
+    { "name": "Content pools", "desc": "Word pools for titles and catalog text, plus 7 gold-anchored nebula color pairs." },
+    { "name": "generate(seed)", "desc": "Derives hue pair, plate number, title, synthetic catalog block, a 260-460 star field, 2-4 feature stars with lens spikes, and 1-2 constellation chains via greedy nearest-neighbor." },
+    { "name": "drawBase()", "desc": "Renders the static layer offscreen: background, nebula blooms, faint graticule grid, non-twinkling stars, constellation lines." },
+    { "name": "Compositor", "desc": "Visible canvas composites base plus live twinkle each frame — or blits the static base once under reduced-motion." },
+    { "name": "Seed persistence", "desc": "The seed rides in the URL hash (base-36) after each generation." },
+    { "name": "PNG export", "desc": "toDataURL download; Space rerolls, S saves." }
+  ],
+  "dataFlow": [
+    "A seed comes from the URL hash or a fresh random.",
+    "mulberry32(seed) reseeds the RNG.",
+    "generate(seed) procedurally derives the plate's content.",
+    "drawBase() renders the deterministic layer offscreen.",
+    "The main loop composites base plus twinkle.",
+    "The URL updates with the seed; Space rerolls, S exports a PNG."
+  ],
+  "integrations": ["Shares the palette and typography of the games; no cross-repo runtime dependencies"],
+  "decisions": [
+    "Determinism is the entire point — same seed, same plate — hence a hand-rolled seedable PRNG over Math.random().",
+    "The seed is carried in the URL specifically for shareable, reproducible artifacts.",
+    "Content pools are tuned for a deadpan celestial naming voice, consistent with the house voice.",
+    "Under reduced-motion the static base is blitted once instead of animating twinkle."
+  ],
+  "links": { "live": "/games/glass-atlas/", "repo": "https://github.com/Jordan-Doerksen/glass-atlas" },
+  "diagram": "/assets/diagrams/glass-atlas.svg"
+}

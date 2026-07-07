@@ -1,0 +1,28 @@
+<svg viewBox="0 0 1000 470" role="img" aria-label="Worklog data flow. git log with numstat runs per configured repo; commits are parsed into hash, date, subject, and lines added or deleted, then merged into the persisted worklog.json store, backfilling missed days and preserving manual notes. Weekly aggregation renders the value report as a single self-contained print-friendly HTML file, opened via the browser or the WORK REPORT dot bat launcher. Manual notes append straight to the store via ADD NOTE dot bat, bypassing git entirely.">
+  <defs>
+    <marker id="wl-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="wl-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-repos e-scan"><path d="M240 119 H275" marker-end="url(#wl-a)"/><text x="258" y="83" text-anchor="middle">commit history</text></g>
+  <g class="dg-edge gold e-scan e-store"><path d="M490 119 H535" marker-end="url(#wl-a)"/><text x="513" y="83" text-anchor="middle">merged · backfilled</text></g>
+  <g class="dg-edge gold e-store e-render"><path d="M640 148 V235" marker-end="url(#wl-a)"/><text x="652" y="196">week slice</text></g>
+  <g class="dg-edge gold e-render e-report"><path d="M720 271 H775" marker-end="url(#wl-a)"/><text x="748" y="230" text-anchor="middle">one HTML file</text></g>
+  <g class="dg-edge e-notes e-store"><path d="M480 255 L585 152" marker-end="url(#wl-m)"/><text x="545" y="212">bypasses git</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="repos"><rect x="30" y="90" width="210" height="58" rx="8"/><text class="n" x="135" y="114" text-anchor="middle">CONFIGURED REPOS</text><text class="r" x="135" y="132" text-anchor="middle">git log --numstat, each repo</text></g>
+  <g class="dg-node" data-n="scan"><rect x="280" y="90" width="210" height="58" rx="8"/><text class="n" x="385" y="114" text-anchor="middle">WORKLOG.PY</text><text class="r" x="385" y="132" text-anchor="middle">hash · date · subject · lines</text></g>
+  <g class="dg-node" data-n="store"><rect x="540" y="90" width="200" height="58" rx="8"/><text class="n" x="640" y="114" text-anchor="middle">WORKLOG.JSON</text><text class="r" x="640" y="132" text-anchor="middle">commits + notes · persisted</text></g>
+  <g class="dg-node" data-n="render"><rect x="520" y="240" width="200" height="58" rx="8"/><text class="n" x="620" y="264" text-anchor="middle">WEEKLY RENDER</text><text class="r" x="620" y="282" text-anchor="middle">aggregates the week</text></g>
+  <g class="dg-node" data-n="report"><rect x="780" y="240" width="210" height="66" rx="8"/><text class="n" x="885" y="264" text-anchor="middle">VALUE-REPORT.HTML</text><text class="r" x="885" y="282" text-anchor="middle">print-friendly · one file</text><text class="r" x="885" y="296" text-anchor="middle">opened by WORK REPORT.bat</text></g>
+  <g class="dg-node" data-n="notes"><rect x="280" y="240" width="200" height="58" rx="8"/><text class="n" x="380" y="264" text-anchor="middle">MANUAL NOTES</text><text class="r" x="380" y="282" text-anchor="middle">ADD NOTE.bat · off-git work</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="30" y="360">[ METRICS ARE STATIC TEXT MATCHES ]</text>
+  <text class="dg-callout-sub" x="30" y="378">decision and test counts come from text scans,</text>
+  <text class="dg-callout-sub" x="30" y="393">not runtime — the report says so plainly</text>
+  <text class="dg-callout" x="30" y="425">[ STANDARD LIBRARY ONLY ]</text>
+  <text class="dg-callout-sub" x="30" y="443">nothing to install — git is the only external tool</text>
+</svg>

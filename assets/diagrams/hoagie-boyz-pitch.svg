@@ -1,0 +1,26 @@
+<svg viewBox="0 0 1000 430" role="img" aria-label="Hoagie Boyz pitch data flow. One scrolling brutalist page: a sticky nav with a hamburger moves between anchor sections. The only imagery is a hand-drawn inline SVG of a donkey dragging a giant sub — no stock photography. Calls to action fan out to a tel: click-to-call, an Apple Maps deep link, and an outbound link to the shop's real live ordering site, where all real transactions happen.">
+  <defs>
+    <marker id="hb-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="hb-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-nav e-page"><path d="M260 179 H346" marker-end="url(#hb-a)"/><text x="303" y="170" text-anchor="middle">scroll anchors</text></g>
+  <g class="dg-edge e-page e-tel"><path d="M590 165 L736 78" marker-end="url(#hb-m)"/><text x="655" y="90" text-anchor="middle">call the shop</text></g>
+  <g class="dg-edge e-page e-maps"><path d="M590 179 H736" marker-end="url(#hb-m)"/><text x="663" y="170" text-anchor="middle">find the shop</text></g>
+  <g class="dg-edge gold e-page e-order"><path d="M590 193 L736 293" marker-end="url(#hb-a)"/><text x="680" y="235" text-anchor="middle">order for real</text></g>
+  <g class="dg-edge e-svg e-page"><path d="M470 286 V212" marker-end="url(#hb-m)"/><text x="482" y="253">the only imagery</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="nav"><rect x="50" y="150" width="210" height="58" rx="8"/><text class="n" x="155" y="174" text-anchor="middle">STICKY NAV</text><text class="r" x="155" y="192" text-anchor="middle">hamburger · anchor links</text></g>
+  <g class="dg-node" data-n="page"><rect x="350" y="150" width="240" height="58" rx="8"/><text class="n" x="470" y="174" text-anchor="middle">INDEX.HTML</text><text class="r" x="470" y="192" text-anchor="middle">marquee · menu · story · visit</text></g>
+  <g class="dg-node" data-n="svg"><rect x="350" y="290" width="240" height="58" rx="8"/><text class="n" x="470" y="314" text-anchor="middle">HERO SVG</text><text class="r" x="470" y="332" text-anchor="middle">hand-drawn donkey + giant sub</text></g>
+  <g class="dg-node" data-n="tel"><rect x="740" y="40" width="220" height="58" rx="8"/><text class="n" x="850" y="64" text-anchor="middle">TEL: CLICK-TO-CALL</text><text class="r" x="850" y="82" text-anchor="middle">no contact form</text></g>
+  <g class="dg-node" data-n="maps"><rect x="740" y="150" width="220" height="58" rx="8"/><text class="n" x="850" y="174" text-anchor="middle">APPLE MAPS LINK</text><text class="r" x="850" y="192" text-anchor="middle">deep link · no iframe</text></g>
+  <g class="dg-node" data-n="order"><rect x="740" y="270" width="220" height="66" rx="8"/><text class="n" x="850" y="294" text-anchor="middle">REAL ORDERING SITE</text><text class="r" x="850" y="312" text-anchor="middle">the shop's live domain</text><text class="r" x="850" y="326" text-anchor="middle">outbound link</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="50" y="380">[ REAL ORDERS DEFER TO THE SHOP'S OWN SITE ]</text>
+  <text class="dg-callout-sub" x="50" y="398">the concept never takes an order — transactions hand off</text>
+  <text class="dg-callout-sub" x="50" y="413">to the real ordering domain; marquee dies under reduced motion</text>
+</svg>

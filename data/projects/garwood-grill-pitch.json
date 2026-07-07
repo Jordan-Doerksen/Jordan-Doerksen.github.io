@@ -1,0 +1,34 @@
+{
+  "slug": "garwood-grill-pitch",
+  "name": "Garwood Grill",
+  "category": "studio",
+  "status": "live",
+  "statusNote": "Shipped concept/pitch site, live. Deliberately dressed to the client's own brand, not the house style; explicitly labeled not the official Garwood Grill site, and the menu is marked illustrative.",
+  "oneLiner": "A one-page concept site for an old-school Pembina Highway diner — all-day breakfast, char-grilled steaks, homestyle classics — built speculatively as a pitch.",
+  "stack": ["plain HTML/CSS/JS, no build step", "two self-contained single-file HTML documents", "Google Fonts CDN, static hosting"],
+  "components": [
+    { "name": "index.html", "desc": "Single-page site: sticky nav with mobile toggle, hero, stats strip, About, filterable menu, Signatures grid, reviews, Visit section with hours and embedded map" },
+    { "name": "Menu filter", "desc": "Category buttons with JS show/hide; menu labeled sample — prices and items are illustrative" },
+    { "name": "pitch.html", "desc": "The printable proposal document" },
+    { "name": "README.md", "desc": "Page map and facts" }
+  ],
+  "dataFlow": [
+    "Single scrolling page; nav anchors move within the document — no page-to-page navigation.",
+    "CTAs are tel: click-to-call links plus an external Apple Maps link and an embedded Google Maps iframe — no contact form.",
+    "pitch.html runs header to lead to what's included to pricing cards to disclaimer to a mail CTA."
+  ],
+  "integrations": [
+    "Google Fonts (Alfa Slab One, Bitter, Oswald)",
+    "Unsplash stock photography (hot-linked, no assets folder)",
+    "Embedded Google Maps iframe (public embed, no API key)",
+    "tel: click-to-call links"
+  ],
+  "decisions": [
+    "Dressed to the client's brand, not the house style — warm diner palette (maroon, cream, gold, green) with a retro slab display font.",
+    "Menu explicitly labeled as a sample so nothing on the page overpromises.",
+    "No contact form, analytics, or CMS — a static page a diner can actually own.",
+    "Mobile hamburger nav for the phone-first audience."
+  ],
+  "links": { "live": "/studio/garwood-grill-pitch/", "repo": "https://github.com/Jordan-Doerksen/garwood-grill-pitch" },
+  "diagram": "/assets/diagrams/garwood-grill-pitch.svg"
+}

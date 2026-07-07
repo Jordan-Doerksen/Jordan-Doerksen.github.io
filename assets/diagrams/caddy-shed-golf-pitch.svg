@@ -1,0 +1,29 @@
+<svg viewBox="0 0 1000 460" role="img" aria-label="Caddy Shed Golf pitch data flow. A hub chooser page routes to three parallel, complete design directions — Premium Heritage, Modern Sport, and Local Warm — each a full single-page site with the same content and a distinct visual treatment, so the client picks the brand feel. The hub also links the printable proposal and the original single-page draft the directions were derived from.">
+  <defs>
+    <marker id="csg-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="csg-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-hub e-d1"><path d="M260 165 L396 72" marker-end="url(#csg-a)"/></g>
+  <g class="dg-edge gold e-hub e-d2"><path d="M260 179 H396" marker-end="url(#csg-a)"/><text x="328" y="170" text-anchor="middle">pick a direction</text></g>
+  <g class="dg-edge gold e-hub e-d3"><path d="M260 193 L396 286" marker-end="url(#csg-a)"/></g>
+  <g class="dg-edge e-hub e-pitch"><path d="M155 208 V366" marker-end="url(#csg-m)"/><text x="167" y="290">the proposal</text></g>
+  <g class="dg-edge dash e-hub e-orig"><path d="M240 208 L420 366" marker-end="url(#csg-m)"/><text x="330" y="315" text-anchor="middle">the first draft</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="hub"><rect x="50" y="150" width="210" height="58" rx="8"/><text class="n" x="155" y="174" text-anchor="middle">INDEX.HTML</text><text class="r" x="155" y="192" text-anchor="middle">hub — 3-card chooser grid</text></g>
+  <g class="dg-node" data-n="d1"><rect x="400" y="40" width="240" height="58" rx="8"/><text class="n" x="520" y="64" text-anchor="middle">PREMIUM HERITAGE</text><text class="r" x="520" y="82" text-anchor="middle">deep green · brass · serif</text></g>
+  <g class="dg-node" data-n="d2"><rect x="400" y="150" width="240" height="58" rx="8"/><text class="n" x="520" y="174" text-anchor="middle">MODERN SPORT</text><text class="r" x="520" y="192" text-anchor="middle">dark · stat counter · sticky CTA</text></g>
+  <g class="dg-node" data-n="d3"><rect x="400" y="260" width="240" height="58" rx="8"/><text class="n" x="520" y="284" text-anchor="middle">LOCAL WARM</text><text class="r" x="520" y="302" text-anchor="middle">cream · live open/closed pill</text></g>
+  <g class="dg-node" data-n="orig"><rect x="400" y="370" width="240" height="58" rx="8"/><text class="n" x="520" y="394" text-anchor="middle">ORIGINAL CONCEPT</text><text class="r" x="520" y="412" text-anchor="middle">the first single-page draft</text></g>
+  <g class="dg-node" data-n="pitch"><rect x="50" y="370" width="210" height="58" rx="8"/><text class="n" x="155" y="394" text-anchor="middle">PITCH.HTML</text><text class="r" x="155" y="412" text-anchor="middle">the printable proposal</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="690" y="150">[ THREE FULL DIRECTIONS — THE CLIENT PICKS ]</text>
+  <text class="dg-callout-sub" x="690" y="168">content held constant across all three; only the</text>
+  <text class="dg-callout-sub" x="690" y="183">brand treatment changes — the design decision</text>
+  <text class="dg-callout-sub" x="690" y="198">is deferred to the client, not made for them</text>
+  <text class="dg-callout-sub" x="690" y="228">no booking, backend, or form anywhere — CTAs are</text>
+  <text class="dg-callout-sub" x="690" y="243">tel: links; reduced motion respected package-wide</text>
+</svg>

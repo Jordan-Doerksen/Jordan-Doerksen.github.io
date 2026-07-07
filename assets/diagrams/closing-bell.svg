@@ -1,0 +1,27 @@
+<svg viewBox="0 0 1000 380" role="img" aria-label="Closing Bell data flow. A Gaussian random-walk price generator draws a synthetic tape to the canvas chart each tick. The player goes long, short, or flat; position and P&amp;L mark to the tape. At the 4:00 bell a day-end overlay shows P&amp;L, trades, and bankroll, feeding an upgrade shop; the next day loops back to the generator with difficulty and edge carried forward. The run ends on a margin call. No live data, no broker — purely a game." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="cb-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="cb-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-gen e-chart"><path d="M230 119 H286" marker-end="url(#cb-a)"/><text x="258" y="83" text-anchor="middle">each tick</text></g>
+  <g class="dg-edge gold e-chart e-player"><path d="M480 119 H536" marker-end="url(#cb-a)"/><text x="508" y="83" text-anchor="middle">tape · tells</text></g>
+  <g class="dg-edge gold e-player e-pnl"><path d="M720 119 H776" marker-end="url(#cb-a)"/><text x="748" y="83" text-anchor="middle">orders</text></g>
+  <g class="dg-edge gold e-pnl e-eod"><path d="M875 148 V236" marker-end="url(#cb-a)"/><text x="887" y="196">4:00 — the bell</text></g>
+  <g class="dg-edge e-eod e-shop"><path d="M776 269 H684" marker-end="url(#cb-m)"/><text x="730" y="255" text-anchor="middle">banked P&amp;L</text></g>
+  <g class="dg-edge dash e-shop e-gen"><path d="M486 269 H135 V152" marker-end="url(#cb-m)"/><text x="310" y="257" text-anchor="middle">next day — difficulty and edge carried forward</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="gen"><rect x="40" y="90" width="190" height="58" rx="8"/><text class="n" x="135" y="114" text-anchor="middle">PRICE GENERATOR</text><text class="r" x="135" y="132" text-anchor="middle">gaussian random walk</text></g>
+  <g class="dg-node" data-n="chart"><rect x="290" y="90" width="190" height="58" rx="8"/><text class="n" x="385" y="114" text-anchor="middle">CANVAS CHART</text><text class="r" x="385" y="132" text-anchor="middle">synthetic tape · regime pill</text></g>
+  <g class="dg-node" data-n="player"><rect x="540" y="90" width="180" height="58" rx="8"/><text class="n" x="630" y="114" text-anchor="middle">PLAYER</text><text class="r" x="630" y="132" text-anchor="middle">long · short · flat</text></g>
+  <g class="dg-node" data-n="pnl"><rect x="780" y="90" width="190" height="58" rx="8"/><text class="n" x="875" y="114" text-anchor="middle">POSITION &amp; P&amp;L</text><text class="r" x="875" y="132" text-anchor="middle">marks to the tape</text></g>
+  <g class="dg-node" data-n="eod"><rect x="780" y="240" width="190" height="58" rx="8"/><text class="n" x="875" y="264" text-anchor="middle">DAY-END OVERLAY</text><text class="r" x="875" y="282" text-anchor="middle">p&amp;l · trades · bankroll</text></g>
+  <g class="dg-node" data-n="shop"><rect x="490" y="240" width="190" height="58" rx="8"/><text class="n" x="585" y="264" text-anchor="middle">UPGRADE SHOP</text><text class="r" x="585" y="282" text-anchor="middle">bank the day · buy an edge</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="40" y="330">[ NOT A TRADING TOOL ]</text>
+  <text class="dg-callout-sub" x="40" y="348">no live data, no broker, no network calls — purely a game;</text>
+  <text class="dg-callout-sub" x="40" y="363">the run ends on a margin call</text>
+</svg>

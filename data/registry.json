@@ -10,19 +10,19 @@
       "slug": "games",
       "name": "Games",
       "num": "02",
-      "desc": "Single-file browser games"
+      "desc": "Browser & desktop games"
     },
     {
       "slug": "trading",
       "name": "Trading",
       "num": "03",
-      "desc": "Read-only market cockpits"
+      "desc": "Read-only market instruments"
     },
     {
       "slug": "studio",
       "name": "Studio",
       "num": "04",
-      "desc": "Client websites"
+      "desc": "Client sites & the design system"
     },
     {
       "slug": "signals",
@@ -48,61 +48,53 @@
       "slug": "clear-board",
       "name": "Clear Board",
       "category": "rail",
-      "blurb": "Free CROR qualification trainer for conductors.",
+      "blurb": "The unified CROR qualification trainer — the one that absorbed the other four.",
       "tags": [
         "Rail",
-        "React + Tauri"
+        "React + Tauri",
+        "CROR"
       ],
       "status": "live",
+      "tier": "full",
       "url": "/rail/clear-board/",
       "repo": "https://github.com/Jordan-Doerksen/clear-board",
       "featured": true,
       "spec": "FREE · TIP-JAR · ALL-WEB"
     },
     {
+      "slug": "cror-signals",
+      "name": "CROR Signals",
+      "category": "rail",
+      "blurb": "Signal recognition trainer and quiz — every aspect drawn, none guessed.",
+      "tags": [
+        "Rail",
+        "Quiz",
+        "PWA"
+      ],
+      "status": "live",
+      "tier": "full",
+      "url": "/rail/cror-signals/",
+      "repo": "https://github.com/Jordan-Doerksen/cror-signals",
+      "featured": false,
+      "spec": "FULL SIGNAL SUITE · FREE",
+      "supersededBy": "clear-board"
+    },
+    {
       "slug": "cn-conductor-trainer",
       "name": "CROR Trainer — Grande Prairie",
       "category": "rail",
-      "blurb": "Rule drills, a switching sim, signals, and radio walkthroughs for CN conductors.",
+      "blurb": "Rule drills, a switching sim, signals, and radio walkthroughs — modeled on a real CN yard.",
       "tags": [
         "Rail",
         "Web"
       ],
       "status": "live",
+      "tier": "full",
       "url": "/rail/cror-trainer/",
       "repo": "https://github.com/Jordan-Doerksen/cn-conductor-trainer",
       "featured": false,
-      "spec": "7 MODULES · CROR JAN-2025"
-    },
-    {
-      "slug": "switch-list",
-      "name": "Switch List",
-      "category": "rail",
-      "blurb": "Read the yard, line the road, and win in the fewest engine moves. Every rule cited.",
-      "tags": [
-        "Rail",
-        "Canvas"
-      ],
-      "status": "live",
-      "url": "/rail/switch-list/",
-      "repo": "https://github.com/Jordan-Doerksen/switch-list",
-      "featured": false,
-      "spec": "19 JOBS · MACHINE-VERIFIED PAR"
-    },
-    {
-      "slug": "cror-signals",
-      "name": "CROR Signals",
-      "category": "rail",
-      "blurb": "Signal recognition trainer and quiz, straight from the CROR.",
-      "tags": [
-        "Rail",
-        "Quiz"
-      ],
-      "status": "live",
-      "url": "/rail/cror-signals/",
-      "repo": "https://github.com/Jordan-Doerksen/cror-signals",
-      "featured": false,
-      "spec": "FULL SIGNAL SUITE · FREE"
+      "spec": "7 MODULES · CROR JAN-2025",
+      "supersededBy": "clear-board"
     },
     {
       "slug": "training-assistant",
@@ -114,40 +106,61 @@
         "PWA"
       ],
       "status": "live",
+      "tier": "full",
       "url": "/rail/training-assistant/",
       "repo": "https://github.com/Jordan-Doerksen/training-assistant",
       "featured": false,
-      "spec": "CROR JAN-2025 · CITED"
+      "spec": "CROR JAN-2025 · CITED",
+      "supersededBy": "clear-board"
     },
     {
-      "slug": "star-charter",
-      "name": "Star Charter",
-      "category": "games",
-      "blurb": "The original constellation game — trace each blueprint on the atlas plate.",
+      "slug": "switch-list",
+      "name": "Switch List",
+      "category": "rail",
+      "blurb": "Read the yard, line the road, and win in the fewest engine moves. Every rule cited.",
       "tags": [
-        "Game",
-        "Single File"
+        "Rail",
+        "Canvas"
       ],
       "status": "live",
-      "url": "/games/star-charter/",
-      "repo": "https://github.com/Jordan-Doerksen/star-charter",
+      "tier": "full",
+      "url": "/rail/switch-list/",
+      "repo": "https://github.com/Jordan-Doerksen/switch-list",
       "featured": false,
-      "spec": "SINGLE FILE · NO BUILD"
+      "spec": "19 JOBS · MACHINE-VERIFIED PAR",
+      "supersededBy": "clear-board"
     },
     {
-      "slug": "star-charter-pro",
-      "name": "Star Charter Pro",
+      "slug": "closing-bell",
+      "name": "Closing Bell",
       "category": "games",
-      "blurb": "The timed edition: heavy, drifty momentum and a refit every third plate.",
+      "blurb": "A day-trading roguelite. Survive to the bell, bank it, buy upgrades. Repeat.",
       "tags": [
         "Game",
         "Roguelite"
       ],
       "status": "live",
-      "url": "/games/star-charter-pro/",
-      "repo": "https://github.com/Jordan-Doerksen/star-charter-pro",
+      "tier": "full",
+      "url": "/games/closing-bell/",
+      "repo": null,
       "featured": false,
-      "spec": "SINGLE FILE · ROGUELITE"
+      "spec": "SINGLE FILE · SURVIVE TO 4PM"
+    },
+    {
+      "slug": "diablo-act1",
+      "name": "Diablo — Act 1",
+      "category": "games",
+      "blurb": "A single-file ARPG slice — town to Blood Raven, three classes, D2-style maps.",
+      "tags": [
+        "Game",
+        "ARPG"
+      ],
+      "status": "live",
+      "tier": "full",
+      "url": "/games/diablo-act1/",
+      "repo": "https://github.com/Jordan-Doerksen/diablo-act1",
+      "featured": false,
+      "spec": "SINGLE FILE · TRIBUTE"
     },
     {
       "slug": "echo-bat",
@@ -159,10 +172,27 @@
         "Sonar"
       ],
       "status": "live",
+      "tier": "full",
       "url": "/games/echo-bat/",
       "repo": "https://github.com/Jordan-Doerksen/echo-bat",
       "featured": false,
       "spec": "SINGLE FILE · MOBILE-FIRST"
+    },
+    {
+      "slug": "fulfillment",
+      "name": "Fulfillment",
+      "category": "games",
+      "blurb": "A deterministic corporate-parody space wave-survival roguelite. Fly delivery runs, survive the waves, draft upgrades.",
+      "tags": [
+        "Game",
+        "Godot"
+      ],
+      "status": "active",
+      "tier": "full",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "GODOT 4.7 · DETERMINISTIC 60HZ"
     },
     {
       "slug": "glass-atlas",
@@ -174,6 +204,7 @@
         "Toy"
       ],
       "status": "live",
+      "tier": "full",
       "url": "/games/glass-atlas/",
       "repo": "https://github.com/Jordan-Doerksen/glass-atlas",
       "featured": true,
@@ -189,96 +220,356 @@
         "Physics"
       ],
       "status": "live",
+      "tier": "full",
       "url": "/games/orbital-field/",
       "repo": "https://github.com/Jordan-Doerksen/orbital-field",
       "featured": false,
       "spec": "TOY · NO SCORE"
     },
     {
-      "slug": "diablo-act1",
-      "name": "Diablo — Act 1",
+      "slug": "pentafall-rebuild",
+      "name": "Pentafall (rebuild)",
       "category": "games",
-      "blurb": "A single-file ARPG slice — town to Blood Raven, three classes, D2-style maps.",
+      "blurb": "The rebuild that replaced Pentafall — a deadpan megacorp roguelite, 485 tests green, not shipped yet.",
       "tags": [
         "Game",
-        "ARPG"
+        "Roguelite",
+        "Electron"
       ],
-      "status": "live",
-      "url": "/games/diablo-act1/",
-      "repo": "https://github.com/Jordan-Doerksen/diablo-act1",
+      "status": "active",
+      "tier": "full",
+      "url": null,
+      "repo": null,
       "featured": false,
-      "spec": "SINGLE FILE · TRIBUTE"
+      "spec": "485 TESTS · DETERMINISTIC"
     },
     {
-      "slug": "closing-bell",
-      "name": "Closing Bell",
+      "slug": "star-charter",
+      "name": "Star Charter",
       "category": "games",
-      "blurb": "A day-trading roguelite. Survive to the bell, bank it, buy upgrades. Repeat.",
+      "blurb": "The original constellation game — trace each blueprint on the atlas plate.",
+      "tags": [
+        "Game",
+        "Single File"
+      ],
+      "status": "live",
+      "tier": "full",
+      "url": "/games/star-charter/",
+      "repo": "https://github.com/Jordan-Doerksen/star-charter",
+      "featured": false,
+      "spec": "SINGLE FILE · NO BUILD"
+    },
+    {
+      "slug": "star-charter-pro",
+      "name": "Star Charter Pro",
+      "category": "games",
+      "blurb": "The timed edition: heavy, drifty momentum and a refit every third plate.",
       "tags": [
         "Game",
         "Roguelite"
       ],
       "status": "live",
-      "url": "/games/closing-bell/",
-      "repo": null,
+      "tier": "full",
+      "url": "/games/star-charter-pro/",
+      "repo": "https://github.com/Jordan-Doerksen/star-charter-pro",
       "featured": false,
-      "spec": "SINGLE FILE · SURVIVE TO 4PM"
+      "spec": "SINGLE FILE · ROGUELITE"
     },
     {
-      "slug": "sentinel-pro",
-      "name": "Sentinel-Pro",
+      "slug": "amason-space-service",
+      "name": "Amason Space Service (Godot)",
+      "category": "games",
+      "blurb": "The canonical GDScript port of the deadpan corporate-parody space wave-survival roguelite — deterministic sim, dumb renderer.",
+      "tags": [
+        "Game",
+        "Godot",
+        "Roguelite"
+      ],
+      "status": "active",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "GODOT 4.7 · DETERMINISTIC"
+    },
+    {
+      "slug": "amason-space-service-unity",
+      "name": "Amason Space Service (Unity)",
+      "category": "games",
+      "blurb": "A Unity scaffold for the same game that never got past the default scene. Zero custom code; the Godot port won.",
+      "tags": [
+        "Game",
+        "Unity"
+      ],
+      "status": "shelved",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "UNITY 6 · EMPTY SCAFFOLD"
+    },
+    {
+      "slug": "amasonspaceservice",
+      "name": "amasonspaceservice (working copy)",
+      "category": "games",
+      "blurb": "A second, session-scoped working checkout of the Godot port. Same repo, not a second project.",
+      "tags": [
+        "Game",
+        "Godot"
+      ],
+      "status": "superseded",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "DUPLICATE CHECKOUT",
+      "supersededBy": "amason-space-service"
+    },
+    {
+      "slug": "boat-rogue",
+      "name": "Boat-Rogue",
+      "category": "games",
+      "blurb": "A naval bullet-heaven, still on the drawing board. Vision docs exist; the game does not.",
+      "tags": [
+        "Game",
+        "Design"
+      ],
+      "status": "shelved",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "DESIGN PHASE · NO CODE YET"
+    },
+    {
+      "slug": "pentafall",
+      "name": "Pentafall",
+      "category": "games",
+      "blurb": "The original wave-survival roguelite build. Replaced by its own ground-up rebuild.",
+      "tags": [
+        "Game",
+        "Roguelite"
+      ],
+      "status": "retired",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "REACT + CANVAS · SUPERSEDED",
+      "supersededBy": "pentafall-rebuild"
+    },
+    {
+      "slug": "sentinel-suite",
+      "name": "Sentinel-Suite",
       "category": "trading",
       "blurb": "A read-only cockpit for ES & NQ futures. It watches the market, never touches it.",
       "tags": [
         "Trading",
         "Rust + Tauri"
       ],
-      "status": "showcase",
+      "status": "built",
+      "tier": "full",
       "url": "/trading/sentinel/",
       "repo": null,
       "featured": true,
       "spec": "V1.0.0 · FIELD-VERIFIED LIVE"
     },
     {
-      "slug": "garwood-grill-pitch",
-      "name": "Garwood Grill",
-      "category": "studio",
-      "blurb": "A one-page concept site for a Pembina Hwy diner, in a warm old-school style.",
+      "slug": "underwriter",
+      "name": "Underwriter",
+      "category": "trading",
+      "blurb": "Decides whether selling today's SPX options is a defensible idea. Often the answer is no.",
       "tags": [
-        "Client",
-        "Web Design"
+        "Trading",
+        "Rust + Tauri",
+        "0DTE"
       ],
-      "status": "live",
-      "url": "/studio/garwood-grill-pitch/",
-      "repo": "https://github.com/Jordan-Doerksen/garwood-grill-pitch",
+      "status": "built",
+      "tier": "full",
+      "url": null,
+      "repo": "https://github.com/Jordan-Doerksen/underwriter",
       "featured": false,
-      "spec": "SITE + PROPOSAL"
+      "spec": "SLICE 1 OF 5 · READ-ONLY FOREVER"
     },
     {
-      "slug": "hoagie-boyz-pitch",
-      "name": "Hoagie Boyz",
-      "category": "studio",
-      "blurb": "A one-page concept site for a South Osborne sub shop.",
+      "slug": "iceberg-johnnies",
+      "name": "iceberg-johnnies",
+      "category": "trading",
+      "blurb": "Analysis-only iceberg/absorption research engine for ES tapes. Now the suite's iceberg/, where its CVD bug got fixed.",
       "tags": [
-        "Client",
-        "Web Design"
+        "Trading",
+        "Python"
       ],
-      "status": "live",
-      "url": "/studio/hoagie-boyz-pitch/",
-      "repo": "https://github.com/Jordan-Doerksen/hoagie-boyz-pitch",
+      "status": "frozen",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
       "featured": false,
-      "spec": "SITE + PROPOSAL"
+      "spec": "STDLIB PYTHON · 28 TESTS",
+      "supersededBy": "sentinel-suite"
+    },
+    {
+      "slug": "sentinel",
+      "name": "Sentinel",
+      "category": "trading",
+      "blurb": "A private AI workspace with the read-only Sentinel analysis engines embedded.",
+      "tags": [
+        "Trading",
+        "Private"
+      ],
+      "status": "private",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "PRIVATE · READ-ONLY"
+    },
+    {
+      "slug": "sentinel-cockpit",
+      "name": "Sentinel Cockpit",
+      "category": "trading",
+      "blurb": "A design-only manifest for embedding Sentinel in an AI workspace — the plan that later got built elsewhere.",
+      "tags": [
+        "Trading",
+        "Design Doc"
+      ],
+      "status": "superseded",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "MANIFEST ONLY · NO CODE",
+      "supersededBy": "sentinel"
+    },
+    {
+      "slug": "sentinel-harness",
+      "name": "Sentinel Harness",
+      "category": "trading",
+      "blurb": "An earlier private checkout of the same workspace integration; kept as reference.",
+      "tags": [
+        "Trading",
+        "Private"
+      ],
+      "status": "private",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "PRIVATE · REFERENCE COPY",
+      "supersededBy": "sentinel"
+    },
+    {
+      "slug": "sentinel-trader",
+      "name": "Sentinel Trader",
+      "category": "trading",
+      "blurb": "A private execution-research bot. Fail-closed by design; paper-trading only so far.",
+      "tags": [
+        "Trading",
+        "Private"
+      ],
+      "status": "private",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "PRIVATE · FAIL-CLOSED · PAPER"
+    },
+    {
+      "slug": "sentinel-analyst",
+      "name": "sentinel-analyst",
+      "category": "trading",
+      "blurb": "A local-LLM EOD read of a recorded session — a lens, never advice. Now the suite's analyst/.",
+      "tags": [
+        "Trading",
+        "Local LLM"
+      ],
+      "status": "frozen",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "ONE FILE · LOCAL OLLAMA",
+      "supersededBy": "sentinel-suite"
+    },
+    {
+      "slug": "sentinel-pro-v2",
+      "name": "Sentinel-Pro v2",
+      "category": "trading",
+      "blurb": "The web-dashboard-era Python cockpit — read-only ES/NQ signals served to a browser.",
+      "tags": [
+        "Trading",
+        "Python"
+      ],
+      "status": "frozen",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "PYTHON · 45 GOLDEN VECTORS",
+      "supersededBy": "sentinel-suite"
+    },
+    {
+      "slug": "sentinel-pro-v3",
+      "name": "Sentinel-Pro v3",
+      "category": "trading",
+      "blurb": "The native Python cockpit — frozen, but still the cross-language math source of truth via its 45 golden vectors.",
+      "tags": [
+        "Trading",
+        "Python"
+      ],
+      "status": "frozen",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "MATH SOURCE OF TRUTH · 132 TESTS",
+      "supersededBy": "sentinel-suite"
+    },
+    {
+      "slug": "sentinel-pro-v4",
+      "name": "Sentinel-Pro v4",
+      "category": "trading",
+      "blurb": "The ground-up Rust + Tauri rewrite; v1.0.0 field-verified live before folding into the suite.",
+      "tags": [
+        "Trading",
+        "Rust + Tauri"
+      ],
+      "status": "frozen",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "RUST + TAURI · READ-ONLY",
+      "supersededBy": "sentinel-suite"
+    },
+    {
+      "slug": "sentinel-stage2",
+      "name": "sentinel-stage2",
+      "category": "trading",
+      "blurb": "Analysis-only evidence engine that re-derives a four-table research dataset from session tapes. Now the suite's stage2/.",
+      "tags": [
+        "Trading",
+        "Python"
+      ],
+      "status": "frozen",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "STDLIB PYTHON · 30 HONESTY TESTS",
+      "supersededBy": "sentinel-suite"
     },
     {
       "slug": "bonnie-day-pitch",
       "name": "Bonnie Day",
       "category": "studio",
-      "blurb": "A multi-page concept site for a Wolseley café — menu, story, and visit.",
+      "blurb": "A multi-page concept rebuild for a Wolseley resto-café, framed as a play in two acts.",
       "tags": [
         "Client",
         "Web Design"
       ],
       "status": "live",
+      "tier": "full",
       "url": "/studio/bonnie-day-pitch/",
       "repo": "https://github.com/Jordan-Doerksen/bonnie-day-pitch",
       "featured": false,
@@ -288,16 +579,165 @@
       "slug": "caddy-shed-golf-pitch",
       "name": "Caddy Shed Golf",
       "category": "studio",
-      "blurb": "Three full design directions for a golf-sim lounge, plus a printable proposal.",
+      "blurb": "Three full design directions for a custom-fit golf shop, plus a printable proposal.",
       "tags": [
         "Client",
         "Web Design"
       ],
       "status": "live",
+      "tier": "full",
       "url": "/studio/caddy-shed-golf-pitch/",
       "repo": "https://github.com/Jordan-Doerksen/caddy-shed-golf-pitch",
       "featured": false,
       "spec": "3 DIRECTIONS · PITCH"
+    },
+    {
+      "slug": "garwood-grill-pitch",
+      "name": "Garwood Grill",
+      "category": "studio",
+      "blurb": "A one-page concept site for a Pembina Highway diner, dressed in its own old-school brand.",
+      "tags": [
+        "Client",
+        "Web Design"
+      ],
+      "status": "live",
+      "tier": "full",
+      "url": "/studio/garwood-grill-pitch/",
+      "repo": "https://github.com/Jordan-Doerksen/garwood-grill-pitch",
+      "featured": false,
+      "spec": "SITE + PROPOSAL"
+    },
+    {
+      "slug": "hoagie-boyz-pitch",
+      "name": "Hoagie Boyz",
+      "category": "studio",
+      "blurb": "A one-page concept site for a South Osborne sub shop, in the shop's own brutalist meme voice.",
+      "tags": [
+        "Client",
+        "Web Design"
+      ],
+      "status": "live",
+      "tier": "full",
+      "url": "/studio/hoagie-boyz-pitch/",
+      "repo": "https://github.com/Jordan-Doerksen/hoagie-boyz-pitch",
+      "featured": false,
+      "spec": "SITE + PROPOSAL"
+    },
+    {
+      "slug": "portfolio-monorepo",
+      "name": "jordan-doerksen.github.io",
+      "category": "studio",
+      "blurb": "This site. The atlas contains an entry for the atlas.",
+      "tags": [
+        "Monorepo",
+        "No Build",
+        "Meta"
+      ],
+      "status": "active",
+      "tier": "full",
+      "url": "/",
+      "repo": "https://github.com/Jordan-Doerksen/jordan-doerksen.github.io",
+      "featured": false,
+      "spec": "MONOREPO · REGISTRY-DRIVEN"
+    },
+    {
+      "slug": "resume",
+      "name": "Resume",
+      "category": "studio",
+      "blurb": "One resume.json drives the web page and the printable Word/PDF, so they can't drift apart.",
+      "tags": [
+        "Static Site",
+        "Python"
+      ],
+      "status": "live",
+      "tier": "full",
+      "url": "https://jordan-doerksen.github.io/Resume/",
+      "repo": "https://github.com/Jordan-Doerksen/Resume",
+      "featured": false,
+      "spec": "ONE JSON · WEB + DOCX"
+    },
+    {
+      "slug": "style-library",
+      "name": "Style Library",
+      "category": "studio",
+      "blurb": "The canonical Daybreak Editorial design system — three files, copied by hand into everything else.",
+      "tags": [
+        "Design System",
+        "CSS"
+      ],
+      "status": "live",
+      "tier": "full",
+      "url": "https://jordan-doerksen.github.io/style-library/",
+      "repo": "https://github.com/Jordan-Doerksen/style-library",
+      "featured": false,
+      "spec": "3 FILES · NO BUILD"
+    },
+    {
+      "slug": "the-bench",
+      "name": "The Bench",
+      "category": "studio",
+      "blurb": "A portfolio as a circuit-board datasheet — each project a chip you probe. Built, never deployed.",
+      "tags": [
+        "Portfolio",
+        "Canvas"
+      ],
+      "status": "retired",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "DATASHEET · SINGLE FILE",
+      "supersededBy": "portfolio-monorepo"
+    },
+    {
+      "slug": "the-index",
+      "name": "The Index",
+      "category": "studio",
+      "blurb": "The zero-flare portfolio: a filterable capability matrix, no webfonts, no dependencies.",
+      "tags": [
+        "Portfolio",
+        "Zero Deps"
+      ],
+      "status": "retired",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "SINGLE FILE · ZERO DEPS",
+      "supersededBy": "portfolio-monorepo"
+    },
+    {
+      "slug": "macroscope",
+      "name": "Macroscope",
+      "category": "signals",
+      "blurb": "Thirteen macro feeds, a lexicon bouncer, and a local LLM judging market impact. Sentiment, not advice.",
+      "tags": [
+        "News",
+        "Local LLM",
+        "Node"
+      ],
+      "status": "built",
+      "tier": "full",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "NODE · 13 FEEDS · LOCAL LLM"
+    },
+    {
+      "slug": "richter",
+      "name": "Richter",
+      "category": "signals",
+      "blurb": "Reads world news for how big and loud a story is, then posts magnitude-scored cards. Sister to Macroscope.",
+      "tags": [
+        "News",
+        "Local LLM"
+      ],
+      "status": "built",
+      "tier": "full",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "~15 FEEDS · METERED DRIP"
     },
     {
       "slug": "spectrum",
@@ -308,11 +748,47 @@
         "News",
         "Local LLM"
       ],
-      "status": "showcase",
+      "status": "active",
+      "tier": "full",
       "url": null,
       "repo": "https://github.com/Jordan-Doerksen/spectrum",
       "featured": false,
       "spec": "RUST + TAURI · NO API KEYS"
+    },
+    {
+      "slug": "crop",
+      "name": "Crop",
+      "category": "signals",
+      "blurb": "A SQLite buffer that meters news into one local LLM. The table is the API.",
+      "tags": [
+        "News",
+        "Python",
+        "SQLite"
+      ],
+      "status": "built",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "STDLIB PYTHON · SQLITE",
+      "supersededBy": "spectrum"
+    },
+    {
+      "slug": "doomfeed",
+      "name": "Doomfeed",
+      "category": "signals",
+      "blurb": "The first news engine: grim RSS in, a local LLM's summary out. It got eaten.",
+      "tags": [
+        "News",
+        "Local LLM"
+      ],
+      "status": "retired",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "NODE · WEBHOOK-ONLY",
+      "supersededBy": "spectrum"
     },
     {
       "slug": "ask-johnny",
@@ -321,9 +797,11 @@
       "blurb": "A deadpan persona bot for the group server. Grudgingly useful.",
       "tags": [
         "Bot",
-        "Node"
+        "Node",
+        "Groq"
       ],
-      "status": "code",
+      "status": "built",
+      "tier": "full",
       "url": null,
       "repo": "https://github.com/Jordan-Doerksen/Ask-Johnny",
       "featured": false,
@@ -338,7 +816,8 @@
         "Bot",
         "Node"
       ],
-      "status": "code",
+      "status": "built",
+      "tier": "entry",
       "url": null,
       "repo": "https://github.com/Jordan-Doerksen/fun-police",
       "featured": false,
@@ -353,11 +832,92 @@
         "AI",
         "Single File"
       ],
-      "status": "showcase",
+      "status": "built",
+      "tier": "full",
       "url": null,
       "repo": null,
       "featured": false,
       "spec": "SINGLE FILE · 6 SEATS"
+    },
+    {
+      "slug": "worklog",
+      "name": "Worklog",
+      "category": "tools",
+      "blurb": "Builds a daily work log and a weekly value report straight from git history. Git remembers; this reads it back.",
+      "tags": [
+        "Python",
+        "Git"
+      ],
+      "status": "built",
+      "tier": "full",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "STDLIB ONLY · GIT-DRIVEN"
+    },
+    {
+      "slug": "pi-mono",
+      "name": "pi-mono",
+      "category": "tools",
+      "blurb": "An unmodified clone of the open-source Pi coding-agent framework, kept for reference. No local commits.",
+      "tags": [
+        "Reference",
+        "TypeScript"
+      ],
+      "status": "frozen",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "UPSTREAM CLONE · UNMODIFIED"
+    },
+    {
+      "slug": "skills",
+      "name": "Skills",
+      "category": "tools",
+      "blurb": "The house Claude-skill library — vendored upstream skill repos, reused rather than reinvented.",
+      "tags": [
+        "AI",
+        "Skills"
+      ],
+      "status": "active",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "VENDORED · UPSTREAM AS-IS"
+    },
+    {
+      "slug": "tools-misc",
+      "name": "Tools (Godot binaries)",
+      "category": "tools",
+      "blurb": "A storage folder for the Godot 4.7 binaries, so game projects open without an install step.",
+      "tags": [
+        "Godot",
+        "Binaries"
+      ],
+      "status": "active",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "GODOT 4.7 · BINARY CACHE"
+    },
+    {
+      "slug": "useful-tools-demos",
+      "name": "Useful Tools Demos",
+      "category": "tools",
+      "blurb": "Five single-file HTML demo tools for conductor life — rest planning, rule lookup, time claims — plus a bill splitter.",
+      "tags": [
+        "Rail",
+        "Single File"
+      ],
+      "status": "active",
+      "tier": "entry",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "5 DEMOS · NO BACKEND"
     }
   ]
 }

@@ -1,0 +1,31 @@
+<svg viewBox="0 0 1000 480" role="img" aria-label="Orbital Field data flow. One pointer handler resolves taps, drags, and holds into a drag-or-tap state. A tap spawns a body on a circular orbit computed from the real orbital formula; a drag adds a flung body. Each frame the physics step integrates star gravity plus an optional finger-well force, the lifecycle pass absorbs, culls, and auto-reseeds bodies, and the foreground canvas renders additive light trails by fading toward transparent instead of clearing. A separate starfield canvas underneath is redrawn only on resize.">
+  <defs>
+    <marker id="ofd-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="ofd-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-ptr e-spawn"><path d="M225 133 H281" marker-end="url(#ofd-a)"/><text x="253" y="93" text-anchor="middle">tap or drag</text></g>
+  <g class="dg-edge gold e-spawn e-phys"><path d="M485 133 H551" marker-end="url(#ofd-a)"/><text x="518" y="93" text-anchor="middle">new body</text></g>
+  <g class="dg-edge gold e-phys e-life"><path d="M660 166 V236" marker-end="url(#ofd-a)"/><text x="672" y="205">integrate v, x</text></g>
+  <g class="dg-edge gold e-life e-fg"><path d="M660 306 V376" marker-end="url(#ofd-a)"/><text x="672" y="345">live bodies</text></g>
+  <g class="dg-edge e-bg e-fg"><path d="M810 413 H769" marker-end="url(#ofd-m)"/><text x="790" y="370" text-anchor="middle">under-layer</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="ptr"><rect x="40" y="100" width="185" height="66" rx="8"/><text class="n" x="132" y="128" text-anchor="middle">POINTER INPUT</text><text class="r" x="132" y="146" text-anchor="middle">tap · drag · hold</text></g>
+  <g class="dg-node" data-n="spawn"><rect x="285" y="100" width="200" height="66" rx="8"/><text class="n" x="385" y="122" text-anchor="middle">SPAWN</text><text class="r" x="385" y="139" text-anchor="middle">tap → orbit at v = √(GM/r)</text><text class="r" x="385" y="153" text-anchor="middle">drag → flung body</text></g>
+  <g class="dg-node" data-n="phys"><rect x="555" y="100" width="210" height="66" rx="8"/><text class="n" x="660" y="122" text-anchor="middle">PHYSICS STEP</text><text class="r" x="660" y="139" text-anchor="middle">star gravity + finger well</text><text class="r" x="660" y="153" text-anchor="middle">softened radii</text></g>
+  <g class="dg-node" data-n="life"><rect x="555" y="240" width="210" height="66" rx="8"/><text class="n" x="660" y="268" text-anchor="middle">LIFECYCLE</text><text class="r" x="660" y="286" text-anchor="middle">absorb · cull · auto-reseed</text></g>
+  <g class="dg-node" data-n="fg"><rect x="555" y="380" width="210" height="66" rx="8"/><text class="n" x="660" y="402" text-anchor="middle">FOREGROUND RENDER</text><text class="r" x="660" y="419" text-anchor="middle">additive light trails</text><text class="r" x="660" y="433" text-anchor="middle">fades, never clears</text></g>
+  <g class="dg-node" data-n="bg"><rect x="810" y="380" width="170" height="66" rx="8"/><text class="n" x="895" y="402" text-anchor="middle">STARFIELD CANVAS</text><text class="r" x="895" y="419" text-anchor="middle">redrawn on resize</text><text class="r" x="895" y="433" text-anchor="middle">only</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="40" y="250">[ NO GOALS, NO SCORE ]</text>
+  <text class="dg-callout-sub" x="40" y="268">a quiet instrument — a deliberate departure</text>
+  <text class="dg-callout-sub" x="40" y="283">stateless: no save system, nothing persists</text>
+  <text class="dg-callout" x="40" y="330">[ REDUCED MOTION CALMS, NEVER DISABLES ]</text>
+  <text class="dg-callout-sub" x="40" y="348">the interaction itself is the motion</text>
+  <text class="dg-callout-sub" x="40" y="420">rAF reschedules every frame; the foreground fades</text>
+  <text class="dg-callout-sub" x="40" y="435">toward transparent instead of clearing — the trails</text>
+  <text class="dg-callout-sub" x="40" y="450">are the render model, not an effect</text>
+</svg>

@@ -1,0 +1,50 @@
+{
+  "slug": "clear-board",
+  "name": "Clear Board",
+  "category": "rail",
+  "status": "live",
+  "statusNote": "Live and canonical — the unified trainer; feature parity across all five V1 stations, deployment gated on a CI verification harness.",
+  "oneLiner": "A free, unified CROR conductor-qualification trainer — rules, signals, switching, securement, and radio calls in one app, one profile, one mastery model.",
+  "stack": [
+    "React 19 + TypeScript + Vite",
+    "react-router-dom v7 (HashRouter)",
+    "Tauri v2 desktop build (NSIS installer + self-contained exe)",
+    "Plain JSON content in public/data, fetched at runtime",
+    "Node verification harness run in CI",
+    "GitHub Pages via GitHub Actions"
+  ],
+  "components": [
+    { "name": "App shell + AppContext", "desc": "HashRouter routes to the stations; a single provider owns content, profile, and settings state." },
+    { "name": "src/core", "desc": "Content loading and profile persistence, an SM-2-lite spaced-repetition model, severity classification, and a verbatim-preserved SVG signal renderer." },
+    { "name": "Reference station", "desc": "Plain-language lookup with verbatim rulebook text one tap deeper and a visible trust badge." },
+    { "name": "Drill station", "desc": "Spaced-repetition question sessions built only from verified, answerable items." },
+    { "name": "Signals station", "desc": "Signal-aspect training on the preserved renderer and encoded aspect data." },
+    { "name": "Yard station", "desc": "The switch-list switching sim — seven engine modules absorbed byte-for-byte, wrapped as a React 'imperative island'." },
+    { "name": "Radio station", "desc": "A guided 14-step radio-call walkthrough with SME-locked wording." },
+    { "name": "Verification tools", "desc": "Node harnesses (solver, content check, SR golden vectors) that gate every deploy." }
+  ],
+  "dataFlow": [
+    "Drill builds a session filtered to verified, answerable items, tier-aware seeded.",
+    "Each answer is graded through the SM-2-lite model; mastery is recomputed and persisted to localStorage.",
+    "Yard lazy-loads the switching engine; every move is prechecked by the rules model before it animates.",
+    "A yard win maps its rule items into the same mastery profile Drill writes.",
+    "Radio walks 14 locked steps and marks completion on the profile.",
+    "A Drill miss or Yard refusal deep-links into Reference at the exact item."
+  ],
+  "integrations": [
+    "Content migrated from four predecessor tools: training-assistant (reference entries), CN Conductor Trainer (rule bank, radio steps, signal renderer), cror-signals (aspect encodings), switch-list (yard engine, puzzles, solver)"
+  ],
+  "decisions": [
+    "A structural firewall against ever teaching a wrong rule as correct — only verified content is gradable, enforced by filters plus a CI content-check gate.",
+    "Honest trust migration: unverified content came in as needs-review, reference-only, never graded.",
+    "The switch-list engine was absorbed byte-for-byte and wrapped, not rewritten; its solver runs as a real CI gate.",
+    "Yard wins feed the same mastery model as Drill — one profile, not per-station scores.",
+    "Correct answers only advance the schedule when actually due, so marathon sessions can't fake mastery.",
+    "No exam station ships until a subject-matter expert sets the bar — 'test-ready' is deliberately deferred."
+  ],
+  "links": {
+    "live": "/rail/clear-board/",
+    "repo": "https://github.com/Jordan-Doerksen/clear-board"
+  },
+  "diagram": "/assets/diagrams/clear-board.svg"
+}

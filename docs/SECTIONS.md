@@ -1,3 +1,5 @@
+> **LEGACY** — this cheat sheet describes the retired Observatory one-page design (now the unlinked legacy annex). The current site is documented in ../DECISIONS.md and ../ARCHITECTURE.md.
+
 # Sections Guide — adding, editing, reordering, removing
 
 The partner file to [`EDITING.md`](EDITING.md). That one covers *content inside*

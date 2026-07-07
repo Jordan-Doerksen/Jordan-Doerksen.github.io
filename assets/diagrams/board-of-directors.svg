@@ -1,0 +1,31 @@
+<svg viewBox="0 0 1000 360" role="img" aria-label="Board of Directors data flow. A money question with selected seats, six persona write-ups, and an optional loaded report assemble into one council prompt carrying the personas, a return-block format, a Chair protocol, and house rules. The core path is copying that prompt into the user's own chat model; Convene Live against local Ollama is a best-effort alternative. Each seat answers in isolation, the Chair runs at most two debate rounds and synthesizes a confidence-weighted vote split plus the strongest dissent — never a buy or sell — and the deliberation is saved as a paired Markdown and HTML board read.">
+  <defs>
+    <marker id="bod-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="bod-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-q e-prompt"><path d="M200 68 L286 160" marker-end="url(#bod-a)"/><text x="228" y="102" text-anchor="middle">convened</text></g>
+  <g class="dg-edge e-adv e-prompt"><path d="M200 168 H286" marker-end="url(#bod-m)"/><text x="243" y="158" text-anchor="middle">six lenses</text></g>
+  <g class="dg-edge e-rep e-prompt"><path d="M200 268 L286 196" marker-end="url(#bod-m)"/><text x="230" y="248" text-anchor="middle">auto-seats</text></g>
+  <g class="dg-edge gold e-prompt e-chat"><path d="M500 160 L576 110" marker-end="url(#bod-a)"/><text x="530" y="118" text-anchor="middle">copied out</text></g>
+  <g class="dg-edge e-prompt e-ollama"><path d="M500 190 L576 250" marker-end="url(#bod-m)"/><text x="524" y="238" text-anchor="middle">best effort</text></g>
+  <g class="dg-edge gold e-chat e-record"><path d="M780 105 L826 168" marker-end="url(#bod-a)"/><text x="770" y="190" text-anchor="middle">chair synthesis</text></g>
+  <g class="dg-edge e-ollama e-record"><path d="M780 255 L826 200" marker-end="url(#bod-m)"/></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="q"><rect x="10" y="40" width="190" height="56" rx="8"/><text class="n" x="105" y="64" text-anchor="middle">QUESTION + SEATS</text><text class="r" x="105" y="82" text-anchor="middle">one money question</text></g>
+  <g class="dg-node" data-n="adv"><rect x="10" y="140" width="190" height="56" rx="8"/><text class="n" x="105" y="164" text-anchor="middle">SIX PERSONAS</text><text class="r" x="105" y="182" text-anchor="middle">advisors.json write-ups</text></g>
+  <g class="dg-node" data-n="rep"><rect x="10" y="240" width="190" height="56" rx="8"/><text class="n" x="105" y="264" text-anchor="middle">REPORT LOADER</text><text class="r" x="105" y="282" text-anchor="middle">FileReader · .md/.txt</text></g>
+  <g class="dg-node" data-n="prompt"><rect x="290" y="140" width="210" height="68" rx="8"/><text class="n" x="395" y="162" text-anchor="middle">COUNCIL PROMPT</text><text class="r" x="395" y="180" text-anchor="middle">personas · return format</text><text class="r" x="395" y="194" text-anchor="middle">Chair protocol · house rules</text></g>
+  <g class="dg-node" data-n="chat"><rect x="580" y="54" width="200" height="56" rx="8"/><text class="n" x="680" y="78" text-anchor="middle">YOUR CHAT MODEL</text><text class="r" x="680" y="96" text-anchor="middle">copy-paste · the core path</text></g>
+  <g class="dg-node" data-n="ollama"><rect x="580" y="230" width="200" height="56" rx="8"/><text class="n" x="680" y="254" text-anchor="middle">LOCAL OLLAMA</text><text class="r" x="680" y="272" text-anchor="middle">Convene Live · best effort</text></g>
+  <g class="dg-node" data-n="record"><rect x="830" y="150" width="160" height="68" rx="8"/><text class="n" x="910" y="172" text-anchor="middle">BOARD READ</text><text class="r" x="910" y="190" text-anchor="middle">vote split + dissent</text><text class="r" x="910" y="204" text-anchor="middle">paired .md + .html</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout-sub" x="588" y="140">each seat answers in isolation —</text>
+  <text class="dg-callout-sub" x="588" y="155">stance · confidence · reasoning</text>
+  <text class="dg-callout" x="290" y="310">[ NEVER A VERDICT — DISSENT IS MANDATORY ]</text>
+  <text class="dg-callout-sub" x="290" y="328">confidence-weighted vote split + the strongest dissent — never a buy/sell</text>
+  <text class="dg-callout-sub" x="290" y="344">no API keys, no cloud calls — nothing leaves the app but the prompt you copy</text>
+</svg>

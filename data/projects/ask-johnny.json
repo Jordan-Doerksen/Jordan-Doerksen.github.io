@@ -1,0 +1,39 @@
+{
+  "slug": "ask-johnny",
+  "name": "Ask-Johnny",
+  "category": "bots",
+  "status": "built",
+  "statusNote": "v2.0.0, running in the group server. ~35 commands. No formal doc set — one thorough README.",
+  "oneLiner": "A Discord bot with a persistent deadpan persona, powered by Groq, that answers questions, settles arguments, fetches real data, and runs the small machinery of a server.",
+  "stack": ["Node.js ≥18, no build step", "discord.js v14", "groq-sdk (Llama 3.3 70B)", "flat JSON persistence — no database"],
+  "components": [
+    { "name": "index.js", "desc": "Boot, Discord client, interaction router, @mention handling, AFK/activity tracking, starboard listener, graceful shutdown" },
+    { "name": "commands/", "desc": "~35 slash commands across fun/helpful/meta files, auto-discovered by a loader" },
+    { "name": "lib/johnny.js", "desc": "The persona prompt plus the Groq chat wrapper" },
+    { "name": "lib/db.js", "desc": "Single JSON store with atomic tmp-file+rename writes, debounced flush, corrupt-file recovery" },
+    { "name": "lib/scheduler.js", "desc": "20-second-tick poller: reminders, poll closure, daily backup" },
+    { "name": "real-data libs", "desc": "Weather, wiki, dictionary, unit conversion, TLDR, YouTube fetchers" },
+    { "name": "lib/cooldown.js", "desc": "4-second per-user cooldown" },
+    { "name": "fun-police (vendored)", "desc": "A near-copy of the fun-police bot, co-launched as an isolated child process with its own credentials" }
+  ],
+  "dataFlow": [
+    "A Discord interaction or message reaches the router in index.js.",
+    "Slash commands resolve through the loader's handler map, pass a cooldown check, and defer a reply.",
+    "The command either asks the Groq persona for an in-character answer, or calls a real-data lib whose facts are shown verbatim.",
+    "Stateful commands mutate the in-memory store; a debounced flush writes the single JSON file atomically.",
+    "A 20-second scheduler tick fires reminders, tallies expired polls, and posts a daily backup.",
+    "Passive listeners track activity and AFK, answer @mentions in persona, and mirror starred messages to a starboard.",
+    "On boot the bot optionally forks the vendored fun-police as its own process."
+  ],
+  "integrations": ["Discord API (discord.js v14)", "Groq API (Llama 3.3 70B)", "Open-Meteo", "Wikipedia REST", "dictionaryapi.dev"],
+  "decisions": [
+    "The persona never breaks character, never uses exclamation marks, and always gives a take — hard-coded in the prompt.",
+    "Real data and LLM voice are separated: weather, conversions, and definitions show real data verbatim; the persona only adds a short quip and never invents facts.",
+    "Anti-repetition seeding: randomly sampled topic arrays keep identical prompts from collapsing to identical answers.",
+    "Single-JSON-file persistence with atomic writes and corrupt-file self-heal, instead of a database.",
+    "fun-police runs as a separate forked child process with its own credentials — process isolation, not a merge.",
+    "Privacy-conscious memory: activity tracking stores timestamps and counts only, never message content."
+  ],
+  "links": { "live": null, "repo": "https://github.com/Jordan-Doerksen/Ask-Johnny" },
+  "diagram": "/assets/diagrams/ask-johnny.svg"
+}

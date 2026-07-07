@@ -1,3 +1,5 @@
+> **LEGACY** — this cheat sheet describes the retired Observatory one-page design (now the unlinked legacy annex). The current site is documented in ../DECISIONS.md and ../ARCHITECTURE.md.
+
 # Editing Cheat Sheet
 
 Which file to touch for each kind of update. Rule of thumb: **content lives

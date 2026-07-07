@@ -1,0 +1,38 @@
+<svg viewBox="0 0 1000 560" role="img" aria-label="Sentinel Suite data flow. Market data flows one way from TWS/IBKR through the sentinel-core Rust kernels into the Pro cockpit, which posts data-free signals to a Discord webhook and writes tapes and a session report. Stage 2 and the Iceberg study read the tapes; the Analyst reads the report. Forty-seven golden vectors pin the math in sentinel-core, Stage 2, and the Iceberg study.">
+  <defs>
+    <marker id="sst-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="sst-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-tws e-core"><path d="M140 178 H196" marker-end="url(#sst-a)"/></g>
+  <g class="dg-edge gold e-core e-cockpit"><path d="M360 178 H426" marker-end="url(#sst-a)"/><text x="393" y="143" text-anchor="middle">market state</text></g>
+  <g class="dg-edge e-cockpit e-discord"><path d="M585 150 L654 64" marker-end="url(#sst-m)"/><text x="596" y="100" text-anchor="middle">signals</text></g>
+  <g class="dg-edge gold e-cockpit e-tapes"><path d="M600 178 H656" marker-end="url(#sst-a)"/><text x="628" y="170" text-anchor="middle">records</text></g>
+  <g class="dg-edge e-cockpit e-report"><path d="M515 206 V276" marker-end="url(#sst-m)"/><text x="527" y="246">exports</text></g>
+  <g class="dg-edge gold e-tapes e-stage2"><path d="M700 206 L692 426" marker-end="url(#sst-a)"/><text x="712" y="320">tapes</text></g>
+  <g class="dg-edge gold e-tapes e-iceberg"><path d="M770 206 L888 426" marker-end="url(#sst-a)"/><text x="846" y="318">tapes</text></g>
+  <g class="dg-edge e-report e-analyst"><path d="M515 336 L463 426" marker-end="url(#sst-m)"/><text x="496" y="385">report</text></g>
+  <g class="dg-edge dash e-golden e-core"><path d="M130 430 L277 210" marker-end="url(#sst-m)"/><text x="150" y="322" text-anchor="middle">pins math</text></g>
+  <g class="dg-edge dash e-golden e-iceberg"><path d="M130 486 V512 H897 V490" marker-end="url(#sst-m)"/><text x="905" y="507">parity</text></g>
+  <g class="dg-edge dash e-golden e-stage2"><path d="M690 512 V490" marker-end="url(#sst-m)"/><text x="700" y="507">parity</text></g>
+
+  <!-- read-only boundary -->
+  <path class="dg-bound" d="M170 118 V246"/>
+  <text class="dg-callout" x="10" y="96">[ READ-ONLY — DATA FLOWS ONE WAY, IN ]</text>
+  <text class="dg-callout-sub" x="10" y="112">no order surface exists anywhere in the code</text>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="tws"><rect x="10" y="150" width="130" height="56" rx="8"/><text class="n" x="75" y="174" text-anchor="middle">TWS / IBKR</text><text class="r" x="75" y="192" text-anchor="middle">live ES/NQ data</text></g>
+  <g class="dg-node" data-n="core"><rect x="200" y="150" width="160" height="56" rx="8"/><text class="n" x="280" y="174" text-anchor="middle">SENTINEL-CORE</text><text class="r" x="280" y="192" text-anchor="middle">Rust · pinned kernels</text></g>
+  <g class="dg-node" data-n="cockpit"><rect x="430" y="150" width="170" height="56" rx="8"/><text class="n" x="515" y="174" text-anchor="middle">PRO COCKPIT</text><text class="r" x="515" y="192" text-anchor="middle">Tauri · observe + record</text></g>
+  <g class="dg-node" data-n="discord"><rect x="660" y="30" width="160" height="56" rx="8"/><text class="n" x="740" y="54" text-anchor="middle">DISCORD WEBHOOK</text><text class="r" x="740" y="72" text-anchor="middle">data-free signal feed</text></g>
+  <g class="dg-node" data-n="tapes"><rect x="660" y="150" width="160" height="56" rx="8"/><text class="n" x="740" y="174" text-anchor="middle">TAPES</text><text class="r" x="740" y="192" text-anchor="middle">recordings/*.jsonl.gz</text></g>
+  <g class="dg-node" data-n="report"><rect x="430" y="280" width="170" height="56" rx="8"/><text class="n" x="515" y="304" text-anchor="middle">SESSION REPORT</text><text class="r" x="515" y="322" text-anchor="middle">sentinel.session.v1</text></g>
+  <g class="dg-node" data-n="analyst"><rect x="370" y="430" width="180" height="56" rx="8"/><text class="n" x="460" y="454" text-anchor="middle">ANALYST</text><text class="r" x="460" y="472" text-anchor="middle">Ollama EOD read · Python</text></g>
+  <g class="dg-node" data-n="stage2"><rect x="600" y="430" width="180" height="56" rx="8"/><text class="n" x="690" y="454" text-anchor="middle">STAGE 2</text><text class="r" x="690" y="472" text-anchor="middle">evidence tables · Python</text></g>
+  <g class="dg-node" data-n="iceberg"><rect x="805" y="430" width="185" height="56" rx="8"/><text class="n" x="897" y="454" text-anchor="middle">ICEBERG STUDY</text><text class="r" x="897" y="472" text-anchor="middle">absorption FSM · Python</text></g>
+  <g class="dg-node" data-n="golden"><rect x="10" y="430" width="240" height="56" rx="8"/><text class="n" x="130" y="454" text-anchor="middle">GOLDEN VECTORS · 47</text><text class="r" x="130" y="472" text-anchor="middle">cross-language math oracle</text></g>
+
+  <text class="dg-callout" x="500" y="548" text-anchor="middle">[ ONE ORACLE — 47 VECTORS PIN THE MATH IN RUST AND BOTH PYTHON PORTS ]</text>
+</svg>

@@ -1,0 +1,38 @@
+{
+  "slug": "star-charter",
+  "name": "Star Charter",
+  "category": "games",
+  "status": "live",
+  "statusNote": "The original game in the line, live and canonical; the repo retains the full combined git history from before star-charter-pro and echo-bat were split out.",
+  "oneLiner": "A constellation-charting roguelite — pilot a heavy, drifty survey probe, trace each constellation's blueprint on an atlas plate, refit every third plate.",
+  "stack": ["single-file HTML/CSS/JS (~2268 lines), no build step", "Canvas 2D", "generated WebAudio, no audio files"],
+  "components": [
+    { "name": "Game state machine", "desc": "title, playing, choosing, dying, over, paused — plus the player object and entity arrays." },
+    { "name": "Constellation generation", "desc": "genShape(n) wandering-walk algorithm, mapped onto the play field per plate." },
+    { "name": "Upgrade system", "desc": "Six refit upgrades (Ion Vanes, Star Anchor, Phase Veil, Stardust Aegis, Chart Lens, Survey Beam) with capped stacks and derived stats." },
+    { "name": "Audio", "desc": "Lazy AudioContext with an ambient drone, black-hole rumble, and synth cues — all generated." },
+    { "name": "Background / parallax", "desc": "Seeded layers of nebulae, background stars, and meteors." },
+    { "name": "Spawning", "desc": "Per-hazard timers with edge spawning." },
+    { "name": "Save system", "desc": "localStorage-backed personal records." },
+    { "name": "Render + loop", "desc": "draw() orchestrates background, charted stars, hazards, probe, particles; classic rAF loop." }
+  ],
+  "dataFlow": [
+    "Pointer hold-to-thrust (or keyboard) feeds update(dt), which computes a thrust vector toward the pointer with arrive-dampening.",
+    "Black-hole gravity and soft-wall forces apply, then velocity integrates with drag.",
+    "Camera parallax advances and hazard spawn timers age.",
+    "Collision checks resolve shield, dodge, or damage.",
+    "Waypoint proximity triggers chartStar() — score, plate completion, and the refit flow.",
+    "draw() renders parallax, entities, and the plate-progress mini-canvas.",
+    "Audio cues fire with events; rAF reschedules."
+  ],
+  "integrations": ["Google Fonts CDN", "Archive-nav links to star-charter-pro and echo-bat"],
+  "decisions": [
+    "Movement is deliberately heavy — slow to build and shed speed — so refits are the taming lever.",
+    "Refit offers 1-of-3 every third plate, with a score-only filler when the pool exhausts.",
+    "Plate hues cycle a fixed gold-anchored palette.",
+    "prefers-reduced-motion disables background meteors and halves particle counts.",
+    "The repo intentionally keeps the full git history — where the line was born."
+  ],
+  "links": { "live": "/games/star-charter/", "repo": "https://github.com/Jordan-Doerksen/star-charter" },
+  "diagram": "/assets/diagrams/star-charter.svg"
+}

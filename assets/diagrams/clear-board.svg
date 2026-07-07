@@ -1,0 +1,35 @@
+<svg viewBox="0 0 1000 480" role="img" aria-label="Clear Board architecture. Four absorbed tools — CN Conductor Trainer, switch-list, cror-signals, and training-assistant — feed one cited content library. Verified items flow into one core with SM-2-lite retention, which serves five stations and takes grades back. The library also passes an npm run check trust firewall that gates the React and Vite web build, which ships again as a Tauri v2 desktop exe.">
+  <defs>
+    <marker id="cbr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="cbr-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge e-cn e-lib"><path d="M190 56 L262 168" marker-end="url(#cbr-m)"/></g>
+  <g class="dg-edge e-sw e-lib"><path d="M190 144 L262 182" marker-end="url(#cbr-m)"/></g>
+  <g class="dg-edge e-cs e-lib"><path d="M190 232 L262 196" marker-end="url(#cbr-m)"/></g>
+  <g class="dg-edge e-ta e-lib"><path d="M190 320 L262 210" marker-end="url(#cbr-m)"/></g>
+  <g class="dg-edge gold e-lib e-core"><path d="M465 162 L506 94" marker-end="url(#cbr-a)"/><text x="476" y="128" text-anchor="middle">verified items only</text></g>
+  <g class="dg-edge gold e-core e-stations"><path d="M670 78 H786" marker-end="url(#cbr-a)"/><text x="728" y="70" text-anchor="middle">one mastery model</text></g>
+  <g class="dg-edge e-stations e-core"><path d="M790 98 H674" marker-end="url(#cbr-m)"/><text x="728" y="112" text-anchor="middle">grades write back</text></g>
+  <g class="dg-edge e-lib e-gates"><path d="M430 218 L496 312" marker-end="url(#cbr-m)"/><text x="455" y="268" text-anchor="middle">trust firewall</text></g>
+  <g class="dg-edge e-gates e-web"><path d="M680 328 H776" marker-end="url(#cbr-m)"/><text x="728" y="293" text-anchor="middle">deploys on green</text></g>
+  <g class="dg-edge e-web e-exe"><path d="M880 356 V396" marker-end="url(#cbr-m)"/><text x="892" y="380">same bundle</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="cn"><rect x="10" y="30" width="180" height="52" rx="8"/><text class="n" x="100" y="52" text-anchor="middle">CN CONDUCTOR TRAINER</text><text class="r" x="100" y="70" text-anchor="middle">rule question bank</text></g>
+  <g class="dg-node" data-n="sw"><rect x="10" y="118" width="180" height="52" rx="8"/><text class="n" x="100" y="140" text-anchor="middle">SWITCH-LIST</text><text class="r" x="100" y="158" text-anchor="middle">solver-verified puzzles</text></g>
+  <g class="dg-node" data-n="cs"><rect x="10" y="206" width="180" height="52" rx="8"/><text class="n" x="100" y="228" text-anchor="middle">CROR-SIGNALS</text><text class="r" x="100" y="246" text-anchor="middle">signal aspect encodings</text></g>
+  <g class="dg-node" data-n="ta"><rect x="10" y="294" width="180" height="52" rx="8"/><text class="n" x="100" y="316" text-anchor="middle">TRAINING-ASSISTANT</text><text class="r" x="100" y="334" text-anchor="middle">verbatim CROR + definitions</text></g>
+  <g class="dg-node" data-n="lib"><rect x="265" y="150" width="200" height="68" rx="8"/><text class="n" x="365" y="172" text-anchor="middle">CITED CONTENT LIBRARY</text><text class="r" x="365" y="190" text-anchor="middle">four verified JSON files</text><text class="r" x="365" y="204" text-anchor="middle">each item cited + trust-flagged</text></g>
+  <g class="dg-node" data-n="core"><rect x="510" y="60" width="160" height="56" rx="8"/><text class="n" x="590" y="84" text-anchor="middle">CORE</text><text class="r" x="590" y="102" text-anchor="middle">one profile · SM-2-lite</text></g>
+  <g class="dg-node" data-n="stations"><rect x="790" y="48" width="200" height="80" rx="8"/><text class="n" x="890" y="74" text-anchor="middle">FIVE STATIONS</text><text class="r" x="890" y="92" text-anchor="middle">Home · Reference · Drill</text><text class="r" x="890" y="106" text-anchor="middle">The Yard · Radio</text></g>
+  <g class="dg-node" data-n="gates"><rect x="500" y="300" width="180" height="56" rx="8"/><text class="n" x="590" y="324" text-anchor="middle">NPM RUN CHECK</text><text class="r" x="590" y="342" text-anchor="middle">solver + trust gates</text></g>
+  <g class="dg-node" data-n="web"><rect x="780" y="300" width="200" height="56" rx="8"/><text class="n" x="880" y="324" text-anchor="middle">REACT + VITE BUILD</text><text class="r" x="880" y="342" text-anchor="middle">GitHub Actions → Pages</text></g>
+  <g class="dg-node" data-n="exe"><rect x="780" y="400" width="200" height="56" rx="8"/><text class="n" x="880" y="424" text-anchor="middle">TAURI V2 DESKTOP EXE</text><text class="r" x="880" y="442" text-anchor="middle">Clear Board.exe · ~18 MB</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout-sub" x="265" y="240">copied untouched — nothing re-derived from scratch</text>
+  <text class="dg-callout" x="340" y="398">[ NEEDS-REVIEW = REFERENCE-ONLY — NEVER DRILLED, NEVER GRADED ]</text>
+  <text class="dg-callout-sub" x="340" y="416">a red check gate blocks the deploy entirely</text>
+</svg>

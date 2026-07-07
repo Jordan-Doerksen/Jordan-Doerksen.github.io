@@ -1,0 +1,46 @@
+{
+  "slug": "training-assistant",
+  "name": "CROR Training Assistant",
+  "category": "rail",
+  "status": "live",
+  "statusNote": "A content source superseded at parity by Clear Board — its reference entries seeded Clear Board's content library — but kept live on its own page; feature-complete at 305 entries.",
+  "oneLiner": "A reference-first, citation-backed study PWA for conductors — search any rule, signal, or definition with its citation and trust level, then drill it on a spaced-repetition schedule.",
+  "stack": [
+    "Vanilla JS (ES modules), no build step, no frameworks",
+    "Content authored as plain JS data modules so the Node validator and the browser import identical files",
+    "PWA: manifest + service worker, offline via stale-while-revalidate"
+  ],
+  "components": [
+    { "name": "Schema + validator", "desc": "One entry shape imported by both the app and the Node validator — a hard gate on every entry." },
+    { "name": "Content registry", "desc": "305 entries across definitions, signals, switching, and operating rules, all verbatim rulebook text with citations." },
+    { "name": "Search + Reference", "desc": "Keyword and rule-number lookup with list/detail rendering and a visible trust chip." },
+    { "name": "Signal renderer", "desc": "The SVG renderer ported from the CN Conductor Trainer." },
+    { "name": "Drills", "desc": "Quiz questions derived live from the entries — no parallel question bank to drift." },
+    { "name": "Progress + Study", "desc": "Leitner boxes with spaced intervals, an adaptive study dashboard, and a 30-question coverage-balanced mock exam." },
+    { "name": "Guide + tour", "desc": "In-app orientation, plus a decorative canvas footer that respects reduced motion." }
+  ],
+  "dataFlow": [
+    "The app boots to the Reference list; search filters the entries.",
+    "Clicking an entry shows its body, citation, trust chip, and related links.",
+    "Drills build a question pool from the same entries; each result updates the Leitner box in localStorage.",
+    "Study hands its due queue to the same runner; results reschedule due dates.",
+    "All state is client-side localStorage — no backend; the service worker serves offline from cache."
+  ],
+  "integrations": [
+    "Content re-housed from the CN Conductor Trainer (rule content, citations, signal renderer)",
+    "Deliberately distinct from switch-list — the sim and the reference tool link to each other, never duplicate"
+  ],
+  "decisions": [
+    "Reference-first design: lookup is the front door, drills hang off it.",
+    "Content lives in plain JS modules specifically so the validator imports the exact files the app uses — zero divergence.",
+    "Never author rule content from memory — every entry requires a reference, source, and trust level, with the chip always visible.",
+    "Drills derive from the single content source at runtime instead of a second question bank.",
+    "A clean rail-ops theme instead of the house style — this is a field tool for use under pressure.",
+    "Offline support was built last, since service workers cache stale copies and mask whether changes work."
+  ],
+  "links": {
+    "live": "/rail/training-assistant/",
+    "repo": "https://github.com/Jordan-Doerksen/training-assistant"
+  },
+  "diagram": "/assets/diagrams/training-assistant.svg"
+}

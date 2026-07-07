@@ -1,0 +1,36 @@
+{
+  "slug": "caddy-shed-golf-pitch",
+  "name": "Caddy Shed Golf",
+  "category": "studio",
+  "status": "live",
+  "statusNote": "Shipped concept/pitch package. Dressed to the client's brand, not the house style — and unusually, offers three complete design directions so the client picks the brand feel, not just a yes/no.",
+  "oneLiner": "A pitch package for a family-owned custom-fit golf equipment shop on Portage Avenue: three parallel full design directions plus a printable proposal.",
+  "stack": ["plain HTML/CSS/JS, no build step", "self-contained HTML files per direction", "Google Fonts CDN, prefers-reduced-motion handled globally"],
+  "components": [
+    { "name": "index.html", "desc": "Hub/chooser page — a 3-card grid linking to each direction, plus links to the proposal and the original concept" },
+    { "name": "premium-heritage.html", "desc": "Direction 01: refined editorial look, deep green and brass, serif display type" },
+    { "name": "modern-sport.html", "desc": "Direction 02: bold dark performance brand with an animated JS stat counter and a sticky Book-a-Fitting CTA" },
+    { "name": "local-warm.html", "desc": "Direction 03: friendly family tone, warm cream/honey palette, live JS open/closed status pill computed from the current time" },
+    { "name": "original-concept.html", "desc": "The first single-page draft the three directions were derived from" },
+    { "name": "pitch.html", "desc": "The proposal document" }
+  ],
+  "dataFlow": [
+    "The hub page routes to three parallel, independent full sites — same content sections, distinct visual treatments.",
+    "Each direction is internally a single-page site with anchor-scroll nav.",
+    "CTAs are tel: click-to-call, hours tables, and a sticky Book-a-Fitting anchor on the sport direction — no live booking or contact form anywhere in the package."
+  ],
+  "integrations": [
+    "Google Fonts (Playfair Display, Work Sans, Barlow Condensed)",
+    "Unsplash stock hero photography on the hub",
+    "tel: click-to-call links",
+    "No CMS, backend, payment, or booking system"
+  ],
+  "decisions": [
+    "The only pitch of the four offering a genuine A/B/C design choice — explicitly pitched as pick-your-favourite, deferring the design decision to the client.",
+    "Content held constant across all three directions to isolate which one feels like the shop as a pure branding question.",
+    "Each direction handles hours differently — static table, animated counter, or a live open/closed computation.",
+    "prefers-reduced-motion respected across the whole package."
+  ],
+  "links": { "live": "/studio/caddy-shed-golf-pitch/", "repo": "https://github.com/Jordan-Doerksen/caddy-shed-golf-pitch" },
+  "diagram": "/assets/diagrams/caddy-shed-golf-pitch.svg"
+}

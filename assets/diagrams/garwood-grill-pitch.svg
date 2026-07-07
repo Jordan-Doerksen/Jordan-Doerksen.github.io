@@ -1,0 +1,28 @@
+<svg viewBox="0 0 1000 440" role="img" aria-label="Garwood Grill pitch data flow. One scrolling page: a sticky nav moves between anchor sections — it scrolls, never navigates. The page's menu section filters categories with JS show and hide, and its calls to action are tel: click-to-call links plus Apple Maps and an embedded Google Maps iframe — no contact form. A printable pitch.html proposal ships beside the site, running from pricing cards to a mail CTA.">
+  <defs>
+    <marker id="gg-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="gg-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-nav e-page"><path d="M260 149 H356" marker-end="url(#gg-a)"/><text x="308" y="113" text-anchor="middle">scrolls, never navigates</text></g>
+  <g class="dg-edge gold e-page e-tel"><path d="M590 135 L736 92" marker-end="url(#gg-a)"/><text x="655" y="100" text-anchor="middle">click to call</text></g>
+  <g class="dg-edge gold e-page e-maps"><path d="M590 160 L736 192" marker-end="url(#gg-a)"/><text x="655" y="192" text-anchor="middle">find the diner</text></g>
+  <g class="dg-edge e-page e-filter"><path d="M475 178 V246" marker-end="url(#gg-m)"/><text x="487" y="216">category buttons</text></g>
+  <g class="dg-edge dash e-page e-pitch"><path d="M400 178 L205 356" marker-end="url(#gg-m)"/><text x="330" y="290" text-anchor="middle">the proposal, beside the site</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="nav"><rect x="50" y="120" width="210" height="58" rx="8"/><text class="n" x="155" y="144" text-anchor="middle">STICKY NAV</text><text class="r" x="155" y="162" text-anchor="middle">anchor links · mobile toggle</text></g>
+  <g class="dg-node" data-n="page"><rect x="360" y="120" width="230" height="58" rx="8"/><text class="n" x="475" y="144" text-anchor="middle">INDEX.HTML</text><text class="r" x="475" y="162" text-anchor="middle">hero · about · menu · visit</text></g>
+  <g class="dg-node" data-n="filter"><rect x="360" y="250" width="230" height="58" rx="8"/><text class="n" x="475" y="274" text-anchor="middle">MENU FILTER</text><text class="r" x="475" y="292" text-anchor="middle">JS show/hide · sample prices</text></g>
+  <g class="dg-node" data-n="tel"><rect x="740" y="60" width="220" height="58" rx="8"/><text class="n" x="850" y="84" text-anchor="middle">TEL: CLICK-TO-CALL</text><text class="r" x="850" y="102" text-anchor="middle">no contact form anywhere</text></g>
+  <g class="dg-node" data-n="maps"><rect x="740" y="170" width="220" height="58" rx="8"/><text class="n" x="850" y="194" text-anchor="middle">MAP LINKS</text><text class="r" x="850" y="212" text-anchor="middle">Apple Maps + Google embed</text></g>
+  <g class="dg-node" data-n="pitch"><rect x="50" y="360" width="210" height="58" rx="8"/><text class="n" x="155" y="384" text-anchor="middle">PITCH.HTML</text><text class="r" x="155" y="402" text-anchor="middle">pricing cards → mail CTA</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="640" y="330">[ THE MENU IS MARKED ILLUSTRATIVE ]</text>
+  <text class="dg-callout-sub" x="640" y="348">sample items and prices — the page never overpromises;</text>
+  <text class="dg-callout-sub" x="640" y="363">explicitly labeled not the official Garwood Grill site</text>
+  <text class="dg-callout-sub" x="640" y="390">no CMS, analytics, or backend — a static page</text>
+  <text class="dg-callout-sub" x="640" y="405">a diner can actually own</text>
+</svg>

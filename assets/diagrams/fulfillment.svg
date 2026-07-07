@@ -1,0 +1,31 @@
+<svg viewBox="0 0 1000 450" role="img" aria-label="Fulfillment data flow. Keys and mouse feed an InputState snapshot into the deterministic fixed-60Hz sim, whose single seeded RNG is the only gameplay randomness. Systems run in strict fixed order and mutate GameWorld, the single source of truth. Across a hard read-only boundary, the renderer, cockpit HUD, and audio-and-particles layer read GameWorld one way — they never write back — and cosmetic events drain on their own RNG without touching the sim's stream." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="ff-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="ff-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- read-only boundary between sim truth and the render side -->
+  <path class="dg-bound" d="M772 70 V440"/>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-input e-sim"><path d="M230 119 H286" marker-end="url(#ff-a)"/><text x="258" y="83" text-anchor="middle">per tick</text></g>
+  <g class="dg-edge gold e-sim e-systems"><path d="M480 119 H536" marker-end="url(#ff-a)"/><text x="508" y="83" text-anchor="middle">steps</text></g>
+  <g class="dg-edge gold e-systems e-world"><path d="M640 148 V236" marker-end="url(#ff-a)"/><text x="652" y="196">mutate</text></g>
+  <g class="dg-edge gold e-world e-render"><path d="M740 258 L796 124" marker-end="url(#ff-a)"/><text x="745" y="175" text-anchor="end">read each frame</text></g>
+  <g class="dg-edge gold e-world e-hud"><path d="M740 269 H796" marker-end="url(#ff-a)"/></g>
+  <g class="dg-edge e-world e-fx"><path d="M740 280 L796 404" marker-end="url(#ff-m)"/><text x="745" y="345" text-anchor="end">cosmetic events</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="input"><rect x="40" y="90" width="190" height="58" rx="8"/><text class="n" x="135" y="114" text-anchor="middle">INPUT SNAPSHOT</text><text class="r" x="135" y="132" text-anchor="middle">keys + mouse, per tick</text></g>
+  <g class="dg-node" data-n="sim"><rect x="290" y="90" width="190" height="58" rx="8"/><text class="n" x="385" y="114" text-anchor="middle">FIXED-STEP SIM</text><text class="r" x="385" y="132" text-anchor="middle">60 Hz · seeded RNG</text></g>
+  <g class="dg-node" data-n="systems"><rect x="540" y="90" width="200" height="58" rx="8"/><text class="n" x="640" y="114" text-anchor="middle">SYSTEMS</text><text class="r" x="640" y="132" text-anchor="middle">run in strict fixed order</text></g>
+  <g class="dg-node" data-n="world"><rect x="540" y="240" width="200" height="58" rx="8"/><text class="n" x="640" y="264" text-anchor="middle">GAMEWORLD</text><text class="r" x="640" y="282" text-anchor="middle">single source of truth</text></g>
+  <g class="dg-node" data-n="render"><rect x="800" y="90" width="180" height="58" rx="8"/><text class="n" x="890" y="114" text-anchor="middle">RENDERER</text><text class="r" x="890" y="132" text-anchor="middle">swarm batch + scenes</text></g>
+  <g class="dg-node" data-n="hud"><rect x="800" y="240" width="180" height="58" rx="8"/><text class="n" x="890" y="264" text-anchor="middle">COCKPIT HUD</text><text class="r" x="890" y="282" text-anchor="middle">radar · readouts</text></g>
+  <g class="dg-node" data-n="fx"><rect x="800" y="380" width="180" height="58" rx="8"/><text class="n" x="890" y="404" text-anchor="middle">AUDIO + FX</text><text class="r" x="890" y="422" text-anchor="middle">cosmetic · own RNG</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="40" y="250">[ SIM IS TRUTH — RENDER IS READ-ONLY ]</text>
+  <text class="dg-callout-sub" x="40" y="268">the renderer and HUD never write back;</text>
+  <text class="dg-callout-sub" x="40" y="283">one seeded RNG is the only gameplay randomness</text>
+</svg>

@@ -1,0 +1,34 @@
+<svg viewBox="0 0 1000 480" role="img" aria-label="Underwriter data flow. TWS/IB Gateway with the Read-Only API on feeds a background engine thread that subscribes SPX, the ES front-quarterly, and the options chain. The engine cycle runs the golden-vectored math crates — expected move, realized vol, gamma map, spread scoring. Results snapshot to the React panels over Tauri IPC, the recorder writes fourteen IPC streams plus a continuous journal as the single source of truth, and critical state fans out to a Discord webhook, a cockpit sound, and a Windows toast at once. Breaker state is recomputed from the journal at every launch, and CBOE delayed JSON supplies open interest. No order module is ever compiled in.">
+  <defs>
+    <marker id="uw-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="uw-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-tws e-engine"><path d="M170 178 H236" marker-end="url(#uw-a)"/><text x="203" y="140" text-anchor="middle">SPX · ES · chain</text></g>
+  <g class="dg-edge e-cboe e-engine"><path d="M170 308 H300 V210" marker-end="url(#uw-m)"/><text x="235" y="298" text-anchor="middle">open interest</text></g>
+  <g class="dg-edge gold e-engine e-math"><path d="M410 178 H476" marker-end="url(#uw-a)"/><text x="443" y="140" text-anchor="middle">engine cycle</text></g>
+  <g class="dg-edge gold e-math e-ui"><path d="M690 168 L786 78" marker-end="url(#uw-a)"/><text x="745" y="105" text-anchor="middle">IPC snapshots</text></g>
+  <g class="dg-edge e-math e-alerts"><path d="M690 190 H786" marker-end="url(#uw-m)"/><text x="738" y="178" text-anchor="middle">critical state</text></g>
+  <g class="dg-edge gold e-math e-recorder"><path d="M690 208 L786 316" marker-end="url(#uw-a)"/><text x="712" y="268">records</text></g>
+  <g class="dg-edge dash e-recorder e-engine"><path d="M786 336 H350 V210" marker-end="url(#uw-m)"/><text x="560" y="328" text-anchor="middle">breaker recomputed at launch</text></g>
+
+  <!-- read-only boundary -->
+  <path class="dg-bound" d="M205 120 V250"/>
+  <text class="dg-callout" x="10" y="82">[ READ-ONLY — ENFORCED THREE WAYS ]</text>
+  <text class="dg-callout-sub" x="10" y="98">no order module is ever compiled in</text>
+  <text class="dg-callout-sub" x="10" y="112">TWS Read-Only API checked · no IPC command can describe an order</text>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="tws"><rect x="10" y="150" width="160" height="56" rx="8"/><text class="n" x="90" y="174" text-anchor="middle">TWS / IB GATEWAY</text><text class="r" x="90" y="192" text-anchor="middle">Read-Only API on</text></g>
+  <g class="dg-node" data-n="cboe"><rect x="10" y="280" width="160" height="56" rx="8"/><text class="n" x="90" y="304" text-anchor="middle">CBOE DELAYED</text><text class="r" x="90" y="322" text-anchor="middle">open-interest JSON</text></g>
+  <g class="dg-node" data-n="engine"><rect x="240" y="150" width="170" height="56" rx="8"/><text class="n" x="325" y="174" text-anchor="middle">UW-ENGINE</text><text class="r" x="325" y="192" text-anchor="middle">background thread · ~1s</text></g>
+  <g class="dg-node" data-n="math"><rect x="480" y="150" width="210" height="68" rx="8"/><text class="n" x="585" y="172" text-anchor="middle">MATH CRATES</text><text class="r" x="585" y="190" text-anchor="middle">expected move · realized vol</text><text class="r" x="585" y="204" text-anchor="middle">gamma map · spread scoring</text></g>
+  <g class="dg-node" data-n="ui"><rect x="790" y="40" width="200" height="56" rx="8"/><text class="n" x="890" y="64" text-anchor="middle">REACT PANELS</text><text class="r" x="890" y="82" text-anchor="middle">polls Tauri IPC snapshots</text></g>
+  <g class="dg-node" data-n="alerts"><rect x="790" y="160" width="200" height="68" rx="8"/><text class="n" x="890" y="182" text-anchor="middle">ALERT FAN-OUT</text><text class="r" x="890" y="200" text-anchor="middle">Discord · sound · toast</text><text class="r" x="890" y="214" text-anchor="middle">all three at once</text></g>
+  <g class="dg-node" data-n="recorder"><rect x="790" y="290" width="200" height="68" rx="8"/><text class="n" x="890" y="312" text-anchor="middle">RECORDER</text><text class="r" x="890" y="330" text-anchor="middle">14 IPC streams + journal</text><text class="r" x="890" y="344" text-anchor="middle">single source of truth</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="10" y="420">[ SHOW NOTHING RATHER THAN SOMETHING FALSE ]</text>
+  <text class="dg-callout-sub" x="10" y="438">unverifiable values are named states — EM_UNAVAILABLE, TWS DOWN — never fabricated</text>
+</svg>

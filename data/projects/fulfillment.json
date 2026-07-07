@@ -1,0 +1,38 @@
+{
+  "slug": "fulfillment",
+  "name": "Fulfillment",
+  "category": "games",
+  "status": "active",
+  "statusNote": "Full core loop built; remaining work is a final art, audio, and cockpit-UI pass tracked in a Placeholder Ledger. Built syntax-checked, pending a real play-test.",
+  "oneLiner": "A deterministic, corporate-parody space wave-survival roguelite in Godot 4.7 — fly delivery runs for a satirical megacorp, survive escalating waves, draft upgrades between runs.",
+  "stack": ["Godot 4.7, GDScript", "Config as typed Godot Resource (.tres) files", "HTML mockups as the approved visual spec"],
+  "components": [
+    { "name": "app", "desc": "Root state machine, save/meta progression, procedural synth SFX — owns no gameplay logic." },
+    { "name": "engine (sim)", "desc": "Deterministic fixed-60Hz step root and GameWorld, the single mutable source of truth." },
+    { "name": "engine/data", "desc": "Tunable static tables: weapons, archetypes, rarity, elements, upgrades, drafts, evolutions, hulls." },
+    { "name": "engine/systems", "desc": "Static functions run in fixed order: flight, spawn, status, enemies, hull, turrets, combat, progression." },
+    { "name": "engine/util", "desc": "Determinism primitives — the one seeded RNG, object pools, math helpers." },
+    { "name": "render", "desc": "One-way read-only rendering: hybrid batched swarm draw, cockpit HUD, radar view." },
+    { "name": "ui", "desc": "Shell screens — title, results, depot, pause, settings, draft and rack views." },
+    { "name": "docs", "desc": "DECISIONS.md manifest, ARCHITECTURE.md map with the Placeholder Ledger, HANDOFF, SPEC, CHANGELOG." }
+  ],
+  "dataFlow": [
+    "Keys and mouse feed an InputState snapshot.",
+    "The sim steps at a fixed 60 Hz; the seeded world RNG is the only gameplay randomness.",
+    "Systems run in strict order and mutate GameWorld, the single source of truth.",
+    "The renderer and HUD read GameWorld one-way — they never write back.",
+    "A hybrid draw batches swarm primitives and uses node scenes for the ship, bosses, and HUD.",
+    "Cosmetic event lists drain into audio and particles without touching the sim's RNG stream."
+  ],
+  "integrations": ["None beyond the Godot 4.7 engine — single-player, local save, no network"],
+  "decisions": [
+    "Strict sim-versus-render separation is a non-negotiable constraint: sim is truth, render is read-only.",
+    "One seeded RNG stream is the only gameplay randomness; cosmetics get separate RNGs.",
+    "No system is in until it's fleshed mechanically and visually and cross-checked — no orphaned mechanics ship.",
+    "A Placeholder Ledger tracks every visual stand-in; a placeholder that stops being live-wired gets deleted, not left stale.",
+    "Built in the spirit of an older wave-survival game, explicitly greenfield rather than a port.",
+    "Files follow the house split rule: review at 300 lines, split by 500."
+  ],
+  "links": { "live": null, "repo": null },
+  "diagram": "/assets/diagrams/fulfillment.svg"
+}

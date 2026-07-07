@@ -1,0 +1,29 @@
+<svg viewBox="0 0 1000 410" role="img" aria-label="Diablo Act 1 data flow. Player input — context-sensitive clicks, skill keys, and potions — feeds the update loop, which advances zone timers and runs monster AI. Casts resolve through the tryCast cooldown-and-mana gate and spawn effects; projectile and melee collisions resolve, and deaths drop loot and XP. Zone builders place monster packs procedurally into the update loop's world, the render chain paints the frame, and requestAnimationFrame reschedules the next one." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="da-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="da-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-input e-update"><path d="M220 109 H276" marker-end="url(#da-a)"/><text x="248" y="73" text-anchor="middle">commands</text></g>
+  <g class="dg-edge gold e-update e-cast"><path d="M470 109 H526" marker-end="url(#da-a)"/><text x="498" y="73" text-anchor="middle">casts</text></g>
+  <g class="dg-edge gold e-cast e-combat"><path d="M720 109 H776" marker-end="url(#da-a)"/><text x="748" y="73" text-anchor="middle">spawns effect</text></g>
+  <g class="dg-edge gold e-combat e-loot"><path d="M875 138 V226" marker-end="url(#da-a)"/><text x="887" y="186">deaths → loot · xp</text></g>
+  <g class="dg-edge gold e-update e-render"><path d="M375 138 V226" marker-end="url(#da-a)"/><text x="387" y="186">paints the frame</text></g>
+  <g class="dg-edge dash e-zones e-update"><path d="M625 230 V189 H474" marker-end="url(#da-m)"/><text x="550" y="181" text-anchor="middle">packs placed procedurally</text></g>
+  <g class="dg-edge dash e-render e-input"><path d="M280 259 H130 V142" marker-end="url(#da-m)"/><text x="205" y="249" text-anchor="middle">rAF reschedules</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="input"><rect x="40" y="80" width="180" height="58" rx="8"/><text class="n" x="130" y="104" text-anchor="middle">PLAYER INPUT</text><text class="r" x="130" y="122" text-anchor="middle">clicks · skills · potions</text></g>
+  <g class="dg-node" data-n="update"><rect x="280" y="80" width="190" height="58" rx="8"/><text class="n" x="375" y="104" text-anchor="middle">UPDATE(dt)</text><text class="r" x="375" y="122" text-anchor="middle">zone timers · monster AI</text></g>
+  <g class="dg-node" data-n="cast"><rect x="530" y="80" width="190" height="58" rx="8"/><text class="n" x="625" y="104" text-anchor="middle">TRYCAST GATE</text><text class="r" x="625" y="122" text-anchor="middle">cooldown + mana check</text></g>
+  <g class="dg-node" data-n="combat"><rect x="780" y="80" width="190" height="58" rx="8"/><text class="n" x="875" y="104" text-anchor="middle">COLLISION RESOLVE</text><text class="r" x="875" y="122" text-anchor="middle">projectiles · melee</text></g>
+  <g class="dg-node" data-n="render"><rect x="280" y="230" width="190" height="58" rx="8"/><text class="n" x="375" y="254" text-anchor="middle">RENDER CHAIN</text><text class="r" x="375" y="272" text-anchor="middle">world → hud → overlays</text></g>
+  <g class="dg-node" data-n="zones"><rect x="530" y="230" width="190" height="58" rx="8"/><text class="n" x="625" y="254" text-anchor="middle">ZONE SYSTEM</text><text class="r" x="625" y="272" text-anchor="middle">four zones · safe spawns</text></g>
+  <g class="dg-node" data-n="loot"><rect x="780" y="230" width="190" height="58" rx="8"/><text class="n" x="875" y="254" text-anchor="middle">LOOT &amp; XP</text><text class="r" x="875" y="272" text-anchor="middle">drops · level-ups</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="40" y="340">[ A FAN TRIBUTE — NOT AFFILIATED WITH BLIZZARD ]</text>
+  <text class="dg-callout-sub" x="40" y="358">the MIT license explicitly excludes the referenced IP;</text>
+  <text class="dg-callout-sub" x="40" y="373">kept out of any commercial framing on purpose</text>
+</svg>

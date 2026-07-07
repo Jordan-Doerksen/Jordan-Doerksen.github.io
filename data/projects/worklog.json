@@ -1,0 +1,32 @@
+{
+  "slug": "worklog",
+  "name": "Worklog",
+  "category": "tools",
+  "status": "built",
+  "statusNote": "Working script with generated output and double-click launchers; metrics are static text matches and honestly labeled as such.",
+  "oneLiner": "A self-contained Python tool that builds a daily work log and a styled weekly value report from git commit history across a set of repos, plus manual notes for off-git work.",
+  "stack": ["Python 3, standard library only", "Self-contained print-friendly HTML output", "Windows .bat launchers"],
+  "components": [
+    { "name": "worklog.py", "desc": "Scans git log --numstat per configured repo, stores results, renders the report." },
+    { "name": "worklog.json", "desc": "Persisted data — commit records plus manual notes; git is the source of truth, notes survive re-scans." },
+    { "name": "value-report.html", "desc": "The latest weekly report — self-contained, print-friendly, light equity-research theme." },
+    { "name": "launchers", "desc": "WORK REPORT.bat and ADD NOTE.bat for double-click use." }
+  ],
+  "dataFlow": [
+    "git log --numstat runs per configured repo.",
+    "Commits are parsed into hash, date, subject, and lines added or deleted.",
+    "Results merge into the persisted store, backfilling missed days and preserving manual notes.",
+    "Weekly aggregation renders the value report as a single HTML file.",
+    "The report opens via the browser or the .bat launchers.",
+    "Manual notes append straight to the store, bypassing git entirely."
+  ],
+  "integrations": ["Local git binary (hard error if missing)", "Reads other repos' DECISIONS.md to count documented decisions", "Scans for test-function patterns for an honestly-labeled static count"],
+  "decisions": [
+    "Explicitly honest about metric limits — static text matches, not runtime counts, stated plainly.",
+    "The factual record is separated from any eloquent narrative, which is deferred to a later polish pass.",
+    "Themed light, equity-research style, since it covers the finance work.",
+    "Standard library only — no dependencies to install."
+  ],
+  "links": { "live": null, "repo": null },
+  "diagram": "/assets/diagrams/worklog.svg"
+}

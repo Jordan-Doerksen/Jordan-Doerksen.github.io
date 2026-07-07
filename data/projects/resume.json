@@ -1,0 +1,60 @@
+{
+  "slug": "resume",
+  "name": "Resume",
+  "category": "studio",
+  "status": "live",
+  "statusNote": "One of only two repos besides the monorepo with its own live GitHub Pages site; under ongoing edits.",
+  "oneLiner": "A single-page résumé-as-website driven by one resume.json, so the web page and the printable Word/PDF never drift apart.",
+  "stack": [
+    "Pure static HTML/CSS/vanilla JS, no framework or bundler",
+    "Python 3 + python-docx for the Word build",
+    "GitHub Pages, served from main"
+  ],
+  "components": [
+    {
+      "name": "index.html",
+      "desc": "The entire site: inline light/dark theme, boot/render script, and an inline JSON fallback copy of the résumé data."
+    },
+    {
+      "name": "resume.json",
+      "desc": "Canonical schema — the single source of truth for both the web page and the document build."
+    },
+    {
+      "name": "build_resume.py",
+      "desc": "Reads resume.json and renders a styled one-page Word doc; optional flag pulls real references from gitignored private data."
+    },
+    {
+      "name": "Generated artifacts",
+      "desc": "The .docx and .pdf are committed to the repo root so the live site can link the PDF."
+    },
+    {
+      "name": "Private data",
+      "desc": "Real references and the cover letter are gitignored, never committed."
+    }
+  ],
+  "dataFlow": [
+    "A human edits resume.json — the single source of truth.",
+    "The browser fetches resume.json; on failure it falls back to the inline JSON block.",
+    "A chain of render functions populates the DOM: hero, contact, stats, experience, projects, skills, references.",
+    "Post-render: scroll reveals (reduced-motion guarded), animated counters, scrollspy nav.",
+    "Separately, build_resume.py re-reads the same JSON and builds the Word doc, converted to PDF via LibreOffice.",
+    "Private reference data feeds only the optional named-references docx path, never the public page."
+  ],
+  "integrations": [
+    "GitHub Pages",
+    "Google Fonts CDN",
+    "Links back into the portfolio monorepo's project pages"
+  ],
+  "decisions": [
+    "Single source of truth enforced deliberately so the Word doc and the web résumé never drift.",
+    "Inline JSON fallback added specifically for file:// use.",
+    "Real references and the cover letter are explicitly gitignored.",
+    "Pulled back to simplicity: a server-side PDF generator and image-export features were tried, then removed.",
+    "Respects prefers-reduced-motion."
+  ],
+  "links": {
+    "live": "https://jordan-doerksen.github.io/Resume/",
+    "repo": "https://github.com/Jordan-Doerksen/Resume"
+  },
+  "diagram": "/assets/diagrams/resume.svg"
+}

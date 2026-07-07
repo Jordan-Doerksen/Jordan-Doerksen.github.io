@@ -1,0 +1,38 @@
+<svg viewBox="0 0 1000 560" role="img" aria-label="Pentafall rebuild data flow. Inside a vanilla-JS engine running a fixed-timestep loop, player input feeds the active scene pipeline — flight, spawn director, enemy AI, turrets, and fighters — each tick; in attract mode the autopilot system substitutes for player input into the identical pipeline. Combat resolves through the damage pipeline and a single killEnemy funnel under a global 10x ceiling, and XP pickup pauses the world for a 3-card level-up draft. The renderer draws the frame procedurally, then the 19-line bridge event bus emits a stats event out to the React shell, which re-renders the HUD; React intents such as restart, pick card, and buy glyph flow back through the bridge into engine mutations. Persistence — save slots and audio policy — lives entirely in the React layer, never the engine.">
+  <defs>
+    <marker id="pfr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="pfr-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- engine shell -->
+  <rect class="dg-shell" x="20" y="50" width="700" height="470" rx="14"/>
+  <text class="dg-shell-label" x="36" y="40">VANILLA-JS ENGINE — fixed timestep · deterministic · rAF re-arms on error</text>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-input e-scenes"><path d="M220 123 H276" marker-end="url(#pfr-a)"/><text x="248" y="83" text-anchor="middle">per tick</text></g>
+  <g class="dg-edge gold e-scenes e-dmg"><path d="M480 123 H536" marker-end="url(#pfr-a)"/><text x="508" y="83" text-anchor="middle">combat</text></g>
+  <g class="dg-edge gold e-dmg e-draft"><path d="M620 156 V236" marker-end="url(#pfr-a)"/><text x="632" y="200">XP gems</text></g>
+  <g class="dg-edge gold e-scenes e-render"><path d="M380 156 V236" marker-end="url(#pfr-a)"/><text x="392" y="200">frame state</text></g>
+  <g class="dg-edge dash e-auto e-input"><path d="M135 236 V160" marker-end="url(#pfr-m)"/><text x="147" y="205">attract mode</text></g>
+  <g class="dg-edge gold e-render e-bridge"><path d="M380 306 V396" marker-end="url(#pfr-a)"/><text x="392" y="355">after draw</text></g>
+  <g class="dg-edge gold e-bridge e-react"><path d="M480 415 H845 V300" marker-end="url(#pfr-a)"/><text x="560" y="405">stats event → HUD re-render</text></g>
+  <g class="dg-edge e-react e-bridge"><path d="M925 296 V445 H484" marker-end="url(#pfr-m)"/><text x="560" y="459">intents: restart · pick card · buy glyph</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="input"><rect x="50" y="90" width="170" height="66" rx="8"/><text class="n" x="135" y="118" text-anchor="middle">INPUT</text><text class="r" x="135" y="136" text-anchor="middle">player controls</text></g>
+  <g class="dg-node" data-n="scenes"><rect x="280" y="90" width="200" height="66" rx="8"/><text class="n" x="380" y="112" text-anchor="middle">SCENE PIPELINE</text><text class="r" x="380" y="129" text-anchor="middle">flight · spawns · enemy AI</text><text class="r" x="380" y="143" text-anchor="middle">turrets · fighters</text></g>
+  <g class="dg-node" data-n="dmg"><rect x="540" y="90" width="160" height="66" rx="8"/><text class="n" x="620" y="112" text-anchor="middle">DAMAGE PIPELINE</text><text class="r" x="620" y="129" text-anchor="middle">one killEnemy funnel</text><text class="r" x="620" y="143" text-anchor="middle">drops loot + XP</text></g>
+  <g class="dg-node" data-n="draft"><rect x="540" y="240" width="160" height="66" rx="8"/><text class="n" x="620" y="268" text-anchor="middle">LEVEL-UP DRAFT</text><text class="r" x="620" y="286" text-anchor="middle">world pauses · 3 cards</text></g>
+  <g class="dg-node" data-n="render"><rect x="280" y="240" width="200" height="66" rx="8"/><text class="n" x="380" y="262" text-anchor="middle">RENDERER.JS</text><text class="r" x="380" y="279" text-anchor="middle">fully procedural pixel art</text><text class="r" x="380" y="293" text-anchor="middle">~1053 lines · split candidate</text></g>
+  <g class="dg-node" data-n="auto"><rect x="50" y="240" width="170" height="66" rx="8"/><text class="n" x="135" y="268" text-anchor="middle">AUTOPILOT</text><text class="r" x="135" y="286" text-anchor="middle">drives attract mode</text></g>
+  <g class="dg-node" data-n="bridge"><rect x="280" y="400" width="200" height="58" rx="8"/><text class="n" x="380" y="424" text-anchor="middle">BRIDGE.JS</text><text class="r" x="380" y="442" text-anchor="middle">~19-line event bus · the seam</text></g>
+  <g class="dg-node" data-n="react"><rect x="790" y="230" width="190" height="66" rx="8"/><text class="n" x="885" y="252" text-anchor="middle">REACT SHELL</text><text class="r" x="885" y="269" text-anchor="middle">menus · HUD · 3 save slots</text><text class="r" x="885" y="283" text-anchor="middle">persistence lives here</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="790" y="100">[ DAMAGE HARD-CAPPED AT 10x ]</text>
+  <text class="dg-callout-sub" x="790" y="118">a global ceiling makes runaway</text>
+  <text class="dg-callout-sub" x="790" y="133">power-scaling structurally impossible</text>
+  <text class="dg-callout" x="50" y="340">[ DETERMINISM IS A CONTRACT ]</text>
+  <text class="dg-callout-sub" x="50" y="358">485 tests green; fixed-seed runs assert</text>
+  <text class="dg-callout-sub" x="50" y="373">byte-identical results across 3 seeds</text>
+</svg>
