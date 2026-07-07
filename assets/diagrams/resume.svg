@@ -5,11 +5,11 @@
   </defs>
 
   <!-- edges -->
-  <g class="dg-edge gold e-json e-web"><path d="M250 155 L356 85" marker-end="url(#rs-a)"/><text x="292" y="102" text-anchor="middle">fetched · inline fallback</text></g>
-  <g class="dg-edge gold e-json e-build"><path d="M250 183 L356 240" marker-end="url(#rs-a)"/><text x="290" y="198" text-anchor="middle">same JSON re-read</text></g>
+  <g class="dg-edge gold e-json e-web"><path d="M250 155 L356 85" marker-end="url(#rs-a)"/><text x="276" y="98" text-anchor="middle">inline fallback</text></g>
+  <g class="dg-edge gold e-json e-build"><path d="M250 183 L356 240" marker-end="url(#rs-a)"/><text x="338" y="195" text-anchor="middle">same JSON re-read</text></g>
   <g class="dg-edge gold e-build e-docs"><path d="M590 249 H696" marker-end="url(#rs-a)"/><text x="643" y="240" text-anchor="middle">styled Word build</text></g>
-  <g class="dg-edge e-docs e-web"><path d="M770 216 L570 112" marker-end="url(#rs-m)"/><text x="690" y="150" text-anchor="middle">the page links the PDF</text></g>
-  <g class="dg-edge dash e-priv e-build"><path d="M250 330 L356 262" marker-end="url(#rs-m)"/><text x="280" y="285" text-anchor="middle">optional flag only</text></g>
+  <g class="dg-edge e-docs e-web"><path d="M770 216 L570 112" marker-end="url(#rs-m)"/><text x="668" y="148">the page links the PDF</text></g>
+  <g class="dg-edge dash e-priv e-build"><path d="M250 330 L356 262" marker-end="url(#rs-m)"/><text x="306" y="285" text-anchor="end">optional flag only</text></g>
 
   <!-- nodes -->
   <g class="dg-node" data-n="json"><rect x="40" y="140" width="210" height="58" rx="8"/><text class="n" x="145" y="164" text-anchor="middle">RESUME.JSON</text><text class="r" x="145" y="182" text-anchor="middle">single source of truth</text></g>

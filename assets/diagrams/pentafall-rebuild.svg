@@ -30,8 +30,9 @@
 
   <!-- callouts -->
   <text class="dg-callout" x="790" y="100">[ DAMAGE HARD-CAPPED AT 10x ]</text>
-  <text class="dg-callout-sub" x="790" y="118">a global ceiling makes runaway</text>
-  <text class="dg-callout-sub" x="790" y="133">power-scaling structurally impossible</text>
+  <text class="dg-callout-sub" x="790" y="118">a global ceiling makes</text>
+  <text class="dg-callout-sub" x="790" y="133">runaway power-scaling</text>
+  <text class="dg-callout-sub" x="790" y="148">structurally impossible</text>
   <text class="dg-callout" x="50" y="340">[ DETERMINISM IS A CONTRACT ]</text>
   <text class="dg-callout-sub" x="50" y="358">485 tests green; fixed-seed runs assert</text>
   <text class="dg-callout-sub" x="50" y="373">byte-identical results across 3 seeds</text>

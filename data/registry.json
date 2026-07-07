@@ -392,6 +392,23 @@
       "spec": "SLICE 1 OF 5 · READ-ONLY FOREVER"
     },
     {
+      "slug": "warden",
+      "name": "Warden",
+      "category": "trading",
+      "blurb": "The self-hosted workspace with the whole Sentinel desk inside it. Reads everything, trades nothing.",
+      "tags": [
+        "Trading",
+        "FastAPI",
+        "Local LLM"
+      ],
+      "status": "active",
+      "tier": "full",
+      "url": null,
+      "repo": null,
+      "featured": false,
+      "spec": "PRIVATE · READ-ONLY · LOCAL LLM"
+    },
+    {
       "slug": "iceberg-johnnies",
       "name": "iceberg-johnnies",
       "category": "trading",

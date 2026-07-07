@@ -9,7 +9,7 @@
   <g class="dg-edge gold e-lex e-llm"><path d="M480 119 H525" marker-end="url(#rc-a)"/><text x="503" y="83" text-anchor="middle">survivors</text></g>
   <g class="dg-edge gold e-llm e-plac"><path d="M740 119 H785" marker-end="url(#rc-a)"/><text x="763" y="83" text-anchor="middle">newsworthy only</text></g>
   <g class="dg-edge gold e-plac e-disc"><path d="M870 148 V235" marker-end="url(#rc-a)"/><text x="882" y="196">metered drip</text></g>
-  <g class="dg-edge e-plac e-feed"><path d="M800 148 L580 235" marker-end="url(#rc-m)"/><text x="700" y="190">recorded</text></g>
+  <g class="dg-edge e-plac e-feed"><path d="M800 148 L580 235" marker-end="url(#rc-m)"/><text x="728" y="190">recorded</text></g>
   <g class="dg-edge e-feed e-dashb"><path d="M450 269 H376" marker-end="url(#rc-m)"/><text x="413" y="255" text-anchor="middle">renders</text></g>
   <g class="dg-edge dash e-lex e-feed"><path d="M385 148 L515 235" marker-end="url(#rc-m)"/><text x="438" y="205" text-anchor="end">fallback · labeled degraded</text></g>
 

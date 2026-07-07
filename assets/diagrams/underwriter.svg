@@ -5,12 +5,12 @@
   </defs>
 
   <!-- edges -->
-  <g class="dg-edge gold e-tws e-engine"><path d="M170 178 H236" marker-end="url(#uw-a)"/><text x="203" y="140" text-anchor="middle">SPX · ES · chain</text></g>
+  <g class="dg-edge gold e-tws e-engine"><path d="M170 178 H236" marker-end="url(#uw-a)"/><text x="198" y="140" text-anchor="end">SPX · ES · chain</text></g>
   <g class="dg-edge e-cboe e-engine"><path d="M170 308 H300 V210" marker-end="url(#uw-m)"/><text x="235" y="298" text-anchor="middle">open interest</text></g>
   <g class="dg-edge gold e-engine e-math"><path d="M410 178 H476" marker-end="url(#uw-a)"/><text x="443" y="140" text-anchor="middle">engine cycle</text></g>
-  <g class="dg-edge gold e-math e-ui"><path d="M690 168 L786 78" marker-end="url(#uw-a)"/><text x="745" y="105" text-anchor="middle">IPC snapshots</text></g>
+  <g class="dg-edge gold e-math e-ui"><path d="M690 168 L786 78" marker-end="url(#uw-a)"/><text x="752" y="100" text-anchor="end">IPC snapshots</text></g>
   <g class="dg-edge e-math e-alerts"><path d="M690 190 H786" marker-end="url(#uw-m)"/><text x="738" y="178" text-anchor="middle">critical state</text></g>
-  <g class="dg-edge gold e-math e-recorder"><path d="M690 208 L786 316" marker-end="url(#uw-a)"/><text x="712" y="268">records</text></g>
+  <g class="dg-edge gold e-math e-recorder"><path d="M690 208 L786 316" marker-end="url(#uw-a)"/><text x="728" y="270" text-anchor="end">records</text></g>
   <g class="dg-edge dash e-recorder e-engine"><path d="M786 336 H350 V210" marker-end="url(#uw-m)"/><text x="560" y="328" text-anchor="middle">breaker recomputed at launch</text></g>
 
   <!-- read-only boundary -->

@@ -9,7 +9,7 @@
   <g class="dg-edge gold e-prng e-gen"><path d="M490 119 H541" marker-end="url(#ga-a)"/><text x="515" y="83" text-anchor="middle">draws</text></g>
   <g class="dg-edge gold e-gen e-base"><path d="M745 119 H791" marker-end="url(#ga-a)"/><text x="768" y="83" text-anchor="middle">plate content</text></g>
   <g class="dg-edge gold e-base e-comp"><path d="M887 148 V236" marker-end="url(#ga-a)"/><text x="899" y="196">each frame</text></g>
-  <g class="dg-edge e-comp e-url"><path d="M791 254 H744" marker-end="url(#ga-m)"/><text x="768" y="240" text-anchor="middle">writes seed</text></g>
+  <g class="dg-edge e-comp e-url"><path d="M791 254 H744" marker-end="url(#ga-m)"/><text x="768" y="210" text-anchor="middle">writes seed</text></g>
   <g class="dg-edge e-comp e-png"><path d="M791 284 L744 352" marker-end="url(#ga-m)"/><text x="790" y="325">toDataURL · S key</text></g>
   <g class="dg-edge dash e-url e-seed"><path d="M536 249 H135 V152" marker-end="url(#ga-m)"/><text x="330" y="241" text-anchor="middle">next visit reads the hash back — same plate</text></g>
 

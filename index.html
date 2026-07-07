@@ -185,7 +185,7 @@ a.cat{text-decoration:none;color:inherit}
           built, and documented. This page is the index:
           what each system is, how it's architected, and why it's built the way it is.
         </p>
-        <p class="doc-meta reveal">53 PROJECTS · 29 DOCUMENTED IN THE ATLAS · 7 CATEGORIES · UPDATED 2026-07-06 · WINNIPEG</p>
+        <p class="doc-meta reveal">54 PROJECTS · 30 DOCUMENTED IN THE ATLAS · 7 CATEGORIES · UPDATED 2026-07-06 · WINNIPEG</p>
       </section>
 
       <!-- § 00 — CONTENTS -->
@@ -198,8 +198,9 @@ a.cat{text-decoration:none;color:inherit}
           <li><a href="#sentinel-suite"><span class="toc-num">01</span><span class="toc-name">System: Sentinel Suite</span><span class="toc-note">read-only market-data suite</span></a></li>
           <li><a href="#clear-board"><span class="toc-num">02</span><span class="toc-name">System: Clear Board</span><span class="toc-note">CROR qualification trainer</span></a></li>
           <li><a href="#spectrum"><span class="toc-num">03</span><span class="toc-name">System: Spectrum</span><span class="toc-note">local-LLM news pipeline</span></a></li>
-          <li><a href="#categories"><span class="toc-num">04</span><span class="toc-name">Categories</span><span class="toc-note">seven, registry-driven</span></a></li>
-          <li><a href="#index"><span class="toc-num">05</span><span class="toc-name">Full index</span><span class="toc-note">every project, one row each</span></a></li>
+          <li><a href="#warden"><span class="toc-num">04</span><span class="toc-name">System: Warden</span><span class="toc-note">the desk inside the workspace</span></a></li>
+          <li><a href="#categories"><span class="toc-num">05</span><span class="toc-name">Categories</span><span class="toc-note">seven, registry-driven</span></a></li>
+          <li><a href="#index"><span class="toc-num">06</span><span class="toc-name">Full index</span><span class="toc-note">every project, one row each</span></a></li>
         </ol>
       </section>
 
@@ -313,10 +314,10 @@ a.cat{text-decoration:none;color:inherit}
               <g class="dg-edge e-sw e-lib"><path d="M190 144 L262 182" marker-end="url(#cb-m)"/></g>
               <g class="dg-edge e-cs e-lib"><path d="M190 232 L262 196" marker-end="url(#cb-m)"/></g>
               <g class="dg-edge e-ta e-lib"><path d="M190 320 L262 210" marker-end="url(#cb-m)"/></g>
-              <g class="dg-edge gold e-lib e-core"><path d="M465 162 L506 94" marker-end="url(#cb-a)"/><text x="476" y="128" text-anchor="middle">verified items only</text></g>
+              <g class="dg-edge gold e-lib e-core"><path d="M465 162 L506 94" marker-end="url(#cb-a)"/><text x="420" y="128" text-anchor="middle">verified items only</text></g>
               <g class="dg-edge gold e-core e-stations"><path d="M670 78 H786" marker-end="url(#cb-a)"/><text x="728" y="70" text-anchor="middle">one mastery model</text></g>
               <g class="dg-edge e-stations e-core"><path d="M790 98 H674" marker-end="url(#cb-m)"/><text x="728" y="112" text-anchor="middle">grades write back</text></g>
-              <g class="dg-edge e-lib e-gates"><path d="M430 218 L496 312" marker-end="url(#cb-m)"/><text x="455" y="268" text-anchor="middle">trust firewall</text></g>
+              <g class="dg-edge e-lib e-gates"><path d="M430 218 L496 312" marker-end="url(#cb-m)"/><text x="408" y="268" text-anchor="middle">trust firewall</text></g>
               <g class="dg-edge e-gates e-web"><path d="M680 328 H776" marker-end="url(#cb-m)"/><text x="728" y="293" text-anchor="middle">deploys on green</text></g>
               <g class="dg-edge e-web e-exe"><path d="M880 356 V396" marker-end="url(#cb-m)"/><text x="892" y="380">same bundle</text></g>
 
@@ -391,7 +392,7 @@ a.cat{text-decoration:none;color:inherit}
               <!-- edges -->
               <g class="dg-edge gold e-rss e-seen"><path d="M240 119 H306" marker-end="url(#sp-a)"/><text x="273" y="83" text-anchor="middle">fetched once</text></g>
               <g class="dg-edge gold e-seen e-llm"><path d="M500 119 H566" marker-end="url(#sp-a)"/><text x="533" y="83" text-anchor="middle">unseen only</text></g>
-              <g class="dg-edge gold e-llm e-router"><path d="M665 148 V226" marker-end="url(#sp-a)"/><text x="677" y="191">classified once</text></g>
+              <g class="dg-edge gold e-llm e-router"><path d="M665 148 V226" marker-end="url(#sp-a)"/><text x="653" y="191" text-anchor="end">classified once</text></g>
               <g class="dg-edge gold e-router e-drip"><path d="M665 296 V376" marker-end="url(#sp-a)"/><text x="677" y="331">cleared cards</text><text x="677" y="345">severity ≥ floor</text></g>
               <g class="dg-edge gold e-drip e-money"><path d="M760 392 L821 132" marker-end="url(#sp-a)"/><text x="800" y="196" text-anchor="end">dripped</text></g>
               <g class="dg-edge gold e-drip e-pol"><path d="M760 402 L821 264" marker-end="url(#sp-a)"/></g>
@@ -442,20 +443,95 @@ a.cat{text-decoration:none;color:inherit}
         </div>
       </section>
 
-      <!-- § 04 — CATEGORY GRID -->
+      <section class="cs" id="warden" aria-labelledby="cs4-h">
+        <p class="eyebrow reveal">§ 04 — System: Warden</p>
+        <h2 id="cs4-h" class="cs-title reveal"><em>Warden</em></h2>
+        <p class="cs-goal reveal"><span class="k">GOAL:</span> one place where the desk work lives — watch, record, and read the market from inside the same workspace that holds everything else.</p>
+        <p class="cs-story reveal">
+          A self-hosted AI workspace, forked from an open-source base, with the whole
+          Sentinel desk integrated as a first-class section: native panels render the
+          session scoreboard, order-flow evidence, iceberg verdicts, 0DTE skew reads,
+          and a cross-session backtest grid, while the workspace's local model writes
+          the end-of-day analyst read and a four-persona council argues with it. The
+          integration is deliberately thin — new files plus a handful of core edits,
+          so upstream updates merge cleanly — and it imports the suite's real engines
+          instead of re-implementing the math. Like everything upstream of it,
+          read-only: no order surface exists anywhere.
+        </p>
+        <figure class="diagram reveal">
+          <div class="diagram-well" tabindex="0" aria-label="Architecture diagram — scrolls horizontally">
+            <svg viewBox="0 0 1000 500" role="img" aria-label="Warden data flow. The Sentinel suite watches TWS/IBKR live data on the host and records tapes and session reports. Those artifacts are mounted read-only into Warden, the self-hosted workspace. Inside it, an engine bridge imports the suite's real engines and feeds native desk panels — evidence, iceberg, 0DTE skew, backtest — while a local Ollama model writes the analyst read and a four-persona council adds second reads. A read-only boundary separates the desk from the capture side; no order surface exists anywhere.">
+              <defs>
+                <marker id="wd-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+                <marker id="wd-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+              </defs>
+
+              <rect class="dg-shell" x="575" y="45" width="415" height="330" rx="14"/>
+              <text class="dg-shell-label" x="590" y="35">WARDEN — SELF-HOSTED WORKSPACE · THE DESK LIVES INSIDE</text>
+
+              <g class="dg-edge gold e-tws e-suite"><path d="M140 178 H181" marker-end="url(#wd-a)"/></g>
+              <g class="dg-edge gold e-suite e-tapes"><path d="M345 178 H386" marker-end="url(#wd-a)"/><text x="366" y="168" text-anchor="middle">records</text></g>
+              <g class="dg-edge gold e-tapes e-bridge"><path d="M540 170 L596 126" marker-end="url(#wd-a)"/><text x="550" y="142" text-anchor="end">read-only mount</text></g>
+              <g class="dg-edge gold e-bridge e-panels"><path d="M770 118 H786" marker-end="url(#wd-a)"/></g>
+              <g class="dg-edge e-panels e-llm"><path d="M860 162 L710 244" marker-end="url(#wd-m)"/><text x="800" y="212">session context</text></g>
+              <g class="dg-edge e-llm e-council"><path d="M770 278 H786" marker-end="url(#wd-m)"/></g>
+
+              <path class="dg-bound" d="M560 70 V440"/>
+              <text class="dg-callout" x="10" y="70">[ READ-ONLY — NO ORDER SURFACE EXISTS ANYWHERE ]</text>
+              <text class="dg-callout-sub" x="10" y="86">the desk watches and reads; it cannot act</text>
+              <text class="dg-callout" x="10" y="420">[ THE MODEL IS LOCAL — NOTHING LEAVES THE MACHINE ]</text>
+              <text class="dg-callout-sub" x="10" y="436">analyst and council run on Ollama; no cloud, no API keys</text>
+
+              <g class="dg-node" data-n="tws"><rect x="10" y="150" width="130" height="56" rx="8"/><text class="n" x="75" y="174" text-anchor="middle">TWS / IBKR</text><text class="r" x="75" y="192" text-anchor="middle">live market data</text></g>
+              <g class="dg-node" data-n="suite"><rect x="185" y="150" width="160" height="56" rx="8"/><text class="n" x="265" y="174" text-anchor="middle">SENTINEL SUITE</text><text class="r" x="265" y="192" text-anchor="middle">observe + record · host</text></g>
+              <g class="dg-node" data-n="tapes"><rect x="390" y="150" width="150" height="56" rx="8"/><text class="n" x="465" y="174" text-anchor="middle">TAPES + REPORTS</text><text class="r" x="465" y="192" text-anchor="middle">session artifacts</text></g>
+              <g class="dg-node" data-n="bridge"><rect x="600" y="90" width="170" height="56" rx="8"/><text class="n" x="685" y="114" text-anchor="middle">ENGINE BRIDGE</text><text class="r" x="685" y="132" text-anchor="middle">thin adapter · returns JSON</text></g>
+  <text class="dg-callout-sub" x="600" y="168">imports the suite's real engines —</text>
+  <text class="dg-callout-sub" x="600" y="182">the math is never re-implemented</text>
+              <g class="dg-node" data-n="panels"><rect x="790" y="90" width="185" height="68" rx="8"/><text class="n" x="882" y="112" text-anchor="middle">DESK PANELS</text><text class="r" x="882" y="130" text-anchor="middle">evidence · iceberg · backtest</text><text class="r" x="882" y="144" text-anchor="middle">0DTE skew · scoreboard</text></g>
+              <g class="dg-node" data-n="llm"><rect x="600" y="250" width="170" height="56" rx="8"/><text class="n" x="685" y="274" text-anchor="middle">LOCAL MODEL</text><text class="r" x="685" y="292" text-anchor="middle">Ollama · analyst read</text></g>
+              <g class="dg-node" data-n="council"><rect x="790" y="250" width="185" height="56" rx="8"/><text class="n" x="882" y="274" text-anchor="middle">COUNCIL</text><text class="r" x="882" y="292" text-anchor="middle">four-persona second read</text></g>
+            </svg>
+          </div>
+          <figcaption class="diagram-cap">FIG 04 — WARDEN: THE DESK INSIDE THE WORKSPACE</figcaption>
+        </figure>
+        <div class="cs-meta reveal">
+          <div>
+            <h3 class="cs-h">Stack</h3>
+            <div class="cs-stack">
+              <span class="tag">FastAPI</span><span class="tag">vanilla JS</span><span class="tag">Docker Compose</span><span class="tag">Sentinel engines (imported)</span><span class="tag">Ollama</span><span class="tag">open-source fork</span>
+            </div>
+            <p class="cs-outcome">active · desk panels + analyst + council live in the workspace · code private</p>
+            <div class="cs-links">
+              <a class="cs-link" href="atlas/?p=warden">Atlas entry →</a>
+              <span class="cs-note">code private</span>
+            </div>
+          </div>
+          <div>
+            <h3 class="cs-h">Key decisions</h3>
+            <ul class="cs-dlist">
+              <li><strong>Additive fork, thin seam.</strong> New files plus a handful of core edits — upstream workspace updates merge cleanly instead of forking away from them.</li>
+              <li><strong>Import, never copy.</strong> The bridge calls the suite's real engines; the golden-vector math keeps one source of truth instead of drifting across two codebases.</li>
+              <li><strong>Local model, local data.</strong> Analyst and council reads run on Ollama; a session never leaves the machine, and the desk layer has no way to place an order.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- § 05 — CATEGORY GRID -->
       <section id="categories" aria-labelledby="cat-h">
         <div class="sec-head reveal">
           <h2 id="cat-h">Categories</h2>
-          <span class="idx" id="catIdx">§ 04 — Seven categories</span>
+          <span class="idx" id="catIdx">§ 05 — Seven categories</span>
         </div>
         <div class="cat-grid reveal" id="catGrid"></div>
       </section>
 
-      <!-- § 05 — FULL INDEX -->
+      <!-- § 06 — FULL INDEX -->
       <section id="index" aria-labelledby="arc-h">
         <div class="sec-head reveal">
           <h2 id="arc-h">Full index</h2>
-          <span class="idx" id="arcIdx">§ 05 — Every project</span>
+          <span class="idx" id="arcIdx">§ 06 — Every project</span>
         </div>
         <div id="archive"></div>
         <noscript><p class="arc-note">This index renders with JavaScript. The repos live at github.com/Jordan-Doerksen.</p></noscript>
@@ -537,7 +613,7 @@ a.cat{text-decoration:none;color:inherit}
       grid.appendChild(a);
     });
     var idx = document.getElementById("catIdx");
-    if (idx && cats.length) idx.textContent = "§ 04 — " + numWord(cats.length) + " categories";
+    if (idx && cats.length) idx.textContent = "§ 05 — " + numWord(cats.length) + " categories";
   }
 
   function renderArchive(cats, projects) {
@@ -581,7 +657,7 @@ a.cat{text-decoration:none;color:inherit}
       host.appendChild(el("p", "arc-note", "Nothing indexed yet."));
     }
     var idx = document.getElementById("arcIdx");
-    if (idx && projects.length) idx.textContent = "§ 05 — " + projects.length + " projects";
+    if (idx && projects.length) idx.textContent = "§ 06 — " + projects.length + " projects";
   }
 
   fetch("data/registry.json")

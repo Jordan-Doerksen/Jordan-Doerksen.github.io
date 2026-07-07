@@ -7,9 +7,9 @@
   <!-- edges -->
   <g class="dg-edge gold e-q e-prompt"><path d="M200 68 L286 160" marker-end="url(#bod-a)"/><text x="228" y="102" text-anchor="middle">convened</text></g>
   <g class="dg-edge e-adv e-prompt"><path d="M200 168 H286" marker-end="url(#bod-m)"/><text x="243" y="158" text-anchor="middle">six lenses</text></g>
-  <g class="dg-edge e-rep e-prompt"><path d="M200 268 L286 196" marker-end="url(#bod-m)"/><text x="230" y="248" text-anchor="middle">auto-seats</text></g>
-  <g class="dg-edge gold e-prompt e-chat"><path d="M500 160 L576 110" marker-end="url(#bod-a)"/><text x="530" y="118" text-anchor="middle">copied out</text></g>
-  <g class="dg-edge e-prompt e-ollama"><path d="M500 190 L576 250" marker-end="url(#bod-m)"/><text x="524" y="238" text-anchor="middle">best effort</text></g>
+  <g class="dg-edge e-rep e-prompt"><path d="M200 268 L286 196" marker-end="url(#bod-m)"/><text x="252" y="262" text-anchor="middle">auto-seats</text></g>
+  <g class="dg-edge gold e-prompt e-chat"><path d="M500 160 L576 110" marker-end="url(#bod-a)"/><text x="526" y="116" text-anchor="middle">copied out</text></g>
+  <g class="dg-edge e-prompt e-ollama"><path d="M500 190 L576 250" marker-end="url(#bod-m)"/><text x="524" y="252" text-anchor="middle">best effort</text></g>
   <g class="dg-edge gold e-chat e-record"><path d="M780 105 L826 168" marker-end="url(#bod-a)"/><text x="770" y="190" text-anchor="middle">chair synthesis</text></g>
   <g class="dg-edge e-ollama e-record"><path d="M780 255 L826 200" marker-end="url(#bod-m)"/></g>
 

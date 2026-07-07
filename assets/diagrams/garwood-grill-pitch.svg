@@ -9,7 +9,7 @@
   <g class="dg-edge gold e-page e-tel"><path d="M590 135 L736 92" marker-end="url(#gg-a)"/><text x="655" y="100" text-anchor="middle">click to call</text></g>
   <g class="dg-edge gold e-page e-maps"><path d="M590 160 L736 192" marker-end="url(#gg-a)"/><text x="655" y="192" text-anchor="middle">find the diner</text></g>
   <g class="dg-edge e-page e-filter"><path d="M475 178 V246" marker-end="url(#gg-m)"/><text x="487" y="216">category buttons</text></g>
-  <g class="dg-edge dash e-page e-pitch"><path d="M400 178 L205 356" marker-end="url(#gg-m)"/><text x="330" y="290" text-anchor="middle">the proposal, beside the site</text></g>
+  <g class="dg-edge dash e-page e-pitch"><path d="M400 178 L205 356" marker-end="url(#gg-m)"/><text x="268" y="288" text-anchor="end">the proposal, beside the site</text></g>
 
   <!-- nodes -->
   <g class="dg-node" data-n="nav"><rect x="50" y="120" width="210" height="58" rx="8"/><text class="n" x="155" y="144" text-anchor="middle">STICKY NAV</text><text class="r" x="155" y="162" text-anchor="middle">anchor links · mobile toggle</text></g>

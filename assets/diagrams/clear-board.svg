@@ -9,10 +9,10 @@
   <g class="dg-edge e-sw e-lib"><path d="M190 144 L262 182" marker-end="url(#cbr-m)"/></g>
   <g class="dg-edge e-cs e-lib"><path d="M190 232 L262 196" marker-end="url(#cbr-m)"/></g>
   <g class="dg-edge e-ta e-lib"><path d="M190 320 L262 210" marker-end="url(#cbr-m)"/></g>
-  <g class="dg-edge gold e-lib e-core"><path d="M465 162 L506 94" marker-end="url(#cbr-a)"/><text x="476" y="128" text-anchor="middle">verified items only</text></g>
+  <g class="dg-edge gold e-lib e-core"><path d="M465 162 L506 94" marker-end="url(#cbr-a)"/><text x="420" y="128" text-anchor="middle">verified items only</text></g>
   <g class="dg-edge gold e-core e-stations"><path d="M670 78 H786" marker-end="url(#cbr-a)"/><text x="728" y="70" text-anchor="middle">one mastery model</text></g>
   <g class="dg-edge e-stations e-core"><path d="M790 98 H674" marker-end="url(#cbr-m)"/><text x="728" y="112" text-anchor="middle">grades write back</text></g>
-  <g class="dg-edge e-lib e-gates"><path d="M430 218 L496 312" marker-end="url(#cbr-m)"/><text x="455" y="268" text-anchor="middle">trust firewall</text></g>
+  <g class="dg-edge e-lib e-gates"><path d="M430 218 L496 312" marker-end="url(#cbr-m)"/><text x="408" y="268" text-anchor="middle">trust firewall</text></g>
   <g class="dg-edge e-gates e-web"><path d="M680 328 H776" marker-end="url(#cbr-m)"/><text x="728" y="293" text-anchor="middle">deploys on green</text></g>
   <g class="dg-edge e-web e-exe"><path d="M880 356 V396" marker-end="url(#cbr-m)"/><text x="892" y="380">same bundle</text></g>
 

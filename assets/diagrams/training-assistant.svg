@@ -21,8 +21,8 @@
   <g class="dg-node" data-n="val"><rect x="25" y="250" width="210" height="58" rx="8"/><text class="n" x="130" y="274" text-anchor="middle">NODE VALIDATOR</text><text class="r" x="130" y="292" text-anchor="middle">imports the same schema</text></g>
 
   <!-- callouts -->
-  <text class="dg-callout" x="290" y="262">[ ONE CONTENT SOURCE — ZERO DIVERGENCE ]</text>
-  <text class="dg-callout-sub" x="290" y="280">the validator imports the exact files the app ships</text>
-  <text class="dg-callout-sub" x="290" y="295">drills derive at runtime — no second question bank</text>
-  <text class="dg-callout-sub" x="290" y="310">all state is client-side localStorage — no backend</text>
+  <text class="dg-callout" x="262" y="262">[ ONE CONTENT SOURCE — ZERO DIVERGENCE ]</text>
+  <text class="dg-callout-sub" x="262" y="280">the validator imports the exact shipped files</text>
+  <text class="dg-callout-sub" x="262" y="295">drills derive at runtime — no second bank</text>
+  <text class="dg-callout-sub" x="262" y="310">all state lives client-side in localStorage</text>
 </svg>

@@ -9,8 +9,8 @@
   <g class="dg-edge gold e-flight e-pulse"><path d="M500 109 H551" marker-end="url(#eb-a)"/><text x="525" y="73" text-anchor="middle">each frame</text></g>
   <g class="dg-edge e-pulse e-audio"><path d="M745 109 H796" marker-end="url(#eb-m)"/><text x="770" y="73" text-anchor="middle">chirp per pulse</text></g>
   <g class="dg-edge gold e-pulse e-rings"><path d="M650 138 V236" marker-end="url(#eb-a)"/><text x="662" y="192">ring on expiry</text></g>
-  <g class="dg-edge gold e-rings e-lit"><path d="M551 269 H504" marker-end="url(#eb-a)"/><text x="527" y="255" text-anchor="middle">hits light up</text></g>
-  <g class="dg-edge gold e-lit e-draw"><path d="M296 269 H244" marker-end="url(#eb-a)"/><text x="270" y="255" text-anchor="middle">what's lit</text></g>
+  <g class="dg-edge gold e-rings e-lit"><path d="M551 269 H504" marker-end="url(#eb-a)"/><text x="527" y="228" text-anchor="middle">hits light up</text></g>
+  <g class="dg-edge gold e-lit e-draw"><path d="M296 269 H244" marker-end="url(#eb-a)"/><text x="270" y="228" text-anchor="middle">what's lit</text></g>
   <g class="dg-edge dash e-draw e-input"><path d="M140 240 V142" marker-end="url(#eb-m)"/><text x="152" y="195">rAF next frame</text></g>
 
   <!-- nodes -->

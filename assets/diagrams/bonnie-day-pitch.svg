@@ -5,9 +5,9 @@
   </defs>
 
   <!-- edges -->
-  <g class="dg-edge gold e-home e-menu"><path d="M260 165 L396 85" marker-end="url(#bd-a)"/><text x="322" y="108" text-anchor="middle">persistent nav</text></g>
-  <g class="dg-edge gold e-home e-story"><path d="M260 179 H396" marker-end="url(#bd-a)"/><text x="328" y="170" text-anchor="middle">nav + in-content CTAs</text></g>
-  <g class="dg-edge gold e-home e-visit"><path d="M260 193 L396 273" marker-end="url(#bd-a)"/><text x="322" y="252" text-anchor="middle">to the finale</text></g>
+  <g class="dg-edge gold e-home e-menu"><path d="M260 165 L396 85" marker-end="url(#bd-a)"/><text x="312" y="100" text-anchor="middle">persistent nav</text></g>
+  <g class="dg-edge gold e-home e-story"><path d="M260 179 H396" marker-end="url(#bd-a)"/><text x="330" y="170" text-anchor="middle">nav + in-page CTAs</text></g>
+  <g class="dg-edge gold e-home e-visit"><path d="M260 193 L396 273" marker-end="url(#bd-a)"/><text x="316" y="262" text-anchor="middle">to the finale</text></g>
   <g class="dg-edge gold e-visit e-phone"><path d="M620 279 H736" marker-end="url(#bd-a)"/><text x="678" y="268" text-anchor="middle">reserve by phone</text></g>
   <g class="dg-edge e-home e-pitch"><path d="M155 208 V296" marker-end="url(#bd-m)"/><text x="167" y="255">ships alongside</text></g>
 

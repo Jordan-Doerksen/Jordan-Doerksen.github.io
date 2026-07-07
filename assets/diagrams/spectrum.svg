@@ -10,7 +10,7 @@
   <!-- edges -->
   <g class="dg-edge gold e-rss e-seen"><path d="M240 119 H306" marker-end="url(#spm-a)"/><text x="273" y="83" text-anchor="middle">fetched once</text></g>
   <g class="dg-edge gold e-seen e-llm"><path d="M500 119 H566" marker-end="url(#spm-a)"/><text x="533" y="83" text-anchor="middle">unseen only</text></g>
-  <g class="dg-edge gold e-llm e-router"><path d="M665 148 V226" marker-end="url(#spm-a)"/><text x="677" y="191">classified once</text></g>
+  <g class="dg-edge gold e-llm e-router"><path d="M665 148 V226" marker-end="url(#spm-a)"/><text x="653" y="191" text-anchor="end">classified once</text></g>
   <g class="dg-edge gold e-router e-drip"><path d="M665 296 V376" marker-end="url(#spm-a)"/><text x="677" y="331">cleared cards</text><text x="677" y="345">severity ≥ floor</text></g>
   <g class="dg-edge gold e-drip e-money"><path d="M760 392 L821 132" marker-end="url(#spm-a)"/><text x="800" y="196" text-anchor="end">dripped</text></g>
   <g class="dg-edge gold e-drip e-pol"><path d="M760 402 L821 264" marker-end="url(#spm-a)"/></g>

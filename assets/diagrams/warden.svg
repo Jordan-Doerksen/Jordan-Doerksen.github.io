@@ -1,0 +1,36 @@
+<svg viewBox="0 0 1000 500" role="img" aria-label="Warden data flow. The Sentinel suite watches TWS/IBKR live data on the host and records tapes and session reports. Those artifacts are mounted read-only into Warden, the self-hosted workspace. Inside it, an engine bridge imports the suite's real engines and feeds native desk panels — evidence, iceberg, 0DTE skew, backtest — while a local Ollama model writes the analyst read and a four-persona council adds second reads. A read-only boundary separates the desk from the capture side; no order surface exists anywhere." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="wd-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="wd-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- the workspace shell -->
+  <rect class="dg-shell" x="575" y="45" width="415" height="330" rx="14"/>
+  <text class="dg-shell-label" x="590" y="35">WARDEN — SELF-HOSTED WORKSPACE · THE DESK LIVES INSIDE</text>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-tws e-suite"><path d="M140 178 H181" marker-end="url(#wd-a)"/></g>
+  <g class="dg-edge gold e-suite e-tapes"><path d="M345 178 H386" marker-end="url(#wd-a)"/><text x="366" y="168" text-anchor="middle">records</text></g>
+  <g class="dg-edge gold e-tapes e-bridge"><path d="M540 170 L596 126" marker-end="url(#wd-a)"/><text x="550" y="142" text-anchor="end">read-only mount</text></g>
+  <g class="dg-edge gold e-bridge e-panels"><path d="M770 118 H786" marker-end="url(#wd-a)"/></g>
+  <g class="dg-edge e-panels e-llm"><path d="M860 162 L710 244" marker-end="url(#wd-m)"/><text x="800" y="212">session context</text></g>
+  <g class="dg-edge e-llm e-council"><path d="M770 278 H786" marker-end="url(#wd-m)"/></g>
+
+  <!-- read-only boundary between capture and the desk -->
+  <path class="dg-bound" d="M560 70 V440"/>
+  <text class="dg-callout" x="10" y="70">[ READ-ONLY — NO ORDER SURFACE EXISTS ANYWHERE ]</text>
+  <text class="dg-callout-sub" x="10" y="86">the desk watches and reads; it cannot act</text>
+  <text class="dg-callout" x="10" y="420">[ THE MODEL IS LOCAL — NOTHING LEAVES THE MACHINE ]</text>
+  <text class="dg-callout-sub" x="10" y="436">analyst and council run on Ollama; no cloud, no API keys</text>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="tws"><rect x="10" y="150" width="130" height="56" rx="8"/><text class="n" x="75" y="174" text-anchor="middle">TWS / IBKR</text><text class="r" x="75" y="192" text-anchor="middle">live market data</text></g>
+  <g class="dg-node" data-n="suite"><rect x="185" y="150" width="160" height="56" rx="8"/><text class="n" x="265" y="174" text-anchor="middle">SENTINEL SUITE</text><text class="r" x="265" y="192" text-anchor="middle">observe + record · host</text></g>
+  <g class="dg-node" data-n="tapes"><rect x="390" y="150" width="150" height="56" rx="8"/><text class="n" x="465" y="174" text-anchor="middle">TAPES + REPORTS</text><text class="r" x="465" y="192" text-anchor="middle">session artifacts</text></g>
+  <g class="dg-node" data-n="bridge"><rect x="600" y="90" width="170" height="56" rx="8"/><text class="n" x="685" y="114" text-anchor="middle">ENGINE BRIDGE</text><text class="r" x="685" y="132" text-anchor="middle">thin adapter · returns JSON</text></g>
+  <text class="dg-callout-sub" x="600" y="168">imports the suite's real engines —</text>
+  <text class="dg-callout-sub" x="600" y="182">the math is never re-implemented</text>
+  <g class="dg-node" data-n="panels"><rect x="790" y="90" width="185" height="68" rx="8"/><text class="n" x="882" y="112" text-anchor="middle">DESK PANELS</text><text class="r" x="882" y="130" text-anchor="middle">evidence · iceberg · backtest</text><text class="r" x="882" y="144" text-anchor="middle">0DTE skew · scoreboard</text></g>
+  <g class="dg-node" data-n="llm"><rect x="600" y="250" width="170" height="56" rx="8"/><text class="n" x="685" y="274" text-anchor="middle">LOCAL MODEL</text><text class="r" x="685" y="292" text-anchor="middle">Ollama · analyst read</text></g>
+  <g class="dg-node" data-n="council"><rect x="790" y="250" width="185" height="56" rx="8"/><text class="n" x="882" y="274" text-anchor="middle">COUNCIL</text><text class="r" x="882" y="292" text-anchor="middle">four-persona second read</text></g>
+</svg>

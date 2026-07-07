@@ -5,9 +5,9 @@
   </defs>
 
   <!-- edges -->
-  <g class="dg-edge gold e-reg e-root"><path d="M260 192 L356 100" marker-end="url(#pm-a)"/><text x="290" y="135" text-anchor="middle">fetched at runtime</text></g>
-  <g class="dg-edge gold e-reg e-hubs"><path d="M260 209 H356" marker-end="url(#pm-a)"/><text x="308" y="200" text-anchor="middle">fetched · filtered</text></g>
-  <g class="dg-edge gold e-hubs e-cards"><path d="M580 209 H676" marker-end="url(#pm-a)"/><text x="628" y="200" text-anchor="middle">one card per match</text></g>
+  <g class="dg-edge gold e-reg e-root"><path d="M260 192 L356 100" marker-end="url(#pm-a)"/><text x="305" y="128" text-anchor="end">fetched at runtime</text></g>
+  <g class="dg-edge gold e-reg e-hubs"><path d="M260 209 H356" marker-end="url(#pm-a)"/><text x="308" y="200" text-anchor="middle">fetch · filter</text></g>
+  <g class="dg-edge gold e-hubs e-cards"><path d="M580 209 H676" marker-end="url(#pm-a)"/><text x="628" y="200" text-anchor="middle">card per match</text></g>
   <g class="dg-edge gold e-cards e-pages"><path d="M760 238 L655 336" marker-end="url(#pm-a)"/><text x="725" y="290">url · repo · else private</text></g>
   <g class="dg-edge e-fx e-cards"><path d="M360 358 L676 240" marker-end="url(#pm-m)"/><text x="470" y="288" text-anchor="middle">binds to fresh cards</text></g>
 

@@ -7,7 +7,7 @@
   <!-- edges -->
   <g class="dg-edge e-fonts e-page"><path d="M250 89 L676 165" marker-end="url(#sl-m)"/><text x="400" y="100" text-anchor="middle">linked first</text></g>
   <g class="dg-edge gold e-tokens e-style"><path d="M250 199 H336" marker-end="url(#sl-a)"/><text x="293" y="190" text-anchor="middle">never renamed</text></g>
-  <g class="dg-edge gold e-style e-page"><path d="M560 190 L676 183" marker-end="url(#sl-a)"/><text x="618" y="170" text-anchor="middle">load order enforced</text></g>
+  <g class="dg-edge gold e-style e-page"><path d="M560 190 L676 183" marker-end="url(#sl-a)"/><text x="618" y="207" text-anchor="middle">load order enforced</text></g>
   <g class="dg-edge e-fx e-page"><path d="M560 320 L676 210" marker-end="url(#sl-m)"/><text x="548" y="258" text-anchor="end">loads last · skips missing hooks</text></g>
   <g class="dg-edge dash e-demo e-page"><path d="M790 296 V220" marker-end="url(#sl-m)"/><text x="802" y="262">in-repo reference</text></g>
 

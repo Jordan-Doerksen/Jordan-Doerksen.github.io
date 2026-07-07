@@ -9,7 +9,7 @@
   <g class="dg-edge gold e-hub e-d2"><path d="M260 179 H396" marker-end="url(#csg-a)"/><text x="328" y="170" text-anchor="middle">pick a direction</text></g>
   <g class="dg-edge gold e-hub e-d3"><path d="M260 193 L396 286" marker-end="url(#csg-a)"/></g>
   <g class="dg-edge e-hub e-pitch"><path d="M155 208 V366" marker-end="url(#csg-m)"/><text x="167" y="290">the proposal</text></g>
-  <g class="dg-edge dash e-hub e-orig"><path d="M240 208 L420 366" marker-end="url(#csg-m)"/><text x="330" y="315" text-anchor="middle">the first draft</text></g>
+  <g class="dg-edge dash e-hub e-orig"><path d="M240 208 L420 366" marker-end="url(#csg-m)"/><text x="330" y="340" text-anchor="middle">the first draft</text></g>
 
   <!-- nodes -->
   <g class="dg-node" data-n="hub"><rect x="50" y="150" width="210" height="58" rx="8"/><text class="n" x="155" y="174" text-anchor="middle">INDEX.HTML</text><text class="r" x="155" y="192" text-anchor="middle">hub — 3-card chooser grid</text></g>

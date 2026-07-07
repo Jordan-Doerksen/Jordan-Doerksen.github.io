@@ -9,7 +9,7 @@
   <g class="dg-edge gold e-update e-cast"><path d="M470 109 H526" marker-end="url(#da-a)"/><text x="498" y="73" text-anchor="middle">casts</text></g>
   <g class="dg-edge gold e-cast e-combat"><path d="M720 109 H776" marker-end="url(#da-a)"/><text x="748" y="73" text-anchor="middle">spawns effect</text></g>
   <g class="dg-edge gold e-combat e-loot"><path d="M875 138 V226" marker-end="url(#da-a)"/><text x="887" y="186">deaths → loot · xp</text></g>
-  <g class="dg-edge gold e-update e-render"><path d="M375 138 V226" marker-end="url(#da-a)"/><text x="387" y="186">paints the frame</text></g>
+  <g class="dg-edge gold e-update e-render"><path d="M375 138 V226" marker-end="url(#da-a)"/><text x="363" y="186" text-anchor="end">paints the frame</text></g>
   <g class="dg-edge dash e-zones e-update"><path d="M625 230 V189 H474" marker-end="url(#da-m)"/><text x="550" y="181" text-anchor="middle">packs placed procedurally</text></g>
   <g class="dg-edge dash e-render e-input"><path d="M280 259 H130 V142" marker-end="url(#da-m)"/><text x="205" y="249" text-anchor="middle">rAF reschedules</text></g>
 

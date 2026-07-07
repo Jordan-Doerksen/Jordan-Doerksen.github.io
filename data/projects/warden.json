@@ -1,0 +1,46 @@
+{
+  "slug": "warden",
+  "name": "Warden",
+  "category": "trading",
+  "status": "active",
+  "statusNote": "Private and self-hosted. The workspace shell carries the upstream project's full test suite; the desk integration is additive and read-only — no order surface exists anywhere in it.",
+  "oneLiner": "A self-hosted AI workspace with the whole Sentinel desk living inside it — chat, notes, and research in the same place as the market panels, and none of it able to trade.",
+  "stack": [
+    "FastAPI (Python) + vanilla JS, forked from an open-source workspace",
+    "Docker Compose deployment, local-first",
+    "The Sentinel suite's real engines, imported — never re-implemented",
+    "Local LLM via Ollama — no cloud model, no API keys"
+  ],
+  "components": [
+    { "name": "workspace shell", "desc": "The forked self-hosted AI workspace: chat, agents, notes, documents, research — Warden's changes ride additively on top so upstream merges stay clean." },
+    { "name": "engine bridge", "desc": "A thin adapter that imports the Sentinel suite's real Python engines and returns JSON to the panels; the golden-vector math stays single-source in the suite." },
+    { "name": "desk routes", "desc": "Read-only API surface: list sessions, render reports, run analyses, proxy Q&A to the local model. No trading endpoints exist." },
+    { "name": "desk panels", "desc": "Native UI for the market section: session scoreboard, order-flow evidence, iceberg/absorption verdicts, 0DTE skew reads, and a cross-session backtest grid." },
+    { "name": "analyst", "desc": "The suite's institutional-desk analyst prompt reused verbatim; the workspace's local model writes the end-of-day read and caches it beside the session." },
+    { "name": "council", "desc": "A four-persona second read (risk, momentum, contrarian, tape) over the same session data — same local model, deliberately different lenses." },
+    { "name": "host agent", "desc": "A small launcher on the host for one-click pipeline runs; the capture side stays outside the container, the workspace only ever reads the artifacts." }
+  ],
+  "dataFlow": [
+    "The Sentinel suite watches live market data through TWS on the host and records every session to tapes and a session report.",
+    "Those artifacts are mounted into the workspace read-only — the desk can see them, never touch them.",
+    "The desk routes load a session and the engine bridge runs the suite's real analysis engines over it.",
+    "Native panels render the scoreboard, order-flow evidence, iceberg verdicts, 0DTE skew reads, and the cross-session backtest grid.",
+    "The local model writes the analyst read in the desk voice; the council adds four dissenting second reads.",
+    "Everything renders and caches locally — the only network the desk knows is the local model endpoint."
+  ],
+  "integrations": [
+    "Sentinel suite session artifacts (read-only)",
+    "Ollama (local LLM)",
+    "IBKR/TWS — upstream of the suite, never touched by Warden itself"
+  ],
+  "decisions": [
+    "Additive fork discipline: new files plus a handful of core edits, so upstream workspace updates merge cleanly.",
+    "Import, never copy: the suite's math has one source of truth; the bridge calls it instead of re-implementing it.",
+    "Read-only forever: no order placement, modification, or routing code exists anywhere in the desk layer.",
+    "The model is local: analyst and council run on Ollama; nothing about a session leaves the machine.",
+    "Honest nulls: missing values render as n/a — the desk never invents a number.",
+    "Host/container boundary: capture and the Rust cockpit live on the host; the workspace renders and reads."
+  ],
+  "links": { "live": null, "repo": null },
+  "diagram": "/assets/diagrams/warden.svg"
+}

@@ -5,10 +5,10 @@
   </defs>
 
   <!-- edges -->
-  <g class="dg-edge gold e-nav e-page"><path d="M260 179 H346" marker-end="url(#hb-a)"/><text x="303" y="170" text-anchor="middle">scroll anchors</text></g>
+  <g class="dg-edge gold e-nav e-page"><path d="M260 179 H346" marker-end="url(#hb-a)"/><text x="303" y="142" text-anchor="middle">scroll anchors</text></g>
   <g class="dg-edge e-page e-tel"><path d="M590 165 L736 78" marker-end="url(#hb-m)"/><text x="655" y="90" text-anchor="middle">call the shop</text></g>
   <g class="dg-edge e-page e-maps"><path d="M590 179 H736" marker-end="url(#hb-m)"/><text x="663" y="170" text-anchor="middle">find the shop</text></g>
-  <g class="dg-edge gold e-page e-order"><path d="M590 193 L736 293" marker-end="url(#hb-a)"/><text x="680" y="235" text-anchor="middle">order for real</text></g>
+  <g class="dg-edge gold e-page e-order"><path d="M590 193 L736 293" marker-end="url(#hb-a)"/><text x="632" y="235" text-anchor="end">order for real</text></g>
   <g class="dg-edge e-svg e-page"><path d="M470 286 V212" marker-end="url(#hb-m)"/><text x="482" y="253">the only imagery</text></g>
 
   <!-- nodes -->
