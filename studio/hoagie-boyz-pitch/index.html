@@ -79,12 +79,14 @@
   .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:10px 22px;max-width:var(--maxw);margin:0 auto;}
   .brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--cream);}
   .brand .lock{font-family:"Anton",sans-serif;font-size:1.5rem;letter-spacing:.02em;line-height:.85;text-transform:uppercase;}
-  .brand .lock small{display:block;font-size:.62rem;letter-spacing:.32em;color:var(--mustard);}
+  .brand .lock small{display:block;font-size:.62rem;letter-spacing:.32em;color:var(--cream);} /* was mustard — mustard-on-tomato is ~2.4:1, fails AA at this tiny size */
   .nav-links{display:flex;align-items:center;gap:26px;}
   .nav-links a{color:var(--cream);text-decoration:none;font-weight:700;font-size:.95rem;letter-spacing:.02em;}
-  .nav-links a:not(.btn){padding:4px 0;border-bottom:2px solid transparent;}
+  .nav-links a:not(.btn){display:inline-block;padding:4px 0;border-bottom:2px solid transparent;} /* inline-block so the :active nudge (transform) actually applies */
   .nav-links a:not(.btn):hover{border-bottom-color:var(--mustard);}
+  .nav-links a:not(.btn):active{transform:translateY(1px);}
   .nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:6px;}
+  .nav-toggle:active{transform:translateY(1px);}
   .nav-toggle span{display:block;width:26px;height:3px;background:var(--cream);margin:5px 0;border-radius:2px;}
 
   /* ---------- Hero ---------- */
@@ -126,7 +128,7 @@
   section{padding:64px 0;}
   .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:34px;}
   .sec-head h2{font-size:clamp(2.2rem,5vw,3.4rem);}
-  .sec-head .kicker{font-family:"Permanent Marker",cursive;color:var(--tomato);font-size:1.05rem;margin-bottom:4px;}
+  .sec-head .kicker{font-family:"Permanent Marker",cursive;color:var(--tomato-deep);font-size:1.05rem;margin-bottom:4px;} /* deepened from --tomato: 4.4:1 on paper just misses AA for body-size text */
   .sec-head p{margin:0;max-width:46ch;color:var(--ink-soft);}
   .rule{height:3px;background:var(--ink);border:0;margin:0;}
 
@@ -168,7 +170,7 @@
   .story-aside h3{color:var(--cream);font-size:1.5rem;margin-bottom:14px;}
   .fact{padding:11px 0;border-bottom:1.5px solid rgba(255,250,240,.25);}
   .fact:last-child{border-bottom:0;}
-  .fact .k{display:block;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mustard);font-weight:700;}
+  .fact .k{display:block;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);font-weight:700;} /* was mustard — mustard-on-tomato is ~2.4:1, fails AA at this small size */
   .fact .v{font-weight:700;color:var(--cream);}
 
   /* Visit */
@@ -183,6 +185,7 @@
   .info-row .big{font-size:1.08rem;font-weight:700;}
   .info-row a{color:var(--tomato-deep);font-weight:700;text-decoration:none;}
   .info-row a:hover{text-decoration:underline;}
+  .info-row a:active,.menu-note a:active{position:relative;top:1px;} /* relative+top, not transform — these are inline links and transform is a no-op on inline boxes */
   .hours-list{list-style:none;margin:0;padding:0;}
   .hours-list li{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1.5px dotted rgba(36,28,20,.3);font-weight:700;}
   .hours-list li:last-child{border-bottom:0;}
@@ -191,16 +194,18 @@
   .socials{display:flex;gap:12px;margin-top:18px;}
   .socials a{width:44px;height:44px;border:2.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;background:var(--mustard);box-shadow:2px 2px 0 var(--ink);transition:transform .12s;}
   .socials a:hover{transform:translate(-1px,-1px);}
+  .socials a:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink);}
   .socials svg{width:20px;height:20px;}
 
   /* Footer */
   footer{background:var(--tomato);color:var(--cream);padding:40px 0 28px;border-top:3px solid var(--ink);}
   .foot-grid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center;}
   .foot-grid .lock{font-family:"Anton",sans-serif;font-size:2rem;line-height:.85;}
-  .foot-grid .lock small{display:block;font-size:.62rem;letter-spacing:.3em;color:var(--mustard);}
+  .foot-grid .lock small{display:block;font-size:.62rem;letter-spacing:.3em;color:var(--cream);} /* was mustard — mustard-on-tomato is ~2.4:1, fails AA at this tiny size */
   .foot-links{display:flex;gap:22px;flex-wrap:wrap;}
-  .foot-links a{color:var(--cream);text-decoration:none;font-weight:700;}
+  .foot-links a{display:inline-block;color:var(--cream);text-decoration:none;font-weight:700;} /* inline-block so the :active nudge (transform) actually applies */
   .foot-links a:hover{color:var(--mustard);}
+  .foot-links a:active{transform:translateY(1px);}
   .foot-fine{margin-top:24px;border-top:1.5px solid rgba(255,250,240,.3);padding-top:16px;font-size:.82rem;color:rgba(255,250,240,.8);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;}
 
   /* ---------- Responsive ---------- */
@@ -220,8 +225,12 @@
   @media (prefers-reduced-motion:reduce){
     .marquee-track{animation:none;}
     *{scroll-behavior:auto;}
+    /* hover/press effects still change state, they just snap instead of gliding */
+    .btn,.feat-card,.socials a{transition:none;}
   }
   :focus-visible{outline:3px solid var(--olive);outline-offset:2px;}
+  /* olive is near-invisible against the tomato bands — swap the ring per background so focus stays findable */
+  header.nav :focus-visible,footer :focus-visible{outline-color:var(--cream);}
 </style>
 </head>
 <body>

@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bitter:ital,wght@0,400;0,600;0,700;1,400&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--maroon:#6b1d1d;--maroon-deep:#511414;--cream:#f6eede;--cream-soft:#fbf6ec;--gold:#c8941f;--gold-bright:#e0a92b;--green:#2f4a37;--ink:#3a2c22}
+  :root{--maroon:#6b1d1d;--maroon-deep:#511414;--cream:#f6eede;--cream-soft:#fbf6ec;--gold:#c8941f;--gold-bright:#e0a92b;--green:#2f4a37;--ink:#3a2c22;--gold-ink:#8a6412} /* --gold-ink: text-safe gold — --gold on white is ~2.3:1 (fails AA), this shade passes 4.5:1 */
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Bitter',Georgia,serif;color:var(--ink);background:#e8ddca;font-size:16px;line-height:1.65;padding:30px 16px}
   .sheet{width:min(820px,100%);margin:0 auto;background:var(--cream-soft);box-shadow:0 18px 50px rgba(40,25,15,.22);border-radius:14px;overflow:hidden}
@@ -32,7 +32,7 @@
   .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0 6px}
   .card{border:2px solid var(--maroon);border-radius:12px;padding:20px 18px;background:#fff;text-align:center}
   .card.feature{background:var(--maroon);color:var(--cream);border-color:var(--maroon)}
-  .card .tier{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:13px;color:var(--gold)}
+  .card .tier{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:13px;color:var(--gold-ink)}
   .card.feature .tier{color:var(--gold-bright)}
   .card .price{font-family:'Alfa Slab One',serif;font-size:30px;color:var(--maroon);margin:8px 0}
   .card.feature .price{color:var(--gold-bright)}
@@ -44,6 +44,13 @@
   .cta h3{color:var(--gold-bright);font-size:20px;margin-bottom:8px}
   .cta a{color:var(--gold-bright);font-weight:700;text-decoration:none}
   .foot{background:var(--maroon-deep);color:var(--cream);text-align:center;padding:20px;font-size:13px;opacity:.95}
+  /* state matrix: keyboard focus + pressed feedback */
+  :focus-visible{outline:3px solid var(--maroon);outline-offset:3px;border-radius:4px}
+  .cta :focus-visible,.head :focus-visible{outline-color:var(--gold-bright)} /* maroon outline invisible on dark green/maroon panels */
+  a:active{position:relative;top:1px} /* position nudge, not transform — transform doesn't apply to inline links */
+  @media (prefers-reduced-motion:reduce){
+    a:active{top:0}
+  }
   @media(max-width:620px){.cards{grid-template-columns:1fr}.body,.head{padding:26px 24px}}
   @media print{body{background:#fff;padding:0}.sheet{box-shadow:none;border-radius:0}}
 </style>

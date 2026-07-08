@@ -21,7 +21,7 @@
     --cream:#f5f0e3;
     --paper:#faf6ec;
     --brass:#c79233;
-    --brass-2:#b08d3e;
+    --brass-2:#8a6d28; /* deepened from #b08d3e — the old shade read ~2.9:1 on the paper as label text, below WCAG AA; this passes 4.5:1 */
     --ink:#2b2a22;
     --ink-soft:#5a5849;
     --hair:rgba(43,42,34,.16);
@@ -97,6 +97,9 @@
   .btn-ghost-light:hover{background:var(--cream); color:var(--green); border-color:var(--cream);}
 
   :focus-visible{outline:2px solid var(--brass); outline-offset:3px;}
+  /* Pressed state — a 1px settle keeps the editorial restraint but confirms the click.
+     (transform is not in the .btn transition list, so the press is instant by design.) */
+  .btn:active, nav.links a:active, .hamburger:active, .mobile-menu a:active{transform:translateY(1px);}
 
   /* ---------- nav ---------- */
   header.nav{
@@ -354,7 +357,9 @@
     *{scroll-behavior:auto !important;}
     html{scroll-behavior:auto;}
     .reveal{opacity:1 !important; transform:none !important; transition:none !important;}
-    .btn,nav.links a,.shop-card,.brand-chip{transition:none !important;}
+    /* extended: the underline slide, sticky-nav shadow, hamburger morph and menu slide were still animating */
+    .btn,nav.links a,nav.links a::after,nav.links .nav-cta,.shop-card,.brand-chip,header.nav,.hamburger span,.mobile-menu{transition:none !important;}
+    .mobile-menu{transform:none;} /* menu appears in place instead of sliding down */
   }
 </style>
 </head>

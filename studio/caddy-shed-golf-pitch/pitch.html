@@ -15,6 +15,11 @@
   .sheet{width:min(820px,100%);margin:0 auto;background:var(--paper);box-shadow:0 18px 50px rgba(20,40,30,.22);border-radius:14px;overflow:hidden}
   h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:700;line-height:1.15}
   .label{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:3px}
+  /* State matrix: keyboard focus ring + pressed feedback. Mid-brass outline because links sit on
+     both the cream sheet and the deep-green header/CTA panels. */
+  :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+  .cta a,.foot a{display:inline-block} /* inline links can't take transform — inline-block enables the pressed state */
+  a:active{transform:translateY(1px)}
   .flag{width:1em;height:1em;fill:currentColor;vertical-align:-.05em}
   .head{background:var(--brand);color:var(--paper);padding:38px 44px;text-align:center}
   .head .label{color:var(--accent-bright);font-size:14px;margin:0 0 14px;display:flex;align-items:center;justify-content:center;gap:9px}

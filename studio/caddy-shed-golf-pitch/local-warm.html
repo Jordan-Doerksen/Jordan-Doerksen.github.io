@@ -106,7 +106,12 @@
   .btn-white:hover{ transform:translateY(-2px); box-shadow:var(--shadow); }
   @media (prefers-reduced-motion: reduce){ .btn:hover{ transform:none; } }
 
-  :focus-visible{ outline:3px solid var(--honey); outline-offset:3px; border-radius:6px; }
+  /* honey-deep, not honey: plain honey only reads ~2.1:1 against the cream paper — below the 3:1 minimum for focus indicators */
+  :focus-visible{ outline:3px solid var(--honey-deep); outline-offset:3px; border-radius:6px; }
+  /* Pressed state: the hover lift collapses into a 1px press (declared after the :hover rules so it wins) */
+  .btn:active{ transform:translateY(1px); }
+  .nav-links a:active{ background:var(--fairway-tint); color:var(--fairway-deep); }
+  .hamburger:active{ transform:translateY(1px); }
 
   /* ---------- Nav ---------- */
   .nav{
@@ -365,6 +370,9 @@
   .reveal.in{ opacity:1; transform:none; }
   @media (prefers-reduced-motion: reduce){
     .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
+    /* extended: buttons, nav drawer slide, hamburger morph and chip hovers were still transitioning */
+    .btn, .nav-links, .nav-links a, .hamburger span, .hamburger span::before, .hamburger span::after, .brand-chip, .shop-card{ transition:none !important; }
+    .nav-links{ transform:none; } /* drawer appears in place instead of sliding down */
   }
 
   .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }

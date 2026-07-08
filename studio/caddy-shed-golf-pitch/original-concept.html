@@ -28,6 +28,11 @@
   h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:700;line-height:1.12}
   .label{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:3px}
   a{color:inherit}img{max-width:100%;display:block}
+  /* State matrix: keyboard focus ring + pressed feedback. Mid-gold outline because it must
+     read on both the cream sections AND the deep-green nav/hero/visit panels. */
+  :focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4px}
+  .btn:active,.dirbtn:active,#shop .cats button:active,.navtoggle:active{transform:translateY(1px)}
+  .navlinks a:active{color:var(--gold-bright);border-color:var(--gold-bright)}
   .wrap{width:min(1120px,92vw);margin:0 auto}
   /* flag motif */
   .flag{width:1em;height:1em;flex:none;fill:currentColor}
@@ -137,7 +142,11 @@
   @media(max-width:840px){.fit-lead,.story-grid,.visit-grid{grid-template-columns:1fr!important}.fit-lead .statcard{max-width:420px;margin:0 auto}}
   @media(max-width:680px){.rev-grid{grid-template-columns:1fr}.fit-grid{grid-template-columns:1fr}}
   @media(max-width:720px){.navlinks{display:none}.navtoggle{display:block}.navlinks.open{display:flex;position:absolute;top:62px;left:0;right:0;background:var(--brand);flex-direction:column;gap:0;padding:8px 24px;box-shadow:0 10px 20px var(--shadow)}.navlinks.open a{padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1)}}
-  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  @media(prefers-reduced-motion:reduce){
+    *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+    /* with transitions off, hover lifts would jump instantly — pin them static instead */
+    .btn-gold:hover,.dirbtn:hover{transform:none}
+  }
 </style>
 </head>
 <body id="top">

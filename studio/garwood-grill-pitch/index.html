@@ -19,6 +19,7 @@
     --green:#2f4a37;
     --charcoal:#2a211b;
     --ink:#3a2c22;
+    --gold-ink:#8a6412; /* text-safe gold: --gold on cream is ~2.4:1 (fails AA), this deepened shade passes 4.5:1 */
     --shadow:rgba(40,25,15,.18);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -59,6 +60,7 @@
     position:relative;color:var(--cream);text-align:center;
     padding:90px 0 100px;
     background:
+      radial-gradient(ellipse 85% 55% at 50% 100%,rgba(224,138,43,.15),transparent 70%), /* soft static ember glow rising from the grill line — no motion, safe under reduced-motion */
       linear-gradient(rgba(40,15,12,.78),rgba(50,18,15,.82)),
       url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=70');
     background-size:cover;background-position:center;
@@ -82,7 +84,7 @@
 
   /* ---------- sections ---------- */
   section{padding:80px 0}
-  .eyebrow{color:var(--gold);font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:4px;font-size:15px;text-align:center;margin-bottom:12px}
+  .eyebrow{color:var(--gold-ink);font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:4px;font-size:15px;text-align:center;margin-bottom:12px}
   .sec-title{text-align:center;font-size:clamp(30px,5vw,48px);color:var(--maroon);margin-bottom:14px}
   .sec-intro{text-align:center;max-width:740px;margin:0 auto 50px;font-size:20px}
   .rule{width:90px;height:4px;background:var(--gold);margin:0 auto 40px;border-radius:3px}
@@ -131,12 +133,12 @@
 
   /* reviews */
   #reviews{background:var(--cream-soft)}
-  .stars{text-align:center;color:var(--gold);font-size:30px;letter-spacing:4px;margin-bottom:6px}
+  .stars{text-align:center;color:var(--gold-ink);font-size:30px;letter-spacing:4px;margin-bottom:6px}
   .rev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;margin-top:10px}
   .rev{background:#fff;border-radius:14px;padding:30px;box-shadow:0 10px 28px var(--shadow);border-left:6px solid var(--gold)}
   .rev .q{font-size:19px;font-style:italic;margin-bottom:16px}
   .rev .who{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:14px;color:var(--maroon)}
-  .rev .st{color:var(--gold);letter-spacing:2px}
+  .rev .st{color:var(--gold-ink);letter-spacing:2px}
 
   /* visit */
   #visit{background:var(--maroon);color:var(--cream)}
@@ -161,6 +163,21 @@
   footer .fl a{color:var(--cream);text-decoration:none}
   footer .fl a:hover{color:var(--gold-bright)}
   footer .fine{opacity:.6;font-size:14px;margin-top:18px;line-height:1.6}
+
+  /* ---------- state matrix: keyboard focus + pressed feedback ---------- */
+  :focus-visible{outline:3px solid var(--maroon);outline-offset:3px;border-radius:4px}
+  /* dark surfaces get a gold outline — maroon-on-maroon would be invisible */
+  .topbar :focus-visible,nav :focus-visible,.hero :focus-visible,#signatures :focus-visible,#visit :focus-visible,footer :focus-visible{outline-color:var(--gold-bright)}
+  /* pressed state: position nudge, not transform — transform has no effect on non-replaced inline elements like nav/footer links */
+  a:active,button:active{position:relative;top:1px}
+
+  /* ---------- reduced motion: every transition/animation off, hover lifts static ---------- */
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{transition:none!important;animation:none!important}
+    .btn-gold:hover,.sig:hover{transform:none}
+    a:active,button:active{top:0}
+  }
 
   /* responsive */
   @media(max-width:880px){

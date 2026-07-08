@@ -15,30 +15,46 @@
     --ink-soft:#7a6e63;  /* muted */
     --accent:#a4633f;    /* clay */
     --accent-soft:#bd7c52;
+    --accent-ink:#8a4f2f;    /* deepened clay — raw clay is only 3.8:1 on cream, fails AA for small text */
+    --accent-bright:#c98a5e; /* lifted clay — accent-soft is 4.4:1 on espresso, shy of AA for small text */
     --line:rgba(44,37,33,.14);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--ink);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased}
   h1,h2,h3,.serif{font-family:'Fraunces',serif;font-weight:300;letter-spacing:.01em}
-  .eyebrow{font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;font-weight:400;color:var(--accent)}
+  .eyebrow{font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;font-weight:400;color:var(--accent-ink)}
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
   .stage{font-family:'Fraunces',serif;font-style:italic;color:var(--ink-soft);font-size:.98rem;letter-spacing:.02em}
+
+  /* STATES: visible keyboard focus + pressed feedback */
+  :focus-visible{outline:2px solid var(--accent-ink);outline-offset:3px}
+  footer :focus-visible{outline-color:var(--accent-bright)} /* deep clay outline vanishes on the espresso footer */
+  a:active{opacity:.75}
+  .btn:active,.nav-cta:active,.nav-links a:active{transform:translateY(1px)} /* these are flex items / inline-block, so transform applies */
+
+  /* REDUCED MOTION: everything static when the visitor asks for it */
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{transition:none!important;animation:none!important}
+  }
 
   /* NAV */
   nav{position:fixed;top:0;left:0;width:100%;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:1.6rem 3.5vw;transition:.4s;color:var(--ink)}
   nav.scrolled{background:rgba(247,242,234,.9);backdrop-filter:blur(10px);padding:1rem 3.5vw;box-shadow:0 1px 0 var(--line)}
   .nav-links{display:flex;gap:2.6rem}
   .nav-links a{font-size:.74rem;letter-spacing:.28em;text-transform:uppercase;opacity:.8;transition:.3s}
-  .nav-links a:hover,.nav-links a.active{opacity:1;color:var(--accent)}
+  .nav-links a:hover,.nav-links a.active,.nav-links a[aria-current="page"]{opacity:1;color:var(--accent-ink)}
   .wordmark{font-family:'Fraunces',serif;font-size:1.35rem;letter-spacing:.16em;text-transform:uppercase}
   .nav-cta{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;border:1px solid var(--ink);padding:.6rem 1.2rem;transition:.3s}
   .nav-cta:hover{background:var(--ink);color:var(--bg)}
   @media(max-width:820px){.nav-links{display:none}}
 
   /* HERO */
-  .hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 3rem}
+  .hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 3rem;
+    /* AMBIENT: one soft candlelight glow behind the headline — static CSS only, so reduced-motion safe */
+    background:radial-gradient(56rem 32rem at 50% 22%,rgba(164,99,63,.09),transparent 70%)}
   .hero .eyebrow{margin-bottom:2rem}
   .hero h1{font-size:clamp(3rem,10vw,8rem);line-height:.95;letter-spacing:.01em}
   .hero h1 em{font-style:italic;color:var(--accent)}
@@ -64,7 +80,7 @@
   .feature-copy .eyebrow{margin-bottom:1.3rem;display:block}
   .feature-copy h2{font-size:clamp(1.9rem,3.6vw,2.8rem);line-height:1.15;margin-bottom:1.3rem}
   .feature-copy p{color:var(--ink-soft);margin-bottom:1.8rem}
-  .feature-copy em{font-style:italic;color:var(--accent)}
+  .feature-copy em{font-style:italic;color:var(--accent-ink)}
   @media(max-width:820px){.split{grid-template-columns:1fr;gap:2rem}.split .ph{aspect-ratio:3/2}}
 
   .btn{display:inline-block;font-size:.74rem;letter-spacing:.28em;text-transform:uppercase;border:1px solid var(--ink);color:var(--ink);padding:.85rem 1.8rem;transition:.35s}
@@ -77,7 +93,7 @@
   .trio .item{text-align:center}
   .trio .item .ph{aspect-ratio:4/5;margin-bottom:1.4rem;border-radius:2px}
   .trio h3{font-size:1.45rem;margin-bottom:.35rem}
-  .trio .price{font-size:.78rem;letter-spacing:.2em;color:var(--accent);text-transform:uppercase}
+  .trio .price{font-size:.78rem;letter-spacing:.2em;color:var(--accent-ink);text-transform:uppercase}
   .trio .desc{font-size:.92rem;color:var(--ink-soft);margin-top:.5rem}
   @media(max-width:820px){.trio{grid-template-columns:1fr;max-width:24rem}}
 
@@ -95,9 +111,9 @@
   footer{background:var(--ink);color:var(--bg);padding:5rem 3.5vw 3rem}
   .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:3rem;max-width:1100px;margin:0 auto 3.5rem}
   .foot-grid h3{font-family:'Fraunces',serif;font-size:2rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem}
-  .foot-grid .eyebrow{display:block;margin-bottom:1.1rem;color:var(--accent-soft)}
+  .foot-grid .eyebrow{display:block;margin-bottom:1.1rem;color:var(--accent-bright)}
   .foot-grid p,.foot-grid a{font-size:.95rem;opacity:.85;line-height:2}
-  .foot-grid a:hover{color:var(--accent-soft)}
+  .foot-grid a:hover{color:var(--accent-bright)}
   .foot-bottom{text-align:center;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;opacity:.5;border-top:1px solid rgba(247,242,234,.18);padding-top:2rem;max-width:1100px;margin:0 auto}
   @media(max-width:820px){.foot-grid{grid-template-columns:1fr;text-align:center;gap:2.5rem}}
 </style>
@@ -110,7 +126,7 @@
     <a href="story.html">Story</a>
     <a href="visit.html">Visit</a>
   </div>
-  <a href="index.html" class="wordmark">Bonnie Day</a>
+  <a href="index.html" class="wordmark" aria-current="page">Bonnie Day</a>
   <a href="visit.html" class="nav-cta">Reserve</a>
 </nav>
 
@@ -135,7 +151,7 @@
     <p class="eyebrow" style="display:block;margin-bottom:1.3rem">Bonne idée</p>
     <h2>Comfort, considered.</h2>
     <p>A cozy corner of Westminster Avenue where nourishing plates meet a thoughtful cocktail list — generous to vegans, gluten-free guests, omnivores and the sweet-toothed alike.</p>
-    <p class="stage" style="margin-top:1.8rem">Named by a playwright, for the two words he'd land on once dinner was finally decided. <a href="story.html" style="color:var(--accent);border-bottom:1px solid var(--line)">Read the story</a></p>
+    <p class="stage" style="margin-top:1.8rem">Named by a playwright, for the two words he'd land on once dinner was finally decided. <a href="story.html" style="color:var(--accent-ink);border-bottom:1px solid var(--line)">Read the story</a></p>
   </div>
 </section>
 
@@ -233,7 +249,7 @@
     <div class="hours-block">
       <p class="eyebrow">Reservations</p>
       <p>(204) 786-8411</p>
-      <a href="visit.html" style="color:var(--accent);font-size:.95rem">Book a table →</a>
+      <a href="visit.html" style="color:var(--accent-ink);font-size:.95rem">Book a table →</a>
     </div>
   </div>
 </section>

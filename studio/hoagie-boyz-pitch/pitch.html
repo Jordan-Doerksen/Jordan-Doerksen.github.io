@@ -30,8 +30,8 @@
   .head .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--cream);
     font-weight:700;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;padding:6px 14px;border-radius:999px;margin-bottom:18px}
   .head h1{font-size:clamp(2.4rem,7vw,3.6rem);color:var(--cream);text-shadow:4px 4px 0 var(--ink)}
-  .head h1 .a{color:var(--mustard)}
-  .head p{margin-top:14px;font-family:"Permanent Marker",cursive;font-size:1.08rem;color:var(--mustard)}
+  .head h1 .a{color:#f6c34f} /* brightened mustard — the token itself is ~2.4:1 on tomato, under the 3:1 AA floor even for display text */
+  .head p{margin-top:14px;font-family:"Permanent Marker",cursive;font-size:1.08rem;color:var(--cream)} /* was mustard — fails AA on tomato at body size */
 
   /* Body */
   .body{padding:38px 44px}
@@ -66,11 +66,16 @@
   .cta{background:var(--mustard);color:var(--ink);border:3px solid var(--ink);border-radius:16px;
     padding:26px 28px;margin-top:32px;text-align:center;box-shadow:6px 6px 0 var(--ink)}
   .cta h3{color:var(--tomato-deep);font-size:1.6rem;margin-bottom:10px}
-  .cta a{color:var(--tomato-deep);font-weight:700;text-decoration:none;border-bottom:2px solid var(--tomato-deep)}
+  .cta a{color:#7c1912;font-weight:700;text-decoration:none;border-bottom:2px solid #7c1912} /* deepened past --tomato-deep — that shade is only ~3.7:1 on the mustard CTA panel */
 
   /* Footer */
   .foot{background:var(--ink);color:var(--paper);text-align:center;padding:22px;font-size:13px;border-top:3px solid var(--ink)}
   .foot .star{color:var(--mustard)}
+
+  /* Interaction states — links are the only interactive elements on this sheet */
+  a:focus-visible{outline:3px solid var(--olive);outline-offset:2px;border-radius:2px}
+  .cta a:focus-visible{outline-color:var(--ink)} /* olive ring is too close to the mustard CTA panel to read */
+  a:active{position:relative;top:1px} /* relative+top, not transform — inline links ignore transform */
 
   @media(max-width:620px){.cards{grid-template-columns:1fr}.body,.head{padding:28px 24px}}
   @media print{
