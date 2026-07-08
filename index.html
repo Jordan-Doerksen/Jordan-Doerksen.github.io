@@ -221,6 +221,7 @@ footer.site .fmark::first-letter{color:var(--gold)} /* the ✦ is the first glyp
         <a href="#sentinel-suite">Systems</a>
         <a href="#index" class="n-work">Index</a>
       </nav>
+      <button type="button" id="cmdk-trigger" class="cmdk-trigger">Search <kbd>Ctrl K</kbd></button>
     </header>
 
     <main id="top">
@@ -927,6 +928,24 @@ footer.site .fmark::first-letter{color:var(--gold)} /* the ✦ is the first glyp
     if (idx && projects.length) idx.textContent = "§ 06 — " + projects.length + " projects";
   }
 
+  /* cmdk.js reads #cmdk-data once at startup, so the tag must be filled BEFORE
+     the script loads — same load-after-data pattern the hubs use for effects.js. */
+  function loadCmdk(items) {
+    if (document.getElementById("cmdk-data")) return;
+    var data = document.createElement("script");
+    data.type = "application/json";
+    data.id = "cmdk-data";
+    data.textContent = JSON.stringify(items);
+    document.body.appendChild(data);
+    var s = document.createElement("script");
+    s.src = "styles/cmdk.js";
+    document.body.appendChild(s);
+  }
+  var CMDK_SECTIONS = [
+    { label: "Systems", tag: "Section", href: "#sentinel-suite" },
+    { label: "Full index", tag: "Section", href: "#index" }
+  ];
+
   fetch("data/registry.json")
     .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
     .then(function (reg) {
@@ -935,6 +954,14 @@ footer.site .fmark::first-letter{color:var(--gold)} /* the ✦ is the first glyp
       var projects = Array.isArray(reg.projects) ? reg.projects : [];
       renderCategories(cats);
       renderArchive(cats, projects);
+      loadCmdk(CMDK_SECTIONS.concat(
+        cats.map(function (c) {
+          return { label: c.name || c.slug, tag: "Category", href: (c.slug || "") + "/" };
+        }),
+        projects.map(function (p) {
+          return { label: p.name || p.slug, tag: p.category || "", href: projectHref(p) || "#index" };
+        })
+      ));
       /* Safety net: effects.js observed the grids while they were still empty
          (zero height); if the IntersectionObserver misses the resize, reveal
          anything already in the viewport. Below-fold reveals stay scroll-driven. */
@@ -971,6 +998,10 @@ footer.site .fmark::first-letter{color:var(--gold)} /* the ✦ is the first glyp
           if (n.getBoundingClientRect().top < window.innerHeight) n.classList.add("in");
         });
       }, 1600);
+      /* search still works section+category deep without the registry */
+      loadCmdk(CMDK_SECTIONS.concat(FALLBACK_CATS.map(function (c) {
+        return { label: c.name, tag: "Category", href: c.slug + "/" };
+      })));
     });
 })();
 
