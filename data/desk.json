@@ -1,0 +1,47 @@
+{
+  "pinned": ["sentinel-suite", "worklog", "clear-board", "style-library", "underwriter"],
+  "mine": {
+    "sentinel-suite": { "note": "Canonical Sentinel — pro + stage2 + analyst + iceberg unified. Work here, not the standalones. Read HANDOFF.md first.", "port": 4552, "path": "C:\\projects\\Sentinel-Suite", "launch": "suite-cockpit preset (Sentinel-Suite/pro/ui)" },
+    "sentinel-pro-v4": { "note": "Frozen reference — do not edit. Rust/Tauri, field-verified live. Superseded by Sentinel-Suite.", "port": 4546, "path": "C:\\projects\\sentinel-pro-v4" },
+    "sentinel-pro-v3": { "note": "Frozen reference — do not edit. Its 45 golden vectors are the cross-language math source of truth.", "port": 4540, "path": "C:\\projects\\sentinel-pro-v3" },
+    "sentinel-pro-v2": { "note": "Frozen reference — do not edit. Oldest Python standalone.", "port": 4526, "path": "C:\\projects\\sentinel-pro-v2" },
+    "sentinel-stage2": { "note": "Frozen — analysis-only ES evidence engine, framework complete. Folded into Sentinel-Suite.", "port": 4551, "path": "C:\\projects\\sentinel-stage2" },
+    "sentinel-analyst": { "note": "Frozen — local-LLM EOD session read. deepseek-r1:8b default; 14B OOMs the 6GB card. Folded into Sentinel-Suite.", "path": "C:\\projects\\sentinel-analyst" },
+    "iceberg-johnnies": { "note": "Frozen — iceberg/absorption research engine. Still waiting on real Asia tapes. Folded into Sentinel-Suite.", "path": "C:\\projects\\iceberg-johnnies" },
+    "sentinel": { "note": "Riley's market-first fork (port 7600 app). Private. Runs vendored Suite engines natively. Work here for Riley's build.", "path": "C:\\projects\\sentinel" },
+    "sentinel-harness": { "note": "= WARDEN / Doerksen.Dev (port 7500 app). Private. Jordan's own AI workspace; stays general.", "port": 4554, "path": "C:\\projects\\sentinel-harness", "launch": "warden-static preset (static site only)" },
+    "sentinel-trader": { "note": "The action arm — live signals to Tradovate brackets. Private, fail-closed, full-auto = demo/eval only. P0 verified; next is P1.", "path": "C:\\projects\\sentinel-trader", "launch": "sentinel-trader presets: demo_cockpit.py / run_rehearsal.py / demo_nt.py" },
+    "sentinel-cockpit": { "note": "Superseded. Leave it.", "path": "C:\\projects\\sentinel-cockpit" },
+    "underwriter": { "note": "0DTE SPXW credit-spread desk, Sentinel sister. Read-only — never places an order. Design gate passed; Slice 1 built.", "path": "C:\\projects\\underwriter", "launch": "underwriter-demo preset (ui/dist)" },
+    "clear-board": { "note": "THE canonical unified CROR trainer — work here. Absorbs the four older rail tools. Vite dev server.", "port": 4541, "path": "C:\\projects\\clear-board", "launch": "clear-board preset (vite)" },
+    "cn-conductor-trainer": { "note": "Superseded at parity by clear-board, but still the CROR rule source of truth — never guess a rule, check here.", "port": 4524, "path": "C:\\projects\\CN Conductor Trainer" },
+    "switch-list": { "note": "Superseded by clear-board. Standalone switching sim; content source only.", "port": 4525, "path": "C:\\projects\\switch-list" },
+    "cror-signals": { "note": "Superseded by clear-board. Play-store signals app; launch runbook in docs/PLAYSTORE.md.", "port": 4533, "path": "C:\\projects\\cror-signals" },
+    "training-assistant": { "note": "Superseded by clear-board. Reference-first study tool, local only.", "port": 4532, "path": "C:\\projects\\training-assistant" },
+    "style-library": { "note": "Canonical Daybreak Editorial. Edit the house style here, then copy tokens.css / style.css / effects.js into the monorepo styles/.", "port": 4531, "path": "C:\\projects\\style-library" },
+    "worklog": { "note": "git history to daily log + weekly value report. Stdlib Python, no deps.", "path": "C:\\projects\\worklog" },
+    "portfolio-monorepo": { "note": "This site. The only live personal Pages except Resume and style-library. observatory preset (legacy name).", "port": 4530, "path": "C:\\projects\\jordan-doerksen.github.io" }
+  },
+  "extra": [
+    { "slug": "it-toolkit", "name": "IT Toolkit", "category": "tools", "status": "live", "note": "The catalog below — ~160 vetted free/OSS IT tools. Edit data/tools.js there, mirror to data/toolkit.js here.", "port": 4553, "path": "C:\\projects\\it-toolkit" }
+  ],
+  "toolkit": {
+    "Wireshark": { "star": true, "install": "winget install WiresharkFoundation.Wireshark" },
+    "Nmap (+ Zenmap)": { "star": true, "install": "winget install Insecure.Nmap", "snippet": "nmap -sn 192.168.1.0/24" },
+    "Sysinternals Suite": { "star": true, "install": "winget install Microsoft.Sysinternals" },
+    "Process Explorer": { "star": true, "install": "winget install Microsoft.Sysinternals.ProcessExplorer" },
+    "Autoruns": { "star": true, "install": "winget install Microsoft.Sysinternals.Autoruns" },
+    "7-Zip": { "star": true, "install": "winget install 7zip.7zip" },
+    "Notepad++": { "star": true, "install": "winget install Notepad++.Notepad++" },
+    "Microsoft PowerToys": { "star": true, "install": "winget install Microsoft.PowerToys" },
+    "Everything": { "star": true, "install": "winget install voidtools.Everything" },
+    "PuTTY": { "star": true, "install": "winget install PuTTY.PuTTY" },
+    "WinSCP": { "star": true, "install": "winget install WinSCP.WinSCP" },
+    "CrystalDiskInfo": { "star": true, "install": "winget install CrystalDewWorld.CrystalDiskInfo" },
+    "HWiNFO": { "star": true, "install": "winget install REALiX.HWiNFO" },
+    "Ventoy": { "star": true },
+    "Advanced IP Scanner": { "star": true },
+    "winget": { "star": true, "snippet": "winget upgrade --all" },
+    "jq": { "star": true, "install": "winget install jqlang.jq" }
+  }
+}

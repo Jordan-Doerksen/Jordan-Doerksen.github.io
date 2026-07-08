@@ -4,17 +4,22 @@ Static site, no build step. GitHub Pages from `main`. Local preview: `python -m 
 
 ```
 /
-├── index.html              front door — atlas document (fetches registry)
+├── index.html              front door — the Tool Desk (search + chips + pinned + Mine/Toolkit tables)
+├── js/desk/                desk logic: desk.js (boot/merge), render.js, search.js, copy.js
+├── docs/legacy-front-door.html   the retired atlas front door, preserved as-is
 ├── atlas/index.html        ONE template page: ?p=<slug> → renders data/projects/<slug>.json + diagram
 ├── rail|games|trading|studio|signals|bots|tools/
 │   ├── index.html          hub shell — fetches registry, filters by category, renders cards
 │   └── <project>/          embedded project apps (UNTOUCHED by the atlas layer)
 ├── data/
 │   ├── registry.json       INDEX: categories[] + projects[] (card-level fields only)
+│   ├── desk.json           desk OVERLAY: pinned[], mine notes/ports/local paths, toolkit stars/installs
+│   ├── toolkit.js          MIRROR of C:\projects\it-toolkit's catalog (~160 tools) — edit there, copy over
 │   └── projects/<slug>.json  full atlas content, one per full-tier project
 ├── assets/diagrams/<slug>.svg  hand-authored data-flow diagram per full-tier project
 ├── styles/                 Daybreak Editorial copy (tokens.css, style.css, effects.js — from style-library)
-│   └── atlas.css           additive atlas-layer styles only
+│   ├── atlas.css           additive atlas-layer styles only
+│   └── desk.css            desk-layer styles only (front door)
 ├── projects/, <old-paths>  redirect stubs — old URLs never break
 └── css/, js/, sol-obscurus/, bedroom-weather/, forge/, warcraft/   LEGACY ANNEX (working, unlinked)
 ```
@@ -52,8 +57,14 @@ Static site, no build step. GitHub Pages from `main`. Local preview: `python -m 
 }
 ```
 
-## Data flow
-1. Front door + hubs fetch `data/registry.json`, render cards client-side (status chip + tier-aware link).
+## Data flow — desk (front door)
+1. `index.html` loads `data/toolkit.js` (script tag) and fetches `data/registry.json` + `data/desk.json`.
+2. `js/desk/desk.js` merges: registry = canonical project facts, desk.json = overlay (pins, notes, ports, local paths, stars, installs), toolkit.js = the it-toolkit catalog.
+3. `render.js` draws pinned daily drivers + the dense Mine and Toolkit tables; `search.js` drives the sticky global search + filter chips; `copy.js` handles click-to-copy (ports, paths, commands).
+4. Nothing writes back — the overlay is edited in `data/desk.json` by hand; toolkit edits happen in it-toolkit and get mirrored.
+
+## Data flow — atlas
+1. Hubs fetch `data/registry.json`, render cards client-side (status chip + tier-aware link).
 2. Full-tier card → `/atlas/?p=<slug>`; entry-tier card → repo link or unlinked "private/retired".
 3. Atlas template fetches `data/projects/<slug>.json`, inlines `assets/diagrams/<slug>.svg` via fetch (SVG injected inline so tokens/currentColor apply), renders: header → status → stack → diagram → components → data flow → decisions → links.
 4. Missing slug/JSON → explicit "no atlas entry" state.
