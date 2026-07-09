@@ -27,6 +27,7 @@ export function startLoop({ state, update, draw }) {
     let dt = (now - last) / 1000;
     last = now;
     if (dt > 0.05) dt = 0.05; // clamp big gaps (tab switches) so nothing tunnels
+    if (dt < 0) dt = 0; // rAF's first timestamp can precede the load-time clock baseline
     if (state.phase === 'playing') trap(update, dt, 'update');
     if (state.phase !== 'paused') trap(draw, dt, 'draw');
     requestAnimationFrame(frame);

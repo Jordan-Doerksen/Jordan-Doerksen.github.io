@@ -106,7 +106,7 @@ export function createRenderer(cfg, scene) {
     // ----- title: sea + one slow ambient sounding, then out -----
     if (view.phase === 'title') {
       if (!REDUCED) {
-        const prog = (t % 4) / 4, r = prog * Math.min(W, H) * 0.42;
+        const prog = (((t % 4) + 4) % 4) / 4, r = prog * Math.min(W, H) * 0.42; // sign-safe: a negative clock must never mint a negative radius
         ctx.strokeStyle = rgba(SONAR, 0.2 * (1 - prog)); ctx.lineWidth = 1.5 * DPR;
         ctx.beginPath(); ctx.arc(W / 2, H / 2, r, 0, TAU); ctx.stroke();
       }

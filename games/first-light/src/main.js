@@ -271,5 +271,5 @@ window.__fl = {
   cfg, state, ship, wrecks, hazards, leviathan, draft, input,
   startRun, endRun, nextSector,
   step: (dt = 1 / 60, n = 1) => { for (let i = 0; i < n && state.phase === 'playing'; i++) update(dt); },
-  drawOnce: () => draw(1 / 60),
+  drawOnce: (dt = 1 / 60) => draw(dt),
 };
