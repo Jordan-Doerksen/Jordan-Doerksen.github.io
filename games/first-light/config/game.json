@@ -1,0 +1,158 @@
+{
+  "meta": {
+    "name": "First Light",
+    "subtitle": "a night's sounding",
+    "colophon": "N°04",
+    "author": "Jordan Doerksen",
+    "year": "MMXXVI",
+    "saveKey": "firstLightSave"
+  },
+  "run": {
+    "sectors": 8,
+    "startHour": 21,
+    "quotaBase": 2,
+    "quotaPerTwoSectors": 1,
+    "quotaCap": 4,
+    "extraWrecksPerSector": 1,
+    "skipSalvageBonus": 30,
+    "transitionSeconds": 1.6
+  },
+  "ship": {
+    "radius": 12,
+    "accel": 1500,
+    "maxSpeed": 330,
+    "drag": 0.92,
+    "arriveRadius": 70,
+    "focusSpeedMult": 0.45,
+    "hearts": 3,
+    "maxHearts": 5,
+    "iframeSeconds": 1.4,
+    "hitKnockback": 260
+  },
+  "lamp": {
+    "arc": 1.1,
+    "range": 380,
+    "focusArcMult": 0.55,
+    "focusRangeMult": 1.35,
+    "sternPowerMult": 0.6,
+    "nightsightRadius": 95
+  },
+  "sonar": {
+    "interval": 2.6,
+    "ringSpeed": 300,
+    "maxRadius": 460,
+    "ringRevealWidth": 70,
+    "revealHold": 1.7,
+    "inkAlpha": 0.16
+  },
+  "survey": {
+    "radius": 95,
+    "seconds": 2.2,
+    "decayMult": 0.5,
+    "valueBase": 40,
+    "valuePerSector": 10
+  },
+  "wrecks": {
+    "radius": 26,
+    "minDistApart": 170,
+    "edgeMargin": 90
+  },
+  "hazards": {
+    "safeClearRadius": 220,
+    "reefBase": 3,
+    "reefPerTwoSectors": 1,
+    "reefRadiusMin": 26,
+    "reefRadiusMax": 58,
+    "mineDriftSpeed": 20,
+    "mineRadius": 11,
+    "minesPerSector": [0, 0, 1, 1, 2, 2, 3, 3]
+  },
+  "leviathan": {
+    "firstSector": 2,
+    "radius": 34,
+    "speedBase": 62,
+    "speedPerSector": 11,
+    "repelSpeedMult": -0.35,
+    "fearPerSecond": 0.3,
+    "fearFocusBonus": 0.25,
+    "fearDecayPerSecond": 0.12,
+    "diveSecondsMin": 16,
+    "diveSecondsMax": 26,
+    "entryDelaySeconds": 7,
+    "rumbleRadius": 520
+  },
+  "draft": {
+    "slots": 6,
+    "cardsPerDraw": 3
+  },
+  "cards": {
+    "wide-wick":      { "lane": "lamp",    "name": "Wide Wick",      "tiers": 3, "flavor": "More sea per glance.",               "mod": "beamArc",      "perTier": 0.22 },
+    "long-throw":     { "lane": "lamp",    "name": "Long Throw",     "tiers": 3, "flavor": "The dark starts later now.",         "mod": "beamRange",    "perTier": 0.2 },
+    "stern-lamp":     { "lane": "lamp",    "name": "Stern Lamp",     "tiers": 1, "flavor": "A second lamp, facing the past.",    "mod": "sternLamp",    "perTier": 1 },
+    "quick-ping":     { "lane": "sonar",   "name": "Quick Ping",     "tiers": 3, "flavor": "Ask the sea more often.",            "mod": "pingRate",     "perTier": 0.18 },
+    "deep-echo":      { "lane": "sonar",   "name": "Deep Echo",      "tiers": 3, "flavor": "The question travels farther.",      "mod": "pingRadius",   "perTier": 0.25 },
+    "bright-trace":   { "lane": "sonar",   "name": "Bright Trace",   "tiers": 3, "flavor": "Ink that argues with the dark.",     "mod": "inkAlpha",     "perTier": 0.1 },
+    "copper-plating": { "lane": "hull",    "name": "Copper Plating", "tiers": 2, "flavor": "One more mistake allowed.",          "mod": "hearts",       "perTier": 1 },
+    "trim-ballast":   { "lane": "hull",    "name": "Trim Ballast",   "tiers": 3, "flavor": "Lighter than the paperwork says.",   "mod": "speed",        "perTier": 0.12 },
+    "sea-legs":       { "lane": "hull",    "name": "Sea Legs",       "tiers": 3, "flavor": "Longer grace after a bad idea.",     "mod": "iframes",      "perTier": 0.35 },
+    "keen-eye":       { "lane": "salvage", "name": "Keen Eye",       "tiers": 3, "flavor": "Wrecks admit you from farther off.", "mod": "surveyRadius", "perTier": 0.25 },
+    "steady-hands":   { "lane": "salvage", "name": "Steady Hands",   "tiers": 3, "flavor": "The ledger fills faster.",           "mod": "surveyRate",   "perTier": 0.25 },
+    "scrap-value":    { "lane": "salvage", "name": "Scrap Value",    "tiers": 3, "flavor": "Someone pays more for rust now.",    "mod": "salvageValue", "perTier": 0.3 }
+  },
+  "synergies": {
+    "daymark":        { "name": "Daymark",        "needs": ["wide-wick", "long-throw"],  "flavor": "What the beam touches, stays touched.", "mod": "beamLinger", "value": 3 },
+    "dead-reckoning": { "name": "Dead Reckoning", "needs": ["bright-trace", "keen-eye"], "flavor": "The chart fills itself in, faintly.",   "mod": "autoChart",  "value": 1 }
+  },
+  "particles": {
+    "countPerBurst": 16,
+    "minSpeed": 1,
+    "maxSpeed": 5,
+    "friction": 0.92,
+    "fadeRate": 1.4
+  },
+  "audio": {
+    "droneHz": 55,
+    "droneGain": 0.028,
+    "chirpHz": 1240,
+    "bellScale": [220, 246.9, 277.2, 329.6, 370, 440, 493.9, 554.4],
+    "thudHz": 90,
+    "hornHz": 98,
+    "rumbleHz": 34,
+    "echoDelay": 0.34,
+    "echoFeedback": 0.42,
+    "echoDampHz": 2200,
+    "droneLfoHz": 0.07
+  },
+  "plate": {
+    "width": 800,
+    "height": 1200,
+    "titles": {
+      "articles": ["THE", "A", "ONE"],
+      "adjectives": ["quiet", "itemized", "unlit", "patient", "shallow", "borrowed", "orderly", "reluctant"],
+      "nouns": ["SOUNDING", "WATCH", "CROSSING", "LEDGER", "PASSAGE", "SURVEY", "NIGHT", "REGISTER"]
+    }
+  },
+  "colors": {
+    "night":   { "bgTop": "#040810", "bgBottom": "#081220", "sea": "#0a1624", "shimmer": "#16283c" },
+    "predawn": { "bgTop": "#1a2438", "bgBottom": "#3d4460", "sea": "#242f44", "shimmer": "#4a5470" },
+    "dawn":    { "bgTop": "#f6f1e7", "bgBottom": "#e8d9b8", "sea": "#d9c9a4", "shimmer": "#f0e4c8" },
+    "ink":        "#4a6584",
+    "star":       "#f2f4fa",
+    "lamp":       "#d8ac4e",
+    "lampCore":   "#fff0c8",
+    "sonar":      "#4fe3d0",
+    "wreck":      "#8fb7ff",
+    "wreckDone":  "#d8ac4e",
+    "reef":       "#39506b",
+    "mine":       "#ff6b35",
+    "eyes":       "#ffb05e",
+    "leviathan":  "#1c2c40",
+    "hull":       "#e9edf6",
+    "wake":       "#9db8ff",
+    "goldInk":    "#8a6508",
+    "paper":      "#f6f1e7",
+    "particle":   "216,172,78",
+    "particleSonar": "79,227,208",
+    "particleEmber": "255,107,53"
+  }
+}

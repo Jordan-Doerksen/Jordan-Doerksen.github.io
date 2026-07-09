@@ -179,6 +179,23 @@
       "spec": "SINGLE FILE · MOBILE-FIRST"
     },
     {
+      "slug": "first-light",
+      "name": "First Light",
+      "category": "games",
+      "blurb": "A salvage lightship, eight dark hours, a quota. The lamp is both the chart and the shield.",
+      "tags": [
+        "Game",
+        "Roguelite",
+        "Seeded"
+      ],
+      "status": "live",
+      "tier": "full",
+      "url": "/games/first-light/",
+      "repo": "https://github.com/Jordan-Doerksen/first-light",
+      "featured": false,
+      "spec": "DOMAIN-SPLIT · SEEDED NIGHTS"
+    },
+    {
       "slug": "fulfillment",
       "name": "Fulfillment",
       "category": "games",

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#040810">
+<title>First Light ✦ a night's sounding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,440&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Thin shell — logic lives in /src, tunables in config/game.json. */
+  :root{
+    --bg:#040810;--panel:rgba(8,14,26,.62);--line:rgba(190,205,255,.16);
+    --text:#e9edf6;--text-muted:#97a0b5;--starlight:#f2f4fa;
+    --gold:#d8ac4e;--gold-ink:#8a6508;--sonar:#4fe3d0;--paper:#f6f1e7;
+    --font-display:'Space Grotesk','Inter',system-ui,sans-serif;
+    --font-accent:'Fraunces',Georgia,serif;
+    --font-ui:'Inter',system-ui,sans-serif;
+    --font-mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  [hidden]{display:none!important}
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-ui);
+    -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
+    user-select:none;-webkit-user-select:none;height:100dvh}
+  #sea{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+  @media(pointer:fine){#sea.in-run{cursor:none}}
+  #hud{position:fixed;top:14px;left:0;right:0;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;
+    font-family:var(--font-mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-muted);pointer-events:none;padding:0 16px}
+  #hud b{color:var(--starlight);font-weight:500}
+  #hud b.warn{color:#ff6b35}
+  #muteBtn{position:fixed;top:12px;right:14px;z-index:5;font-family:var(--font-mono);font-size:11px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);background:none;
+    border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+  #muteBtn:hover{border-color:var(--gold);color:var(--text)}
+  .screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:24px;background:radial-gradient(circle at 50% 40%,rgba(4,8,16,.25),rgba(4,8,16,.82));
+    overflow-y:auto}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  h1{font-family:var(--font-display);font-weight:700;font-size:clamp(2.4rem,9vw,4.4rem);letter-spacing:-.02em;line-height:1}
+  h1 em{font-family:var(--font-accent);font-style:italic;font-weight:440;color:var(--gold)}
+  h2{font-family:var(--font-display);font-weight:600;font-size:clamp(1.3rem,4vw,1.8rem);letter-spacing:-.01em}
+  .screen p{color:var(--text-muted);margin-top:14px;max-width:40ch;line-height:1.6}
+  .hint{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--text-muted);opacity:.75;margin-top:22px}
+  .seedline{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;color:var(--text-muted);opacity:.65;margin-top:10px}
+  .btn{margin-top:26px;font-family:var(--font-mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:999px;
+    padding:14px 30px;cursor:pointer;backdrop-filter:blur(18px);transition:border-color .18s,transform .18s}
+  .btn:hover{border-color:var(--gold);transform:translateY(-2px)}
+  .btn.quiet{font-size:11px;padding:10px 20px;opacity:.85}
+  .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  /* draft cards */
+  #draftCards{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap;justify-content:center;max-width:760px}
+  .card{width:200px;min-height:196px;text-align:left;background:var(--panel);border:1px solid var(--line);
+    border-radius:14px;padding:18px 16px;cursor:pointer;backdrop-filter:blur(18px);
+    display:flex;flex-direction:column;transition:border-color .18s,transform .18s;color:var(--text);font-family:var(--font-ui)}
+  .card:hover{border-color:var(--gold);transform:translateY(-3px)}
+  .card.synergy{border-color:rgba(216,172,78,.55);box-shadow:0 0 24px rgba(216,172,78,.12)}
+  .card .lane{font-family:var(--font-mono);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--sonar)}
+  .card.synergy .lane{color:var(--gold)}
+  .card h3{font-family:var(--font-display);font-weight:600;font-size:1.05rem;margin-top:8px}
+  .card .tier{font-family:var(--font-mono);font-size:11px;color:var(--gold);margin-top:2px;letter-spacing:.12em}
+  .card .flavor{font-family:var(--font-accent);font-style:italic;color:var(--text-muted);font-size:.92rem;margin-top:10px;line-height:1.45;flex:1}
+  .card .effect{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:12px;letter-spacing:.06em}
+  /* end plate */
+  #plate{margin-top:22px;max-height:46vh;max-width:min(86vw,340px);border-radius:6px;
+    box-shadow:0 24px 60px rgba(0,0,0,.55);border:1px solid var(--line)}
+  .colophon{position:fixed;bottom:14px;left:0;right:0;text-align:center;z-index:4;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.3em;color:var(--text-muted);opacity:.6;pointer-events:none}
+</style>
+</head>
+<body>
+<canvas id="sea"></canvas>
+
+<div id="hud" hidden>
+  <span>bells <b id="uiClock">21:00</b></span>
+  <span>charted <b id="uiQuota">0/2</b></span>
+  <span>salvage <b id="uiSalvage">0</b></span>
+  <span>hull <b id="uiHearts">◆◆◆</b></span>
+  <span>best <b id="uiBest">0</b></span>
+</div>
+<button id="muteBtn" hidden>sound · on</button>
+
+<div class="screen" id="titleScreen">
+  <div class="eyebrow">N°04 ✦ Jordan Doerksen</div>
+  <h1>First <em>Light</em></h1>
+  <p>One lightship, eight dark hours, a quota. The lamp points where you're headed —
+     and it's the only thing the thing following you respects. Chart the wrecks. Be at dawn on time.</p>
+  <button class="btn" id="startBtn">Cast off ✦</button>
+  <div class="hint">steer · pointer&ensp;✦&ensp;focus · hold shift or right-click&ensp;✦&ensp;pause · P</div>
+  <div class="seedline">night <span id="uiSeed">—</span></div>
+</div>
+
+<div class="screen" id="draftScreen" hidden>
+  <div class="eyebrow">the chandler's skiff ✦ take one aboard</div>
+  <h2 id="draftHour">—</h2>
+  <div id="draftCards"></div>
+  <button class="btn quiet" id="skipBtn">Sail on</button>
+</div>
+
+<div class="screen" id="pauseScreen" hidden>
+  <div class="eyebrow">all stop</div>
+  <h2>Paused</h2>
+  <p class="hint">P to resume</p>
+</div>
+
+<div class="screen" id="endScreen" hidden>
+  <div class="eyebrow" id="endEyebrow">—</div>
+  <h1 id="endTitle">—</h1>
+  <p id="endText">—</p>
+  <canvas id="plate"></canvas>
+  <div class="row" style="margin-top:20px">
+    <button class="btn quiet" id="savePlateBtn">Save plate ✦</button>
+    <button class="btn quiet" id="sameBtn">Same seas</button>
+    <button class="btn quiet" id="newBtn">New seas ✦</button>
+  </div>
+</div>
+
+<p class="colophon">N°04 ✦ Jordan Doerksen ✦ MMXXVI</p>
+
+<!-- All logic is domain-split under /src. The shell just holds DOM + boots the game. -->
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
