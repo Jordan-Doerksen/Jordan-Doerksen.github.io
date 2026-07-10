@@ -1,0 +1,38 @@
+{
+  "trees": {
+    "bug": {
+      "name": "Essence",
+      "resource": "essence",
+      "online": true,
+      "root": { "id": "essence-harvester", "name": "Essence Harvester", "cost": 5, "blurb": "Process biomass. Unlocks the tree." },
+      "tiers": [
+        {
+          "cost": 8,
+          "A": { "id": "pheromone-beacon", "name": "Pheromone Beacon", "pillar": "Swarm", "blurb": "Enemies within the base perimeter move and attack 20% slower.", "effect": { "type": "enemySlowNearCore", "radiusTiles": 6, "factor": 0.8 } },
+          "B": { "id": "infested-rounds", "name": "Infested Rounds", "pillar": "Biology", "blurb": "Marines and turrets deal 25% more damage.", "effect": { "type": "friendlyDamageMult", "factor": 1.25 } }
+        },
+        {
+          "cost": 14,
+          "A": { "id": "chitin-armor", "name": "Chitin Armor", "pillar": "Swarm", "blurb": "All squads gain 2 armor.", "effect": { "type": "unitArmorBonus", "amount": 2 } },
+          "B": { "id": "regenerative-flesh", "name": "Regenerative Flesh", "pillar": "Biology", "blurb": "Squads regenerate 1.5 HP per second.", "effect": { "type": "unitRegen", "hpPerSec": 1.5 } }
+        },
+        {
+          "cost": 22,
+          "A": { "id": "swarm-commander", "name": "Swarm Commander", "pillar": "Swarm", "blurb": "Three autonomous drones defend the core. They respawn.", "effect": { "type": "spawnDrones", "count": 3, "respawnSec": 12 } },
+          "B": { "id": "biomass-titan", "name": "Biomass Titan", "pillar": "Biology", "blurb": "A massive bio-unit holds the base. Respawns if it falls.", "effect": { "type": "spawnTitan", "respawnSec": 30 } }
+        }
+      ]
+    },
+    "alien": {
+      "name": "Alien Tech",
+      "resource": "alienTech",
+      "online": false,
+      "offlineNote": "TERMINAL OFFLINE — salvaged alien tech converts to Salvage at 2:1 when the run ends."
+    }
+  },
+  "rules": {
+    "tiersSequential": true,
+    "branchesExclusivePerTier": true,
+    "noRespec": true
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "buildings": {
+    "core": { "name": "Command Core", "hp": 1000, "footprint": 2 },
+    "income": { "name": "Salvage Depot", "hp": 300, "footprint": 1 },
+    "barracks": {
+      "name": "Barracks", "hp": 400, "footprint": 1,
+      "levels": [
+        { "level": 1, "squadCap": 4, "respawnSec": 6.0, "composition": { "marine": 4 } },
+        { "level": 2, "squadCap": 6, "respawnSec": 4.5, "composition": { "marine": 5, "medic": 1 } },
+        { "level": 3, "squadCap": 8, "respawnSec": 3.5, "composition": { "marine": 6, "medic": 1, "flamer": 1 } }
+      ]
+    },
+    "turret": {
+      "name": "Autocannon Turret", "hp": 250, "footprint": 1,
+      "levels": [
+        { "level": 1, "damage": 12, "cooldownSec": 0.7, "rangeTiles": 4.5 },
+        { "level": 2, "damage": 18, "cooldownSec": 0.7, "rangeTiles": 4.5 }
+      ]
+    },
+    "bunker": {
+      "name": "Bunker", "hp": 500, "footprint": 1,
+      "garrisonCap": 3, "garrisonRangeBonus": 1.0
+    }
+  },
+  "units": {
+    "marine":  { "name": "Marine",  "hp": 45,  "armor": 0, "speed": 2.0, "rangeTiles": 4.0, "damage": 7,  "cooldownSec": 0.8, "kind": "ranged" },
+    "medic":   { "name": "Medic",   "hp": 40,  "armor": 0, "speed": 2.0, "rangeTiles": 3.0, "healPerSec": 6, "kind": "healer" },
+    "flamer":  { "name": "Flametrooper", "hp": 55, "armor": 1, "speed": 1.9, "rangeTiles": 1.8, "damage": 14, "cooldownSec": 1.0, "kind": "cone", "coneSplash": true },
+    "drone":   { "name": "Swarm Drone", "hp": 35, "armor": 0, "speed": 2.6, "rangeTiles": 3.0, "damage": 6, "cooldownSec": 0.9, "kind": "ranged" },
+    "titan":   { "name": "Biomass Titan", "hp": 400, "armor": 2, "speed": 1.4, "rangeTiles": 1.2, "damage": 30, "cooldownSec": 1.0, "kind": "melee", "splashTiles": 1.2 }
+  },
+  "enemies": {
+    "ling":    { "name": "Ling",    "hp": 30,  "armor": 0, "speed": 2.2, "damage": 6,  "cooldownSec": 1.0, "kind": "melee",  "budgetCost": 10, "drop": { "essence": 0.08 } },
+    "roach":   { "name": "Roach",   "hp": 120, "armor": 2, "speed": 1.2, "damage": 10, "cooldownSec": 1.2, "kind": "melee",  "budgetCost": 30, "drop": { "essence": 0.15 } },
+    "spitter": { "name": "Spitter", "hp": 45,  "armor": 0, "speed": 1.4, "damage": 8,  "cooldownSec": 1.2, "kind": "ranged", "rangeTiles": 3.0, "budgetCost": 25, "drop": { "essence": 0.12 } },
+    "boomer":  { "name": "Boomer",  "hp": 60,  "armor": 0, "speed": 1.6, "damage": 8,  "cooldownSec": 1.2, "kind": "melee",  "budgetCost": 35, "drop": { "essence": 0.15 }, "onDeathSpawn": { "type": "broodling", "count": 3 } },
+    "broodling": { "name": "Broodling", "hp": 10, "armor": 0, "speed": 2.4, "damage": 4, "cooldownSec": 1.0, "kind": "melee", "budgetCost": 0, "drop": {} },
+    "phantom": { "name": "Phantom", "hp": 70,  "armor": 0, "shield": 40, "shieldRegenPerSec": 4, "speed": 2.6, "damage": 12, "cooldownSec": 1.0, "kind": "melee", "budgetCost": 45, "drop": { "alienTech": 0.6 } }
+  },
+  "elites": { "hpMult": 2.5, "damageMult": 1.5, "sizeMult": 1.3 },
+  "bosses": {
+    "broodtitan": { "name": "Brood Titan", "hp": 900,  "armor": 2, "speed": 0.9, "damage": 25, "cooldownSec": 1.5, "kind": "melee", "sizeMult": 2.2, "drop": { "essenceFlat": 5 }, "ability": { "type": "spawnAdds", "enemy": "ling", "count": 2, "everySec": 6 } },
+    "hivequeen":  { "name": "Hive Queen", "hp": 2200, "armor": 2, "speed": 0.8, "damage": 18, "cooldownSec": 1.0, "kind": "ranged", "rangeTiles": 3.5, "sizeMult": 2.4, "drop": { "essenceFlat": 8, "alienTechFlat": 2 }, "ability": { "type": "healAllies", "hpPerSec": 15, "radiusTiles": 4, "everySec": 1 } },
+    "devourer":   { "name": "The Devourer", "hp": 5000, "armor": 4, "speed": 0.7, "damage": 40, "cooldownSec": 1.2, "kind": "melee", "sizeMult": 3.0, "drop": {}, "ability": { "type": "enrage", "belowHpFrac": 0.35, "speedMult": 1.6, "damageMult": 1.5 } }
+  }
+}

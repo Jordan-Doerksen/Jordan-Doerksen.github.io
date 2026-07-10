@@ -1,0 +1,85 @@
+{
+  "canvas": { "width": 1024, "height": 560 },
+  "economy": {
+    "startingCredits": 150,
+    "income": {
+      "tiers": [
+        { "level": 1, "creditsPerSec": 8, "upgradeCost": 200 },
+        { "level": 2, "creditsPerSec": 14, "upgradeCost": 500 },
+        { "level": 3, "creditsPerSec": 22, "upgradeCost": null }
+      ]
+    },
+    "costs": {
+      "turret": 100,
+      "bunker": 150,
+      "barracks": 300,
+      "turretMk2": 150,
+      "barracksL2": 250,
+      "barracksL3": 500
+    }
+  },
+  "waves": {
+    "total": 30,
+    "buildPhaseSec": 12,
+    "firstBuildPhaseSec": 20,
+    "budgetBase": 40,
+    "budgetGrowth": 1.16,
+    "spawnIntervalSec": 0.9,
+    "lanesByWave": [
+      { "fromWave": 1, "lanes": 1 },
+      { "fromWave": 4, "lanes": 2 },
+      { "fromWave": 10, "lanes": 3 }
+    ],
+    "unlockByWave": {
+      "ling": 1,
+      "roach": 4,
+      "spitter": 6,
+      "phantom": 8,
+      "boomer": 12
+    },
+    "eliteChanceByWave": { "fromWave": 14, "chance": 0.08 },
+    "bossWaves": { "10": "broodtitan", "20": "hivequeen", "30": "devourer" }
+  },
+  "drops": {
+    "eliteGuaranteed": [1, 2],
+    "pickupLifetimeSec": 12,
+    "autoCollect": true
+  },
+  "meta": {
+    "storageKey": "holdout.meta.v1",
+    "salvagePerEssence": 1,
+    "salvagePerAlienTech": 2,
+    "salvagePerWave": 2,
+    "winBonus": 50
+  },
+  "palette": {
+    "ground": "#2a2622",
+    "groundAlt": "#242019",
+    "lane": "#3a3128",
+    "slot": "#4a5568",
+    "slotHover": "#b8860b",
+    "base": "#3d3a35",
+    "core": "#b8860b",
+    "coreGlow": "#e8c15a",
+    "bug": "#7aa35c",
+    "bugDark": "#4d6b3a",
+    "alien": "#7c6bd4",
+    "shield": "#9db8ff",
+    "unit": "#5b8db8",
+    "unitAccent": "#cfe3f2",
+    "medic": "#d8d4cc",
+    "flame": "#d97b29",
+    "hpGood": "#6aa84f",
+    "hpBad": "#cc4125",
+    "essence": "#8fbc5a",
+    "alienTech": "#a78bfa",
+    "credits": "#e8c15a",
+    "text": "#e8e2d5"
+  },
+  "fx": {
+    "particlesMax": 300,
+    "screenShake": true,
+    "floaterLifetimeSec": 1.1
+  },
+  "reducedMotionRespected": true
+}

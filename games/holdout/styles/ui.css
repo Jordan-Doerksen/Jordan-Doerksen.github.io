@@ -1,0 +1,145 @@
+/* holdout — HUD + screens. Industrial dark skin, one goldenrod thread.
+   Game colors arrive as CSS vars (--p-*) set by ui.js from config/game.json palette
+   — never hardcode a game hex here. Panel chrome derives from the palette via color-mix. */
+
+:root {
+  --mono: "JetBrains Mono", "Cascadia Mono", Consolas, "Courier New", monospace;
+  --panel: color-mix(in srgb, var(--p-groundAlt, #242019) 45%, black);
+  --panel-edge: color-mix(in srgb, var(--p-text, #e8e2d5) 18%, transparent);
+  --accent: var(--p-core, #b8860b);
+  --accent-soft: color-mix(in srgb, var(--p-core, #b8860b) 22%, transparent);
+  --dim: color-mix(in srgb, var(--p-text, #e8e2d5) 55%, transparent);
+}
+
+html, body { margin: 0; height: 100%; background: black; }
+body { display: grid; place-items: center; font-family: var(--mono); }
+
+/* overflow clips the closed tech panel, which parks at translateX(100%) just outside the frame */
+#app { position: relative; width: 1024px; max-width: 100vw; overflow: hidden; }
+#game { display: block; width: 100%; height: auto; background: black; }
+#ui-root { position: absolute; inset: 0; pointer-events: none; color: var(--p-text, #e8e2d5); }
+#ui-root > * { pointer-events: auto; }
+
+.hidden { display: none !important; }
+
+/* ---------- shared bits ---------- */
+.btn {
+  font: 12px/1.2 var(--mono); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--p-text, #e8e2d5); background: var(--panel);
+  border: 1px solid var(--panel-edge); padding: 7px 12px; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn:hover { border-color: var(--accent); }
+.btn:disabled { opacity: 0.35; cursor: default; border-color: var(--panel-edge); }
+.btn.active { border-color: var(--accent); background: var(--accent-soft); }
+.btn.primary { border-color: var(--accent); color: var(--accent); padding: 10px 26px; font-size: 14px; }
+.btn.primary:hover { background: var(--accent-soft); }
+
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: baseline; }
+.dot-credits { background: var(--p-credits); }
+.dot-essence { background: var(--p-essence); }
+.dot-alienTech { background: var(--p-alienTech); }
+
+/* ---------- top bar ---------- */
+.topbar {
+  position: absolute; top: 0; left: 0; right: 0; height: 34px;
+  display: flex; align-items: center; gap: 18px; padding: 0 12px; box-sizing: border-box;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.55));
+  border-bottom: 1px solid var(--panel-edge);
+  font-size: 12px; letter-spacing: 0.06em;
+}
+.topbar .res b { font-weight: 600; min-width: 4ch; display: inline-block; }
+.topbar .wave { color: var(--dim); }
+.topbar .phase { color: var(--accent); min-width: 16ch; }
+.topbar .spacer { flex: 1; }
+.topbar .btn { padding: 4px 9px; font-size: 11px; }
+
+/* ---------- bottom build bar ---------- */
+.buildbar {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  display: flex; align-items: flex-end; justify-content: center; gap: 8px;
+  padding: 8px 12px; box-sizing: border-box;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.45));
+  border-top: 1px solid var(--panel-edge);
+}
+.buildbar .btn { min-width: 108px; text-align: left; }
+.buildbar .btn .cost { display: block; color: var(--dim); font-size: 11px; margin-top: 2px; }
+.buildbar .btn.active .cost { color: var(--accent); }
+.buildbar .key { color: var(--dim); margin-right: 6px; }
+
+/* selected-building info panel */
+.info-panel {
+  position: absolute; bottom: 62px; left: 50%; transform: translateX(-50%);
+  min-width: 300px; max-width: 380px;
+  background: var(--panel); border: 1px solid var(--panel-edge);
+  padding: 10px 14px; font-size: 12px; letter-spacing: 0.04em;
+}
+.info-panel .name { color: var(--accent); text-transform: uppercase; margin-bottom: 4px; }
+.info-panel .row { display: flex; gap: 14px; color: var(--dim); margin-bottom: 8px; }
+.info-panel .row b { color: var(--p-text); }
+.info-panel .actions { display: flex; gap: 8px; }
+
+/* ---------- tech terminal ---------- */
+.tech-panel {
+  position: absolute; top: 34px; right: 0; bottom: 0; width: 340px; box-sizing: border-box;
+  background: var(--panel); border-left: 1px solid var(--panel-edge);
+  padding: 12px; overflow-y: auto;
+  transform: translateX(100%); transition: transform 0.2s ease;
+}
+.tech-panel.open { transform: translateX(0); }
+.tech-panel h2 { font: 600 13px var(--mono); letter-spacing: 0.14em; color: var(--accent); margin: 0 0 10px; text-transform: uppercase; }
+.tech-panel .close { position: absolute; top: 8px; right: 10px; padding: 2px 8px; }
+.tech-tier { display: flex; gap: 8px; margin-bottom: 8px; }
+.tech-card {
+  flex: 1; border: 1px solid var(--panel-edge); padding: 8px; font-size: 11px;
+  background: rgba(0,0,0,0.35);
+}
+.tech-card .t-name { text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+.tech-card .t-pillar { color: var(--dim); font-size: 10px; margin-bottom: 4px; }
+.tech-card .t-blurb { color: var(--dim); line-height: 1.4; margin-bottom: 6px; }
+.tech-card .t-cost { color: var(--p-essence); margin-bottom: 6px; }
+.tech-card.root { margin-bottom: 10px; }
+.tech-card.locked { opacity: 0.35; }
+.tech-card.locked .btn { visibility: hidden; }
+.tech-card.purchased { border-color: var(--accent); }
+.tech-card.purchased .t-name::after { content: " ✔"; color: var(--accent); }
+.tech-card.forgone { opacity: 0.45; }
+.tech-card.forgone .t-name { text-decoration: line-through; }
+.tech-card .t-state { color: var(--dim); font-size: 10px; letter-spacing: 0.08em; }
+.tech-alien {
+  margin-top: 16px; border: 1px dashed var(--panel-edge); padding: 10px;
+  color: var(--dim); font-size: 11px; line-height: 1.5; opacity: 0.7;
+}
+.tech-alien .t-name { color: var(--p-alienTech); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+
+/* ---------- full screens (title / end) ---------- */
+.screen {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 14px; text-align: center;
+  background: rgba(0, 0, 0, 0.82);
+}
+.wordmark {
+  font: 700 52px/1 var(--mono); letter-spacing: 0.32em; text-indent: 0.32em;
+  color: var(--p-text); text-transform: uppercase;
+}
+.wordmark span { color: var(--accent); }
+.tagline { color: var(--dim); font-size: 13px; letter-spacing: 0.06em; }
+.salvage-readout { font-size: 12px; letter-spacing: 0.1em; color: var(--p-text); margin-top: 10px; }
+.salvage-readout b { color: var(--accent); }
+.depot-note { color: var(--dim); font-size: 11px; letter-spacing: 0.08em; }
+.controls-note { color: var(--dim); font-size: 11px; letter-spacing: 0.08em; margin-top: 8px; }
+.colophon { position: absolute; bottom: 12px; left: 0; right: 0; color: var(--dim); font-size: 11px; letter-spacing: 0.18em; }
+
+.verdict { font: 600 26px/1.3 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; }
+.screen .stats { font-size: 12px; color: var(--dim); letter-spacing: 0.06em; }
+.screen .stats b { color: var(--p-text); }
+.salvage-table { font-size: 12px; letter-spacing: 0.04em; border-top: 1px solid var(--panel-edge); margin-top: 6px; padding-top: 8px; }
+.salvage-table .srow { display: flex; justify-content: space-between; gap: 40px; min-width: 300px; color: var(--dim); padding: 1px 0; }
+.salvage-table .srow b { color: var(--p-text); }
+.salvage-table .srow.total { border-top: 1px solid var(--panel-edge); margin-top: 5px; padding-top: 5px; }
+.salvage-table .srow.total b { color: var(--accent); }
+
+/* ---------- reduced motion is law ---------- */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

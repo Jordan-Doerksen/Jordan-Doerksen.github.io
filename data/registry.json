@@ -228,6 +228,23 @@
       "spec": "DETERMINISTIC · SAVES PNG"
     },
     {
+      "slug": "holdout",
+      "name": "Holdout",
+      "category": "games",
+      "blurb": "An isometric bunker defense. Three lanes, one core, no unit micro — the decisions are the turrets you place and the tech you forgo.",
+      "tags": [
+        "Game",
+        "Roguelite",
+        "Isometric"
+      ],
+      "status": "live",
+      "tier": "full",
+      "url": "/games/holdout/",
+      "repo": "https://github.com/Jordan-Doerksen/holdout",
+      "featured": false,
+      "spec": "DOMAIN-SPLIT · WAVE 30 OR NOTHING"
+    },
+    {
       "slug": "orbital-field",
       "name": "Orbital Field",
       "category": "games",
