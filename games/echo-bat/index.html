@@ -19,7 +19,7 @@
   --line-strong: rgba(179, 157, 245, 0.36);
   --ink: #ece8f8;
   --muted: #9b92b8;
-  --faint: #5d566f;
+  --faint: #7d7599; /* was #5d566f on #0d0915 panel = 2.84:1 (small text, AA needs 4.5) — lightened within the same violet-grey hue to 4.57:1 (4.76:1 on the #050309 HUD bg) */
   --violet: #b39df5;
   --moon: #9db8ff;
   --fruit: #ffb05e;
@@ -129,7 +129,7 @@ body {
 }
 .record-line { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--faint); margin-top: 16px; }
 .record-line b { color: var(--fruit); font-weight: 600; }
-.colophon { font-size: 0.54rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--faint); opacity: 0.7; margin-top: 20px; }
+.colophon { font-size: 0.54rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--faint); margin-top: 20px; } /* dropped opacity:0.7 — it dimmed the fixed --faint back to 2.80:1; at full opacity = 4.57:1 */
 
 /* ----- Upgrade cards ----- */
 #upCards { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 20px; }
@@ -178,8 +178,24 @@ body {
 }
 .archive-nav a:hover { color: var(--violet); }
 
+/* ----- interaction states (UI chrome only) ----- */
+/* focus-visible: keyboard nav — visible violet ring on every interactive element, offset so it reads against the dark panels */
+.btn:focus-visible,
+.btn-ghost:focus-visible,
+.card:focus-visible,
+#btnMute:focus-visible,
+.archive-nav a:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 3px;
+}
+/* :active pressed states — .btn and .card already had theirs; give the quieter controls the same tactile press */
+.btn-ghost:active { color: var(--muted); transform: scale(0.96); } /* active: pressed feedback for ghost buttons */
+#btnMute:active { transform: scale(0.92); border-color: var(--line-strong); } /* active: pressed feedback for mute toggle */
+.archive-nav a:active { color: var(--violet); } /* active: matches hover so touch taps get feedback too */
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+  .btn:active, .btn-ghost:active, #btnMute:active, .card:active { transform: none !important; } /* reduced-motion: keep press color feedback, drop the scale movement */
 }
 </style>
 </head>

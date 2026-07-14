@@ -13,7 +13,7 @@
     color-scheme: dark;
     --bg:#04060c; --bg-soft:#070a13;
     --panel:rgba(10,14,24,0.58); --line:rgba(190,205,255,0.09); --line-strong:rgba(190,205,255,0.2);
-    --text:#e9edf6; --text-muted:#97a0b5; --text-faint:#5e677d; --starlight:#f2f4fa;
+    --text:#e9edf6; --text-muted:#97a0b5; --text-faint:#737e98; /* faint was #5e677d — measured 3.4–3.5:1 (AA fail) for the seed label + hint; lightened in the same slate hue to ~4.9:1. Plate rendering keeps its own FAINT in JS, untouched. */ --starlight:#f2f4fa;
     --gold:#d8ac4e;
     --font-display:'Space Grotesk','Inter',system-ui,sans-serif;
     --font-accent:'Fraunces',Georgia,serif;
@@ -47,12 +47,15 @@
   }
   .btn:hover{ border-color:var(--gold); background:rgba(216,172,78,.14); }
   .btn:active{ transform:translateY(1px); }
+  .btn:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; } /* keyboard focus — the default ring was invisible on the dark glass */
   .btn.gold{ color:#1a1305; background:var(--gold); border-color:var(--gold); font-weight:700; }
   .btn.gold:hover{ filter:brightness(1.06); }
   .eyebrow{ font:500 11px/1 var(--font-mono); letter-spacing:.22em; text-transform:uppercase; color:var(--text-faint); }
   .hint{ font:400 11px/1.5 var(--font-mono); letter-spacing:.06em; color:var(--text-faint); text-align:center; }
   .hint b{ color:var(--text-muted); font-weight:500; }
   .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+  /* reduced-motion: stills the toolbar button transitions; the plate's twinkle already gates on the same query in JS */
+  @media (prefers-reduced-motion: reduce){ *,*::before,*::after{ animation:none !important; transition:none !important; } }
 </style>
 </head>
 <body>

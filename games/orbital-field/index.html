@@ -16,9 +16,14 @@
     transition:opacity 1.2s ease;text-shadow:0 1px 8px #000;}
   .hint b{color:#d8ac4e;font-weight:600;}
   .colo{position:fixed;left:0;right:0;bottom:max(10px,env(safe-area-inset-bottom));z-index:2;
-    text-align:center;color:#5e677d;font:500 10px/1 'JetBrains Mono',monospace;letter-spacing:.28em;
+    /* was #5e677d on #04060c = 3.58:1 (fails 4.5:1 for 10px text); lightened same slate hue to #727c98 = 4.87:1 */
+    text-align:center;color:#727c98;font:500 10px/1 'JetBrains Mono',monospace;letter-spacing:.28em;
     text-transform:uppercase;pointer-events:none;}
   .colo b{color:#9a7a33;font-weight:500;}
+  /* reduced-motion: kill the hint's opacity transition (only CSS-animated UI chrome) */
+  @media (prefers-reduced-motion: reduce){
+    .hint{transition:none;}
+  }
 </style>
 </head>
 <body>

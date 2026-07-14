@@ -26,7 +26,7 @@
   --line-strong: rgba(190, 205, 255, 0.2);
   --text: #e9edf6;
   --text-muted: #97a0b5;
-  --text-faint: #5e677d;
+  --text-faint: #737e98; /* was #5e677d — measured 3.5:1 on the panel glass, under AA 4.5:1; lightened in the same slate hue to 4.9:1 */
   --starlight: #f2f4fa;
 
   --gold: #d8ac4e;
@@ -459,7 +459,7 @@ body {
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--text-faint);
-  opacity: 0.7;
+  /* opacity: 0.7 removed — it dropped measured contrast to 2.3:1 (AA fail); the faint ink is already the quiet voice */
   margin-top: 22px;
 }
 
@@ -476,6 +476,16 @@ body {
   transition: color var(--t-fast);
 }
 .archive-nav a:hover { color: var(--gold); }
+
+/* ----- interaction states — keyboard focus + pressed, UI chrome only ----- */
+.btn:focus-visible, .btn-ghost:focus-visible, .icon-btn:focus-visible,
+.card:focus-visible, .archive-nav a:focus-visible {
+  outline: 2px solid var(--gold); /* keyboard focus was the browser default ring — invisible on the dark glass */
+  outline-offset: 3px;
+}
+.icon-btn:active { transform: scale(0.94); } /* pressed state — icon buttons had hover only */
+.card:active { transform: translateY(-1px) scale(0.99); } /* pressed settle beneath the hover lift */
+.btn-ghost:active, .archive-nav a:active { color: var(--gold); } /* pressed feedback for text-only controls */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }

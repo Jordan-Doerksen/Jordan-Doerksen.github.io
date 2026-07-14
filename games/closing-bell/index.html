@@ -7,9 +7,13 @@
 <style>
   :root{
     --bg:#eef2f8; --panel:#ffffff; --panel-2:#f7f9fc;
-    --ink:#0f172a; --muted:#64748b; --line:#e3e8f0; --line-2:#eef2f7;
+    /* AA contrast: --muted #64748b was 4.25:1 on the page bg (#eef2f8 colophon at 10.5px); #5b6a80 = 4.9:1 there, 5.9:1 on white panels. Same slate hue. */
+    --ink:#0f172a; --muted:#5b6a80; --line:#e3e8f0; --line-2:#eef2f7;
     --blue:#2563eb; --blue-ink:#1d4ed8;
-    --up:#16a34a; --up-soft:#dcfce7; --down:#dc2626; --down-soft:#fee2e2;
+    /* AA contrast: --up #16a34a was 3.3:1 as small text / under white button text; #15803d = 5.0:1. Canvas candles keep the original brighter green (gameplay rendering, untouched). */
+    --up:#15803d; --up-soft:#dcfce7;
+    /* AA contrast: --down #dc2626 was 3.9:1 on the soft-red badge; #b91c1c = 5.3:1 there, 6.5:1 on white. */
+    --down:#b91c1c; --down-soft:#fee2e2;
     --gold:#b08327; --shadow:0 1px 2px rgba(15,23,42,.06),0 8px 24px rgba(15,23,42,.06);
     --mono:ui-monospace,"SF Mono","Roboto Mono","Cascadia Code",Menlo,Consolas,monospace;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -117,6 +121,8 @@
   }
   .btn small{display:block; font-weight:500; font-size:10px; color:var(--muted); margin-top:2px; letter-spacing:.04em}
   .btn:active{transform:translateY(1px)}
+  /* interaction states: keyboard focus ring on every button (offset so it clears the card edge) */
+  .btn:focus-visible,.cta:focus-visible,.offer .buy:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
   .btn.long{background:var(--up); color:#fff; border-color:transparent}
   .btn.long small{color:#dcfce7}
   .btn.short{background:var(--down); color:#fff; border-color:transparent}
@@ -124,7 +130,7 @@
   .btn.flat{grid-column:1 / -1; background:var(--ink); color:#fff; border-color:transparent}
   .btn.flat small{color:#cbd5e1}
   .btn.ghost{background:var(--panel)}
-  .btn:disabled{opacity:.45; cursor:default}
+  .btn:disabled{opacity:.45; cursor:not-allowed} /* interaction states: not-allowed signals the control is off, not broken */
 
   /* ---------- news ticker ---------- */
   .tape{
@@ -182,7 +188,8 @@
     border:1px solid var(--blue); color:var(--blue-ink); background:#fff; border-radius:9px;
     padding:7px; font-weight:700; font-size:12.5px; cursor:pointer; font-family:var(--mono);
   }
-  .offer .buy:disabled{opacity:.45; cursor:default; border-color:var(--line); color:var(--muted)}
+  .offer .buy:active{transform:translateY(1px)} /* interaction states: pressed feedback, matching .btn/.cta */
+  .offer .buy:disabled{opacity:.45; cursor:not-allowed; border-color:var(--line); color:var(--muted)} /* interaction states: not-allowed on unaffordable/owned upgrades */
   .offer.owned{opacity:.6}
   .owned-list{margin:12px 0 0; font-size:11.5px; color:var(--muted); min-height:16px}
   .owned-list b{color:var(--ink); font-weight:600}
@@ -206,7 +213,10 @@
     .side .card{flex:1 1 0; min-width:160px}
   }
   @media (prefers-reduced-motion: reduce){
-    *{transition:none !important}
+    /* reduced-motion: kill all CSS transitions AND animations (news-tip slide, flashes, etc.).
+       Canvas gameplay rendering is exempt by design; its cosmetic extras (particles, cursor
+       trail, flash, tape scroll) are already gated in JS by the REDUCED flag. */
+    *{transition:none !important; animation:none !important}
     .tape .track{animation:none !important}
   }
 </style>
