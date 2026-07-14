@@ -1,0 +1,430 @@
+{
+  "baseUrl": "https://jordan-doerksen.github.io/games/",
+  "games": [
+    {
+      "blurb": "A day-trading roguelite. Survive to the bell, bank it, buy upgrades. Repeat.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 43818,
+          "path": "index.html",
+          "sha256": "ab644cd4c0e539eb80551d02ae3d1d63bc80dddcf725086229da979364fbc5a9"
+        }
+      ],
+      "name": "Closing Bell",
+      "slug": "closing-bell",
+      "spec": "SINGLE FILE · SURVIVE TO 4PM",
+      "tags": [
+        "Game",
+        "Roguelite"
+      ],
+      "totalBytes": 43818,
+      "version": "878870d13386"
+    },
+    {
+      "blurb": "A single-file ARPG slice — town to Blood Raven, three classes, D2-style maps.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 68568,
+          "path": "index.html",
+          "sha256": "813c2395b08c9cb240a4ca78ab2da063eddfe346a0223e09992fb50c2aa5da88"
+        }
+      ],
+      "name": "Diablo — Act 1",
+      "slug": "diablo-act1",
+      "spec": "SINGLE FILE · TRIBUTE",
+      "tags": [
+        "Game",
+        "ARPG"
+      ],
+      "totalBytes": 68568,
+      "version": "f36d18bd257b"
+    },
+    {
+      "blurb": "A bat in the dark, harvesting fruit by sonar. Your voice paints the cave.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 56602,
+          "path": "index.html",
+          "sha256": "d570bfc185d142c14b6817054074c2bc32e189ac710c1bc22049ebcff23497db"
+        }
+      ],
+      "name": "Echo Bat — Night Harvest",
+      "slug": "echo-bat",
+      "spec": "SINGLE FILE · MOBILE-FIRST",
+      "tags": [
+        "Game",
+        "Sonar"
+      ],
+      "totalBytes": 56602,
+      "version": "6a343c9a22ac"
+    },
+    {
+      "blurb": "A salvage lightship, eight dark hours, a quota. The lamp is both the chart and the shield.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 5835,
+          "path": "config/game.json",
+          "sha256": "88372c772ad89bda9d8bb5935f8a225e303997c3b5387d7fc2922b6d44afde4a"
+        },
+        {
+          "bytes": 7782,
+          "path": "index.html",
+          "sha256": "f1f776c7493ff2a32febdd38948f87e7c0e2adb86d038e2a6e7cd6fdb073ae2e"
+        },
+        {
+          "bytes": 6774,
+          "path": "src/audio/audio.js",
+          "sha256": "26fecefa13bc5a2f417cb024ba969d8b45d5eb156b2ffb805db285010b92c5eb"
+        },
+        {
+          "bytes": 1757,
+          "path": "src/core/loop.js",
+          "sha256": "5414b5eb2d55305fc6ef03388217a4243f34bf4cac80bbca3d7c74b58a590aec"
+        },
+        {
+          "bytes": 1310,
+          "path": "src/core/rng.js",
+          "sha256": "56dbb56fec42babbd4a0620fce5f4707eed2ccaea43d2cc537dbe8f74a1b17c6"
+        },
+        {
+          "bytes": 1024,
+          "path": "src/core/scene.js",
+          "sha256": "bccf9d8fef9bdc53f3713ef1405cd7b3adc7ea551107d60067cb7476c5fd0293"
+        },
+        {
+          "bytes": 1774,
+          "path": "src/core/state.js",
+          "sha256": "be6848a48b358dcd2cd289bf62f1f025b61e9e21cb293c14c28128d5f8e04f07"
+        },
+        {
+          "bytes": 2335,
+          "path": "src/entities/hazards.js",
+          "sha256": "be3ac67f1f8ab20056ba8bb3618dcb986739fa583e189ffcd8a91bd8bc6936e2"
+        },
+        {
+          "bytes": 2913,
+          "path": "src/entities/leviathan.js",
+          "sha256": "5215b2b2517b5782aa0af7e291e5226abdd6d5823325522c5817e204c50b0926"
+        },
+        {
+          "bytes": 884,
+          "path": "src/entities/particles.js",
+          "sha256": "62149c37ca6882b42155c46b1faed388cabe8044411d433d558c765d713ef089"
+        },
+        {
+          "bytes": 2990,
+          "path": "src/entities/ship.js",
+          "sha256": "2981bf4de9ba02c776769314381b2cdea102ad38f487c6a1ab032740928500c2"
+        },
+        {
+          "bytes": 1382,
+          "path": "src/entities/wrecks.js",
+          "sha256": "680e3c2d200210b2c069f1d2b43329d811f2ae2a5dce42333a90f093042f6854"
+        },
+        {
+          "bytes": 1683,
+          "path": "src/input/input.js",
+          "sha256": "bef964367e4f6a343f3b3769c80b61b59a3884e19e7cfced0a49b55b4bffbf44"
+        },
+        {
+          "bytes": 10651,
+          "path": "src/main.js",
+          "sha256": "e4498b174ec56b3b37ac934bff41c137aa727800616258190c7254f960ee53cb"
+        },
+        {
+          "bytes": 6336,
+          "path": "src/render/plate.js",
+          "sha256": "b54b3aabce6d5bb565adb18df8d7cb1e067f49ceadd2ff95b4bd58c26162f8b9"
+        },
+        {
+          "bytes": 13193,
+          "path": "src/render/render.js",
+          "sha256": "0ecfa8d1e6eaa68de0b5099bc77a639c706d15a86c515827eaab0015478d9b27"
+        },
+        {
+          "bytes": 1055,
+          "path": "src/systems/director.js",
+          "sha256": "2ab4b4a39b29d78521ff9e31391c43d7ebe746a497d32f71f23bf1d21c4f4f0f"
+        },
+        {
+          "bytes": 4682,
+          "path": "src/systems/draft.js",
+          "sha256": "988a235f54ef722a2aa54f38d923925518f0f52156a0b2805056610e0016d726"
+        },
+        {
+          "bytes": 2905,
+          "path": "src/systems/reveal.js",
+          "sha256": "436936a51885e93d04bd6797681539089ce3a5938b0673026bd08b2739050786"
+        },
+        {
+          "bytes": 1201,
+          "path": "src/systems/survey.js",
+          "sha256": "450136ee5038aaf2a4615ec3517eaa15a4ad3275e215f47036ea648ae612e857"
+        }
+      ],
+      "name": "First Light",
+      "slug": "first-light",
+      "spec": "DOMAIN-SPLIT · SEEDED NIGHTS",
+      "tags": [
+        "Game",
+        "Roguelite",
+        "Seeded"
+      ],
+      "totalBytes": 78466,
+      "version": "1cb76b5835d1"
+    },
+    {
+      "blurb": "Generative star-atlas plates. Every reroll is a 1-of-1; the seed rides in the URL.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 15087,
+          "path": "index.html",
+          "sha256": "8ca21a699695ea4eb583fb7c7e70c7ef48e3233750da5c9e9df869330f10cd52"
+        }
+      ],
+      "name": "Glass Atlas",
+      "slug": "glass-atlas",
+      "spec": "DETERMINISTIC · SAVES PNG",
+      "tags": [
+        "Generative",
+        "Toy"
+      ],
+      "totalBytes": 15087,
+      "version": "e20ed303f2e3"
+    },
+    {
+      "blurb": "An isometric bunker defense. Three lanes, one core, no unit micro — the decisions are the turrets you place and the tech you forgo.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 2020,
+          "path": "config/game.json",
+          "sha256": "c75afdd47619a1930a5d36694039354d896cfab380e45fcde6649c2c8cd3a725"
+        },
+        {
+          "bytes": 1974,
+          "path": "config/map.json",
+          "sha256": "ef664bd8a70622b563edc74f4b749fcf36a41df06f1d051619256bf7f1e422ad"
+        },
+        {
+          "bytes": 3802,
+          "path": "config/roster.json",
+          "sha256": "a7355800adb91cce7422fa41761364698fae52b2c0df32c8ae6848ef8179ccc4"
+        },
+        {
+          "bytes": 1973,
+          "path": "config/tech.json",
+          "sha256": "b967e9dae530119725d47920119f7da88fff820f7cf941c6fbf0f12fb94d3055"
+        },
+        {
+          "bytes": 535,
+          "path": "index.html",
+          "sha256": "f1a43fd0b9b7d32413c3485c7a9ad4b9b2336de083f5a56ab3d1c887096dd7bf"
+        },
+        {
+          "bytes": 4291,
+          "path": "src/audio/audio.js",
+          "sha256": "e4da5ef27295b474a814b4227afd4bd424afa59dae1b3fd6cca682226c77836b"
+        },
+        {
+          "bytes": 617,
+          "path": "src/core/config.js",
+          "sha256": "8abd19ff5f98c25330dd44eacc51929c547f9e76c4f9265b0b661ffc89465c8d"
+        },
+        {
+          "bytes": 955,
+          "path": "src/core/loop.js",
+          "sha256": "2fc6b45378d5b62e64a7dbd21079b727e56dd0879b17b8c69ea93df545a1e4ad"
+        },
+        {
+          "bytes": 2519,
+          "path": "src/core/main.js",
+          "sha256": "1544aded290d3d067fc531cf6b3a0155d094f6fe3fef86dea6c1d45061d85c43"
+        },
+        {
+          "bytes": 2507,
+          "path": "src/core/state.js",
+          "sha256": "92c313b70a39f721fcc21cebdc81c2ff6d7332248b7949a1d9064fa65c8363c7"
+        },
+        {
+          "bytes": 2879,
+          "path": "src/input/input.js",
+          "sha256": "677e02d8e3a33c5336610714e2a8cac38392bcc9fb605d9a075a9a0b1bca4bf7"
+        },
+        {
+          "bytes": 8243,
+          "path": "src/render/draw-entities.js",
+          "sha256": "6649f6dcb9d5a28cbbc8274f6cd366afa9c560d23204196aabbf5ec4d143150d"
+        },
+        {
+          "bytes": 2909,
+          "path": "src/render/draw-fx.js",
+          "sha256": "1969843c4752498a8843bdcd411d96c74aea4d3a78f65f7712bc0b408ec67349"
+        },
+        {
+          "bytes": 4516,
+          "path": "src/render/draw.js",
+          "sha256": "ecd5ddc7b7a43ab15295d80215701ea5265c0c150aceabb6933859b0c7109ec5"
+        },
+        {
+          "bytes": 1536,
+          "path": "src/render/iso.js",
+          "sha256": "17f92aa16ee227f4b54073210ac2a91b5cdddf3224ac4dde5a0bc6b9000d0f2b"
+        },
+        {
+          "bytes": 2377,
+          "path": "src/render/render.js",
+          "sha256": "5c77cc044b01097444f4c90ca58c21936f73251b81d1ddbf1dac071cffa10d76"
+        },
+        {
+          "bytes": 3926,
+          "path": "src/sim/actions.js",
+          "sha256": "886578a68a78e959010aa7937d3cb6787fe6b8e052dab8f5d9ad8b037d48e8fa"
+        },
+        {
+          "bytes": 10711,
+          "path": "src/sim/combat.js",
+          "sha256": "d2b6ef52562b2ec4b49fafecdf8a7c8af8de4ba7b18b0a2495aed3df7d2deebd"
+        },
+        {
+          "bytes": 4581,
+          "path": "src/sim/factory.js",
+          "sha256": "c10d47dfa1c27aedd0cb0d522e26cfe3adf386b554e1d149d11f88e9357e1b72"
+        },
+        {
+          "bytes": 1396,
+          "path": "src/sim/meta.js",
+          "sha256": "e1060b8ad90c58c0310ad5cf6867c6c784928ece51baddf64ea3e160433dc123"
+        },
+        {
+          "bytes": 5840,
+          "path": "src/sim/movement.js",
+          "sha256": "8d004058f7a3ae985110d25f645dc0c0452891288046a683879f510f4bf33f02"
+        },
+        {
+          "bytes": 2209,
+          "path": "src/sim/sim.js",
+          "sha256": "d3737c075aa9912a72eb3a033e54e072f5a850e915edc5d71e75f6c05acc7d9d"
+        },
+        {
+          "bytes": 3226,
+          "path": "src/sim/spawn.js",
+          "sha256": "ced7e6ba32ea8f01549127da012b27fdd44a7a1ad470fc1663c5263b636519d6"
+        },
+        {
+          "bytes": 3443,
+          "path": "src/sim/tech.js",
+          "sha256": "ad9793e678317da203e3031199efa27b698d2787d7c5d59cc4179a57d619fac8"
+        },
+        {
+          "bytes": 3824,
+          "path": "src/sim/waves.js",
+          "sha256": "3a0d90882ff119bcbf76c50af13dcd1a68b35a606879903edad717f2656b9227"
+        },
+        {
+          "bytes": 659,
+          "path": "src/ui/dom.js",
+          "sha256": "d98c24435e562164143680f5908b2e098d679715376d5809e317a0b3e09a144c"
+        },
+        {
+          "bytes": 3606,
+          "path": "src/ui/ui-screens.js",
+          "sha256": "76620d8b0281a8f98a9962f014def4bb22b94cf6831c2c71fdf37655912b53f6"
+        },
+        {
+          "bytes": 3484,
+          "path": "src/ui/ui-tech.js",
+          "sha256": "0e7f8f31e87d02aadc1ebc22c8238c9420f041e1b899053eef8c183731e79f6f"
+        },
+        {
+          "bytes": 7186,
+          "path": "src/ui/ui.js",
+          "sha256": "e8b3765d9aad4aa6405d2fe0d976b85f18e8e08455bbabd134b0ed1245e922c0"
+        },
+        {
+          "bytes": 7618,
+          "path": "styles/ui.css",
+          "sha256": "20710924148af8e0661c6a4ae215072c96a30d5ef7be188f54833ae72713332a"
+        }
+      ],
+      "name": "Holdout",
+      "slug": "holdout",
+      "spec": "DOMAIN-SPLIT · WAVE 30 OR NOTHING",
+      "tags": [
+        "Game",
+        "Roguelite",
+        "Isometric"
+      ],
+      "totalBytes": 105362,
+      "version": "17c881b99100"
+    },
+    {
+      "blurb": "A quiet gravity toy. No goals, no score — just orbits that trace and decay.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 8209,
+          "path": "index.html",
+          "sha256": "915894be1037d37c77f37403fd3d6da01294a531d7ecd137ccb7c8c8a287459e"
+        }
+      ],
+      "name": "Orbital Field",
+      "slug": "orbital-field",
+      "spec": "TOY · NO SCORE",
+      "tags": [
+        "Toy",
+        "Physics"
+      ],
+      "totalBytes": 8209,
+      "version": "752e1ff85b00"
+    },
+    {
+      "blurb": "The original constellation game — trace each blueprint on the atlas plate.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 80512,
+          "path": "index.html",
+          "sha256": "4dd05803cb867d237b28fa60b6dc17efab6789475b01fffc34fb5deee8ceb458"
+        }
+      ],
+      "name": "Star Charter",
+      "slug": "star-charter",
+      "spec": "SINGLE FILE · NO BUILD",
+      "tags": [
+        "Game",
+        "Single File"
+      ],
+      "totalBytes": 80512,
+      "version": "4a40a6959d20"
+    },
+    {
+      "blurb": "The timed edition: heavy, drifty momentum and a refit every third plate.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 108552,
+          "path": "index.html",
+          "sha256": "1482e3107412e773de1c4187f8fcca6a4bb5af9a34e5a3611640a5163d791032"
+        }
+      ],
+      "name": "Star Charter Pro",
+      "slug": "star-charter-pro",
+      "spec": "SINGLE FILE · ROGUELITE",
+      "tags": [
+        "Game",
+        "Roguelite"
+      ],
+      "totalBytes": 108552,
+      "version": "6af645e6100c"
+    }
+  ],
+  "generated": "2026-07-14T18:45:40Z",
+  "schema": 1,
+  "source": "jordan-doerksen.github.io"
+}
