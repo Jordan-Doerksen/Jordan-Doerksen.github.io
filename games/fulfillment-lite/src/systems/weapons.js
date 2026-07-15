@@ -44,10 +44,6 @@ export function effStats(world, w) {
     else if (id === 'voidbolt') collapse = true;
   }
 
-  const glyph = base.special === 'well' ? 'orb'
-    : base.wclass === 'heavy' || base.special === 'blast' ? 'lance'
-    : (base.behavior === 'spread') ? 'pellet' : 'bolt';
-
   return {
     dmg: base.damage * deepen * w.quality,
     fire: base.fire * rate,
@@ -56,7 +52,7 @@ export function effStats(world, w) {
     life, reach: Math.min(base.pspeed * life, 1000),
     special: base.special || null, blastRadius: base.blastRadius || 0, blastFrac: base.blastFrac || 0,
     wellRadius: base.wellRadius || 0, wellForce: base.wellForce || 0, wellLife: base.wellLife || 0,
-    glyph, proc: (w.evolved || w.level >= t.procUnlockLevel) && base.element > 0,
+    proc: (w.evolved || w.level >= t.procUnlockLevel) && base.element > 0,
     bounces, wildfire, shatter, overload, collapse,
   };
 }
@@ -77,10 +73,19 @@ function fire(world, w, eff, dirAng) {
     b.pierce = eff.pierce; b.hitSet = null; b.ang = a;
     b.special = eff.special; b.blastRadius = eff.blastRadius; b.blastFrac = eff.blastFrac;
     b.wellRadius = eff.wellRadius; b.wellForce = eff.wellForce;
-    b.glyph = eff.glyph; b.proc = eff.proc; b.wid = w.def.id;
+    b.proc = eff.proc; b.wid = w.def.id;   // wid + special ARE the render identity (no glyph field)
     b.bounces = eff.bounces; b.wildfire = eff.wildfire; b.shatter = eff.shatter; b.overload = eff.overload; b.collapse = eff.collapse;
   }
   p.muzzle = 1;
+  // cosmetic muzzle chips — a capped fx event the renderer drains (one-way law holds; no rng used,
+  // so determinism is untouched). ang lets the renderer spray the chips along the firing line.
+  const fxa = world.fx.sparks;
+  if (fxa.length < world.config.perf.fxParticleCap) {
+    fxa.push({
+      x: p.x + Math.cos(dirAng) * (p.radius + 3), y: p.y + Math.sin(dirAng) * (p.radius + 3),
+      color: world.content.elements[eff.element].color, n: 2, ang: dirAng, spread: 0.7, spd: 240,
+    });
+  }
 }
 
 export function stepWeapons(world, dt) {

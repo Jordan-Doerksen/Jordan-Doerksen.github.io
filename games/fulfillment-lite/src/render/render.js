@@ -6,7 +6,7 @@
 
 import { polyPath, shipPath, diamondPath, boltPath } from './glyphs.js';
 
-const SPARK_CAP = 520, FLOAT_CAP = 48, RING_CAP = 40, ARC_CAP = 40;
+const FLOAT_CAP = 48, RING_CAP = 40, ARC_CAP = 40, FLASH_CAP = 24;
 
 export function createRenderer(canvas, world) {
   const ctx = canvas.getContext('2d', { alpha: false });
@@ -15,8 +15,15 @@ export function createRenderer(canvas, world) {
   const el = (i) => elColors[i] || '#AEB9CC';
   let dpr = 1;
 
+  // bitcrunch FX tunables (config/game.json "fx") — chunky square particles snapped to a pixel
+  // grid, alpha faded in hard STEPS instead of a smooth ramp: the Dead-Cells-ish retro read.
+  const FX = Object.assign({ pixelGrid: 3, alphaSteps: 4, sparkCap: 900, trail: 1.0 }, cfg.fx);
+  const SPARK_CAP = FX.sparkCap;
+  const q = (v) => ((v / FX.pixelGrid) | 0) * FX.pixelGrid;                    // snap to the grid
+  const stepA = (t) => Math.ceil(Math.max(0, Math.min(1, t)) * FX.alphaSteps) / FX.alphaSteps;
+
   // cosmetic-only pools (Math.random is allowed here — never touches world.rng)
-  const sparks = [], floats = [], rings = [], arcs = [];
+  const sparks = [], floats = [], rings = [], arcs = [], flashes = [];
 
   // starfield: fixed fractional positions, scrolled by camera * parallax for a cheap depth read
   const sf = cfg.starfield;
@@ -54,7 +61,7 @@ export function createRenderer(canvas, world) {
     world.view = { w, h };
   }
 
-  function clearFx() { sparks.length = 0; floats.length = 0; rings.length = 0; arcs.length = 0; }
+  function clearFx() { sparks.length = 0; floats.length = 0; rings.length = 0; arcs.length = 0; flashes.length = 0; }
 
   // ---------- camera ----------
   function updateCamera(dt) {
@@ -73,30 +80,48 @@ export function createRenderer(canvas, world) {
   }
 
   // ---------- fx intake ----------
-  function pushSparks(x, y, color, n, spd) {
+  // opts: {ang, spread} sprays along a direction (muzzle chips); {size} pins the pixel size.
+  function pushSparks(x, y, color, n, spd, opts) {
     if (world.reducedMotion) return;
     for (let i = 0; i < n && sparks.length < SPARK_CAP; i++) {
-      const a = Math.random() * 6.283, s = spd * (0.3 + 0.7 * Math.random());
-      sparks.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 0.3 + Math.random() * 0.3, max: 0.6, color, r: 1 + Math.random() * 1.6 });
+      const a = opts && opts.ang !== undefined
+        ? opts.ang + (Math.random() - 0.5) * (opts.spread || 0.6)
+        : Math.random() * 6.283;
+      const s = spd * (0.3 + 0.7 * Math.random());
+      sparks.push({
+        x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s,
+        life: 0.22 + Math.random() * 0.3, max: 0.52, color,
+        r: (opts && opts.size) || (Math.random() < 0.7 ? 2 : 3),   // chunky pixels, two sizes
+      });
     }
+  }
+  function flash(x, y, size) {
+    if (world.reducedMotion || flashes.length >= FLASH_CAP) return;
+    flashes.push({ x, y, size, life: 0.07, max: 0.07 });
   }
   function drainFx() {
     const fx = world.fx;
-    for (const h of fx.hits) pushSparks(h.x, h.y, el(h.el), 2, 70);
+    for (const h of fx.hits) pushSparks(h.x, h.y, el(h.el), 4, 110);
     for (const d of fx.dmg) if (floats.length < FLOAT_CAP)
       floats.push({ x: d.x + (Math.random() * 10 - 5), y: d.y, life: 0.7, max: 0.7, text: String(d.amt), color: d.tag === 'strong' ? '#FFD470' : d.tag === 'weak' ? '#8FA8CC' : '#EDF7FF', big: d.tag === 'strong' });
     for (const a of fx.arcs) if (arcs.length < ARC_CAP)
       arcs.push({ x1: a.x1, y1: a.y1, x2: a.x2, y2: a.y2, life: 0.12, max: 0.12, color: el(a.el) });
     if (!world.reducedMotion) for (const r of fx.rings) if (rings.length < RING_CAP)
       rings.push({ x: r.x, y: r.y, r1: r.r, life: 0.42, max: 0.42, color: r.color });
-    for (const s of fx.sparks) pushSparks(s.x, s.y, s.color, s.n, 130);
+    for (const s of fx.sparks) {
+      if (s.ang !== undefined) { pushSparks(s.x, s.y, s.color, s.n, s.spd || 240, { ang: s.ang, spread: s.spread }); continue; }  // muzzle chips
+      // undirected spark events are deaths (kill 8 / champion 18 / boss 40) — shrapnel + a hard white pop
+      pushSparks(s.x, s.y, s.color, s.n, 190);
+      if (s.n >= 8) flash(s.x, s.y, s.n >= 18 ? 12 : 8);
+    }
     fx.hits.length = 0; fx.dmg.length = 0; fx.arcs.length = 0; fx.rings.length = 0; fx.sparks.length = 0;
   }
   function stepFx(dt) {
-    for (let i = sparks.length - 1; i >= 0; i--) { const s = sparks[i]; s.life -= dt; s.x += s.vx * dt; s.y += s.vy * dt; s.vx *= 0.92; s.vy *= 0.92; if (s.life <= 0) { sparks[i] = sparks[sparks.length - 1]; sparks.pop(); } }
+    for (let i = sparks.length - 1; i >= 0; i--) { const s = sparks[i]; s.life -= dt; s.x += s.vx * dt; s.y += s.vy * dt; s.vx *= 0.9; s.vy *= 0.9; if (s.life <= 0) { sparks[i] = sparks[sparks.length - 1]; sparks.pop(); } }
     for (let i = floats.length - 1; i >= 0; i--) { const f = floats[i]; f.life -= dt; f.y -= 34 * dt; if (f.life <= 0) { floats[i] = floats[floats.length - 1]; floats.pop(); } }
     for (let i = rings.length - 1; i >= 0; i--) { const r = rings[i]; r.life -= dt; if (r.life <= 0) { rings[i] = rings[rings.length - 1]; rings.pop(); } }
     for (let i = arcs.length - 1; i >= 0; i--) { const a = arcs[i]; a.life -= dt; if (a.life <= 0) { arcs[i] = arcs[arcs.length - 1]; arcs.pop(); } }
+    for (let i = flashes.length - 1; i >= 0; i--) { const f = flashes[i]; f.life -= dt; if (f.life <= 0) { flashes[i] = flashes[flashes.length - 1]; flashes.pop(); } }
   }
 
   // ---------- entity draws ----------
@@ -160,14 +185,75 @@ export function createRenderer(canvas, world) {
     ctx.globalCompositeOperation = 'source-over';
   }
 
+  // per-weapon trail density (0 = none). Heavies smoke, elementals shed their element, lights are clean.
+  const TRAILS = {
+    prow: 0, pulse: 0.15, flak: 0.1, rail: 0.9, needler: 0.2,
+    flame: 0.9, cryo: 0.3, tesla: 0.5, voidbolt: 0.7,
+  };
+  function dash(x, y, ang, len, w, color) {
+    boltPath(ctx, x, y, ang, len); ctx.strokeStyle = color; ctx.lineWidth = w; ctx.stroke();
+  }
+
+  // Every projectile carries its weapon id (b.wid) and evolution special — that's the identity
+  // hook. One draw per gun so the rack reads at a glance: what's firing, and what it became.
   function drawBullets() {
     ctx.globalCompositeOperation = 'lighter';
+    const canTrail = !world.reducedMotion && sparks.length < SPARK_CAP;
     for (const b of world.bullets.items) {
       if (!inView(b.x, b.y, 30)) continue;
-      const c = el(b.element);
-      if (b.glyph === 'pellet') { ctx.beginPath(); ctx.arc(b.x, b.y, b.radius, 0, 6.283); ctx.fillStyle = c; ctx.fill(); }
-      else if (b.glyph === 'orb') { ctx.beginPath(); ctx.arc(b.x, b.y, b.radius + 3, 0, 6.283); ctx.globalAlpha = 0.5; ctx.fillStyle = c; ctx.fill(); ctx.globalAlpha = 1; }
-      else { const len = b.glyph === 'lance' ? 22 : 10; boltPath(ctx, b.x, b.y, b.ang, len); ctx.strokeStyle = c; ctx.lineWidth = b.glyph === 'lance' ? 3 : 2; ctx.stroke(); }
+      const c = el(b.element), sp = b.special, id = b.wid;
+
+      // trail motes — tiny grid-snapped pixels shed behind the round
+      const tc = (TRAILS[id] || 0) * FX.trail * (sp ? 1.2 : 1);
+      if (canTrail && tc > 0 && Math.random() < tc) {
+        sparks.push({ x: b.x, y: b.y, vx: (Math.random() - 0.5) * 24, vy: (Math.random() - 0.5) * 24,
+          life: 0.14 + Math.random() * 0.12, max: 0.26, color: id === 'tesla' ? '#FFFFFF' : c, r: 2 });
+      }
+
+      if (sp === 'well') {                                    // EVENT HORIZON — a slow dark maw
+        ctx.beginPath(); ctx.arc(b.x, b.y, b.radius + 3, 0, 6.283);
+        ctx.fillStyle = '#160B22'; ctx.fill(); ctx.strokeStyle = c; ctx.lineWidth = 2; ctx.stroke();
+        for (let k = 0; k < 2; k++) {                         // two counter-orbiting pixel moons
+          const oa = world.time * (k ? 9 : -7) + k * 3.14;
+          ctx.fillStyle = c; ctx.fillRect(q(b.x + Math.cos(oa) * (b.radius + 6)), q(b.y + Math.sin(oa) * (b.radius + 6)), 2, 2);
+        }
+      } else if (sp === 'blast') {                            // WARHEAD — finned heavy with a hot tip
+        dash(b.x, b.y, b.ang, 20, 4, c);
+        ctx.fillStyle = '#FF8066'; ctx.fillRect(q(b.x), q(b.y), 4, 4);
+      } else if (sp === 'wall') {                             // WALL OF INVOICES — paper chips
+        ctx.fillStyle = '#EDE6D2'; ctx.fillRect(q(b.x) - 2, q(b.y) - 2, 5, 5);
+        ctx.fillStyle = c; ctx.fillRect(q(b.x) - 1, q(b.y) - 1, 2, 2);
+      } else if (sp === 'spinup') {                           // C-RAM — hot tracer stream
+        dash(b.x, b.y, b.ang, 12, 2, c);
+        dash(b.x, b.y, b.ang, 6, 1.2, '#FFFFFF');
+      } else if (id === 'voidbolt') {                         // dark core, violet rim, one moon
+        ctx.beginPath(); ctx.arc(b.x, b.y, b.radius, 0, 6.283);
+        ctx.fillStyle = '#160B22'; ctx.fill(); ctx.strokeStyle = c; ctx.lineWidth = 1.6; ctx.stroke();
+        const oa = world.time * 8;
+        ctx.fillStyle = c; ctx.fillRect(q(b.x + Math.cos(oa) * (b.radius + 4)), q(b.y + Math.sin(oa) * (b.radius + 4)), 2, 2);
+      } else if (id === 'cryo') {                             // crystalline shard
+        diamondPath(ctx, b.x, b.y, b.radius + 1.5); ctx.fillStyle = c; ctx.fill();
+        diamondPath(ctx, b.x, b.y, 1.6); ctx.fillStyle = '#FFFFFF'; ctx.fill();
+      } else if (id === 'flame') {                            // flickering ember chunk
+        const fs = 3 + ((Math.random() * 3) | 0);
+        ctx.fillStyle = Math.random() < 0.4 ? '#FFE34A' : c;
+        ctx.fillRect(q(b.x) - (fs >> 1), q(b.y) - (fs >> 1), fs, fs);
+      } else if (id === 'tesla') {                            // crackling dart, jitters off its line
+        const jx = ((Math.random() * 3) | 0) - 1, jy = ((Math.random() * 3) | 0) - 1;
+        dash(b.x + jx * 2, b.y + jy * 2, b.ang, 8, 2, c);
+      } else if (id === 'rail') {                             // the freight bill
+        dash(b.x, b.y, b.ang, 24, 3, c);
+        dash(b.x, b.y, b.ang, 14, 1.4, '#FFFFFF');
+      } else if (id === 'needler') {                          // thin stinger
+        dash(b.x, b.y, b.ang, 13, 1.2, c);
+      } else if (id === 'flak') {                             // chunky pellet
+        ctx.fillStyle = c; ctx.fillRect(q(b.x) - 2, q(b.y) - 2, 4, 4);
+        ctx.fillStyle = '#FFFFFF'; ctx.fillRect(q(b.x) - 1, q(b.y) - 1, 2, 2);
+      } else if (id === 'prow') {                             // standard-issue slug
+        ctx.fillStyle = '#DCE6F2'; ctx.fillRect(q(b.x) - 1, q(b.y) - 1, 3, 3);
+      } else {                                                // pulse + anything new: clean bolt
+        dash(b.x, b.y, b.ang, 9, 2, c);
+      }
     }
     ctx.globalCompositeOperation = 'source-over';
   }
@@ -229,13 +315,37 @@ export function createRenderer(canvas, world) {
   }
 
   function drawFx() {
-    // arcs (chain lightning)
-    ctx.globalCompositeOperation = 'lighter'; ctx.lineWidth = 2;
-    for (const a of arcs) { ctx.globalAlpha = a.life / a.max; ctx.strokeStyle = a.color; ctx.beginPath(); ctx.moveTo(a.x1, a.y1); const mx = (a.x1 + a.x2) / 2 + (Math.random() * 12 - 6), my = (a.y1 + a.y2) / 2 + (Math.random() * 12 - 6); ctx.lineTo(mx, my); ctx.lineTo(a.x2, a.y2); ctx.stroke(); }
-    // rings (blast / pull / shatter / boss death)
-    for (const r of rings) { const t = 1 - r.life / r.max; ctx.globalAlpha = (1 - t) * 0.8; ctx.strokeStyle = r.color; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(r.x, r.y, r.r1 * t, 0, 6.283); ctx.stroke(); }
-    // sparks
-    for (const s of sparks) { ctx.globalAlpha = Math.max(0, s.life / s.max); ctx.fillStyle = s.color; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill(); }
+    ctx.globalCompositeOperation = 'lighter';
+    // arcs (chain lightning) — two jittered elbows + a white core pass: crackle, not curve
+    for (const a of arcs) {
+      ctx.globalAlpha = stepA(a.life / a.max);
+      const m1x = q(a.x1 + (a.x2 - a.x1) * 0.33 + (Math.random() * 14 - 7)), m1y = q(a.y1 + (a.y2 - a.y1) * 0.33 + (Math.random() * 14 - 7));
+      const m2x = q(a.x1 + (a.x2 - a.x1) * 0.66 + (Math.random() * 14 - 7)), m2y = q(a.y1 + (a.y2 - a.y1) * 0.66 + (Math.random() * 14 - 7));
+      ctx.beginPath(); ctx.moveTo(a.x1, a.y1); ctx.lineTo(m1x, m1y); ctx.lineTo(m2x, m2y); ctx.lineTo(a.x2, a.y2);
+      ctx.strokeStyle = a.color; ctx.lineWidth = 2.5; ctx.stroke();
+      ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 1; ctx.stroke();
+    }
+    // rings (blast / pull / shatter / boss death) — the radius expands in hard steps, so the
+    // ring POPS outward frame-to-frame instead of easing (the bitcrunch read)
+    for (const r of rings) {
+      const t = 1 - r.life / r.max, ts = Math.ceil(t * 5) / 5;
+      ctx.globalAlpha = stepA(1 - t) * 0.8;
+      ctx.strokeStyle = r.color; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(r.x, r.y, Math.max(1, r.r1 * ts), 0, 6.283); ctx.stroke();
+    }
+    // sparks — grid-snapped squares with stepped fade: pixels, not dust
+    for (const s of sparks) {
+      ctx.globalAlpha = stepA(s.life / s.max) * 0.95;
+      ctx.fillStyle = s.color;
+      ctx.fillRect(q(s.x), q(s.y), s.r, s.r);
+    }
+    // kill flashes — a hard white square for a couple frames
+    for (const f of flashes) {
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = '#FFFFFF';
+      const h = f.size >> 1;
+      ctx.fillRect(q(f.x) - h, q(f.y) - h, f.size, f.size);
+    }
     ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
     // floating damage numbers (drawn in world space, small)
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';

@@ -202,6 +202,12 @@
     "alpha": 0.2,
     "spin": 0.1
   },
+  "fx": {
+    "pixelGrid": 3,
+    "alphaSteps": 4,
+    "sparkCap": 900,
+    "trail": 1.0
+  },
   "audio": {
     "master": 0.55,
     "musicGain": 0.18

@@ -187,9 +187,9 @@
           "sha256": "c3da9b5caeaca60887fc142b8ee7c64fe9f2226e5fd81d8520c2f8b01d831407"
         },
         {
-          "bytes": 4530,
+          "bytes": 4624,
           "path": "config/game.json",
-          "sha256": "eedc5d89045168c95c73d05bd0cc828295d1d30cbb64a0f3565db6b13f197b5c"
+          "sha256": "caf2263ead9b3f64ca1460cc61a8c5c583017eb05128e198f34f33d9c06a5c9a"
         },
         {
           "bytes": 16299,
@@ -222,9 +222,9 @@
           "sha256": "39235daba7817762fa2a1042b51f22e87d8120fc7475791011c7c57e2bf350e1"
         },
         {
-          "bytes": 5099,
+          "bytes": 5084,
           "path": "src/core/state.js",
-          "sha256": "5eac7b5b34ed94f9cf0108bc42eda87316bbc210a761042efbb6d1e58f4b0fac"
+          "sha256": "db1fd4cfb8ad5d8793be67b443d620abe682eadcf3fd914dd97c4652cd3d3503"
         },
         {
           "bytes": 2443,
@@ -267,9 +267,9 @@
           "sha256": "9f441578ff48a3c57284628be8c3acd1e0525b22596d8ba5ac17d8ccad38df2b"
         },
         {
-          "bytes": 17762,
+          "bytes": 23996,
           "path": "src/render/render.js",
-          "sha256": "17990c635531e22370de4f9bea2bcbae10339a0255e354f41200e7b3bc81128e"
+          "sha256": "99c88b605a8cd3a8f3e911aaab8a82022c35c0c42d230201a87b62b4b32da282"
         },
         {
           "bytes": 6291,
@@ -307,9 +307,9 @@
           "sha256": "17b4064a598f58c8d15a9a95f2b87b089146c76227326d979a8a26a592baaa83"
         },
         {
-          "bytes": 6336,
+          "bytes": 6697,
           "path": "src/systems/weapons.js",
-          "sha256": "eb332869a9bbd30a126307633ebf4de3c6ad43a28edbcec7baf3efffe13a958c"
+          "sha256": "90f8c518a4ae38df9276a7a36f9affcffba0a7694da3674a0ca7197c277fb116"
         }
       ],
       "name": "Fulfillment LITE",
@@ -320,8 +320,8 @@
         "Roguelite",
         "Seeded"
       ],
-      "totalBytes": 134170,
-      "version": "1a835e1a30d6"
+      "totalBytes": 140844,
+      "version": "1824df188c28"
     },
     {
       "blurb": "Generative star-atlas plates. Every reroll is a 1-of-1; the seed rides in the URL.",
@@ -550,7 +550,7 @@
       "version": "b35b6a631ec9"
     }
   ],
-  "generated": "2026-07-15T01:04:37Z",
+  "generated": "2026-07-15T01:21:50Z",
   "schema": 1,
   "source": "jordan-doerksen.github.io"
 }

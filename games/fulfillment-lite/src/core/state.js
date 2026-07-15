@@ -15,7 +15,7 @@ const blankEnemy = () => ({
 });
 const blankBullet = () => ({
   active: false, x: 0, y: 0, vx: 0, vy: 0, life: 0, radius: 3, dmg: 1, element: 0,
-  kb: 0, pierce: 0, hitSet: null, glyph: 'bolt', wid: '', special: null, blastRadius: 0,
+  kb: 0, pierce: 0, hitSet: null, wid: '', special: null, blastRadius: 0,
   blastFrac: 0, wellRadius: 0, wellForce: 0, ang: 0,
 });
 const blankShot = () => ({   // enemy / boss ordnance
