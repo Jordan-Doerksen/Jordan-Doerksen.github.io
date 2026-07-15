@@ -36,10 +36,23 @@
     cursor:pointer;
   }
   .toolbar{
+    position:relative; /* anchors the settings panel so opening it never reflows the page */
     display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center;
     background:var(--panel); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
     border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px;
   }
+  .settings{
+    position:absolute; bottom:calc(100% + 12px); left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; gap:10px; min-width:232px;
+    background:var(--panel); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--line-strong); border-radius:var(--radius); padding:14px 16px;
+    box-shadow:0 18px 50px rgba(0,0,0,.55);
+  }
+  .settings[hidden]{ display:none; }
+  .set-row{ display:flex; align-items:center; justify-content:space-between; gap:18px; }
+  .set-label{ font:500 12px/1 var(--font-mono); letter-spacing:.14em; text-transform:uppercase; color:var(--text); }
+  .btn.toggle{ min-width:64px; text-align:center; padding:9px 12px; }
+  .btn.toggle.off{ color:var(--text-muted); background:rgba(151,160,181,.06); } /* #97a0b5 on the dark glass ≈ 7:1 — AA holds in the off state */
   .btn{
     font:600 13px/1 var(--font-display); letter-spacing:.02em; color:var(--text);
     background:rgba(216,172,78,.08); border:1px solid var(--line-strong); border-radius:10px;
@@ -67,6 +80,11 @@
     <span class="eyebrow" id="seedLabel">SEED ····</span>
     <button class="btn gold" id="reroll">✦ Reroll</button>
     <button class="btn" id="save">Save plate</button>
+    <button class="btn" id="settingsBtn" aria-expanded="false" aria-controls="settingsPanel">Settings</button>
+    <div class="settings" id="settingsPanel" role="group" aria-label="Sound settings" hidden>
+      <div class="set-row"><span class="set-label" id="sfxLbl">Sound</span><button class="btn toggle" id="sfxToggle" aria-pressed="true" aria-labelledby="sfxLbl">On</button></div>
+      <div class="set-row"><span class="set-label" id="musLbl">Music</span><button class="btn toggle" id="musicToggle" aria-pressed="true" aria-labelledby="musLbl">On</button></div>
+    </div>
   </div>
   <p class="hint"><b>Space</b> reroll · <b>S</b> save · click the plate to reroll — <b>each plate is a one-off</b></p>
 
@@ -270,8 +288,102 @@ function loop(){
   ctx.globalAlpha=1; raf=requestAnimationFrame(loop);
 }
 
-function reroll(){ cancelAnimationFrame(raf); generate((Math.random()*4294967296)>>>0); }
+// ===========================================================================
+// AUDIO — generated WebAudio only, no files. Soft chimes on reroll/save, a
+// sparse observatory-quiet pad underneath. All randomness here uses
+// Math.random, NEVER rand() — the seeded RNG belongs to the plate and
+// consuming it would change which plate a seed produces.
+// ===========================================================================
+const AUDIO = { // tunables — inline because this game stays single-file
+  sfxGain: 0.5, musicGain: 0.14,
+  rerollNotes: [1174.66, 1567.98, 2093.0],   // D6 · G6 · C7 — glassy shimmer
+  saveNotes:   [880.0, 1318.51],             // A5 → E6 — soft confirm
+  padFreqs:    [110, 164.81, 220],           // A2 + E3 + A3 open-fifth drone
+  bellScale:   [1318.51, 1567.98, 1760, 2093, 2637], // E6 G6 A6 C7 E7
+  bellEverySec:[9, 16]
+};
+const SETTINGS_KEY = 'glass-atlas.settings'; // its own key — this game keeps no other localStorage
+let settings = { sfx:true, music:true };
+try{ const s0 = JSON.parse(localStorage.getItem(SETTINGS_KEY)); if(s0 && typeof s0==='object'){ settings.sfx = s0.sfx!==false; settings.music = s0.music!==false; } }catch(e){}
+function saveSettings(){ try{ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }catch(e){} }
+
+let ac=null, sfxBus=null, musicBus=null, musicOn=false;
+function initAudio(){ // autoplay law: only ever called from a user gesture
+  if(ac) return;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if(!AC) return;
+  ac = new AC();
+  sfxBus = ac.createGain(); sfxBus.gain.value = AUDIO.sfxGain; sfxBus.connect(ac.destination);
+  musicBus = ac.createGain(); musicBus.gain.value = settings.music ? AUDIO.musicGain : 0; musicBus.connect(ac.destination);
+  startMusic(); // pad always runs into the bus; the MUSIC toggle just rides the bus gain (seamless, instant)
+}
+function ensureAudio(){ initAudio(); if(ac && ac.state==='suspended') ac.resume(); }
+addEventListener('pointerdown', ensureAudio, true); // capture: audio exists before the click handlers fire
+addEventListener('keydown', ensureAudio, true);
+
+function chime(freq, t, peak, dur){
+  const o=ac.createOscillator(); o.type='sine';
+  o.frequency.value = freq*(1+(Math.random()*2-1)*0.003); // hair of detune so no two chimes are identical
+  const g=ac.createGain();
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.exponentialRampToValueAtTime(peak,t+0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g); g.connect(sfxBus); o.start(t); o.stop(t+dur+0.05);
+}
+function sfxReroll(){ if(!ac||!settings.sfx) return; const t0=ac.currentTime; AUDIO.rerollNotes.forEach((f,i)=>chime(f,t0+i*0.045,0.16,0.7)); }
+function sfxSave(){ if(!ac||!settings.sfx) return; const t0=ac.currentTime; AUDIO.saveNotes.forEach((f,i)=>chime(f,t0+i*0.09,0.14,0.9)); }
+function sfxTick(){ if(!ac||!settings.sfx) return; chime(1046.5,ac.currentTime,0.08,0.15); }
+
+function startMusic(){
+  if(!ac || musicOn) return; musicOn=true;
+  const filt=ac.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value=900; filt.Q.value=0.4; filt.connect(musicBus);
+  const padGain=ac.createGain(); padGain.gain.value=0.5; padGain.connect(filt);
+  AUDIO.padFreqs.forEach((f,i)=>{
+    [-4,3].forEach(det=>{ // detuned pair per voice — slow natural beating, loops with no seam
+      const o=ac.createOscillator(); o.type = i===0?'sine':'triangle';
+      o.frequency.value=f; o.detune.value=det;
+      const g=ac.createGain(); g.gain.value=0.12; o.connect(g); g.connect(padGain); o.start();
+    });
+  });
+  const lfo=ac.createOscillator(); lfo.frequency.value=0.03; // ~33 s breath on the filter
+  const lg=ac.createGain(); lg.gain.value=260; lfo.connect(lg); lg.connect(filt.frequency); lfo.start();
+  scheduleBell();
+}
+function scheduleBell(){ // sparse lone bell every 9–16 s; plays into the music bus so the toggle silences it too
+  const [a,b]=AUDIO.bellEverySec;
+  setTimeout(()=>{ if(ac){ bellNote(); } scheduleBell(); }, (a+Math.random()*(b-a))*1000);
+}
+function bellNote(){
+  const f=AUDIO.bellScale[(Math.random()*AUDIO.bellScale.length)|0], t=ac.currentTime;
+  const o=ac.createOscillator(); o.type='sine'; o.frequency.value=f;
+  const g=ac.createGain();
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.linearRampToValueAtTime(0.05,t+0.03);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+3.5);
+  o.connect(g); g.connect(musicBus); o.start(t); o.stop(t+3.6);
+}
+function applyMusic(){ if(!ac||!musicBus) return; musicBus.gain.setTargetAtTime(settings.music?AUDIO.musicGain:0, ac.currentTime, 0.25); }
+
+// --- settings panel ---
+const settingsBtn=document.getElementById('settingsBtn'), settingsPanel=document.getElementById('settingsPanel');
+const sfxToggle=document.getElementById('sfxToggle'), musicToggle=document.getElementById('musicToggle');
+function renderToggles(){
+  [[sfxToggle,settings.sfx],[musicToggle,settings.music]].forEach(([btn,on])=>{
+    btn.setAttribute('aria-pressed', on?'true':'false');
+    btn.textContent = on?'On':'Off';
+    btn.classList.toggle('off',!on);
+  });
+}
+function openSettings(){ settingsPanel.hidden=false; settingsBtn.setAttribute('aria-expanded','true'); }
+function closeSettings(){ settingsPanel.hidden=true; settingsBtn.setAttribute('aria-expanded','false'); settingsBtn.focus(); }
+settingsBtn.addEventListener('click', ()=>{ settingsPanel.hidden ? openSettings() : closeSettings(); });
+sfxToggle.addEventListener('click', ()=>{ settings.sfx=!settings.sfx; saveSettings(); renderToggles(); sfxTick(); });
+musicToggle.addEventListener('click', ()=>{ settings.music=!settings.music; saveSettings(); renderToggles(); applyMusic(); sfxTick(); });
+renderToggles();
+
+function reroll(){ sfxReroll(); cancelAnimationFrame(raf); generate((Math.random()*4294967296)>>>0); }
 function save(){
+  sfxSave();
   cancelAnimationFrame(raf); ctx.clearRect(0,0,W,H); ctx.drawImage(base,0,0,W,H);
   cv.toBlob(b=>{ const u=URL.createObjectURL(b); const a=document.createElement('a');
     a.href=u; a.download='glass-atlas-'+hex6(state.seed)+'.png'; a.click(); URL.revokeObjectURL(u);
@@ -282,7 +394,11 @@ function save(){
 document.getElementById('reroll').addEventListener('click', reroll);
 document.getElementById('save').addEventListener('click', save);
 cv.addEventListener('click', reroll);
-addEventListener('keydown', e=>{ if(e.code==='Space'){e.preventDefault();reroll();} else if(e.key.toLowerCase()==='s'){save();} });
+addEventListener('keydown', e=>{
+  if(e.key==='Escape' && !settingsPanel.hidden){ e.preventDefault(); closeSettings(); return; }
+  if(e.target && e.target.closest && e.target.closest('.toolbar')) return; // Space/S on a focused control operate the control, not the shortcuts
+  if(e.code==='Space'){e.preventDefault();reroll();} else if(e.key.toLowerCase()==='s'){save();}
+});
 
 // boot — seed from #hash if present (shareable), else random
 const fromHash = location.hash.slice(1);

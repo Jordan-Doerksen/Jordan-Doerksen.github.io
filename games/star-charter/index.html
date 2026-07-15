@@ -463,6 +463,44 @@ body {
   margin-top: 22px;
 }
 
+/* ----- settings rows — sound + music toggles ----- */
+.settings-rows {
+  display: grid;
+  gap: 10px;
+  margin: 4px auto 0;
+  max-width: 300px;
+}
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 13px 16px;
+  background: rgba(14, 19, 32, 0.55);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color var(--t-fast), background var(--t-fast);
+  touch-action: manipulation;
+}
+.setting-row:hover { border-color: rgba(216, 172, 78, 0.6); }
+.setting-row .setting-name {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.setting-row .setting-state {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.setting-row.off .setting-state { color: var(--text-muted); }
+.setting-row:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.setting-row:active { transform: scale(0.99); }
+
 /* ----- archive nav — sibling games ----- */
 .archive-nav { display: flex; justify-content: center; gap: 20px; margin-top: 12px; }
 .archive-nav a {
@@ -535,6 +573,8 @@ body {
       Every third plate <b>✦</b> refit with new instruments
     </p>
     <button id="btnStart" class="btn">Begin charting</button>
+    <br>
+    <button id="btnSettingsTitle" class="btn-ghost">Sound &amp; settings</button>
     <p class="record-line" id="recordLine" hidden>Personal record <b id="recordVal">0</b></p>
     <p class="colophon">N°01 ✦ The Glass Archive ✦ MMXXVI</p>
     <nav class="archive-nav" aria-label="other games in the archive">
@@ -547,6 +587,8 @@ body {
     <div class="eyebrow">Held ✦ Mid-drift</div>
     <h2>The sky <em>waits</em>.</h2>
     <button id="btnResume" class="btn">Resume drifting</button>
+    <br>
+    <button id="btnSettingsPause" class="btn-ghost">Sound &amp; settings</button>
     <br>
     <button id="btnAbandon" class="btn-ghost">Abandon run</button>
   </section>
@@ -571,6 +613,24 @@ body {
     <br>
     <button id="btnTitle" class="btn-ghost">Return to title</button>
   </section>
+
+  <section id="screenSettings" class="glass-panel screen" hidden aria-label="settings">
+    <div class="eyebrow">Instruments ✦ Sound</div>
+    <h2>Tune the <em>rig</em>.</h2>
+    <div class="atlas-rule"></div>
+    <div class="settings-rows">
+      <button id="setSfx" class="setting-row" role="switch" aria-checked="true">
+        <span class="setting-name">Sound effects</span>
+        <span class="setting-state">ON</span>
+      </button>
+      <button id="setMusic" class="setting-row" role="switch" aria-checked="true">
+        <span class="setting-name">Music</span>
+        <span class="setting-state">ON</span>
+      </button>
+    </div>
+    <p class="hint">The <b>♪</b> in the corner still silences everything at once</p>
+    <button id="btnSettingsBack" class="btn">Done</button>
+  </section>
 </div>
 
 <script>
@@ -590,7 +650,7 @@ const pctx = plateCanvas.getContext('2d');
 
 const $ = (id) => document.getElementById(id);
 const hud = $('hud'), overlay = $('overlay'), platePanel = $('platePanel'), rigLine = $('rigLine');
-const screens = { title: $('screenTitle'), pause: $('screenPause'), choice: $('screenChoice'), over: $('screenOver') };
+const screens = { title: $('screenTitle'), pause: $('screenPause'), choice: $('screenChoice'), over: $('screenOver'), settings: $('screenSettings') };
 
 const COLORS = { starlight: '#f2f4fa', gold: '#d8ac4e' };
 // Plate hues — vary them, return to gold (the sky mechanic, per STYLE.md)
@@ -631,12 +691,27 @@ let save = { best: 0, bestPlate: 0, muted: false };
 try { Object.assign(save, JSON.parse(localStorage.getItem(SAVE_KEY)) || {}); } catch (e) {}
 function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} }
 
+// settings live under their own key — the save above is never reformatted
+const SETTINGS_KEY = 'star-charter.settings';
+let settings = { sfx: true, music: true };
+try { Object.assign(settings, JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}); } catch (e) {}
+function persistSettings() { try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch (e) {} }
+
 // ==========================================================================
 // AUDIO — generated, no files
 // ==========================================================================
 const Audio = {
-  ctx: null, master: null, bhGain: null, noiseBuf: null,
+  ctx: null, master: null, sfxGain: null, musicGain: null, bhGain: null, noiseBuf: null,
   scale: [440, 523.25, 587.33, 659.25, 783.99, 880],
+  // pad chords in the same A-minor space as the plink scale: Am → F → C → Gsus2,
+  // low register, one common tone (A3) drifting through most of them
+  padChords: [
+    [110.00, 164.81, 220.00],
+    [87.31, 130.81, 220.00],
+    [130.81, 196.00, 329.63],
+    [98.00, 146.83, 220.00],
+  ],
+  padVoices: [], padStep: 0,
   init() {
     if (this.ctx) return;
     const AC = window.AudioContext || window.webkitAudioContext;
@@ -646,9 +721,18 @@ const Audio = {
     this.master.gain.value = save.muted ? 0 : 1;
     this.master.connect(c.destination);
 
+    // two buses under the master: the settings toggles ride these,
+    // the ♪ master mute rides above them
+    this.sfxGain = c.createGain();
+    this.sfxGain.gain.value = settings.sfx ? 1 : 0;
+    this.sfxGain.connect(this.master);
+    this.musicGain = c.createGain();
+    this.musicGain.gain.value = settings.music ? 1 : 0;
+    this.musicGain.connect(this.master);
+
     const droneGain = c.createGain();
     droneGain.gain.value = 0.028;
-    droneGain.connect(this.master);
+    droneGain.connect(this.musicGain);
     [55, 82.6].forEach((f, i) => {
       const o = c.createOscillator();
       o.type = 'sine'; o.frequency.value = f;
@@ -662,12 +746,58 @@ const Audio = {
     const bo = c.createOscillator();
     bo.type = 'triangle'; bo.frequency.value = 34;
     this.bhGain = c.createGain(); this.bhGain.gain.value = 0;
-    bo.connect(this.bhGain); this.bhGain.connect(this.master); bo.start();
+    bo.connect(this.bhGain); this.bhGain.connect(this.sfxGain); bo.start();
 
     const len = c.sampleRate;
     this.noiseBuf = c.createBuffer(1, len, c.sampleRate);
     const d = this.noiseBuf.getChannelData(0);
     for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+
+    this.startPad(c);
+  },
+  // the drifting pad — continuous detuned oscillators gliding between chords,
+  // so the loop has no seam to hear; quiet, well under the SFX
+  startPad(c) {
+    const padGain = c.createGain();
+    padGain.gain.value = 0.045;
+    const filt = c.createBiquadFilter();
+    filt.type = 'lowpass'; filt.frequency.value = 620; filt.Q.value = 0.4;
+    filt.connect(padGain); padGain.connect(this.musicGain);
+
+    // slow drifts: the filter breathes, the level swells — nothing repeats on a beat
+    const fLfo = c.createOscillator(), fLfoG = c.createGain();
+    fLfo.frequency.value = 0.021; fLfoG.gain.value = 210;
+    fLfo.connect(fLfoG); fLfoG.connect(filt.frequency); fLfo.start();
+    const sLfo = c.createOscillator(), sLfoG = c.createGain();
+    sLfo.frequency.value = 0.043; sLfoG.gain.value = 0.014;
+    sLfo.connect(sLfoG); sLfoG.connect(padGain.gain); sLfo.start();
+
+    this.padVoices = [];
+    const chord = this.padChords[0];
+    chord.forEach((f, vi) => {
+      [-4, 3].forEach((cents) => {
+        const o = c.createOscillator();
+        o.type = vi === 0 ? 'triangle' : 'sine';
+        o.frequency.value = f;
+        o.detune.value = cents;
+        const g = c.createGain();
+        g.gain.value = vi === 0 ? 0.5 : 0.36;
+        o.connect(g); g.connect(filt); o.start();
+        this.padVoices.push({ o, vi });
+      });
+    });
+    setInterval(() => {
+      this.padStep = (this.padStep + 1) % this.padChords.length;
+      const ch = this.padChords[this.padStep], t = c.currentTime;
+      // a ~3.5 s portamento between chords — the drift IS the transition
+      for (const v of this.padVoices) v.o.frequency.setTargetAtTime(ch[v.vi], t, 3.5);
+    }, 13000);
+  },
+  applySettings() {
+    if (!this.ctx) return;
+    const t = this.ctx.currentTime;
+    if (this.sfxGain) this.sfxGain.gain.setTargetAtTime(settings.sfx ? 1 : 0, t, 0.04);
+    if (this.musicGain) this.musicGain.gain.setTargetAtTime(settings.music ? 1 : 0, t, 0.25);
   },
   resume() { if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume(); },
   suspend() { if (this.ctx && this.ctx.state === 'running') this.ctx.suspend(); },
@@ -679,7 +809,7 @@ const Audio = {
     if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
     g.gain.setValueAtTime(vol, t);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    o.connect(g); g.connect(this.master);
+    o.connect(g); g.connect(this.sfxGain);
     o.start(t); o.stop(t + dur + 0.05);
   },
   noise(dur, vol, freq = 800, type = 'lowpass') {
@@ -690,7 +820,7 @@ const Audio = {
     const g = c.createGain();
     g.gain.setValueAtTime(vol, t);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    src.connect(f); f.connect(g); g.connect(this.master);
+    src.connect(f); f.connect(g); g.connect(this.sfxGain);
     src.start(t); src.stop(t + dur);
   },
   chime(step) {
@@ -960,6 +1090,26 @@ function toast(eyebrow, name, dur = 2.2) {
   $('toastName').textContent = name.toUpperCase();
   $('toast').classList.add('show');
   toastT = dur;
+}
+
+// ----- Settings panel — reachable from title and pause; game state is untouched -----
+let settingsFrom = null; // which screen to return to; null = panel closed
+function syncSettingRow(el, on) {
+  el.setAttribute('aria-checked', String(on));
+  el.querySelector('.setting-state').textContent = on ? 'ON' : 'OFF';
+  el.classList.toggle('off', !on);
+}
+function openSettings(from) {
+  settingsFrom = from;
+  syncSettingRow($('setSfx'), settings.sfx);
+  syncSettingRow($('setMusic'), settings.music);
+  showScreen('settings');
+}
+function closeSettings() {
+  if (settingsFrom === null) return;
+  const from = settingsFrom;
+  settingsFrom = null;
+  showScreen(from);
 }
 
 // ==========================================================================
@@ -2200,13 +2350,17 @@ addEventListener('blur', () => { input.id = null; input.active = false; });
 const KEYMAP = { ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right' };
 addEventListener('keydown', (e) => {
   if (KEYMAP[e.code]) { keys[KEYMAP[e.code]] = 1; firstGesture(); }
-  else if (e.code === 'KeyP' || e.code === 'Escape') state === 'playing' ? pauseRun() : state === 'paused' && resumeRun();
+  else if (e.code === 'KeyP' || e.code === 'Escape') {
+    if (settingsFrom !== null) closeSettings();
+    else state === 'playing' ? pauseRun() : state === 'paused' && resumeRun();
+  }
   else if (e.code === 'KeyM') $('btnMute').click();
   else if (e.code === 'Digit1' || e.code === 'Digit2' || e.code === 'Digit3') {
     if (state === 'choosing') chooseUpgrade(Number(e.code.slice(-1)) - 1);
   }
   else if (e.code === 'Enter' || e.code === 'Space') {
-    if (state === 'title' || state === 'over') { firstGesture(); startRun(); }
+    // not while the settings panel is up — Space there belongs to the toggles
+    if ((state === 'title' || state === 'over') && settingsFrom === null) { firstGesture(); startRun(); }
   }
 });
 addEventListener('keyup', (e) => { if (KEYMAP[e.code]) keys[KEYMAP[e.code]] = 0; });
@@ -2226,6 +2380,26 @@ $('btnMute').addEventListener('click', () => {
   $('btnMute').classList.toggle('muted', muted);
 });
 if (save.muted) $('btnMute').classList.add('muted');
+
+$('btnSettingsTitle').addEventListener('click', () => { firstGesture(); openSettings('title'); });
+$('btnSettingsPause').addEventListener('click', () => openSettings('pause'));
+$('btnSettingsBack').addEventListener('click', closeSettings);
+$('setSfx').addEventListener('click', () => {
+  firstGesture();
+  settings.sfx = !settings.sfx;
+  persistSettings();
+  Audio.applySettings();
+  syncSettingRow($('setSfx'), settings.sfx);
+  // a plink to confirm — only when it can actually be heard right now
+  if (settings.sfx && Audio.ctx && Audio.ctx.state === 'running') setTimeout(() => Audio.chime(2), 60);
+});
+$('setMusic').addEventListener('click', () => {
+  firstGesture();
+  settings.music = !settings.music;
+  persistSettings();
+  Audio.applySettings();
+  syncSettingRow($('setMusic'), settings.music);
+});
 
 $('choiceCards').addEventListener('click', (e) => {
   const card = e.target.closest('.card');
@@ -2262,8 +2436,10 @@ addEventListener('resize', resize);
 // debug handle for automated checks — not part of the game
 window.__sc = {
   get state() { return state; }, get score() { return score; }, get plate() { return plate; },
-  get upg() { return upg; }, player,
+  get upg() { return upg; }, get settings() { return settings; }, get audio() { return Audio; },
+  player,
   chart: () => chartStar(), start: startRun, choose: chooseUpgrade,
+  openSettings, closeSettings,
   give: (k) => { if (UPGRADES[k] && upg[k] < UPGRADES[k].max) { upg[k]++; setHud(); } },
   spawnCreature, spawnAlien, spawnHole,
 };

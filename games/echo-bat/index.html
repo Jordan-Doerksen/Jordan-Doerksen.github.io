@@ -178,11 +178,32 @@ body {
 }
 .archive-nav a:hover { color: var(--violet); }
 
+/* ----- settings toggles ----- */
+.set-rows { display: grid; gap: 12px; margin-top: 18px; }
+.set-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.set-name { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.tgl {
+  min-width: 92px; padding: 10px 18px;
+  border-radius: 999px; border: 1px solid var(--line-strong);
+  background: rgba(22, 16, 36, 0.6); color: var(--muted);
+  font-family: inherit; font-weight: 700; font-size: 0.72rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  cursor: pointer; touch-action: manipulation;
+  transition: transform 0.15s var(--ease), border-color 0.15s, background 0.15s, color 0.15s;
+}
+.tgl[aria-checked="true"] {
+  border-color: rgba(179, 157, 245, 0.55);
+  background: rgba(179, 157, 245, 0.12);
+  color: var(--violet);
+}
+.tgl:active { transform: scale(0.96); } /* active: same tactile press as .btn */
+
 /* ----- interaction states (UI chrome only) ----- */
 /* focus-visible: keyboard nav — visible violet ring on every interactive element, offset so it reads against the dark panels */
 .btn:focus-visible,
 .btn-ghost:focus-visible,
 .card:focus-visible,
+.tgl:focus-visible,
 #btnMute:focus-visible,
 .archive-nav a:focus-visible {
   outline: 2px solid var(--violet);
@@ -195,7 +216,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .btn:active, .btn-ghost:active, #btnMute:active, .card:active { transform: none !important; } /* reduced-motion: keep press color feedback, drop the scale movement */
+  .btn:active, .btn-ghost:active, #btnMute:active, .card:active, .tgl:active { transform: none !important; } /* reduced-motion: keep press color feedback, drop the scale movement */
 }
 </style>
 </head>
@@ -232,6 +253,8 @@ body {
       Every third cavern <b>✦</b> choose a gift
     </p>
     <button id="btnStart" class="btn">Fly into the dark</button>
+    <br>
+    <button id="btnSettingsT" class="btn-ghost">Sound &amp; settings</button>
     <p class="record-line" id="recordLine" hidden>Best harvest <b id="recordVal">0</b></p>
     <p class="colophon">N°03 ✦ The Glass Archive ✦ MMXXVI</p>
     <nav class="archive-nav" aria-label="other games in the archive">
@@ -251,7 +274,26 @@ body {
     <h2>The cave <em>waits</em>.</h2>
     <button id="btnResume" class="btn">Keep flying</button>
     <br>
+    <button id="btnSettingsP" class="btn-ghost">Sound &amp; settings</button>
+    <br>
     <button id="btnQuit" class="btn-ghost">Abandon flight</button>
+  </section>
+
+  <section id="screenSettings" class="panel" hidden aria-label="settings">
+    <div class="eyebrow">Settings ✦ Sound</div>
+    <h2>Tune the <em>dark</em>.</h2>
+    <div class="set-rows">
+      <div class="set-row">
+        <span class="set-name" id="lblSfx">Sound effects</span>
+        <button id="tglSfx" class="tgl" role="switch" aria-checked="true" aria-labelledby="lblSfx">On</button>
+      </div>
+      <div class="set-row">
+        <span class="set-name" id="lblMusic">Music</span>
+        <button id="tglMusic" class="tgl" role="switch" aria-checked="true" aria-labelledby="lblMusic">On</button>
+      </div>
+    </div>
+    <p class="hint">Kept on this device <b>✦</b> M mutes everything</p>
+    <button id="btnSettingsBack" class="btn">Done</button>
   </section>
 
   <section id="screenOver" class="panel" hidden aria-label="game over">
@@ -282,7 +324,7 @@ const canvas = document.getElementById('cave');
 const ctx = canvas.getContext('2d');
 const $ = (id) => document.getElementById(id);
 const hud = $('hud'), overlay = $('overlay');
-const screens = { title: $('screenTitle'), up: $('screenUp'), pause: $('screenPause'), over: $('screenOver') };
+const screens = { title: $('screenTitle'), up: $('screenUp'), pause: $('screenPause'), over: $('screenOver'), settings: $('screenSettings') };
 
 const TAU = Math.PI * 2;
 const rand = (a, b) => a + Math.random() * (b - a);
@@ -315,6 +357,16 @@ try { Object.assign(save, JSON.parse(localStorage.getItem(SAVE_KEY)) || {}); } c
 function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} }
 
 // ==========================================================================
+// SETTINGS — sound toggles under their own key; the save above is never
+// touched or reformatted by these. Both default ON. The HUD mute button
+// stays what it always was: a master mute on top of these.
+// ==========================================================================
+const SETTINGS_KEY = 'echo-bat.settings';
+const settings = { sfx: true, music: true };
+try { Object.assign(settings, JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}); } catch (e) {}
+function persistSettings() { try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch (e) {} }
+
+// ==========================================================================
 // AUDIO — generated, no files
 // ==========================================================================
 const Audio = {
@@ -327,10 +379,15 @@ const Audio = {
     this.master = c.createGain();
     this.master.gain.value = save.muted ? 0 : 1;
     this.master.connect(c.destination);
+    // music bus, dry side — the drone lives here so the MUSIC toggle can
+    // silence ambience without touching SFX. Starts at 0 if music is off.
+    this.musicDry = c.createGain();
+    this.musicDry.gain.value = settings.music ? 1 : 0;
+    this.musicDry.connect(this.master);
     // cave drone — low, damp, patient
     const droneGain = c.createGain();
     droneGain.gain.value = 0.02;
-    droneGain.connect(this.master);
+    droneGain.connect(this.musicDry);
     [48, 72.2].forEach((f, i) => {
       const o = c.createOscillator();
       o.type = 'sine'; o.frequency.value = f;
@@ -346,7 +403,7 @@ const Audio = {
   resume() { if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume(); },
   suspend() { if (this.ctx && this.ctx.state === 'running') this.ctx.suspend(); },
   tone(freq, dur, vol, type = 'sine', slideTo = null, toEcho = false) {
-    if (!this.ctx) return;
+    if (!this.ctx || !settings.sfx) return; // tone() is SFX-only; music has its own oscillators
     const c = this.ctx, t = c.currentTime;
     const o = c.createOscillator(), g = c.createGain();
     o.type = type; o.frequency.setValueAtTime(freq, t);
@@ -369,9 +426,14 @@ const Audio = {
     const wet = c.createGain(); wet.gain.value = 0.5;
     d.connect(wet); wet.connect(this.master);
     this.echoIn.connect(this.master);
+    // music bus, wet side — bells + drips send through the echo chamber via
+    // this gate, so the MUSIC toggle silences them while SFX keep their echo.
+    this.musicWet = c.createGain();
+    this.musicWet.gain.value = settings.music ? 1 : 0;
+    this.musicWet.connect(this.echoIn);
     const NOTES = [110, 130.8, 146.8, 164.8, 196, 220, 261.6]; // A minor pentatonic, down low
     const note = () => {
-      if (c.state === 'running' && !save.muted) {
+      if (c.state === 'running' && !save.muted && settings.music) {
         const f = NOTES[Math.floor(Math.random() * NOTES.length)] * (Math.random() < 0.22 ? 2 : 1);
         const t = c.currentTime;
         const o = c.createOscillator(), g = c.createGain();
@@ -379,14 +441,14 @@ const Audio = {
         g.gain.setValueAtTime(0.0001, t);
         g.gain.exponentialRampToValueAtTime(0.05, t + 0.6);
         g.gain.exponentialRampToValueAtTime(0.0001, t + 3.4);
-        o.connect(g); g.connect(this.echoIn);
+        o.connect(g); g.connect(this.musicWet);
         o.start(t); o.stop(t + 3.6);
       }
       setTimeout(note, 2800 + Math.random() * 4500);
     };
     note();
     const drip = () => {
-      if (c.state === 'running' && !save.muted) {
+      if (c.state === 'running' && !save.muted && settings.music) {
         const t = c.currentTime;
         const o = c.createOscillator(), g = c.createGain();
         o.type = 'sine';
@@ -394,15 +456,24 @@ const Audio = {
         o.frequency.exponentialRampToValueAtTime(700, t + 0.09);
         g.gain.setValueAtTime(0.055, t);
         g.gain.exponentialRampToValueAtTime(0.0001, t + 0.13);
-        o.connect(g); g.connect(this.echoIn);
+        o.connect(g); g.connect(this.musicWet);
         o.start(t); o.stop(t + 0.16);
       }
       setTimeout(drip, 4000 + Math.random() * 9000);
     };
     drip();
   },
-  noise(dur, vol, freq = 800, type = 'lowpass') {
+  setSfx(on) { settings.sfx = !!on; persistSettings(); },
+  setMusic(on) {
+    settings.music = !!on; persistSettings();
     if (!this.ctx) return;
+    const t = this.ctx.currentTime, v = settings.music ? 1 : 0;
+    // ramp, don't step — no clicks; the echo tail rings out on its own
+    if (this.musicDry) this.musicDry.gain.setTargetAtTime(v, t, 0.1);
+    if (this.musicWet) this.musicWet.gain.setTargetAtTime(v, t, 0.1);
+  },
+  noise(dur, vol, freq = 800, type = 'lowpass') {
+    if (!this.ctx || !settings.sfx) return; // noise() is SFX-only too
     const c = this.ctx, t = c.currentTime;
     const src = c.createBufferSource(); src.buffer = this.noiseBuf;
     const f = c.createBiquadFilter(); f.type = type; f.frequency.value = freq;
@@ -775,6 +846,31 @@ function resumeGame() {
   state = 'playing';
   Audio.resume();
   showScreen(null);
+}
+
+// ----- settings screen: reachable from title and pause; state is untouched,
+// only the visible panel swaps, and Done returns where you came from
+let settingsFrom = 'title';
+function syncSettingsUI() {
+  const s = $('tglSfx'), m = $('tglMusic');
+  s.setAttribute('aria-checked', String(settings.sfx));
+  s.textContent = settings.sfx ? 'On' : 'Off';
+  m.setAttribute('aria-checked', String(settings.music));
+  m.textContent = settings.music ? 'On' : 'Off';
+}
+function openSettings(from) {
+  settingsFrom = from;
+  syncSettingsUI();
+  showScreen('settings');
+}
+function closeSettings() {
+  showScreen(settingsFrom === 'pause' ? 'pause' : 'title');
+}
+// a toggle click is a user gesture, so the context may be created here —
+// but never auto-resume a deliberately suspended (paused) game's audio
+function settingsGesture() {
+  Audio.init();
+  if (state !== 'paused') Audio.resume();
 }
 
 // ==========================================================================
@@ -1327,7 +1423,8 @@ const KEYMAP = { ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down', Arr
 addEventListener('keydown', (e) => {
   if (KEYMAP[e.code]) { keys[KEYMAP[e.code]] = 1; firstGesture(); }
   else if (e.code === 'KeyP' || e.code === 'Escape') {
-    if (state === 'playing') pauseGame();
+    if (!screens.settings.hidden) closeSettings();
+    else if (state === 'playing') pauseGame();
     else if (state === 'paused') resumeGame();
   }
   else if (e.code === 'KeyM') $('btnMute').click();
@@ -1335,6 +1432,8 @@ addEventListener('keydown', (e) => {
     if (state === 'choosing') chooseGift(Number(e.code.slice(-1)) - 1);
   }
   else if (e.code === 'Enter' || e.code === 'Space') {
+    if (!screens.settings.hidden) return; // settings open: keys belong to the focused toggle, not "start"
+    if (e.target && e.target.closest && e.target.closest('button, a')) return; // a focused control owns its own activation key
     if (state === 'title' || state === 'over') { firstGesture(); startGame(); }
     else if (state === 'choosing' && giftSel >= 0) chooseGift(giftSel); // Enter confirms
   }
@@ -1355,6 +1454,20 @@ $('btnMute').addEventListener('click', () => {
   $('btnMute').classList.toggle('muted', muted);
 });
 if (save.muted) $('btnMute').classList.add('muted');
+$('btnSettingsT').addEventListener('click', () => openSettings('title'));
+$('btnSettingsP').addEventListener('click', () => openSettings('pause'));
+$('btnSettingsBack').addEventListener('click', closeSettings);
+$('tglSfx').addEventListener('click', () => {
+  settingsGesture();
+  Audio.setSfx(!settings.sfx);
+  syncSettingsUI();
+  if (settings.sfx && state !== 'paused') Audio.chirp(); // hear it come back
+});
+$('tglMusic').addEventListener('click', () => {
+  settingsGesture();
+  Audio.setMusic(!settings.music);
+  syncSettingsUI();
+});
 $('upCards').addEventListener('click', (e) => {
   const card = e.target.closest('.card');
   if (card) chooseGift(Number(card.dataset.i));
@@ -1392,6 +1505,7 @@ window.__eb = {
   get upg() { return upg; }, get fruits() { return fruits; }, get pillars() { return pillars; },
   get spores() { return spores; }, get owls() { return owls; }, get pulses() { return pulses; },
   get save() { return save; }, get quota() { return quota; }, get got() { return got; },
+  get settings() { return settings; },
   bat, input,
   start: startGame, choose: chooseGift, advance, end: endRun,
   give: (k) => { if (UPGRADES[k] && upg[k] < UPGRADES[k].max) { upg[k]++; setHud(); } },

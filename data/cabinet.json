@@ -6,9 +6,9 @@
       "entry": "index.html",
       "files": [
         {
-          "bytes": 43818,
+          "bytes": 50278,
           "path": "index.html",
-          "sha256": "ab644cd4c0e539eb80551d02ae3d1d63bc80dddcf725086229da979364fbc5a9"
+          "sha256": "4d8bd0c1559779bc697af26369c787e5a6c3b7d94896937d1880d406ac2a7715"
         }
       ],
       "name": "Closing Bell",
@@ -18,17 +18,17 @@
         "Game",
         "Roguelite"
       ],
-      "totalBytes": 43818,
-      "version": "878870d13386"
+      "totalBytes": 50278,
+      "version": "18c78f730997"
     },
     {
       "blurb": "A single-file ARPG slice — town to Blood Raven, three classes, D2-style maps.",
       "entry": "index.html",
       "files": [
         {
-          "bytes": 68568,
+          "bytes": 77894,
           "path": "index.html",
-          "sha256": "813c2395b08c9cb240a4ca78ab2da063eddfe346a0223e09992fb50c2aa5da88"
+          "sha256": "8dfd2dd179c82ce2ee88740fde63c549298ff876810d9066d616d9387deebd7c"
         }
       ],
       "name": "Diablo — Act 1",
@@ -38,17 +38,17 @@
         "Game",
         "ARPG"
       ],
-      "totalBytes": 68568,
-      "version": "f36d18bd257b"
+      "totalBytes": 77894,
+      "version": "0e2408f5c7cc"
     },
     {
       "blurb": "A bat in the dark, harvesting fruit by sonar. Your voice paints the cave.",
       "entry": "index.html",
       "files": [
         {
-          "bytes": 56602,
+          "bytes": 63655,
           "path": "index.html",
-          "sha256": "d570bfc185d142c14b6817054074c2bc32e189ac710c1bc22049ebcff23497db"
+          "sha256": "2568da8149bdac24e597dcee56bb47cff724e14b869596b603e4c6b1bb95b855"
         }
       ],
       "name": "Echo Bat — Night Harvest",
@@ -58,27 +58,27 @@
         "Game",
         "Sonar"
       ],
-      "totalBytes": 56602,
-      "version": "6a343c9a22ac"
+      "totalBytes": 63655,
+      "version": "bf5817d7627b"
     },
     {
       "blurb": "A salvage lightship, eight dark hours, a quota. The lamp is both the chart and the shield.",
       "entry": "index.html",
       "files": [
         {
-          "bytes": 5835,
+          "bytes": 6286,
           "path": "config/game.json",
-          "sha256": "88372c772ad89bda9d8bb5935f8a225e303997c3b5387d7fc2922b6d44afde4a"
+          "sha256": "062356d3a102cd57d88d36005fabd84acfd4d468923ed5805ec89c5ce779c780"
         },
         {
-          "bytes": 7782,
+          "bytes": 8825,
           "path": "index.html",
-          "sha256": "f1f776c7493ff2a32febdd38948f87e7c0e2adb86d038e2a6e7cd6fdb073ae2e"
+          "sha256": "57dc433efdeafcd4ea54b6bf54a84e828334fa4395468c3e9edf9d4dbda6529a"
         },
         {
-          "bytes": 6774,
+          "bytes": 10857,
           "path": "src/audio/audio.js",
-          "sha256": "26fecefa13bc5a2f417cb024ba969d8b45d5eb156b2ffb805db285010b92c5eb"
+          "sha256": "2fca87e0c116459b39fcec6b4de5b99273c33cd767dcf81dadcb00c36db6044c"
         },
         {
           "bytes": 1757,
@@ -96,9 +96,9 @@
           "sha256": "bccf9d8fef9bdc53f3713ef1405cd7b3adc7ea551107d60067cb7476c5fd0293"
         },
         {
-          "bytes": 1774,
+          "bytes": 2240,
           "path": "src/core/state.js",
-          "sha256": "be6848a48b358dcd2cd289bf62f1f025b61e9e21cb293c14c28128d5f8e04f07"
+          "sha256": "b36a51f563d64b14611265b07ea600e47d0e491cbb9a13e3014bda047b36fa22"
         },
         {
           "bytes": 2335,
@@ -131,9 +131,9 @@
           "sha256": "bef964367e4f6a343f3b3769c80b61b59a3884e19e7cfced0a49b55b4bffbf44"
         },
         {
-          "bytes": 10651,
+          "bytes": 12453,
           "path": "src/main.js",
-          "sha256": "e4498b174ec56b3b37ac934bff41c137aa727800616258190c7254f960ee53cb"
+          "sha256": "18f81023ff00676ad8fd4bb665c4a734d0844f7cba785f8b40edd3c263ecf024"
         },
         {
           "bytes": 6336,
@@ -174,17 +174,163 @@
         "Roguelite",
         "Seeded"
       ],
-      "totalBytes": 78466,
-      "version": "1cb76b5835d1"
+      "totalBytes": 86311,
+      "version": "ad9996d5659a"
+    },
+    {
+      "blurb": "The survivor shift, ported to a canvas. Auto-fire turrets, a draft every promotion, and a Supervisor who always arrives.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 8638,
+          "path": "config/content.json",
+          "sha256": "c3da9b5caeaca60887fc142b8ee7c64fe9f2226e5fd81d8520c2f8b01d831407"
+        },
+        {
+          "bytes": 4550,
+          "path": "config/game.json",
+          "sha256": "3b02fe907097f246cd6a3ebda35ec7108e173fe1cd136681d483266ebd25ce23"
+        },
+        {
+          "bytes": 16299,
+          "path": "index.html",
+          "sha256": "2d63943cecdf553392aa75f0a3588ac1601fc9e009e3fff79cc52eac4ea92134"
+        },
+        {
+          "bytes": 5426,
+          "path": "src/audio/audio.js",
+          "sha256": "36184e6dadb12b22cd039eaa3ceb767ca98ce349f854b1005ffaeca3bb063858"
+        },
+        {
+          "bytes": 1994,
+          "path": "src/core/grid.js",
+          "sha256": "e9289c5cdd761294586a647bba148274fd4cdb8a0b77c9813953aab402e93416"
+        },
+        {
+          "bytes": 1408,
+          "path": "src/core/loop.js",
+          "sha256": "8215ea5fb95697ed9ba50d623c23ac47f44507592a6440497b532b8a57be153b"
+        },
+        {
+          "bytes": 1256,
+          "path": "src/core/pool.js",
+          "sha256": "ef58494379dcb34d347cee49d6502e4257b064b2e936b7d632f854bbfd41abe1"
+        },
+        {
+          "bytes": 1499,
+          "path": "src/core/rng.js",
+          "sha256": "39235daba7817762fa2a1042b51f22e87d8120fc7475791011c7c57e2bf350e1"
+        },
+        {
+          "bytes": 5160,
+          "path": "src/core/state.js",
+          "sha256": "2d535bd278a280c879fce9387846091b674d9f87832e059f7814fca5adc52a4f"
+        },
+        {
+          "bytes": 2443,
+          "path": "src/core/watchdog.js",
+          "sha256": "9dbe60d272e6148a467965184e432477e3db60ed860148f98ec40fe46a912011"
+        },
+        {
+          "bytes": 2050,
+          "path": "src/entities/enemies.js",
+          "sha256": "c3ad4d5ade6e94864926049dd7003dc058e897fe1f702f47bae173d1c898afc8"
+        },
+        {
+          "bytes": 4301,
+          "path": "src/entities/player.js",
+          "sha256": "200c36ee79a9c68df924c3955ba5852158daf1bd34b1c462970f77a650d8b766"
+        },
+        {
+          "bytes": 2117,
+          "path": "src/entities/projectiles.js",
+          "sha256": "bfc0260ae046287349fdd1a4c57c218980c3add7c30c1809b9903e08f6679814"
+        },
+        {
+          "bytes": 2228,
+          "path": "src/input/input.js",
+          "sha256": "f107e507472f946f25ae34370f097ece8ba8bac0671fcfbd11fa60de7dbe2536"
+        },
+        {
+          "bytes": 13693,
+          "path": "src/main.js",
+          "sha256": "b9ce1013c1275dd5c2cab8374ebeab836184b0032710ed8df8ff1dc6df6539fc"
+        },
+        {
+          "bytes": 2161,
+          "path": "src/render/glyphs.js",
+          "sha256": "bae5a761ccee50de6f6324fa8c0bfc3f15000b26855bf5a5747e17f0ea6f3ac4"
+        },
+        {
+          "bytes": 5708,
+          "path": "src/render/hud.js",
+          "sha256": "9f441578ff48a3c57284628be8c3acd1e0525b22596d8ba5ac17d8ccad38df2b"
+        },
+        {
+          "bytes": 17762,
+          "path": "src/render/render.js",
+          "sha256": "17990c635531e22370de4f9bea2bcbae10339a0255e354f41200e7b3bc81128e"
+        },
+        {
+          "bytes": 6291,
+          "path": "src/systems/boss.js",
+          "sha256": "a91bbd6f61dd76e9e8e9dcfeae19a870f358154055edc8280726b3bf6aaa1025"
+        },
+        {
+          "bytes": 8486,
+          "path": "src/systems/combat.js",
+          "sha256": "fca27b1b70041c928aa96e52c2c6c6218da2db25831702f740dc20aea8b57282"
+        },
+        {
+          "bytes": 6562,
+          "path": "src/systems/draft.js",
+          "sha256": "8406ca6f6f9e8f9086db1869d7e5d209a37f7b27caa34d2b2933af7b7d12a7fa"
+        },
+        {
+          "bytes": 976,
+          "path": "src/systems/elements.js",
+          "sha256": "4a481047700640bf60fd24951f597cdbd20f26ab66fee6c4f9036d2056b2f56b"
+        },
+        {
+          "bytes": 1981,
+          "path": "src/systems/progression.js",
+          "sha256": "a85e19d27ebb8f5c9cb2b251bd5c6cfdd24886ed3dcfec3441236e4b31ee6aac"
+        },
+        {
+          "bytes": 4081,
+          "path": "src/systems/spawn.js",
+          "sha256": "3833688034e82287280de49028f669bbea8fad6ff5879b2ff74c1dcbbbb4efe8"
+        },
+        {
+          "bytes": 999,
+          "path": "src/systems/status.js",
+          "sha256": "17b4064a598f58c8d15a9a95f2b87b089146c76227326d979a8a26a592baaa83"
+        },
+        {
+          "bytes": 6336,
+          "path": "src/systems/weapons.js",
+          "sha256": "eb332869a9bbd30a126307633ebf4de3c6ad43a28edbcec7baf3efffe13a958c"
+        }
+      ],
+      "name": "Fulfillment LITE",
+      "slug": "fulfillment-lite",
+      "spec": "DOMAIN-SPLIT · SEEDED SHIFTS",
+      "tags": [
+        "Game",
+        "Roguelite",
+        "Seeded"
+      ],
+      "totalBytes": 134405,
+      "version": "ec4e6f53a0d4"
     },
     {
       "blurb": "Generative star-atlas plates. Every reroll is a 1-of-1; the seed rides in the URL.",
       "entry": "index.html",
       "files": [
         {
-          "bytes": 15087,
+          "bytes": 22259,
           "path": "index.html",
-          "sha256": "8ca21a699695ea4eb583fb7c7e70c7ef48e3233750da5c9e9df869330f10cd52"
+          "sha256": "b63579c8b3db7af2c877820614577cb79274508894da65cee2263dc3df721296"
         }
       ],
       "name": "Glass Atlas",
@@ -194,17 +340,17 @@
         "Generative",
         "Toy"
       ],
-      "totalBytes": 15087,
-      "version": "e20ed303f2e3"
+      "totalBytes": 22259,
+      "version": "2293fef1a593"
     },
     {
       "blurb": "An isometric bunker defense. Three lanes, one core, no unit micro — the decisions are the turrets you place and the tech you forgo.",
       "entry": "index.html",
       "files": [
         {
-          "bytes": 2020,
+          "bytes": 2184,
           "path": "config/game.json",
-          "sha256": "c75afdd47619a1930a5d36694039354d896cfab380e45fcde6649c2c8cd3a725"
+          "sha256": "5e5399a79a6a58dfda406cb8708e4fd878890cf765597cd8cac430e02b89bdda"
         },
         {
           "bytes": 1974,
@@ -227,9 +373,9 @@
           "sha256": "f1a43fd0b9b7d32413c3485c7a9ad4b9b2336de083f5a56ab3d1c887096dd7bf"
         },
         {
-          "bytes": 4291,
+          "bytes": 9162,
           "path": "src/audio/audio.js",
-          "sha256": "e4da5ef27295b474a814b4227afd4bd424afa59dae1b3fd6cca682226c77836b"
+          "sha256": "7a1c4d2bed2c9e9cb813440659e1d9ca96d52f9b38b66a3fadfe213f31689fd2"
         },
         {
           "bytes": 617,
@@ -242,19 +388,19 @@
           "sha256": "2fc6b45378d5b62e64a7dbd21079b727e56dd0879b17b8c69ea93df545a1e4ad"
         },
         {
-          "bytes": 2519,
+          "bytes": 2524,
           "path": "src/core/main.js",
-          "sha256": "1544aded290d3d067fc531cf6b3a0155d094f6fe3fef86dea6c1d45061d85c43"
+          "sha256": "3b37d782afa8b7c14dba138a4e0576bddcb82f3771236d309cf940bb8244b682"
         },
         {
-          "bytes": 2507,
+          "bytes": 2647,
           "path": "src/core/state.js",
-          "sha256": "92c313b70a39f721fcc21cebdc81c2ff6d7332248b7949a1d9064fa65c8363c7"
+          "sha256": "0eb4546c4ff8d9a4fc07c38b7f741a1545555ed6cef0a3ee81a61f215f38075a"
         },
         {
-          "bytes": 2879,
+          "bytes": 2937,
           "path": "src/input/input.js",
-          "sha256": "677e02d8e3a33c5336610714e2a8cac38392bcc9fb605d9a075a9a0b1bca4bf7"
+          "sha256": "f0857eea2523ac74569571f615da8cf5fcebe5c277fb6577f1167e7c29525197"
         },
         {
           "bytes": 8243,
@@ -282,9 +428,9 @@
           "sha256": "5c77cc044b01097444f4c90ca58c21936f73251b81d1ddbf1dac071cffa10d76"
         },
         {
-          "bytes": 3926,
+          "bytes": 4379,
           "path": "src/sim/actions.js",
-          "sha256": "886578a68a78e959010aa7937d3cb6787fe6b8e052dab8f5d9ad8b037d48e8fa"
+          "sha256": "554d7d80bff2f847431ab80b98df969ef46770d703adc27b65061b791802f602"
         },
         {
           "bytes": 10711,
@@ -332,9 +478,9 @@
           "sha256": "d98c24435e562164143680f5908b2e098d679715376d5809e317a0b3e09a144c"
         },
         {
-          "bytes": 3606,
+          "bytes": 5619,
           "path": "src/ui/ui-screens.js",
-          "sha256": "76620d8b0281a8f98a9962f014def4bb22b94cf6831c2c71fdf37655912b53f6"
+          "sha256": "85876231d19dc1f6d55c79bd01abb90d6153fcd1aa19a416ab76c5503d9e7757"
         },
         {
           "bytes": 3484,
@@ -342,14 +488,14 @@
           "sha256": "0e7f8f31e87d02aadc1ebc22c8238c9420f041e1b899053eef8c183731e79f6f"
         },
         {
-          "bytes": 7186,
+          "bytes": 7910,
           "path": "src/ui/ui.js",
-          "sha256": "e8b3765d9aad4aa6405d2fe0d976b85f18e8e08455bbabd134b0ed1245e922c0"
+          "sha256": "ee0d033cb2a6e13efa95803f3d7f790d4e97676410968cd5f5c6f351c07f3af1"
         },
         {
-          "bytes": 7618,
+          "bytes": 8589,
           "path": "styles/ui.css",
-          "sha256": "20710924148af8e0661c6a4ae215072c96a30d5ef7be188f54833ae72713332a"
+          "sha256": "0946ed10bc33c216a64a1a4de5be875bcda7beee49b3d82cf708e90a3db4534c"
         }
       ],
       "name": "Holdout",
@@ -360,17 +506,17 @@
         "Roguelite",
         "Isometric"
       ],
-      "totalBytes": 105362,
-      "version": "17c881b99100"
+      "totalBytes": 114761,
+      "version": "6a2bedc9e645"
     },
     {
       "blurb": "A quiet gravity toy. No goals, no score — just orbits that trace and decay.",
       "entry": "index.html",
       "files": [
         {
-          "bytes": 8209,
+          "bytes": 15654,
           "path": "index.html",
-          "sha256": "915894be1037d37c77f37403fd3d6da01294a531d7ecd137ccb7c8c8a287459e"
+          "sha256": "fb9419e9af3cb1157238b7a2e1b3548f648d8c3a9fd9f5b3919f7c59d6a3e550"
         }
       ],
       "name": "Orbital Field",
@@ -380,37 +526,17 @@
         "Toy",
         "Physics"
       ],
-      "totalBytes": 8209,
-      "version": "752e1ff85b00"
-    },
-    {
-      "blurb": "The original constellation game — trace each blueprint on the atlas plate.",
-      "entry": "index.html",
-      "files": [
-        {
-          "bytes": 80512,
-          "path": "index.html",
-          "sha256": "4dd05803cb867d237b28fa60b6dc17efab6789475b01fffc34fb5deee8ceb458"
-        }
-      ],
-      "name": "Star Charter",
-      "slug": "star-charter",
-      "spec": "SINGLE FILE · NO BUILD",
-      "tags": [
-        "Game",
-        "Single File"
-      ],
-      "totalBytes": 80512,
-      "version": "4a40a6959d20"
+      "totalBytes": 15654,
+      "version": "0018acfdb9c2"
     },
     {
       "blurb": "The timed edition: heavy, drifty momentum and a refit every third plate.",
       "entry": "index.html",
       "files": [
         {
-          "bytes": 108552,
+          "bytes": 114665,
           "path": "index.html",
-          "sha256": "1482e3107412e773de1c4187f8fcca6a4bb5af9a34e5a3611640a5163d791032"
+          "sha256": "ef2eb93f18b8facc3826d10136c5bc860df54ded3378851c81798468c647bac9"
         }
       ],
       "name": "Star Charter Pro",
@@ -420,11 +546,11 @@
         "Game",
         "Roguelite"
       ],
-      "totalBytes": 108552,
-      "version": "6af645e6100c"
+      "totalBytes": 114665,
+      "version": "b35b6a631ec9"
     }
   ],
-  "generated": "2026-07-14T19:25:00Z",
+  "generated": "2026-07-15T00:52:07Z",
   "schema": 1,
   "source": "jordan-doerksen.github.io"
 }

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03060B">
+<title>Fulfillment LITE ✦ orbital logistics</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2303060B'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%236BE0FF'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#03060B; --bg2:#060B16; --glass:rgba(18,27,44,.72); --glass-solid:#0C1524;
+    --line:rgba(120,160,220,.18); --line2:rgba(120,160,220,.34);
+    --ink:#EDF7FF; --mute:#8FA8CC; --cyan:#6BE0FF; --gold:#FFD470; --coral:#FF8066;
+    --k:#ADB8C9; --blaze:#FF6B2B; --frost:#45D9FF; --shock:#FFE34A; --void:#C25CFF;
+    --unc:#5CC7F2; --rare:#FFBC47; --syn:#B873FF;
+    --disp:'Chakra Petch','Rajdhani','Bahnschrift','Segoe UI Semibold',system-ui,sans-serif;
+    --ui:'Rajdhani','Chakra Petch','Segoe UI',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  [hidden]{display:none!important}
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg)}
+  body{color:var(--ink);font-family:var(--ui);-webkit-font-smoothing:antialiased;
+    user-select:none;-webkit-user-select:none;height:100dvh}
+  #field{position:fixed;inset:0;width:100%;height:100%;display:block;background:var(--bg);touch-action:none}
+  #field.in-run{cursor:none} /* the canvas draws its own reticle in-run */
+
+  /* ---------- cockpit HUD (DOM, over canvas) ---------- */
+  #hud{position:fixed;inset:0;pointer-events:none;font-family:var(--disp);z-index:3}
+  #hud .topbar{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;
+    align-items:flex-start;padding:12px 16px;gap:16px}
+  .panel{background:var(--glass);border:1px solid var(--line);border-radius:8px;
+    backdrop-filter:blur(10px);padding:8px 12px}
+  .hud-left{display:flex;flex-direction:column;gap:8px;min-width:210px}
+  .hud-right{display:flex;flex-direction:column;gap:8px;align-items:flex-end;text-align:right;min-width:150px}
+  .lbl{font-family:var(--disp);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--mute)}
+  .pips{display:flex;gap:6px;margin-top:4px;height:16px}
+  .pip{width:22px;height:12px;border-radius:2px;background:var(--cyan);
+    box-shadow:0 0 8px rgba(107,224,255,.55);transition:opacity .15s,background .15s}
+  .pip.spent{background:rgba(120,160,220,.16);box-shadow:none}
+  .bar{height:8px;border-radius:4px;background:rgba(120,160,220,.14);overflow:hidden;margin-top:5px}
+  .bar > i{display:block;height:100%;width:0%;border-radius:4px}
+  #xpFill{background:linear-gradient(90deg,#7a5a12,var(--gold));box-shadow:0 0 10px rgba(255,212,112,.4)}
+  #shieldFill{background:linear-gradient(90deg,#1c6a86,var(--cyan))}
+  #fuelFill{background:linear-gradient(90deg,#8a5a1c,#ffb347)}
+  #fuelFill.rearm{background:linear-gradient(90deg,#4a4436,#6e6350);opacity:.65} /* boost locked out until re-armed */
+  .statline{display:flex;gap:14px;align-items:baseline;justify-content:flex-end}
+  .stat b{font-family:var(--disp);font-weight:700;font-size:18px;color:var(--ink);letter-spacing:.02em;display:inline-block}
+  @keyframes statPulse{0%{transform:scale(1)}35%{transform:scale(1.4);color:var(--gold)}100%{transform:scale(1)}}
+  .stat b.pulse{animation:statPulse .55s ease}
+  .stat.scrip b{color:var(--gold)}
+  .stat .u{font-size:9px;letter-spacing:.24em;color:var(--mute);text-transform:uppercase;display:block}
+  /* weapon bays — reserved slots so the row never reflows (max-height lock) */
+  #bays{display:flex;gap:6px;margin-top:2px;height:34px}
+  .bay{width:34px;height:34px;border:1px solid var(--line);border-radius:6px;background:rgba(8,14,26,.5);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:.28}
+  .bay.on{opacity:1}
+  .bay .g{font-size:15px;line-height:1;font-weight:700;font-family:var(--disp)}
+  .bay .mk{font-size:8px;letter-spacing:.06em;color:var(--gold);margin-top:1px}
+  /* boss band */
+  #bossBand{position:absolute;left:50%;transform:translateX(-50%);bottom:22px;width:min(72vw,720px);
+    display:flex;flex-direction:column;gap:4px;align-items:center}
+  #bossBand .lbl{color:var(--coral)}
+  #bossBar{width:100%;height:9px;border-radius:5px;background:rgba(255,128,102,.14);border:1px solid rgba(255,128,102,.3);overflow:hidden}
+  #bossBar > i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#7a2c1c,var(--coral));box-shadow:0 0 12px rgba(255,128,102,.5)}
+  #bossName{font-family:var(--disp);font-weight:700;letter-spacing:.1em;color:var(--coral);font-size:13px}
+
+  /* ---------- screens ---------- */
+  .screen{position:fixed;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:24px;overflow-y:auto;
+    background:radial-gradient(circle at 50% 38%,rgba(6,11,22,.55),rgba(3,6,11,.94))}
+  .eyebrow{font-family:var(--disp);font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
+  .eyebrow.gold{color:var(--gold)} .eyebrow.coral{color:var(--coral)}
+  .sub-co{font-family:var(--disp);font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--mute);margin-bottom:22px}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(2.6rem,10vw,5rem);letter-spacing:.02em;line-height:.95;text-transform:uppercase}
+  h1 .lite{display:block;font-size:.3em;letter-spacing:.7em;color:var(--gold);margin-top:10px;font-weight:600}
+  h2{font-family:var(--disp);font-weight:700;font-size:clamp(1.3rem,4vw,1.9rem);letter-spacing:.06em;text-transform:uppercase}
+  .screen p{color:var(--mute);margin-top:14px;max-width:42ch;line-height:1.6;font-size:15px}
+  .hint{font-family:var(--disp);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);opacity:.8;margin-top:24px}
+  .seedline{font-family:'Rajdhani',monospace;font-size:11px;letter-spacing:.2em;color:var(--mute);opacity:.6;margin-top:12px}
+  .btn{margin-top:24px;font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink);background:var(--glass);border:1px solid var(--line2);border-radius:6px;
+    padding:14px 30px;cursor:pointer;backdrop-filter:blur(10px);transition:border-color .16s,transform .16s,color .16s}
+  .btn:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
+  .btn.primary{border-color:rgba(107,224,255,.5);color:var(--cyan)}
+  .btn.quiet{font-size:12px;padding:10px 22px;opacity:.85;margin-top:14px}
+  .btn:focus-visible,.card:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+  .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+
+  /* draft cards */
+  #draftCards{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap;justify-content:center;max-width:860px}
+  .card{width:210px;min-height:210px;text-align:left;background:var(--glass);border:1px solid var(--line2);
+    border-radius:12px;padding:16px;cursor:pointer;backdrop-filter:blur(10px);display:flex;flex-direction:column;
+    transition:border-color .16s,transform .16s;color:var(--ink);position:relative}
+  .card .key{position:absolute;top:10px;right:12px;font-family:var(--disp);font-size:10px;color:var(--mute);
+    border:1px solid var(--line);border-radius:4px;padding:2px 6px;letter-spacing:.08em}
+  .card:hover{transform:translateY(-3px)}
+  .card .lane{font-family:var(--disp);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
+  .card .glyph{font-size:26px;margin:8px 0 4px;font-weight:700;font-family:var(--disp)}
+  .card h3{font-family:var(--disp);font-weight:700;font-size:1.1rem;letter-spacing:.02em}
+  .card .tier{font-family:var(--disp);font-size:11px;color:var(--gold);margin-top:3px;letter-spacing:.12em}
+  .card .flavor{color:var(--mute);font-size:.9rem;margin-top:10px;line-height:1.45;flex:1}
+  .card .effect{font-family:var(--disp);font-size:11px;color:var(--cyan);margin-top:12px;letter-spacing:.05em}
+  .card.rar-uncommon{border-color:var(--unc)} .card.rar-uncommon:hover{box-shadow:0 0 22px rgba(92,199,242,.18)}
+  .card.rar-rare{border-color:var(--rare)} .card.rar-rare:hover{box-shadow:0 0 22px rgba(255,188,71,.2)}
+  .card.rar-rare .tier{color:var(--rare)}
+  .card.fork{border-color:var(--syn)} .card.fork .lane{color:var(--syn)} .card.fork:hover{box-shadow:0 0 26px rgba(184,115,255,.24)}
+
+  /* settings */
+  .settings-list{display:flex;flex-direction:column;gap:12px;margin-top:24px;min-width:240px}
+  .settings-list .btn{margin-top:0;width:100%}
+  .toggle[aria-pressed="true"]{border-color:rgba(107,224,255,.5);color:var(--cyan)}
+  .toggle[aria-pressed="false"]{color:var(--mute)}
+
+  /* results memo */
+  .memo{background:var(--glass);border:1px solid var(--line2);border-radius:12px;padding:22px 26px;max-width:460px;width:92vw;margin-top:8px;backdrop-filter:blur(10px)}
+  .memo .review{color:var(--ink);font-size:15px;line-height:1.55;margin:6px 0 18px;font-style:normal}
+  .memo table{width:100%;border-collapse:collapse;font-family:var(--disp)}
+  .memo td{padding:7px 0;border-bottom:1px solid var(--line);font-size:13px;letter-spacing:.04em}
+  .memo td.k{color:var(--mute);text-transform:uppercase;font-size:11px;letter-spacing:.2em}
+  .memo td.v{text-align:right;color:var(--ink);font-weight:700}
+  .memo td.v.gold{color:var(--gold)}
+
+  /* boss banner + death overlay (transient, centered) */
+  #bossBanner{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(255,128,102,.08),transparent 60%)}
+  #bossBanner .big{font-family:var(--disp);font-weight:700;font-size:clamp(2rem,7vw,3.4rem);letter-spacing:.24em;color:var(--coral);
+    text-shadow:0 0 24px rgba(255,128,102,.5)}
+  #bossBanner .small{font-family:var(--disp);font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink);margin-top:10px}
+  #deathOverlay{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    pointer-events:none;background:rgba(3,6,11,.4)}
+  #deathOverlay .big{font-family:var(--disp);font-weight:700;font-size:clamp(1.8rem,6vw,3rem);letter-spacing:.2em;color:var(--coral)}
+  #deathOverlay .small{font-family:var(--disp);font-size:13px;letter-spacing:.26em;color:var(--mute);margin-top:12px}
+
+  #topBtns{position:fixed;top:12px;right:16px;z-index:4;display:flex;gap:8px}
+  .icon-btn{font-family:var(--disp);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);
+    background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;pointer-events:auto}
+  .icon-btn:hover{border-color:var(--cyan);color:var(--ink)}
+
+  .colophon{position:fixed;bottom:12px;left:0;right:0;text-align:center;z-index:4;
+    font-family:var(--disp);font-size:10px;letter-spacing:.34em;color:var(--mute);opacity:.5;pointer-events:none;text-transform:uppercase}
+
+  @media (prefers-reduced-motion: reduce){
+    .btn:hover,.card:hover{transform:none}
+    .pip{transition:none}
+    .stat b.pulse{animation:none}
+  }
+</style>
+</head>
+<body>
+<canvas id="field"></canvas>
+
+<!-- cockpit HUD -->
+<div id="hud" hidden>
+  <div class="topbar">
+    <div class="hud-left">
+      <div class="panel">
+        <span class="lbl">Hull integrity</span>
+        <div class="pips" id="pips"></div>
+        <div class="bar"><i id="shieldFill"></i></div>
+        <div class="bar" style="margin-top:3px;height:6px"><i id="fuelFill"></i></div>
+      </div>
+      <div class="panel" style="padding:6px 10px">
+        <span class="lbl">Loadout</span>
+        <div id="bays"></div>
+      </div>
+    </div>
+    <div class="hud-right">
+      <div class="panel">
+        <div class="statline">
+          <span class="stat"><b id="uiClock">0:00</b><span class="u">shift</span></span>
+          <span class="stat"><b id="uiSwarm">0</b><span class="u">swarm</span></span>
+        </div>
+        <div class="statline" style="margin-top:6px">
+          <span class="stat"><b id="uiLevel">1</b><span class="u">grade</span></span>
+          <span class="stat scrip"><b id="uiScrip">0</b><span class="u">scrip</span></span>
+        </div>
+        <div class="bar" style="width:180px"><i id="xpFill"></i></div>
+      </div>
+    </div>
+  </div>
+  <div id="bossBand" hidden>
+    <span class="lbl">Performance review in progress</span>
+    <div id="bossBar"><i></i></div>
+    <span id="bossName">SUPERVISOR</span>
+  </div>
+</div>
+
+<div id="topBtns" hidden>
+  <button class="icon-btn" id="pauseBtn">Pause</button>
+</div>
+
+<!-- title -->
+<div class="screen" id="titleScreen">
+  <div class="eyebrow" id="tCompany">MERIDIAN FULFILLMENT GROUP</div>
+  <div class="sub-co" id="tDivision">ORBITAL LOGISTICS · DIVISION 7</div>
+  <h1>Fulfill<span style="color:var(--cyan)">ment</span><span class="lite">LITE</span></h1>
+  <p id="tTagline">Every delivery matters. Every courier is replaceable.</p>
+  <button class="btn primary" id="startBtn">CLOCK IN</button>
+  <button class="btn quiet" id="settingsBtn">Settings</button>
+  <div class="hint" id="tHint">fly · WASD ✦ focus fire · hold mouse ✦ boost · shift ✦ pause · P</div>
+  <div class="seedline">shift seed <span id="uiSeed">—</span></div>
+</div>
+
+<!-- draft -->
+<div class="screen" id="draftScreen" hidden>
+  <div class="eyebrow gold" id="draftEyebrow">REQUISITION · PICK ONE</div>
+  <div class="sub-co" id="draftSub">the field is frozen. procurement is waiting.</div>
+  <div id="draftCards"></div>
+  <button class="btn quiet" id="skipBtn">Decline (bank the scrip)</button>
+</div>
+
+<!-- pause -->
+<div class="screen" id="pauseScreen" hidden>
+  <div class="eyebrow">SHIFT PAUSED</div>
+  <h2>Standby</h2>
+  <p class="hint" id="pauseHint">P to resume</p>
+  <button class="btn quiet" id="pauseSettingsBtn">Settings</button>
+  <button class="btn quiet" id="abandonBtn">Abandon shift</button>
+</div>
+
+<!-- settings -->
+<div class="screen" id="settingsScreen" role="dialog" aria-label="Settings" hidden>
+  <div class="eyebrow">TERMINAL SETTINGS</div>
+  <h2>Settings</h2>
+  <div class="settings-list">
+    <button class="btn toggle" id="sfxToggle" aria-pressed="true">sound · on</button>
+    <button class="btn toggle" id="musicToggle" aria-pressed="true">music · on</button>
+  </div>
+  <button class="btn quiet" id="settingsBackBtn">Back ✦</button>
+</div>
+
+<!-- results memo -->
+<div class="screen" id="resultsScreen" hidden>
+  <div class="eyebrow coral" id="rHeader">INTERNAL MEMO · HR-7 · NOT FOR DISTRIBUTION</div>
+  <h2 id="rTitle">SHIFT PERFORMANCE REVIEW</h2>
+  <div class="memo">
+    <p class="review" id="rReview">—</p>
+    <table>
+      <tr><td class="k">Shift duration</td><td class="v" id="rTime">0:00</td></tr>
+      <tr><td class="k">Units processed</td><td class="v" id="rKills">0</td></tr>
+      <tr><td class="k">Supervisors dismissed</td><td class="v" id="rBosses">0</td></tr>
+      <tr><td class="k">Final grade</td><td class="v" id="rGrade">1</td></tr>
+      <tr><td class="k">Total scrip banked</td><td class="v gold" id="rScrip">0</td></tr>
+      <tr><td class="k">Best shift on record</td><td class="v" id="rBest">0</td></tr>
+    </table>
+  </div>
+  <div class="row" style="margin-top:20px">
+    <button class="btn primary" id="restartBtn">CLOCK BACK IN</button>
+    <button class="btn quiet" id="newSeedBtn">New seed ✦</button>
+  </div>
+  <div class="seedline">shift seed <span id="rSeed">—</span></div>
+</div>
+
+<!-- transient overlays -->
+<div id="bossBanner" hidden><div class="big">SUPERVISOR</div><div class="small">your shift has been flagged for review</div></div>
+<div id="deathOverlay" hidden><div class="big">SHIFT TERMINATED</div><div class="small">processing separation paperwork…</div></div>
+
+<p class="colophon">N°11 ✦ Jordan Doerksen ✦ MMXXVI</p>
+
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>

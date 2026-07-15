@@ -34,6 +34,7 @@ export function createState(cfg, seed) {
     shake: 0,
     paused: false,
     muted: false,
+    settings: { sfx: true, music: true }, // audio channels; loaded/persisted by src/audio (own key, never the meta key); survives resetRun
     reducedMotion: false,
     run: null, // sim-internal bookkeeping (spawn queue, rng, timers)
   };

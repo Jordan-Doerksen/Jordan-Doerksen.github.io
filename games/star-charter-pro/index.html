@@ -513,9 +513,55 @@ body {
 }
 .archive-nav a:hover { color: var(--gold); }
 
+/* ----- Settings — cabin audio toggles ----- */
+.settings-rows {
+  display: grid;
+  gap: 12px;
+  max-width: 320px;
+  margin: 22px auto 0;
+}
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 16px;
+  background: rgba(14, 19, 32, 0.55);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.setting-name {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.toggle {
+  flex: none;
+  min-width: 72px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: none;
+  color: var(--text-muted); /* off state — #97a0b5, measured ~7:1 on the panel glass (AA) */
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color var(--t-fast), color var(--t-fast), background var(--t-fast);
+  touch-action: manipulation;
+}
+.toggle[aria-checked="true"] {
+  border-color: rgba(216, 172, 78, 0.55);
+  background: rgba(216, 172, 78, 0.07);
+  color: var(--gold); /* on state — gold ~8.9:1 on the panel glass (AA) */
+}
+.toggle:hover { border-color: var(--gold); }
+.toggle:active { transform: scale(0.97); }
+
 /* ----- interaction states — keyboard focus + pressed, UI chrome only ----- */
 .btn:focus-visible, .btn-ghost:focus-visible, .icon-btn:focus-visible,
-.card:focus-visible, .archive-nav a:focus-visible {
+.card:focus-visible, .archive-nav a:focus-visible, .toggle:focus-visible {
   outline: 2px solid var(--gold); /* keyboard focus was the browser default ring — invisible on the dark glass */
   outline-offset: 3px;
 }
@@ -571,6 +617,8 @@ body {
       Every third plate <b>✦</b> refit with new instruments
     </p>
     <button id="btnStart" class="btn">Begin charting</button>
+    <br>
+    <button id="btnSettings" class="btn-ghost">Settings</button>
     <p class="record-line" id="recordLine" hidden>Personal record <b id="recordVal">0</b></p>
     <p class="colophon">N°02 ✦ The Glass Archive ✦ MMXXVI</p>
     <nav class="archive-nav" aria-label="other games in the archive">
@@ -591,7 +639,26 @@ body {
     <h2>The sky <em>waits</em>.</h2>
     <button id="btnResume" class="btn">Resume drifting</button>
     <br>
+    <button id="btnPauseSettings" class="btn-ghost">Settings</button>
+    <br>
     <button id="btnAbandon" class="btn-ghost">Abandon run</button>
+  </section>
+
+  <section id="screenSettings" class="glass-panel screen" hidden aria-label="settings">
+    <div class="eyebrow">Calibration ✦ Cabin audio</div>
+    <h2>The volume of <em>space</em>.</h2>
+    <p class="lede">Space is famously silent. Adjust to taste.</p>
+    <div class="settings-rows">
+      <div class="setting-row">
+        <span class="setting-name" id="labSfx">Sound effects</span>
+        <button id="tglSfx" class="toggle" role="switch" aria-checked="true" aria-labelledby="labSfx">On</button>
+      </div>
+      <div class="setting-row">
+        <span class="setting-name" id="labMusic">Music</span>
+        <button id="tglMusic" class="toggle" role="switch" aria-checked="true" aria-labelledby="labMusic">On</button>
+      </div>
+    </div>
+    <button id="btnSettingsBack" class="btn">Back</button>
   </section>
 
   <section id="screenChoice" class="glass-panel screen wide" hidden aria-label="refit">
@@ -639,7 +706,7 @@ const pctx = plateCanvas.getContext('2d');
 
 const $ = (id) => document.getElementById(id);
 const hud = $('hud'), overlay = $('overlay'), platePanel = $('platePanel'), rigLine = $('rigLine');
-const screens = { title: $('screenTitle'), probe: $('screenProbe'), pause: $('screenPause'), choice: $('screenChoice'), over: $('screenOver') };
+const screens = { title: $('screenTitle'), probe: $('screenProbe'), pause: $('screenPause'), settings: $('screenSettings'), choice: $('screenChoice'), over: $('screenOver') };
 
 const COLORS = { starlight: '#f2f4fa', gold: '#d8ac4e' };
 // Plate hues — vary them, return to gold (the sky mechanic, per STYLE.md)
@@ -683,11 +750,17 @@ let save = {
 try { Object.assign(save, JSON.parse(localStorage.getItem(SAVE_KEY)) || {}); } catch (e) {}
 function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} }
 
+// Settings live under their OWN key — the save above is never reformatted.
+const SETTINGS_KEY = 'starCharterPro.settings';
+let settings = { sfx: true, music: true };
+try { Object.assign(settings, JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}); } catch (e) {}
+function persistSettings() { try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch (e) {} }
+
 // ==========================================================================
 // AUDIO — generated, no files
 // ==========================================================================
 const Audio = {
-  ctx: null, master: null, bhGain: null, noiseBuf: null,
+  ctx: null, master: null, sfxBus: null, musicBus: null, bhGain: null, noiseBuf: null,
   scale: [440, 523.25, 587.33, 659.25, 783.99, 880],
   init() {
     if (this.ctx) return;
@@ -698,9 +771,19 @@ const Audio = {
     this.master.gain.value = save.muted ? 0 : 1;
     this.master.connect(c.destination);
 
+    // Two buses under the master ♪ mute — SFX and music toggle independently.
+    this.sfxBus = c.createGain();
+    this.sfxBus.gain.value = settings.sfx ? 1 : 0;
+    this.sfxBus.connect(this.master);
+    this.musicBus = c.createGain();
+    this.musicBus.gain.value = settings.music ? 1 : 0;
+    this.musicBus.connect(this.master);
+
+    // ----- music — the star-charter pad, given a pulse. Continuous
+    // oscillators + LFOs, so the loop has no seam by construction. -----
     const droneGain = c.createGain();
     droneGain.gain.value = 0.028;
-    droneGain.connect(this.master);
+    droneGain.connect(this.musicBus);
     [55, 82.6].forEach((f, i) => {
       const o = c.createOscillator();
       o.type = 'sine'; o.frequency.value = f;
@@ -711,10 +794,31 @@ const Audio = {
     lfo.frequency.value = 0.06; lfoG.gain.value = 0.012;
     lfo.connect(lfoG); lfoG.connect(droneGain.gain); lfo.start();
 
+    // the pulse — a low A gated at ~69 bpm; tense, not frantic
+    const pulseGain = c.createGain();
+    pulseGain.gain.value = 0.011;
+    pulseGain.connect(this.musicBus);
+    const po = c.createOscillator();
+    po.type = 'triangle'; po.frequency.value = 110;
+    po.connect(pulseGain); po.start();
+    const pLfo = c.createOscillator(), pLfoG = c.createGain();
+    pLfo.frequency.value = 1.15; pLfoG.gain.value = 0.010;
+    pLfo.connect(pLfoG); pLfoG.connect(pulseGain.gain); pLfo.start();
+
+    // a faint fifth, detuned against itself for a slow shimmer
+    const shimGain = c.createGain();
+    shimGain.gain.value = 0.006;
+    shimGain.connect(this.musicBus);
+    [164.8, 165.4].forEach((f) => {
+      const o = c.createOscillator();
+      o.type = 'sine'; o.frequency.value = f;
+      o.connect(shimGain); o.start();
+    });
+
     const bo = c.createOscillator();
     bo.type = 'triangle'; bo.frequency.value = 34;
     this.bhGain = c.createGain(); this.bhGain.gain.value = 0;
-    bo.connect(this.bhGain); this.bhGain.connect(this.master); bo.start();
+    bo.connect(this.bhGain); this.bhGain.connect(this.sfxBus); bo.start();
 
     const len = c.sampleRate;
     this.noiseBuf = c.createBuffer(1, len, c.sampleRate);
@@ -731,7 +835,7 @@ const Audio = {
     if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
     g.gain.setValueAtTime(vol, t);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    o.connect(g); g.connect(this.master);
+    o.connect(g); g.connect(this.sfxBus);
     o.start(t); o.stop(t + dur + 0.05);
   },
   noise(dur, vol, freq = 800, type = 'lowpass') {
@@ -742,7 +846,7 @@ const Audio = {
     const g = c.createGain();
     g.gain.setValueAtTime(vol, t);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    src.connect(f); f.connect(g); g.connect(this.master);
+    src.connect(f); f.connect(g); g.connect(this.sfxBus);
     src.start(t); src.stop(t + dur);
   },
   chime(step) {
@@ -774,6 +878,12 @@ const Audio = {
     save.muted = !save.muted; persist();
     if (this.master) this.master.gain.setTargetAtTime(save.muted ? 0 : 1, this.ctx.currentTime, 0.05);
     return save.muted;
+  },
+  applySettings() {
+    if (!this.ctx) return;
+    const t = this.ctx.currentTime;
+    if (this.sfxBus) this.sfxBus.gain.setTargetAtTime(settings.sfx ? 1 : 0, t, 0.05);
+    if (this.musicBus) this.musicBus.gain.setTargetAtTime(settings.music ? 1 : 0, t, 0.05);
   },
 };
 
@@ -1509,6 +1619,36 @@ function toTitle() {
   bot.x = W / 2; bot.y = H * 0.6; bot.vx = 0; bot.vy = 0; bot.trail = []; bot.t = rand(0, 50);
   spawnT.asteroid = 1.2; spawnT.mote = 0.5; spawnT.comet = rand(8, 14);
   showScreen('title');
+}
+
+// ----- settings — cabin audio, reachable from title and pause -----
+let settingsReturn = 'title';
+function syncSettingsUI() {
+  const set = (id, on) => {
+    const b = $(id);
+    b.setAttribute('aria-checked', on ? 'true' : 'false');
+    b.textContent = on ? 'On' : 'Off';
+  };
+  set('tglSfx', settings.sfx);
+  set('tglMusic', settings.music);
+}
+function openSettings(from) {
+  if (state !== 'title' && state !== 'paused') return;
+  settingsReturn = from;
+  state = 'settings';
+  firstGesture(); // opening from pause un-suspends so the toggles are audible
+  syncSettingsUI();
+  showScreen('settings');
+}
+function closeSettings() {
+  if (state !== 'settings') return;
+  if (settingsReturn === 'pause') {
+    state = 'paused';
+    Audio.suspend();
+    showScreen('pause');
+  } else {
+    toTitle();
+  }
 }
 
 // ----- probe select — the run begins with a choice of hull -----
@@ -2892,6 +3032,7 @@ addEventListener('keydown', (e) => {
     if (state === 'playing') pauseRun();
     else if (state === 'paused') resumeRun();
     else if (state === 'probe') toTitle();
+    else if (state === 'settings') closeSettings();
   }
   else if (e.code === 'KeyM') $('btnMute').click();
   else if (e.code === 'Digit1' || e.code === 'Digit2' || e.code === 'Digit3') {
@@ -2903,6 +3044,10 @@ addEventListener('keydown', (e) => {
     }
   }
   else if (e.code === 'Enter' || e.code === 'Space') {
+    // a keyboard-focused control takes the key itself (its click fires) —
+    // without this, Enter on the Settings button would ALSO start the run
+    const ae = document.activeElement;
+    if (ae && ae.tagName === 'BUTTON' && ae.id !== 'btnStart' && ae.id !== 'btnAgain') return;
     if (state === 'title' || state === 'over') { firstGesture(); showProbeSelect(); }
     else if (state === 'probe') { firstGesture(); startRun(); }
   }
@@ -2924,6 +3069,19 @@ $('probeCards').addEventListener('click', (e) => {
 });
 $('btnResume').addEventListener('click', resumeRun);
 $('btnAbandon').addEventListener('click', toTitle);
+$('btnSettings').addEventListener('click', () => openSettings('title'));
+$('btnPauseSettings').addEventListener('click', () => openSettings('pause'));
+$('btnSettingsBack').addEventListener('click', closeSettings);
+$('tglSfx').addEventListener('click', () => {
+  settings.sfx = !settings.sfx;
+  persistSettings(); Audio.applySettings(); syncSettingsUI();
+  if (settings.sfx) Audio.chime(2); // audible proof it came back
+});
+$('tglMusic').addEventListener('click', () => {
+  settings.music = !settings.music;
+  persistSettings(); Audio.applySettings(); syncSettingsUI();
+});
+syncSettingsUI();
 $('btnTitle').addEventListener('click', toTitle);
 $('btnPause').addEventListener('click', () => { firstGesture(); pauseRun(); });
 $('btnMute').addEventListener('click', () => {
@@ -2970,6 +3128,8 @@ window.__sc = {
   get state() { return state; }, get score() { return score; }, get plate() { return plate; },
   get upg() { return upg; }, get motes() { return motes; }, get pulsars() { return pulsars; },
   get belt() { return belt; }, get save() { return save; }, get probe() { return probeKey; },
+  get settings() { return settings; }, get audio() { return Audio; },
+  openSettings, closeSettings,
   player, bot, input,
   chart: () => chartStar(), start: startRun, choose: chooseUpgrade,
   selectProbe: (k) => { probeKey = k; },

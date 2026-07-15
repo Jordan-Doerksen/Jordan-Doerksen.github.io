@@ -52,6 +52,13 @@
     "salvagePerWave": 2,
     "winBonus": 50
   },
+  "audio": {
+    "settingsKey": "holdout.settings.v1",
+    "masterGain": 0.25,
+    "musicPlayGain": 0.05,
+    "musicTitleGain": 0.028,
+    "musicRampSec": 1.2
+  },
   "palette": {
     "ground": "#2a2622",
     "groundAlt": "#242019",

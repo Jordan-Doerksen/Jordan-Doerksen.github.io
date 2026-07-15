@@ -9,7 +9,7 @@ const SELECT_RADIUS = 0.9; // tiles — building pick distance
 
 export function initInput(canvas, state, actions, cfg) {
   initIso(cfg.map); // idempotent — render also calls this; order doesn't matter
-  if (!state.ui) state.ui = { techOpen: false };
+  if (!state.ui) state.ui = { techOpen: false, settingsOpen: false };
   const spots = [...cfg.map.slots, ...cfg.map.pads];
 
   canvas.addEventListener('mousemove', e => {
@@ -36,6 +36,7 @@ export function initInput(canvas, state, actions, cfg) {
       actions.selectBuild(null);
       state.selectedBuildingId = null;
       state.ui.techOpen = false;
+      state.ui.settingsOpen = false;
       return;
     }
     if (state.mode !== 'playing') return;

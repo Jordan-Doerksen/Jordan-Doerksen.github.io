@@ -1,0 +1,28 @@
+{
+  "baseUrl": "https://jordan-doerksen.github.io/games/",
+  "games": [
+    {
+      "blurb": "The original constellation game — trace each blueprint on the atlas plate.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 87414,
+          "path": "index.html",
+          "sha256": "da85eb102dc1ca84791faceaf01774a12edbf9bb2f05b0c486c1188fdf6995bf"
+        }
+      ],
+      "name": "Star Charter",
+      "slug": "star-charter",
+      "spec": "SINGLE FILE · NO BUILD",
+      "tags": [
+        "Game",
+        "Single File"
+      ],
+      "totalBytes": 87414,
+      "version": "b11ed3571f1f"
+    }
+  ],
+  "generated": "2026-07-15T00:52:07Z",
+  "schema": 1,
+  "source": "jordan-doerksen.github.io"
+}

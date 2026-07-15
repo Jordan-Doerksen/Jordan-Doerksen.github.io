@@ -3,7 +3,7 @@
 // owns exactly one presentation field: state.ui = { techOpen }.
 // Seam pinned by ARCHITECTURE.md: initUI(state, actions, cfg) + updateUI(state).
 import { el, setText, setClass, show } from './dom.js';
-import { buildTitle, buildEnd, updateScreens } from './ui-screens.js';
+import { buildTitle, buildEnd, buildSettings, updateScreens, updateSettings } from './ui-screens.js';
 import { buildTech, updateTech } from './ui-tech.js';
 
 let R = null; // cached node refs
@@ -15,7 +15,8 @@ const BUILD_TYPES = ['turret', 'bunker', 'barracks'];
 export function initUI(state, actions, cfg) {
   A = actions;
   C = cfg;
-  if (!state.ui) state.ui = { techOpen: false }; // presentation-owned namespace
+  if (!state.ui) state.ui = { techOpen: false, settingsOpen: false }; // presentation-owned namespace
+  if (state.ui.settingsOpen == null) state.ui.settingsOpen = false;
   applyPaletteVars(cfg.game.palette);
 
   const root = document.getElementById('ui-root');
@@ -25,8 +26,9 @@ export function initUI(state, actions, cfg) {
   buildBuildBar(root, state);
   buildInfoPanel(root);
   R.tech = buildTech(root, state, actions, cfg);
-  R.title = buildTitle(root, actions, cfg);
+  R.title = buildTitle(root, actions, cfg, () => openSettings(state));
   R.end = buildEnd(root, actions);
+  R.settings = buildSettings(root, state, actions); // appended last — sits above title/end
   updateUI(state);
 }
 
@@ -61,6 +63,15 @@ export function updateUI(state) {
   }
   updateTech(R.tech, state, C);
   updateScreens(R, state, C);
+  updateSettings(R.settings, state);
+}
+
+// Open the settings overlay and move focus into it (unhide immediately — focus()
+// is a no-op on display:none nodes; updateUI keeps it shown from the next frame).
+function openSettings(state) {
+  state.ui.settingsOpen = true;
+  show(R.settings.scr, true);
+  R.settings.sfx.b.focus();
 }
 
 // ---------- top bar ----------------------------------------------------------------------
@@ -86,6 +97,9 @@ function buildTopBar(root, state) {
   R.muteBtn = el('button', 'btn', 'MUTE');
   R.muteBtn.addEventListener('click', () => A.toggleMute());
   bar.appendChild(R.muteBtn);
+  R.settingsBtn = el('button', 'btn', 'SETTINGS');
+  R.settingsBtn.addEventListener('click', () => openSettings(state));
+  bar.appendChild(R.settingsBtn);
   root.appendChild(bar);
   R.topbar = bar;
 }

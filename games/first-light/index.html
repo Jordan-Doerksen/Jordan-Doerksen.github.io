@@ -52,8 +52,15 @@
     color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:999px;
     padding:14px 30px;cursor:pointer;backdrop-filter:blur(18px);transition:border-color .18s,transform .18s}
   .btn:hover{border-color:var(--gold);transform:translateY(-2px)}
+  .btn:focus-visible,.card:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
   .btn.quiet{font-size:11px;padding:10px 20px;opacity:.85}
+  .btn + .btn.quiet{margin-top:14px}
   .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  /* settings toggles — static panel, no running animation (reduced-motion law) */
+  .settings-list{display:flex;flex-direction:column;gap:12px;margin-top:26px;min-width:220px}
+  .settings-list .btn{margin-top:0;width:100%}
+  .toggle[aria-pressed="true"]{border-color:rgba(216,172,78,.45)}
+  .toggle[aria-pressed="false"]{color:var(--text-muted)}
   /* draft cards */
   #draftCards{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap;justify-content:center;max-width:760px}
   .card{width:200px;min-height:196px;text-align:left;background:var(--panel);border:1px solid var(--line);
@@ -92,6 +99,7 @@
   <p>One lightship, eight dark hours, a quota. The lamp points where you're headed —
      and it's the only thing the thing following you respects. Chart the wrecks. Be at dawn on time.</p>
   <button class="btn" id="startBtn">Cast off ✦</button>
+  <button class="btn quiet" id="settingsBtn">Settings</button>
   <div class="hint">steer · pointer&ensp;✦&ensp;focus · hold shift or right-click&ensp;✦&ensp;pause · P</div>
   <div class="seedline">night <span id="uiSeed">—</span></div>
 </div>
@@ -107,6 +115,17 @@
   <div class="eyebrow">all stop</div>
   <h2>Paused</h2>
   <p class="hint">P to resume</p>
+  <button class="btn quiet" id="pauseSettingsBtn">Settings</button>
+</div>
+
+<div class="screen" id="settingsScreen" role="dialog" aria-label="Settings" hidden>
+  <div class="eyebrow">the lamp room</div>
+  <h2>Settings</h2>
+  <div class="settings-list">
+    <button class="btn toggle" id="sfxToggle" aria-pressed="true">sfx · on</button>
+    <button class="btn toggle" id="musicToggle" aria-pressed="true">music · on</button>
+  </div>
+  <button class="btn quiet" id="settingsBackBtn">Back ✦</button>
 </div>
 
 <div class="screen" id="endScreen" hidden>

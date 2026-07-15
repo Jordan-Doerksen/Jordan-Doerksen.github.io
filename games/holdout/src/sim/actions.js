@@ -1,6 +1,7 @@
 // src/sim/actions.js — the ONLY mutation surface for ui/input (ARCHITECTURE.md contract):
 // startRun · selectBuild · placeAt · upgradeBuilding · cycleLane · buyTechRoot · buyTech
-// · togglePause · toggleMute · backToTitle. Every method returns true on success.
+// · togglePause · toggleMute · toggleSfx · toggleMusic · backToTitle. Every method
+// returns true on success (toggles return the new value).
 
 import { resetRun } from '../core/state.js';
 import { makeBuilding, pushEvent } from './factory.js';
@@ -99,6 +100,18 @@ export function createActions(state, cfg) {
     toggleMute() {
       state.muted = !state.muted;
       return state.muted;
+    },
+
+    // Per-channel audio settings. Sim only flips the flags — persistence is the
+    // audio module's job (its own localStorage key; sim never touches storage here).
+    toggleSfx() {
+      state.settings.sfx = !state.settings.sfx;
+      return state.settings.sfx;
+    },
+
+    toggleMusic() {
+      state.settings.music = !state.settings.music;
+      return state.settings.music;
     },
 
     backToTitle() {

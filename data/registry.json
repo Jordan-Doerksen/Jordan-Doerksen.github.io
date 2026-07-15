@@ -212,6 +212,23 @@
       "spec": "GODOT 4.7 · DETERMINISTIC 60HZ"
     },
     {
+      "slug": "fulfillment-lite",
+      "name": "Fulfillment LITE",
+      "category": "games",
+      "blurb": "The survivor shift, ported to a canvas. Auto-fire turrets, a draft every promotion, and a Supervisor who always arrives.",
+      "tags": [
+        "Game",
+        "Roguelite",
+        "Seeded"
+      ],
+      "status": "live",
+      "tier": "full",
+      "url": "/games/fulfillment-lite/",
+      "repo": "https://github.com/Jordan-Doerksen/fulfillment-lite",
+      "featured": false,
+      "spec": "DOMAIN-SPLIT · SEEDED SHIFTS"
+    },
+    {
       "slug": "glass-atlas",
       "name": "Glass Atlas",
       "category": "games",

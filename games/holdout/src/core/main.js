@@ -44,7 +44,7 @@ async function wire(path, initFn, frameFn) {
 await wire('../render/render.js', (m) => m.initRender(canvas, cfg, state), (m, dt) => m.render(state, dt));
 await wire('../ui/ui.js', (m) => m.initUI(state, actions, cfg), (m) => m.updateUI(state));
 await wire('../input/input.js', (m) => m.initInput(canvas, state, actions, cfg), null);
-await wire('../audio/audio.js', (m) => m.initAudio(state), (m) => m.updateAudio(state));
+await wire('../audio/audio.js', (m) => m.initAudio(state, cfg), (m) => m.updateAudio(state));
 
 startLoop(
   state,

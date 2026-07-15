@@ -16,7 +16,7 @@
 </head>
 <body>
 <canvas id="game"></canvas>
-<div id="hint">click to move / attack · right-click = right skill · 1·2·3 bind right skill · Q heal · E mana · I character · H help</div>
+<div id="hint">click to move / attack · right-click = right skill · 1·2·3 bind right skill · Q heal · E mana · I character · H help · O options</div>
 <script>
 "use strict";
 (function(){
@@ -277,7 +277,7 @@ function enterZone(name,entry){
   const e=z.entries[entry]||z.entries[name]||{x:z.w*TILE/2,y:z.h*TILE/2};
   const sp=snapWalkable(e.x,e.y); G.player.x=sp.x; G.player.y=sp.y;
   G.player.moveT=null; G.player.combat=null; G.player.pickup=null;
-  G.exitLock=0.6;
+  G.exitLock=0.6; sfx('zone');
   showMsg(z.name, z.name==='Rogue Encampment'?'A moment of safety.':'');
 }
 
@@ -343,7 +343,7 @@ function tryCast(p,skillId,tx,ty){
   if((p.cd[skillId]||0)>G.time) return false;
   if(p.mana<sk.mana){ if(skillId===p.c.primary){} else { showFloat(p.x,p.y-30,'Low Mana','#6a86ff'); return false;} }
   if(p.mana<sk.mana) return false;
-  p.mana-=sk.mana; p.cd[skillId]=G.time+sk.cd;
+  p.mana-=sk.mana; p.cd[skillId]=G.time+sk.cd; sfx('cast');
   p.face=ang(p.x,p.y,tx,ty); p.attackAnim=.18;
   const dmg=()=>{ let lo=sk.dmg[0]+sk.per*(lvl-1), hi=sk.dmg[1]+sk.per*(lvl-1);
     if(sk.el==='phys'){ const w=weaponDmg(p); lo+=w[0]; hi+=w[1];
@@ -405,12 +405,12 @@ function damage(t,amt,el,hostile){
   if(hostile){ // damage to player, reduced by defense
     const red=Math.min(.6, (G.player.defv||0)/((G.player.defv||0)+120));
     amt=Math.max(1,Math.round(amt*(1-red)));
-    G.player.hp-=amt; G.player.hurt=.25; shake(3);
+    G.player.hp-=amt; G.player.hurt=.25; shake(3); sfx('hurt');
     showFloat(G.player.x,G.player.y-26,amt,'#ff5a5a');
     blood(G.player.x,G.player.y,'#a01818');
     if(G.player.hp<=0) playerDie();
   } else {
-    t.hp-=amt; t.hurt=.18;
+    t.hp-=amt; t.hurt=.18; sfx('hit');
     const crit=Math.random()<0.08;
     if(crit){ t.hp-=amt; showFloat(t.x,t.y-t.r-6,Math.round(amt*2),'#ffd24a',true); }
     else showFloat(t.x,t.y-t.r-6,amt, el==='fire'?'#ff8a3a':el==='cold'?'#7ad6ff':el==='light'?'#c8a6ff':'#ffffff');
@@ -419,6 +419,7 @@ function damage(t,amt,el,hostile){
 }
 function monsterDie(m){
   if(m.dead)return; m.dead=true; G.kills++;
+  sfx(m.boss?'bossdie':'die');
   gainXp(m.d.xp);
   for(let i=0;i<14;i++)blood(m.x,m.y,m.d.col);
   if(Math.random()<m.d.loot||m.boss) dropLoot(m);
@@ -429,11 +430,12 @@ function monsterDie(m){
     shake(14);
   }
 }
-function playerDie(){ G.state='dead'; G.player.hp=0; shake(20);
+function playerDie(){ G.state='dead'; G.player.hp=0; shake(20); sfx('death');
   for(let i=0;i<30;i++)blood(G.player.x,G.player.y,'#7a1010'); }
 function gainXp(n){ const p=G.player; p.xp+=n;
   while(p.xp>=xpToNext(p.level)){ p.xp-=xpToNext(p.level); p.level++;
     p.statPts+=5; p.skillPts+=1; recalc(p); p.hp=p.maxHp; p.mana=p.maxMana;
+    sfx('level');
     showFloat(p.x,p.y-40,'LEVEL UP!','#ffe24a',true);
     for(let i=0;i<30;i++){ const a=Math.random()*TAU;
       G.parts.push({x:p.x,y:p.y,vx:Math.cos(a)*120,vy:Math.sin(a)*120-60,life:.7,max:.7,col:'#ffe24a',r:3}); } } }
@@ -475,12 +477,12 @@ function genItem(lvlBoost){
 }
 function pickupItem(it){
   const p=G.player;
-  if(it.kind==='gold'){ p.gold+=it.amt; showFloat(p.x,p.y-30,'+'+it.amt+'g','#ffe24a'); return true; }
-  if(it.kind==='potion'){ if(p.belt.length<8){ p.belt.push({kind:'potion',pot:it.pot});
+  if(it.kind==='gold'){ p.gold+=it.amt; sfx('gold'); showFloat(p.x,p.y-30,'+'+it.amt+'g','#ffe24a'); return true; }
+  if(it.kind==='potion'){ if(p.belt.length<8){ p.belt.push({kind:'potion',pot:it.pot}); sfx('pick');
     showFloat(p.x,p.y-30,it.pot==='hp'?'Healing Potion':'Mana Potion',it.pot==='hp'?'#ff5a5a':'#6a86ff'); return true; }
     return false; }
   if(p.inv.length>=24){ showFloat(p.x,p.y-30,'Inventory Full','#ff8a3a'); return false; }
-  p.inv.push(it); showFloat(p.x,p.y-30,it.name,RARITY[it.rarity].col); return true;
+  p.inv.push(it); sfx('pick'); showFloat(p.x,p.y-30,it.name,RARITY[it.rarity].col); return true;
 }
 
 // ---------------------------------------------------------------------------
@@ -601,7 +603,7 @@ function updateMonster(m,dt){
     const nx=m.x+m.knock.x*dt*10, ny=m.y+m.knock.y*dt*10;
     if(walkable(G.zone,nx,ny)){ m.x=nx; m.y=ny; } m.knock.x*=.8; m.knock.y*=.8; }
   const dp=dist(m.x,m.y,p.x,p.y);
-  if(m.state==='idle'){ if(dp<m.d.aggro)m.state='chase'; }
+  if(m.state==='idle'){ if(dp<m.d.aggro){ m.state='chase'; sfx('growl'); } }
   if(m.state==='chase'){
     const eng=m.d.ranged? m.d.range*0.8 : m.d.range;
     if(dp>eng){ moveToward(m,p.x,p.y,dt); }
@@ -636,7 +638,7 @@ function monsterAttack(m){
 const GROUND={ town:'#2b2519', moor:'#26301f', cave:'#1a140f', burial:'#222421' };
 function render(){
   cx.clearRect(0,0,VW,VH);
-  if(G.state==='title'){ drawTitle(); return; }
+  if(G.state==='title'){ drawTitle(); if(G.panel==='settings')drawSettings(); return; }
   if(G.state==='charselect'){ drawCharSelect(); return; }
   // world
   cx.save();
@@ -659,6 +661,7 @@ function render(){
   if(G.state==='playing'||G.state==='dead'||G.state==='victory') drawHUD();
   if(G.panel==='char')drawCharPanel();
   if(G.panel==='help')drawHelp();
+  if(G.panel==='settings')drawSettings();
   if(G.msgT>0)drawZoneMsg();
   if(G.state==='dead')drawDead();
   if(G.state==='victory')drawVictory();
@@ -1002,7 +1005,7 @@ function drawHelp(){ cx.fillStyle='rgba(0,0,0,.7)'; cx.fillRect(0,0,VW,VH);
     ['I or C','open Character (gear, stats, skills)'],
     ['walk over loot','step onto items / gold to grab them'],
     ['H','toggle this help'],
-    ['',''],
+    ['O','sound & music options'],
     ['Goal','Clear the Den of Evil, then slay Blood Raven'],
   ];
   let ly=y+70; cx.textAlign='left'; cx.font='13px Trebuchet MS';
@@ -1010,6 +1013,35 @@ function drawHelp(){ cx.fillStyle='rgba(0,0,0,.7)'; cx.fillRect(0,0,VW,VH);
     cx.fillStyle='#bfae86'; cx.fillText(v,x+150,ly); ly+=24; }
   cx.textAlign='center'; cx.fillStyle='#6b6452'; cx.font='11px Trebuchet MS';
   cx.fillText('press H or Esc to close',VW/2,y+h-16);
+}
+
+// ---- settings panel (sound & music) — reachable from title [O] and in-game [O] ----
+function drawSettings(){
+  cx.fillStyle='rgba(0,0,0,.7)'; cx.fillRect(0,0,VW,VH);
+  const w=400,h=290,x=VW/2-w/2,y=VH/2-h/2; panelBg(x,y,w,h,'Options');
+  UIBTN.length=0;   // panel owns all clicks while open
+  drawToggle(x+40,y+64,w-80,'Sound Effects','S',settings.sfx,'togglesfx');
+  drawToggle(x+40,y+124,w-80,'Music','M',settings.music,'togglemusic');
+  const bw=140,bh=36,bx=VW/2-bw/2,by=y+h-92;
+  const hov=mouse.sx>=bx&&mouse.sx<=bx+bw&&mouse.sy>=by&&mouse.sy<=by+bh;
+  cx.fillStyle=hov?'#241c10':'#171208'; cx.fillRect(bx,by,bw,bh);
+  cx.strokeStyle=hov?'#8a6d3a':'#4a3a20'; cx.lineWidth=1.5; cx.strokeRect(bx,by,bw,bh);
+  cx.fillStyle='#cdbf99'; cx.font='15px Trebuchet MS'; cx.textAlign='center'; cx.fillText('Close',VW/2,by+24);
+  UIBTN.push({x:bx,y:by,w:bw,h:bh,act:'closesettings'});
+  cx.fillStyle='#847c6a'; cx.font='11px Trebuchet MS'; cx.textAlign='center';
+  cx.fillText('press S / M to toggle · O or Esc to close',VW/2,y+h-24);
+}
+function drawToggle(x,y,w,label,key,on,act){
+  const h=44;
+  const hov=mouse.sx>=x&&mouse.sx<=x+w&&mouse.sy>=y&&mouse.sy<=y+h;
+  cx.fillStyle=hov?'rgba(46,36,20,.95)':'rgba(20,16,10,.85)'; cx.fillRect(x,y,w,h);
+  cx.strokeStyle=on?'#6a5530':'#3a2e1a'; cx.lineWidth=hov?2:1.5; cx.strokeRect(x,y,w,h);
+  cx.textAlign='left'; cx.font='14px Trebuchet MS'; cx.fillStyle='#e8d6a8';
+  cx.fillText('['+key+']  '+label,x+14,y+28);
+  cx.textAlign='right'; cx.font='bold 14px Trebuchet MS';
+  cx.fillStyle=on?'#9aff9a':'#b0a58c';   // both AA on the dark panel
+  cx.fillText(on?'ON':'OFF',x+w-14,y+28);
+  UIBTN.push({x,y,w,h,act});
 }
 
 // ---- title + char select ----
@@ -1035,6 +1067,13 @@ function drawTitle(){ bgGloom();
   cx.strokeStyle=hov?'#e0405a':'#8a1020'; cx.lineWidth=2; cx.strokeRect(bx,by,bw,bh);
   cx.fillStyle=hov?'#ffd0d8':'#e0a0a8'; cx.font='22px Trebuchet MS'; cx.fillText('Enter Sanctuary',VW/2,by+35);
   UIBTN.length=0; UIBTN.push({x:bx,y:by,w:bw,h:bh,act:'start'});
+  // settings
+  const sw2=170,sh2=38,sbx=VW/2-sw2/2,sby=by+bh+18;
+  const shov=mouse.sx>=sbx&&mouse.sx<=sbx+sw2&&mouse.sy>=sby&&mouse.sy<=sby+sh2;
+  cx.fillStyle=shov?'#241c10':'#15100a'; cx.fillRect(sbx,sby,sw2,sh2);
+  cx.strokeStyle=shov?'#8a6d3a':'#4a3a20'; cx.lineWidth=1.5; cx.strokeRect(sbx,sby,sw2,sh2);
+  cx.fillStyle='#cdbf99'; cx.font='15px Trebuchet MS'; cx.fillText('Settings  [O]',VW/2,sby+25);
+  UIBTN.push({x:sbx,y:sby,w:sw2,h:sh2,act:'settings'});
   cx.fillStyle='#4a4438'; cx.font='11px Trebuchet MS';
   cx.fillText('a Diablo II Act 1 tribute · built for Jordan',VW/2,VH-24);
 }
@@ -1112,12 +1151,132 @@ function h2rgb(h){ h=h.replace('#',''); if(h.length===3)h=h[0]+h[0]+h[1]+h[1]+h[
   return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)]; }
 
 // ---------------------------------------------------------------------------
+//  AUDIO — generated WebAudio, no files. AudioContext is created/resumed ONLY
+//  on the first user gesture (autoplay law); music honours the MUSIC setting.
+// ---------------------------------------------------------------------------
+const SETTINGS_KEY='diablo-act1.settings';   // own key — never touches other saves
+const settings=(function(){ try{ const s=JSON.parse(localStorage.getItem(SETTINGS_KEY));
+  if(s&&typeof s==='object') return {sfx:s.sfx!==false, music:s.music!==false};
+}catch(err){} return {sfx:true,music:true}; })();
+function saveSettings(){ try{ localStorage.setItem(SETTINGS_KEY,JSON.stringify(settings)); }catch(err){} }
+
+let AC=null,sfxGain=null,musicGain=null,noiseBuf=null,music=null;
+function audioUnlock(){
+  if(!AC){
+    const Ctx=window.AudioContext||window.webkitAudioContext; if(!Ctx)return;
+    AC=new Ctx();
+    sfxGain=AC.createGain(); sfxGain.gain.value=0.5; sfxGain.connect(AC.destination);
+    musicGain=AC.createGain(); musicGain.gain.value=0.12; musicGain.connect(AC.destination); // music sits well under sfx
+    noiseBuf=AC.createBuffer(1,AC.sampleRate,AC.sampleRate);
+    const d=noiseBuf.getChannelData(0); for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+    if(settings.music)startMusic();
+  }
+  if(AC.state==='suspended')AC.resume();
+}
+function tone(freq,dur,type,vol,slideTo,delay){
+  if(!AC)return; const t0=AC.currentTime+(delay||0);
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.type=type||'sine'; o.frequency.setValueAtTime(freq,t0);
+  if(slideTo)o.frequency.exponentialRampToValueAtTime(Math.max(20,slideTo),t0+dur);
+  g.gain.setValueAtTime(0.0001,t0);
+  g.gain.exponentialRampToValueAtTime(vol,t0+0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+  o.connect(g); g.connect(sfxGain); o.start(t0); o.stop(t0+dur+0.05);
+}
+function noiseHit(dur,vol,fFrom,fTo,fType,delay){
+  if(!AC)return; const t0=AC.currentTime+(delay||0);
+  const s=AC.createBufferSource(); s.buffer=noiseBuf; s.loop=true;
+  const f=AC.createBiquadFilter(); f.type=fType||'lowpass';
+  f.frequency.setValueAtTime(fFrom,t0);
+  if(fTo)f.frequency.exponentialRampToValueAtTime(fTo,t0+dur);
+  const g=AC.createGain(); g.gain.setValueAtTime(0.0001,t0);
+  g.gain.exponentialRampToValueAtTime(vol,t0+0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+  s.connect(f); f.connect(g); g.connect(sfxGain); s.start(t0); s.stop(t0+dur+0.05);
+}
+const SFX={
+  cast:   ()=>{ noiseHit(.09,.05,900,2400,'bandpass'); },                                    // soft skill whoosh
+  hit:    ()=>{ tone(rand(90,120),.12,'triangle',.20,55); noiseHit(.08,.10,700,240); },      // hit thud
+  hurt:   ()=>{ tone(75,.18,'triangle',.28,48); noiseHit(.14,.14,400,150); },                // player takes a hit
+  die:    ()=>{ tone(rand(120,150),.28,'sawtooth',.15,40); noiseHit(.22,.12,600,120); },     // monster death
+  growl:  ()=>{ tone(rand(60,85),.3,'sawtooth',.13,45); noiseHit(.25,.07,300,90); },         // aggro growl
+  gold:   ()=>{ tone(1150,.07,'square',.05); tone(1500,.09,'square',.05,null,.055); },       // coin chime
+  pick:   ()=>{ tone(520,.08,'triangle',.10,700); },                                         // item pickup
+  potion: ()=>{ tone(300,.09,'sine',.16,180); tone(240,.1,'sine',.14,140,.09);
+                tone(190,.12,'sine',.12,110,.19); },                                         // glug glug
+  level:  ()=>{ tone(261.6,.5,'triangle',.14); tone(392,.5,'triangle',.12,null,.12);
+                tone(523.3,.7,'triangle',.12,null,.24);
+                noiseHit(.6,.04,800,3000,'bandpass',.1); },                                  // level-up swell
+  zone:   ()=>{ tone(65,.8,'sine',.11,50); noiseHit(.7,.04,200,60); },                       // zone-enter swell
+  click:  ()=>{ tone(640,.05,'square',.05); },                                               // ui tick
+  death:  ()=>{ tone(160,1.1,'sawtooth',.18,38); noiseHit(1.0,.10,500,80); },                // you died
+  victory:()=>{ tone(220,.9,'triangle',.14); tone(261.6,.9,'triangle',.12,null,.15);
+                tone(329.6,1.1,'triangle',.12,null,.3); },                                   // minor resolve
+  bossdie:()=>{ tone(100,1.2,'sawtooth',.2,30); noiseHit(1.1,.14,700,60); },                 // Blood Raven falls
+};
+const sfxLast={}; const SFX_GAP={hit:50,cast:60,growl:300};
+function sfx(name){
+  if(!settings.sfx||!AC||AC.state!=='running')return;
+  const now=performance.now(), gap=SFX_GAP[name]||120;
+  if(sfxLast[name]&&now-sfxLast[name]<gap)return;
+  sfxLast[name]=now;
+  if(SFX[name])SFX[name]();
+}
+// ---- music: slow dark ambient drone (A minor, continuous — no loop seams) ----
+function startMusic(){
+  if(!AC||music)return;
+  const t0=AC.currentTime;
+  const out=AC.createGain(); out.gain.setValueAtTime(0.0001,t0);
+  out.gain.exponentialRampToValueAtTime(1,t0+4);            // slow fade-in
+  out.connect(musicGain);
+  music={nodes:[],out};
+  // deep root drone: detuned saw pair + a fifth, through a dark lowpass
+  const lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=220; lp.Q.value=0.7; lp.connect(out);
+  const mk=(freq,type,det,vol)=>{ const o=AC.createOscillator(); o.type=type;
+    o.frequency.value=freq; o.detune.value=det;
+    const g=AC.createGain(); g.gain.value=vol; o.connect(g); g.connect(lp);
+    o.start(); music.nodes.push(o); return g; };
+  mk(55,'sawtooth',-6,.20);        // A1
+  mk(55,'sawtooth',7,.20);         // A1 detuned
+  mk(82.4,'triangle',0,.14);       // E2 — the fifth
+  const thirdG=mk(130.8,'sine',0,.025);  // C3 — minor third, swells in and out
+  // slow LFO breathing the filter cutoff (~20 s cycle)
+  const lfo1=AC.createOscillator(); lfo1.frequency.value=0.05;
+  const lfo1G=AC.createGain(); lfo1G.gain.value=90;
+  lfo1.connect(lfo1G); lfo1G.connect(lp.frequency); lfo1.start(); music.nodes.push(lfo1);
+  // slower LFO fading the minor third (~48 s cycle)
+  const lfo2=AC.createOscillator(); lfo2.frequency.value=0.021;
+  const lfo2G=AC.createGain(); lfo2G.gain.value=.025;
+  lfo2.connect(lfo2G); lfo2G.connect(thirdG.gain); lfo2.start(); music.nodes.push(lfo2);
+  // faint wind: looped noise through a slowly wandering bandpass
+  const ns=AC.createBufferSource(); ns.buffer=noiseBuf; ns.loop=true;
+  const bp=AC.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=420; bp.Q.value=1.6;
+  const ng=AC.createGain(); ng.gain.value=.045;
+  const lfo3=AC.createOscillator(); lfo3.frequency.value=0.033;
+  const lfo3G=AC.createGain(); lfo3G.gain.value=160;
+  lfo3.connect(lfo3G); lfo3G.connect(bp.frequency); lfo3.start(); music.nodes.push(lfo3);
+  ns.connect(bp); bp.connect(ng); ng.connect(out); ns.start(); music.nodes.push(ns);
+}
+function stopMusic(){
+  if(!music)return; const m=music; music=null;
+  const t=AC.currentTime;
+  m.out.gain.cancelScheduledValues(t);
+  m.out.gain.setValueAtTime(Math.max(0.0001,m.out.gain.value),t);
+  m.out.gain.exponentialRampToValueAtTime(0.0001,t+0.6);    // fade out, then tear down
+  setTimeout(()=>{ for(const n of m.nodes){ try{n.stop();}catch(err){} } m.out.disconnect(); },700);
+}
+function toggleSfx(){ settings.sfx=!settings.sfx; saveSettings(); if(settings.sfx)sfx('click'); }
+function toggleMusic(){ settings.music=!settings.music; saveSettings();
+  if(settings.music){ if(AC)startMusic(); } else stopMusic(); }
+
+// ---------------------------------------------------------------------------
 //  INPUT
 // ---------------------------------------------------------------------------
 function screenToWorld(){ mouse.wx=mouse.sx+G.cam.x; mouse.wy=mouse.sy+G.cam.y; }
 cv.addEventListener('mousemove',e=>{ const r=cv.getBoundingClientRect();
   mouse.sx=e.clientX-r.left; mouse.sy=e.clientY-r.top; screenToWorld(); });
 cv.addEventListener('mousedown',e=>{ e.preventDefault();
+  audioUnlock();   // autoplay law: audio only exists after a user gesture
   if(e.button===0)mouse.left=true; if(e.button===2)mouse.right=true;
   handleClick(e.button); });
 cv.addEventListener('mouseup',e=>{ if(e.button===0)mouse.left=false; if(e.button===2)mouse.right=false; });
@@ -1128,8 +1287,15 @@ function uiAt(x,y){ for(let i=UIBTN.length-1;i>=0;i--){ const b=UIBTN[i];
 
 function handleClick(btn){
   const b=uiAt(mouse.sx,mouse.sy);
+  if(b)sfx('click');
+  // ---- settings panel (any state) ----
+  if(G.panel==='settings'){ if(b){
+    if(b.act==='togglesfx')toggleSfx();
+    else if(b.act==='togglemusic')toggleMusic();
+    else if(b.act==='closesettings')G.panel=null; } return; }
   // ---- menu states ----
-  if(G.state==='title'){ if(b&&b.act==='start')G.state='charselect'; return; }
+  if(G.state==='title'){ if(b&&b.act==='start')G.state='charselect';
+    else if(b&&b.act==='settings')G.panel='settings'; return; }
   if(G.state==='charselect'){ if(b){ if(b.act==='selclass')G.selectedClass=b.k;
     else if(b.act==='begin')startGame(); } return; }
   if(G.state==='dead'){ if(b&&b.act==='resurrect'){ G.player.hp=G.player.maxHp; G.player.mana=G.player.maxMana;
@@ -1168,7 +1334,14 @@ function panelAction(b){ const p=G.player;
   else if(b.act==='unequip'){ const it=p.equip[b.s]; if(it&&p.inv.length<24){ p.inv.push(it); p.equip[b.s]=null; recalc(p); } }
 }
 addEventListener('keydown',e=>{
+  audioUnlock();   // autoplay law: audio only exists after a user gesture
   const k=e.key.toLowerCase();
+  // settings panel is keyboard-operable from anywhere it's open
+  if(G.panel==='settings'){
+    if(k==='s')toggleSfx(); else if(k==='m')toggleMusic();
+    else if(k==='escape'||k==='o')G.panel=null;
+    return; }
+  if(k==='o'&&(G.state==='title'||G.state==='playing')){ G.panel='settings'; return; }
   if(G.state!=='playing'&&G.state!=='dead'&&G.state!=='victory')return;
   if(k==='i'||k==='c'){ G.panel=G.panel==='char'?null:'char'; }
   else if(k==='h'){ G.panel=G.panel==='help'?null:'help'; }
@@ -1185,7 +1358,7 @@ function drinkPotion(type){ const p=G.player;
   for(let i=0;i<p.belt.length;i++){ if(p.belt[i]&&p.belt[i].pot===type){
     if(type==='hp'){ p.hp=Math.min(p.maxHp,p.hp+p.maxHp*0.5); showFloat(p.x,p.y-30,'+Health','#ff6a6a'); }
     else { p.mana=Math.min(p.maxMana,p.mana+p.maxMana*0.6); showFloat(p.x,p.y-30,'+Mana','#6a9aff'); }
-    p.belt.splice(i,1); return; } }
+    sfx('potion'); p.belt.splice(i,1); return; } }
 }
 
 // ---------------------------------------------------------------------------
@@ -1195,7 +1368,7 @@ function startGame(){ G.player=makePlayer(G.selectedClass); G.flags={denCleared:
   G.kills=0; G.state='playing'; G.panel='help'; enterZone('town','town');
   setTimeout(()=>{ if(G.panel==='help')G.panel=null; },4000);
 }
-function victory(){ G.state='victory'; }
+function victory(){ G.state='victory'; sfx('victory'); }
 function resetAll(){ G.state='title'; G.panel=null; G.monsters=[]; G.items=[]; G.projectiles=[]; }
 
 // ---------------------------------------------------------------------------

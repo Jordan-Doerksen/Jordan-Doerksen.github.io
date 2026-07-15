@@ -1,8 +1,8 @@
-// ui-screens.js — title screen and end screens. Built once; patched per frame.
-// Copy is deadpan on purpose. Unbuilt systems say OFFLINE — never faked.
-import { el, setText, show } from './dom.js';
+// ui-screens.js — title screen, end screens, and the settings panel. Built once;
+// patched per frame. Copy is deadpan on purpose. Unbuilt systems say OFFLINE — never faked.
+import { el, setText, setClass, show } from './dom.js';
 
-export function buildTitle(root, actions, cfg) {
+export function buildTitle(root, actions, cfg, openSettings) {
   const scr = el('div', 'screen title-screen hidden');
   const mark = el('div', 'wordmark');
   mark.append('HOLD');
@@ -22,6 +22,10 @@ export function buildTitle(root, actions, cfg) {
   const start = el('button', 'btn primary', 'START RUN');
   start.addEventListener('click', () => actions.startRun());
   scr.appendChild(start);
+
+  const settings = el('button', 'btn', 'SETTINGS');
+  settings.addEventListener('click', () => openSettings());
+  scr.appendChild(settings);
 
   scr.appendChild(el('div', 'controls-note', '1/2/3 build · click slot to place · P pause · M mute'));
   scr.appendChild(el('div', 'colophon', '✦ Jordan Doerksen ✦ MMXXVI'));
@@ -67,6 +71,56 @@ export function buildEnd(root, actions) {
   scr.appendChild(back);
   root.appendChild(scr);
   return { scr, verdict, waves, kills, rows };
+}
+
+// Settings overlay — SOUND (sfx) + MUSIC toggles, flipped ONLY via actions; the audio
+// module persists them. Real <button>s (keyboard-native) + aria-pressed; no animation.
+export function buildSettings(root, state, actions) {
+  const scr = el('div', 'screen settings-screen hidden');
+  const panel = el('div', 'settings-panel');
+  panel.setAttribute('role', 'dialog');
+  panel.setAttribute('aria-label', 'Settings');
+  panel.appendChild(el('div', 'name', 'SETTINGS'));
+
+  const mkToggle = (label, onClick) => {
+    const b = el('button', 'btn toggle');
+    b.setAttribute('aria-pressed', 'true');
+    b.appendChild(el('span', null, label));
+    const v = el('b', null, 'ON');
+    b.appendChild(v);
+    b.addEventListener('click', onClick);
+    panel.appendChild(b);
+    return { b, v };
+  };
+  const sfx = mkToggle('SOUND', () => actions.toggleSfx());
+  const music = mkToggle('MUSIC', () => actions.toggleMusic());
+
+  panel.appendChild(el('div', 'settings-note', 'M still mutes everything. Choices persist.'));
+
+  const close = el('button', 'btn primary', 'CLOSE');
+  close.addEventListener('click', () => { state.ui.settingsOpen = false; });
+  panel.appendChild(close);
+
+  scr.appendChild(panel);
+  scr.addEventListener('click', (e) => {
+    if (e.target === scr) state.ui.settingsOpen = false; // click the backdrop to close
+  });
+  root.appendChild(scr);
+  return { scr, sfx, music, close };
+}
+
+export function updateSettings(S, state) {
+  show(S.scr, !!(state.ui && state.ui.settingsOpen));
+  const s = state.settings || {};
+  patchToggle(S.sfx, !!s.sfx);
+  patchToggle(S.music, !!s.music);
+}
+
+function patchToggle(t, on) {
+  setText(t.v, on ? 'ON' : 'OFF');
+  setClass(t.b, 'on', on);
+  const want = on ? 'true' : 'false';
+  if (t.b.getAttribute('aria-pressed') !== want) t.b.setAttribute('aria-pressed', want);
 }
 
 export function updateScreens(R, state, cfg) {

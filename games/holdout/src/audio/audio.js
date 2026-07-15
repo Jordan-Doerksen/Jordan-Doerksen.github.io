@@ -1,17 +1,33 @@
 // audio.js — pure WebAudio synthesis, no asset files. Consumes state.events read-only
 // each frame (main.js clears the array after render+audio have seen it).
-// Seam pinned by ARCHITECTURE.md: initAudio(state) + updateAudio(state).
-// AudioContext is created lazily on the first user gesture (browser autoplay policy).
+// Seam pinned by ARCHITECTURE.md: initAudio(state, cfg) + updateAudio(state).
+// AudioContext is created lazily on the first user gesture (browser autoplay policy);
+// the music drone is built then too, but its bus starts at 0 and only ramps up when
+// the MUSIC setting allows it. Settings persist under their OWN localStorage key
+// (config audio.settingsKey) — never the meta Salvage key.
 
 let ctx = null;
-let master = null;
+let master = null;   // everything → master → destination; M-mute zeroes this
+let musicBus = null; // music drone → musicBus → master; the MUSIC setting gates this
+let lastPersisted = ''; // JSON snapshot of the last settings written to storage
 const lastAt = { shot: 0, coreHit: 0, essence: 0, alienTech: 0 }; // rate limiters
 const MIN_GAP = { shot: 0.125, coreHit: 0.4, essence: 0.09, alienTech: 0.09 };
-const MASTER_GAIN = 0.25;
+// Tunables (overridden from config/game.json "audio" at init; these are fallbacks).
+const A = {
+  settingsKey: 'holdout.settings.v1',
+  masterGain: 0.25,
+  musicPlayGain: 0.05,   // in-run drone level — deliberately well under the SFX
+  musicTitleGain: 0.028, // quieter still on title/end/pause
+  musicRampSec: 1.2,     // fade time between music levels (no clicks, no seams)
+};
 
-export function initAudio(state) {
+export function initAudio(state, cfg) {
+  const a = (cfg && cfg.game && cfg.game.audio) || {};
+  for (const k of Object.keys(A)) if (a[k] != null) A[k] = a[k];
+  loadSettings(state);
   const arm = () => {
     ensureCtx();
+    startMusic();
     window.removeEventListener('pointerdown', arm);
     window.removeEventListener('keydown', arm);
   };
@@ -20,10 +36,123 @@ export function initAudio(state) {
 }
 
 export function updateAudio(state) {
+  persistIfChanged(state); // before the ctx guard — settings save even with no WebAudio
   if (!ctx) return;
-  master.gain.value = state.muted ? 0 : MASTER_GAIN;
-  if (state.muted) return;
+  master.gain.value = state.muted ? 0 : A.masterGain;
+  if (musicBus) {
+    const on = !state.muted && state.settings && state.settings.music;
+    const target = !on ? 0
+      : (state.mode === 'playing' && !state.paused) ? A.musicPlayGain
+      : A.musicTitleGain;
+    musicBus.gain.setTargetAtTime(target, ctx.currentTime, A.musicRampSec / 3);
+  }
+  if (state.muted || (state.settings && !state.settings.sfx)) return;
   for (const ev of state.events) play(ev.type); // read-only — never spliced here
+}
+
+// ---- settings persistence (this module's job — sim only flips the flags) ----------
+
+function loadSettings(state) {
+  const s = { sfx: true, music: true }; // defaults: both ON
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem(A.settingsKey);
+      if (raw) {
+        const v = JSON.parse(raw);
+        if (typeof v.sfx === 'boolean') s.sfx = v.sfx;
+        if (typeof v.music === 'boolean') s.music = v.music;
+      }
+    }
+  } catch { /* blocked/corrupt storage → defaults */ }
+  state.settings.sfx = s.sfx;
+  state.settings.music = s.music;
+  lastPersisted = JSON.stringify(s);
+}
+
+function persistIfChanged(state) {
+  if (!state.settings) return;
+  const now = JSON.stringify({ sfx: !!state.settings.sfx, music: !!state.settings.music });
+  if (now === lastPersisted) return;
+  lastPersisted = now;
+  try {
+    if (typeof localStorage !== 'undefined') localStorage.setItem(A.settingsKey, now);
+  } catch { /* storage full/blocked: settings just don't persist this session */ }
+}
+
+// ---- music — a tense low drone that can sit under all 30 waves --------------------
+// Two detuned saws on A1 (the slow beat between them is the tension), a lowpass that
+// "breathes" via a very slow LFO, a faint swelling octave, and a filtered-noise wind
+// bed. Every source is continuous, so the loop has no seam by construction. The whole
+// mix hangs off musicBus, whose level updateAudio ramps per the MUSIC setting.
+function startMusic() {
+  if (!ctx || musicBus) return;
+  musicBus = ctx.createGain();
+  musicBus.gain.value = 0; // silent until updateAudio ramps it (autoplay + setting law)
+  musicBus.connect(master);
+
+  const lp = ctx.createBiquadFilter();
+  lp.type = 'lowpass';
+  lp.frequency.value = 220;
+  lp.Q.value = 0.9;
+  lp.connect(musicBus);
+
+  // filter breathing: 0.06 Hz sine sweeps the cutoff ±90 Hz (~17 s cycle)
+  const lfo = ctx.createOscillator();
+  lfo.frequency.value = 0.06;
+  const lfoAmt = ctx.createGain();
+  lfoAmt.gain.value = 90;
+  lfo.connect(lfoAmt);
+  lfoAmt.connect(lp.frequency);
+  lfo.start();
+
+  // detuned saw pair on A1
+  for (const cents of [-6, 5]) {
+    const osc = ctx.createOscillator();
+    osc.type = 'sawtooth';
+    osc.frequency.value = 55;
+    osc.detune.value = cents;
+    const g = ctx.createGain();
+    g.gain.value = 0.5;
+    osc.connect(g);
+    g.connect(lp);
+    osc.start();
+  }
+
+  // faint octave sine with a slow swell (~9 s cycle)
+  const oct = ctx.createOscillator();
+  oct.type = 'sine';
+  oct.frequency.value = 110;
+  const octG = ctx.createGain();
+  octG.gain.value = 0.12;
+  const trem = ctx.createOscillator();
+  trem.frequency.value = 0.11;
+  const tremAmt = ctx.createGain();
+  tremAmt.gain.value = 0.1;
+  trem.connect(tremAmt);
+  tremAmt.connect(octG.gain);
+  oct.connect(octG);
+  octG.connect(musicBus);
+  oct.start();
+  trem.start();
+
+  // wind bed: looped white noise through a low bandpass, very quiet
+  const len = 2 * ctx.sampleRate;
+  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+  const noise = ctx.createBufferSource();
+  noise.buffer = buf;
+  noise.loop = true;
+  const bp = ctx.createBiquadFilter();
+  bp.type = 'bandpass';
+  bp.frequency.value = 320;
+  bp.Q.value = 0.7;
+  const nG = ctx.createGain();
+  nG.gain.value = 0.05;
+  noise.connect(bp);
+  bp.connect(nG);
+  nG.connect(musicBus);
+  noise.start();
 }
 
 function play(type) {
@@ -116,6 +245,6 @@ function ensureCtx() {
   if (!AC) return; // no WebAudio — the game stays silent rather than faking it
   ctx = new AC();
   master = ctx.createGain();
-  master.gain.value = MASTER_GAIN;
+  master.gain.value = A.masterGain;
   master.connect(ctx.destination);
 }

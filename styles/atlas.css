@@ -31,6 +31,15 @@
 .dg-edge text{fill:var(--muted);font-size:9.5px;letter-spacing:.04em}
 .dg-edge.lit path{stroke:var(--accent-ink);stroke-opacity:1;stroke-width:1.9}
 .dg-edge.lit text{fill:var(--accent-ink)}
+/* diagram-live.js: the packet traveling the gold path (js sets cx/cy/opacity) */
+.dg-pulse{fill:var(--accent);pointer-events:none;opacity:0}
+/* soft press: nodes rise a hair under the cursor; killed under reduced motion */
+.dg-node rect{transform-box:fill-box;transform-origin:center}
+.dg-node:hover rect{transform:translateY(-1.5px)}
+@media (prefers-reduced-motion:reduce){
+  .dg-node:hover rect{transform:none}
+  .dg-pulse{display:none}
+}
 .dg-arrow-a{fill:var(--accent);fill-opacity:.9}
 .dg-arrow-m{fill:var(--muted);fill-opacity:.85}
 .dg-callout{fill:var(--accent-ink);font-size:10px;letter-spacing:.08em}

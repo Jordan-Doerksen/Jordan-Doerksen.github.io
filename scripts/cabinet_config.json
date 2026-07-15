@@ -1,0 +1,11 @@
+{
+  "defaultCabinet": "desktop",
+  "cabinets": {
+    "desktop": "data/cabinet.json",
+    "lite": "data/cabinet-lite.json"
+  },
+  "assign": {
+    "star-charter": "lite",
+    "echo-bat": "desktop"
+  }
+}

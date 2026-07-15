@@ -20,6 +20,23 @@
     text-align:center;color:#727c98;font:500 10px/1 'JetBrains Mono',monospace;letter-spacing:.28em;
     text-transform:uppercase;pointer-events:none;}
   .colo b{color:#9a7a33;font-weight:500;}
+  /* sound settings — static chrome, no animation; slate #727c98 border = 4.87:1 (>3:1 UI), text >=6:1 AA */
+  .gear{position:fixed;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));z-index:4;
+    background:#0a0f1d;border:1px solid #727c98;border-radius:6px;cursor:pointer;
+    color:#97a0b5;font:500 11px/1 'JetBrains Mono',monospace;letter-spacing:.18em;
+    text-transform:uppercase;padding:10px 14px;}
+  .gear:hover{color:#d8ac4e;border-color:#d8ac4e;}
+  .panel{position:fixed;top:calc(max(12px,env(safe-area-inset-top)) + 46px);right:max(12px,env(safe-area-inset-right));z-index:4;
+    background:#0a0f1d;border:1px solid #727c98;border-radius:8px;padding:10px;
+    display:flex;flex-direction:column;gap:8px;min-width:172px;}
+  .panel[hidden]{display:none;}
+  .tog{background:none;border:1px solid #727c98;border-radius:6px;cursor:pointer;text-align:left;
+    color:#aeb7cc;font:500 11px/1 'JetBrains Mono',monospace;letter-spacing:.18em;
+    text-transform:uppercase;padding:11px 12px;display:flex;justify-content:space-between;gap:14px;}
+  .tog b{color:#d8ac4e;font-weight:600;}
+  .tog.off b{color:#8a93a9;}
+  .tog:hover{border-color:#d8ac4e;}
+  .gear:focus-visible,.tog:focus-visible{outline:2px solid #d8ac4e;outline-offset:2px;}
   /* reduced-motion: kill the hint's opacity transition (only CSS-animated UI chrome) */
   @media (prefers-reduced-motion: reduce){
     .hint{transition:none;}
@@ -31,12 +48,19 @@
   <canvas id="fg"></canvas>
   <div class="hint" id="hint"><b>drag</b> to fling a world &nbsp;·&nbsp; <b>hold</b> to bend gravity &nbsp;·&nbsp; <b>tap</b> for an orbit</div>
   <div class="colo">✦ &nbsp; The Glass Archive &nbsp; <b>·</b> &nbsp; orbital field</div>
+  <button class="gear" id="gear" aria-label="Sound settings" aria-expanded="false" aria-controls="panel">✦ sound</button>
+  <div class="panel" id="panel" role="group" aria-label="Sound settings" hidden>
+    <button class="tog" id="tSfx" aria-pressed="true">sound <b>on</b></button>
+    <button class="tog" id="tMus" aria-pressed="true">music <b>on</b></button>
+  </div>
 <script>
 // ===========================================================================
 // ORBITAL FIELD — a no-goal gravity sandbox. A star at center pulls everything;
 // tap = an instant orbit, drag = fling a world, hold = a gravity well under your
 // finger. Additive glow + fading trails (light-painting). Glass Archive palette.
 // Touch + mouse via Pointer Events. prefers-reduced-motion calms the ambient.
+// Sound: generated WebAudio (whoosh/chime/hum + ambient drone), sound settings
+// in the corner persisted to localStorage 'orbital-field.settings'.
 // ===========================================================================
 const bg=document.getElementById('bg'), fg=document.getElementById('fg');
 const bx=bg.getContext('2d'), fx=fg.getContext('2d');
@@ -100,14 +124,14 @@ function spawnOrbit(x,y){
 function seed(){ for(let i=0;i<7;i++){ const ang=rr(0,7), r=rr(90,Math.min(W,H)*.42); spawnOrbit(star.x+Math.cos(ang)*r, star.y+Math.sin(ang)*r);} }
 
 // ---- input (pointer = mouse + touch) ----
-fg.addEventListener('pointerdown',e=>{ fg.setPointerCapture(e.pointerId);
+fg.addEventListener('pointerdown',e=>{ fg.setPointerCapture(e.pointerId); ensureAC();
   P={x:e.clientX,y:e.clientY,dx:e.clientX,dy:e.clientY,t:performance.now(),moved:false}; fade(); });
 fg.addEventListener('pointermove',e=>{ if(!P)return; P.x=e.clientX;P.y=e.clientY;
   if(Math.hypot(P.x-P.dx,P.y-P.dy)>10)P.moved=true; });
 function release(e){ if(!P)return; const dt=(performance.now()-P.t)/1000;
-  if(!P.moved && dt<.35){ spawnOrbit(P.dx,P.dy); }
+  if(!P.moved && dt<.35){ spawnOrbit(P.dx,P.dy); chime(Math.hypot(P.dx-star.x,P.dy-star.y)); }
   else { const vx=clamp((e.clientX-P.dx)/Math.max(.06,dt),780), vy=clamp((e.clientY-P.dy)/Math.max(.06,dt),780);
-         addBody(e.clientX,e.clientY,vx,vy); }
+         addBody(e.clientX,e.clientY,vx,vy); whoosh(Math.hypot(vx,vy)); }
   P=null; }
 fg.addEventListener('pointerup',release);
 fg.addEventListener('pointercancel',()=>P=null);
@@ -115,6 +139,84 @@ fg.addEventListener('pointercancel',()=>P=null);
 let hintEl=document.getElementById('hint'), faded=false;
 function fade(){ if(faded)return; faded=true; hintEl.style.opacity='0'; }
 if(!reduce) setTimeout(fade,6500);
+
+// ---- sound (generated WebAudio, no files; context created only after a user gesture) ----
+const SETTINGS_KEY='orbital-field.settings';   // own key — this game keeps no other saves
+let SND={sfx:true,music:true};                 // defaults: both on
+try{ const s=JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}');
+     if(s.sfx===false)SND.sfx=false; if(s.music===false)SND.music=false; }catch(e){}
+function saveSnd(){ try{localStorage.setItem(SETTINGS_KEY,JSON.stringify(SND));}catch(e){} }
+
+let AC=null,sfxBus=null,musBus=null,humOsc=null,humGain=null,noiseBuf=null,lastSwallow=0;
+function ensureAC(){ // autoplay law: call ONLY from user-gesture handlers
+  const Ctx=window.AudioContext||window.webkitAudioContext; if(!Ctx)return;
+  if(!AC){
+    AC=new Ctx();
+    sfxBus=AC.createGain(); sfxBus.gain.value=SND.sfx?1:0; sfxBus.connect(AC.destination);
+    musBus=AC.createGain(); musBus.gain.value=SND.music?1:0; musBus.connect(AC.destination);
+    startHum(); startDrone();
+  }
+  if(AC.state==='suspended')AC.resume();
+}
+function noise(){ if(noiseBuf)return noiseBuf;
+  const n=AC.sampleRate*.5|0; noiseBuf=AC.createBuffer(1,n,AC.sampleRate);
+  const d=noiseBuf.getChannelData(0); for(let i=0;i<n;i++)d[i]=Math.random()*2-1; return noiseBuf; }
+// faint orbit hum — level + pitch follow how many worlds are aloft (updated each frame)
+function startHum(){ humOsc=AC.createOscillator(); humOsc.type='sine'; humOsc.frequency.value=58;
+  humGain=AC.createGain(); humGain.gain.value=0;
+  humOsc.connect(humGain); humGain.connect(sfxBus); humOsc.start(); }
+// launch whoosh — bandpass noise burst, slightly louder/brighter with fling speed
+function whoosh(v){ if(!AC||!SND.sfx)return; const t=AC.currentTime;
+  const src=AC.createBufferSource(); src.buffer=noise();
+  const f=AC.createBiquadFilter(); f.type='bandpass'; f.Q.value=1.1;
+  f.frequency.setValueAtTime(240+v*.6,t); f.frequency.exponentialRampToValueAtTime(110,t+.4);
+  const g=AC.createGain(); g.gain.setValueAtTime(.0001,t);
+  g.gain.exponentialRampToValueAtTime(Math.min(.13,.04+v/9000),t+.04);
+  g.gain.exponentialRampToValueAtTime(.0001,t+.5);
+  src.connect(f); f.connect(g); g.connect(sfxBus); src.start(t); src.stop(t+.55); }
+// orbit chime — soft pluck, higher the closer the new orbit sits to the star
+function chime(dist){ if(!AC||!SND.sfx)return; const t=AC.currentTime;
+  const o=AC.createOscillator(); o.type='triangle'; o.frequency.value=180+460*Math.pow(.5,dist/260);
+  const g=AC.createGain(); g.gain.setValueAtTime(.0001,t);
+  g.gain.exponentialRampToValueAtTime(.07,t+.015); g.gain.exponentialRampToValueAtTime(.0001,t+.7);
+  o.connect(g); g.connect(sfxBus); o.start(t); o.stop(t+.75); }
+// star swallow — a small falling tone when a world is absorbed (rate-limited)
+function swallow(){ if(!AC||!SND.sfx)return; const n=performance.now(); if(n-lastSwallow<150)return; lastSwallow=n;
+  const t=AC.currentTime; const o=AC.createOscillator(); o.type='sine';
+  o.frequency.setValueAtTime(240,t); o.frequency.exponentialRampToValueAtTime(70,t+.28);
+  const g=AC.createGain(); g.gain.setValueAtTime(.0001,t);
+  g.gain.exponentialRampToValueAtTime(.05,t+.02); g.gain.exponentialRampToValueAtTime(.0001,t+.3);
+  o.connect(g); g.connect(sfxBus); o.start(t); o.stop(t+.35); }
+// music — one evolving ambient tone: detuned sine pair + sub, slow breath LFO; seamless by construction
+function startDrone(){ const t=AC.currentTime;
+  const g=AC.createGain(); g.gain.value=.035;                        // well under the sfx
+  const lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=520;
+  g.connect(lp); lp.connect(musBus);
+  const o1=AC.createOscillator(); o1.type='sine'; o1.frequency.value=110;
+  const o2=AC.createOscillator(); o2.type='sine'; o2.frequency.value=164.6; // a slightly flat fifth
+  const o3=AC.createOscillator(); o3.type='triangle'; o3.frequency.value=55;
+  const g3=AC.createGain(); g3.gain.value=.5; o3.connect(g3); g3.connect(g);
+  o1.connect(g); o2.connect(g);
+  const breath=AC.createOscillator(); breath.frequency.value=.05;    // ~20 s swell on the drone level
+  const bg=AC.createGain(); bg.gain.value=.015; breath.connect(bg); bg.connect(g.gain);
+  const drift=AC.createOscillator(); drift.frequency.value=.011;     // slow detune wander, +/-5 cents
+  const dg=AC.createGain(); dg.gain.value=5; drift.connect(dg); dg.connect(o2.detune);
+  [o1,o2,o3,breath,drift].forEach(o=>o.start(t)); }
+
+// ---- settings panel (static — no animation; Esc closes, buttons are native = keyboardable) ----
+const gearEl=document.getElementById('gear'), panelEl=document.getElementById('panel'),
+      tSfx=document.getElementById('tSfx'), tMus=document.getElementById('tMus');
+function paintTog(btn,on){ btn.setAttribute('aria-pressed',on?'true':'false');
+  btn.querySelector('b').textContent=on?'on':'off'; btn.classList.toggle('off',!on); }
+function openPanel(o){ panelEl.hidden=!o; gearEl.setAttribute('aria-expanded',o?'true':'false');
+  if(o)tSfx.focus(); else gearEl.focus(); }
+gearEl.addEventListener('click',()=>{ ensureAC(); openPanel(panelEl.hidden); });
+tSfx.addEventListener('click',()=>{ ensureAC(); SND.sfx=!SND.sfx; saveSnd();
+  if(sfxBus)sfxBus.gain.value=SND.sfx?1:0; paintTog(tSfx,SND.sfx); });
+tMus.addEventListener('click',()=>{ ensureAC(); SND.music=!SND.music; saveSnd();
+  if(musBus)musBus.gain.value=SND.music?1:0; paintTog(tMus,SND.music); });
+addEventListener('keydown',e=>{ if(e.key==='Escape'&&!panelEl.hidden)openPanel(false); });
+paintTog(tSfx,SND.sfx); paintTog(tMus,SND.music);
 
 // ---- sim + render ----
 let last=performance.now();
@@ -129,12 +231,16 @@ function frame(now){
            b.vx+=fa*fdx/fr*dt; b.vy+=fa*fdy/fr*dt; }
     b.x+=b.vx*dt; b.y+=b.vy*dt;
     // absorb into star, cull strays
-    if(r<26){ flash(b.x,b.y,b.hue); bodies.splice(i,1); continue; }
+    if(r<26){ flash(b.x,b.y,b.hue); swallow(); bodies.splice(i,1); continue; }
     if(b.x<-W||b.x>2*W||b.y<-H||b.y>2*H){ bodies.splice(i,1); }
   }
   // keep the field alive
   if(!reduce && bodies.length<6 && now-lastSpawn>900){ const ang=rr(0,7),rad=rr(120,Math.min(W,H)*.4);
     spawnOrbit(star.x+Math.cos(ang)*rad, star.y+Math.sin(ang)*rad); lastSpawn=now; }
+  // faint orbit hum follows the field
+  if(humGain){ const tg=Math.min(.04,bodies.length*.004);
+    humGain.gain.value+=(tg-humGain.gain.value)*.04;
+    humOsc.frequency.value=58+bodies.length*.35; }
 
   // fade previous frame toward transparent (light-painting trails)
   fx.globalCompositeOperation='destination-out';

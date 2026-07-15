@@ -87,6 +87,10 @@
     var s = document.createElement("script");
     s.src = "../styles/effects.js";
     document.body.appendChild(s);
+    /* same post-render pattern: the figures exist by now, so its scan sees them */
+    var d = document.createElement("script");
+    d.src = "../assets/diagram-live.js";
+    document.body.appendChild(d);
   }
 
   function render(p) {
@@ -207,21 +211,13 @@
     loadEffects();
   }
 
-  /* node-hover lights connected edges — pure highlight, no motion to gate */
+  /* hover lighting + gold pulses both live in assets/diagram-live.js now.
+     The figure arrives by fetch after render, so re-scan once it's in the
+     DOM; scan() guards against double-wiring. The retry covers the case
+     where the script itself is still loading when the svg lands. */
   function wireDiagram(well) {
-    var svg = well.querySelector("svg");
-    if (!svg) return;
-    function nodeOf(t) { return (t && t.closest) ? t.closest(".dg-node") : null; }
-    svg.addEventListener("mouseover", function (e) {
-      var n = nodeOf(e.target);
-      if (!n) return;
-      svg.querySelectorAll(".dg-edge.e-" + n.getAttribute("data-n")).forEach(function (ed) { ed.classList.add("lit"); });
-    });
-    svg.addEventListener("mouseout", function (e) {
-      var n = nodeOf(e.target);
-      if (!n || nodeOf(e.relatedTarget) === n) return;
-      svg.querySelectorAll(".dg-edge.lit").forEach(function (ed) { ed.classList.remove("lit"); });
-    });
+    if (window.DiagramLive) { window.DiagramLive.scan(); return; }
+    setTimeout(function () { if (window.DiagramLive) window.DiagramLive.scan(); }, 400);
   }
 
   if (!host) return;

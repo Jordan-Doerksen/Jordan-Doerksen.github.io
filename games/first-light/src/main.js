@@ -72,9 +72,44 @@ function toggleMute() {
 }
 muteBtn.addEventListener('click', toggleMute);
 
+// ----- settings (sfx + music toggles, persisted under their own key) -----
+const settingsScreen = el('settingsScreen'), sfxToggle = el('sfxToggle'),
+  musicToggle = el('musicToggle');
+let settingsReturn = null; // the screen to restore when settings close
+audio.setSfx(state.settings.sfx);
+audio.setMusic(state.settings.music);
+function syncToggles() {
+  sfxToggle.textContent = `sfx · ${state.settings.sfx ? 'on' : 'off'}`;
+  sfxToggle.setAttribute('aria-pressed', String(state.settings.sfx));
+  musicToggle.textContent = `music · ${state.settings.music ? 'on' : 'off'}`;
+  musicToggle.setAttribute('aria-pressed', String(state.settings.music));
+}
+syncToggles();
+function openSettings(from) {
+  settingsReturn = from; from.hidden = true;
+  settingsScreen.hidden = false;
+  sfxToggle.focus();
+}
+function closeSettings() {
+  settingsScreen.hidden = true;
+  if (settingsReturn) { settingsReturn.hidden = false; settingsReturn = null; }
+}
+sfxToggle.addEventListener('click', () => {
+  state.settings.sfx = !state.settings.sfx; state.persistSettings();
+  audio.setSfx(state.settings.sfx); syncToggles();
+});
+musicToggle.addEventListener('click', () => {
+  state.settings.music = !state.settings.music; state.persistSettings();
+  audio.setMusic(state.settings.music); syncToggles();
+});
+el('settingsBackBtn').addEventListener('click', closeSettings);
+el('settingsBtn').addEventListener('click', () => openSettings(titleScreen));
+el('pauseSettingsBtn').addEventListener('click', () => openSettings(pauseScreen));
+
 // ----- pause -----
 let loopHandle;
 function togglePause() {
+  if (!settingsScreen.hidden) { closeSettings(); return; } // P/Esc backs out of settings first
   if (state.phase === 'playing') { state.phase = 'paused'; pauseScreen.hidden = false; }
   else if (state.phase === 'paused') {
     state.phase = 'playing'; pauseScreen.hidden = true; loopHandle.resetClock();
@@ -192,9 +227,12 @@ function inBeamCone(beams, x, y) {
 }
 
 // ----- update -----
+let prevFocus = false; // lamp-sweep edge detector — audio only, no gameplay effect
 function update(dt) {
   const mods = state.mods;
   ship.focus = input.focus;
+  if (ship.focus && !prevFocus) audio.sweep(); // the beam narrowing gets a voice
+  prevFocus = ship.focus;
   ship.update(dt, input, mods);
   const beams = ship.beams(mods);
 

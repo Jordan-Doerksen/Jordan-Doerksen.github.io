@@ -139,6 +139,21 @@ body { display: grid; place-items: center; font-family: var(--mono); }
 .salvage-table .srow.total { border-top: 1px solid var(--panel-edge); margin-top: 5px; padding-top: 5px; }
 .salvage-table .srow.total b { color: var(--accent); }
 
+/* ---------- settings overlay (reachable from title + topbar) ---------- */
+/* Static panel — no animation, nothing runs while it sits there (reduced-motion law). */
+.settings-screen { background: rgba(0, 0, 0, 0.6); }
+.settings-panel {
+  background: var(--panel); border: 1px solid var(--panel-edge);
+  padding: 18px 22px; min-width: 260px; box-sizing: border-box;
+  display: flex; flex-direction: column; gap: 10px; text-align: left;
+}
+.settings-panel .name { color: var(--accent); text-transform: uppercase; letter-spacing: 0.14em; font-size: 13px; margin-bottom: 4px; }
+.settings-panel .btn.toggle { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; }
+.settings-panel .btn.toggle b { color: var(--dim); letter-spacing: 0.1em; }
+.settings-panel .btn.toggle.on b { color: var(--accent); }
+.settings-panel .settings-note { color: var(--dim); font-size: 10px; letter-spacing: 0.06em; }
+.settings-panel .btn.primary { margin-top: 4px; }
+
 /* ---------- reduced motion is law ---------- */
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }

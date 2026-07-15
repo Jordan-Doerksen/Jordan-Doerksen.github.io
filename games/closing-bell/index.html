@@ -196,6 +196,18 @@
   .verdict{font-size:14px; font-weight:600; margin:2px 0 8px}
   .verdict.win{color:var(--up)} .verdict.lose{color:var(--down)}
 
+  /* ---------- sound settings (title + pause sheets) ---------- */
+  .settings-row{display:flex; gap:10px; justify-content:center; margin-top:14px}
+  .set-btn{
+    font-family:var(--mono); font-size:12.5px; font-weight:600; letter-spacing:.02em;
+    color:var(--muted); background:var(--panel-2); border:1px solid var(--line);
+    border-radius:9px; padding:8px 14px; cursor:pointer; min-width:118px; /* reserved width: On/Off swap never reflows */
+  }
+  .set-btn:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
+  .set-btn:active{transform:translateY(1px)}
+  /* AA contrast: on = --blue-ink #1d4ed8 on white (6.3:1); off = --muted #5b6a80 on #f7f9fc (5.7:1) */
+  .set-btn[aria-pressed="true"]{border-color:var(--blue); color:var(--blue-ink); background:#fff}
+
   .colophon{
     flex:0 0 auto; text-align:center; padding:6px 0 2px; font-size:10.5px;
     color:var(--muted); letter-spacing:.1em;
@@ -267,6 +279,10 @@
           </div>
           <p class="sub" style="margin-top:6px">Best run: <b id="bestRun">Day 0 · $0</b></p>
           <button class="cta" id="startBtn">Ring the opening bell ▸</button>
+          <div class="settings-row" role="group" aria-label="Sound settings">
+            <button class="set-btn" data-set="sfx" aria-pressed="true">Sound: On</button>
+            <button class="set-btn" data-set="music" aria-pressed="true">Music: On</button>
+          </div>
         </div>
       </div>
 
@@ -304,6 +320,10 @@
           <h2>Paused</h2>
           <p class="sub">The market waits for no one — but it'll wait for you.</p>
           <button class="cta" id="resumeBtn">Resume ▸</button>
+          <div class="settings-row" role="group" aria-label="Sound settings">
+            <button class="set-btn" data-set="sfx" aria-pressed="true">Sound: On</button>
+            <button class="set-btn" data-set="music" aria-pressed="true">Music: On</button>
+          </div>
         </div>
       </div>
     </div>
@@ -359,10 +379,17 @@
   }
   const pick = arr => arr[Math.floor(Math.random()*arr.length)];
 
+  // ---------------------------------------------------------------- settings
+  // Own key, beside the save key — never touches 'closingbell.best'.
+  const SET_KEY='closingbell.settings';
+  const settings=(()=>{ try{ const s=JSON.parse(localStorage.getItem(SET_KEY)||'{}'); return {sfx:s.sfx!==false, music:s.music!==false}; }catch(e){ return {sfx:true, music:true}; } })();
+  function saveSettings(){ try{ localStorage.setItem(SET_KEY,JSON.stringify(settings)); }catch(e){} }
+
   // ---------------------------------------------------------------- audio
   let actx=null;
   function audio(){ if(!actx){ try{ actx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } return actx; }
   function tone(freq,dur,type='sine',vol=0.18,glideTo){
+    if(!settings.sfx) return;
     const c=audio(); if(!c) return;
     const o=c.createOscillator(), g=c.createGain();
     o.type=type; o.frequency.setValueAtTime(freq,c.currentTime);
@@ -382,7 +409,72 @@
     alarm(){ tone(300,0.18,'square',0.10,220); },
     news(){ tone(740,0.06,'square',0.08); setTimeout(()=>tone(880,0.08,'square',0.08),60); },
     buy(){ tone(587,0.07,'triangle',0.16); setTimeout(()=>tone(880,0.10,'triangle',0.16),60); },
+    tick(up){ tone(up?1180:960,0.025,'sine',0.024); }, // per-candle tape blip, barely-there
   };
+
+  // ---------------------------------------------------------------- music
+  // Trading-floor undertone: two detuned low saws + an octave triangle through a
+  // slow-breathing lowpass, plus a soft two-beat pulse scheduled on the audio
+  // clock (continuous drone + clock-scheduled beats = seamless loop, no files).
+  // Autoplay law: only ever started from userGesture()/a settings click.
+  const MUSIC={vol:0.14, droneVol:0.30, pulseVol:0.42, beat:0.75, cutoff:200, lfoHz:0.045, lfoDepth:90};
+  let mus=null;
+  function ensureMusic(){
+    if(!settings.music || mus) return;
+    const c=audio(); if(!c) return;
+    if(c.state==='suspended'){ try{ c.resume(); }catch(e){} }
+    const gain=c.createGain();
+    gain.gain.setValueAtTime(0,c.currentTime);
+    gain.gain.linearRampToValueAtTime(MUSIC.vol,c.currentTime+2.5); // slow fade-in, no blast
+    gain.connect(c.destination);
+    const filter=c.createBiquadFilter(); filter.type='lowpass'; filter.Q.value=0.9;
+    filter.frequency.setValueAtTime(MUSIC.cutoff,c.currentTime);
+    const droneGain=c.createGain(); droneGain.gain.value=MUSIC.droneVol;
+    droneGain.connect(filter); filter.connect(gain);
+    const oscs=[[55,'sawtooth'],[55.4,'sawtooth'],[110.3,'triangle']].map(fd=>{
+      const o=c.createOscillator(); o.type=fd[1]; o.frequency.value=fd[0];
+      o.connect(droneGain); o.start(); return o;
+    });
+    const lfo=c.createOscillator(); lfo.frequency.value=MUSIC.lfoHz;
+    const lfoGain=c.createGain(); lfoGain.gain.value=MUSIC.lfoDepth;
+    lfo.connect(lfoGain); lfoGain.connect(filter.frequency); lfo.start();
+    mus={gain,oscs,lfo,lfoGain,timer:0,nextBeat:c.currentTime+0.2,beatN:0};
+    mus.timer=setInterval(()=>{ // lookahead scheduler: queue beats ~0.45s ahead
+      if(!mus) return;
+      while(mus.nextBeat < c.currentTime+0.45){
+        const strong=mus.beatN%4===0, mid=mus.beatN%4===2;
+        if(strong||mid){
+          const o=c.createOscillator(), g=c.createGain();
+          o.type='sine';
+          o.frequency.setValueAtTime(strong?70:58,mus.nextBeat);
+          o.frequency.exponentialRampToValueAtTime(strong?46:40,mus.nextBeat+0.16);
+          g.gain.setValueAtTime(0,mus.nextBeat);
+          g.gain.linearRampToValueAtTime(MUSIC.pulseVol*(strong?1:0.55),mus.nextBeat+0.012);
+          g.gain.exponentialRampToValueAtTime(0.0001,mus.nextBeat+0.30);
+          o.connect(g); g.connect(mus.gain);
+          o.start(mus.nextBeat); o.stop(mus.nextBeat+0.34);
+        }
+        mus.nextBeat+=MUSIC.beat; mus.beatN++;
+      }
+    },200);
+  }
+  function stopMusic(){
+    if(!mus) return;
+    const c=actx, m=mus; mus=null;
+    clearInterval(m.timer);
+    try{
+      m.gain.gain.cancelScheduledValues(c.currentTime);
+      m.gain.gain.setValueAtTime(m.gain.gain.value,c.currentTime);
+      m.gain.gain.linearRampToValueAtTime(0,c.currentTime+0.25);
+    }catch(e){}
+    setTimeout(()=>{ try{ m.oscs.forEach(o=>o.stop()); m.lfo.stop(); m.gain.disconnect(); }catch(e){} },400);
+  }
+  // First-user-gesture hook: create/resume the context, start music if enabled.
+  function userGesture(){
+    const c=audio();
+    if(c && c.state==='suspended'){ try{ c.resume(); }catch(e){} }
+    ensureMusic();
+  }
 
   // ---------------------------------------------------------------- config
   const DAY_DUR = 45;             // seconds of trading per day
@@ -490,6 +582,8 @@
   }
   function newBar(){
     const c=S.cur;
+    // tape tick per completed candle — gated on 'trading' so the seed loop stays silent
+    if(S.mode==='trading' && c.bars.length){ const b=c.bars[c.bars.length-1]; SFX.tick(b.c>=b.o); }
     c.bars.push({o:c.price,h:c.price,l:c.price,c:c.price});
     if(c.bars.length>VISIBLE+4) c.bars.shift();
   }
@@ -879,27 +973,49 @@
     else if(kind==='flat') goFlat();
   }
   document.addEventListener('keydown',e=>{
+    // keyboard access: let a focused settings toggle take Space/Enter natively
+    // instead of the game's global bindings swallowing them
+    if(e.target && e.target.closest && e.target.closest('.set-btn')) return;
     const k=e.key.toLowerCase();
     if((k==='arrowup'||k==='w')){ e.preventDefault(); act('long'); }
     else if((k==='arrowdown'||k==='s')){ e.preventDefault(); act('short'); }
     else if(k===' '||k==='f'){ e.preventDefault(); act('flat'); }
     else if(k==='enter'){
-      if(S.mode==='title'){ audio(); startDay(); }
-      else if(S.mode==='dayend'){ startDay(); }
-      else if(S.mode==='over'){ newRun(); showTitle(); }
+      if(S.mode==='title'){ userGesture(); startDay(); }
+      else if(S.mode==='dayend'){ userGesture(); startDay(); }
+      else if(S.mode==='over'){ userGesture(); newRun(); showTitle(); }
     }
     else if(k==='p'){
       if(S.mode==='trading'){ S.mode='paused'; showOverlay('ovPause'); }
-      else if(S.mode==='paused'){ S.mode='trading'; hideAllOverlays(); }
+      else if(S.mode==='paused'){ userGesture(); S.mode='trading'; hideAllOverlays(); }
     }
   });
   $('bLong').onclick=()=>act('long');
   $('bShort').onclick=()=>act('short');
   $('bFlat').onclick=()=>act('flat');
-  $('startBtn').onclick=()=>{ audio(); startDay(); };
-  $('nextDayBtn').onclick=()=>startDay();
-  $('againBtn').onclick=()=>{ newRun(); showTitle(); };
-  $('resumeBtn').onclick=()=>{ S.mode='trading'; hideAllOverlays(); };
+  $('startBtn').onclick=()=>{ userGesture(); startDay(); };
+  $('nextDayBtn').onclick=()=>{ userGesture(); startDay(); };
+  $('againBtn').onclick=()=>{ userGesture(); newRun(); showTitle(); };
+  $('resumeBtn').onclick=()=>{ userGesture(); S.mode='trading'; hideAllOverlays(); };
+
+  // ---------------------------------------------------------------- settings UI
+  // Same two toggles rendered on the title and pause sheets; one renderer syncs both.
+  function renderSettings(){
+    document.querySelectorAll('.set-btn').forEach(b=>{
+      const k=b.dataset.set, on=!!settings[k];
+      b.setAttribute('aria-pressed',on?'true':'false');
+      b.textContent=(k==='sfx'?'Sound: ':'Music: ')+(on?'On':'Off');
+    });
+  }
+  document.querySelectorAll('.set-btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const k=b.dataset.set;
+      settings[k]=!settings[k];
+      saveSettings(); renderSettings();
+      if(k==='music'){ settings.music ? ensureMusic() : stopMusic(); }
+      else if(settings.sfx){ tone(660,0.05,'triangle',0.10); } // tiny confirm blip on re-enable
+    });
+  });
 
   function showTitle(){
     S.mode='title';
@@ -918,7 +1034,7 @@
   };
 
   // ---------------------------------------------------------------- boot
-  newRun(); resize(); showTitle();
+  newRun(); resize(); renderSettings(); showTitle();
   requestAnimationFrame(frame);
 })();
 </script>

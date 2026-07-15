@@ -36,6 +36,13 @@ export function createState(cfg) {
   try { Object.assign(s.save, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
   s.persist = () => { try { localStorage.setItem(KEY, JSON.stringify(s.save)); } catch (e) {} };
 
+  // settings — sfx/music toggles under their OWN key (settingsKey, beside saveKey);
+  // the save record above is never touched or reformatted by these
+  s.settings = { sfx: true, music: true };
+  const SETTINGS_KEY = cfg.meta.settingsKey;
+  try { Object.assign(s.settings, JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}); } catch (e) {}
+  s.persistSettings = () => { try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(s.settings)); } catch (e) {} };
+
   s.dawn = () => (s.sector - 1) / cfg.run.sectors; // 0 night → 1 first light
   s.clockLabel = () => {
     const h = (cfg.run.startHour + (s.sector - 1)) % 24;

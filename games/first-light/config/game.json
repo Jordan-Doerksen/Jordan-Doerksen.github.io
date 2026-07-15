@@ -5,7 +5,8 @@
     "colophon": "N°04",
     "author": "Jordan Doerksen",
     "year": "MMXXVI",
-    "saveKey": "firstLightSave"
+    "saveKey": "firstLightSave",
+    "settingsKey": "first-light.settings"
   },
   "run": {
     "sectors": 8,
@@ -121,7 +122,25 @@
     "echoDelay": 0.34,
     "echoFeedback": 0.42,
     "echoDampHz": 2200,
-    "droneLfoHz": 0.07
+    "droneLfoHz": 0.07,
+    "sweepGain": 0.022,
+    "sweepHz0": 260,
+    "sweepHz1": 1500,
+    "music": {
+      "busGain": 1,
+      "padGain": 0.016,
+      "padFilterHz": 520,
+      "padLfoHz": 0.03,
+      "padTones": [
+        [110, 87.31, 98, 82.41],
+        [164.81, 130.81, 146.83, 123.47]
+      ],
+      "chordSeconds": 14,
+      "glideSeconds": 3,
+      "washGain": 0.012,
+      "washHz": 420,
+      "washLfoHz": 0.045
+    }
   },
   "plate": {
     "width": 800,
