@@ -1,0 +1,9 @@
+# Game + manifest payloads are served byte-for-byte by Pages, and the cabinet manifest hashes the
+# WORKING TREE — so these must stay LF on disk on every machine. Without this, autocrlf checks a
+# file out as CRLF, the manifest hashes CRLF, git/Pages serve LF, and the Cabinet's sha256 verify
+# correctly refuses the download (the echo-bat sync failure, 2026-07-14).
+games/**/*.html text eol=lf
+games/**/*.js   text eol=lf
+games/**/*.css  text eol=lf
+games/**/*.json text eol=lf
+data/*.json     text eol=lf

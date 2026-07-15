@@ -46,9 +46,9 @@
       "entry": "index.html",
       "files": [
         {
-          "bytes": 63655,
+          "bytes": 62132,
           "path": "index.html",
-          "sha256": "2568da8149bdac24e597dcee56bb47cff724e14b869596b603e4c6b1bb95b855"
+          "sha256": "6001946d4bb886b7048377278485f8906724f6a38ae61c12dce12ab3e6fbcf5a"
         }
       ],
       "name": "Echo Bat — Night Harvest",
@@ -58,8 +58,8 @@
         "Game",
         "Sonar"
       ],
-      "totalBytes": 63655,
-      "version": "bf5817d7627b"
+      "totalBytes": 62132,
+      "version": "b5ecd79670eb"
     },
     {
       "blurb": "A salvage lightship, eight dark hours, a quota. The lamp is both the chart and the shield.",
@@ -550,7 +550,7 @@
       "version": "b35b6a631ec9"
     }
   ],
-  "generated": "2026-07-15T01:21:50Z",
+  "generated": "2026-07-15T01:30:31Z",
   "schema": 1,
   "source": "jordan-doerksen.github.io"
 }

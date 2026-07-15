@@ -33,6 +33,11 @@ GAMES_DIR = REPO_ROOT / "games"
 SKIP_SUFFIX = ".md"
 SKIP_NAME = "thumbs.db"
 
+# Text payloads must be LF on disk: git stores/serves them as LF (see .gitattributes), and this
+# script hashes the WORKING TREE — a CRLF working copy produces a manifest hash Pages will never
+# serve, and the cabinet's sha256 verify then refuses the file (the echo-bat lesson, 2026-07-14).
+TEXT_SUFFIXES = (".html", ".js", ".css", ".json", ".txt", ".svg")
+
 
 def fail(msg):
     # ASCII-only output: Windows consoles may be cp1252.
@@ -47,9 +52,17 @@ def is_skipped(name):
 
 def hash_file(path):
     h = hashlib.sha256()
+    crlf = False
+    is_text = path.suffix.lower() in TEXT_SUFFIXES
     with open(path, "rb") as f:
         for chunk in iter(lambda: f.read(1 << 16), b""):
+            if is_text and b"\r\n" in chunk:
+                crlf = True
             h.update(chunk)
+    if crlf:
+        fail("%s has CRLF line endings on disk -- Pages will serve the LF version and the "
+             "cabinet's hash verify will refuse it. Normalize the file to LF and re-run."
+             % path)
     return h.hexdigest()
 
 
