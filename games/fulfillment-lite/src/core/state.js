@@ -30,7 +30,7 @@ export function createWorld(config, content, rng, seed) {
     reducedMotion: false,
 
     player: {
-      x: 0, y: 0, vx: 0, vy: 0, radius: config.ship.radius, heading: -Math.PI / 2, headingTarget: -Math.PI / 2,
+      x: 0, y: 0, vx: 0, vy: 0, radius: config.ship.radius, heading: -Math.PI / 2,
       pipsMax: config.ship.hullPips, pips: config.ship.hullPips,
       shieldMax: config.ship.shield, shield: config.ship.shield, shieldTimer: 0,
       invuln: 0, hitFlash: 0, alive: true,
@@ -85,7 +85,7 @@ export function resetRun(world, seed) {
   m.boostMult = 1; m.xpMult = 1; m.shieldMaxAdd = 0; m.shieldRegenAdd = 0; m.hullPipAdd = 0;
 
   const p = world.player;
-  p.x = 0; p.y = 0; p.vx = 0; p.vy = 0; p.heading = -Math.PI / 2; p.headingTarget = -Math.PI / 2;
+  p.x = 0; p.y = 0; p.vx = 0; p.vy = 0; p.heading = -Math.PI / 2;
   p.pipsMax = config.ship.hullPips; p.pips = p.pipsMax;
   p.shieldMax = config.ship.shield; p.shield = p.shieldMax; p.shieldTimer = 0;
   p.invuln = 0; p.hitFlash = 0; p.alive = true;

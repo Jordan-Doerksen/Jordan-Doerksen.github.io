@@ -14,18 +14,8 @@ export function updateAim(world) {
   const d = Math.hypot(ax, ay) || 1;
   p.aimx = ax / d; p.aimy = ay / d;
   p.aimwx = wx; p.aimwy = wy;
-  // AIM is instant (focus-fire must not lag the cursor); the HULL turns toward it at a bounded
-  // rate in stepPlayer — snapping the heading every tick made the ship jitter, not fly.
-  p.headingTarget = Math.atan2(ay, ax);
-}
-
-// shortest-arc turn, clamped to maxStep radians
-function turnToward(cur, target, maxStep) {
-  let d = target - cur;
-  while (d > Math.PI) d -= Math.PI * 2;
-  while (d < -Math.PI) d += Math.PI * 2;
-  if (Math.abs(d) <= maxStep) return target;
-  return cur + Math.sign(d) * maxStep;
+  // Aim is mouse; the HULL is not — it faces travel (set in stepPlayer, the parent's model:
+  // Flight.gd "heading follows velocity, used only for drawing the hull"). Turrets do the aiming.
 }
 
 export function stepPlayer(world, dt) {
@@ -61,7 +51,9 @@ export function stepPlayer(world, dt) {
   p.vy += (tvy - p.vy) * k;
   p.x += p.vx * dt;
   p.y += p.vy * dt;
-  p.heading = turnToward(p.heading, p.headingTarget, b.turnRate * dt);
+  // hull faces travel, not the mouse (the parent's Flight.gd model); the velocity lerp above is
+  // what smooths the turn, and a parked ship holds its last facing
+  if (Math.hypot(p.vx, p.vy) > 1) p.heading = Math.atan2(p.vy, p.vx);
   p.muzzle = Math.max(0, p.muzzle - dt * 6);
 
   // ---- shield / i-frame timers ----

@@ -187,9 +187,9 @@
           "sha256": "c3da9b5caeaca60887fc142b8ee7c64fe9f2226e5fd81d8520c2f8b01d831407"
         },
         {
-          "bytes": 4550,
+          "bytes": 4530,
           "path": "config/game.json",
-          "sha256": "3b02fe907097f246cd6a3ebda35ec7108e173fe1cd136681d483266ebd25ce23"
+          "sha256": "eedc5d89045168c95c73d05bd0cc828295d1d30cbb64a0f3565db6b13f197b5c"
         },
         {
           "bytes": 16299,
@@ -222,9 +222,9 @@
           "sha256": "39235daba7817762fa2a1042b51f22e87d8120fc7475791011c7c57e2bf350e1"
         },
         {
-          "bytes": 5160,
+          "bytes": 5099,
           "path": "src/core/state.js",
-          "sha256": "2d535bd278a280c879fce9387846091b674d9f87832e059f7814fca5adc52a4f"
+          "sha256": "5eac7b5b34ed94f9cf0108bc42eda87316bbc210a761042efbb6d1e58f4b0fac"
         },
         {
           "bytes": 2443,
@@ -237,9 +237,9 @@
           "sha256": "c3ad4d5ade6e94864926049dd7003dc058e897fe1f702f47bae173d1c898afc8"
         },
         {
-          "bytes": 4301,
+          "bytes": 4147,
           "path": "src/entities/player.js",
-          "sha256": "200c36ee79a9c68df924c3955ba5852158daf1bd34b1c462970f77a650d8b766"
+          "sha256": "2f82ad3cae397b328267514f9bdce553a989187376dbac9fa4758c28e32f2ba2"
         },
         {
           "bytes": 2117,
@@ -320,8 +320,8 @@
         "Roguelite",
         "Seeded"
       ],
-      "totalBytes": 134405,
-      "version": "ec4e6f53a0d4"
+      "totalBytes": 134170,
+      "version": "1a835e1a30d6"
     },
     {
       "blurb": "Generative star-atlas plates. Every reroll is a 1-of-1; the seed rides in the URL.",
@@ -550,7 +550,7 @@
       "version": "b35b6a631ec9"
     }
   ],
-  "generated": "2026-07-15T00:52:07Z",
+  "generated": "2026-07-15T01:04:37Z",
   "schema": 1,
   "source": "jordan-doerksen.github.io"
 }

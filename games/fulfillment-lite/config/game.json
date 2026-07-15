@@ -38,7 +38,6 @@
     "speed": 250,
     "accel": 16,
     "decel": 5.5,
-    "turnRate": 11,
     "boostMult": 1.85,
     "boostFuelMax": 1.0,
     "boostDrain": 1.4,
