@@ -1,0 +1,1055 @@
+{
+  "boons": [
+    {
+      "desc": "The board approved more firepower. It comes out of your paycheck.",
+      "name": "Executive Ordnance",
+      "stat": "ALL GUNS +45% DAMAGE"
+    },
+    {
+      "desc": "The whole floor works faster now. Breaks remain unauthorized.",
+      "name": "Mandatory Overtime",
+      "stat": "+30% FIRE RATE"
+    },
+    {
+      "desc": "Your jurisdiction just widened. So did the liability.",
+      "name": "Regional Expansion",
+      "stat": "+45% REACH"
+    },
+    {
+      "desc": "Headcount approved. One more mount, effective immediately.",
+      "name": "Expanded Roster",
+      "stat": "+1 WEAPON BAY"
+    },
+    {
+      "desc": "Everything comes to you now, and it is worth more.",
+      "name": "Logistics Overhaul",
+      "stat": "+50% PICKUP · GEMS +25%"
+    },
+    {
+      "desc": "Every round clears two more associates. The extra paperwork slows the line.",
+      "name": "Through-Freight Clause",
+      "stat": "+2 PIERCE · −12% FIRE RATE"
+    },
+    {
+      "desc": "A fat policy, paid up front. The bulk slows you down. Read the exclusions later.",
+      "name": "Corporate Indemnity",
+      "stat": "+90 SHIELD · −8% MOVE SPEED"
+    },
+    {
+      "desc": "Hazard pay, in both directions. You hit harder — so does the floor.",
+      "name": "Hazard Bonus",
+      "stat": "+55% DAMAGE · +15% CONTACT DAMAGE"
+    },
+    {
+      "desc": "Two more mistakes before termination. The reinforcement dulls your edge.",
+      "name": "Iron Clause",
+      "stat": "+2 HULL PIPS · −15% DAMAGE"
+    }
+  ],
+  "bosses": [
+    {
+      "aimed": false,
+      "deputies": 0,
+      "hp": 1400,
+      "laser": 2,
+      "melee": true,
+      "rings": 0,
+      "shell": 100,
+      "subtitle": "your shift has been flagged for review",
+      "tier": 1,
+      "title": "SUPERVISOR"
+    },
+    {
+      "aimed": false,
+      "deputies": 1,
+      "hp": 2212,
+      "laser": 1,
+      "melee": false,
+      "rings": 2,
+      "shell": 150,
+      "subtitle": "this district is underperforming",
+      "tier": 2,
+      "title": "REGIONAL MANAGER"
+    },
+    {
+      "aimed": false,
+      "deputies": 1,
+      "hp": 3495,
+      "laser": 1,
+      "melee": false,
+      "rings": 2,
+      "shell": 200,
+      "subtitle": "throughput is down. you are throughput",
+      "tier": 3,
+      "title": "DIRECTOR OF THROUGHPUT"
+    },
+    {
+      "aimed": true,
+      "deputies": 1,
+      "hp": 5522,
+      "laser": 2,
+      "melee": false,
+      "rings": 3,
+      "shell": 250,
+      "subtitle": "the route has been optimized. against you",
+      "tier": 4,
+      "title": "VP, LOGISTICS"
+    },
+    {
+      "aimed": true,
+      "deputies": 1,
+      "hp": 8725,
+      "laser": 3,
+      "melee": false,
+      "rings": 3,
+      "shell": 300,
+      "subtitle": "your metrics have been escalated",
+      "tier": 5,
+      "title": "THE AUDITOR"
+    }
+  ],
+  "depot": [
+    {
+      "desc": "+1 Courier bay per rider.",
+      "max": 4,
+      "name": "Bay Lease · COURIER (skirmisher)"
+    },
+    {
+      "desc": "+1 Hauler bay per rider.",
+      "max": 5,
+      "name": "Bay Lease · HAULER (bruiser)"
+    },
+    {
+      "desc": "+1 Carrier bay per rider.",
+      "max": 2,
+      "name": "Bay Lease · CARRIER (summoner)"
+    },
+    {
+      "desc": "+4% weapon damage per rider.",
+      "max": 16,
+      "name": "Ordnance Contract"
+    },
+    {
+      "desc": "+3% fire rate per rider.",
+      "max": 16,
+      "name": "Line Speed Agreement"
+    },
+    {
+      "desc": "+6% weapon range per rider.",
+      "max": 12,
+      "name": "Regional Coverage"
+    },
+    {
+      "desc": "+1 pierce on every gun per rider.",
+      "max": 4,
+      "name": "Through-Freight Permit"
+    },
+    {
+      "desc": "+1 hull pip per rider. Non-negotiable.",
+      "max": 4,
+      "name": "Reinforced Frame"
+    },
+    {
+      "desc": "+3 shield capacity per rider.",
+      "max": 16,
+      "name": "Shield Rider"
+    },
+    {
+      "desc": "+15% shield regen rate per rider.",
+      "max": 12,
+      "name": "Maintenance Rider"
+    },
+    {
+      "desc": "-6% contact damage taken per rider.",
+      "max": 10,
+      "name": "Liability Waiver"
+    },
+    {
+      "desc": "+5% move speed per rider.",
+      "max": 12,
+      "name": "Motor Pool Requisition"
+    },
+    {
+      "desc": "+0.2s boost fuel per rider.",
+      "max": 12,
+      "name": "Fuel Allowance"
+    },
+    {
+      "desc": "+12% fuel regen per rider.",
+      "max": 12,
+      "name": "Fuel Contractor"
+    },
+    {
+      "desc": "+15% pickup radius per rider.",
+      "max": 12,
+      "name": "Logistics Magnet"
+    },
+    {
+      "desc": "+8% gem value per rider.",
+      "max": 12,
+      "name": "Salvage Rights"
+    },
+    {
+      "desc": "Start each shift with banked XP.",
+      "max": 8,
+      "name": "Onboarding Credit"
+    },
+    {
+      "desc": "+2% rare card odds per rider.",
+      "max": 10,
+      "name": "Preferred Vendor"
+    },
+    {
+      "desc": "+10% scrip earned per rider.",
+      "max": 12,
+      "name": "Payroll Adjustment"
+    },
+    {
+      "desc": "+2% chance any hit simply misses.",
+      "max": 10,
+      "name": "Near-Miss Clause"
+    },
+    {
+      "desc": "+1 draft reroll at the start of every shift.",
+      "max": 5,
+      "name": "Reroll Authorization"
+    },
+    {
+      "desc": "Once per shift, a fatal hit leaves you at 1 pip.",
+      "max": 1,
+      "name": "Second Wind Clause"
+    },
+    {
+      "desc": "+damage as your hull drops (up to a lot at critical).",
+      "max": 8,
+      "name": "Hazard Pay"
+    },
+    {
+      "desc": "Start each shift with one free installed weapon.",
+      "max": 1,
+      "name": "Signing Bonus"
+    }
+  ],
+  "directives": [
+    {
+      "desc": "No magazines. Guns never reload — and never hurry. Fire 20% slower, forever.",
+      "name": "Just-In-Time Delivery",
+      "unlock": "Pull the trigger 15,000 times (lifetime)."
+    },
+    {
+      "desc": "Nothing drops. Kills bank XP directly at 85 cents on the dollar. The magnet is retired.",
+      "name": "Zero Inventory",
+      "unlock": "Reach 60 clearance levels (lifetime)."
+    },
+    {
+      "desc": "The shield generator is removed. Two extra hull pips, and contact injures the other party too.",
+      "name": "Hostile Workplace",
+      "unlock": "Dismiss 10 Supervisors (lifetime)."
+    },
+    {
+      "desc": "The boost tank never empties. Standing still voids the shield warranty — it drains.",
+      "name": "Perpetual Motion Clause",
+      "unlock": "Survive 3 hours on the floor (lifetime)."
+    },
+    {
+      "desc": "After your first install, the draft only ever offers THAT weapon. Duplicates forever. One supplier.",
+      "name": "Single Vendor Agreement",
+      "unlock": "Process 25,000 units (lifetime)."
+    }
+  ],
+  "fusions": [
+    {
+      "desc": "The hose and the zip code, one department. Every tracer is ordnance now.",
+      "name": "HOSTILE TAKEOVER",
+      "needs": [
+        "C-RAM Gatling",
+        "Saturation Swarm"
+      ],
+      "stat": "DETONATING MINIGUN · 12/s · 46px BLASTS · KILLS FEED IT"
+    },
+    {
+      "desc": "A singularity with a delivery area. The fallout files itself.",
+      "name": "THE RESTRUCTURING",
+      "needs": [
+        "Warhead",
+        "Event Horizon"
+      ],
+      "stat": "SINGULARITY NUKE · 340px BLAST · PULLS · RADIATION FALLOUT"
+    },
+    {
+      "desc": "A burning rail that reaches the next department over. And the one after that.",
+      "name": "BLUE LINE EXPRESS",
+      "needs": [
+        "Blue Line",
+        "Twin Gauge"
+      ],
+      "stat": "BURNING RAIL · PIERCES EVERYTHING · IGNITES THE LINE"
+    },
+    {
+      "desc": "Four hundred summons a minute. Each one knows the address.",
+      "name": "CERTIFIED STORM",
+      "needs": [
+        "Certified Delivery",
+        "Sewing Machine"
+      ],
+      "stat": "GUIDED NEEDLE STREAM · 8/s · HOMING · PIERCE 3"
+    },
+    {
+      "desc": "Frozen, itemized, and dragged to the desk. In that order.",
+      "name": "THE COLD LEDGER",
+      "needs": [
+        "Deep Freeze",
+        "Harpoon Desk"
+      ],
+      "stat": "FREEZING HARPOON · CHILLED TAKE ×1.5 · DRAGS THE CATCH IN"
+    },
+    {
+      "desc": "Every defendant served at once. The wells keep them in court.",
+      "name": "CLASS ACTION",
+      "needs": [
+        "Wall of Invoices",
+        "Certified Delivery"
+      ],
+      "stat": "5 HOMING VOID TORPEDOES · DETONATE · LINGERING GRAVITY WELLS"
+    },
+    {
+      "desc": "Nothing leaves the perimeter. The storm sees to it.",
+      "name": "TOTAL RETENTION",
+      "needs": [
+        "Loss Prevention",
+        "Retention Policy"
+      ],
+      "stat": "LIGHTNING PERIMETER · CHAINS EVERYTHING INSIDE · 6 ASSETS"
+    },
+    {
+      "desc": "Three freezers per volley, delivered wide. The whole floor moves at inventory speed.",
+      "name": "THE BLIZZARD OFFICE",
+      "needs": [
+        "Blast Freezer",
+        "Wall of Invoices"
+      ],
+      "stat": "TRIPLE FROST MORTARS · WIDE CONE · ZONES EVERYWHERE"
+    }
+  ],
+  "hulls": [
+    {
+      "bays": 6,
+      "desc": "The default company ride. Quick, light, unloved. Heavy mounts void the lease.",
+      "id": "courier",
+      "name": "COURIER",
+      "philosophy": "Speed IS the health bar. One clean hit ends the shift — so don't get hit. Light guns, hot fire rate, and the every-30th-shot nova reward staying in motion and in the fight.",
+      "pips": 1,
+      "shield": 14,
+      "speed": 250,
+      "tag": "SKIRMISHER · STANDARD ISSUE"
+    },
+    {
+      "bays": 8,
+      "desc": "Eight bays of unregulated ordnance. Most are pending inspection.",
+      "id": "hauler",
+      "name": "HAULER",
+      "philosophy": "The wall of guns. Thin shield, two pips, eight bays — it wins by ending threats before they arrive. Every reload shoves the swarm back, so big hungry magazines are a feature.",
+      "pips": 2,
+      "shield": 10,
+      "speed": 205,
+      "tag": "BRUISER · BULK FREIGHT"
+    },
+    {
+      "bays": 5,
+      "desc": "Five launch bays and a standing quota. The interns are not unionized, but they are numerous.",
+      "id": "carrier",
+      "name": "CARRIER",
+      "philosophy": "The fighter commander. Three pips, the fattest shield, and FIVE bays that only ever mount more wings — a hull perk makes every fighter hit harder, fire faster, and punch through one extra body. It trades its own guns for an air force.",
+      "pips": 3,
+      "shield": 26,
+      "speed": 205,
+      "tag": "COMMANDER · REGIONAL DISTRIBUTION"
+    }
+  ],
+  "meta": {
+    "exported": "codex",
+    "fusions": 8,
+    "weapons": 13
+  },
+  "modifiers": [
+    {
+      "desc": "The whole floor moves faster.",
+      "name": "Swift Processing",
+      "rare": 2,
+      "scrip": 15
+    },
+    {
+      "desc": "Denser waves — more bodies, sooner.",
+      "name": "Peak Season",
+      "rare": 2,
+      "scrip": 15
+    },
+    {
+      "desc": "Everything takes more to put down.",
+      "name": "Reinforced Stock",
+      "rare": 3,
+      "scrip": 18
+    },
+    {
+      "desc": "Champions, constantly.",
+      "name": "Management Everywhere",
+      "rare": 3,
+      "scrip": 18
+    },
+    {
+      "desc": "Supervisors arrive sooner and faster.",
+      "name": "Compressed Schedule",
+      "rare": 4,
+      "scrip": 22
+    },
+    {
+      "desc": "No relief window after a boss.",
+      "name": "No Breaks",
+      "rare": 2,
+      "scrip": 12
+    },
+    {
+      "desc": "Contact hurts a great deal more.",
+      "name": "Hazardous Floor",
+      "rare": 3,
+      "scrip": 15
+    },
+    {
+      "desc": "Ranged enemies kite from minute one.",
+      "name": "Armed Early",
+      "rare": 2,
+      "scrip": 12
+    },
+    {
+      "desc": "Leaner drops — XP is worth less.",
+      "name": "Austerity Measures",
+      "rare": 3,
+      "scrip": 22
+    },
+    {
+      "desc": "Bigger, hungrier black holes.",
+      "name": "Event Horizon",
+      "rare": 3,
+      "scrip": 18
+    }
+  ],
+  "passives": [
+    {
+      "desc": "The warranty won't cover the wear.",
+      "name": "Prime Speed"
+    },
+    {
+      "desc": "Heavier ordnance, by the pallet.",
+      "name": "Bulk Rounds"
+    },
+    {
+      "desc": "Efficiency is mandatory.",
+      "name": "Cargo Magnet"
+    },
+    {
+      "desc": "Faster, and the tank runs longer. Mind the corners.",
+      "name": "Afterburner Tuning"
+    },
+    {
+      "desc": "Rounds fly faster AND farther. Audit from a safe distance.",
+      "name": "Extended Reach"
+    },
+    {
+      "desc": "Double-boxed. Hits like the invoice.",
+      "name": "Reinforced Ordnance"
+    }
+  ],
+  "synergies": [
+    {
+      "desc": "Every round is approved to go through one extra employee.",
+      "name": "Overtime Authorization",
+      "stat": "ALL GUNS +1 PIERCE"
+    },
+    {
+      "desc": "The lance now ships overnight. Through everything.",
+      "name": "Freight Priority",
+      "stat": "RAIL +2 PIERCE · VEL ×1.4"
+    },
+    {
+      "desc": "Inventory is anchored to the ledger. The well can file a complaint.",
+      "name": "Cold Storage",
+      "stat": "GEMS IMMUNE TO SINGULARITY PULL · WORTH +10%"
+    },
+    {
+      "desc": "More pellets per invoice. Accounting calls it efficiency.",
+      "name": "Payroll Compression",
+      "stat": "FLAK +3 PELLETS"
+    },
+    {
+      "desc": "Delivery speed and fire rate are now the same department.",
+      "name": "Express Lane",
+      "stat": "BOOSTING → ROF ×2 (ALL GUNS)"
+    },
+    {
+      "desc": "Every pickup accrues. The rate is non-negotiable.",
+      "name": "Compound Interest",
+      "stat": "GEMS WORTH +25%"
+    }
+  ],
+  "systems": [
+    {
+      "desc": "Running the tank dry vents a shockwave. Waste is a resource now.",
+      "name": "Vapor Recovery"
+    },
+    {
+      "desc": "While the fuel burns, so does everything else.",
+      "name": "Full Burn Manifest"
+    },
+    {
+      "desc": "The company matches your recovery. Terms apply.",
+      "name": "Refuel Rebate"
+    },
+    {
+      "desc": "One more mistake, structurally approved.",
+      "name": "Field Rivets"
+    },
+    {
+      "desc": "They only work when management is dead.",
+      "name": "Patch Crew"
+    },
+    {
+      "desc": "The BOOSTERS run dirty on purpose. Anything caught in the burn wake is billed for cleanup.",
+      "name": "Jet Wash Protocol"
+    }
+  ],
+  "weapons": [
+    {
+      "behavior": "shot",
+      "desc": "Rapid light bolts. Standard issue — like you.",
+      "element": "Kinetic",
+      "elite_perk": {
+        "desc": "Every fourth bolt files twice — one round, double the ledger.",
+        "name": "Double Entry"
+      },
+      "forks": [
+        {
+          "desc": "The company hose. Kills feed it. Misses are billed to you.",
+          "name": "C-RAM Gatling"
+        },
+        {
+          "desc": "Every rejection is re-billed. At a premium.",
+          "name": "Lance Array"
+        }
+      ],
+      "id": "pulse",
+      "kb": 25,
+      "mag": 6,
+      "mks": [
+        {
+          "dmg": 2.52,
+          "mk": 1,
+          "rof": 6.7
+        },
+        {
+          "dmg": 2.92,
+          "mk": 2,
+          "rof": 7.4
+        },
+        {
+          "dmg": 3.33,
+          "mk": 3,
+          "rof": 8.2
+        }
+      ],
+      "name": "Pulse Array",
+      "pellets": 1,
+      "sigdesc": "bolts bounce to a nearby enemy",
+      "signame": "Ricochet"
+    },
+    {
+      "behavior": "spread",
+      "desc": "A short cone of pellets. Whatever gets close gets itemized.",
+      "element": "Kinetic",
+      "elite_perk": {
+        "desc": "Pellets ricochet once. The paperwork bounces.",
+        "name": "Spall Coverage"
+      },
+      "forks": [
+        {
+          "desc": "A cone wide enough to bill everyone at once.",
+          "name": "Wall of Invoices"
+        },
+        {
+          "desc": "All pellets merged into one non-negotiable package.",
+          "name": "Slug Consolidator"
+        }
+      ],
+      "id": "flak",
+      "kb": 60,
+      "mag": 4,
+      "mks": [
+        {
+          "dmg": 2.69,
+          "mk": 1,
+          "rof": 1.6
+        },
+        {
+          "dmg": 3.12,
+          "mk": 2,
+          "rof": 1.8
+        },
+        {
+          "dmg": 3.55,
+          "mk": 3,
+          "rof": 2.0
+        }
+      ],
+      "name": "Flak Spread",
+      "pellets": 3,
+      "sigdesc": "+2 pellets, and they pierce one enemy",
+      "signame": "Overpack"
+    },
+    {
+      "behavior": "shot",
+      "desc": "Slow, heavy, hits like a freight bill.",
+      "element": "Kinetic",
+      "elite_perk": {
+        "desc": "Every body pierced grows the round's damage 15%.",
+        "name": "Compounding Interest"
+      },
+      "forks": [
+        {
+          "desc": "One car. The whole manifest. Delivers to every address on the line.",
+          "name": "Transcontinental"
+        },
+        {
+          "desc": "Two rails. The audit found no reason there was ever one.",
+          "name": "Twin Gauge"
+        }
+      ],
+      "id": "rail",
+      "kb": 260,
+      "mag": 3,
+      "mks": [
+        {
+          "dmg": 14.56,
+          "mk": 1,
+          "rof": 0.9
+        },
+        {
+          "dmg": 16.89,
+          "mk": 2,
+          "rof": 1.0
+        },
+        {
+          "dmg": 19.22,
+          "mk": 3,
+          "rof": 1.1
+        }
+      ],
+      "name": "Rail Lance",
+      "pellets": 1,
+      "sigdesc": "pierces the entire line",
+      "signame": "Railthrough"
+    },
+    {
+      "behavior": "spread",
+      "desc": "Lobbed ordnance pods. By the pallet. Spend the pallet, then reload.",
+      "element": "Kinetic",
+      "elite_perk": {
+        "desc": "Pods detonate on impact. Small print, small blast.",
+        "name": "Fragmentation Clause"
+      },
+      "forks": [
+        {
+          "desc": "Coverage of the entire zip code. Precision was never quoted.",
+          "name": "Saturation Swarm"
+        },
+        {
+          "desc": "One oversized pod. The blast radius is the delivery area.",
+          "name": "Warhead"
+        }
+      ],
+      "id": "scatter",
+      "kb": 90,
+      "mag": 5,
+      "mks": [
+        {
+          "dmg": 4.2,
+          "mk": 1,
+          "rof": 2.3
+        },
+        {
+          "dmg": 4.87,
+          "mk": 2,
+          "rof": 2.5
+        },
+        {
+          "dmg": 5.54,
+          "mk": 3,
+          "rof": 2.8
+        }
+      ],
+      "name": "Scatter Pods",
+      "pellets": 2,
+      "sigdesc": "each pod bursts into 3 fragments",
+      "signame": "Airburst"
+    },
+    {
+      "behavior": "shot",
+      "desc": "A thin, fast stinger. The hole is regulation size.",
+      "element": "Kinetic",
+      "elite_perk": {
+        "desc": "Each pierce accelerates the needle. Traffic thins.",
+        "name": "Express Lane"
+      },
+      "forks": [
+        {
+          "desc": "Stitches the swarm shut at four hundred units a minute.",
+          "name": "Sewing Machine"
+        },
+        {
+          "desc": "You have been summoned. Attendance is physical.",
+          "name": "Harpoon Desk"
+        }
+      ],
+      "id": "needler",
+      "kb": 20,
+      "mag": 8,
+      "mks": [
+        {
+          "dmg": 3.36,
+          "mk": 1,
+          "rof": 4.0
+        },
+        {
+          "dmg": 3.9,
+          "mk": 2,
+          "rof": 4.4
+        },
+        {
+          "dmg": 4.44,
+          "mk": 3,
+          "rof": 4.9
+        }
+      ],
+      "name": "Needler",
+      "pellets": 1,
+      "sigdesc": "needles pierce 2 enemies",
+      "signame": "Skewer"
+    },
+    {
+      "behavior": "spread",
+      "desc": "A short, hot cone. On-site waste incineration. Blaze.",
+      "element": "Blaze",
+      "elite_perk": {
+        "desc": "Burns STACK instead of refreshing. The fire compounds.",
+        "name": "Accelerant Rider"
+      },
+      "forks": [
+        {
+          "desc": "A wider, longer fire. Compliance is combustible.",
+          "name": "Refinery Burn"
+        },
+        {
+          "desc": "One continuous jet, hot enough to reach the next department over.",
+          "name": "Blue Line"
+        }
+      ],
+      "id": "flame",
+      "kb": 15,
+      "mag": 7,
+      "mks": [
+        {
+          "dmg": 2.02,
+          "mk": 1,
+          "rof": 5.0
+        },
+        {
+          "dmg": 2.34,
+          "mk": 2,
+          "rof": 5.6
+        },
+        {
+          "dmg": 2.66,
+          "mk": 3,
+          "rof": 6.2
+        }
+      ],
+      "name": "Flame Jet",
+      "pellets": 4,
+      "sigdesc": "burn spreads to nearby enemies",
+      "signame": "Wildfire"
+    },
+    {
+      "behavior": "shot",
+      "desc": "A piercing chill bolt. Assets keep longer cold. Frost.",
+      "element": "Frost",
+      "elite_perk": {
+        "desc": "Chilled targets take extra damage from this lance.",
+        "name": "Cold Audit"
+      },
+      "forks": [
+        {
+          "desc": "Cold inventory is brittle inventory. Handle roughly.",
+          "name": "Deep Freeze"
+        },
+        {
+          "desc": "Requisitions a blast-freezer on delivery. Everything inside moves at inventory speed.",
+          "name": "Blast Freezer"
+        }
+      ],
+      "id": "cryo",
+      "kb": 120,
+      "mag": 4,
+      "mks": [
+        {
+          "dmg": 6.72,
+          "mk": 1,
+          "rof": 1.6
+        },
+        {
+          "dmg": 7.8,
+          "mk": 2,
+          "rof": 1.8
+        },
+        {
+          "dmg": 8.87,
+          "mk": 3,
+          "rof": 2.0
+        }
+      ],
+      "name": "Cryo Lance",
+      "pellets": 1,
+      "sigdesc": "a chilled enemy's death erupts in ice",
+      "signame": "Shatter"
+    },
+    {
+      "behavior": "shot",
+      "desc": "Fast crackling darts. The grid bills by the arc. Shock.",
+      "element": "Shock",
+      "elite_perk": {
+        "desc": "Chain-struck enemies take +15% damage from EVERYTHING for 3s.",
+        "name": "Conductivity Surcharge"
+      },
+      "forks": [
+        {
+          "desc": "The whole network feels this meeting.",
+          "name": "Grid Overload"
+        },
+        {
+          "desc": "Savings stored at lethal voltage.",
+          "name": "Capacitor Bank"
+        }
+      ],
+      "id": "tesla",
+      "kb": 20,
+      "mag": 8,
+      "mks": [
+        {
+          "dmg": 2.86,
+          "mk": 1,
+          "rof": 5.7
+        },
+        {
+          "dmg": 3.31,
+          "mk": 2,
+          "rof": 6.3
+        },
+        {
+          "dmg": 3.77,
+          "mk": 3,
+          "rof": 7.1
+        }
+      ],
+      "name": "Tesla Coil",
+      "pellets": 1,
+      "sigdesc": "the chain reaches 3 more targets, harder",
+      "signame": "Overload"
+    },
+    {
+      "behavior": "shot",
+      "desc": "A slow, heavy collapsing round. It arrives when it arrives.",
+      "element": "Void",
+      "elite_perk": {
+        "desc": "Every hit pulls wider and harder.",
+        "name": "Gravity Clause"
+      },
+      "forks": [
+        {
+          "desc": "A restructuring nothing escapes.",
+          "name": "Event Horizon"
+        },
+        {
+          "desc": "It knows the address. It has always known the address.",
+          "name": "Certified Delivery"
+        }
+      ],
+      "id": "voidbolt",
+      "kb": 220,
+      "mag": 3,
+      "mks": [
+        {
+          "dmg": 23.52,
+          "mk": 1,
+          "rof": 0.7
+        },
+        {
+          "dmg": 27.28,
+          "mk": 2,
+          "rof": 0.7
+        },
+        {
+          "dmg": 31.05,
+          "mk": 3,
+          "rof": 0.8
+        }
+      ],
+      "name": "Void Bolt",
+      "pellets": 1,
+      "sigdesc": "a stronger singularity that pulls harder",
+      "signame": "Collapse"
+    },
+    {
+      "behavior": "hangar",
+      "desc": "Two interns with jetpacks and a quota. More seats pending approval.",
+      "element": "Kinetic",
+      "elite_perk": {
+        "desc": "One more fighter, and the wing's rounds pierce one extra body.",
+        "name": "Full Benefits"
+      },
+      "forks": [],
+      "id": "hangar",
+      "kb": 15,
+      "mag": 1,
+      "mks": [
+        {
+          "dmg": 3.36,
+          "mk": 1,
+          "rof": 2.0
+        },
+        {
+          "dmg": 3.9,
+          "mk": 2,
+          "rof": 2.2
+        },
+        {
+          "dmg": 4.44,
+          "mk": 3,
+          "rof": 2.5
+        },
+        {
+          "dmg": 4.97,
+          "mk": 4,
+          "rof": 2.7
+        },
+        {
+          "dmg": 5.51,
+          "mk": 5,
+          "rof": 3.0
+        }
+      ],
+      "name": "Hangar Bay",
+      "pellets": 1,
+      "sigdesc": "the wing flies one extra fighter",
+      "signame": "Full Roster"
+    },
+    {
+      "behavior": "aura",
+      "desc": "A humming security perimeter. Anything that gets close is processed on the spot. No returns.",
+      "element": "Kinetic",
+      "elite_perk": {
+        "desc": "The field drags — anything inside is lightly chilled.",
+        "name": "Grounding Rider"
+      },
+      "forks": [],
+      "id": "aura",
+      "kb": 0,
+      "mag": 1,
+      "mks": [
+        {
+          "dmg": 13.44,
+          "mk": 1,
+          "rof": 2.0
+        },
+        {
+          "dmg": 15.59,
+          "mk": 2,
+          "rof": 2.2
+        },
+        {
+          "dmg": 17.74,
+          "mk": 3,
+          "rof": 2.5
+        }
+      ],
+      "name": "Loss Prevention",
+      "pellets": 1,
+      "sigdesc": "the field also shoves intruders back",
+      "signame": "Grounding Field"
+    },
+    {
+      "behavior": "orbital",
+      "desc": "Charged assets kept on a short electric leash. They orbit you at all times; attrition is continuous and mandatory.",
+      "element": "Kinetic",
+      "elite_perk": {
+        "desc": "The comet-trails bite twice as hard and reach farther back.",
+        "name": "Extended Wake"
+      },
+      "forks": [],
+      "id": "orbital",
+      "kb": 0,
+      "mag": 1,
+      "mks": [
+        {
+          "dmg": 38.08,
+          "mk": 1,
+          "rof": 2.0
+        },
+        {
+          "dmg": 44.17,
+          "mk": 2,
+          "rof": 2.2
+        },
+        {
+          "dmg": 50.27,
+          "mk": 3,
+          "rof": 2.5
+        }
+      ],
+      "name": "Retention Policy",
+      "pellets": 1,
+      "sigdesc": "one more asset joins the escort",
+      "signame": "Double Shift"
+    },
+    {
+      "behavior": "beam",
+      "desc": "A charging plasma lance — it winds up, fires a burning burst, then recharges. Radiant compliance.",
+      "element": "Blaze",
+      "elite_perk": {
+        "desc": "The lance recharges 30% faster.",
+        "name": "Overexposure Dividend"
+      },
+      "forks": [],
+      "id": "beam",
+      "kb": 0,
+      "mag": 1,
+      "mks": [
+        {
+          "dmg": 67.2,
+          "mk": 1,
+          "rof": 0.0
+        },
+        {
+          "dmg": 77.95,
+          "mk": 2,
+          "rof": 0.0
+        },
+        {
+          "dmg": 88.7,
+          "mk": 3,
+          "rof": 0.0
+        }
+      ],
+      "name": "Solar Lance",
+      "pellets": 1,
+      "sigdesc": "a wider beam that catches the whole line",
+      "signame": "Overexposure"
+    }
+  ]
+}
