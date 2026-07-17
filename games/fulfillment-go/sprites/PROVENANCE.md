@@ -12,6 +12,9 @@ raw packs stay in `C:\projects\fulfillment\assets\` (the shared asset library).
 | exhaust.png | SpaceRage (Ravenmore) | `_Deploy/Exhaust/Exhaust_Spritesheet.png` (768×128, 6 frames) | same |
 | explosion.png | SpaceRage (Ravenmore) | `_Deploy/Explosions/ExplosionRed_Spritesheet.png` (1024×128, 8 frames) | same |
 | gem.png | SpaceRage (Ravenmore) | `_Deploy/Powerups/PowerupYellow.png` (128×128) | same |
+| boss.png | SpaceRage (Ravenmore) | `_Deploy/Enemies/Boss.png` (688×602) — C4 tier 2/3 boss body | same |
+| train_loco.png | SpaceRage (Ravenmore) | `_Deploy/Enemies/Enemy_Train_Locomotive.png` (62×91) — C4 tier-1 freight-train head (D4.2) | same |
+| train_car.png | SpaceRage (Ravenmore) | `_Deploy/Enemies/Enemy_Train_Carriage.png` (70×81) — trailing carriages | same |
 | nebula_back.png | space_background_pack (Ansimuz) | `Blue Version/layered/blue-back.png` (272×160) | CC0 (license PDF in the desktop repo's asset tree) |
 | nebula_stars.png | space_background_pack (Ansimuz) | `Blue Version/layered/blue-stars.png` | CC0 |
 
