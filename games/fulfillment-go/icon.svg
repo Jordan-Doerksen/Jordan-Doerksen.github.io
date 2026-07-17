@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Placeholder icon until the C8 ship-kit art pass: parcel chevron on space. -->
+  <rect width="128" height="128" rx="28" fill="#05070e"/>
+  <rect x="34" y="46" width="60" height="44" rx="6" fill="none" stroke="#d9a11f" stroke-width="6"/>
+  <path d="M64 78 V30 M48 44 L64 28 L80 44" fill="none" stroke="#d9a11f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

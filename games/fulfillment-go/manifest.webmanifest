@@ -1,0 +1,13 @@
+{
+  "name": "Fulfillment GO",
+  "short_name": "Fulfillment GO",
+  "description": "The megacorp's mobile client. Deliveries continue.",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#05070e",
+  "theme_color": "#05070e",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
