@@ -1,0 +1,128 @@
+[
+  {
+    "id": "radio.joint.01",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — positive identification",
+    "plain": "Open the exchange with the railway initials and engine number digit by digit, then say who you are. Both parties identify before anything moves.",
+    "citation": { "source": "CROR", "ref": "CROR 121", "relatedRef": null, "verbatim": null, "trust": "verified" },
+    "payload": { "step": 0, "ruleId": "rule.121", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.02",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — clear, sighted, and the movement",
+    "plain": "Confirm you are in the clear with a visual on the tail car, then give the movement with a direction and a distance. Direction is taken off the front of the locomotive.",
+    "citation": { "source": "CROR", "ref": "CROR 123.2", "relatedRef": "CROR 115 · 123(c)", "verbatim": null, "trust": "verified" },
+    "payload": { "step": 1, "ruleId": "rule.123.2", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.03",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — a distance every call",
+    "plain": "The running count carries a distance every call, said twice, tagged with the engine number. The engineer repeats each count back.",
+    "citation": { "source": "CROR", "ref": "CROR 123.2", "relatedRef": "CROR 122 · 120(b)", "verbatim": null, "trust": "verified" },
+    "payload": { "step": 2, "ruleId": "rule.123.2", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.04",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — point protection on the count",
+    "plain": "You keep the tail car and the joint in sight the whole way in. The calls tighten as the gap closes.",
+    "citation": { "source": "CROR", "ref": "CROR 115", "relatedRef": null, "verbatim": null, "trust": "verified" },
+    "payload": { "step": 3, "ruleId": "rule.115", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.05",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — inside two car lengths",
+    "plain": "At or below two car lengths the engine number comes off and the call stays short. The engineer still repeats it back.",
+    "citation": { "source": "CROR", "ref": "CROR 123.2", "relatedRef": "CROR 123(c)", "verbatim": null, "trust": "verified" },
+    "payload": { "step": 4, "ruleId": "rule.123.2", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.06",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — the last car count",
+    "plain": "The final car-length count before the switch to feet. Real, correct practice — no CROR paragraph is cited for it in the verified source, so it is played and explained but never graded.",
+    "citation": { "source": "SME", "ref": null, "relatedRef": null, "verbatim": null, "trust": "operating-practice" },
+    "payload": { "step": 5, "ruleId": "rule.123.2", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.07",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — distance counts take over",
+    "plain": "Past the last car you count distance, not cars. A car length is fifty feet, so a half car is about twenty-five.",
+    "citation": { "source": "CROR", "ref": "CROR 123.2(vi)", "relatedRef": null, "verbatim": null, "trust": "verified" },
+    "payload": { "step": 6, "ruleId": "rule.123.2", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.08",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — twenty feet",
+    "plain": "Closing distance in feet, short and steady so the engineer can ease it in. No CROR paragraph is cited for the closing counts in the verified source — played and explained, never graded.",
+    "citation": { "source": "SME", "ref": null, "relatedRef": null, "verbatim": null, "trust": "operating-practice" },
+    "payload": { "step": 7, "ruleId": "rule.123.2", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.09",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — ten feet",
+    "plain": "Closing. No CROR paragraph is cited for the closing counts in the verified source — played and explained, never graded.",
+    "citation": { "source": "SME", "ref": null, "relatedRef": null, "verbatim": null, "trust": "operating-practice" },
+    "payload": { "step": 8, "ruleId": "rule.123.2", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.10",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — five feet",
+    "plain": "The last call before the stop. No CROR paragraph is cited for the closing counts in the verified source — played and explained, never graded.",
+    "citation": { "source": "SME", "ref": null, "relatedRef": null, "verbatim": null, "trust": "operating-practice" },
+    "payload": { "step": 9, "ruleId": "rule.123.2", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.11",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — stop and stretch the joint",
+    "plain": "One call brings the brakes on to stop, then asks the engineer to pull against the coupling to prove it is a proper joint. Watch it — the cars must not pull apart.",
+    "citation": { "source": "CROR", "ref": "CROR 113.0(i)", "relatedRef": "CROR 113.2(a)", "verbatim": null, "trust": "verified" },
+    "payload": { "step": 10, "ruleId": "rule.113.0", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.12",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — set and center",
+    "plain": "Three-step protection before anyone goes between equipment. This is CN practice (a General Operating Instruction), not a CROR rule — so it is never graded. The nearest CROR precaution is Rule 109.",
+    "citation": { "source": "GOI", "ref": null, "relatedRef": "CROR 109", "verbatim": null, "trust": "operating-practice" },
+    "payload": { "step": 11, "ruleId": "rule.109", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.13",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — hoses coupled, air cut in",
+    "plain": "Under set-and-center protection you couple the air hoses, open the angle cocks, and report it back. Going-between protection and cutting the air in are CN practice, not CROR-worded — never graded.",
+    "citation": { "source": "GOI", "ref": null, "relatedRef": "CROR 109", "verbatim": null, "trust": "operating-practice" },
+    "payload": { "step": 12, "ruleId": "rule.109", "scenario": "back-to-a-joint" }
+  },
+  {
+    "id": "radio.joint.14",
+    "domain": "radio",
+    "type": "radio-script",
+    "title": "Radio call — air to the tail",
+    "plain": "The engineer confirms the air has charged through to the tail; you repeat it back and tell him you are going for the hand brakes. Hand brakes are not released until the air is sufficiently charged.",
+    "citation": { "source": "CROR", "ref": "CROR 113.2(c)", "relatedRef": "CROR 123(c)", "verbatim": null, "trust": "verified" },
+    "payload": { "step": 13, "ruleId": "rule.113.2", "scenario": "back-to-a-joint" }
+  }
+]
