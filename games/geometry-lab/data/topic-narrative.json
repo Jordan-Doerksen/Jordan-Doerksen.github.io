@@ -240,7 +240,7 @@
       "stakes": "In this pattern the leftover space is not leftover at all: the gaps between the stars are exact cross tiles that complete the wall.",
       "invitation": "Switch between Together, Star tile and Cross tile to see each family lit inside the same edge-to-edge pattern.",
       "after": [
-        "The construction needs one grid. Place an eight-pointed {8/2} star polygon on each cell of a square grid, and the spaces between the stars come out as crosses on their own. Neither family is drawn around the other: stars and crosses reuse the same boundary points, so every edge belongs to both at once.",
+        "The construction needs one grid. Place an eight-pointed {8/2} star figure — two squares superimposed, one turned 45 degrees — on each cell of a square grid, and the spaces between the stars come out as crosses on their own. Neither family is drawn around the other: stars and crosses reuse the same boundary points, so every edge belongs to both at once.",
         "The historical tile behind this study is real and specific. The Metropolitan Museum records an eight-pointed star-shaped stonepaste tile made in Kashan, Iran, in the thirteenth century, and notes that the star-and-cross panel it now sits in combines tiles from differing original contexts. The wall you would see in the museum is itself an assembly.",
         "What this page shows is an exact analytical reconstruction of the pattern family, not a photograph or a tracing of that tile. The reconstruction answers a narrower question than the artifact does: whether the fit is geometrically exact. It is, down to the shared boundary points."
       ],

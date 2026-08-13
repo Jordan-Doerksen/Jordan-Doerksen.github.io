@@ -39,30 +39,41 @@ export function afterMarkup(entry) {
 // follows, but the two never merge: each section states which typed claims carry
 // it, by name, so the reader can see the ground under any paragraph. A topic with
 // no essay block renders exactly as it did before this layer existed.
+// An image ships only when its record says "bundle" and carries a path and an
+// attribution. A record missing any of those renders nothing rather than a
+// broken image or an uncredited one. Shared by the essay layer and by plain
+// topics, so the credit line can never differ between the two.
+function figureMarkup(media, className = "essay-figure") {
+  if (!media || media.publication_decision !== "bundle" || !media.path || !media.attribution) return "";
+  const credit = media.source_url
+    ? `${media.attribution} · <a href="${attribute(media.source_url)}" target="_blank" rel="noreferrer">source</a>`
+    : media.attribution;
+  // Intrinsic width/height let the browser reserve the right box before the
+  // image decodes, so the prose under a figure never jumps.
+  const size = media.width && media.height
+    ? ` width="${media.width}" height="${media.height}"`
+    : "";
+  return `<figure class="${className}">
+      <img src="${attribute(media.path)}" alt="${attribute(media.alt || "")}"${size} loading="lazy" decoding="async">
+      <figcaption>${credit}</figcaption>
+    </figure>`;
+}
+
+// Topics without an essay still deserve to show the object they discuss. The
+// records are already filtered to this topic by the caller, so a record can
+// only appear on a page it names (the same guarantee the essay layer has).
+export function mediaMarkup(mediaById = {}) {
+  const figures = Object.values(mediaById).map((media) => figureMarkup(media, "topic-figure")).filter(Boolean);
+  if (!figures.length) return "";
+  return `<section class="topic-media" aria-label="The object itself">${figures.join("")}</section>`;
+}
+
 export function essayMarkup(entry, claimTypeById = {}, mediaById = {}) {
   const essay = entry?.essay;
   const sections = Array.isArray(essay?.sections) ? essay.sections.filter(Boolean) : [];
   if (!essay || !sections.length) return "";
 
-  // An image ships only when its record says "bundle" and carries a path and an
-  // attribution. A record missing any of those renders nothing rather than a
-  // broken image or an uncredited one.
-  const figure = (mediaId) => {
-    const media = mediaById[mediaId];
-    if (!media || media.publication_decision !== "bundle" || !media.path || !media.attribution) return "";
-    const credit = media.source_url
-      ? `${media.attribution} · <a href="${attribute(media.source_url)}" target="_blank" rel="noreferrer">source</a>`
-      : media.attribution;
-    // Intrinsic width/height let the browser reserve the right box before the
-    // image decodes, so the prose under a figure never jumps.
-    const size = media.width && media.height
-      ? ` width="${media.width}" height="${media.height}"`
-      : "";
-    return `<figure class="essay-figure">
-        <img src="${attribute(media.path)}" alt="${attribute(media.alt || "")}"${size} loading="lazy" decoding="async">
-        <figcaption>${credit}</figcaption>
-      </figure>`;
-  };
+  const figure = (mediaId) => figureMarkup(mediaById[mediaId]);
 
   const restsOn = (claimIds) => {
     const cited = (Array.isArray(claimIds) ? claimIds : []).filter((id) => claimTypeById[id]);

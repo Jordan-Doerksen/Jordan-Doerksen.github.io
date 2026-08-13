@@ -946,7 +946,7 @@
       "id": "claim-star-cross-geometry",
       "topic_id": "kashan-star-cross",
       "type": "mathematical-fact",
-      "text": "The Star and Cross pattern can be constructed from eight-pointed {8/2} regular star polygons on a square grid; their interstitial spaces form the cross tiles.",
+      "text": "The Star and Cross pattern can be constructed from eight-pointed {8/2} star figures on a square grid; their interstitial spaces form the cross tiles. Because 8 and 2 share a factor, {8/2} is a compound of two squares rather than a regular star polygon.",
       "source_ids": [
         "source-cromwell-star-cross"
       ],
@@ -1976,6 +1976,44 @@
       "publication_decision": "bundle",
       "edits": "Scaled to 960px wide. No crop.",
       "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "media-hokusai-great-wave",
+      "topic_ids": [
+        "great-wave-echoes"
+      ],
+      "type": "image",
+      "path": "assets/history/hokusai-great-wave.jpg",
+      "creator": "Katsushika Hokusai",
+      "source_url": "https://www.metmuseum.org/art/collection/search/56353",
+      "alt": "Hokusai's woodblock print: a large breaking wave whose crest splits into progressively smaller curling fingers of foam above two boats, with Mount Fuji small in the distance.",
+      "rights_status": "approved",
+      "permitted_use_basis": "The Metropolitan Museum of Art Open Access, CC0 1.0 public domain dedication; the print itself (ca. 1830-32) is out of copyright by age.",
+      "attribution": "Katsushika Hokusai, Under the Wave off Kanagawa, ca. 1830-32. The Metropolitan Museum of Art, Henry L. Phillips Collection, CC0.",
+      "publication_decision": "bundle",
+      "edits": "Scaled from 2000px to 1400px wide and re-encoded as progressive JPEG. No crop, no colour change.",
+      "reviewed_at": "2026-08-13",
+      "width": 1400,
+      "height": 945
+    },
+    {
+      "id": "media-kashan-star-tile",
+      "topic_ids": [
+        "kashan-star-cross"
+      ],
+      "type": "image",
+      "path": "assets/history/kashan-star-tile-met.jpg",
+      "creator": "Unattributed, Iran (Kashan)",
+      "source_url": "https://www.metmuseum.org/art/collection/search/444459",
+      "alt": "A 13th-century eight-pointed star-shaped ceramic tile, glazed and painted, its eight points formed by two overlapping squares.",
+      "rights_status": "approved",
+      "permitted_use_basis": "The Metropolitan Museum of Art Open Access, CC0 1.0 public domain dedication; the object (13th century) is out of copyright by age.",
+      "attribution": "Eight-Pointed Star-Shaped Tile, Iran, 13th century. The Metropolitan Museum of Art, Edward C. Moore Collection, CC0.",
+      "publication_decision": "bundle",
+      "edits": "Scaled from 4000px to 1400px wide and re-encoded as progressive JPEG. No crop, no colour change.",
+      "reviewed_at": "2026-08-13",
+      "width": 1400,
+      "height": 774
     }
   ],
   "discoveries": [

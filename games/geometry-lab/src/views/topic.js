@@ -3,7 +3,7 @@ import { isRecursionTopic, mountRecursionVisual, recursionVisual } from "./recur
 import { mathematicsFor, mathematicsMarkup } from "./math-lens.js";
 import { isTessellationTopic, mountTessellationVisual, tessellationVisual } from "./tessellation-topic.js?v=0.8.0";
 import { isSymmetryTopic, mountSymmetryVisual, symmetryVisual } from "./symmetry-topic.js";
-import { afterMarkup, essayMarkup, hookMarkup, mountVideo, narrativeFor, videoMarkup } from "./narrative.js?v=0.17.0";
+import { afterMarkup, essayMarkup, hookMarkup, mediaMarkup, mountVideo, narrativeFor, videoMarkup } from "./narrative.js?v=0.18.0";
 
 const labelNames = {
   "mathematical-fact": "Mathematical fact",
@@ -124,7 +124,9 @@ export function mountTopic(root, { topic, atlas, index, recursionConfig, mathema
         ${visual}
       </section>
       ${afterMarkup(story)}
-      ${essayMarkup(story, claimTypesFor(topic, index), mediaFor(topic, atlas))}
+      ${story?.essay
+        ? essayMarkup(story, claimTypesFor(topic, index), mediaFor(topic, atlas))
+        : mediaMarkup(mediaFor(topic, atlas))}
       ${videoMarkup(story)}
       ${topic.phenomenon_ids.includes("tessellation-and-packing") ? `<a class="chamber-door" href="#/chamber/tessellation-and-packing"><span>Go deeper</span><strong>Five tiling questions on one page</strong><small>Angle budget · duality · density · rotation limits · Penrose inflation</small></a>` : ""}
       ${topic.game_context ? `<section class="game-context"><span>Game study</span><dl><div><dt>Subject</dt><dd>${topic.game_context.game_title}</dd></div><div><dt>Creator</dt><dd>${topic.game_context.credited_creator}</dd></div><div><dt>Context</dt><dd>${topic.game_context.platform_context}</dd></div><div><dt>Evidence level</dt><dd>${topic.game_context.analysis_status.replaceAll("-", " ")}</dd></div></dl><p>${gameDisclaimer(topic.id)}</p></section>` : ""}
