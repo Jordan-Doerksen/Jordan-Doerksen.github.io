@@ -1,0 +1,30 @@
+{
+  "schema": "geometry-lab/recursion@1",
+  "limits": {
+    "angle_degrees": { "minimum": 14, "maximum": 68, "step": 1 },
+    "length_ratio": { "minimum": 0.56, "maximum": 0.78, "step": 0.01 },
+    "depth": { "minimum": 3, "maximum": 10, "step": 1 }
+  },
+  "defaults": {
+    "angle_degrees": 31,
+    "length_ratio": 0.69,
+    "depth": 8
+  },
+  "presets": [
+    {
+      "id": "open",
+      "label": "Open",
+      "parameters": { "angle_degrees": 42, "length_ratio": 0.66, "depth": 7 }
+    },
+    {
+      "id": "reaching",
+      "label": "Reaching",
+      "parameters": { "angle_degrees": 24, "length_ratio": 0.72, "depth": 8 }
+    },
+    {
+      "id": "dense",
+      "label": "Dense",
+      "parameters": { "angle_degrees": 34, "length_ratio": 0.73, "depth": 10 }
+    }
+  ]
+}

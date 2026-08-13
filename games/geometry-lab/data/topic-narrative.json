@@ -1,0 +1,446 @@
+{
+  "schema": "geometry-lab/topic-narrative@1",
+  "reviewed_at": "2026-08-08",
+  "topics": [
+    {
+      "topic_id": "circle-intersections",
+      "hook": "How many ways can two equal circles meet?",
+      "stakes": "Everything two equal circles can do to each other is decided by one number, the distance between their centers.",
+      "invitation": "Step back to the bare segment, then forward again, and watch the shared lens appear where the two circles overlap.",
+      "after": [
+        "A circle is a promise about distance: every point on it sits exactly one radius from the center. Two equal circles are two such promises at once, and the space between the centers decides how the promises can both be kept. Too far apart and they never touch; close enough and they cross.",
+        "When they do cross, they cross in exactly two points, one above the line of centers and one below, and the region they share is a single lens. Nothing else is possible for two equal circles: apart, one touch, or two crossings with a lens between.",
+        "The two crossing points are the interesting ones. Each lies on both circles at once, so each is one radius from one center and one radius from the other. A point that holds two distance promises at the same time is the raw material of construction, and the next topic spends it."
+      ],
+      "video": {
+        "youtube_id": "sG_6nlMZ8f4",
+        "title": "Epic Circles - Numberphile",
+        "creator": "Numberphile",
+        "published_year": "2014",
+        "duration": "26:35",
+        "why": "The interactive stops at two circles; this follows touching and crossing circles onward into chains and inversion, where the same distance games keep paying.",
+        "verified_at": "2026-08-05"
+      }
+    },
+    {
+      "topic_id": "equilateral-triangle",
+      "hook": "Can three lengths be exactly equal if nothing was ever measured?",
+      "stakes": "The triangle's equality is not checked with a ruler; it is inherited, because every side is the same radius wearing a different name.",
+      "invitation": "Step back from the finished triangle to 1 and 2 to see which circle each side was borrowed from.",
+      "after": [
+        "The triangle opens finished, so walk it backwards. Its base is the segment between the two centers. Its two sloping sides run from the centers up to a crossing point. Nothing about it looks measured, and nothing was.",
+        "The trick is where the circles were placed: each one is centered on an endpoint of the segment and passes through the other endpoint. So the base is one radius by construction, and the crossing point, lying on both circles, is one radius from each center. Three sides, one length, no ruler.",
+        "This is what makes the figure more than a pretty accident. The equality does not depend on careful drawing; it follows from what a circle is. Draw the picture badly, on a napkin, with a shaky hand, and the argument still holds exactly."
+      ]
+    },
+    {
+      "topic_id": "euclid-first-proposition",
+      "hook": "How does the oldest geometry textbook still in use choose to begin?",
+      "stakes": "Book I, Proposition 1 of Euclid's Elements opens the whole work by building an equilateral triangle from a single segment and two circles.",
+      "invitation": "Start from the bare segment and press through the three steps in the order Euclid recorded them.",
+      "after": [
+        "Euclid's Elements begins with a construction, not a fact. Given a segment, draw a circle centered on each endpoint, passing through the other. Join either crossing point to both centers. Proposition 1 then argues, from the definition of a circle, that the three sides must be equal.",
+        "The choice of opening move says a lot about the book. Nothing is assumed beyond the tools already granted: segments can be drawn, circles can be drawn, and a circle keeps all its points one radius from its center. The first proposition spends exactly those permissions and no others.",
+        "Everything after it builds on moves like this one, proposition on proposition, for thirteen books. The diagram here is redrawn, not reproduced from any manuscript, but the order of the steps is the recorded order, and stepping through them is close to reading the original argument."
+      ],
+      "video": {
+        "youtube_id": "WqzK3UAXaHs",
+        "title": "Euclid as the father of geometry | Introduction to Euclidean geometry | Geometry | Khan Academy",
+        "creator": "Khan Academy",
+        "published_year": "2012",
+        "duration": "8:22",
+        "why": "The interactive shows one proposition; this places the Elements itself, the book those steps open, in its historical seat.",
+        "verified_at": "2026-08-05"
+      }
+    },
+    {
+      "topic_id": "triforce-analysis",
+      "hook": "When three triangles meet, who makes the fourth one in the middle?",
+      "stakes": "Arrange three equal upward triangles into one larger triangle and the central downward space is forced into existence, congruent to the pieces, without anyone drawing it.",
+      "invitation": "Use the toggle to separate the three pieces, then bring them back together around the space they define.",
+      "after": [
+        "Nobody draws the middle triangle. Three congruent equilateral triangles, all pointing up, slid into the corners of a larger triangular outline leave a fourth triangle between them, pointing down, congruent to the three pieces.",
+        "That is also the first step of the Sierpiński gasket: remove an inverted half-size triangle from an equilateral one, then repeat forever. The emblem is one iteration of an infinite rule."
+      ],
+      "essay": {
+        "byline": "An argument by Jordan Doerksen — a reading, not a finding.",
+        "thesis": "The Triforce is not an ancient sacred symbol that a video game borrowed. It is a plain arrangement of triangles that people have been loading with meaning for eight hundred years, and the game is only the most recent layer.",
+        "sections": [
+          {
+            "heading": "Nobody draws the fourth triangle",
+            "paragraphs": [
+              "Slide three equal upward triangles into the corners of a larger triangular outline. The space left in the middle is a fourth triangle, pointing down, the same size as the three you placed. You did not draw it. It is not a piece. It is the shape of what the pieces cannot cover.",
+              "That figure has a name in mathematics, and it is older and stranger than the emblem. Start with an equilateral triangle, remove an inverted triangle of half the side length, then repeat on each triangle that remains, forever. Sierpiński introduced the construction in 1915. The Triforce is that instruction carried out exactly once.",
+              "Nobody had to intend this. Perform the first step of an infinite recursion and you get the emblem, whether or not you have ever heard of recursion. Hold on to that, because everything that follows is people meeting this shape and deciding it means something."
+            ],
+            "claim_ids": [
+              "claim-triforce-reconstruction",
+              "claim-triforce-sierpinski"
+            ]
+          },
+          {
+            "heading": "The masons got there first",
+            "paragraphs": [
+              "Seven centuries before Sierpiński wrote it down, the same composition was being cut into the floors of Roman churches. Triangles inside triangles inside triangles, three levels deep, in coloured stone, underfoot in a sacred building.",
+              "It is tempting to say those craftsmen understood fractals. They did not, or at least nothing in the record says they did, and the paper that catalogues these floors is careful to identify the pattern without claiming the intent. I am going to be equally careful, because it is the same restraint I am about to demand of a claim about Nintendo.",
+              "What is fair to say is smaller and more interesting: this shape keeps turning up where people are trying to depict order. It is easy to make and it looks like the universe having a rule."
+            ],
+            "claim_ids": [
+              "claim-cosmatesque-sierpinski"
+            ],
+            "media_id": "media-cosmati-sm-maggiore"
+          },
+          {
+            "heading": "A goddess, a cave, three scales",
+            "paragraphs": [
+              "In Japan the same figure is the mitsuuroko — three scales — and it is the mon of the Hōjō clan, who held the regency of the Kamakura shogunate from 1203 to 1333. Three triangles in a triangle, on banners and armour.",
+              "Its origin story is not a design story. In the legend the Taiheiki tradition carries, Hōjō Tokimasa kept a vigil in the sea caves at Enoshima, the goddess Benzaiten appeared and told him his line would rule, and where she had been there were three dragon scales on the ground. He took them for his banner. Enoshima Shrine still carries the three scales in its own crest, with waves added around them.",
+              "Notice the order of events. Nobody looked at a triangle and found it profound. Something enormous happened to a man in a cave, and the triangle became the receipt. The geometry did not supply the meaning; it stored it."
+            ],
+            "claim_ids": [
+              "claim-mitsuuroko-hojo",
+              "claim-mitsuuroko-legend"
+            ],
+            "media_id": "media-enoshima-iwaya"
+          },
+          {
+            "heading": "The lineage nobody wrote down",
+            "paragraphs": [
+              "Here is where the story usually ends: the Triforce comes from the Hōjō crest, shown here. You will find it stated flatly in wikis, in videos, and in articles. Set it beside the emblem and the resemblance really is exact — same three triangles, same fourth space, same outline.",
+              "I could not find a single statement from Nintendo or its designers documenting it. Not a confirmation, not a denial. The most repeated fact about this emblem's origin appears to be something we decided among ourselves.",
+              "I think that gap is the most honest thing on this page, and I do not want it tidied away. Given a coincidence and a lineage, people take the lineage every time. We would rather a symbol be inherited than invented, because inheritance makes it mean something before anyone has to argue for it. The claim that the Triforce descends from a samurai crest is itself an act of exactly the behaviour this page is about."
+            ],
+            "claim_ids": [
+              "claim-triforce-lineage-contested"
+            ],
+            "media_id": "media-mitsuuroko"
+          },
+          {
+            "heading": "Then it was edited",
+            "paragraphs": [
+              "Nintendo did the next layer deliberately, and published it: three golden triangles, and the parts named Power, Wisdom and Courage. A shape that meant nothing in particular now had a theology, written by a company, in a manual.",
+              "Then somebody took a layer off. In the Japanese release the item was the Bible; in the English one it became the Book of Magic. That edit is the clearest evidence in this whole page that meaning was present, because you do not remove something that is not there. Someone read the game, found religion in it, and reached for the eraser on the way across the Pacific.",
+              "Added by a publisher, subtracted by a localizer, and neither of them was working with geometry. They were working with what the geometry had accumulated."
+            ],
+            "claim_ids": [
+              "claim-triforce-description",
+              "claim-zelda-bible-localization",
+              "claim-zelda-release"
+            ]
+          }
+        ],
+        "closing": "So the emblem is not sacred, and it is not ordinary either. It is a piece of very simple geometry that has been used as a container by everyone who picked it up — masons paving a church, a clan explaining a vision, a company inventing a religion for a fictional country, a censor removing a real one, and millions of players who gave it a family tree it never had. That is what I actually find interesting about geometry in games. Not that the shapes are in there. That we cannot leave them alone."
+      }
+    },
+    {
+      "topic_id": "recursive-branching",
+      "hook": "Does a tree need a plan to look like a tree?",
+      "stakes": "One rule applied to its own output, with no plan and no memory, is enough to make a shape that reads as alive.",
+      "invitation": "Drag the fork angle and watch every branch in the tree turn at the same moment.",
+      "after": [
+        "Nothing here chooses where a branch goes. One instruction runs on its own output, again and again: split, turn by the same angle, shorten by the same ratio. The tree is not drawn. It is what the rule leaves behind.",
+        "That is why the whole shape answers at once. There is no separate setting for the small branches, so a change reaches every level at the same time. Three numbers stand behind the form, not thousands.",
+        "The count runs ahead of the picture. Ten levels is 1,023 segments, from a rule you can say in one breath. Real trees are not this exact, because wind, light and damage break the symmetry, but the repeated rule survives that mess well enough that growth models still start here."
+      ],
+      "video": {
+        "youtube_id": "0jjeOYMjmDU",
+        "title": "Coding Challenge 14: Fractal Trees - Recursive",
+        "creator": "The Coding Train",
+        "published_year": "2016",
+        "duration": "15:53",
+        "why": "Shiffman writes the rule as running code, so the recursive call happens in front of you instead of hiding inside the finished picture.",
+        "verified_at": "2026-08-05"
+      }
+    },
+    {
+      "topic_id": "koch-curve",
+      "hook": "Can a line be too rough to have a length?",
+      "stakes": "A curve can sit inside a small patch of paper and still be longer than any number you name.",
+      "invitation": "Press 0 through 4 and watch the edge stop being a line.",
+      "after": [
+        "Every step does the same small thing. Divide each segment into thirds, then replace the middle third with two sides of equal length. Nothing is added at the ends: the two endpoints never move, and the curve stays inside the same small region.",
+        "But four segments now stand where three stood. Total length is multiplied by 4/3 at every step, so it runs 1.33, then 1.78, then 2.37, and that multiplication never stops. Four steps already gives 256 segments. The picture settles down; the length does not.",
+        "Helge von Koch published this in 1904 as a continuous curve with no tangent anywhere, reached by elementary geometry. You cannot pick a point on the limiting curve and say which way it is heading. Magnify it, and there is another corner."
+      ],
+      "video": {
+        "youtube_id": "gB9n2gHsHN4",
+        "title": "Fractals are typically not self-similar",
+        "creator": "3Blue1Brown",
+        "published_year": "2017",
+        "duration": "21:36",
+        "why": "The interactive counts segments; this measures the roughness itself and gives the Koch curve a dimension between 1 and 2.",
+        "verified_at": "2026-08-05"
+      }
+    },
+    {
+      "topic_id": "great-wave-echoes",
+      "hook": "Why does one big wave look like it is full of smaller waves?",
+      "stakes": "Repetition at several sizes reads to the eye as depth and motion long before anyone has mathematics for it.",
+      "invitation": "Move the curl slider from 1 to 6 and watch the same shape return, smaller each time.",
+      "after": [
+        "The curve on this page is ours. It is one curl copied at a constant scale ratio: an exact construction, made to stand beside the print rather than to explain it.",
+        "Hokusai's print is not made this way. Under the Wave off Kanagawa is a woodblock print from the Thirty-six Views of Mount Fuji, made about 1830 to 1832. Its foam breaks into claws, and those into smaller claws, but the sizes answer to a hand and an eye, not to a ratio.",
+        "The resemblance is formal, and it stays a resemblance. Nothing here claims that Hokusai knew or intended fractal geometry, because nothing shows that he did. The comparison is still worth making: it shows how differently a printmaker and a formula arrive at nested shapes."
+      ],
+      "video": {
+        "youtube_id": "yRPZKZsYN2A",
+        "title": "CAM Look | Under the Great Wave off Kanagawa by Katsushika Hokusai | 11/01/22",
+        "creator": "cincinnatiartmuseum",
+        "published_year": "2022",
+        "duration": "9:29",
+        "why": "A curator of prints and a docent stand in front of a physical impression and describe its size, colour and printing, which no diagram carries.",
+        "verified_at": "2026-08-05"
+      }
+    },
+    {
+      "topic_id": "rescue-fractalus-terrain",
+      "hook": "How do you fly over a mountain range that was never stored anywhere?",
+      "stakes": "When there is no room to keep a landscape, the only way to have one is to compute it as you move through it.",
+      "invitation": "Step through 0 to 7 and watch a straight line become a ridgeline.",
+      "after": [
+        "One pass takes an interval, places a point at its midpoint, and displaces that point up or down. The displacement then shrinks, and the same pass runs on the two shorter intervals. Seven passes turn two heights into 129.",
+        "Nothing is kept except the rule and the numbers it starts from. That is the trade the 1985 game made: the credits reproduced on David Fox's project page name Loren Carpenter for the 3-D fractal landscape image generation, and the ground arrives as arithmetic instead of as stored data.",
+        "This profile is a model, not the game's code. It uses deterministic midpoint subdivision to show what recursive detail does, and the historical algorithm is not reproduced here. The transferable part is the idea: detail made on demand, at whatever scale the view needs, from a rule small enough to fit in the machine."
+      ]
+    },
+    {
+      "topic_id": "regular-plane-tilings",
+      "hook": "Why can a floor be covered in squares but never in regular pentagons?",
+      "stakes": "Whether a regular shape can cover a plane is settled by one division: its corner angle either divides 360 degrees or it does not.",
+      "invitation": "Press Triangle, Square and Hexagon and read the angle equation that closes each corner exactly.",
+      "after": [
+        "The whole question is decided at a single point. Where tiles meet, their corner angles must add to exactly 360 degrees, so a lone regular polygon can tile only if its interior angle divides 360. Three angles do: 60 for the triangle, 90 for the square, 120 for the hexagon. The regular pentagon's 108 leaves a gap that no copy of the pentagon can fill.",
+        "Letting shapes mix loosens the rule less than you might expect. There are exactly eleven convex uniform tilings of the plane by regular polygons: the three regular ones and eight semiregular tilings. And closing one vertex is not yet a tiling. An angle sum below 360 belongs to positive curvature and a sum above it to negative curvature, and even an exact 360 at one point does not by itself prove the pattern extends forever.",
+        "The restriction runs deeper than corners. A periodic planar lattice can carry rotations of order one, two, three, four and six, and no others; fivefold symmetry is shut out of periodic tilings entirely. The deep chamber behind this page follows that angle budget further, and the Penrose room shows what fivefold order costs."
+      ]
+    },
+    {
+      "topic_id": "hexagonal-circle-packing",
+      "hook": "How much of a table can equal coins actually cover?",
+      "stakes": "Equal circles can never cover a plane completely, and the hexagonal arrangement covers an exact, nameable fraction of it.",
+      "invitation": "Pick any circle in the figure and count its nearest neighbours: the answer is six, everywhere, at one identical distance.",
+      "after": [
+        "The rows are triangular. Each circle settles into the hollow between two circles of the row beneath, and the result is a lattice in which every centre has six nearest neighbours, all equally far away. The small three-cornered gaps between circles are not flaws in the drawing; they are what circles cannot give up.",
+        "The covered fraction has an exact value: pi divided by the square root of 12, about 0.9069. Just over nine percent of the plane stays uncovered no matter how far the lattice runs. The verification note under the figure states what was checked: equal radii, and every nearest-centre distance.",
+        "The question is older than the proof. In 1611 Kepler wrote a short pamphlet on the six-cornered snowflake, examining hexagonal form and packing questions centuries before packing had a mathematics of its own. The deep chamber's packing microscope lets you shear a square lattice until these six neighbours appear."
+      ],
+      "video": {
+        "youtube_id": "thOifuHs6eY",
+        "title": "Circles Waste Space. Hexagons Don't.",
+        "creator": "CGP Grey",
+        "published_year": "2020",
+        "duration": "9:27",
+        "why": "Grey argues what the still figure only shows: what the space between circles costs, and why hexagonal arrangements keep turning up where packing matters.",
+        "verified_at": "2026-08-05"
+      }
+    },
+    {
+      "topic_id": "kashan-star-cross",
+      "hook": "What is left over when eight-pointed stars almost fill a wall?",
+      "stakes": "In this pattern the leftover space is not leftover at all: the gaps between the stars are exact cross tiles that complete the wall.",
+      "invitation": "Switch between Together, Star tile and Cross tile to see each family lit inside the same edge-to-edge pattern.",
+      "after": [
+        "The construction needs one grid. Place an eight-pointed {8/2} star polygon on each cell of a square grid, and the spaces between the stars come out as crosses on their own. Neither family is drawn around the other: stars and crosses reuse the same boundary points, so every edge belongs to both at once.",
+        "The historical tile behind this study is real and specific. The Metropolitan Museum records an eight-pointed star-shaped stonepaste tile made in Kashan, Iran, in the thirteenth century, and notes that the star-and-cross panel it now sits in combines tiles from differing original contexts. The wall you would see in the museum is itself an assembly.",
+        "What this page shows is an exact analytical reconstruction of the pattern family, not a photograph or a tracing of that tile. The reconstruction answers a narrower question than the artifact does: whether the fit is geometrically exact. It is, down to the shared boundary points."
+      ],
+      "video": {
+        "youtube_id": "pg1NpMmPv48",
+        "title": "The complex geometry of Islamic design - Eric Broug",
+        "creator": "TED-Ed",
+        "published_year": "2015",
+        "duration": "5:06",
+        "why": "Broug builds patterns like this one with circle, grid and straightedge, showing the construction steps the finished reconstruction no longer carries.",
+        "verified_at": "2026-08-05"
+      }
+    },
+    {
+      "topic_id": "penrose-rhombs",
+      "hook": "Can a pattern be orderly without ever repeating itself?",
+      "stakes": "Two rhomb shapes, placed under matching rules, cover the plane with full order and no repeating unit.",
+      "invitation": "Follow any run of rhombs across the patch and look for a stretch that comes back the same; the matching rules do not allow one.",
+      "after": [
+        "Only two tiles appear: a thick rhomb and a thin one, with equal edges. Penrose's patent describes two such quadrilateral tile types with matching constraints whose plane assemblies are necessarily non-repetitive and built on fivefold symmetry. The tiles are simple; the rules on their edges are what forbid repetition.",
+        "The proportions confess it. Under repeated rhomb substitution, the ratio of thick to thin tiles approaches the golden ratio, an irrational number. A periodic pattern would repeat some finite block, and a finite block can only give a ratio of whole numbers, so the count itself rules repetition out.",
+        "The patch on this page is not hand-placed. It comes from de Bruijn's pentagrid method, which lays down five families of parallel lines and dualizes them into rhombs; the verification note lists what was checked, from equal edges to coverage and overlap. The deep chamber's inflation instrument lets you run the substitution and watch the golden ratio arrive."
+      ],
+      "video": {
+        "youtube_id": "48sCx-wBs34",
+        "title": "The Infinite Pattern That Never Repeats",
+        "creator": "Veritasium",
+        "published_year": "2020",
+        "duration": "21:11",
+        "why": "It carries the story the patch cannot: Penrose's route to the tiles, and the quasicrystals that later made the forbidden symmetry physical.",
+        "verified_at": "2026-08-05"
+      }
+    },
+    {
+      "topic_id": "escher-plane-division",
+      "hook": "How far can you bend a tile's edge before it stops fitting?",
+      "stakes": "A tile can take on almost any curved boundary and still tile the plane, provided every change to one edge is copied exactly onto the opposite edge.",
+      "invitation": "Drag the boundary-translation slider from 0 to 28 and watch a straight edge become a curve that still meets its neighbour point for point.",
+      "after": [
+        "The move is a trade. Whatever area a curve takes from one side of a tile, the translated copy of that curve returns on the opposite side, so the tile keeps its area and its neighbours keep their fit. Adjacent tiles share each curved boundary point for point, because both received it from the same translation.",
+        "This is one of the fit principles behind M. C. Escher's divisions of the plane, in which tiles take on the outlines of living figures. The National Gallery of Art records his Regular Division of the Plane I as a 1957 woodcut. What you deform here demonstrates the translated-boundary principle; it does not reproduce an Escher artwork, and no drawing of his stands behind this outline.",
+        "The demonstration also says what the principle cannot do alone. Translation is one of several ways an edge can map to another edge, and a figure that reads as a bird or a fish asks for more than a valid boundary. The geometry guarantees the fit; it never supplies the creature."
+      ],
+      "video": {
+        "youtube_id": "G-oVgNX-fcg",
+        "title": "Regular Division of the Plane - Escher Tessellation",
+        "creator": "Museum of Science",
+        "published_year": "2011",
+        "duration": "1:31",
+        "why": "A museum's own short walkthrough of how Escher worked a plain square into a regular division, which the slider's single move can only hint at.",
+        "verified_at": "2026-08-05"
+      }
+    },
+    {
+      "topic_id": "tetris-tetrominoes",
+      "hook": "How many different shapes can four squares make?",
+      "stakes": "Joining four equal squares edge to edge yields exactly seven distinct pieces, and that small count is the entire geometry of a famous game.",
+      "invitation": "Check the grid piece by piece: every shape holds exactly four cells, and no rotation turns one piece into another.",
+      "after": [
+        "The count is an enumeration, not a choice. Take four squares, join them edge to edge, and treat rotations of a piece as the same piece while keeping mirror images distinct. Exactly seven shapes survive: the figure shows all seven one-sided tetrominoes, and two of the pairs are mirror twins that no rotation in the plane can merge.",
+        "The official Tetris account states that Pajitnov's 1984 design used seven geometric pieces, each made from four squares, moved and rotated in a rectangular Matrix to complete rows. The game's difficulty lives in the gaps: pieces that each fill four cells perfectly can still leave holes a row cannot forgive.",
+        "What you see here is an original grid study of those seven shapes, not imagery from the game, and this page has no affiliation with The Tetris Company. The geometry stands on its own: tetrominoes belong to the larger family of polyominoes, where the counting continues past four squares and grows quickly."
+      ],
+      "video": {
+        "youtube_id": "wZ1E_CM7MqA",
+        "title": "The Pentomino Puzzle (and Tetris) - Numberphile",
+        "creator": "Numberphile",
+        "published_year": "2018",
+        "duration": "6:18",
+        "why": "Bellos places the tetrominoes inside the wider polyomino family, where the combinatorics keeps going after the grid study stops.",
+        "verified_at": "2026-08-05"
+      },
+      "essay": {
+        "byline": "An argument by Jordan Doerksen — a reading, not a finding.",
+        "thesis": "Tetris is the cleanest case of this in the collection, because the game itself is empty. Seven shapes, a rectangle, one rule. Everything you feel about it was put there afterwards, and unusually, we can name who put each piece there.",
+        "sections": [
+          {
+            "heading": "Seven, and it could not have been six",
+            "paragraphs": [
+              "Join four squares edge to edge and count the distinct results. If you treat a shape and its mirror image as the same thing, there are five. If you treat them as different, there are seven. Those are not design choices; they are counts, and you can check them.",
+              "Tetris has seven because a falling piece can be turned but never flipped over. That single rule splits S from Z and J from L, and it is the whole reason the set is the size it is. The designer did not pick seven pieces. He picked a rule, and seven is what the rule left him.",
+              "So the raw material is a mathematical object. It has no nationality, no era, and nothing to say."
+            ],
+            "claim_ids": [
+              "claim-tetromino-count",
+              "claim-tetris-seven-because-no-mirror"
+            ]
+          },
+          {
+            "heading": "A Russian game with no Russia in it",
+            "paragraphs": [
+              "Alexey Pajitnov wrote it in 1984 at the Dorodnicyn Computing Centre of the Soviet Academy of Sciences, on an Elektronika 60. Vadim Gerasimov ported it to the PC. The name is just the Greek for four, because the pieces have four squares each.",
+              "This is the machine. There is no cathedral in it, no flag, no folk song, no Cold War. There is a grey box in a research institute and a man making a puzzle out of a shape count."
+            ],
+            "claim_ids": [
+              "claim-tetris-origin",
+              "claim-tetris-name"
+            ],
+            "media_id": "media-elektronika-60"
+          },
+          {
+            "heading": "Then it was sold",
+            "paragraphs": [
+              "The Smithsonian holds the Western packaging, and it is worth reading as an artefact in its own right. Spectrum HoloByte put Saint Basil's Cathedral on it. They set the title in Russian lettering with a sickle worked into the final character. They printed an outline of the USSR in the manual, called it 'The Soviet Challenge', and advertised it with the line 'The Cold War is Over. Almost…'",
+              "None of that is in the game. You cannot reach the cathedral. It is not a level. A marketing department in America decided that a shape-sorting puzzle should be experienced as a transmission from behind the Iron Curtain, and it worked so completely that forty years later people still describe Tetris as Russian — meaning the mood, not the postal address of its author.",
+              "This is the clearest example I know of meaning being installed deliberately, by a named party, for money, onto an object that had none."
+            ],
+            "claim_ids": [
+              "claim-tetris-soviet-packaging"
+            ],
+            "media_id": "media-st-basils"
+          },
+          {
+            "heading": "A peddler, a girl, and a field of rye",
+            "paragraphs": [
+              "Then the sound arrived, and it came from further away than the marketing did. The Game Boy theme most of the planet can hum is Korobeiniki, a Russian folk song adapted from an 1861 poem by Nikolay Nekrasov about a peddler bargaining with a girl in a field, the goods standing in for the seduction. In the poem it ends badly; the peddler is robbed and killed on the road home.",
+              "Hirokazu Tanaka arranged it for Nintendo in 1989. Earlier commercial releases had no such music. So a nineteenth-century song about rural courtship and a murder became, by way of a Japanese composer and a handheld console, the sound a billion people associate with tidying rectangles.",
+              "Nekrasov is not a contributor to Tetris in any sense he would recognise. He is in it anyway."
+            ],
+            "claim_ids": [
+              "claim-korobeiniki"
+            ],
+            "media_id": "media-nekrasov"
+          },
+          {
+            "heading": "And then it got inside people",
+            "paragraphs": [
+              "The last layer was not added by anyone selling anything. In a 2000 study in Science, players reported seeing the pieces falling as they fell asleep — the intrusive, stereotyped imagery a lot of people will recognise from their own worst Tetris weekends.",
+              "The part that stops me is the control group nobody expected. Three amnesic patients with extensive damage to both medial temporal lobes reported the same falling shapes at sleep onset while being unable to recall ever having played the game. The experience had been written into them somewhere underneath the ability to remember it.",
+              "A set of seven shapes did that. Not a story, not a character, not a world — a counted mathematical object and a rule about rotation."
+            ],
+            "claim_ids": [
+              "claim-tetris-hypnagogic"
+            ]
+          }
+        ],
+        "closing": "I find this more convincing than the Triforce, because with Tetris there is nothing to argue about at the bottom. The shape means nothing. It cannot mean anything; it is a count. And yet it now carries a country it never depicted, a song written twenty-three years before the invention of the light bulb, and a place in the sleeping brains of people who cannot remember playing it. We did all of that. The game just held still."
+      }
+    },
+    {
+      "topic_id": "mirror-and-rotation",
+      "hook": "How can a move that changes nothing be worth counting?",
+      "stakes": "The moves that leave a figure looking untouched can be collected and composed, and together they are the figure's symmetry group.",
+      "invitation": "Try each of the five operations on the flag and see where its copies land.",
+      "after": [
+        "The flag is asymmetric on purpose. A symmetric motif would hide its own transformations; this one shows every operation plainly, because each copy lands somewhere visibly different. Each move is an isometry — a map of the plane that preserves the distance between every pair of points. Nothing stretches or bends. The flag only changes place, and sometimes handedness.",
+        "The moves also keep each other's company. Follow one operation with another and the result is again an operation on the list; every move can be undone; doing nothing counts as a move. That short checklist is what mathematicians mean by a group: the rotations and reflections of a figure close under composition. The word sounds heavy, and the requirements fit in a sentence.",
+        "That is why the identity earns its place beside the others. It seems like a joke — the move that does nothing — but without it the collection does not close, and the count comes out wrong. Counting the do-nothing move is the first sign that symmetry is about the moves, not the picture: the figure is one thing, and the algebra of what leaves it alone is another."
+      ],
+      "video": {
+        "youtube_id": "mH0oCDa74tE",
+        "title": "Group theory, abstraction, and the 196,883-dimensional monster",
+        "creator": "3Blue1Brown",
+        "published_year": "2020",
+        "duration": "21:57",
+        "why": "It opens with exactly these moves — the symmetries of a square and a snowflake — then follows the same idea of collected actions until it reaches a group of monstrous size.",
+        "verified_at": "2026-08-05"
+      }
+    },
+    {
+      "topic_id": "frieze-seven-ways",
+      "hook": "How many genuinely different ways can a border repeat?",
+      "stakes": "Any pattern that repeats along a single direction, whatever its motif, has one of exactly seven symmetry types.",
+      "invitation": "Select each of the seven groups and watch the same motif hop, sidle, and spin down the strip.",
+      "after": [
+        "The motif never changes; only its company does. Translation alone gives the plain hop of p1. Add vertical mirrors and the copies face each other. Add a glide — reflect across the midline, then slide half a period — and the strip walks like a line of footprints. Half-turns spin every second copy upside down. Each of the seven strips is one asymmetric motif under a different mix of these operations, and the plain names here — hop, step, sidle, jump — imagine the gait that would leave that trackway.",
+        "The surprise is the ceiling. Mix mirrors, glides and half-turns however you like along a strip, and consistency does the sorting for you: there are exactly seven frieze groups, no more. Propose an eighth combination and its own operations, composed with each other, reproduce one of the seven already on the list. The classification is not a catalogue of borders someone happened to find; it is a proof that the possibilities run out.",
+        "Once the seven families are in your eye, they start appearing on things: pottery bands, wrought-iron railings, brick courses, the border of a carpet. Two borders with nothing in common as drawings can be the same frieze group, and two that look like cousins can sit in different families. The classification sees past the motif to the repetition itself."
+      ]
+    },
+    {
+      "topic_id": "wallpaper-seventeen",
+      "hook": "Could every wallpaper ever printed be, underneath, one of seventeen patterns?",
+      "stakes": "When a pattern repeats in two independent directions, its symmetries form one of exactly seventeen groups, and no eighteenth exists.",
+      "invitation": "Compare the four sample groups and watch one motif obey four different sets of rules.",
+      "after": [
+        "Four patches stand here for a family of seventeen. In p1 the motif only translates. In p2, half-turns spin it about points of the lattice. In p4m, quarter-turns and mirrors crowd around each cell. In p3, third-turns share the plane three ways. These four are a labeled sample, not the census: the count of seventeen rests on the cited proofs, not on anything this page draws.",
+        "Seventeen is a theorem, not a survey. The classification of the crystallographic groups, including the seventeen planar ones, was achieved at the end of the nineteenth century by E. S. Fedorov, with A. Schoenflies arriving slightly later. Whatever motif a designer invents, however ornate the drawing, the symmetries of a doubly periodic pattern must land in one of the seventeen — the list was closed before wallpaper was modern.",
+        "The proof and the pictures took separate paths. In 1924 George Pólya added to the understanding of the seventeen groups by illustrating each of them, putting a visible face on a classification that had lived in algebra. Since then the two readings run together: a pattern can be checked by eye against the illustrations, or by composing its operations against the proof."
+      ]
+    },
+    {
+      "topic_id": "alhambra-count",
+      "hook": "How many of the seventeen patterns did the Alhambra's builders find?",
+      "stakes": "A fourteenth-century palace has become the test case for what should count as a pattern at all.",
+      "invitation": "Scan the seven strips and practise telling mirrors from glides apart — the same inventory, taken in two directions at once, is what the dispute below is about.",
+      "after": [
+        "The counting began in earnest with Edith Müller. Grünbaum's 2006 review reports that her 1944 group-theoretic study of the Alhambra's ornament documented fewer than all seventeen wallpaper groups there. Later authors, walking the same halls, have argued the palace up to the full seventeen. The walls did not change between the visits.",
+        "What changed is the question of admission. Published counts range from Müller's figure to all seventeen because the answer depends on which ornaments, colourings, and interlacings are admitted as patterns. Count a tiling by its shapes alone and it may carry a symmetry that its colours break; treat an interlaced band as over-and-under weaving and a mirror disappears. Each census draws these lines differently, and each line moves the total.",
+        "Grünbaum's review treats the question as unsettled, and this page does the same. The mathematics is finished — exactly seventeen groups exist, and no wall can hold an eighteenth. Whether one building realizes them all turns on decisions no theorem makes for you, which is why a dispute about a medieval palace is really a dispute about the word pattern."
+      ],
+      "video": {
+        "youtube_id": "415VX3QX4cU",
+        "title": "Marcus du Sautoy: Symmetry, reality's riddle",
+        "creator": "TED",
+        "published_year": "2009",
+        "duration": "20:17",
+        "why": "du Sautoy stands the counting question on the Alhambra's own walls, asking what it means for two of its symmetries to be the same — the exact hinge the published counts turn on.",
+        "verified_at": "2026-08-05"
+      }
+    }
+  ]
+}

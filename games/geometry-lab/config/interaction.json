@@ -1,0 +1,52 @@
+{
+  "schema": "geometry-lab/interaction@1",
+  "stage": {
+    "circle_radius_viewport_ratio": 0.22,
+    "minimum_circle_radius_px": 72,
+    "initial_distance_in_radii": 1.45,
+    "initial_centers": [
+      { "x": 0.38, "y": 0.5 },
+      { "x": 0.62, "y": 0.5 }
+    ]
+  },
+  "relationships": [
+    {
+      "id": "center-on-circumference",
+      "detector": "center-distance",
+      "target_distance_in_radii": 1,
+      "approach_tolerance_in_radii": 0.12,
+      "release_tolerance_in_radii": 0.2,
+      "dwell_ms": 80,
+      "maximum_capture_velocity_radii_per_second": 4.5,
+      "settle_strength": 0.42
+    }
+  ],
+  "discovery_bindings": [
+    {
+      "trigger_id": "formed-equilateral-triangle",
+      "relationship_id": "center-on-circumference",
+      "discovery_id": "discover-equilateral-triangle",
+      "rearm_requires_exit": true
+    }
+  ],
+  "inputs": {
+    "pointer": { "hit_padding_px": 18 },
+    "touch": { "hit_padding_px": 28, "release_slop_px": 16 },
+    "keyboard": { "step_in_radii": 0.08, "fine_step_in_radii": 0.02 }
+  },
+  "motion": {
+    "settle_ms": 180,
+    "discovery_reveal_ms": 320,
+    "reduced_motion_mode": "discrete-states"
+  },
+  "sound": {
+    "default_muted": true,
+    "autoplay": false,
+    "mapping_required": true
+  },
+  "local_history": {
+    "enabled_by_default": false,
+    "stored_value": "public-topic-ids-only",
+    "clear_control_required": true
+  }
+}

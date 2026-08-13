@@ -1,0 +1,20 @@
+{
+  "schema":"geometry-lab/tessellation-chamber@1",
+  "route":"#/chamber/tessellation-and-packing",
+  "vertex_presets":[
+    {"id":"triangular","label":"3·3·3·3·3·3","polygons":[3,3,3,3,3,3],"family":"regular"},
+    {"id":"square","label":"4·4·4·4","polygons":[4,4,4,4],"family":"regular"},
+    {"id":"hexagonal","label":"6·6·6","polygons":[6,6,6],"family":"regular"},
+    {"id":"snub-hexagonal","label":"3·3·3·3·6","polygons":[3,3,3,3,6],"family":"semiregular"},
+    {"id":"elongated-triangular","label":"3·3·3·4·4","polygons":[3,3,3,4,4],"family":"semiregular"},
+    {"id":"snub-square","label":"3·3·4·3·4","polygons":[3,3,4,3,4],"family":"semiregular"},
+    {"id":"rhombitrihexagonal","label":"3·4·6·4","polygons":[3,4,6,4],"family":"semiregular"},
+    {"id":"trihexagonal","label":"3·6·3·6","polygons":[3,6,3,6],"family":"semiregular"},
+    {"id":"truncated-hexagonal","label":"3·12·12","polygons":[3,12,12],"family":"semiregular"},
+    {"id":"truncated-trihexagonal","label":"4·6·12","polygons":[4,6,12],"family":"semiregular"},
+    {"id":"truncated-square","label":"4·8·8","polygons":[4,8,8],"family":"semiregular"}
+  ],
+  "packing":{"minimum_angle":60,"maximum_angle":90,"default_angle":90,"step":1},
+  "penrose":{"minimum_generation":0,"maximum_generation":9,"default_generation":4,"initial_thick":1,"initial_thin":1},
+  "claim_ids":["claim-uniform-tilings","claim-tiling-curvature","claim-voronoi-memoir","claim-crystallographic-restriction","claim-circle-packing-density","claim-penrose-inflation","claim-penrose-patent"]
+}

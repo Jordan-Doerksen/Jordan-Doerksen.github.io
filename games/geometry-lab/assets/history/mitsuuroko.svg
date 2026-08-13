@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  Mitsuuroko, the three-scales mon of the Hōjō clan.
+  Source: Wikimedia Commons, File:Mitsuuroko.svg by Slady, released to the public
+  domain ("I grant anyone the right to use this work for any purpose").
+  Edits by Geometry Lab, recorded in the atlas media record "media-mitsuuroko":
+  the two original filled paths were merged into one evenodd path so the inner
+  triangle is a true hole, and the fill was recoloured to the page palette.
+  The public-domain dedication permits both changes.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="400" height="250" role="img" aria-label="The mitsuuroko: three scales forming three triangles around a fourth">
+  <path fill="#8ed9d2" fill-rule="evenodd"
+        d="M 16.956522,228.26087 L 383.04348,228.69565 L 199.13044,15.652174 L 16.956522,228.26087 z
+           M 108.26087,121.73913 L 200.86957,228.69565 L 291.30435,122.17391 L 108.26087,121.73913 z" />
+</svg>

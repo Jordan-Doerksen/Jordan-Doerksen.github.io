@@ -1,0 +1,83 @@
+:root {
+  color-scheme: dark;
+  --background: #071019;
+  --surface: #0c1822;
+  --surface-raised: #122431;
+  --foreground: #eef6f2;
+  --muted: #9bb0b2;
+  --quiet: #6e858a;
+  --border: rgba(184, 218, 211, 0.18);
+  --border-strong: rgba(184, 218, 211, 0.34);
+  --active: #f4cf77;
+  --active-soft: rgba(244, 207, 119, 0.15);
+  --cyan: #8ed9d2;
+  --stage-background: #050b12;
+  --stage-glow: #102734;
+  --circle: rgba(142, 217, 210, 0.62);
+  --circle-selected: #c7fff7;
+  --circle-fill: rgba(93, 186, 187, 0.035);
+  --lens: rgba(116, 210, 199, 0.09);
+  --lens-active: rgba(244, 207, 119, 0.16);
+  --point: #b8f8ef;
+  --intersection: #d3b96f;
+  --triangle-fill: rgba(244, 207, 119, 0.09);
+  --measure: rgba(220, 236, 230, 0.68);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+body { margin: 0; width: 100%; min-width: 0; overflow-x: clip; background: radial-gradient(circle at 50% -15%, #153142 0, var(--background) 35rem); }
+a { color: inherit; }
+button, input, select { font: inherit; color: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid var(--active); outline-offset: 3px; }
+.skip-link { position: absolute; left: 1rem; top: -5rem; z-index: 100; padding: .7rem 1rem; background: var(--foreground); color: var(--background); }
+.skip-link:focus { top: 1rem; }
+.site-header { position: relative; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: min(1180px, calc(100% - 2rem)); margin: 0 auto; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+.wordmark { display: inline-flex; align-items: center; gap: .7rem; text-decoration: none; font-size: .86rem; letter-spacing: .12em; text-transform: uppercase; }
+.wordmark-mark { position: relative; width: 1.5rem; height: 1.1rem; }
+.wordmark-mark::before, .wordmark-mark::after { content: ""; position: absolute; width: 1rem; height: 1rem; border: 1px solid var(--cyan); border-radius: 50%; top: 0; }
+.wordmark-mark::before { left: 0; }
+.wordmark-mark::after { right: 0; }
+.site-header nav { display: flex; gap: .3rem; }
+.site-header nav a { padding: .55rem .8rem; color: var(--muted); text-decoration: none; border-radius: 999px; }
+.site-header nav a:hover, .site-header nav a[aria-current] { color: var(--foreground); background: rgba(255,255,255,.055); }
+#app { min-height: 70vh; }
+.eyebrow { margin: 0 0 .7rem; color: var(--active); font-size: .7rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+.loading, .load-error, .not-found { width: min(780px, calc(100% - 2rem)); margin: 12vh auto; }
+.site-footer { display: grid; grid-template-columns: 1fr auto; gap: 1rem; width: min(1180px, calc(100% - 2rem)); margin: 5rem auto 0; padding: 1.5rem 0 2rem; border-top: 1px solid var(--border); color: var(--quiet); font-size: .75rem; }
+.site-footer p { margin: 0; }
+.living-stage { width: min(1280px, 100%); margin: 0 auto; padding: 2.8rem 1rem 1rem; }
+.stage-copy { position: relative; z-index: 2; width: min(600px, 90%); margin: 0 auto -1.2rem; text-align: center; pointer-events: none; }
+.stage-copy h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.4rem, 7vw, 5.6rem); font-weight: 400; letter-spacing: -.04em; }
+.stage-copy p:last-child { margin: .7rem auto 0; max-width: 34rem; color: var(--muted); }
+.canvas-wrap { position: relative; min-height: 560px; height: min(70vh, 780px); overflow: hidden; border: 1px solid var(--border); border-radius: 50% 50% 1.4rem 1.4rem / 8% 8% 1.4rem 1.4rem; background: var(--stage-background); box-shadow: inset 0 0 90px rgba(0,0,0,.35), 0 30px 80px rgba(0,0,0,.25); }
+#geometry-canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+#geometry-canvas:active { cursor: grabbing; }
+.stage-tools { position: absolute; left: 50%; bottom: 1rem; display: flex; align-items: center; gap: .35rem; padding: .35rem; transform: translateX(-50%); border: 1px solid var(--border); border-radius: 999px; background: rgba(5, 11, 18, .84); backdrop-filter: blur(16px); }
+.stage-tools button, .precision-toggle { min-height: 2.6rem; padding: .65rem .9rem; border: 0; border-radius: 999px; background: transparent; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.stage-tools button:hover, .stage-tools button.is-selected { color: var(--foreground); background: var(--surface-raised); }
+.precision-toggle { display: flex; align-items: center; gap: .45rem; }
+.precision-toggle input { accent-color: var(--active); }
+.geometry-status { max-width: 780px; min-height: 1.5rem; margin: 1rem auto 0; color: var(--muted); text-align: center; }
+.keyboard-note { margin: .2rem auto 0; color: var(--quiet); font-size: .75rem; text-align: center; }
+.discovery { position: absolute; top: 50%; left: 50%; display: flex; align-items: stretch; max-width: calc(100% - 2rem); transform: translate(-50%, -50%); border: 1px solid rgba(244,207,119,.38); border-radius: 1rem; background: rgba(7,16,25,.92); box-shadow: 0 18px 80px rgba(0,0,0,.5), 0 0 45px rgba(244,207,119,.12); backdrop-filter: blur(16px); }
+.discovery > button { border: 0; background: transparent; color: inherit; cursor: pointer; }
+#open-discovery { display: grid; gap: .3rem; padding: 1rem 1.2rem; text-align: left; }
+.discovery-kicker { color: var(--active); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; }
+.dismiss { padding: .5rem .8rem; color: var(--muted) !important; font-size: 1.4rem; }
+@media (max-width: 640px) {
+  .site-header { width: calc(100% - 1rem); }
+  .wordmark { letter-spacing: .07em; }
+  .living-stage { padding: 1.8rem .5rem .5rem; }
+  .canvas-wrap { min-height: 500px; height: 68vh; border-radius: 2rem; }
+  .stage-tools { width: calc(100% - 1rem); justify-content: center; overflow-x: auto; }
+  .stage-tools button, .precision-toggle { padding: .6rem .7rem; font-size: .78rem; }
+  .site-footer { grid-template-columns: 1fr; width: calc(100% - 2rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

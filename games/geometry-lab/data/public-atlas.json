@@ -1,0 +1,2001 @@
+{
+  "schema": "geometry-lab/atlas@1",
+  "published_at": "2026-08-01T00:00:00Z",
+  "phenomena": [
+    {
+      "id": "construction-and-proportion",
+      "slug": "construction-and-proportion",
+      "title": "Construction & proportion",
+      "summary": "Exact forms emerging from simple relationships between points, distances, lines, and circles.",
+      "published": true
+    },
+    {
+      "id": "symmetry-and-symmetry-breaking",
+      "slug": "symmetry-and-symmetry-breaking",
+      "title": "Symmetry & symmetry breaking",
+      "summary": "Transformations that preserve a form—and the consequences when that order changes.",
+      "published": true
+    },
+    {
+      "id": "tessellation-and-packing",
+      "slug": "tessellation-and-packing",
+      "title": "Tessellation & packing",
+      "summary": "How shapes cover space: exact fit, dense arrangement, periodic repetition, and order without repetition.",
+      "published": true
+    },
+    {
+      "id": "recursion-and-fractals",
+      "slug": "recursion-and-fractals",
+      "title": "Recursion & fractals",
+      "summary": "Rules repeated across scales: exact self-similarity, branching models, rough edges, nested forms, and recursive worlds.",
+      "published": true
+    }
+  ],
+  "topics": [
+    {
+      "id": "circle-intersections",
+      "slug": "circle-intersections",
+      "kind": "construction",
+      "title": "When equal circles meet",
+      "summary": "Move two equal circles and watch separation, tangency, lens, and intersection points emerge from one changing distance.",
+      "phenomenon_ids": [
+        "construction-and-proportion"
+      ],
+      "facets": {
+        "media": [
+          "interactive-construction"
+        ],
+        "functions": [
+          "construction"
+        ]
+      },
+      "claim_ids": [
+        "claim-equal-radii"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "equilateral-triangle",
+      "slug": "equilateral-triangle",
+      "kind": "mathematical-idea",
+      "title": "The triangle hidden in two circles",
+      "summary": "When each equal circle passes through the other's center, either intersection joins the centers to make three equal sides.",
+      "phenomenon_ids": [
+        "construction-and-proportion",
+        "symmetry-and-symmetry-breaking"
+      ],
+      "facets": {
+        "media": [
+          "interactive-construction"
+        ],
+        "functions": [
+          "proof",
+          "proportion"
+        ]
+      },
+      "claim_ids": [
+        "claim-equilateral-proof"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "euclid-first-proposition",
+      "slug": "euclid-first-proposition",
+      "kind": "historical-object",
+      "title": "Euclid begins with this move",
+      "summary": "Book I, Proposition 1 of the Elements constructs an equilateral triangle from a segment using two equal-radius circles.",
+      "phenomenon_ids": [
+        "construction-and-proportion"
+      ],
+      "facets": {
+        "cultures": [
+          "ancient-greek"
+        ],
+        "eras": [
+          "classical-antiquity"
+        ],
+        "functions": [
+          "proof",
+          "education"
+        ]
+      },
+      "claim_ids": [
+        "claim-euclid-proposition"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "triforce-analysis",
+      "slug": "triforce-analysis",
+      "kind": "game-study",
+      "title": "Three triangles, one charged absence",
+      "summary": "An essay on how meaning was added to three triangles, by masons, a clan, a publisher, and its players — with the popular lineage marked as the folklore it is.",
+      "phenomenon_ids": [
+        "construction-and-proportion",
+        "symmetry-and-symmetry-breaking"
+      ],
+      "facets": {
+        "games": [
+          "the-legend-of-zelda"
+        ],
+        "media": [
+          "videogame"
+        ],
+        "functions": [
+          "symbol",
+          "fictional-object"
+        ]
+      },
+      "claim_ids": [
+        "claim-triforce-description",
+        "claim-zelda-release",
+        "claim-triforce-reconstruction",
+        "claim-triforce-sierpinski",
+        "claim-cosmatesque-sierpinski",
+        "claim-mitsuuroko-hojo",
+        "claim-mitsuuroko-legend",
+        "claim-triforce-lineage-contested",
+        "claim-zelda-bible-localization",
+        "claim-meaning-accretion"
+      ],
+      "media_ids": [
+        "media-cosmati-sm-maggiore",
+        "media-mitsuuroko",
+        "media-enoshima-iwaya"
+      ],
+      "published": true,
+      "reviewed_at": "2026-08-08",
+      "game_context": {
+        "game_title": "The Legend of Zelda series",
+        "credited_creator": "Nintendo",
+        "release_year": 1986,
+        "platform_context": "Series context; first title released for the Family Computer Disk System in 1986",
+        "geometry_location": "A central emblem and fictional object across the series",
+        "geometry_function": "Symbol, narrative object, and three-part composition",
+        "analysis_status": "directly-observable",
+        "reconstruction_id": "triforce-geometric-analysis"
+      }
+    },
+    {
+      "id": "recursive-branching",
+      "slug": "recursive-branching",
+      "kind": "construction",
+      "title": "A rule becomes a tree",
+      "summary": "Change one fork, then watch the same decision return at every smaller scale.",
+      "phenomenon_ids": [
+        "recursion-and-fractals",
+        "symmetry-and-symmetry-breaking"
+      ],
+      "facets": {
+        "media": [
+          "interactive-construction"
+        ],
+        "functions": [
+          "growth-model",
+          "procedural-generation"
+        ]
+      },
+      "claim_ids": [
+        "claim-recursive-self-similarity",
+        "claim-fractal-term"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "koch-curve",
+      "slug": "koch-curve",
+      "kind": "historical-object",
+      "title": "Koch's impossible edge",
+      "summary": "A segment repeatedly becomes four smaller segments, producing finite structure at every step and an unbounded limiting length.",
+      "phenomenon_ids": [
+        "recursion-and-fractals"
+      ],
+      "facets": {
+        "cultures": [
+          "swedish"
+        ],
+        "eras": [
+          "early-twentieth-century"
+        ],
+        "functions": [
+          "mathematical-construction"
+        ]
+      },
+      "claim_ids": [
+        "claim-koch-publication",
+        "claim-koch-count"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "great-wave-echoes",
+      "slug": "great-wave-echoes",
+      "kind": "artwork",
+      "title": "A wave echoes itself",
+      "summary": "An abstract curl study creates a careful visual comparison with Hokusai's Great Wave—without assigning the artist a later mathematical theory.",
+      "phenomenon_ids": [
+        "recursion-and-fractals"
+      ],
+      "facets": {
+        "cultures": [
+          "japanese"
+        ],
+        "eras": [
+          "edo-period"
+        ],
+        "media": [
+          "woodblock-print"
+        ],
+        "functions": [
+          "artistic-composition"
+        ]
+      },
+      "claim_ids": [
+        "claim-hokusai-record",
+        "claim-wave-comparison"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "rescue-fractalus-terrain",
+      "slug": "rescue-fractalus-terrain",
+      "kind": "game-study",
+      "title": "Mountains made by recursion",
+      "summary": "A terrain profile gains detail through subdivision beside creator-documented fractal landscape generation in Rescue on Fractalus!",
+      "phenomenon_ids": [
+        "recursion-and-fractals"
+      ],
+      "facets": {
+        "games": [
+          "rescue-on-fractalus"
+        ],
+        "media": [
+          "videogame"
+        ],
+        "functions": [
+          "terrain",
+          "procedural-generation"
+        ]
+      },
+      "claim_ids": [
+        "claim-rescue-fractal-credit",
+        "claim-rescue-release",
+        "claim-rescue-reconstruction"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-01",
+      "game_context": {
+        "game_title": "Rescue on Fractalus!",
+        "credited_creator": "Lucasfilm Computer Division Games Group",
+        "release_year": 1985,
+        "platform_context": "Atari 8-bit, Apple II, and Commodore 64 releases in 1985; original development targeted Atari 800 and 5200",
+        "geometry_location": "The first-person planetary terrain",
+        "geometry_function": "Recursive landscape generation creates a navigable world within severe hardware limits",
+        "analysis_status": "creator-documented",
+        "reconstruction_id": "recursive-terrain-analysis"
+      }
+    },
+    {
+      "id": "regular-plane-tilings",
+      "slug": "regular-plane-tilings",
+      "kind": "mathematical-idea",
+      "title": "Only three regular shapes tile alone",
+      "summary": "Change the polygon and watch its interior angles either close exactly around a point or leave a gap.",
+      "phenomenon_ids": [
+        "tessellation-and-packing"
+      ],
+      "facets": {
+        "media": [
+          "interactive-construction"
+        ],
+        "functions": [
+          "tiling",
+          "proof"
+        ]
+      },
+      "claim_ids": [
+        "claim-regular-tilings",
+        "claim-uniform-tilings",
+        "claim-tiling-curvature",
+        "claim-voronoi-memoir",
+        "claim-crystallographic-restriction"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "hexagonal-circle-packing",
+      "slug": "hexagonal-circle-packing",
+      "kind": "mathematical-idea",
+      "title": "Six neighbours in the tightest crowd",
+      "summary": "Equal circles settle into triangular rows, revealing six nearest neighbours and a precise covered-area fraction.",
+      "phenomenon_ids": [
+        "tessellation-and-packing",
+        "construction-and-proportion"
+      ],
+      "facets": {
+        "eras": [
+          "early-modern"
+        ],
+        "media": [
+          "interactive-construction"
+        ],
+        "functions": [
+          "packing",
+          "proportion"
+        ]
+      },
+      "claim_ids": [
+        "claim-circle-packing-density",
+        "claim-kepler-snowflake"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "kashan-star-cross",
+      "slug": "kashan-star-cross",
+      "kind": "historical-object",
+      "title": "A star whose gaps become crosses",
+      "summary": "An original reconstruction examines the fit behind a documented thirteenth-century Kashan star tile and the Met's assembled panel.",
+      "phenomenon_ids": [
+        "tessellation-and-packing",
+        "symmetry-and-symmetry-breaking"
+      ],
+      "facets": {
+        "cultures": [
+          "ilkhanid-iran"
+        ],
+        "eras": [
+          "thirteenth-century"
+        ],
+        "media": [
+          "ceramic-tile"
+        ],
+        "functions": [
+          "architectural-revetment"
+        ]
+      },
+      "claim_ids": [
+        "claim-kashan-tile",
+        "claim-star-cross-geometry"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "penrose-rhombs",
+      "slug": "penrose-rhombs",
+      "kind": "mathematical-idea",
+      "title": "Order that refuses to repeat",
+      "summary": "A verified pentagrid projection builds a finite patch of thick and thin rhombs with no gaps or overlaps.",
+      "phenomenon_ids": [
+        "tessellation-and-packing",
+        "symmetry-and-symmetry-breaking"
+      ],
+      "facets": {
+        "eras": [
+          "twentieth-century"
+        ],
+        "media": [
+          "interactive-construction"
+        ],
+        "functions": [
+          "aperiodic-tiling",
+          "game"
+        ]
+      },
+      "claim_ids": [
+        "claim-penrose-patent",
+        "claim-penrose-inflation",
+        "claim-penrose-pentagrid"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "escher-plane-division",
+      "slug": "escher-plane-division",
+      "kind": "artwork",
+      "title": "A boundary becomes another boundary",
+      "summary": "Translate an edge deformation to its opposite side and discover the fit principle behind creature-like plane divisions.",
+      "phenomenon_ids": [
+        "tessellation-and-packing",
+        "symmetry-and-symmetry-breaking"
+      ],
+      "facets": {
+        "cultures": [
+          "dutch"
+        ],
+        "eras": [
+          "twentieth-century"
+        ],
+        "media": [
+          "woodcut"
+        ],
+        "functions": [
+          "artistic-composition",
+          "tiling"
+        ]
+      },
+      "claim_ids": [
+        "claim-escher-nga"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "tetris-tetrominoes",
+      "slug": "tetris-tetrominoes",
+      "kind": "game-study",
+      "title": "Seven ways to fall in fours",
+      "summary": "An essay on a game with no content: seven counted shapes, and a nation, a song, and a sensation that were all added to them later by people who can be named.",
+      "phenomenon_ids": [
+        "tessellation-and-packing"
+      ],
+      "facets": {
+        "games": [
+          "tetris"
+        ],
+        "eras": [
+          "twentieth-century"
+        ],
+        "media": [
+          "videogame"
+        ],
+        "functions": [
+          "packing",
+          "puzzle"
+        ]
+      },
+      "claim_ids": [
+        "claim-tetris-seven",
+        "claim-tetromino-count",
+        "claim-tetris-seven-because-no-mirror",
+        "claim-tetris-origin",
+        "claim-tetris-name",
+        "claim-tetris-soviet-packaging",
+        "claim-korobeiniki",
+        "claim-tetris-hypnagogic",
+        "claim-tetris-meaning-installed"
+      ],
+      "media_ids": [
+        "media-elektronika-60",
+        "media-st-basils",
+        "media-nekrasov"
+      ],
+      "published": true,
+      "reviewed_at": "2026-08-08",
+      "game_context": {
+        "game_title": "Tetris",
+        "credited_creator": "Alexey Pajitnov",
+        "release_year": 1984,
+        "platform_context": "Original 1984 design; this topic studies the documented core geometry rather than one later ruleset.",
+        "geometry_location": "The falling pieces and rectangular Matrix",
+        "geometry_function": "Rotate, move, and drop four-square pieces to complete rows without gaps",
+        "analysis_status": "creator-documented",
+        "reconstruction_id": "tetromino-grid-analysis"
+      }
+    },
+    {
+      "id": "mirror-and-rotation",
+      "slug": "mirror-and-rotation",
+      "kind": "mathematical-idea",
+      "title": "The two moves that keep a shape",
+      "summary": "Flip a figure across a line or turn it about a point: the moves that change nothing measurable, collected, become the figure's symmetry group.",
+      "phenomenon_ids": [
+        "symmetry-and-symmetry-breaking"
+      ],
+      "facets": {
+        "media": [
+          "interactive-construction"
+        ],
+        "functions": [
+          "transformation",
+          "proof"
+        ]
+      },
+      "claim_ids": [
+        "claim-isometry-definition",
+        "claim-symmetry-group"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-04"
+    },
+    {
+      "id": "frieze-seven-ways",
+      "slug": "frieze-seven-ways",
+      "kind": "mathematical-idea",
+      "title": "Seven ways down an endless strip",
+      "summary": "Repeat a motif along one direction, add mirrors, glides, and half-turns in any consistent mix, and every possible strip pattern lands in one of exactly seven families.",
+      "phenomenon_ids": [
+        "symmetry-and-symmetry-breaking"
+      ],
+      "facets": {
+        "media": [
+          "interactive-construction"
+        ],
+        "functions": [
+          "classification",
+          "pattern"
+        ]
+      },
+      "claim_ids": [
+        "claim-frieze-seven"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-04"
+    },
+    {
+      "id": "wallpaper-seventeen",
+      "slug": "wallpaper-seventeen",
+      "kind": "mathematical-idea",
+      "title": "Seventeen patterns exhaust the plane",
+      "summary": "A pattern repeating in two independent directions has one of exactly seventeen symmetry groups—no eighteenth exists. The lab draws a labeled subset; the count of seventeen rests on the cited literature.",
+      "phenomenon_ids": [
+        "symmetry-and-symmetry-breaking"
+      ],
+      "facets": {
+        "media": [
+          "interactive-construction"
+        ],
+        "functions": [
+          "classification",
+          "tiling"
+        ]
+      },
+      "claim_ids": [
+        "claim-wallpaper-seventeen",
+        "claim-fedorov-plane-groups",
+        "claim-polya-1924",
+        "claim-wallpaper-subset-shown"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-04"
+    },
+    {
+      "id": "alhambra-count",
+      "slug": "alhambra-count",
+      "kind": "historical-object",
+      "title": "Counting symmetries at the Alhambra",
+      "summary": "How many of the seventeen wallpaper groups decorate the Alhambra? Müller counted fewer than all of them in 1944; later authors argue for all seventeen. The disagreement—over what counts as a pattern—is the topic.",
+      "phenomenon_ids": [
+        "symmetry-and-symmetry-breaking"
+      ],
+      "facets": {
+        "cultures": [
+          "nasrid-spain"
+        ],
+        "eras": [
+          "fourteenth-century"
+        ],
+        "media": [
+          "architectural-ornament"
+        ],
+        "functions": [
+          "architectural-revetment"
+        ]
+      },
+      "claim_ids": [
+        "claim-muller-1944",
+        "claim-alhambra-contested"
+      ],
+      "media_ids": [],
+      "published": true,
+      "reviewed_at": "2026-08-04"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "circles-construct-triangle",
+      "from_topic_id": "circle-intersections",
+      "to_topic_id": "equilateral-triangle",
+      "type": "direct-construction",
+      "summary": "Each intersection is one radius from both centers.",
+      "claim_ids": [
+        "claim-equilateral-proof"
+      ],
+      "trail_priority": 0,
+      "bidirectional": true
+    },
+    {
+      "id": "euclid-constructs-triangle",
+      "from_topic_id": "euclid-first-proposition",
+      "to_topic_id": "equilateral-triangle",
+      "type": "direct-construction",
+      "summary": "Euclid's first proposition records this two-circle construction.",
+      "claim_ids": [
+        "claim-euclid-proposition"
+      ],
+      "trail_priority": 1,
+      "bidirectional": true
+    },
+    {
+      "id": "triangle-resembles-triforce-structure",
+      "from_topic_id": "equilateral-triangle",
+      "to_topic_id": "triforce-analysis",
+      "type": "formal-resemblance",
+      "summary": "The game emblem can be analyzed as three congruent triangles around a central triangular absence; resemblance does not establish historical influence.",
+      "claim_ids": [
+        "claim-triforce-reconstruction"
+      ],
+      "trail_priority": 2,
+      "bidirectional": true
+    },
+    {
+      "id": "branching-relates-to-koch",
+      "from_topic_id": "recursive-branching",
+      "to_topic_id": "koch-curve",
+      "type": "formal-resemblance",
+      "summary": "Both expose one replacement rule returning at smaller scales, although their geometry and limits differ.",
+      "claim_ids": [
+        "claim-recursive-self-similarity",
+        "claim-koch-count"
+      ],
+      "trail_priority": 0,
+      "bidirectional": true
+    },
+    {
+      "id": "branching-compares-with-wave",
+      "from_topic_id": "recursive-branching",
+      "to_topic_id": "great-wave-echoes",
+      "type": "interpretation",
+      "summary": "Repeated smaller curls invite comparison with self-similarity; no historical influence or intent is claimed.",
+      "claim_ids": [
+        "claim-wave-comparison"
+      ],
+      "trail_priority": 1,
+      "bidirectional": true
+    },
+    {
+      "id": "branching-relates-to-terrain",
+      "from_topic_id": "recursive-branching",
+      "to_topic_id": "rescue-fractalus-terrain",
+      "type": "formal-resemblance",
+      "summary": "Branching and terrain subdivision repeatedly transform earlier structure into finer detail.",
+      "claim_ids": [
+        "claim-rescue-reconstruction"
+      ],
+      "trail_priority": 2,
+      "bidirectional": true
+    },
+    {
+      "id": "koch-relates-to-terrain",
+      "from_topic_id": "koch-curve",
+      "to_topic_id": "rescue-fractalus-terrain",
+      "type": "interpretation",
+      "summary": "The exact Koch replacement and a rough terrain model both demonstrate detail introduced across scales; they are not the same algorithm.",
+      "claim_ids": [
+        "claim-koch-count",
+        "claim-rescue-reconstruction"
+      ],
+      "trail_priority": 3,
+      "bidirectional": true
+    },
+    {
+      "id": "mirrors-frame-triangle",
+      "from_topic_id": "mirror-and-rotation",
+      "to_topic_id": "equilateral-triangle",
+      "type": "interpretation",
+      "summary": "The equilateral triangle is the smallest rich example: three mirrors and three rotations close into one six-element symmetry group.",
+      "claim_ids": [
+        "claim-symmetry-group"
+      ],
+      "trail_priority": 0,
+      "bidirectional": true
+    },
+    {
+      "id": "frieze-reads-star-border",
+      "from_topic_id": "frieze-seven-ways",
+      "to_topic_id": "kashan-star-cross",
+      "type": "interpretation",
+      "summary": "A single row of star-and-cross tiles repeats along one direction, so its border reads as a frieze pattern and lands in one of the seven families.",
+      "claim_ids": [
+        "claim-frieze-seven"
+      ],
+      "trail_priority": 1,
+      "bidirectional": true
+    },
+    {
+      "id": "wallpaper-classifies-tilings",
+      "from_topic_id": "wallpaper-seventeen",
+      "to_topic_id": "regular-plane-tilings",
+      "type": "interpretation",
+      "summary": "Each regular tiling repeats in two independent directions, so it carries one of the seventeen wallpaper groups; the crystallographic restriction bounds the rotations both topics share.",
+      "claim_ids": [
+        "claim-wallpaper-seventeen",
+        "claim-crystallographic-restriction"
+      ],
+      "trail_priority": 0,
+      "bidirectional": true
+    },
+    {
+      "id": "wallpaper-contrasts-penrose",
+      "from_topic_id": "wallpaper-seventeen",
+      "to_topic_id": "penrose-rhombs",
+      "type": "interpretation",
+      "summary": "Wallpaper groups require two independent translations; a Penrose tiling has none, so the seventeen-way classification does not apply to it—order without a period escapes the list.",
+      "claim_ids": [
+        "claim-wallpaper-seventeen"
+      ],
+      "trail_priority": 2,
+      "bidirectional": true
+    },
+    {
+      "id": "alhambra-tests-wallpaper",
+      "from_topic_id": "alhambra-count",
+      "to_topic_id": "wallpaper-seventeen",
+      "type": "unresolved",
+      "summary": "Which of the seventeen groups the Alhambra's ornament realizes remains contested; the mathematics is settled, the attribution is not.",
+      "claim_ids": [
+        "claim-alhambra-contested"
+      ],
+      "trail_priority": 3,
+      "bidirectional": true
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-equal-radii",
+      "topic_id": "circle-intersections",
+      "type": "mathematical-fact",
+      "text": "Every point on a circle is the radius-distance from its center.",
+      "source_ids": [
+        "source-euclid-heath"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-equilateral-proof",
+      "topic_id": "equilateral-triangle",
+      "type": "mathematical-fact",
+      "text": "If equal-radius circles have centers one radius apart, an intersection and the two centers form a triangle whose three sides are all one radius.",
+      "source_ids": [
+        "source-euclid-heath"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-euclid-proposition",
+      "topic_id": "euclid-first-proposition",
+      "type": "historical-claim",
+      "text": "Book I, Proposition 1 of Euclid's Elements constructs an equilateral triangle on a given segment with two circles centered at its endpoints.",
+      "source_ids": [
+        "source-euclid-heath"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-triforce-description",
+      "topic_id": "triforce-analysis",
+      "type": "observation",
+      "text": "Nintendo's official Zelda site describes the Triforce as a magical object made of three golden triangles.",
+      "source_ids": [
+        "source-nintendo-about"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-zelda-release",
+      "topic_id": "triforce-analysis",
+      "type": "historical-claim",
+      "text": "Nintendo's official history dates the first Legend of Zelda release to 21 February 1986 on the Family Computer Disk System.",
+      "source_ids": [
+        "source-nintendo-history"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-triforce-reconstruction",
+      "topic_id": "triforce-analysis",
+      "type": "original-analytical-reconstruction",
+      "text": "Three congruent upward equilateral triangles can be arranged into a larger triangular composition around a congruent downward central space.",
+      "source_ids": [],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-recursive-self-similarity",
+      "topic_id": "recursive-branching",
+      "type": "mathematical-fact",
+      "text": "Repeating the same two-branch rule with a constant length ratio produces exact self-similarity across its discrete levels.",
+      "source_ids": [
+        "source-ibm-fractal-history"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-fractal-term",
+      "topic_id": "recursive-branching",
+      "type": "historical-claim",
+      "text": "IBM's institutional history credits Benoît Mandelbrot with coining the term fractal and using computer graphics to reveal repeated structure across scales.",
+      "source_ids": [
+        "source-ibm-fractal-history"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-koch-publication",
+      "topic_id": "koch-curve",
+      "type": "historical-claim",
+      "text": "Helge von Koch's 1904 publication described a continuous curve without tangents obtained through an elementary geometric construction.",
+      "source_ids": [
+        "source-koch-1904"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-koch-count",
+      "topic_id": "koch-curve",
+      "type": "mathematical-fact",
+      "text": "Replacing every segment with four segments one third as long gives 4 to the power n segments and total length multiplied by 4 over 3 at each iteration.",
+      "source_ids": [
+        "source-koch-1904"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-hokusai-record",
+      "topic_id": "great-wave-echoes",
+      "type": "historical-claim",
+      "text": "The Metropolitan Museum of Art identifies Hokusai's Under the Wave off Kanagawa as a Japanese woodblock print from the Thirty-six Views of Mount Fuji series, made about 1830–32.",
+      "source_ids": [
+        "source-met-great-wave"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-wave-comparison",
+      "topic_id": "great-wave-echoes",
+      "type": "artistic-interpretation",
+      "text": "The original diagram compares successively smaller curls with visual echoes in the wave; it does not claim Hokusai intended or knew modern fractal geometry.",
+      "source_ids": [
+        "source-met-great-wave"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-rescue-fractal-credit",
+      "topic_id": "rescue-fractalus-terrain",
+      "type": "documented-influence-or-creator-intent",
+      "text": "David Fox's creator-owned project page reproduces the game credits naming Loren Carpenter for 3-D fractal landscape image generation and co-creation of the concept.",
+      "source_ids": [
+        "source-david-fox-fractalus"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-rescue-release",
+      "topic_id": "rescue-fractalus-terrain",
+      "type": "historical-claim",
+      "text": "MobyGames records 1985 releases of Rescue on Fractalus! for Atari 8-bit, Apple II, and Commodore 64.",
+      "source_ids": [
+        "source-mobygames-fractalus"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-rescue-reconstruction",
+      "topic_id": "rescue-fractalus-terrain",
+      "type": "original-analytical-reconstruction",
+      "text": "The interactive profile uses deterministic midpoint subdivision to demonstrate recursive terrain detail; it is not a reproduction of the historical game algorithm.",
+      "source_ids": [],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-regular-tilings",
+      "topic_id": "regular-plane-tilings",
+      "type": "mathematical-fact",
+      "text": "For a tiling by one regular polygon at every vertex, its interior angle must divide 360 degrees; only the equilateral triangle, square, and regular hexagon satisfy this condition.",
+      "source_ids": [
+        "source-euclid-angle-sum"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-circle-packing-density",
+      "topic_id": "hexagonal-circle-packing",
+      "type": "mathematical-fact",
+      "text": "The hexagonal arrangement of equal circles covers a fraction pi divided by square root of 12, approximately 0.9069, of the plane.",
+      "source_ids": [
+        "source-gilbert-packing"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-kepler-snowflake",
+      "topic_id": "hexagonal-circle-packing",
+      "type": "historical-claim",
+      "text": "Kepler's 1611 pamphlet on the six-cornered snowflake examined hexagonal form and packing questions.",
+      "source_ids": [
+        "source-kepler-snowflake"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-kashan-tile",
+      "topic_id": "kashan-star-cross",
+      "type": "historical-claim",
+      "text": "The Metropolitan Museum records this eight-pointed star-shaped stonepaste tile as made in Kashan, Iran, in the thirteenth century, and notes that its current star-and-cross panel combines tiles from differing original contexts.",
+      "source_ids": [
+        "source-met-kashan"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-star-cross-geometry",
+      "topic_id": "kashan-star-cross",
+      "type": "mathematical-fact",
+      "text": "The Star and Cross pattern can be constructed from eight-pointed {8/2} regular star polygons on a square grid; their interstitial spaces form the cross tiles.",
+      "source_ids": [
+        "source-cromwell-star-cross"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-penrose-patent",
+      "topic_id": "penrose-rhombs",
+      "type": "documented-influence-or-creator-intent",
+      "text": "Penrose's patent describes two quadrilateral tile types with matching constraints whose plane assemblies are necessarily non-repetitive and based on fivefold symmetry.",
+      "source_ids": [
+        "source-penrose-patent"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-escher-nga",
+      "topic_id": "escher-plane-division",
+      "type": "historical-claim",
+      "text": "The National Gallery of Art records M. C. Escher's Regular Division of the Plane I as a 1957 woodcut.",
+      "source_ids": [
+        "source-nga-escher"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-tetris-seven",
+      "topic_id": "tetris-tetrominoes",
+      "type": "documented-influence-or-creator-intent",
+      "text": "The official Tetris account states that Pajitnov's 1984 design used seven geometric pieces, each made from four squares, moved and rotated in a rectangular Matrix to complete rows.",
+      "source_ids": [
+        "source-tetris-about"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-uniform-tilings",
+      "topic_id": "regular-plane-tilings",
+      "type": "mathematical-fact",
+      "text": "There are eleven convex uniform tilings of the Euclidean plane by regular polygons: three regular and eight semiregular vertex-transitive tilings.",
+      "source_ids": [
+        "source-max-uniform-tilings"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-tiling-curvature",
+      "topic_id": "regular-plane-tilings",
+      "type": "mathematical-fact",
+      "text": "For regular polygons around a vertex, an angle sum below, equal to, or above 360 degrees corresponds locally to positive, zero, or negative curvature; local closure alone does not prove global extendability.",
+      "source_ids": [
+        "source-max-uniform-tilings"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-voronoi-memoir",
+      "topic_id": "regular-plane-tilings",
+      "type": "historical-claim",
+      "text": "Georges Voronoi published his second memoir on continuous parameters and primitive parallelohedra in 1908.",
+      "source_ids": [
+        "source-voronoi-1908"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-crystallographic-restriction",
+      "topic_id": "regular-plane-tilings",
+      "type": "mathematical-fact",
+      "text": "Five-, eight-, ten-, and twelve-fold rotations cannot preserve a two-dimensional periodic lattice; crystallographic planar rotation orders are limited to one, two, three, four, and six.",
+      "source_ids": [
+        "source-iucr-rotation"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-penrose-inflation",
+      "topic_id": "penrose-rhombs",
+      "type": "mathematical-fact",
+      "text": "Penrose tilings have a golden-ratio hierarchical structure; under repeated rhomb substitution the thick-to-thin tile frequency approaches the golden ratio.",
+      "source_ids": [
+        "source-penrose-pentaplexity"
+      ],
+      "reviewed_at": "2026-08-01"
+    },
+    {
+      "id": "claim-penrose-pentagrid",
+      "topic_id": "penrose-rhombs",
+      "type": "mathematical-fact",
+      "text": "The pentagrid method of de Bruijn constructs Penrose rhomb tilings by dualizing five families of parallel lines; the displayed finite patch uses this method.",
+      "source_ids": [
+        "source-debruijn-pentagrid"
+      ],
+      "reviewed_at": "2026-08-02"
+    },
+    {
+      "id": "claim-isometry-definition",
+      "topic_id": "mirror-and-rotation",
+      "type": "mathematical-fact",
+      "text": "A reflection or a rotation of the plane is an isometry: a map that preserves the distance between every pair of points.",
+      "source_ids": [
+        "source-mathworld-isometry"
+      ],
+      "reviewed_at": "2026-08-04"
+    },
+    {
+      "id": "claim-symmetry-group",
+      "topic_id": "mirror-and-rotation",
+      "type": "mathematical-fact",
+      "text": "The symmetry-preserving operations of a figure—its rotations and reflections—form a group under composition.",
+      "source_ids": [
+        "source-mathworld-symmetry-group"
+      ],
+      "reviewed_at": "2026-08-04"
+    },
+    {
+      "id": "claim-frieze-seven",
+      "topic_id": "frieze-seven-ways",
+      "type": "mathematical-fact",
+      "text": "There are exactly seven frieze groups classifying the symmetry types of patterns that repeat along a single direction.",
+      "source_ids": [
+        "source-mathworld-frieze"
+      ],
+      "reviewed_at": "2026-08-04"
+    },
+    {
+      "id": "claim-wallpaper-seventeen",
+      "topic_id": "wallpaper-seventeen",
+      "type": "mathematical-fact",
+      "text": "Up to equivalence there are exactly seventeen wallpaper groups: the plane symmetry groups of patterns that repeat in two independent directions.",
+      "source_ids": [
+        "source-mathworld-wallpaper",
+        "source-eom-crystallographic"
+      ],
+      "reviewed_at": "2026-08-04"
+    },
+    {
+      "id": "claim-fedorov-plane-groups",
+      "topic_id": "wallpaper-seventeen",
+      "type": "historical-claim",
+      "text": "The classification of the crystallographic groups, including the seventeen planar groups, was achieved at the end of the nineteenth century by E. S. Fedorov, with A. Schoenflies arriving slightly later.",
+      "source_ids": [
+        "source-eom-crystallographic"
+      ],
+      "reviewed_at": "2026-08-04"
+    },
+    {
+      "id": "claim-polya-1924",
+      "topic_id": "wallpaper-seventeen",
+      "type": "historical-claim",
+      "text": "George Pólya added to the understanding of the seventeen plane crystallographic groups in 1924 by illustrating each of them.",
+      "source_ids": [
+        "source-mactutor-polya"
+      ],
+      "reviewed_at": "2026-08-04"
+    },
+    {
+      "id": "claim-wallpaper-subset-shown",
+      "topic_id": "wallpaper-seventeen",
+      "type": "observation",
+      "text": "The lab's visual presents a labeled subset of the seventeen wallpaper groups; the count of seventeen rests on the cited literature, not on the display.",
+      "source_ids": [],
+      "reviewed_at": "2026-08-04"
+    },
+    {
+      "id": "claim-muller-1944",
+      "topic_id": "alhambra-count",
+      "type": "historical-claim",
+      "text": "Grünbaum's 2006 review reports that Edith Müller's 1944 group-theoretic study of the Alhambra's ornament documented fewer than all seventeen wallpaper groups there.",
+      "source_ids": [
+        "source-grunbaum-alhambra"
+      ],
+      "reviewed_at": "2026-08-04"
+    },
+    {
+      "id": "claim-alhambra-contested",
+      "topic_id": "alhambra-count",
+      "type": "unresolved-or-contested",
+      "text": "Published counts of wallpaper groups present in the Alhambra range from Müller's fewer-than-seventeen to later claims of all seventeen; the answer depends on which ornaments, colourings, and interlacings are admitted as patterns, and Grünbaum's 2006 review treats the question as unsettled.",
+      "source_ids": [
+        "source-grunbaum-alhambra"
+      ],
+      "reviewed_at": "2026-08-04"
+    },
+    {
+      "id": "claim-triforce-sierpinski",
+      "topic_id": "triforce-analysis",
+      "type": "mathematical-fact",
+      "text": "The arrangement is the first step of the Sierpiński gasket: begin with an equilateral triangle, remove an inverted triangle of half the side length, and repeat without end. Sierpiński introduced the construction in 1915.",
+      "source_ids": [
+        "source-sierpinski-gasket"
+      ],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-cosmatesque-sierpinski",
+      "topic_id": "triforce-analysis",
+      "type": "historical-claim",
+      "text": "Compositions recognizable as Sierpiński triangles, iterated to at least three levels, are set into the stone floors of medieval Roman churches, centuries before the mathematics was described. The paper identifies the compositions; it does not claim the makers understood them as self-similar.",
+      "source_ids": [
+        "source-cosmatesque-sierpinski"
+      ],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-mitsuuroko-hojo",
+      "topic_id": "triforce-analysis",
+      "type": "historical-claim",
+      "text": "The mitsuuroko, three scales arranged as three triangles in a triangle, is the mon of the Hōjō clan, regents of the Kamakura shogunate between 1203 and 1333.",
+      "source_ids": [
+        "source-enoshima-shrine"
+      ],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-mitsuuroko-legend",
+      "topic_id": "triforce-analysis",
+      "type": "historical-claim",
+      "text": "In the legend carried by the Taiheiki tradition and retold by Enoshima Shrine, Hōjō Tokimasa kept a vigil in the Enoshima caves, the goddess Benzaiten appeared and foretold his line's rule, and three dragon scales were left behind, which he took as his banner. This is recorded as a legend, not as an event.",
+      "source_ids": [
+        "source-taiheiki",
+        "source-enoshima-shrine"
+      ],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-triforce-lineage-contested",
+      "topic_id": "triforce-analysis",
+      "type": "unresolved-or-contested",
+      "text": "That the Hōjō mon inspired the Triforce is widely repeated. No statement from Nintendo or its designers documenting that lineage was located in this review. The visual resemblance is plain; the causal link is undocumented.",
+      "source_ids": [],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-zelda-bible-localization",
+      "topic_id": "triforce-analysis",
+      "type": "historical-claim",
+      "text": "The item called the Bible in the Japanese original became the Book of Magic in the English localization of the first Legend of Zelda.",
+      "source_ids": [
+        "source-localization-religious-changes"
+      ],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-meaning-accretion",
+      "topic_id": "triforce-analysis",
+      "type": "artistic-interpretation",
+      "text": "Read together, these layers suggest that the significance of this figure was added to it repeatedly, by masons, by a clan, by a publisher's fiction, by a localization team, and by players inventing a lineage. This is the essay's argument and not a finding.",
+      "source_ids": [],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-tetromino-count",
+      "topic_id": "tetris-tetrominoes",
+      "type": "mathematical-fact",
+      "text": "There are exactly seven one-sided tetrominoes — shapes of four squares joined edge to edge, counted so that rotations are the same shape but mirror images are not. Counting mirror images as the same shape gives five.",
+      "source_ids": [
+        "source-oeis-one-sided-polyominoes"
+      ],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-tetris-seven-because-no-mirror",
+      "topic_id": "tetris-tetrominoes",
+      "type": "mathematical-fact",
+      "text": "A falling piece can be rotated but never flipped over, so the two chiral pairs, S with Z and J with L, are different pieces in play. That rule is what makes the count seven rather than five.",
+      "source_ids": [
+        "source-oeis-one-sided-polyominoes"
+      ],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-tetris-origin",
+      "topic_id": "tetris-tetrominoes",
+      "type": "historical-claim",
+      "text": "Alexey Pajitnov designed Tetris in 1984 while working at the Dorodnicyn Computing Centre of the Academy of Sciences of the USSR in Moscow. It was written for the Elektronika 60 and ported to the IBM PC by Vadim Gerasimov.",
+      "source_ids": [
+        "source-smithsonian-tetris"
+      ],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-tetris-name",
+      "topic_id": "tetris-tetrominoes",
+      "type": "historical-claim",
+      "text": "The name comes from the Greek tetra, four: each of the seven pieces is made of four squares.",
+      "source_ids": [
+        "source-smithsonian-tetris"
+      ],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-tetris-soviet-packaging",
+      "topic_id": "tetris-tetrominoes",
+      "type": "historical-claim",
+      "text": "The Western Spectrum HoloByte release presented the game through Russian imagery that the original did not contain: Saint Basil's Cathedral, the title in Russian lettering with a sickle worked into the last character, an outline of the USSR in the manual, the phrase 'The Soviet Challenge', and the advertising line 'The Cold War is Over. Almost…'",
+      "source_ids": [
+        "source-smithsonian-tetris"
+      ],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-korobeiniki",
+      "topic_id": "tetris-tetrominoes",
+      "type": "historical-claim",
+      "text": "The Game Boy 'Type A' theme is Korobeiniki, a Russian folk song adapted from Nikolay Nekrasov's 1861 poem about a peddler bargaining with a girl in a field. Hirokazu Tanaka arranged it for Nintendo's 1989 release; earlier commercial versions did not carry it.",
+      "source_ids": [
+        "source-globe-korobeiniki",
+        "source-litencyc-korobeiniki"
+      ],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-tetris-hypnagogic",
+      "topic_id": "tetris-tetrominoes",
+      "type": "historical-claim",
+      "text": "In a 2000 study in Science, people who played Tetris reported intrusive images of falling pieces at sleep onset. Three amnesic patients with extensive bilateral medial temporal lobe damage reported the same imagery while being unable to recall having played, which indicates the imagery does not depend on declarative memory.",
+      "source_ids": [
+        "source-stickgold-tetris"
+      ],
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "claim-tetris-meaning-installed",
+      "topic_id": "tetris-tetrominoes",
+      "type": "artistic-interpretation",
+      "text": "The game contains a counted set of shapes and one rule. Everything else it is felt to mean — a nation, a era, a piece of music, a sensation that outlasts the session — was added afterwards by people who can be named. This is the essay's argument and not a finding.",
+      "source_ids": [],
+      "reviewed_at": "2026-08-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "source-euclid-heath",
+      "source_type": "primary-source",
+      "creator": "Euclid; edited and translated by Thomas L. Heath",
+      "title": "Elements, Book I, Proposition 1",
+      "publication_date": "1908 edition",
+      "publisher": "Trinity College Dublin digital edition",
+      "url": "https://www.maths.tcd.ie/~dwilkins/Euclid/Elements_Heath1908/BookI/EuclidElementsBk01Prop01_Heath1908.php",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-equal-radii",
+        "claim-equilateral-proof",
+        "claim-euclid-proposition"
+      ]
+    },
+    {
+      "id": "source-nintendo-about",
+      "source_type": "primary-source",
+      "creator": "Nintendo",
+      "title": "The official home for The Legend of Zelda — About",
+      "publication_date": "current official series page",
+      "publisher": "Nintendo",
+      "url": "https://zelda.nintendo.com/about/",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-triforce-description"
+      ]
+    },
+    {
+      "id": "source-nintendo-history",
+      "source_type": "primary-source",
+      "creator": "Nintendo",
+      "title": "Zelda Portal — History",
+      "publication_date": "current official series chronology",
+      "publisher": "Nintendo",
+      "url": "https://www.nintendo.com/jp/character/zelda/en/history/index.html",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-zelda-release"
+      ]
+    },
+    {
+      "id": "source-ibm-fractal-history",
+      "source_type": "institutional-secondary",
+      "creator": "IBM",
+      "title": "Fractal geometry",
+      "publication_date": "current institutional history",
+      "publisher": "IBM",
+      "url": "https://www.ibm.com/history/fractal-geometry",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-recursive-self-similarity",
+        "claim-fractal-term"
+      ]
+    },
+    {
+      "id": "source-koch-1904",
+      "source_type": "primary-source",
+      "creator": "Helge von Koch",
+      "title": "Sur une courbe continue sans tangente obtenue par une construction géométrique élémentaire",
+      "publication_date": "1904",
+      "publisher": "Norstedt & soner; Google Books bibliographic record",
+      "url": "https://books.google.de/books?id=kf3NnQAACAAJ",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-koch-publication",
+        "claim-koch-count"
+      ]
+    },
+    {
+      "id": "source-met-great-wave",
+      "source_type": "museum-or-archive",
+      "creator": "Metropolitan Museum of Art",
+      "title": "Under the Wave off Kanagawa — collection record",
+      "publication_date": "current collection record",
+      "publisher": "The Metropolitan Museum of Art",
+      "url": "https://www.metmuseum.org/art/collection/search/56353",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-hokusai-record",
+        "claim-wave-comparison"
+      ]
+    },
+    {
+      "id": "source-david-fox-fractalus",
+      "source_type": "creator-interview-or-design-document",
+      "creator": "David Fox / Electric Eggplant",
+      "title": "Rescue on Fractalus!",
+      "publication_date": "creator page updated 2023",
+      "publisher": "Electric Eggplant",
+      "url": "https://electriceggplant.com/rescue.html",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-rescue-fractal-credit"
+      ]
+    },
+    {
+      "id": "source-mobygames-fractalus",
+      "source_type": "secondary",
+      "creator": "MobyGames contributors",
+      "title": "Rescue on Fractalus! release record",
+      "publication_date": "current database record",
+      "publisher": "MobyGames",
+      "url": "https://www.mobygames.com/game/11726/rescue-on-fractalus/",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-rescue-release"
+      ]
+    },
+    {
+      "id": "source-euclid-angle-sum",
+      "source_type": "primary-source",
+      "creator": "Euclid; edited and translated by Thomas L. Heath",
+      "title": "Elements, Book I, Proposition 32",
+      "publication_date": "1908 edition",
+      "publisher": "Trinity College Dublin digital edition",
+      "url": "https://www.maths.tcd.ie/~dwilkins/Courses/MA232A/Euclid_ETexts/EuclidBookI_Heath1908/EuclidBookIProp32_Heath1908.php",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-regular-tilings"
+      ]
+    },
+    {
+      "id": "source-gilbert-packing",
+      "source_type": "peer-reviewed",
+      "creator": "E. N. Gilbert",
+      "title": "Randomly Packed and Solidly Packed Spheres",
+      "publication_date": "1964",
+      "publisher": "Canadian Journal of Mathematics",
+      "url": "https://www.cambridge.org/core/journals/canadian-journal-of-mathematics/article/randomly-packed-and-solidly-packed-spheres/39AC5439DC030412497E9FD7D0C0D7D8",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-circle-packing-density"
+      ]
+    },
+    {
+      "id": "source-kepler-snowflake",
+      "source_type": "museum-or-archive",
+      "creator": "Johannes Kepler; University of Oklahoma History of Science Collections",
+      "title": "On the Snowflake, or the Six-Angled Crystal",
+      "publication_date": "1611",
+      "publisher": "Galileo's World",
+      "url": "https://galileo.ou.edu/exhibits/snowflake-or-six-angled-crystal.html",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-kepler-snowflake"
+      ]
+    },
+    {
+      "id": "source-met-kashan",
+      "source_type": "museum-or-archive",
+      "creator": "The Metropolitan Museum of Art",
+      "title": "Eight-Pointed Star-Shaped Tile",
+      "publication_date": "13th century",
+      "publisher": "The Metropolitan Museum of Art",
+      "url": "https://www.metmuseum.org/art/collection/search/444459",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-kashan-tile"
+      ]
+    },
+    {
+      "id": "source-cromwell-star-cross",
+      "source_type": "peer-reviewed",
+      "creator": "Peter R. Cromwell",
+      "title": "A Modular Design System based on the Star and Cross Pattern",
+      "publication_date": "2012",
+      "publisher": "Journal of Mathematics and the Arts",
+      "url": "https://doi.org/10.1080/17513472.2012.678269",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-star-cross-geometry"
+      ]
+    },
+    {
+      "id": "source-penrose-patent",
+      "source_type": "primary-source",
+      "creator": "Roger Penrose",
+      "title": "US4133152A — Set of tiles for covering a surface",
+      "publication_date": "1979-01-09",
+      "publisher": "United States Patent and Trademark Office via Google Patents",
+      "url": "https://patents.google.com/patent/US4133152A/en",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-penrose-patent"
+      ]
+    },
+    {
+      "id": "source-nga-escher",
+      "source_type": "museum-or-archive",
+      "creator": "National Gallery of Art",
+      "title": "Regular Division of the Plane I",
+      "publication_date": "1957",
+      "publisher": "National Gallery of Art",
+      "url": "https://www.nga.gov/artworks/62788-regular-division-plane-i",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-escher-nga"
+      ]
+    },
+    {
+      "id": "source-tetris-about",
+      "source_type": "creator-interview-or-design-document",
+      "creator": "The Tetris Company",
+      "title": "About Tetris",
+      "publication_date": "current official account",
+      "publisher": "The Tetris Company",
+      "url": "https://www.tetris.com/about",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-tetris-seven"
+      ]
+    },
+    {
+      "id": "source-max-uniform-tilings",
+      "source_type": "peer-reviewed",
+      "creator": "Nelson Max",
+      "title": "Constructing and Visualizing Uniform Tilings",
+      "publication_date": "2023",
+      "publisher": "Computers",
+      "url": "https://doi.org/10.3390/computers12100208",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-uniform-tilings",
+        "claim-tiling-curvature"
+      ]
+    },
+    {
+      "id": "source-voronoi-1908",
+      "source_type": "primary-source",
+      "creator": "Georges Voronoi",
+      "title": "Nouvelles applications des paramètres continus à la théorie des formes quadratiques. Deuxième mémoire",
+      "publication_date": "1908",
+      "publisher": "Journal für die reine und angewandte Mathematik via EuDML",
+      "url": "https://eudml.org/doc/149291",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-voronoi-memoir"
+      ]
+    },
+    {
+      "id": "source-iucr-rotation",
+      "source_type": "peer-reviewed",
+      "creator": "IUCr Subcommittee on the Nomenclature of n-Dimensional Crystallography",
+      "title": "Symbols for point-group transformations, families, systems and geometric crystal classes",
+      "publication_date": "1999",
+      "publisher": "Acta Crystallographica A",
+      "url": "https://journals.iucr.org/a/issues/1999/04/00/es0277/index.html",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-crystallographic-restriction"
+      ]
+    },
+    {
+      "id": "source-penrose-pentaplexity",
+      "source_type": "peer-reviewed",
+      "creator": "Roger Penrose",
+      "title": "Pentaplexity: A Class of Non-Periodic Tilings of the Plane",
+      "publication_date": "1979",
+      "publisher": "The Mathematical Intelligencer",
+      "url": "https://doi.org/10.1007/BF03024384",
+      "accessed_at": "2026-08-01",
+      "reviewed_at": "2026-08-01",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-penrose-inflation"
+      ]
+    },
+    {
+      "id": "source-debruijn-pentagrid",
+      "source_type": "peer-reviewed",
+      "creator": "N. G. de Bruijn",
+      "title": "Algebraic theory of Penrose non-periodic tilings of the plane. I, II",
+      "publication_date": "1981",
+      "publisher": "Proceedings of the Koninklijke Nederlandse Akademie van Wetenschappen",
+      "url": "https://research.tue.nl/en/publications/algebraic-theory-of-penroses-non-periodic-tilings-of-the-plane-i-/",
+      "accessed_at": "2026-08-02",
+      "reviewed_at": "2026-08-02",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-penrose-pentagrid"
+      ]
+    },
+    {
+      "id": "source-mathworld-isometry",
+      "source_type": "standard-reference",
+      "creator": "Eric W. Weisstein",
+      "title": "Isometry",
+      "publication_date": "current reference entry",
+      "publisher": "Wolfram MathWorld",
+      "url": "https://mathworld.wolfram.com/Isometry.html",
+      "accessed_at": "2026-08-04",
+      "reviewed_at": "2026-08-04",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-isometry-definition"
+      ]
+    },
+    {
+      "id": "source-mathworld-symmetry-group",
+      "source_type": "standard-reference",
+      "creator": "Eric W. Weisstein",
+      "title": "Symmetry Group",
+      "publication_date": "current reference entry",
+      "publisher": "Wolfram MathWorld",
+      "url": "https://mathworld.wolfram.com/SymmetryGroup.html",
+      "accessed_at": "2026-08-04",
+      "reviewed_at": "2026-08-04",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-symmetry-group"
+      ]
+    },
+    {
+      "id": "source-mathworld-frieze",
+      "source_type": "standard-reference",
+      "creator": "Eric W. Weisstein",
+      "title": "Frieze Group",
+      "publication_date": "current reference entry",
+      "publisher": "Wolfram MathWorld",
+      "url": "https://mathworld.wolfram.com/FriezeGroup.html",
+      "accessed_at": "2026-08-04",
+      "reviewed_at": "2026-08-04",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-frieze-seven"
+      ]
+    },
+    {
+      "id": "source-mathworld-wallpaper",
+      "source_type": "standard-reference",
+      "creator": "Eric W. Weisstein",
+      "title": "Wallpaper Groups",
+      "publication_date": "current reference entry",
+      "publisher": "Wolfram MathWorld",
+      "url": "https://mathworld.wolfram.com/WallpaperGroups.html",
+      "accessed_at": "2026-08-04",
+      "reviewed_at": "2026-08-04",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-wallpaper-seventeen"
+      ]
+    },
+    {
+      "id": "source-eom-crystallographic",
+      "source_type": "standard-reference",
+      "creator": "Encyclopedia of Mathematics (EMS Press)",
+      "title": "Crystallographic group",
+      "publication_date": "current reference entry",
+      "publisher": "Encyclopedia of Mathematics",
+      "url": "https://encyclopediaofmath.org/wiki/Crystallographic_group",
+      "accessed_at": "2026-08-04",
+      "reviewed_at": "2026-08-04",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-wallpaper-seventeen",
+        "claim-fedorov-plane-groups"
+      ]
+    },
+    {
+      "id": "source-mactutor-polya",
+      "source_type": "institutional-secondary",
+      "creator": "J. J. O'Connor and E. F. Robertson",
+      "title": "George Pólya — MacTutor History of Mathematics biography",
+      "publication_date": "current archive biography",
+      "publisher": "MacTutor History of Mathematics Archive, University of St Andrews",
+      "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Polya/",
+      "accessed_at": "2026-08-04",
+      "reviewed_at": "2026-08-04",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-polya-1924"
+      ]
+    },
+    {
+      "id": "source-grunbaum-alhambra",
+      "source_type": "peer-reviewed",
+      "creator": "Branko Grünbaum",
+      "title": "What Symmetry Groups Are Present in the Alhambra?",
+      "publication_date": "2006",
+      "publisher": "Notices of the American Mathematical Society 53(6)",
+      "url": "https://www.ams.org/notices/200606/comm-grunbaum.pdf",
+      "accessed_at": "2026-08-04",
+      "reviewed_at": "2026-08-04",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-muller-1944",
+        "claim-alhambra-contested"
+      ]
+    },
+    {
+      "id": "source-sierpinski-gasket",
+      "source_type": "standard-reference",
+      "creator": "Encyclopedia of Mathematics",
+      "title": "Sierpiński gasket",
+      "publication_date": "reviewed edition, accessed 2026-08-08",
+      "publisher": "Springer, in association with the European Mathematical Society",
+      "url": "https://encyclopediaofmath.org/wiki/Sierpi%C5%84ski_gasket",
+      "accessed_at": "2026-08-08",
+      "reviewed_at": "2026-08-08",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-triforce-sierpinski"
+      ]
+    },
+    {
+      "id": "source-cosmatesque-sierpinski",
+      "source_type": "peer-reviewed",
+      "creator": "Conversano, E., and Tedeschini Lalli, L.",
+      "title": "Sierpinski Triangles in Stone on Medieval Floors in Rome",
+      "publication_date": "2011",
+      "publisher": "Aplimat Journal of Applied Mathematics",
+      "identifier": "Aplimat Journal of Applied Mathematics 4 (2011), 113-122",
+      "accessed_at": "2026-08-08",
+      "reviewed_at": "2026-08-08",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-cosmatesque-sierpinski"
+      ]
+    },
+    {
+      "id": "source-taiheiki",
+      "source_type": "primary-source",
+      "creator": "Helen Craig McCullough, translator",
+      "title": "The Taiheiki: A Chronicle of Medieval Japan",
+      "publication_date": "1959",
+      "publisher": "Columbia University Press, Records of Civilization: Sources and Studies LIX",
+      "identifier": "Columbia University Press, 1959; xlix, 401 pp.",
+      "accessed_at": "2026-08-08",
+      "reviewed_at": "2026-08-08",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-mitsuuroko-legend"
+      ]
+    },
+    {
+      "id": "source-enoshima-shrine",
+      "source_type": "institutional-secondary",
+      "creator": "City of Fujisawa",
+      "title": "Enoshima Shrine — Discover Fujisawa",
+      "publication_date": "accessed 2026-08-08",
+      "publisher": "City of Fujisawa official tourism record",
+      "url": "https://discover-fujisawa.jp/en/whattosee/enoshima-shrine/",
+      "accessed_at": "2026-08-08",
+      "reviewed_at": "2026-08-08",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-mitsuuroko-hojo",
+        "claim-mitsuuroko-legend"
+      ]
+    },
+    {
+      "id": "source-localization-religious-changes",
+      "source_type": "secondary",
+      "creator": "Clyde Mandelin",
+      "title": "Religious Content Changes in Game Localizations",
+      "publication_date": "2019-07-26",
+      "publisher": "Legends of Localization",
+      "url": "https://legendsoflocalization.com/articles/religious-content-changes/",
+      "accessed_at": "2026-08-08",
+      "reviewed_at": "2026-08-08",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-zelda-bible-localization"
+      ]
+    },
+    {
+      "id": "source-smithsonian-tetris",
+      "source_type": "museum-or-archive",
+      "creator": "Drew Robarge",
+      "title": "Tetris: Fun in the Cold War?",
+      "publication_date": "2014-11-06",
+      "publisher": "National Museum of American History, Smithsonian Institution",
+      "url": "https://americanhistory.si.edu/blog/2014/09/tetris-fun-in-the-cold-war.html",
+      "accessed_at": "2026-08-08",
+      "reviewed_at": "2026-08-08",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-tetris-origin",
+        "claim-tetris-name",
+        "claim-tetris-soviet-packaging"
+      ]
+    },
+    {
+      "id": "source-oeis-one-sided-polyominoes",
+      "source_type": "standard-reference",
+      "creator": "The OEIS Foundation",
+      "title": "A000988 — Number of one-sided polyominoes with n cells",
+      "publication_date": "accessed 2026-08-08",
+      "publisher": "The On-Line Encyclopedia of Integer Sequences",
+      "url": "https://oeis.org/A000988",
+      "accessed_at": "2026-08-08",
+      "reviewed_at": "2026-08-08",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-tetromino-count",
+        "claim-tetris-seven-because-no-mirror"
+      ]
+    },
+    {
+      "id": "source-stickgold-tetris",
+      "source_type": "peer-reviewed",
+      "creator": "Stickgold, R., Malia, A., Maguire, D., Roddenberry, D., and O'Connor, M.",
+      "title": "Replaying the Game: Hypnagogic Images in Normals and Amnesics",
+      "publication_date": "2000-10-13",
+      "publisher": "Science 290, no. 5490, pp. 350–353",
+      "url": "https://doi.org/10.1126/science.290.5490.350",
+      "accessed_at": "2026-08-08",
+      "reviewed_at": "2026-08-08",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-tetris-hypnagogic"
+      ]
+    },
+    {
+      "id": "source-globe-korobeiniki",
+      "source_type": "secondary",
+      "creator": "Matthew Guerrieri",
+      "title": "Russian song helps to define a video game, and vice versa",
+      "publication_date": "2016-06",
+      "publisher": "The Boston Globe",
+      "url": "https://www.bostonglobe.com/arts/music/2016/06/02/russian-song-helps-define-videogame-and-vice-versa/REjRwQf712SH01rS1Lw1uI/story.html",
+      "accessed_at": "2026-08-08",
+      "reviewed_at": "2026-08-08",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-korobeiniki"
+      ]
+    },
+    {
+      "id": "source-litencyc-korobeiniki",
+      "source_type": "standard-reference",
+      "creator": "The Literary Encyclopedia",
+      "title": "Nekrasov, N. A. Korobeiniki [The Pedlars] 1861",
+      "publication_date": "accessed 2026-08-08",
+      "publisher": "The Literary Encyclopedia",
+      "url": "https://www.litencyc.com/php/sworks.php?UID=15154",
+      "accessed_at": "2026-08-08",
+      "reviewed_at": "2026-08-08",
+      "link_status": "live",
+      "supported_claim_ids": [
+        "claim-korobeiniki"
+      ]
+    }
+  ],
+  "media": [
+    {
+      "id": "media-cosmati-sm-maggiore",
+      "topic_ids": [
+        "triforce-analysis"
+      ],
+      "type": "image",
+      "path": "assets/history/cosmati-sm-maggiore.jpg",
+      "creator": "Nicholas Hartmann",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Rome_S._Maria_Maggiore_Cosmati_pavement_1.jpg",
+      "alt": "A Cosmatesque stone pavement in Santa Maria Maggiore, Rome. Large triangles of coloured marble are divided into smaller triangles, and those into smaller ones again, so the same triangular figure repeats at three sizes.",
+      "rights_status": "approved",
+      "permitted_use_basis": "Creative Commons Attribution-ShareAlike 4.0 International. Attribution and licence notice are rendered with the image; the file is redistributed unmodified apart from scaling, so no ShareAlike obligation on adapted material arises.",
+      "attribution": "Photograph by Nicholas Hartmann, CC BY-SA 4.0, via Wikimedia Commons",
+      "publication_decision": "bundle",
+      "edits": "Scaled to 1280px wide from the 4989px original. No crop, no colour change.",
+      "reviewed_at": "2026-08-08",
+      "width": 1280,
+      "height": 853
+    },
+    {
+      "id": "media-mitsuuroko",
+      "topic_ids": [
+        "triforce-analysis"
+      ],
+      "type": "image",
+      "path": "assets/history/mitsuuroko.svg",
+      "creator": "Slady, via Wikimedia Commons",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Mitsuuroko.svg",
+      "alt": "The mitsuuroko: three solid triangles arranged into a larger triangle, leaving a fourth triangular space at the centre pointing down.",
+      "rights_status": "approved",
+      "permitted_use_basis": "Released to the public domain by its author, who grants anyone the right to use the work for any purpose. Public-domain dedication permits redistribution and modification.",
+      "attribution": "After File:Mitsuuroko.svg by Slady, public domain, via Wikimedia Commons",
+      "publication_decision": "bundle",
+      "edits": "The two original filled paths were merged into one evenodd path so the central triangle is a true hole, and the fill was recoloured to the page palette.",
+      "reviewed_at": "2026-08-08",
+      "width": 400,
+      "height": 250
+    },
+    {
+      "id": "media-enoshima-iwaya",
+      "topic_ids": [
+        "triforce-analysis"
+      ],
+      "type": "image",
+      "path": "assets/history/enoshima-iwaya-hiroshige.jpg",
+      "creator": "Utagawa Hiroshige (1797–1858)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:%E6%9C%AC%E6%9C%9D%E5%90%8D%E6%89%80_%E7%9B%B8%E5%B7%9E%E6%B1%9F%E3%83%8E%E5%B6%8B%E5%B2%A9%E5%B1%8B%E4%B9%8B%E5%9B%B3-S%C5%8Dsh%C5%AB,_Enoshima_Iwaya_no_Zu_MET_DP120498.jpg",
+      "alt": "A woodblock print of the sea caves at Enoshima. Small figures carrying lanterns move along a rock ledge into the mouth of the cave, with the sea to one side.",
+      "rights_status": "approved",
+      "permitted_use_basis": "Nineteenth-century work in the public domain by age. The digitisation is released by the Metropolitan Museum of Art under CC0, so neither the work nor the scan is restricted.",
+      "attribution": "Utagawa Hiroshige, 'Sōshū, Enoshima Iwaya no Zu'. Metropolitan Museum of Art, CC0, via Wikimedia Commons",
+      "publication_decision": "bundle",
+      "edits": "Scaled to 1280px wide. No crop, no colour change.",
+      "reviewed_at": "2026-08-08",
+      "width": 1280,
+      "height": 823
+    },
+    {
+      "id": "media-elektronika-60",
+      "topic_ids": [
+        "tetris-tetrominoes"
+      ],
+      "type": "image",
+      "path": "assets/history/elektronika-60.jpg",
+      "width": 900,
+      "height": 357,
+      "creator": "Sergei Frolov",
+      "source_url": "https://commons.wikimedia.org/wiki/File:E60M.JPG",
+      "alt": "An Elektronika 60M, a Soviet-made computer: a plain grey metal chassis of stacked card slots and switches, with no decoration of any kind.",
+      "rights_status": "approved",
+      "permitted_use_basis": "Creative Commons Attribution-ShareAlike 3.0. Attribution and licence rendered with the image; redistributed unmodified, so no ShareAlike obligation on adapted material arises.",
+      "attribution": "Photograph by Sergei Frolov, CC BY-SA 3.0, via Wikimedia Commons",
+      "publication_decision": "bundle",
+      "edits": "None. Used at source resolution.",
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "media-st-basils",
+      "topic_ids": [
+        "tetris-tetrominoes"
+      ],
+      "type": "image",
+      "path": "assets/history/st-basils.jpg",
+      "width": 1280,
+      "height": 853,
+      "creator": "Vyacheslav Argenberg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Saint_Basil%27s_Cathedral,_Red_Square,_Moscow,_Russia.jpg",
+      "alt": "Saint Basil's Cathedral on Red Square in Moscow, its cluster of patterned onion domes in red, green, blue and gold.",
+      "rights_status": "approved",
+      "permitted_use_basis": "Creative Commons Attribution 4.0. Attribution and licence rendered with the image. No ShareAlike term applies.",
+      "attribution": "Photograph by Vyacheslav Argenberg, CC BY 4.0, via Wikimedia Commons",
+      "publication_decision": "bundle",
+      "edits": "Scaled to 1280px wide. No crop, no colour change.",
+      "reviewed_at": "2026-08-08"
+    },
+    {
+      "id": "media-nekrasov",
+      "topic_ids": [
+        "tetris-tetrominoes"
+      ],
+      "type": "image",
+      "path": "assets/history/nekrasov-photograph.jpg",
+      "width": 960,
+      "height": 1294,
+      "creator": "Vezenberg & Co.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Nikolay_Nekrasov.jpg",
+      "alt": "A studio photograph of the Russian poet Nikolay Nekrasov, taken between 1870 and 1878: a bearded man in a dark coat, seated, looking away from the camera.",
+      "rights_status": "approved",
+      "permitted_use_basis": "Public domain by age; the photograph dates from between 1870 and 1878 and carries no rights assertion in its metadata.",
+      "attribution": "Photograph by Vezenberg & Co., 1870–1878, public domain, via Wikimedia Commons",
+      "publication_decision": "bundle",
+      "edits": "Scaled to 960px wide. No crop.",
+      "reviewed_at": "2026-08-08"
+    }
+  ],
+  "discoveries": [
+    {
+      "id": "discover-equilateral-triangle",
+      "topic_id": "equilateral-triangle",
+      "trigger_id": "formed-equilateral-triangle",
+      "label": "An equilateral triangle appears",
+      "route": "#/topic/equilateral-triangle",
+      "trail_topic_ids": [
+        "circle-intersections",
+        "euclid-first-proposition",
+        "triforce-analysis"
+      ],
+      "trail_relationship_ids": [
+        "circles-construct-triangle",
+        "euclid-constructs-triangle",
+        "triangle-resembles-triforce-structure"
+      ],
+      "published": true
+    }
+  ]
+}

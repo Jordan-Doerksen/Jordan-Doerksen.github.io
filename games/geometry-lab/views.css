@@ -1,0 +1,134 @@
+.page-intro { width: min(760px, 100%); margin-bottom: 2.2rem; }
+.page-intro h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 400; letter-spacing: -.035em; line-height: 1; }
+.page-intro > p:last-child { max-width: 650px; color: var(--muted); font-size: 1.05rem; line-height: 1.7; }
+/* The search-first atlas view is retired (D-034); its rules went with it.
+   The front-door index lives in home.css. */
+.topic-page { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; padding: 5rem 0 2rem; }
+.related h2 { font-family: Georgia, "Times New Roman", serif; font-size: 1.6rem; font-weight: 400; }
+
+.orientation-trail { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem .8rem; margin-bottom: 2rem; padding: .8rem 1rem; border: 1px solid var(--border); border-radius: .8rem; background: var(--surface); font-size: .8rem; }
+.orientation-trail a { color: var(--cyan); text-decoration: none; }
+.orientation-trail a:hover { text-decoration: underline; }
+.trail-place { color: var(--muted); }
+a.trail-place { color: var(--cyan); }
+.trail-separator { color: var(--quiet); }
+.trail-position { padding: .1rem .55rem; border: 1px solid var(--border); border-radius: 999px; color: var(--quiet); font-size: .7rem; }
+.trail-moves { display: flex; gap: 1rem; margin-left: auto; }
+.topic-intro { margin-left: auto; margin-right: auto; text-align: center; }
+.topic-visual { min-height: 430px; overflow: hidden; border: 1px solid var(--border); border-radius: 1.2rem; background: radial-gradient(circle at 50% 45%, var(--surface-raised), var(--stage-background) 68%); }
+.proof-lab, .triforce-lab { display: grid; justify-items: center; align-content: center; min-height: 430px; padding: 1rem; }
+.proof-lab svg, .triforce-lab svg { width: min(640px, 100%); max-height: 330px; }
+.proof-base, .proof-circle, .proof-triangle { fill: none; stroke: var(--cyan); stroke-width: 1.5; vector-effect: non-scaling-stroke; transition: opacity .35s ease; }
+.proof-triangle { fill: var(--active-soft); stroke: var(--active); stroke-width: 2; }
+.proof-points { fill: var(--active); transition: opacity .35s ease; }
+.proof-lens { fill: var(--lens-active); stroke: var(--active); stroke-width: 1.5; vector-effect: non-scaling-stroke; transition: opacity .35s ease; }
+.proof-lab[data-step="1"] .proof-lens { opacity: 0; }
+.proof-lab[data-lens] .proof-triangle { fill: none; stroke-dasharray: 5 7; }
+.proof-lab[data-lens][data-step="2"] .proof-points { opacity: 1; }
+.proof-lab[data-step="1"] .proof-circle, .proof-lab[data-step="1"] .proof-triangle, .proof-lab[data-step="1"] .proof-points { opacity: 0; }
+.proof-lab[data-step="2"] .proof-triangle, .proof-lab[data-step="2"] .proof-points { opacity: 0; }
+.proof-steps, .visual-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .45rem; }
+.proof-steps button, .visual-actions button { padding: .6rem .85rem; border: 1px solid var(--border); border-radius: 999px; background: transparent; color: var(--muted); cursor: pointer; }
+.proof-steps button.is-selected, .visual-actions button:hover { border-color: var(--border-strong); background: var(--surface-raised); color: var(--foreground); }
+.proof-caption, .visual-actions span { color: var(--muted); font-size: .8rem; }
+.tri-piece path { fill: rgba(244,207,119,.24); stroke: var(--active); stroke-width: 2; transition: transform .65s cubic-bezier(.2,.8,.2,1); transform-box: fill-box; transform-origin: center; }
+.negative-space { fill: rgba(4,9,14,.5); stroke: rgba(244,207,119,.5); stroke-dasharray: 5 7; }
+.triforce-lab.is-separated .piece-one path { transform: translate(0,-24px); }
+.triforce-lab.is-separated .piece-two path { transform: translate(-34px,22px); }
+.triforce-lab.is-separated .piece-three path { transform: translate(34px,22px); }
+.triforce-lab.is-separated .negative-space { opacity: .28; }
+
+.game-context { margin: 2rem 0; padding: 1.2rem; border-left: 2px solid var(--active); background: linear-gradient(90deg, var(--active-soft), transparent 65%); }
+.game-context > span { color: var(--active); font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; }
+.game-context dl { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.game-context dl div { display: grid; gap: .3rem; }
+.game-context dt { color: var(--quiet); font-size: .7rem; text-transform: uppercase; }
+.game-context dd { margin: 0; }
+.game-context p { color: var(--quiet); font-size: .75rem; }
+.research-depth { margin-top: 2rem; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.research-depth summary { padding: 1.2rem 0; color: var(--active); cursor: pointer; }
+.claims { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); }
+.claim { padding: 1.2rem; background: var(--background); }
+.claim-label { color: var(--active); font-size: .67rem; letter-spacing: .12em; text-transform: uppercase; }
+.claim p { line-height: 1.65; }
+.source-list { list-style: none; margin: 1rem 0 0; padding: 0; }
+.source-list li { display: grid; gap: .25rem; padding: .8rem 0; border-top: 1px solid var(--border); }
+.source-list a { color: var(--cyan); }
+.source-list span { color: var(--quiet); font-size: .72rem; }
+.related { margin-top: 3rem; }
+.related > div { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.related a { display: grid; gap: .6rem; min-height: 180px; padding: 1.2rem; background: var(--background); text-decoration: none; }
+.related a:hover { background: var(--surface); }
+.related span { color: var(--active); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; }
+.related strong { font-family: Georgia, "Times New Roman", serif; font-size: 1.2rem; font-weight: 400; }
+.related small { color: var(--muted); line-height: 1.5; }
+
+.topic-narrative-intro { margin-bottom: 1.2rem; }
+.topic-hook { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 5.4vw, 3.6rem); font-weight: 400; letter-spacing: -.03em; line-height: 1.08; text-wrap: balance; }
+.topic-stakes { max-width: 60ch; margin: 1rem auto 0; color: var(--muted); font-size: 1.02rem; line-height: 1.7; }
+.topic-invitation { width: min(760px, 100%); margin: 0 auto .55rem; color: var(--quiet); font-size: .78rem; letter-spacing: .02em; text-align: center; }
+.topic-after { width: min(68ch, 100%); margin: 2.4rem auto 0; }
+.topic-after h2 { margin: 0 0 .7rem; font-size: .7rem; font-weight: 600; }
+.topic-after p { margin: 0 0 1rem; color: var(--muted); font-size: 1rem; line-height: 1.75; }
+.topic-after p:last-child { margin-bottom: 0; }
+
+/* The signed essay (D-036 / CR-2). Serif body and a wider gutter mark it as
+   reading rather than interface, so the reader can tell argument from evidence
+   before they read a word of it. */
+.topic-essay { width: min(64ch, 100%); margin: 4rem auto 0; padding-top: 2.4rem; border-top: 1px solid var(--border); }
+.topic-essay > .eyebrow { text-align: center; }
+.essay-thesis { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.25rem, 2.6vw, 1.6rem); line-height: 1.5; letter-spacing: -.01em; }
+.essay-byline { margin: 1rem 0 0; color: var(--quiet); font-size: .8rem; font-style: italic; }
+.essay-section { margin-top: 2.8rem; }
+.essay-section h2 { margin: 0 0 .9rem; font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; font-weight: 400; letter-spacing: -.02em; }
+.essay-section p { margin: 0 0 1.15rem; font-family: Georgia, "Times New Roman", serif; font-size: 1.05rem; line-height: 1.78; color: var(--foreground); }
+/* Historical images sit inside the section they explain, at the essay measure,
+   with the credit attached. Height is reserved by aspect-ratio so the text under
+   an image does not jump when it decodes. */
+.essay-figure { margin: 1.8rem 0; }
+/* The intrinsic width/height attributes reserve the box, so no aspect-ratio is
+   forced here and nothing is cropped — a tall portrait keeps its head. */
+.essay-figure img { display: block; width: 100%; height: auto; max-height: 78vh; object-fit: contain; border: 1px solid var(--border); border-radius: .7rem; background: var(--surface); }
+.essay-figure img[src$=".svg"] { padding: 1.6rem; }
+.essay-figure figcaption { margin-top: .6rem; color: var(--quiet); font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: .74rem; line-height: 1.5; }
+.essay-figure figcaption a { color: var(--cyan); }
+.essay-rests { margin: 0; color: var(--quiet); font-family: inherit; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+.essay-rests a { color: var(--cyan); text-decoration: none; border-bottom: 1px solid rgba(142, 217, 210, .35); }
+.essay-rests a:hover { color: var(--active); border-bottom-color: var(--active); }
+.essay-closing { margin: 2.8rem 0 0; padding-top: 1.8rem; border-top: 1px solid var(--border); font-family: Georgia, "Times New Roman", serif; font-size: 1.12rem; line-height: 1.7; }
+/* The drawer is open by default, so an essay link lands on a visible claim. */
+.claim:target { border-color: var(--active); background: var(--active-soft); scroll-margin-top: 5rem; }
+
+.video-card { display: grid; gap: .8rem; width: min(760px, 100%); margin: 2.2rem auto 0; padding: 1.1rem 1.2rem; border: 1px solid var(--border); border-radius: 1rem; background: var(--surface); }
+.video-play { display: grid; justify-items: center; gap: .45rem; width: 100%; padding: 1rem; border: 1px solid var(--border); border-radius: .8rem; background: var(--stage-background); text-align: center; cursor: pointer; transition: border-color .2s, background .2s; }
+.video-play:hover { border-color: var(--cyan); background: var(--surface-raised); }
+.video-poster { width: min(320px, 100%); height: auto; margin-bottom: .3rem; }
+.video-poster circle { fill: none; stroke: var(--cyan); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.video-poster .video-glyph { fill: var(--active); stroke: none; }
+.video-play .eyebrow { margin: 0; }
+.video-title { font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.1rem, 3vw, 1.45rem); font-weight: 400; }
+.video-credit { color: var(--muted); font-size: .8rem; }
+.video-why { max-width: 52ch; color: var(--quiet); font-size: .82rem; line-height: 1.6; }
+.video-fallback { margin: 0; color: var(--quiet); font-size: .75rem; text-align: center; }
+.video-fallback a { color: var(--cyan); }
+.video-frame { width: 100%; max-width: 760px; margin: 0 auto; overflow: hidden; aspect-ratio: 16 / 9; border-radius: .8rem; background: var(--stage-background); }
+.video-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .video-play { transition: none; }
+}
+@media (max-width: 800px) {
+  .atlas-field { grid-template-columns: repeat(2, 1fr); }
+  .game-context dl, .related > div { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .topic-page { width: calc(100% - 1rem); padding-top: 3rem; }
+  .atlas-controls, .claims, .game-context dl, .related > div { grid-template-columns: 1fr; }
+  .atlas-figure { min-height: 220px; }
+  .atlas-list li { grid-template-columns: 1fr; gap: .4rem; }
+  .topic-after, .video-card, .topic-invitation, .topic-essay { width: 100%; }
+  .video-card { padding: .9rem; }
+  .video-play { padding: .8rem; }
+  .trail-moves { margin-left: 0; width: 100%; justify-content: space-between; }
+  .topic-visual, .proof-lab, .triforce-lab { min-height: 360px; }
+}
