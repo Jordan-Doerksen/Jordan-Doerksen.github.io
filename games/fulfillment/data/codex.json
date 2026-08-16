@@ -1,4 +1,31 @@
 {
+  "arena": [
+    {
+      "detail": "radius 640 units",
+      "system": "The cage",
+      "what": "A ring of barrier rock encloses the fight"
+    },
+    {
+      "detail": "every 7s, after a 1.0s glow, at 520 speed",
+      "system": "Cage charges",
+      "what": "A wall stone charges, then launches at you as a comet, leaving a gap"
+    },
+    {
+      "detail": "6 bolts every 19s, 0.9s warning, 60 unit lethal radius, 45 damage to enemies",
+      "system": "Lightning storms",
+      "what": "Telegraphed bolts land around you. Indiscriminate: it kills enemies too, and their loot survives"
+    },
+    {
+      "detail": "10 wells, 160 units beyond the wall; they decay the moment the boss dies",
+      "system": "Sentinel wells",
+      "what": "Static gravity wells ring the arena OUTSIDE the wall and destroy the incoming spawn flood"
+    },
+    {
+      "detail": "bosses are exempt and pass through the wall",
+      "system": "Target gating",
+      "what": "While the wall stands your weapons ignore enemies beyond it, rather than wasting fire on the stones"
+    }
+  ],
   "boons": [
     {
       "desc": "The board approved more firepower. It comes out of your paycheck.",
@@ -500,7 +527,7 @@
     "elements": 5,
     "exported": "codex",
     "fusions": 12,
-    "values": 47,
+    "values": 51,
     "weapons": 16
   },
   "modifiers": [
@@ -619,6 +646,26 @@
       "name": "Reinforced Ordnance"
     }
   ],
+  "phases": [
+    {
+      "at": "full health",
+      "change": "the published pattern, at its base cadence",
+      "name": "OPENING",
+      "phase": 1
+    },
+    {
+      "at": "66% health",
+      "change": "breaks off and orbits; volleys tighten to x0.80 cadence and the safe lane narrows to x0.85",
+      "name": "PLAN",
+      "phase": 2
+    },
+    {
+      "at": "33% health",
+      "change": "closes x1.45 faster; volleys SLOW to x1.45 and the telegraph runs x1.60 longer, with a x1.30 wider lane",
+      "name": "WRITE-UP",
+      "phase": 3
+    }
+  ],
   "synergies": [
     {
       "desc": "The lance now ships overnight. Through everything.",
@@ -723,6 +770,10 @@
     "mk_max": 9,
     "objective_hp_mult": 1.55,
     "pad_focus_range": 420,
+    "phase2_pct": 66,
+    "phase3_pct": 33,
+    "phase_minions": 5,
+    "phase_speed": 1.2,
     "rare_ramp_min": 3,
     "rarity_elite_pct": 1.0,
     "rarity_rare_pct": 10,

@@ -142,8 +142,7 @@
 <p>Gems are drawn toward the ship once inside the collection radius, which is <span class="fig">100</span> units before upgrades and can be increased.</p>
 <p>Experience required for the first level is <span class="fig">16</span>. Each subsequent level requires <span class="fig">1.33</span> times the previous requirement. Reaching a level opens a draft immediately.</p>
 <h3><span class="num">4.4</span> Bosses</h3>
-<p>A boss spawns at <span class="fig">150</span> seconds, and another every <span class="fig">130</span> seconds after that. There are <span class="fig">5</span> in a fixed order.</p>
-<p>A boss encloses the fight in a ring of barrier rock with a radius of <span class="fig">640</span> units. Continuous spawning stops for <span class="fig">10</span> seconds after a boss dies.</p>
+<p>A boss spawns at <span class="fig">150</span> seconds, and another every <span class="fig">130</span> seconds after that. There are <span class="fig">5</span> and they arrive in a fixed order. Each is a different fight rather than a larger one.</p>
 <section class="appendix-part" id="ap-bosses">
 <h3>BOSSES</h3>
 <table class="data"><thead><tr><th>#</th><th>Boss</th><th>Health</th><th>Armour</th><th>Attacks</th></tr></thead><tbody>
@@ -154,6 +153,34 @@
 <tr><td>5</td><td>THE AUDITOR</td><td>8725</td><td>300</td><td>2x ring volley · 3x sweep laser · aimed fire · 1 deputies</td></tr>
 </tbody></table>
 </section>
+<h3><span class="num">4.5</span> Boss phases</h3>
+<p>A boss changes behaviour twice during its fight, at fixed fractions of its health. The phase is visible in how it moves and how it telegraphs, not in a meter.</p>
+<section class="appendix-part" id="ap-phases">
+<h3>PHASES</h3>
+<table class="data"><thead><tr><th>Phase</th><th>Name</th><th>Begins at</th><th>What changes</th></tr></thead><tbody>
+<tr><td>1</td><td>OPENING</td><td>full health</td><td>the published pattern, at its base cadence</td></tr>
+<tr><td>2</td><td>PLAN</td><td>66% health</td><td>breaks off and orbits; volleys tighten to x0.80 cadence and the safe lane narrows to x0.85</td></tr>
+<tr><td>3</td><td>WRITE-UP</td><td>33% health</td><td>closes x1.45 faster; volleys SLOW to x1.45 and the telegraph runs x1.60 longer, with a x1.30 wider lane</td></tr>
+</tbody></table>
+</section>
+<p>Phase two is the dangerous one to misread: the volleys speed up and the safe lane narrows. Phase three inverts that expectation. It closes on you faster and hits harder, but it fires <strong>less</strong> often and telegraphs for <strong>longer</strong> — the tell is deliberately more generous the closer the boss is to dying.</p>
+<p>While a boss is past its first phase, everything on the map moves <span class="fig">1.2</span> times faster, and entering that phase files <span class="fig">5</span> additional minions.</p>
+<p>A boss with armour has a separate phase change: breaking its shell changes its pattern immediately, independently of its health.</p>
+<h3><span class="num">4.6</span> The arena</h3>
+<p>A boss does not fight you on the open map. It brings an arena, and the arena is a set of systems that act on their own.</p>
+<section class="appendix-part" id="ap-arena">
+<h3>ARENA</h3>
+<table class="data"><thead><tr><th>Arena system</th><th>What it does</th><th>Numbers</th></tr></thead><tbody>
+<tr><td>The cage</td><td>A ring of barrier rock encloses the fight</td><td>radius 640 units</td></tr>
+<tr><td>Cage charges</td><td>A wall stone charges, then launches at you as a comet, leaving a gap</td><td>every 7s, after a 1.0s glow, at 520 speed</td></tr>
+<tr><td>Lightning storms</td><td>Telegraphed bolts land around you. Indiscriminate: it kills enemies too, and their loot survives</td><td>6 bolts every 19s, 0.9s warning, 60 unit lethal radius, 45 damage to enemies</td></tr>
+<tr><td>Sentinel wells</td><td>Static gravity wells ring the arena OUTSIDE the wall and destroy the incoming spawn flood</td><td>10 wells, 160 units beyond the wall; they decay the moment the boss dies</td></tr>
+<tr><td>Target gating</td><td>While the wall stands your weapons ignore enemies beyond it, rather than wasting fire on the stones</td><td>bosses are exempt and pass through the wall</td></tr>
+</tbody></table>
+</section>
+<p>Two of these are usable rather than merely survivable. A <strong>cage charge</strong> leaves a permanent gap in the wall where the stone left. A <strong>lightning storm</strong> is indiscriminate: it kills the enemies standing in it and leaves their drops behind, so a storm landing on a crowd does your work for you.</p>
+<p>Continuous spawning stops for <span class="fig">10</span> seconds after a boss dies, and the sentinel wells decay at the same moment.</p>
+<figure class="plate pending"><div class="plate-slot" role="img" aria-label="A boss arena, with the cage standing"></div><figcaption>A boss arena, with the cage standing</figcaption></figure>
 <section class="chapter" id="ch5">
 <h2><span class="folio">V</span> ENEMIES</h2>
 <h3><span class="num">5.1</span> Enemy roles</h3>
