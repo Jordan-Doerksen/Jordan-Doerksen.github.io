@@ -136,116 +136,162 @@
   ],
   "depot": [
     {
+      "cost_all": 2707,
+      "cost_first": 450,
       "desc": "+1 Courier bay per level.",
       "max": 4,
       "name": "Bay Lease · COURIER (skirmisher)"
     },
     {
+      "cost_all": 3915,
+      "cost_first": 450,
       "desc": "+1 Hauler bay per level.",
       "max": 5,
       "name": "Bay Lease · HAULER (bruiser)"
     },
     {
+      "cost_all": 1026,
+      "cost_first": 450,
       "desc": "+1 Carrier bay per level.",
       "max": 2,
       "name": "Bay Lease · CARRIER (summoner)"
     },
     {
+      "cost_all": 10912,
+      "cost_first": 60,
       "desc": "+4% weapon damage per level.",
       "max": 16,
       "name": "Ordnance Contract"
     },
     {
+      "cost_all": 10912,
+      "cost_first": 60,
       "desc": "+3% fire rate per level.",
       "max": 16,
       "name": "Line Speed Agreement"
     },
     {
+      "cost_all": 3275,
+      "cost_first": 50,
       "desc": "+6% weapon range per level.",
       "max": 12,
       "name": "Regional Coverage"
     },
     {
+      "cost_all": 2406,
+      "cost_first": 400,
       "desc": "+1 hull pip per level. Non-negotiable.",
       "max": 4,
       "name": "Reinforced Frame"
     },
     {
+      "cost_all": 8183,
+      "cost_first": 45,
       "desc": "+3 shield capacity per level.",
       "max": 16,
       "name": "Shield Rider"
     },
     {
+      "cost_all": 2948,
+      "cost_first": 45,
       "desc": "+15% shield regen rate per level.",
       "max": 12,
       "name": "Maintenance Rider"
     },
     {
+      "cost_all": 2507,
+      "cost_first": 65,
       "desc": "-6% contact damage taken per level.",
       "max": 10,
       "name": "Liability Waiver"
     },
     {
+      "cost_all": 3275,
+      "cost_first": 50,
       "desc": "+5% move speed per level.",
       "max": 12,
       "name": "Motor Pool Requisition"
     },
     {
+      "cost_all": 2292,
+      "cost_first": 35,
       "desc": "+0.2s boost fuel per level.",
       "max": 12,
       "name": "Fuel Allowance"
     },
     {
+      "cost_all": 2619,
+      "cost_first": 40,
       "desc": "+12% fuel regen per level.",
       "max": 12,
       "name": "Fuel Contractor"
     },
     {
+      "cost_all": 2292,
+      "cost_first": 35,
       "desc": "+15% pickup radius per level.",
       "max": 12,
       "name": "Logistics Magnet"
     },
     {
+      "cost_all": 3602,
+      "cost_first": 55,
       "desc": "+8% gem value per level.",
       "max": 12,
       "name": "Salvage Rights"
     },
     {
+      "cost_all": 1553,
+      "cost_first": 70,
       "desc": "Start each shift with banked XP.",
       "max": 8,
       "name": "Onboarding Credit"
     },
     {
+      "cost_all": 3474,
+      "cost_first": 90,
       "desc": "+2% rare card odds per level.",
       "max": 10,
       "name": "Preferred Vendor"
     },
     {
+      "cost_all": 5240,
+      "cost_first": 80,
       "desc": "+10% scrip earned per level.",
       "max": 12,
       "name": "Payroll Adjustment"
     },
     {
+      "cost_all": 2122,
+      "cost_first": 55,
       "desc": "+2% chance any hit simply misses, per level.",
       "max": 10,
       "name": "Near-Miss Clause"
     },
     {
+      "cost_all": 1045,
+      "cost_first": 120,
       "desc": "+1 draft reroll at the start of every shift.",
       "max": 5,
       "name": "Reroll Authorization"
     },
     {
+      "cost_all": 500,
+      "cost_first": 500,
       "desc": "Once per shift, a fatal hit leaves you at 1 pip.",
       "max": 1,
       "name": "Second Wind Clause"
     },
     {
+      "cost_all": 1995,
+      "cost_first": 90,
       "desc": "+damage as your hull drops (up to a lot at critical).",
       "max": 8,
       "name": "Hazard Pay"
     },
     {
+      "cost_all": 350,
+      "cost_first": 350,
       "desc": "Start each shift with one free installed weapon.",
       "max": 1,
       "name": "Signing Bonus"
@@ -454,67 +500,77 @@
     "elements": 5,
     "exported": "codex",
     "fusions": 12,
-    "values": 46,
+    "values": 47,
     "weapons": 16
   },
   "modifiers": [
     {
       "desc": "The whole floor moves faster.",
       "name": "Swift Processing",
+      "pays": "+15% scrip · +2% rare",
       "rare": 2,
       "scrip": 15
     },
     {
       "desc": "Denser waves — more bodies, sooner.",
       "name": "Peak Season",
+      "pays": "+15% scrip · +2% rare",
       "rare": 2,
       "scrip": 15
     },
     {
       "desc": "Everything takes more to put down.",
       "name": "Reinforced Stock",
+      "pays": "+18% scrip · +3% rare",
       "rare": 3,
       "scrip": 18
     },
     {
       "desc": "Champions, constantly.",
       "name": "Management Everywhere",
+      "pays": "+18% scrip · +3% rare",
       "rare": 3,
       "scrip": 18
     },
     {
       "desc": "Supervisors arrive sooner and faster.",
       "name": "Compressed Schedule",
+      "pays": "+22% scrip · +4% rare",
       "rare": 4,
       "scrip": 22
     },
     {
       "desc": "No relief window after a boss.",
       "name": "No Breaks",
+      "pays": "+12% scrip · +2% rare",
       "rare": 2,
       "scrip": 12
     },
     {
       "desc": "Contact hurts a great deal more.",
       "name": "Hazardous Floor",
+      "pays": "+15% scrip · +3% rare",
       "rare": 3,
       "scrip": 15
     },
     {
       "desc": "Ranged enemies kite from minute one.",
       "name": "Armed Early",
+      "pays": "+12% scrip · +2% rare",
       "rare": 2,
       "scrip": 12
     },
     {
       "desc": "Leaner drops — XP is worth less.",
       "name": "Austerity Measures",
+      "pays": "+22% scrip · +3% rare",
       "rare": 3,
       "scrip": 22
     },
     {
       "desc": "Bigger, hungrier black holes.",
       "name": "Event Horizon",
+      "pays": "+18% scrip · +3% rare",
       "rare": 3,
       "scrip": 18
     }
@@ -522,26 +578,44 @@
   "passives": [
     {
       "desc": "The warranty won't cover the wear.",
+      "effect": "fire rate +15%",
+      "factor": 1.15,
+      "mod": "fire_rate",
       "name": "Prime Speed"
     },
     {
       "desc": "Heavier ordnance, by the pallet.",
+      "effect": "damage +12%",
+      "factor": 1.12,
+      "mod": "damage",
       "name": "Bulk Rounds"
     },
     {
       "desc": "Efficiency is mandatory.",
+      "effect": "magnet +15%",
+      "factor": 1.15,
+      "mod": "magnet",
       "name": "Cargo Magnet"
     },
     {
       "desc": "Faster, and the tank runs longer. Mind the corners.",
+      "effect": "speed +12%",
+      "factor": 1.12,
+      "mod": "speed",
       "name": "Afterburner Tuning"
     },
     {
       "desc": "Rounds fly faster AND farther. Audit from a safe distance.",
+      "effect": "range +8%",
+      "factor": 1.08,
+      "mod": "range",
       "name": "Extended Reach"
     },
     {
       "desc": "Double-boxed. Hits like the invoice.",
+      "effect": "damage +15%",
+      "factor": 1.15,
+      "mod": "damage",
       "name": "Reinforced Ordnance"
     }
   ],
@@ -575,30 +649,44 @@
   "systems": [
     {
       "desc": "Running the tank dry vents a shockwave. Waste is a resource now.",
+      "effect": "TANK DRY → VENT: 42 DMG + KNOCKBACK (190px)",
+      "elite": "TANK DRY → VENT: 76 DMG + KNOCKBACK (342px)",
       "name": "Vapor Recovery"
     },
     {
       "desc": "While the fuel burns, so does everything else.",
+      "effect": "BOOSTING → DMG ×1.60",
+      "elite": "BOOSTING → DMG ×2.08",
       "name": "Full Burn Manifest"
     },
     {
       "desc": "The company matches your recovery. Terms apply.",
+      "effect": "TANK RE-ARMS → +5 SHIELD",
+      "elite": "TANK RE-ARMS → +9 SHIELD",
       "name": "Refuel Rebate"
     },
     {
       "desc": "One more mistake, structurally approved.",
+      "effect": "+1 HULL PIP (NOW)",
+      "elite": "+2 HULL PIPS (NOW)",
       "name": "Field Rivets"
     },
     {
       "desc": "They only work when management is dead.",
+      "effect": "BOSS KILL → +1 HULL PIP",
+      "elite": "BOSS KILL → +2 HULL PIPS",
       "name": "Patch Crew"
     },
     {
       "desc": "The BOOSTERS run dirty on purpose. Anything caught in the burn wake is billed for cleanup.",
+      "effect": "BOOSTING → BURNING WAKE (42 DPS · IGNITES · ELITE: ALL MOVEMENT)",
+      "elite": "BOOSTING → BURNING WAKE (76 DPS · IGNITES · ELITE: ALL MOVEMENT)",
       "name": "Jet Wash Protocol"
     },
     {
       "desc": "Cleared to proceed through every employee. Non-stop.",
+      "effect": "ALL GUNS +1 PIERCE",
+      "elite": "ALL GUNS +3 PIERCE",
       "name": "Through-Freight Clause"
     }
   ],
@@ -614,6 +702,7 @@
     "boss_relief": 10,
     "buff_time": 12,
     "depot_count": 23,
+    "depot_growth": 1.28,
     "draft_options": 4,
     "drop_kinds": 6,
     "elem_strong": 1.5,
@@ -654,6 +743,8 @@
     {
       "behavior": "shot",
       "desc": "Rapid light bolts. Standard issue — like you.",
+      "dmg_max": 3.33,
+      "dmg_mk1": 2.52,
       "element": "Kinetic",
       "elite_perk": {
         "desc": "Every fourth bolt files twice — one round, double the ledger.",
@@ -672,6 +763,7 @@
       "id": "pulse",
       "kb": 25,
       "mag": 6,
+      "mk_cap": 3,
       "mks": [
         {
           "dmg": 2.52,
@@ -691,12 +783,16 @@
       ],
       "name": "Pulse Array",
       "pellets": 1,
+      "range": 728,
+      "rof": 6.7,
       "sigdesc": "bolts bounce to a nearby enemy",
       "signame": "Ricochet"
     },
     {
       "behavior": "spread",
       "desc": "A short cone of pellets. Whatever gets close gets itemized.",
+      "dmg_max": 3.55,
+      "dmg_mk1": 2.69,
       "element": "Kinetic",
       "elite_perk": {
         "desc": "Pellets ricochet once. The paperwork bounces.",
@@ -715,6 +811,7 @@
       "id": "flak",
       "kb": 60,
       "mag": 4,
+      "mk_cap": 3,
       "mks": [
         {
           "dmg": 2.69,
@@ -734,12 +831,16 @@
       ],
       "name": "Flak Spread",
       "pellets": 3,
+      "range": 294,
+      "rof": 1.6,
       "sigdesc": "+2 pellets, and they pierce one enemy",
       "signame": "Overpack"
     },
     {
       "behavior": "shot",
       "desc": "Slow, heavy, hits like a freight bill.",
+      "dmg_max": 19.22,
+      "dmg_mk1": 14.56,
       "element": "Kinetic",
       "elite_perk": {
         "desc": "Every body pierced grows the round's damage 15%, to a ×3 ceiling.",
@@ -758,6 +859,7 @@
       "id": "rail",
       "kb": 260,
       "mag": 3,
+      "mk_cap": 3,
       "mks": [
         {
           "dmg": 14.56,
@@ -777,12 +879,16 @@
       ],
       "name": "Rail Lance",
       "pellets": 1,
+      "range": 1080,
+      "rof": 0.9,
       "sigdesc": "pierces the entire line",
       "signame": "Railthrough"
     },
     {
       "behavior": "spread",
       "desc": "Lobbed ordnance pods. By the pallet. Spend the pallet, then reload.",
+      "dmg_max": 5.54,
+      "dmg_mk1": 4.2,
       "element": "Kinetic",
       "elite_perk": {
         "desc": "Pods detonate on impact. Small print, small blast.",
@@ -801,6 +907,7 @@
       "id": "scatter",
       "kb": 90,
       "mag": 5,
+      "mk_cap": 3,
       "mks": [
         {
           "dmg": 4.2,
@@ -820,12 +927,16 @@
       ],
       "name": "Scatter Pods",
       "pellets": 2,
+      "range": 752,
+      "rof": 2.3,
       "sigdesc": "each pod bursts into 3 fragments",
       "signame": "Airburst"
     },
     {
       "behavior": "shot",
       "desc": "A thin, fast stinger. The hole is regulation size.",
+      "dmg_max": 4.44,
+      "dmg_mk1": 3.36,
       "element": "Kinetic",
       "elite_perk": {
         "desc": "Each pierce accelerates the needle, up to ×1.6. Traffic thins.",
@@ -844,6 +955,7 @@
       "id": "needler",
       "kb": 20,
       "mag": 8,
+      "mk_cap": 3,
       "mks": [
         {
           "dmg": 3.36,
@@ -863,12 +975,16 @@
       ],
       "name": "Needler",
       "pellets": 1,
+      "range": 704,
+      "rof": 4.0,
       "sigdesc": "needles pierce 2 enemies",
       "signame": "Skewer"
     },
     {
       "behavior": "spread",
       "desc": "A short, hot cone. On-site waste incineration. Blaze.",
+      "dmg_max": 2.66,
+      "dmg_mk1": 2.02,
       "element": "Blaze",
       "elite_perk": {
         "desc": "Burns STACK instead of refreshing. The fire compounds.",
@@ -887,6 +1003,7 @@
       "id": "flame",
       "kb": 15,
       "mag": 7,
+      "mk_cap": 3,
       "mks": [
         {
           "dmg": 2.02,
@@ -906,12 +1023,16 @@
       ],
       "name": "Flame Jet",
       "pellets": 4,
+      "range": 205,
+      "rof": 5.0,
       "sigdesc": "burn spreads to nearby enemies",
       "signame": "Wildfire"
     },
     {
       "behavior": "shot",
       "desc": "A wide, cold fan. Assets keep longer cold. Frost.",
+      "dmg_max": 1.63,
+      "dmg_mk1": 1.23,
       "element": "Frost",
       "elite_perk": {
         "desc": "Chilled targets take extra damage from this lance.",
@@ -930,6 +1051,7 @@
       "id": "cryo",
       "kb": 45,
       "mag": 28,
+      "mk_cap": 3,
       "mks": [
         {
           "dmg": 1.23,
@@ -949,12 +1071,16 @@
       ],
       "name": "Cryo Jet",
       "pellets": 1,
+      "range": 306,
+      "rof": 18.2,
       "sigdesc": "a chilled enemy's death erupts in ice",
       "signame": "Shatter"
     },
     {
       "behavior": "shot",
       "desc": "Fast crackling darts. The grid bills by the arc. Shock.",
+      "dmg_max": 3.77,
+      "dmg_mk1": 2.86,
       "element": "Shock",
       "elite_perk": {
         "desc": "Chain-struck enemies take +15% damage from EVERYTHING for 3s.",
@@ -973,6 +1099,7 @@
       "id": "tesla",
       "kb": 20,
       "mag": 8,
+      "mk_cap": 3,
       "mks": [
         {
           "dmg": 2.86,
@@ -992,12 +1119,16 @@
       ],
       "name": "Tesla Coil",
       "pellets": 1,
+      "range": 600,
+      "rof": 5.7,
       "sigdesc": "the chain reaches 3 more targets, harder",
       "signame": "Overload"
     },
     {
       "behavior": "shot",
       "desc": "A slow, heavy collapsing round. It arrives when it arrives.",
+      "dmg_max": 31.05,
+      "dmg_mk1": 23.52,
       "element": "Void",
       "elite_perk": {
         "desc": "Every hit pulls wider and harder.",
@@ -1016,6 +1147,7 @@
       "id": "voidbolt",
       "kb": 220,
       "mag": 3,
+      "mk_cap": 3,
       "mks": [
         {
           "dmg": 23.52,
@@ -1035,12 +1167,16 @@
       ],
       "name": "Void Bolt",
       "pellets": 1,
+      "range": 900,
+      "rof": 0.7,
       "sigdesc": "a stronger singularity that pulls harder",
       "signame": "Collapse"
     },
     {
       "behavior": "hangar",
       "desc": "Two interns with jetpacks and a quota. More seats pending approval.",
+      "dmg_max": 5.51,
+      "dmg_mk1": 3.36,
       "element": "Kinetic",
       "elite_perk": {
         "desc": "One more fighter, and the wing's rounds pierce one extra body.",
@@ -1050,6 +1186,7 @@
       "id": "hangar",
       "kb": 15,
       "mag": 1,
+      "mk_cap": 5,
       "mks": [
         {
           "dmg": 3.36,
@@ -1079,12 +1216,16 @@
       ],
       "name": "Hangar Bay",
       "pellets": 1,
+      "range": 372,
+      "rof": 2.0,
       "sigdesc": "the wing flies one extra fighter",
       "signame": "Full Roster"
     },
     {
       "behavior": "hangar",
       "desc": "A patrol of light interceptors on rotating shifts. Headcount grows as the paperwork clears.",
+      "dmg_max": 7.66,
+      "dmg_mk1": 3.36,
       "element": "Kinetic",
       "elite_perk": {
         "desc": "One more fighter on the shift, and the wing's rounds pierce an extra body.",
@@ -1094,6 +1235,7 @@
       "id": "bay_fighter",
       "kb": 15,
       "mag": 1,
+      "mk_cap": 9,
       "mks": [
         {
           "dmg": 3.36,
@@ -1143,12 +1285,16 @@
       ],
       "name": "Fighter Bay",
       "pellets": 1,
+      "range": 372,
+      "rof": 2.0,
       "sigdesc": "one more fighter is kept on call",
       "signame": "Standby Crews"
     },
     {
       "behavior": "hangar",
       "desc": "One bomber riding your flank with guided ordnance. Deliveries are scheduled, not discussed.",
+      "dmg_max": 7.66,
+      "dmg_mk1": 3.36,
       "element": "Kinetic",
       "elite_perk": {
         "desc": "One more bomber reports, and its warheads pierce an extra body.",
@@ -1158,6 +1304,7 @@
       "id": "bay_bomber",
       "kb": 15,
       "mag": 1,
+      "mk_cap": 9,
       "mks": [
         {
           "dmg": 3.36,
@@ -1207,12 +1354,16 @@
       ],
       "name": "Bomber Bay",
       "pellets": 1,
+      "range": 372,
+      "rof": 2.0,
       "sigdesc": "every volley carries one more bomb",
       "signame": "Heavy Racks"
     },
     {
       "behavior": "hangar",
       "desc": "A slow escort that shells the thickest crowd from a distance. Coverage is billed by the acre.",
+      "dmg_max": 7.66,
+      "dmg_mk1": 3.36,
       "element": "Kinetic",
       "elite_perk": {
         "desc": "One more frigate on station, and its shells pierce an extra body.",
@@ -1222,6 +1373,7 @@
       "id": "bay_frigate",
       "kb": 15,
       "mag": 1,
+      "mk_cap": 9,
       "mks": [
         {
           "dmg": 3.36,
@@ -1271,12 +1423,16 @@
       ],
       "name": "Artillery Frigate",
       "pellets": 1,
+      "range": 372,
+      "rof": 2.0,
       "sigdesc": "the battery reaches farther downrange",
       "signame": "Extended Barrels"
     },
     {
       "behavior": "aura",
       "desc": "A humming security perimeter. Anything that gets close is processed on the spot. No returns.",
+      "dmg_max": 15.52,
+      "dmg_mk1": 11.76,
       "element": "Kinetic",
       "elite_perk": {
         "desc": "The field drags — anything inside is lightly chilled.",
@@ -1286,6 +1442,7 @@
       "id": "aura",
       "kb": 0,
       "mag": 1,
+      "mk_cap": 3,
       "mks": [
         {
           "dmg": 11.76,
@@ -1305,12 +1462,16 @@
       ],
       "name": "Loss Prevention",
       "pellets": 1,
+      "range": 0,
+      "rof": 2.0,
       "sigdesc": "the field also shoves intruders back",
       "signame": "Grounding Field"
     },
     {
       "behavior": "orbital",
       "desc": "Charged assets kept on a short electric leash. They orbit you at all times; attrition is continuous and mandatory.",
+      "dmg_max": 50.27,
+      "dmg_mk1": 38.08,
       "element": "Kinetic",
       "elite_perk": {
         "desc": "The comet-trails bite twice as hard and reach farther back.",
@@ -1320,6 +1481,7 @@
       "id": "orbital",
       "kb": 0,
       "mag": 1,
+      "mk_cap": 3,
       "mks": [
         {
           "dmg": 38.08,
@@ -1339,12 +1501,16 @@
       ],
       "name": "Retention Policy",
       "pellets": 1,
+      "range": 0,
+      "rof": 2.0,
       "sigdesc": "one more asset joins the escort",
       "signame": "Double Shift"
     },
     {
       "behavior": "beam",
       "desc": "A charging plasma lance — it winds up, fires a burning burst, then recharges. Radiant compliance.",
+      "dmg_max": 88.7,
+      "dmg_mk1": 67.2,
       "element": "Blaze",
       "elite_perk": {
         "desc": "The lance recharges 30% faster.",
@@ -1354,6 +1520,7 @@
       "id": "beam",
       "kb": 0,
       "mag": 1,
+      "mk_cap": 3,
       "mks": [
         {
           "dmg": 67.2,
@@ -1373,6 +1540,8 @@
       ],
       "name": "Solar Lance",
       "pellets": 1,
+      "range": 0,
+      "rof": 0.0,
       "sigdesc": "a wider beam that catches the whole line",
       "signame": "Overexposure"
     }

@@ -108,9 +108,9 @@
 <section class="appendix-part" id="ap-hulls">
 <h3>HULLS</h3>
 <ul class="hulls">
-<li class="hull"><h4>COURIER</h4><p class="tag">SKIRMISHER · STANDARD ISSUE</p><dl><dt>bays</dt><dd>6</dd><dt>pips</dt><dd>1</dd><dt>shield</dt><dd>14</dd><dt>speed</dt><dd>250</dd></dl><p>The default company ride. Quick, light, unloved. Heavy mounts void the lease.</p></li>
-<li class="hull"><h4>HAULER</h4><p class="tag">BRUISER · BULK FREIGHT</p><dl><dt>bays</dt><dd>8</dd><dt>pips</dt><dd>2</dd><dt>shield</dt><dd>10</dd><dt>speed</dt><dd>205</dd></dl><p>Eight bays of unregulated ordnance. Most are pending inspection.</p></li>
-<li class="hull"><h4>CARRIER</h4><p class="tag">COMMANDER · REGIONAL DISTRIBUTION</p><dl><dt>bays</dt><dd>5</dd><dt>pips</dt><dd>2</dd><dt>shield</dt><dd>18</dd><dt>speed</dt><dd>205</dd></dl><p>Five deep launch bays and a standing quota. The interns are not unionized, but they focus-fire what you tag.</p></li>
+<li class="hull"><h4>COURIER</h4><p class="tag">SKIRMISHER · STANDARD ISSUE</p><dl><dt>bays</dt><dd>6</dd><dt>hull pips</dt><dd>1</dd><dt>shield</dt><dd>14</dd><dt>speed</dt><dd>250</dd></dl></li>
+<li class="hull"><h4>HAULER</h4><p class="tag">BRUISER · BULK FREIGHT</p><dl><dt>bays</dt><dd>8</dd><dt>hull pips</dt><dd>2</dd><dt>shield</dt><dd>10</dd><dt>speed</dt><dd>205</dd></dl></li>
+<li class="hull"><h4>CARRIER</h4><p class="tag">COMMANDER · REGIONAL DISTRIBUTION</p><dl><dt>bays</dt><dd>5</dd><dt>hull pips</dt><dd>2</dd><dt>shield</dt><dd>18</dd><dt>speed</dt><dd>205</dd></dl></li>
 </ul>
 </section>
 <section class="chapter" id="ch4">
@@ -146,13 +146,13 @@
 <p>A boss encloses the fight in a ring of barrier rock with a radius of <span class="fig">640</span> units. Continuous spawning stops for <span class="fig">10</span> seconds after a boss dies.</p>
 <section class="appendix-part" id="ap-bosses">
 <h3>BOSSES</h3>
-<dl class="index">
-<dt>SUPERVISOR <span class="meta">1</span></dt><dd>your shift has been flagged for review</dd>
-<dt>REGIONAL MANAGER <span class="meta">2</span></dt><dd>this district is underperforming</dd>
-<dt>DIRECTOR OF THROUGHPUT <span class="meta">3</span></dt><dd>throughput is down. you are throughput</dd>
-<dt>VP, LOGISTICS <span class="meta">4</span></dt><dd>the route has been optimized. against you</dd>
-<dt>THE AUDITOR <span class="meta">5</span></dt><dd>your metrics have been escalated</dd>
-</dl>
+<table class="data"><thead><tr><th>#</th><th>Boss</th><th>Health</th><th>Armour</th><th>Attacks</th></tr></thead><tbody>
+<tr><td>1</td><td>SUPERVISOR</td><td>1400</td><td>100</td><td>charge · 2x sweep laser</td></tr>
+<tr><td>2</td><td>REGIONAL MANAGER</td><td>2212</td><td>150</td><td>2x ring volley · 1x sweep laser · 1 deputies</td></tr>
+<tr><td>3</td><td>DIRECTOR OF THROUGHPUT</td><td>3495</td><td>200</td><td>2x ring volley · 1x sweep laser · 1 deputies</td></tr>
+<tr><td>4</td><td>VP, LOGISTICS</td><td>5522</td><td>250</td><td>2x ring volley · 2x sweep laser · aimed fire · 1 deputies</td></tr>
+<tr><td>5</td><td>THE AUDITOR</td><td>8725</td><td>300</td><td>2x ring volley · 3x sweep laser · aimed fire · 1 deputies</td></tr>
+</tbody></table>
 </section>
 <section class="chapter" id="ch5">
 <h2><span class="folio">V</span> ENEMIES</h2>
@@ -229,24 +229,24 @@
 <p>A weapon occupies one bay and fires automatically. Because you do not aim, a weapon is a choice about firing pattern, range and behaviour rather than accuracy. There are <span class="fig">16</span>.</p>
 <section class="appendix-part" id="ap-weapons">
 <h3>WEAPONS</h3>
-<dl class="index">
-<dt>Pulse Array <span class="meta">Kinetic · shot</span></dt><dd>Rapid light bolts. Standard issue — like you.</dd>
-<dt>Flak Spread <span class="meta">Kinetic · spread</span></dt><dd>A short cone of pellets. Whatever gets close gets itemized.</dd>
-<dt>Rail Lance <span class="meta">Kinetic · shot</span></dt><dd>Slow, heavy, hits like a freight bill.</dd>
-<dt>Scatter Pods <span class="meta">Kinetic · spread</span></dt><dd>Lobbed ordnance pods. By the pallet. Spend the pallet, then reload.</dd>
-<dt>Needler <span class="meta">Kinetic · shot</span></dt><dd>A thin, fast stinger. The hole is regulation size.</dd>
-<dt>Flame Jet <span class="meta">Blaze · spread</span></dt><dd>A short, hot cone. On-site waste incineration. Blaze.</dd>
-<dt>Cryo Jet <span class="meta">Frost · shot</span></dt><dd>A wide, cold fan. Assets keep longer cold. Frost.</dd>
-<dt>Tesla Coil <span class="meta">Shock · shot</span></dt><dd>Fast crackling darts. The grid bills by the arc. Shock.</dd>
-<dt>Void Bolt <span class="meta">Void · shot</span></dt><dd>A slow, heavy collapsing round. It arrives when it arrives.</dd>
-<dt>Hangar Bay <span class="meta">Kinetic · hangar</span></dt><dd>Two interns with jetpacks and a quota. More seats pending approval.</dd>
-<dt>Fighter Bay <span class="meta">Kinetic · hangar</span></dt><dd>A patrol of light interceptors on rotating shifts. Headcount grows as the paperwork clears.</dd>
-<dt>Bomber Bay <span class="meta">Kinetic · hangar</span></dt><dd>One bomber riding your flank with guided ordnance. Deliveries are scheduled, not discussed.</dd>
-<dt>Artillery Frigate <span class="meta">Kinetic · hangar</span></dt><dd>A slow escort that shells the thickest crowd from a distance. Coverage is billed by the acre.</dd>
-<dt>Loss Prevention <span class="meta">Kinetic · aura</span></dt><dd>A humming security perimeter. Anything that gets close is processed on the spot. No returns.</dd>
-<dt>Retention Policy <span class="meta">Kinetic · orbital</span></dt><dd>Charged assets kept on a short electric leash. They orbit you at all times; attrition is continuous and mandatory.</dd>
-<dt>Solar Lance <span class="meta">Blaze · beam</span></dt><dd>A charging plasma lance — it winds up, fires a burning burst, then recharges. Radiant compliance.</dd>
-</dl>
+<table class="data"><thead><tr><th>Weapon</th><th>Element</th><th>Damage Mk1 → max</th><th>Ranks</th><th>Rate/s</th><th>Mag</th><th>Range</th><th>Signature effect</th></tr></thead><tbody>
+<tr><td>Pulse Array</td><td>Kinetic</td><td>2.52 → 3.33</td><td>Mk 3</td><td>6.7</td><td>6</td><td>728</td><td>bolts bounce to a nearby enemy</td></tr>
+<tr><td>Flak Spread</td><td>Kinetic</td><td>2.69 → 3.55</td><td>Mk 3</td><td>1.6</td><td>4</td><td>294</td><td>+2 pellets, and they pierce one enemy</td></tr>
+<tr><td>Rail Lance</td><td>Kinetic</td><td>14.56 → 19.22</td><td>Mk 3</td><td>0.9</td><td>3</td><td>1080</td><td>pierces the entire line</td></tr>
+<tr><td>Scatter Pods</td><td>Kinetic</td><td>4.2 → 5.54</td><td>Mk 3</td><td>2.3</td><td>5</td><td>752</td><td>each pod bursts into 3 fragments</td></tr>
+<tr><td>Needler</td><td>Kinetic</td><td>3.36 → 4.44</td><td>Mk 3</td><td>4</td><td>8</td><td>704</td><td>needles pierce 2 enemies</td></tr>
+<tr><td>Flame Jet</td><td>Blaze</td><td>2.02 → 2.66</td><td>Mk 3</td><td>5</td><td>7</td><td>205</td><td>burn spreads to nearby enemies</td></tr>
+<tr><td>Cryo Jet</td><td>Frost</td><td>1.23 → 1.63</td><td>Mk 3</td><td>18.2</td><td>28</td><td>306</td><td>a chilled enemy's death erupts in ice</td></tr>
+<tr><td>Tesla Coil</td><td>Shock</td><td>2.86 → 3.77</td><td>Mk 3</td><td>5.7</td><td>8</td><td>600</td><td>the chain reaches 3 more targets, harder</td></tr>
+<tr><td>Void Bolt</td><td>Void</td><td>23.52 → 31.05</td><td>Mk 3</td><td>0.7</td><td>3</td><td>900</td><td>a stronger singularity that pulls harder</td></tr>
+<tr><td>Hangar Bay</td><td>Kinetic</td><td>3.36 → 5.51</td><td>Mk 5</td><td>2</td><td>1</td><td>372</td><td>the wing flies one extra fighter</td></tr>
+<tr><td>Fighter Bay</td><td>Kinetic</td><td>3.36 → 7.66</td><td>Mk 9</td><td>2</td><td>1</td><td>372</td><td>one more fighter is kept on call</td></tr>
+<tr><td>Bomber Bay</td><td>Kinetic</td><td>3.36 → 7.66</td><td>Mk 9</td><td>2</td><td>1</td><td>372</td><td>every volley carries one more bomb</td></tr>
+<tr><td>Artillery Frigate</td><td>Kinetic</td><td>3.36 → 7.66</td><td>Mk 9</td><td>2</td><td>1</td><td>372</td><td>the battery reaches farther downrange</td></tr>
+<tr><td>Loss Prevention</td><td>Kinetic</td><td>11.76 → 15.52</td><td>Mk 3</td><td>2</td><td>1</td><td>0</td><td>the field also shoves intruders back</td></tr>
+<tr><td>Retention Policy</td><td>Kinetic</td><td>38.08 → 50.27</td><td>Mk 3</td><td>2</td><td>1</td><td>0</td><td>one more asset joins the escort</td></tr>
+<tr><td>Solar Lance</td><td>Blaze</td><td>67.2 → 88.7</td><td>Mk 3</td><td>—</td><td>1</td><td>0</td><td>a wider beam that catches the whole line</td></tr>
+</tbody></table>
 </section>
 <h3><span class="num">6.5</span> Forks</h3>
 <p><span class="fig">9</span> of the <span class="fig">16</span> weapons offer a fork at their final rank: a choice between <span class="fig">2</span> branches that change the weapon's behaviour rather than only its numbers. The choice is permanent for that run.</p>
@@ -255,75 +255,75 @@
 <p>A fusion combines two specific racked weapons into a single new weapon. The requirement for each is listed below. There are <span class="fig">12</span>.</p>
 <section class="appendix-part" id="ap-fusions">
 <h3>FUSIONS</h3>
-<dl class="index">
-<dt>HOSTILE TAKEOVER <span class="meta">C-RAM Gatling, Saturation Swarm</span></dt><dd>The hose and the zip code, one department. Every tracer is ordnance now.</dd>
-<dt>THE RESTRUCTURING <span class="meta">Warhead, Total Write-Off</span></dt><dd>A singularity with a delivery area. The fallout files itself.</dd>
-<dt>BLUE LINE EXPRESS <span class="meta">Blue Line, Twin Gauge</span></dt><dd>A burning rail that reaches the next department over. And the one after that.</dd>
-<dt>CERTIFIED STORM <span class="meta">Certified Delivery, Sewing Machine</span></dt><dd>Four hundred summons a minute. Each one knows the address.</dd>
-<dt>BREAKAGE POLICY <span class="meta">Deep Freeze, Twin Gauge</span></dt><dd>Broken in transit. Claim denied.</dd>
-<dt>CLASS ACTION <span class="meta">Wall of Invoices, Certified Delivery</span></dt><dd>Every defendant served at once. The wells keep them in court.</dd>
-<dt>TOTAL RETENTION <span class="meta">Loss Prevention, Retention Policy</span></dt><dd>Nothing leaves the perimeter. The storm sees to it.</dd>
-<dt>THE BLIZZARD OFFICE <span class="meta">Blast Freezer, Wall of Invoices</span></dt><dd>Three freezers per volley, delivered wide. The whole floor moves at inventory speed.</dd>
-<dt>THE ARC LEDGER <span class="meta">Lance Array, Capacitor Bank</span></dt><dd>The rejection bounces. So does the invoice. Both compound.</dd>
-<dt>THE CONSOLIDATION <span class="meta">Slug Consolidator, Transcontinental</span></dt><dd>One car, one address, one line item. The whole line signs for it.</dd>
-<dt>ARC FLASH <span class="meta">Refinery Burn, Grid Overload</span></dt><dd>The grid faulted. The floor caught. Both are your fault.</dd>
-<dt>THE FINAL NOTICE <span class="meta">Transcontinental, Total Write-Off</span></dt><dd>Delivered to every address on the line. Then the line is repossessed.</dd>
-</dl>
+<table class="data"><thead><tr><th>Fusion</th><th>Requires</th><th>Effect</th></tr></thead><tbody>
+<tr><td>HOSTILE TAKEOVER</td><td>C-RAM Gatling + Saturation Swarm</td><td>DETONATING MINIGUN · 14/s · 52px BLASTS · KILLS FEED IT</td></tr>
+<tr><td>THE RESTRUCTURING</td><td>Warhead + Total Write-Off</td><td>SINGULARITY NUKE · 340px BLAST · PULLS · RADIATION FALLOUT</td></tr>
+<tr><td>BLUE LINE EXPRESS</td><td>Blue Line + Twin Gauge</td><td>BURNING RAIL · PIERCES EVERYTHING · IGNITES THE LINE</td></tr>
+<tr><td>CERTIFIED STORM</td><td>Certified Delivery + Sewing Machine</td><td>GUIDED NEEDLE STREAM · 10/s · HOMING · PIERCE 3</td></tr>
+<tr><td>BREAKAGE POLICY</td><td>Deep Freeze + Twin Gauge</td><td>COLD STREAM · DEEP-CHILLED DEATHS SHATTER · CHAINS TO CHILLED</td></tr>
+<tr><td>CLASS ACTION</td><td>Wall of Invoices + Certified Delivery</td><td>5 HOMING VOID TORPEDOES · DETONATE · LINGERING GRAVITY WELLS</td></tr>
+<tr><td>TOTAL RETENTION</td><td>Loss Prevention + Retention Policy</td><td>LIGHTNING PERIMETER · CHAINS EVERYTHING INSIDE · 6 ASSETS</td></tr>
+<tr><td>THE BLIZZARD OFFICE</td><td>Blast Freezer + Wall of Invoices</td><td>TRIPLE FROST MORTARS · WIDE CONE · ZONES EVERYWHERE</td></tr>
+<tr><td>THE ARC LEDGER</td><td>Lance Array + Capacitor Bank</td><td>RICOCHET STORM · 4 BOUNCES · EACH +35% · CHAINS EVERY HIT</td></tr>
+<tr><td>THE CONSOLIDATION</td><td>Slug Consolidator + Transcontinental</td><td>SIEGE SLUG · PIERCES THE LINE · 150px IMPACT · SHOVES EVERYTHING</td></tr>
+<tr><td>ARC FLASH</td><td>Refinery Burn + Grid Overload</td><td>BURNING CONE · SPREADING IGNITION · 55px BURSTS · PROC ×3</td></tr>
+<tr><td>THE FINAL NOTICE</td><td>Transcontinental + Total Write-Off</td><td>COLLAPSING LANCE · PIERCES EVERYTHING · LEAVES A GRAVITY WELL</td></tr>
+</tbody></table>
 </section>
 <h3><span class="num">6.7</span> Systems</h3>
-<p>A system changes ship behaviour rather than adding a weapon. Systems occupy no bay.</p>
+<p>A system changes ship behaviour rather than adding a weapon. Systems occupy no bay. Each has a trigger and an effect; the table lists both at base rarity and at Elite, which is the largest version.</p>
 <section class="appendix-part" id="ap-systems">
 <h3>SYSTEMS</h3>
-<dl class="index">
-<dt>Vapor Recovery</dt><dd>Running the tank dry vents a shockwave. Waste is a resource now.</dd>
-<dt>Full Burn Manifest</dt><dd>While the fuel burns, so does everything else.</dd>
-<dt>Refuel Rebate</dt><dd>The company matches your recovery. Terms apply.</dd>
-<dt>Field Rivets</dt><dd>One more mistake, structurally approved.</dd>
-<dt>Patch Crew</dt><dd>They only work when management is dead.</dd>
-<dt>Jet Wash Protocol</dt><dd>The BOOSTERS run dirty on purpose. Anything caught in the burn wake is billed for cleanup.</dd>
-<dt>Through-Freight Clause</dt><dd>Cleared to proceed through every employee. Non-stop.</dd>
-</dl>
+<table class="data"><thead><tr><th>System</th><th>Trigger and effect</th><th>At Elite rarity</th></tr></thead><tbody>
+<tr><td>Vapor Recovery</td><td>TANK DRY → VENT: 42 DMG + KNOCKBACK (190px)</td><td>TANK DRY → VENT: 76 DMG + KNOCKBACK (342px)</td></tr>
+<tr><td>Full Burn Manifest</td><td>BOOSTING → DMG ×1.60</td><td>BOOSTING → DMG ×2.08</td></tr>
+<tr><td>Refuel Rebate</td><td>TANK RE-ARMS → +5 SHIELD</td><td>TANK RE-ARMS → +9 SHIELD</td></tr>
+<tr><td>Field Rivets</td><td>+1 HULL PIP (NOW)</td><td>+2 HULL PIPS (NOW)</td></tr>
+<tr><td>Patch Crew</td><td>BOSS KILL → +1 HULL PIP</td><td>BOSS KILL → +2 HULL PIPS</td></tr>
+<tr><td>Jet Wash Protocol</td><td>BOOSTING → BURNING WAKE (42 DPS · IGNITES · ELITE: ALL MOVEMENT)</td><td>BOOSTING → BURNING WAKE (76 DPS · IGNITES · ELITE: ALL MOVEMENT)</td></tr>
+<tr><td>Through-Freight Clause</td><td>ALL GUNS +1 PIERCE</td><td>ALL GUNS +3 PIERCE</td></tr>
+</tbody></table>
 </section>
 <h3><span class="num">6.8</span> Passives</h3>
-<p>A passive modifies a statistic such as damage, rate of fire, movement speed or collection radius. Passives stack, and rarity scales the size of the modification.</p>
+<p>A passive multiplies one statistic. Passives stack multiplicatively, and rarity scales the size of the multiplier above the base value listed.</p>
 <section class="appendix-part" id="ap-passives">
 <h3>PASSIVES</h3>
-<dl class="index">
-<dt>Prime Speed</dt><dd>The warranty won't cover the wear.</dd>
-<dt>Bulk Rounds</dt><dd>Heavier ordnance, by the pallet.</dd>
-<dt>Cargo Magnet</dt><dd>Efficiency is mandatory.</dd>
-<dt>Afterburner Tuning</dt><dd>Faster, and the tank runs longer. Mind the corners.</dd>
-<dt>Extended Reach</dt><dd>Rounds fly faster AND farther. Audit from a safe distance.</dd>
-<dt>Reinforced Ordnance</dt><dd>Double-boxed. Hits like the invoice.</dd>
-</dl>
+<table class="data"><thead><tr><th>Passive</th><th>Stat changed</th><th>Per pick</th></tr></thead><tbody>
+<tr><td>Prime Speed</td><td>fire rate</td><td>×1.15</td></tr>
+<tr><td>Bulk Rounds</td><td>damage</td><td>×1.12</td></tr>
+<tr><td>Cargo Magnet</td><td>magnet</td><td>×1.15</td></tr>
+<tr><td>Afterburner Tuning</td><td>speed</td><td>×1.12</td></tr>
+<tr><td>Extended Reach</td><td>range</td><td>×1.08</td></tr>
+<tr><td>Reinforced Ordnance</td><td>damage</td><td>×1.15</td></tr>
+</tbody></table>
 </section>
 <h3><span class="num">6.9</span> Synergies</h3>
 <p>A synergy is an additional draft option that becomes possible only once you own a specific pair of other upgrades. It cannot be offered before its requirements are met.</p>
 <section class="appendix-part" id="ap-synergies">
 <h3>SYNERGIES</h3>
-<dl class="index">
-<dt>Freight Priority <span class="meta">RAIL +2 PIERCE · VEL ×1.4</span></dt><dd>The lance now ships overnight. Through everything.</dd>
-<dt>Cold Storage <span class="meta">GEMS IMMUNE TO SINGULARITY PULL · WORTH +10%</span></dt><dd>Inventory is anchored to the ledger. The well can file a complaint.</dd>
-<dt>Payroll Compression <span class="meta">FLAK +3 PELLETS</span></dt><dd>More pellets per invoice. Accounting calls it efficiency.</dd>
-<dt>Same-Day Service <span class="meta">BOOSTING → ROF ×2 (ALL GUNS)</span></dt><dd>Delivery speed and fire rate are now the same department.</dd>
-<dt>Compound Interest <span class="meta">GEMS WORTH +25%</span></dt><dd>Every pickup accrues. The rate is non-negotiable.</dd>
-</dl>
+<table class="data"><thead><tr><th>Synergy</th><th>Effect</th></tr></thead><tbody>
+<tr><td>Freight Priority</td><td>RAIL +2 PIERCE · VEL ×1.4</td></tr>
+<tr><td>Cold Storage</td><td>GEMS IMMUNE TO SINGULARITY PULL · WORTH +10%</td></tr>
+<tr><td>Payroll Compression</td><td>FLAK +3 PELLETS</td></tr>
+<tr><td>Same-Day Service</td><td>BOOSTING → ROF ×2 (ALL GUNS)</td></tr>
+<tr><td>Compound Interest</td><td>GEMS WORTH +25%</td></tr>
+</tbody></table>
 </section>
 <h3><span class="num">6.10</span> Boss boons</h3>
 <p>Killing a boss offers a boon. Boons are optional and are separate from the draft.</p>
 <section class="appendix-part" id="ap-boons">
 <h3>BOONS</h3>
-<dl class="index">
-<dt>Executive Ordnance <span class="meta">ALL GUNS +45% DAMAGE</span></dt><dd>The board approved more firepower. It comes out of your paycheck.</dd>
-<dt>Mandatory Overtime <span class="meta">+30% FIRE RATE</span></dt><dd>The whole floor works faster now. Breaks remain unauthorized.</dd>
-<dt>Regional Expansion <span class="meta">+20% REACH</span></dt><dd>Your jurisdiction just widened. So did the liability.</dd>
-<dt>Expanded Roster <span class="meta">+1 WEAPON BAY</span></dt><dd>Headcount approved. One more mount, effective immediately.</dd>
-<dt>Logistics Overhaul <span class="meta">+50% PICKUP · GEMS +25%</span></dt><dd>Everything comes to you now, and it is worth more.</dd>
-<dt>Corporate Indemnity <span class="meta">+90 SHIELD · −8% MOVE SPEED</span></dt><dd>A fat policy, paid up front. The bulk slows you down. Read the exclusions later.</dd>
-<dt>Hazard Bonus <span class="meta">+55% DAMAGE · +15% CONTACT DAMAGE</span></dt><dd>Hazard pay, in both directions. You hit harder — so does the floor.</dd>
-<dt>Full Route Authority <span class="meta">+2 PIERCE · −25% FIRE RATE</span></dt><dd>Cleared through every body on the line. The line moves slower now.</dd>
-<dt>Iron Clause <span class="meta">+2 HULL PIPS · −15% DAMAGE</span></dt><dd>Two more mistakes before termination. The reinforcement dulls your edge.</dd>
-</dl>
+<table class="data"><thead><tr><th>Boon</th><th>Effect</th></tr></thead><tbody>
+<tr><td>Executive Ordnance</td><td>ALL GUNS +45% DAMAGE</td></tr>
+<tr><td>Mandatory Overtime</td><td>+30% FIRE RATE</td></tr>
+<tr><td>Regional Expansion</td><td>+20% REACH</td></tr>
+<tr><td>Expanded Roster</td><td>+1 WEAPON BAY</td></tr>
+<tr><td>Logistics Overhaul</td><td>+50% PICKUP · GEMS +25%</td></tr>
+<tr><td>Corporate Indemnity</td><td>+90 SHIELD · −8% MOVE SPEED</td></tr>
+<tr><td>Hazard Bonus</td><td>+55% DAMAGE · +15% CONTACT DAMAGE</td></tr>
+<tr><td>Full Route Authority</td><td>+2 PIERCE · −25% FIRE RATE</td></tr>
+<tr><td>Iron Clause</td><td>+2 HULL PIPS · −15% DAMAGE</td></tr>
+</tbody></table>
 </section>
 <section class="chapter" id="ch7">
 <h2><span class="folio">VII</span> THE MAP</h2>
@@ -355,63 +355,64 @@
 <h3><span class="num">8.1</span> Scrip</h3>
 <p>Scrip is earned during a run and kept when the run ends, including when the ship is destroyed. It is the only resource that persists.</p>
 <h3><span class="num">8.2</span> The Depot</h3>
-<p>The Depot converts scrip into permanent upgrades that apply to every future run. Each entry has a maximum number of purchases, listed below. There are <span class="fig">23</span> entries.</p>
+<p>The Depot converts scrip into permanent upgrades that apply to every future run. There are <span class="fig">23</span> entries.</p>
+<p>Each entry has a maximum number of levels. The price is not flat: each level costs <span class="fig">1.28</span> times the previous one, so the last level of a rider costs considerably more than the first. The table lists both the first level's price and the total to buy every level.</p>
 <section class="appendix-part" id="ap-depot">
 <h3>DEPOT</h3>
-<dl class="index">
-<dt>Bay Lease · COURIER (skirmisher) <span class="meta">4</span></dt><dd>+1 Courier bay per level.</dd>
-<dt>Bay Lease · HAULER (bruiser) <span class="meta">5</span></dt><dd>+1 Hauler bay per level.</dd>
-<dt>Bay Lease · CARRIER (summoner) <span class="meta">2</span></dt><dd>+1 Carrier bay per level.</dd>
-<dt>Ordnance Contract <span class="meta">16</span></dt><dd>+4% weapon damage per level.</dd>
-<dt>Line Speed Agreement <span class="meta">16</span></dt><dd>+3% fire rate per level.</dd>
-<dt>Regional Coverage <span class="meta">12</span></dt><dd>+6% weapon range per level.</dd>
-<dt>Reinforced Frame <span class="meta">4</span></dt><dd>+1 hull pip per level. Non-negotiable.</dd>
-<dt>Shield Rider <span class="meta">16</span></dt><dd>+3 shield capacity per level.</dd>
-<dt>Maintenance Rider <span class="meta">12</span></dt><dd>+15% shield regen rate per level.</dd>
-<dt>Liability Waiver <span class="meta">10</span></dt><dd>-6% contact damage taken per level.</dd>
-<dt>Motor Pool Requisition <span class="meta">12</span></dt><dd>+5% move speed per level.</dd>
-<dt>Fuel Allowance <span class="meta">12</span></dt><dd>+0.2s boost fuel per level.</dd>
-<dt>Fuel Contractor <span class="meta">12</span></dt><dd>+12% fuel regen per level.</dd>
-<dt>Logistics Magnet <span class="meta">12</span></dt><dd>+15% pickup radius per level.</dd>
-<dt>Salvage Rights <span class="meta">12</span></dt><dd>+8% gem value per level.</dd>
-<dt>Onboarding Credit <span class="meta">8</span></dt><dd>Start each shift with banked XP.</dd>
-<dt>Preferred Vendor <span class="meta">10</span></dt><dd>+2% rare card odds per level.</dd>
-<dt>Payroll Adjustment <span class="meta">12</span></dt><dd>+10% scrip earned per level.</dd>
-<dt>Near-Miss Clause <span class="meta">10</span></dt><dd>+2% chance any hit simply misses, per level.</dd>
-<dt>Reroll Authorization <span class="meta">5</span></dt><dd>+1 draft reroll at the start of every shift.</dd>
-<dt>Second Wind Clause <span class="meta">1</span></dt><dd>Once per shift, a fatal hit leaves you at 1 pip.</dd>
-<dt>Hazard Pay <span class="meta">8</span></dt><dd>+damage as your hull drops (up to a lot at critical).</dd>
-<dt>Signing Bonus <span class="meta">1</span></dt><dd>Start each shift with one free installed weapon.</dd>
-</dl>
+<table class="data"><thead><tr><th>Depot item</th><th>Effect</th><th>Max levels</th><th>First level</th><th>All levels</th></tr></thead><tbody>
+<tr><td>Bay Lease · COURIER (skirmisher)</td><td>+1 Courier bay per level.</td><td>4</td><td>450 scrip</td><td>2707 scrip</td></tr>
+<tr><td>Bay Lease · HAULER (bruiser)</td><td>+1 Hauler bay per level.</td><td>5</td><td>450 scrip</td><td>3915 scrip</td></tr>
+<tr><td>Bay Lease · CARRIER (summoner)</td><td>+1 Carrier bay per level.</td><td>2</td><td>450 scrip</td><td>1026 scrip</td></tr>
+<tr><td>Ordnance Contract</td><td>+4% weapon damage per level.</td><td>16</td><td>60 scrip</td><td>10912 scrip</td></tr>
+<tr><td>Line Speed Agreement</td><td>+3% fire rate per level.</td><td>16</td><td>60 scrip</td><td>10912 scrip</td></tr>
+<tr><td>Regional Coverage</td><td>+6% weapon range per level.</td><td>12</td><td>50 scrip</td><td>3275 scrip</td></tr>
+<tr><td>Reinforced Frame</td><td>+1 hull pip per level. Non-negotiable.</td><td>4</td><td>400 scrip</td><td>2406 scrip</td></tr>
+<tr><td>Shield Rider</td><td>+3 shield capacity per level.</td><td>16</td><td>45 scrip</td><td>8183 scrip</td></tr>
+<tr><td>Maintenance Rider</td><td>+15% shield regen rate per level.</td><td>12</td><td>45 scrip</td><td>2948 scrip</td></tr>
+<tr><td>Liability Waiver</td><td>-6% contact damage taken per level.</td><td>10</td><td>65 scrip</td><td>2507 scrip</td></tr>
+<tr><td>Motor Pool Requisition</td><td>+5% move speed per level.</td><td>12</td><td>50 scrip</td><td>3275 scrip</td></tr>
+<tr><td>Fuel Allowance</td><td>+0.2s boost fuel per level.</td><td>12</td><td>35 scrip</td><td>2292 scrip</td></tr>
+<tr><td>Fuel Contractor</td><td>+12% fuel regen per level.</td><td>12</td><td>40 scrip</td><td>2619 scrip</td></tr>
+<tr><td>Logistics Magnet</td><td>+15% pickup radius per level.</td><td>12</td><td>35 scrip</td><td>2292 scrip</td></tr>
+<tr><td>Salvage Rights</td><td>+8% gem value per level.</td><td>12</td><td>55 scrip</td><td>3602 scrip</td></tr>
+<tr><td>Onboarding Credit</td><td>Start each shift with banked XP.</td><td>8</td><td>70 scrip</td><td>1553 scrip</td></tr>
+<tr><td>Preferred Vendor</td><td>+2% rare card odds per level.</td><td>10</td><td>90 scrip</td><td>3474 scrip</td></tr>
+<tr><td>Payroll Adjustment</td><td>+10% scrip earned per level.</td><td>12</td><td>80 scrip</td><td>5240 scrip</td></tr>
+<tr><td>Near-Miss Clause</td><td>+2% chance any hit simply misses, per level.</td><td>10</td><td>55 scrip</td><td>2122 scrip</td></tr>
+<tr><td>Reroll Authorization</td><td>+1 draft reroll at the start of every shift.</td><td>5</td><td>120 scrip</td><td>1045 scrip</td></tr>
+<tr><td>Second Wind Clause</td><td>Once per shift, a fatal hit leaves you at 1 pip.</td><td>1</td><td>500 scrip</td><td>500 scrip</td></tr>
+<tr><td>Hazard Pay</td><td>+damage as your hull drops (up to a lot at critical).</td><td>8</td><td>90 scrip</td><td>1995 scrip</td></tr>
+<tr><td>Signing Bonus</td><td>Start each shift with one free installed weapon.</td><td>1</td><td>350 scrip</td><td>350 scrip</td></tr>
+</tbody></table>
 </section>
 <h3><span class="num">8.3</span> Directives</h3>
 <p>A directive is a permanent rule change rather than a numeric bonus. Directives are unlocked by meeting a condition, not by purchase. The unlock condition for each is listed.</p>
 <section class="appendix-part" id="ap-directives">
 <h3>DIRECTIVES</h3>
-<dl class="index">
-<dt>Just-In-Time Delivery <span class="meta">Pull the trigger 15,000 times (lifetime).</span></dt><dd>No magazines. Guns never reload — and never hurry. Fire 20% slower, forever.</dd>
-<dt>Zero Inventory <span class="meta">Reach 60 clearance levels (lifetime).</span></dt><dd>Nothing drops. Kills bank XP directly at 85 cents on the dollar. The magnet is retired.</dd>
-<dt>Hostile Workplace <span class="meta">Dismiss 10 Supervisors (lifetime).</span></dt><dd>The shield generator is removed. Two extra hull pips, and contact injures the other party too.</dd>
-<dt>Perpetual Motion Clause <span class="meta">Survive 3 hours on the floor (lifetime).</span></dt><dd>The boost tank never empties. Standing still voids the shield warranty — it drains.</dd>
-<dt>Single Vendor Agreement <span class="meta">Process 25,000 units (lifetime).</span></dt><dd>After your first install, the draft only ever offers THAT weapon. Duplicates forever. One supplier.</dd>
-</dl>
+<table class="data"><thead><tr><th>Directive</th><th>Effect</th><th>Unlocked by</th></tr></thead><tbody>
+<tr><td>Just-In-Time Delivery</td><td>No magazines. Guns never reload — and never hurry. Fire 20% slower, forever.</td><td>Pull the trigger 15,000 times (lifetime).</td></tr>
+<tr><td>Zero Inventory</td><td>Nothing drops. Kills bank XP directly at 85 cents on the dollar. The magnet is retired.</td><td>Reach 60 clearance levels (lifetime).</td></tr>
+<tr><td>Hostile Workplace</td><td>The shield generator is removed. Two extra hull pips, and contact injures the other party too.</td><td>Dismiss 10 Supervisors (lifetime).</td></tr>
+<tr><td>Perpetual Motion Clause</td><td>The boost tank never empties. Standing still voids the shield warranty — it drains.</td><td>Survive 3 hours on the floor (lifetime).</td></tr>
+<tr><td>Single Vendor Agreement</td><td>After your first install, the draft only ever offers THAT weapon. Duplicates forever. One supplier.</td><td>Process 25,000 units (lifetime).</td></tr>
+</tbody></table>
 </section>
 <h3><span class="num">8.4</span> Modifiers</h3>
-<p>A modifier increases difficulty in a specific way and increases scrip earned in exchange. Modifiers are selected before a run begins and are optional. The percentage shown is the scrip increase.</p>
+<p>A modifier increases difficulty in a specific way and pays for it in two currencies: more scrip at the end of the run, and a higher chance of rare cards during it. Modifiers are selected before a run begins and are optional. They stack.</p>
 <section class="appendix-part" id="ap-modifiers">
 <h3>MODIFIERS</h3>
-<dl class="index">
-<dt>Swift Processing <span class="meta">15</span></dt><dd>The whole floor moves faster.</dd>
-<dt>Peak Season <span class="meta">15</span></dt><dd>Denser waves — more bodies, sooner.</dd>
-<dt>Reinforced Stock <span class="meta">18</span></dt><dd>Everything takes more to put down.</dd>
-<dt>Management Everywhere <span class="meta">18</span></dt><dd>Champions, constantly.</dd>
-<dt>Compressed Schedule <span class="meta">22</span></dt><dd>Supervisors arrive sooner and faster.</dd>
-<dt>No Breaks <span class="meta">12</span></dt><dd>No relief window after a boss.</dd>
-<dt>Hazardous Floor <span class="meta">15</span></dt><dd>Contact hurts a great deal more.</dd>
-<dt>Armed Early <span class="meta">12</span></dt><dd>Ranged enemies kite from minute one.</dd>
-<dt>Austerity Measures <span class="meta">22</span></dt><dd>Leaner drops — XP is worth less.</dd>
-<dt>Event Horizon <span class="meta">18</span></dt><dd>Bigger, hungrier black holes.</dd>
-</dl>
+<table class="data"><thead><tr><th>Modifier</th><th>What it changes</th><th>What it pays</th></tr></thead><tbody>
+<tr><td>Swift Processing</td><td>The whole floor moves faster.</td><td>+15% scrip · +2% rare</td></tr>
+<tr><td>Peak Season</td><td>Denser waves — more bodies, sooner.</td><td>+15% scrip · +2% rare</td></tr>
+<tr><td>Reinforced Stock</td><td>Everything takes more to put down.</td><td>+18% scrip · +3% rare</td></tr>
+<tr><td>Management Everywhere</td><td>Champions, constantly.</td><td>+18% scrip · +3% rare</td></tr>
+<tr><td>Compressed Schedule</td><td>Supervisors arrive sooner and faster.</td><td>+22% scrip · +4% rare</td></tr>
+<tr><td>No Breaks</td><td>No relief window after a boss.</td><td>+12% scrip · +2% rare</td></tr>
+<tr><td>Hazardous Floor</td><td>Contact hurts a great deal more.</td><td>+15% scrip · +3% rare</td></tr>
+<tr><td>Armed Early</td><td>Ranged enemies kite from minute one.</td><td>+12% scrip · +2% rare</td></tr>
+<tr><td>Austerity Measures</td><td>Leaner drops — XP is worth less.</td><td>+22% scrip · +3% rare</td></tr>
+<tr><td>Event Horizon</td><td>Bigger, hungrier black holes.</td><td>+18% scrip · +3% rare</td></tr>
+</tbody></table>
 </section>
 <section class="chapter" id="ch9">
 <h2><span class="folio">IX</span> TECHNICAL NOTES</h2>
