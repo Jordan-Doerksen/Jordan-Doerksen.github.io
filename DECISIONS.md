@@ -57,6 +57,35 @@ The front page is Jordan's daily driver, not a display case: sticky global searc
 - Should the site's own entry link this DECISIONS.md as a live example? (Nice-to-have.)
 
 ## Change Log
+- 2026-08-16 — **CR-9 (owner-interviewed, three answers): the Fulfillment manual's design pass —
+  `games/fulfillment/manual.css` goes from structural placeholder to the technical-print-manual
+  skin, and this entry also BACKFILLS the generation contract the 2026-08-15 build owed.** The
+  spec (`fulfillment/docs/specs/manual-and-box-2026-08-15.md`) required its contract recorded
+  here as a CR *before* markup; the manual shipped in the held-back commits without it.
+  Recorded late rather than never, and flagged as such.
+  - **Layout contract (from the spec, verbatim):** `site_type` editorial · `dominant_idea`
+    "A company-issue manual that teaches a job intending to kill you." · `primary_patterns`
+    editorial_rhythm + anti_card_composition · `narrative_sequence` the one rule → what you fly
+    → the field → who comes for you → requisition → what is out there → between shifts →
+    reference · `persistent_clusters` identity_navigation + chapter_progress + primary_action ·
+    `card_policy` cards ONLY for the three hulls (M-5) · `responsive_transformations` single
+    column throughout; plates re-measure; **desktop-only is a recorded owner departure**
+    (2026-08-15: PC game, audience is at the machine) · `reduced_motion_equivalent` no motion
+    is load-bearing anywhere; the page is static.
+  - **Visual layer — the manual's own token sheet** (`games/fulfillment/manual.tokens.css`;
+    spec §6.5 — it does not adopt Stagecraft). Interview answers (owner, 2026-08-16):
+    **S-1** sans heads + serif body + mono for anything the game prints (system stacks, zero
+    font downloads) · **S-2** ONE spot ink `#b8432a`, the game's management-ink coral
+    `#ff7a5c` darkened to print — 4.9:1 AA on the paper; numerals, links, warnings and figure
+    marks only, never body prose · **S-3** gameplay screenshots break the measure to 66rem
+    (evidence at scale, per the IBM SG 60/60 case study); `fig_*` teaching diagrams hold the
+    46rem measure. Distinguished by filename via `:has()`; browsers without it get every plate
+    at the measure — a complete quieter page, not a broken one.
+  - **Found and fixed the same day:** `build_manual.py` never closed a chapter's `<section>`
+    before opening the next, so chapters nested in the DOM. Generator fixed in the game repo,
+    manual regenerated (22 opens / 22 closes). The stylesheet keeps its class-selectors-only
+    discipline anyway.
+  - No content changed, no identifier changed, no JS added. The page still reads with CSS off.
 - 2026-07-08 — CR-6: front door pivots from presentation portfolio to personal Tool Desk (D-A08). Rationale: Jordan daily-drives the page as a database / tool search / reference, not a display case — the atlas already carries the presentation load. New `index.html` shell + `styles/desk.css` + `js/desk/{desk,render,search,copy}.js`; data = `registry.json` (canonical facts) + `data/desk.json` (overlay: pinned, mine notes/ports/paths, toolkit stars/installs) + `data/toolkit.js` (mirror of it-toolkit). Old front door preserved at `docs/legacy-front-door.html`. Atlas pages, hubs, project pages, and registry.json untouched.
 - 2026-07-07 — CR-4 (operator-approved, three layers picked by interview): front door comes alive. (1) House signatures at doc scale — drifting sun restored (`#sun`, desk-teal via tokens), kinetic word-rise on the h1 (now `id="hero-h"`), grain nudged .035→.05, page-scoped. (2) Living diagrams — new shared `assets/diagram-live.js` (hover lighting moved there from both pages + a gold-path traveling pulse per edge, IntersectionObserver-paced, one per figure chain), soft node press; loaded by the front door and the atlas template (post-render scan). (3) Alive index — springy row nudge + accent-derived hover tint, magnetic mono links, TOC number roll-up. Every layer gated on prefers-reduced-motion (and hover:none where pointer-based); scene props declined.
 - 2026-07-07 — CR-5 (operator-approved): style-library sync — Daybreak reference-pass upgrades applied. `styles/style.css` re-synced from the canonical style-library (adds the interactive state matrix: disabled/loading/pressed/aria-current, plus command-palette styles); new `styles/shader.js` (canvas noise blobs inside `#sun`, static single frame under reduced motion) wired into the 7 category hubs; new `styles/cmdk.js` (accessible Ctrl/Cmd-K palette) wired into the front door, searching all 54 registry projects + categories + sections (data injected after the registry fetch, section/category fallback if the fetch fails; full-tier projects route to their atlas entry). Front door deliberately does NOT get shader.js — it has no `#sun` (README-shape rule). External idea sources cataloged in style-library/REFERENCES.md.

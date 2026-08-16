@@ -1,0 +1,28 @@
+/* FULFILLMENT manual — token sheet (spec manual-and-box-2026-08-15.md §6.5: the manual declares
+ * its own paper tokens; it does not adopt Stagecraft). Every tweakable value of the design lives
+ * here; manual.css holds structure only. Interview decisions 2026-08-16 (owner):
+ *   S-1  type voice — sans heads + serif body + mono for anything the game prints (M-4)
+ *   S-2  one spot ink — printed coral derived from the game's management ink #ff7a5c,
+ *        darkened to pass AA on paper; numerals, links, warnings, figure marks ONLY
+ *   S-3  gameplay screenshots break the measure; teaching figures stay inside it
+ * Contrast, measured against --paper: ink 15.8:1 · quiet 5.3:1 · signal 4.9:1 (all AA).
+ * --rule is hairline-only and never colours text (1.5:1).
+ */
+:root {
+  /* ground + ink (M-8: paper manual, dark box) */
+  --paper: #f7f4ee;
+  --ink: #1b1a18;
+  --quiet: #6a655c;          /* captions, metadata, folio text */
+  --rule: #cfc9bd;           /* hairlines only */
+  --signal: #b8432a;         /* the spot ink (S-2) — from the game's coral, printed */
+  --card: #fbf9f3;           /* hull-card ground, one step off the paper */
+
+  /* type (S-1) */
+  --serif: "Sitka Text", Charter, "Bitstream Charter", Cambria, Georgia, serif;
+  --sans: "Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "Cascadia Mono", "JetBrains Mono", Consolas, monospace;
+
+  /* layout */
+  --measure: 46rem;          /* the reading column (desktop-first, recorded departure) */
+  --wide: 66rem;             /* what a breaking screenshot may grow to (S-3) */
+}

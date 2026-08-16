@@ -1,109 +1,134 @@
-/* FULFILLMENT manual — STRUCTURAL PLACEHOLDER ONLY.
+/* FULFILLMENT manual — the design pass (2026-08-16). Replaces the structural placeholder.
  *
- * DESKTOP ONLY (owner 2026-08-15: "this is for a pc game… also drop this mobile friendly style").
- * This is a deliberate departure from the web law's "responsive = re-authoring priority" rule, and it
- * is recorded rather than silently taken: the audience for a PC game's reference manual is at the
- * machine that runs the game. The page still reflows rather than breaking, because a fixed-pixel
- * layout would be worse on the owner's own varied monitors — what is dropped is designing FOR small
- * screens, not the ability to survive one.
+ * Register: technical print manual (M-4) on warm paper (M-8) — sans heads, serif body, mono for
+ * anything the game itself prints, hairline rules, one printed-coral spot ink (interview S-1..S-3;
+ * tokens + contrast record in manual.tokens.css). Patterns: editorial_rhythm + anti_card_composition.
  *
- * This is deliberately NOT the design. The owner's instruction was "lets build the webpage first and
- * then wait for the css changes", so this file does the minimum needed to read the structure and prove
- * the content: a measure, a scale, and visible plate slots. No art direction, no palette work, no type
- * pairing. That is the next pass, and M-4 / M-8 in docs/specs/manual-and-box-2026-08-15.md already
- * record what it has to become — technical print manual, warm paper, ink text, hairline rules.
+ * DESKTOP ONLY (owner 2026-08-15) — the recorded departure from the web law's responsive rule
+ * stands: the page reflows rather than breaking, but small screens are not designed for.
  *
- * The page it styles has NO JavaScript and NO fetch. Everything is in the HTML, so this stylesheet can
- * fail completely and the manual is still readable top to bottom. That is the point.
+ * The page has NO JavaScript. This sheet can fail completely and the manual reads top to bottom.
+ *
+ * The generator (build_manual.py) closes every chapter <section> before the next opens (fixed
+ * 2026-08-16; the chapters used to nest). This sheet keeps its class-selectors-only discipline
+ * anyway — it stays correct regardless of the markup's nesting.
  */
-
-:root {
-  --paper: #f7f4ee;
-  --ink: #1b1a18;
-  --rule: #cfc9bd;
-  --quiet: #6a655c;
-  --measure: 46rem;   /* desktop reading measure — wider than the mobile-first 34rem */
-}
+@import url("manual.tokens.css");
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  padding: 0 1.25rem 6rem;
+  padding: 0 1.5rem 5rem;
   background: var(--paper);
   color: var(--ink);
-  font: 16px/1.65 Georgia, "Times New Roman", serif;
+  font: 17px/1.7 var(--serif);
 }
+::selection { background: #efd9c8; }
 
 .skip { position: absolute; left: -9999px; }
-.skip:focus { left: 1rem; top: 1rem; position: fixed; background: var(--ink); color: var(--paper); padding: .5rem .75rem; }
+.skip:focus { left: 1rem; top: 1rem; position: fixed; background: var(--ink); color: var(--paper); padding: .5rem .75rem; z-index: 9; }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
-.masthead, .contents, main, footer { max-width: var(--measure); margin: 0 auto; }
-.masthead { padding: 3rem 0 2rem; border-bottom: 1px solid var(--rule); }
-.issuer { font: 500 .7rem/1.4 ui-monospace, "JetBrains Mono", monospace; letter-spacing: .12em; color: var(--quiet); margin: 0 0 1rem; }
-.masthead h1 { font-size: 2.4rem; letter-spacing: .04em; margin: 0 0 .5rem; }
-.sub { margin: 0 0 1.25rem; color: var(--quiet); }
+a { color: var(--signal); text-decoration: underline; text-underline-offset: .18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); }
 
-.contents { padding: 2rem 0; border-bottom: 1px solid var(--rule); }
-.contents h2 { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--quiet); }
-.contents ol { padding-left: 1.2rem; }
-.contents a { color: inherit; }
+.masthead, .contents, main, footer { max-width: var(--measure); margin-left: auto; margin-right: auto; }
 
-.chapter { padding: 2.5rem 0 1rem; border-bottom: 1px solid var(--rule); }
-.chapter h2 { font-size: 1.5rem; letter-spacing: .05em; }
-.folio { color: var(--quiet); margin-right: .5rem; }
-.chapter h3 { font-size: 1.05rem; margin: 2rem 0 .4rem; }
-.num { color: var(--quiet); font: 500 .85rem ui-monospace, "JetBrains Mono", monospace; margin-right: .5rem; }
+/* ── the cover ─────────────────────────────────────────────────────────────── */
+.masthead { padding: 4.5rem 0 2.25rem; border-bottom: 3px solid var(--ink); }
+.issuer { font: 500 .68rem/1.5 var(--mono); letter-spacing: .18em; color: var(--quiet); margin: 0 0 1.5rem; }
+.issuer::before { content: ""; display: inline-block; width: .6em; height: .6em; background: var(--signal); margin-right: .7em; }
+.masthead h1 {
+  font-family: var(--sans); font-weight: 800;
+  font-size: clamp(2.1rem, 1.2rem + 3.2vw, 3.1rem);
+  letter-spacing: .14em; line-height: 1.05; margin: 0 0 1rem;
+}
+.sub { margin: 0 0 1.75rem; font-size: 1.02rem; color: var(--quiet); max-width: 38rem; }
+.actions { margin: 0; }
+.actions a {
+  display: inline-block; font: 600 .72rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--signal); border: 1px solid currentColor; padding: .65rem 1rem; text-decoration: none;
+}
+.actions a:hover { background: var(--signal); color: var(--paper); }
+
+/* ── contents ──────────────────────────────────────────────────────────────── */
+.contents { padding: 2.25rem 0 2.75rem; }
+.contents h2 { font: 700 .72rem/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--quiet); margin: 0 0 1rem; }
+.contents ol { list-style: none; margin: 0; padding: 0; columns: 2 17rem; column-gap: 3rem; }
+.contents li { break-inside: avoid; border-bottom: 1px solid var(--rule); }
+.contents a {
+  display: block; padding: .55rem 0;
+  font: 600 .78rem/1.4 var(--sans); letter-spacing: .07em; color: var(--ink); text-decoration: none;
+}
+.contents a:hover { color: var(--signal); }
+
+/* ── chapters ──────────────────────────────────────────────────────────────── */
+.chapter { border-top: 3px solid var(--ink); margin-top: 4rem; padding-top: 2.5rem; }
+.chapter h2 { font-family: var(--sans); font-weight: 800; font-size: 1.55rem; letter-spacing: .09em; margin: 0 0 1.5rem; }
+.folio { color: var(--signal); font-family: var(--mono); font-weight: 700; margin-right: .6rem; }
+.chapter h3 { font: 700 .92rem/1.4 var(--sans); letter-spacing: .06em; text-transform: uppercase; margin: 2.5rem 0 .75rem; }
+.num { color: var(--signal); font: 600 .85rem var(--mono); margin-right: .55rem; }
 p { margin: 0 0 1rem; }
 
 /* a sourced figure — every number on this page came from the game's own export (M-9) */
-.fig { font: 600 .95em ui-monospace, "JetBrains Mono", monospace; }
+.fig { font: 600 .93em var(--mono); font-variant-numeric: tabular-nums; }
 
-/* RESERVED, NOT HIDDEN. The capture pass is still owed (spec 6.2); an empty slot that states its own
- * caption is honest, where a hidden slot would let the gap be quietly forgotten. */
-.plate { margin: 1.75rem 0; }
-.plate-slot { aspect-ratio: 16 / 9; border: 1px dashed var(--rule); background: repeating-linear-gradient(45deg, transparent 0 12px, rgba(0,0,0,.03) 12px 24px); }
-.plate figcaption { font: 500 .75rem ui-monospace, monospace; color: var(--quiet); padding-top: .5rem; }
-.plate.pending figcaption::before { content: "plate pending · "; }
+/* ── plates and figures (M-7, S-3) ────────────────────────────────────────── */
+.plate { margin: 2.5rem 0; }
+.plate img { width: 100%; height: auto; display: block; border: 1px solid var(--rule); background: var(--ink); }
+.plate figcaption { font: 500 .72rem/1.6 var(--mono); letter-spacing: .05em; color: var(--quiet); padding-top: .6rem; }
+.plate figcaption::before { content: ""; display: inline-block; width: .6em; height: .6em; background: var(--signal); margin-right: .6em; }
 
-.appendix-part { margin: 2rem 0; }
-.appendix-part h3 { font: 600 .8rem/1 ui-monospace, monospace; letter-spacing: .14em; color: var(--quiet); border-bottom: 1px solid var(--rule); padding-bottom: .4rem; }
+/* S-3: gameplay screenshots (evidence) break the measure; fig_* teaching diagrams stay inside it.
+ * Distinguished by filename because the generator marks no roles. Browsers without :has() show
+ * every plate at the measure — a complete, quieter page, not a broken one. The 3.5rem slack keeps
+ * the wide case clear of the scrollbar, so the page never scrolls sideways. */
+.plate:has(img):not(:has(img[src*="fig_"])) {
+  width: min(var(--wide), calc(100vw - 3.5rem));
+  position: relative; left: 50%; transform: translateX(-50%);
+}
 
-/* M-5: an INDEX, not cards. The name leads because the name is what you scan for. */
-.index { margin: 0; }
-.index dt { font-weight: 700; margin-top: .9rem; }
-.index dd { margin: 0; color: var(--quiet); }
-.meta { font: 500 .75rem ui-monospace, monospace; color: var(--quiet); font-weight: 400; }
+/* RESERVED, NOT HIDDEN. The remaining capture gaps stay visible (spec 6.2): an empty slot that
+ * states its own caption is honest, where a hidden slot would let the gap be quietly forgotten. */
+.plate-slot { aspect-ratio: 16 / 9; border: 1px dashed var(--rule); background: repeating-linear-gradient(45deg, transparent 0 12px, rgba(27,26,24,.04) 12px 24px); }
+.plate.pending figcaption::before { content: "PLATE PENDING · "; width: auto; height: auto; background: none; color: var(--signal); letter-spacing: .12em; }
 
-/* M-5: cards ONLY here — the hulls are the one genuine peer set. */
-.hulls { list-style: none; padding: 0; display: grid; gap: 1rem; }
-.hulls { grid-template-columns: repeat(3, 1fr); }   /* desktop: always three across */
-.hull { border: 1px solid var(--rule); padding: 1rem; }
-.hull h4 { margin: 0 0 .2rem; }
-.hull .tag { font: 500 .72rem ui-monospace, monospace; color: var(--quiet); margin: 0 0 .6rem; }
-.hull dl { display: grid; grid-template-columns: auto 1fr; gap: 0 .6rem; font: 500 .8rem ui-monospace, monospace; margin: 0 0 .6rem; }
-.hull dt { color: var(--quiet); }
-.hull dd { margin: 0; }
-.hull p { font-size: .88rem; margin: 0; }
-
-footer { padding: 2.5rem 0; color: var(--quiet); font-size: .85rem; }
-
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
-
-/* ── blocks added by the technical rewrite (owner 2026-08-15) ────────────────────────────────────
- * Still structural only. A data-focused manual needs a readable table and a readable definition
- * list; neither of these is art direction, and both are replaced wholesale in the design pass. */
-
-.data { border-collapse: collapse; width: 100%; margin: 1.25rem 0; font-size: .9rem; }
-.data th, .data td { text-align: left; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
-.data th { font: 600 .72rem/1.3 ui-monospace, "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--quiet); }
-.data tbody tr:last-child td { border-bottom: 0; }
-/* tables lay out as tables — no phone-driven horizontal scroll box */
-
-.glossary { margin: 1.25rem 0; }
-.glossary dt { font: 600 .9rem ui-monospace, "JetBrains Mono", monospace; margin-top: .85rem; }
+/* ── glossary (II) — terms are what the game prints, so they set in mono ───── */
+.glossary { margin: 1.5rem 0; }
+.glossary dt { font: 600 .85rem/1.5 var(--mono); margin-top: 1rem; }
 .glossary dd { margin: .15rem 0 0; }
 
-/* Captured plates (tools/manual_plates.gd). Bordered rather than bled, so a 16:9 game frame sits as a
-   figure in a document instead of pretending to be the page. */
-.plate img { width: 100%; height: auto; display: block; border: 1px solid var(--rule); }
+/* ── data tables — generated, mono-headed, hairline-ruled ─────────────────── */
+.data { border-collapse: collapse; width: 100%; margin: 1.5rem 0; font-size: .9rem; }
+.data th, .data td { text-align: left; padding: .5rem .65rem; vertical-align: top; }
+.data thead th {
+  font: 700 .66rem/1.4 var(--sans); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--quiet); border-bottom: 2px solid var(--ink);
+}
+.data td { border-bottom: 1px solid var(--rule); }
+/* tables lay out as tables — no phone-driven horizontal scroll box (desktop departure) */
+
+/* ── appendix ──────────────────────────────────────────────────────────────── */
+.appendix-part { margin: 2.5rem 0; }
+.appendix-part h3 {
+  font: 700 .7rem/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--quiet);
+  border-bottom: 1px solid var(--rule); padding-bottom: .5rem; margin: 2rem 0 1rem;
+}
+.appendix-part h3::before { content: ""; display: inline-block; width: .6em; height: .6em; background: var(--signal); margin-right: .7em; }
+
+/* M-5: cards ONLY here — the hulls are the one genuine peer set. */
+.hulls { list-style: none; padding: 0; margin: 1.25rem 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+.hull { border: 1px solid var(--rule); background: var(--card); padding: 1.1rem 1.1rem 1rem; }
+.hull h4 { font: 800 .95rem/1.3 var(--sans); letter-spacing: .08em; margin: 0 0 .25rem; }
+.hull .tag { font: 600 .64rem/1.5 var(--mono); letter-spacing: .12em; color: var(--signal); margin: 0 0 .8rem; }
+.hull dl { display: grid; grid-template-columns: auto 1fr; gap: .1rem .7rem; font: 500 .78rem/1.6 var(--mono); margin: 0; }
+.hull dt { color: var(--quiet); }
+.hull dd { margin: 0; font-variant-numeric: tabular-nums; }
+.hull p { font-size: .88rem; margin: .7rem 0 0; }
+
+/* ── close ─────────────────────────────────────────────────────────────────── */
+footer { margin-top: 4rem; padding-top: 1.75rem; border-top: 3px solid var(--ink); color: var(--quiet); font-size: .85rem; }
+footer p { margin: 0 0 .6rem; }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
