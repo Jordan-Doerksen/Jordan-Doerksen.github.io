@@ -13,7 +13,7 @@
     {
       "desc": "Your jurisdiction just widened. So did the liability.",
       "name": "Regional Expansion",
-      "stat": "+45% REACH"
+      "stat": "+20% REACH"
     },
     {
       "desc": "Headcount approved. One more mount, effective immediately.",
@@ -26,11 +26,6 @@
       "stat": "+50% PICKUP · GEMS +25%"
     },
     {
-      "desc": "Every round clears two more associates. The extra paperwork slows the line.",
-      "name": "Through-Freight Clause",
-      "stat": "+2 PIERCE · −12% FIRE RATE"
-    },
-    {
       "desc": "A fat policy, paid up front. The bulk slows you down. Read the exclusions later.",
       "name": "Corporate Indemnity",
       "stat": "+90 SHIELD · −8% MOVE SPEED"
@@ -39,6 +34,11 @@
       "desc": "Hazard pay, in both directions. You hit harder — so does the floor.",
       "name": "Hazard Bonus",
       "stat": "+55% DAMAGE · +15% CONTACT DAMAGE"
+    },
+    {
+      "desc": "Cleared through every body on the line. The line moves slower now.",
+      "name": "Full Route Authority",
+      "stat": "+2 PIERCE · −25% FIRE RATE"
     },
     {
       "desc": "Two more mistakes before termination. The reinforcement dulls your edge.",
@@ -89,7 +89,7 @@
       "hp": 5522,
       "laser": 2,
       "melee": false,
-      "rings": 3,
+      "rings": 2,
       "shell": 250,
       "subtitle": "the route has been optimized. against you",
       "tier": 4,
@@ -101,91 +101,112 @@
       "hp": 8725,
       "laser": 3,
       "melee": false,
-      "rings": 3,
+      "rings": 2,
       "shell": 300,
       "subtitle": "your metrics have been escalated",
       "tier": 5,
       "title": "THE AUDITOR"
     }
   ],
+  "champions": [
+    {
+      "effect": "leaves a lingering slow field",
+      "element": "FROST",
+      "life": 5.0,
+      "radius": 150
+    },
+    {
+      "effect": "ignites nearby enemies",
+      "element": "BLAZE",
+      "life": 3.5,
+      "radius": 170
+    },
+    {
+      "effect": "stuns nearby enemies",
+      "element": "SHOCK",
+      "life": 1.1,
+      "radius": 190
+    },
+    {
+      "effect": "drags nearby enemies inward",
+      "element": "VOID",
+      "life": 0.0,
+      "radius": 260
+    }
+  ],
   "depot": [
     {
-      "desc": "+1 Courier bay per rider.",
+      "desc": "+1 Courier bay per level.",
       "max": 4,
       "name": "Bay Lease · COURIER (skirmisher)"
     },
     {
-      "desc": "+1 Hauler bay per rider.",
+      "desc": "+1 Hauler bay per level.",
       "max": 5,
       "name": "Bay Lease · HAULER (bruiser)"
     },
     {
-      "desc": "+1 Carrier bay per rider.",
+      "desc": "+1 Carrier bay per level.",
       "max": 2,
       "name": "Bay Lease · CARRIER (summoner)"
     },
     {
-      "desc": "+4% weapon damage per rider.",
+      "desc": "+4% weapon damage per level.",
       "max": 16,
       "name": "Ordnance Contract"
     },
     {
-      "desc": "+3% fire rate per rider.",
+      "desc": "+3% fire rate per level.",
       "max": 16,
       "name": "Line Speed Agreement"
     },
     {
-      "desc": "+6% weapon range per rider.",
+      "desc": "+6% weapon range per level.",
       "max": 12,
       "name": "Regional Coverage"
     },
     {
-      "desc": "+1 pierce on every gun per rider.",
-      "max": 4,
-      "name": "Through-Freight Permit"
-    },
-    {
-      "desc": "+1 hull pip per rider. Non-negotiable.",
+      "desc": "+1 hull pip per level. Non-negotiable.",
       "max": 4,
       "name": "Reinforced Frame"
     },
     {
-      "desc": "+3 shield capacity per rider.",
+      "desc": "+3 shield capacity per level.",
       "max": 16,
       "name": "Shield Rider"
     },
     {
-      "desc": "+15% shield regen rate per rider.",
+      "desc": "+15% shield regen rate per level.",
       "max": 12,
       "name": "Maintenance Rider"
     },
     {
-      "desc": "-6% contact damage taken per rider.",
+      "desc": "-6% contact damage taken per level.",
       "max": 10,
       "name": "Liability Waiver"
     },
     {
-      "desc": "+5% move speed per rider.",
+      "desc": "+5% move speed per level.",
       "max": 12,
       "name": "Motor Pool Requisition"
     },
     {
-      "desc": "+0.2s boost fuel per rider.",
+      "desc": "+0.2s boost fuel per level.",
       "max": 12,
       "name": "Fuel Allowance"
     },
     {
-      "desc": "+12% fuel regen per rider.",
+      "desc": "+12% fuel regen per level.",
       "max": 12,
       "name": "Fuel Contractor"
     },
     {
-      "desc": "+15% pickup radius per rider.",
+      "desc": "+15% pickup radius per level.",
       "max": 12,
       "name": "Logistics Magnet"
     },
     {
-      "desc": "+8% gem value per rider.",
+      "desc": "+8% gem value per level.",
       "max": 12,
       "name": "Salvage Rights"
     },
@@ -195,17 +216,17 @@
       "name": "Onboarding Credit"
     },
     {
-      "desc": "+2% rare card odds per rider.",
+      "desc": "+2% rare card odds per level.",
       "max": 10,
       "name": "Preferred Vendor"
     },
     {
-      "desc": "+10% scrip earned per rider.",
+      "desc": "+10% scrip earned per level.",
       "max": 12,
       "name": "Payroll Adjustment"
     },
     {
-      "desc": "+2% chance any hit simply misses.",
+      "desc": "+2% chance any hit simply misses, per level.",
       "max": 10,
       "name": "Near-Miss Clause"
     },
@@ -257,6 +278,33 @@
       "unlock": "Process 25,000 units (lifetime)."
     }
   ],
+  "elements": [
+    {
+      "beats": "",
+      "id": 0,
+      "name": "Kinetic"
+    },
+    {
+      "beats": "Frost",
+      "id": 1,
+      "name": "Blaze"
+    },
+    {
+      "beats": "Shock",
+      "id": 2,
+      "name": "Frost"
+    },
+    {
+      "beats": "Void",
+      "id": 3,
+      "name": "Shock"
+    },
+    {
+      "beats": "Blaze",
+      "id": 4,
+      "name": "Void"
+    }
+  ],
   "fusions": [
     {
       "desc": "The hose and the zip code, one department. Every tracer is ordnance now.",
@@ -265,14 +313,14 @@
         "C-RAM Gatling",
         "Saturation Swarm"
       ],
-      "stat": "DETONATING MINIGUN · 12/s · 46px BLASTS · KILLS FEED IT"
+      "stat": "DETONATING MINIGUN · 14/s · 52px BLASTS · KILLS FEED IT"
     },
     {
       "desc": "A singularity with a delivery area. The fallout files itself.",
       "name": "THE RESTRUCTURING",
       "needs": [
         "Warhead",
-        "Event Horizon"
+        "Total Write-Off"
       ],
       "stat": "SINGULARITY NUKE · 340px BLAST · PULLS · RADIATION FALLOUT"
     },
@@ -292,16 +340,16 @@
         "Certified Delivery",
         "Sewing Machine"
       ],
-      "stat": "GUIDED NEEDLE STREAM · 8/s · HOMING · PIERCE 3"
+      "stat": "GUIDED NEEDLE STREAM · 10/s · HOMING · PIERCE 3"
     },
     {
-      "desc": "Frozen, itemized, and dragged to the desk. In that order.",
-      "name": "THE COLD LEDGER",
+      "desc": "Broken in transit. Claim denied.",
+      "name": "BREAKAGE POLICY",
       "needs": [
         "Deep Freeze",
-        "Harpoon Desk"
+        "Twin Gauge"
       ],
-      "stat": "FREEZING HARPOON · CHILLED TAKE ×1.5 · DRAGS THE CATCH IN"
+      "stat": "COLD STREAM · DEEP-CHILLED DEATHS SHATTER · CHAINS TO CHILLED"
     },
     {
       "desc": "Every defendant served at once. The wells keep them in court.",
@@ -329,6 +377,42 @@
         "Wall of Invoices"
       ],
       "stat": "TRIPLE FROST MORTARS · WIDE CONE · ZONES EVERYWHERE"
+    },
+    {
+      "desc": "The rejection bounces. So does the invoice. Both compound.",
+      "name": "THE ARC LEDGER",
+      "needs": [
+        "Lance Array",
+        "Capacitor Bank"
+      ],
+      "stat": "RICOCHET STORM · 4 BOUNCES · EACH +35% · CHAINS EVERY HIT"
+    },
+    {
+      "desc": "One car, one address, one line item. The whole line signs for it.",
+      "name": "THE CONSOLIDATION",
+      "needs": [
+        "Slug Consolidator",
+        "Transcontinental"
+      ],
+      "stat": "SIEGE SLUG · PIERCES THE LINE · 150px IMPACT · SHOVES EVERYTHING"
+    },
+    {
+      "desc": "The grid faulted. The floor caught. Both are your fault.",
+      "name": "ARC FLASH",
+      "needs": [
+        "Refinery Burn",
+        "Grid Overload"
+      ],
+      "stat": "BURNING CONE · SPREADING IGNITION · 55px BURSTS · PROC ×3"
+    },
+    {
+      "desc": "Delivered to every address on the line. Then the line is repossessed.",
+      "name": "THE FINAL NOTICE",
+      "needs": [
+        "Transcontinental",
+        "Total Write-Off"
+      ],
+      "stat": "COLLAPSING LANCE · PIERCES EVERYTHING · LEAVES A GRAVITY WELL"
     }
   ],
   "hulls": [
@@ -356,20 +440,22 @@
     },
     {
       "bays": 5,
-      "desc": "Five launch bays and a standing quota. The interns are not unionized, but they are numerous.",
+      "desc": "Five deep launch bays and a standing quota. The interns are not unionized, but they focus-fire what you tag.",
       "id": "carrier",
       "name": "CARRIER",
-      "philosophy": "The fighter commander. Three pips, the fattest shield, and FIVE bays that only ever mount more wings — a hull perk makes every fighter hit harder, fire faster, and punch through one extra body. It trades its own guns for an air force.",
-      "pips": 3,
-      "shield": 26,
+      "philosophy": "The strike group flagship. Two pips, a big shield, and FIVE deep bays that only ever mount wings — fighters, bombers, artillery frigates. Stack a class to field a real squadron of it. Tag an enemy with your nose gun and every craft you field prioritizes and punishes it. Where you point your nose is your damage.",
+      "pips": 2,
+      "shield": 18,
       "speed": 205,
       "tag": "COMMANDER · REGIONAL DISTRIBUTION"
     }
   ],
   "meta": {
+    "elements": 5,
     "exported": "codex",
-    "fusions": 8,
-    "weapons": 13
+    "fusions": 12,
+    "values": 20,
+    "weapons": 16
   },
   "modifiers": [
     {
@@ -461,11 +547,6 @@
   ],
   "synergies": [
     {
-      "desc": "Every round is approved to go through one extra employee.",
-      "name": "Overtime Authorization",
-      "stat": "ALL GUNS +1 PIERCE"
-    },
-    {
       "desc": "The lance now ships overnight. Through everything.",
       "name": "Freight Priority",
       "stat": "RAIL +2 PIERCE · VEL ×1.4"
@@ -482,7 +563,7 @@
     },
     {
       "desc": "Delivery speed and fire rate are now the same department.",
-      "name": "Express Lane",
+      "name": "Same-Day Service",
       "stat": "BOOSTING → ROF ×2 (ALL GUNS)"
     },
     {
@@ -515,8 +596,34 @@
     {
       "desc": "The BOOSTERS run dirty on purpose. Anything caught in the burn wake is billed for cleanup.",
       "name": "Jet Wash Protocol"
+    },
+    {
+      "desc": "Cleared to proceed through every employee. Non-stop.",
+      "name": "Through-Freight Clause"
     }
   ],
+  "values": {
+    "boost_mult": 1.85,
+    "boss_count": 5,
+    "buff_time": 12,
+    "depot_count": 23,
+    "drop_kinds": 6,
+    "elem_strong": 1.5,
+    "elem_weak": 0.66,
+    "fusion_count": 12,
+    "gem_tier_hi": 8.0,
+    "gem_tier_lo": 3.0,
+    "hull_count": 3,
+    "landmark_first": 1200,
+    "landmark_travel": 1500,
+    "vapor_dmg": 42,
+    "vapor_kb": 460,
+    "vapor_radius": 190,
+    "wave_beat": 45,
+    "wave_count": 18,
+    "wave_first": 8,
+    "weapon_count": 16
+  },
   "weapons": [
     {
       "behavior": "shot",
@@ -609,7 +716,7 @@
       "desc": "Slow, heavy, hits like a freight bill.",
       "element": "Kinetic",
       "elite_perk": {
-        "desc": "Every body pierced grows the round's damage 15%.",
+        "desc": "Every body pierced grows the round's damage 15%, to a ×3 ceiling.",
         "name": "Compounding Interest"
       },
       "forks": [
@@ -695,7 +802,7 @@
       "desc": "A thin, fast stinger. The hole is regulation size.",
       "element": "Kinetic",
       "elite_perk": {
-        "desc": "Each pierce accelerates the needle. Traffic thins.",
+        "desc": "Each pierce accelerates the needle, up to ×1.6. Traffic thins.",
         "name": "Express Lane"
       },
       "forks": [
@@ -704,7 +811,7 @@
           "name": "Sewing Machine"
         },
         {
-          "desc": "You have been summoned. Attendance is physical.",
+          "desc": "You have been summoned. Attendance is mandatory.",
           "name": "Harpoon Desk"
         }
       ],
@@ -778,7 +885,7 @@
     },
     {
       "behavior": "shot",
-      "desc": "A piercing chill bolt. Assets keep longer cold. Frost.",
+      "desc": "A wide, cold fan. Assets keep longer cold. Frost.",
       "element": "Frost",
       "elite_perk": {
         "desc": "Chilled targets take extra damage from this lance.",
@@ -795,26 +902,26 @@
         }
       ],
       "id": "cryo",
-      "kb": 120,
-      "mag": 4,
+      "kb": 45,
+      "mag": 28,
       "mks": [
         {
-          "dmg": 6.72,
+          "dmg": 1.23,
           "mk": 1,
-          "rof": 1.6
+          "rof": 18.2
         },
         {
-          "dmg": 7.8,
+          "dmg": 1.43,
           "mk": 2,
-          "rof": 1.8
+          "rof": 20.2
         },
         {
-          "dmg": 8.87,
+          "dmg": 1.63,
           "mk": 3,
-          "rof": 2.0
+          "rof": 22.4
         }
       ],
-      "name": "Cryo Lance",
+      "name": "Cryo Jet",
       "pellets": 1,
       "sigdesc": "a chilled enemy's death erupts in ice",
       "signame": "Shatter"
@@ -873,7 +980,7 @@
       "forks": [
         {
           "desc": "A restructuring nothing escapes.",
-          "name": "Event Horizon"
+          "name": "Total Write-Off"
         },
         {
           "desc": "It knows the address. It has always known the address.",
@@ -950,6 +1057,198 @@
       "signame": "Full Roster"
     },
     {
+      "behavior": "hangar",
+      "desc": "A patrol of light interceptors on rotating shifts. Headcount grows as the paperwork clears.",
+      "element": "Kinetic",
+      "elite_perk": {
+        "desc": "One more fighter on the shift, and the wing's rounds pierce an extra body.",
+        "name": "Overtime Roster"
+      },
+      "forks": [],
+      "id": "bay_fighter",
+      "kb": 15,
+      "mag": 1,
+      "mks": [
+        {
+          "dmg": 3.36,
+          "mk": 1,
+          "rof": 2.0
+        },
+        {
+          "dmg": 3.9,
+          "mk": 2,
+          "rof": 2.2
+        },
+        {
+          "dmg": 4.44,
+          "mk": 3,
+          "rof": 2.5
+        },
+        {
+          "dmg": 4.97,
+          "mk": 4,
+          "rof": 2.7
+        },
+        {
+          "dmg": 5.51,
+          "mk": 5,
+          "rof": 3.0
+        },
+        {
+          "dmg": 6.05,
+          "mk": 6,
+          "rof": 3.4
+        },
+        {
+          "dmg": 6.59,
+          "mk": 7,
+          "rof": 3.8
+        },
+        {
+          "dmg": 7.12,
+          "mk": 8,
+          "rof": 4.2
+        },
+        {
+          "dmg": 7.66,
+          "mk": 9,
+          "rof": 4.6
+        }
+      ],
+      "name": "Fighter Bay",
+      "pellets": 1,
+      "sigdesc": "one more fighter is kept on call",
+      "signame": "Standby Crews"
+    },
+    {
+      "behavior": "hangar",
+      "desc": "One bomber riding your flank with guided ordnance. Deliveries are scheduled, not discussed.",
+      "element": "Kinetic",
+      "elite_perk": {
+        "desc": "One more bomber reports, and its warheads pierce an extra body.",
+        "name": "Surplus Ordnance"
+      },
+      "forks": [],
+      "id": "bay_bomber",
+      "kb": 15,
+      "mag": 1,
+      "mks": [
+        {
+          "dmg": 3.36,
+          "mk": 1,
+          "rof": 2.0
+        },
+        {
+          "dmg": 3.9,
+          "mk": 2,
+          "rof": 2.2
+        },
+        {
+          "dmg": 4.44,
+          "mk": 3,
+          "rof": 2.5
+        },
+        {
+          "dmg": 4.97,
+          "mk": 4,
+          "rof": 2.7
+        },
+        {
+          "dmg": 5.51,
+          "mk": 5,
+          "rof": 3.0
+        },
+        {
+          "dmg": 6.05,
+          "mk": 6,
+          "rof": 3.4
+        },
+        {
+          "dmg": 6.59,
+          "mk": 7,
+          "rof": 3.8
+        },
+        {
+          "dmg": 7.12,
+          "mk": 8,
+          "rof": 4.2
+        },
+        {
+          "dmg": 7.66,
+          "mk": 9,
+          "rof": 4.6
+        }
+      ],
+      "name": "Bomber Bay",
+      "pellets": 1,
+      "sigdesc": "every volley carries one more bomb",
+      "signame": "Heavy Racks"
+    },
+    {
+      "behavior": "hangar",
+      "desc": "A slow escort that shells the thickest crowd from a distance. Coverage is billed by the acre.",
+      "element": "Kinetic",
+      "elite_perk": {
+        "desc": "One more frigate on station, and its shells pierce an extra body.",
+        "name": "Second Battery"
+      },
+      "forks": [],
+      "id": "bay_frigate",
+      "kb": 15,
+      "mag": 1,
+      "mks": [
+        {
+          "dmg": 3.36,
+          "mk": 1,
+          "rof": 2.0
+        },
+        {
+          "dmg": 3.9,
+          "mk": 2,
+          "rof": 2.2
+        },
+        {
+          "dmg": 4.44,
+          "mk": 3,
+          "rof": 2.5
+        },
+        {
+          "dmg": 4.97,
+          "mk": 4,
+          "rof": 2.7
+        },
+        {
+          "dmg": 5.51,
+          "mk": 5,
+          "rof": 3.0
+        },
+        {
+          "dmg": 6.05,
+          "mk": 6,
+          "rof": 3.4
+        },
+        {
+          "dmg": 6.59,
+          "mk": 7,
+          "rof": 3.8
+        },
+        {
+          "dmg": 7.12,
+          "mk": 8,
+          "rof": 4.2
+        },
+        {
+          "dmg": 7.66,
+          "mk": 9,
+          "rof": 4.6
+        }
+      ],
+      "name": "Artillery Frigate",
+      "pellets": 1,
+      "sigdesc": "the battery reaches farther downrange",
+      "signame": "Extended Barrels"
+    },
+    {
       "behavior": "aura",
       "desc": "A humming security perimeter. Anything that gets close is processed on the spot. No returns.",
       "element": "Kinetic",
@@ -963,17 +1262,17 @@
       "mag": 1,
       "mks": [
         {
-          "dmg": 13.44,
+          "dmg": 11.76,
           "mk": 1,
           "rof": 2.0
         },
         {
-          "dmg": 15.59,
+          "dmg": 13.64,
           "mk": 2,
           "rof": 2.2
         },
         {
-          "dmg": 17.74,
+          "dmg": 15.52,
           "mk": 3,
           "rof": 2.5
         }

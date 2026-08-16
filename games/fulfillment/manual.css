@@ -1,0 +1,84 @@
+/* FULFILLMENT manual — STRUCTURAL PLACEHOLDER ONLY.
+ *
+ * This is deliberately NOT the design. The owner's instruction was "lets build the webpage first and
+ * then wait for the css changes", so this file does the minimum needed to read the structure and prove
+ * the content: a measure, a scale, and visible plate slots. No art direction, no palette work, no type
+ * pairing. That is the next pass, and M-4 / M-8 in docs/specs/manual-and-box-2026-08-15.md already
+ * record what it has to become — technical print manual, warm paper, ink text, hairline rules.
+ *
+ * The page it styles has NO JavaScript and NO fetch. Everything is in the HTML, so this stylesheet can
+ * fail completely and the manual is still readable top to bottom. That is the point.
+ */
+
+:root {
+  --paper: #f7f4ee;
+  --ink: #1b1a18;
+  --rule: #cfc9bd;
+  --quiet: #6a655c;
+  --measure: 34rem;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 1.25rem 6rem;
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.65 Georgia, "Times New Roman", serif;
+}
+
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: 1rem; top: 1rem; position: fixed; background: var(--ink); color: var(--paper); padding: .5rem .75rem; }
+
+.masthead, .contents, main, footer { max-width: var(--measure); margin: 0 auto; }
+.masthead { padding: 3rem 0 2rem; border-bottom: 1px solid var(--rule); }
+.issuer { font: 500 .7rem/1.4 ui-monospace, "JetBrains Mono", monospace; letter-spacing: .12em; color: var(--quiet); margin: 0 0 1rem; }
+.masthead h1 { font-size: 2.4rem; letter-spacing: .04em; margin: 0 0 .5rem; }
+.sub { margin: 0 0 1.25rem; color: var(--quiet); }
+
+.contents { padding: 2rem 0; border-bottom: 1px solid var(--rule); }
+.contents h2 { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--quiet); }
+.contents ol { padding-left: 1.2rem; }
+.contents a { color: inherit; }
+
+.chapter { padding: 2.5rem 0 1rem; border-bottom: 1px solid var(--rule); }
+.chapter h2 { font-size: 1.5rem; letter-spacing: .05em; }
+.folio { color: var(--quiet); margin-right: .5rem; }
+.chapter h3 { font-size: 1.05rem; margin: 2rem 0 .4rem; }
+.num { color: var(--quiet); font: 500 .85rem ui-monospace, "JetBrains Mono", monospace; margin-right: .5rem; }
+p { margin: 0 0 1rem; }
+
+/* a sourced figure — every number on this page came from the game's own export (M-9) */
+.fig { font: 600 .95em ui-monospace, "JetBrains Mono", monospace; }
+
+/* RESERVED, NOT HIDDEN. The capture pass is still owed (spec 6.2); an empty slot that states its own
+ * caption is honest, where a hidden slot would let the gap be quietly forgotten. */
+.plate { margin: 1.75rem 0; }
+.plate-slot { aspect-ratio: 16 / 9; border: 1px dashed var(--rule); background: repeating-linear-gradient(45deg, transparent 0 12px, rgba(0,0,0,.03) 12px 24px); }
+.plate figcaption { font: 500 .75rem ui-monospace, monospace; color: var(--quiet); padding-top: .5rem; }
+.plate.pending figcaption::before { content: "plate pending · "; }
+
+.appendix-part { margin: 2rem 0; }
+.appendix-part h3 { font: 600 .8rem/1 ui-monospace, monospace; letter-spacing: .14em; color: var(--quiet); border-bottom: 1px solid var(--rule); padding-bottom: .4rem; }
+
+/* M-5: an INDEX, not cards. The name leads because the name is what you scan for. */
+.index { margin: 0; }
+.index dt { font-weight: 700; margin-top: .9rem; }
+.index dd { margin: 0; color: var(--quiet); }
+.meta { font: 500 .75rem ui-monospace, monospace; color: var(--quiet); font-weight: 400; }
+
+/* M-5: cards ONLY here — the hulls are the one genuine peer set. */
+.hulls { list-style: none; padding: 0; display: grid; gap: 1rem; }
+@media (min-width: 40rem) { .hulls { grid-template-columns: repeat(3, 1fr); } }
+.hull { border: 1px solid var(--rule); padding: 1rem; }
+.hull h4 { margin: 0 0 .2rem; }
+.hull .tag { font: 500 .72rem ui-monospace, monospace; color: var(--quiet); margin: 0 0 .6rem; }
+.hull dl { display: grid; grid-template-columns: auto 1fr; gap: 0 .6rem; font: 500 .8rem ui-monospace, monospace; margin: 0 0 .6rem; }
+.hull dt { color: var(--quiet); }
+.hull dd { margin: 0; }
+.hull p { font-size: .88rem; margin: 0; }
+
+footer { padding: 2.5rem 0; color: var(--quiet); font-size: .85rem; }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
