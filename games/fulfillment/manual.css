@@ -1,5 +1,12 @@
 /* FULFILLMENT manual — STRUCTURAL PLACEHOLDER ONLY.
  *
+ * DESKTOP ONLY (owner 2026-08-15: "this is for a pc game… also drop this mobile friendly style").
+ * This is a deliberate departure from the web law's "responsive = re-authoring priority" rule, and it
+ * is recorded rather than silently taken: the audience for a PC game's reference manual is at the
+ * machine that runs the game. The page still reflows rather than breaking, because a fixed-pixel
+ * layout would be worse on the owner's own varied monitors — what is dropped is designing FOR small
+ * screens, not the ability to survive one.
+ *
  * This is deliberately NOT the design. The owner's instruction was "lets build the webpage first and
  * then wait for the css changes", so this file does the minimum needed to read the structure and prove
  * the content: a measure, a scale, and visible plate slots. No art direction, no palette work, no type
@@ -15,7 +22,7 @@
   --ink: #1b1a18;
   --rule: #cfc9bd;
   --quiet: #6a655c;
-  --measure: 34rem;
+  --measure: 46rem;   /* desktop reading measure — wider than the mobile-first 34rem */
 }
 
 * { box-sizing: border-box; }
@@ -70,7 +77,7 @@ p { margin: 0 0 1rem; }
 
 /* M-5: cards ONLY here — the hulls are the one genuine peer set. */
 .hulls { list-style: none; padding: 0; display: grid; gap: 1rem; }
-@media (min-width: 40rem) { .hulls { grid-template-columns: repeat(3, 1fr); } }
+.hulls { grid-template-columns: repeat(3, 1fr); }   /* desktop: always three across */
 .hull { border: 1px solid var(--rule); padding: 1rem; }
 .hull h4 { margin: 0 0 .2rem; }
 .hull .tag { font: 500 .72rem ui-monospace, monospace; color: var(--quiet); margin: 0 0 .6rem; }
@@ -91,9 +98,7 @@ footer { padding: 2.5rem 0; color: var(--quiet); font-size: .85rem; }
 .data th, .data td { text-align: left; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
 .data th { font: 600 .72rem/1.3 ui-monospace, "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--quiet); }
 .data tbody tr:last-child td { border-bottom: 0; }
-/* a table can be wider than the measure on a phone; it scrolls in its own box rather than
-   forcing the whole page sideways */
-.data { display: block; overflow-x: auto; }
+/* tables lay out as tables — no phone-driven horizontal scroll box */
 
 .glossary { margin: 1.25rem 0; }
 .glossary dt { font: 600 .9rem ui-monospace, "JetBrains Mono", monospace; margin-top: .85rem; }

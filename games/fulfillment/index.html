@@ -36,10 +36,14 @@
 <section class="chapter" id="ch1">
 <h2><span class="folio">I</span> WHAT THIS GAME IS</h2>
 <h3><span class="num">1.1</span> Summary</h3>
-<p>Fulfillment is a wave-survival roguelite. You control one ship viewed from above. The ship fires automatically. You control movement only.</p>
+<p>Fulfillment is a wave-survival roguelite. You control one ship viewed from above. Weapons fire on their own timers and choose their own targets by default, but you can direct them: you can pull all weapons onto a point you aim at, and you can set a targeting rule per weapon.</p>
 <p>Enemies spawn continuously and in scheduled groups. Killing them drops experience. Collecting experience raises your level. Each level lets you choose one upgrade from <span class="fig">4</span> offered. A run ends when your ship is destroyed, and progress toward permanent upgrades is kept.</p>
-<h3><span class="num">1.2</span> What you actually control</h3>
-<p>Movement, and nothing else. There is no aim input and no fire input. Positioning determines which enemies your weapons can reach, which enemies can reach you, and which drops you collect.</p>
+<h3><span class="num">1.2</span> What you control</h3>
+<p>Three things, in decreasing frequency of use.</p>
+<p><strong>Movement.</strong> Position determines which enemies your weapons can reach, which enemies can reach you, and which drops you collect. This is the primary input.</p>
+<p><strong>Aim, on demand.</strong> Holding the aim input pulls every weapon onto the point you indicate, overriding their normal target selection for as long as you hold it. Releasing returns them to automatic selection.</p>
+<p><strong>Targeting rules, per weapon.</strong> Most weapons have one of <span class="fig">4</span> rules deciding what they shoot when you are not aiming. You set these individually and they persist until changed. Wing, field and orbital weapons are the exception: they select their own targets and have no settable rule.</p>
+<p>There is no manual trigger. Weapons fire on their own timers; you decide what they point at.</p>
 <h3><span class="num">1.3</span> How to read this manual</h3>
 <p>Chapters one to three describe the ship, the run, and the enemies. Chapter four lists every source of upgrades and what each one gives. Chapter five describes objects on the map. Chapter six describes progress that persists between runs. The appendices list the full contents of every category.</p>
 <p>Every number in this document is exported from the game build. None are typed by hand.</p>
@@ -53,12 +57,15 @@
 <dt>hull</dt><dd>The ship type you select before a run starts. There are <span class="fig">3</span> of them.</dd>
 <dt>pip</dt><dd>One unit of hull integrity. Contact with an enemy removes one pip. At zero pips the run ends.</dd>
 <dt>shield</dt><dd>A separate absorbing layer that regenerates. It refills only after <span class="fig">3</span> seconds without being hit.</dd>
-<dt>rack</dt><dd>The set of weapon slots on your ship. Weapons fire from the rack automatically.</dd>
+<dt>rack</dt><dd>The set of weapon slots on your ship, and the interface panel showing them. Weapons fire from the rack on their own timers.</dd>
+<dt>focus fire</dt><dd>Holding the aim input to pull every weapon onto one point, overriding automatic target selection while held.</dd>
+<dt>targeting rule</dt><dd>A per-weapon setting deciding which enemy it selects automatically. There are <span class="fig">4</span>: nearest, farthest, priority, and armoured-first. Wing, field and orbital weapons have no settable rule.</dd>
+<dt>reroll</dt><dd>A banked charge that redraws the current draft. Spending one replaces all <span class="fig">4</span> options.</dd>
 <dt>bay</dt><dd>One slot in the rack. One weapon occupies one bay. Hull type sets how many bays you have.</dd>
 <dt>draft</dt><dd>The choice of <span class="fig">4</span> upgrades offered when you gain a level. You select one; the rest are discarded.</dd>
-<dt>gem</dt><dd>The experience item dropped by a killed enemy. Collect it by moving within <span class="fig">100</span> units.</dd>
+<dt>gem</dt><dd>The experience item dropped by a killed enemy. Collect it by moving close to it. The base collection radius is <span class="fig">100</span> units and several upgrades increase it.</dd>
 <dt>level</dt><dd>Your experience rank within the current run. Gaining one triggers a draft. Resets every run.</dd>
-<dt>Mk</dt><dd>A weapon's rank. Ranking a weapon up increases its damage and rate of fire. The default cap is Mk <span class="fig">3</span>; some weapons have a higher cap.</dd>
+<dt>Mk</dt><dd>A weapon's rank. Ranking up increases damage and rate of fire. Caps vary by weapon, from Mk <span class="fig">3</span> to Mk <span class="fig">9</span>. Each weapon's ranks are listed in the appendix.</dd>
 <dt>fork</dt><dd>A permanent branch chosen when a weapon reaches its final rank. It changes the weapon's behaviour, not only its numbers.</dd>
 <dt>fusion</dt><dd>A combination of two racked weapons into one new weapon. Also called a merger in the game's text.</dd>
 <dt>system</dt><dd>An upgrade that changes ship behaviour rather than adding a weapon.</dd>
@@ -80,11 +87,15 @@
 <table class="data"><thead>
 <tr><th>Input</th><th>Effect</th></tr>
 </thead><tbody>
-<tr><td>WASD or arrow keys</td><td>Move</td></tr>
-<tr><td>SPACE (hold)</td><td>Boost. Multiplies speed by <span class="fig">1.85</span> while fuel remains</td></tr>
-<tr><td>ESC</td><td>Pause</td></tr>
+<tr><td>WASD / arrow keys / left stick</td><td>Move</td></tr>
+<tr><td>SPACE (hold) / trigger</td><td>Boost. Multiplies speed by <span class="fig">1.85</span> while fuel remains</td></tr>
+<tr><td>Left mouse (hold)</td><td>Focus fire. Pulls every weapon onto the cursor while held</td></tr>
+<tr><td>Right stick</td><td>Focus fire on a gamepad. Aims <span class="fig">420</span> units along the stick direction</td></tr>
+<tr><td>Click a bay in the rack</td><td>Cycle that weapon's targeting rule</td></tr>
+<tr><td>Mouse wheel / shoulder buttons</td><td>Zoom the view</td></tr>
+<tr><td>ESC / start</td><td>Pause</td></tr>
 </tbody></table>
-<p>Weapons fire on their own timers and select their own targets. There is no manual firing.</p>
+<p>There is no manual trigger. Weapons fire on their own timers; the inputs above decide where they point.</p>
 <h3><span class="num">3.2</span> Boost</h3>
 <p>Boost consumes fuel at <span class="fig">1.4</span> units per second while held. Fuel regenerates at <span class="fig">0.5</span> units per second, but only after you release the key.</p>
 <p>If fuel reaches zero, boost cuts out and does not restart until two conditions are both met: you have released the key, and fuel has recovered to <span class="fig">30</span> percent of capacity. Holding the key down on an empty tank therefore does nothing.</p>
@@ -128,7 +139,7 @@
 <tr><td>Medium</td><td><span class="fig">3</span> to <span class="fig">8</span></td><td>gold</td></tr>
 <tr><td>Large</td><td>above <span class="fig">8</span></td><td>white</td></tr>
 </tbody></table>
-<p>Gems are collected by moving within <span class="fig">100</span> units of them.</p>
+<p>Gems are drawn toward the ship once inside the collection radius, which is <span class="fig">100</span> units before upgrades and can be increased.</p>
 <p>Experience required for the first level is <span class="fig">16</span>. Each subsequent level requires <span class="fig">1.33</span> times the previous requirement. Reaching a level opens a draft immediately.</p>
 <h3><span class="num">4.4</span> Bosses</h3>
 <p>A boss spawns at <span class="fig">150</span> seconds, and another every <span class="fig">130</span> seconds after that. There are <span class="fig">5</span> in a fixed order.</p>
@@ -189,19 +200,32 @@
 </tbody></table>
 <p>Modifiers are a seventh category but are not upgrades: they increase difficulty in exchange for more scrip.</p>
 <h3><span class="num">6.2</span> The draft</h3>
-<p>On gaining a level, the game pauses and offers <span class="fig">4</span> options. You take one. The others are discarded and are not offered again as a set.</p>
+<p>On gaining a level, the game pauses and offers <span class="fig">4</span> options. You take one; the rest are discarded for that draft.</p>
+<p>If you have a reroll banked, you may spend it to redraw all <span class="fig">4</span> options instead of choosing from them.</p>
 <p>Options may be a new weapon, a rank-up of a weapon you already carry, a passive, a system, or a synergy if its requirements are met.</p>
 <p>Each option also rolls a rarity, which scales its strength.</p>
 <table class="data"><thead>
-<tr><th>Rarity</th><th>Chance</th></tr>
+<tr><th>Rarity</th><th>Chance</th><th>Behaviour over time</th></tr>
 </thead><tbody>
-<tr><td>Uncommon</td><td><span class="fig">30</span>%</td></tr>
-<tr><td>Rare</td><td><span class="fig">10</span>%</td></tr>
-<tr><td>Elite</td><td><span class="fig">1</span>%</td></tr>
-<tr><td>Common</td><td>the remainder</td></tr>
+<tr><td>Elite</td><td><span class="fig">1</span>%</td><td>Flat from the start of the run</td></tr>
+<tr><td>Rare</td><td>up to <span class="fig">10</span>%</td><td>Starts at zero and reaches the listed value after about <span class="fig">3</span> minutes</td></tr>
+<tr><td>Uncommon</td><td><span class="fig">30</span>%</td><td>Flat</td></tr>
+<tr><td>Common</td><td>the remainder</td><td>—</td></tr>
 </tbody></table>
+<p>Rare chance is time-gated: early drafts cannot produce rare cards, and the listed percentage is the fully-ramped value rather than a constant. Difficulty modifiers increase both the rare and elite chance.</p>
 <p>An Elite weapon additionally gains a unique effect that no lower rarity provides.</p>
-<h3><span class="num">6.3</span> Weapons</h3>
+<h3><span class="num">6.3</span> Targeting rules</h3>
+<p>Each rule decides which enemy a weapon selects when you are not aiming manually. All of them only consider enemies within that weapon's range, so a weapon never idles pointing at something it cannot hit.</p>
+<table class="data"><thead>
+<tr><th>Rule</th><th>Selects</th></tr>
+</thead><tbody>
+<tr><td>NEAR</td><td>The closest enemy</td></tr>
+<tr><td>FAR</td><td>The most distant enemy in range</td></tr>
+<tr><td>ELITE</td><td>Marked enemies first, then bosses, then champions, then anything</td></tr>
+<tr><td>SHELL</td><td>Armoured enemies first, then anything</td></tr>
+</tbody></table>
+<p>ELITE and SHELL fall back to nearest-anything when nothing matching is in range.</p>
+<h3><span class="num">6.4</span> Weapons</h3>
 <p>A weapon occupies one bay and fires automatically. Because you do not aim, a weapon is a choice about firing pattern, range and behaviour rather than accuracy. There are <span class="fig">16</span>.</p>
 <section class="appendix-part" id="ap-weapons">
 <h3>WEAPONS</h3>
@@ -224,10 +248,11 @@
 <dt>Solar Lance <span class="meta">Blaze · beam</span></dt><dd>A charging plasma lance — it winds up, fires a burning burst, then recharges. Radiant compliance.</dd>
 </dl>
 </section>
-<h3><span class="num">6.4</span> Forks</h3>
-<p>A weapon at its final rank offers a fork: a permanent branch that changes its behaviour. Two branches exist per weapon. The choice is permanent for that run.</p>
-<h3><span class="num">6.5</span> Fusions</h3>
-<p>A fusion combines two specific racked weapons into a single new weapon, freeing a bay. The requirement for each is listed below. There are <span class="fig">12</span>.</p>
+<h3><span class="num">6.5</span> Forks</h3>
+<p><span class="fig">9</span> of the <span class="fig">16</span> weapons offer a fork at their final rank: a choice between <span class="fig">2</span> branches that change the weapon's behaviour rather than only its numbers. The choice is permanent for that run.</p>
+<p>The remaining weapons do not fork. They rank up to their cap and stop.</p>
+<h3><span class="num">6.6</span> Fusions</h3>
+<p>A fusion combines two specific racked weapons into a single new weapon. The requirement for each is listed below. There are <span class="fig">12</span>.</p>
 <section class="appendix-part" id="ap-fusions">
 <h3>FUSIONS</h3>
 <dl class="index">
@@ -245,7 +270,7 @@
 <dt>THE FINAL NOTICE <span class="meta">Transcontinental, Total Write-Off</span></dt><dd>Delivered to every address on the line. Then the line is repossessed.</dd>
 </dl>
 </section>
-<h3><span class="num">6.6</span> Systems</h3>
+<h3><span class="num">6.7</span> Systems</h3>
 <p>A system changes ship behaviour rather than adding a weapon. Systems occupy no bay.</p>
 <section class="appendix-part" id="ap-systems">
 <h3>SYSTEMS</h3>
@@ -259,7 +284,7 @@
 <dt>Through-Freight Clause</dt><dd>Cleared to proceed through every employee. Non-stop.</dd>
 </dl>
 </section>
-<h3><span class="num">6.7</span> Passives</h3>
+<h3><span class="num">6.8</span> Passives</h3>
 <p>A passive modifies a statistic such as damage, rate of fire, movement speed or collection radius. Passives stack, and rarity scales the size of the modification.</p>
 <section class="appendix-part" id="ap-passives">
 <h3>PASSIVES</h3>
@@ -272,7 +297,7 @@
 <dt>Reinforced Ordnance</dt><dd>Double-boxed. Hits like the invoice.</dd>
 </dl>
 </section>
-<h3><span class="num">6.8</span> Synergies</h3>
+<h3><span class="num">6.9</span> Synergies</h3>
 <p>A synergy is an additional draft option that becomes possible only once you own a specific pair of other upgrades. It cannot be offered before its requirements are met.</p>
 <section class="appendix-part" id="ap-synergies">
 <h3>SYNERGIES</h3>
@@ -284,7 +309,7 @@
 <dt>Compound Interest <span class="meta">GEMS WORTH +25%</span></dt><dd>Every pickup accrues. The rate is non-negotiable.</dd>
 </dl>
 </section>
-<h3><span class="num">6.9</span> Boss boons</h3>
+<h3><span class="num">6.10</span> Boss boons</h3>
 <p>Killing a boss offers a boon. Boons are optional and are separate from the draft.</p>
 <section class="appendix-part" id="ap-boons">
 <h3>BOONS</h3>
@@ -316,7 +341,7 @@
 <p>All damage sources destroy cracked asteroids, including area and passive damage. No aiming is required.</p>
 <figure class="plate pending"><div class="plate-slot" role="img" aria-label="A cracked asteroid being destroyed"></div><figcaption>A cracked asteroid being destroyed</figcaption></figure>
 <h3><span class="num">7.5</span> Landmarks</h3>
-<p>Landmarks are infrequent points of interest that award a reward on arrival. They never appear closer than <span class="fig">1200</span> units from your position.</p>
+<p>Landmarks are infrequent points of interest that award a reward on arrival. They always spawn outside your view: at least <span class="fig">1300</span> units away, except the first of a run, which may appear from <span class="fig">1200</span> units.</p>
 <p>The probability of one appearing increases with distance travelled, measured as net displacement rather than total distance. Circling in one area therefore does not produce them; travelling in a direction does. Approximately <span class="fig">1500</span> units of displacement is required.</p>
 <p>An indicator appears once when you are near one. There is no permanent directional marker.</p>
 <h3><span class="num">7.6</span> Objectives</h3>
