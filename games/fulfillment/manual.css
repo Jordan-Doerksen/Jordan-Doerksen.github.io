@@ -82,3 +82,19 @@ p { margin: 0 0 1rem; }
 footer { padding: 2.5rem 0; color: var(--quiet); font-size: .85rem; }
 
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* ── blocks added by the technical rewrite (owner 2026-08-15) ────────────────────────────────────
+ * Still structural only. A data-focused manual needs a readable table and a readable definition
+ * list; neither of these is art direction, and both are replaced wholesale in the design pass. */
+
+.data { border-collapse: collapse; width: 100%; margin: 1.25rem 0; font-size: .9rem; }
+.data th, .data td { text-align: left; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.data th { font: 600 .72rem/1.3 ui-monospace, "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--quiet); }
+.data tbody tr:last-child td { border-bottom: 0; }
+/* a table can be wider than the measure on a phone; it scrolls in its own box rather than
+   forcing the whole page sideways */
+.data { display: block; overflow-x: auto; }
+
+.glossary { margin: 1.25rem 0; }
+.glossary dt { font: 600 .9rem ui-monospace, "JetBrains Mono", monospace; margin-top: .85rem; }
+.glossary dd { margin: .15rem 0 0; }

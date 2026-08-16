@@ -12,41 +12,88 @@
 <body>
 <a class="skip" href="#ch1">Skip to the manual</a>
 <header class="masthead">
-  <p class="issuer">MERIDIAN FULFILLMENT GROUP · ORBITAL LOGISTICS · DIVISION 7</p>
+  <p class="issuer">REFERENCE MANUAL · GENERATED FROM BUILD DATA</p>
   <h1>FULFILLMENT</h1>
-  <p class="sub">Courier's manual. Read it before your first shift. You will not get a second orientation.</p>
-  <p class="actions"><a href="https://jordan-doerksen.itch.io/fulfillment">Play or download on itch.io</a></p>
+  <p class="sub">A complete description of the systems, terms and numbers in the game. Written to be read
+  in order by someone who has not played it, and used afterwards as a reference.</p>
+  <p class="actions"><a href="https://jordan-doerksen.itch.io/fulfillment">Download or play in the browser (itch.io)</a></p>
 </header>
 <nav class="contents" aria-label="Contents">
   <h2>Contents</h2>
   <ol>
-<li><a href="#ch1">I · YOUR SHIP</a></li>
-<li><a href="#ch2">II · THE FIELD</a></li>
-<li><a href="#ch3">III · THE COMPANY</a></li>
-<li><a href="#ch4">IV · REQUISITION</a></li>
-<li><a href="#ch5">V · WHAT IS OUT THERE</a></li>
-<li><a href="#ch6">VI · BETWEEN SHIFTS</a></li>
-<li><a href="#ch7">VII · COLOPHON</a></li>
+<li><a href="#ch1">I · WHAT THIS GAME IS</a></li>
+<li><a href="#ch2">II · TERMS</a></li>
+<li><a href="#ch3">III · THE SHIP</a></li>
+<li><a href="#ch4">IV · THE RUN</a></li>
+<li><a href="#ch5">V · ENEMIES</a></li>
+<li><a href="#ch6">VI · WHERE UPGRADES COME FROM</a></li>
+<li><a href="#ch7">VII · THE MAP</a></li>
+<li><a href="#ch8">VIII · BETWEEN RUNS</a></li>
+<li><a href="#ch9">IX · TECHNICAL NOTES</a></li>
   </ol>
 </nav>
 <main>
 <section class="chapter" id="ch1">
-<h2><span class="folio">I</span> YOUR SHIP</h2>
-<h3><span class="num">1.1</span> The one rule</h3>
-<p>Keep moving. Everything else in this manual is detail.</p>
-<p>You are a courier. The company is the largest employer in the galaxy and it has calculated, precisely, how replaceable you are. The floor is open in every direction and there are no walls to put your back against. A stationary courier is a solved problem.</p>
-<h3><span class="num">1.2</span> Controls</h3>
-<p>Move with WASD or the arrow keys. You do not aim and you do not fire — your rack does that, continuously, at whatever it decides is worth shooting. Your entire job is where the ship is.</p>
-<p>Hold SPACE to boost: about <span class="fig">1.85</span> times your normal speed while the tank lasts. The tank refills when you stop. It does not refill while you hold the key down on an empty tank, which is a thing every courier tries once.</p>
-<figure class="plate pending"><div class="plate-slot" role="img" aria-label="The floor, four minutes into a shift"></div><figcaption>The floor, four minutes into a shift</figcaption></figure>
-<h3><span class="num">1.3</span> What kills you, and what does not</h3>
-<p>Your hull is measured in pips. Contact with anything hostile costs one. There is no health bar and no healing item you can buy on the floor — a pip is gone until something specific gives it back.</p>
-<p>Your shield absorbs a hit and then recharges after a pause. The pause restarts every time you are hit, so a swarm that touches you repeatedly is far more dangerous than one big hit. This is the whole reason for the one rule.</p>
-<h3><span class="num">1.4</span> Running the tank dry</h3>
-<p>If you have requisitioned Vapor Recovery, emptying the boost tank vents it: a shockwave out to <span class="fig">190</span> units that shoves everything away and deals <span class="fig">42</span> damage at the centre, falling off to nothing at the edge. Bosses are too heavy to shove and ignore it entirely.</p>
-<p>It is a panic valve you pay for by spending everything you had. Used deliberately, it is an escape.</p>
-<h3><span class="num">1.5</span> The fleet</h3>
-<p>There are <span class="fig">3</span> hulls. They are not upgrades of each other — they are different jobs, and the choice is made before the shift starts, not during it.</p>
+<h2><span class="folio">I</span> WHAT THIS GAME IS</h2>
+<h3><span class="num">1.1</span> Summary</h3>
+<p>Fulfillment is a wave-survival roguelite. You control one ship viewed from above. The ship fires automatically. You control movement only.</p>
+<p>Enemies spawn continuously and in scheduled groups. Killing them drops experience. Collecting experience raises your level. Each level lets you choose one upgrade from <span class="fig">4</span> offered. A run ends when your ship is destroyed, and progress toward permanent upgrades is kept.</p>
+<h3><span class="num">1.2</span> What you actually control</h3>
+<p>Movement, and nothing else. There is no aim input and no fire input. Positioning determines which enemies your weapons can reach, which enemies can reach you, and which drops you collect.</p>
+<h3><span class="num">1.3</span> How to read this manual</h3>
+<p>Chapters one to three describe the ship, the run, and the enemies. Chapter four lists every source of upgrades and what each one gives. Chapter five describes objects on the map. Chapter six describes progress that persists between runs. The appendices list the full contents of every category.</p>
+<p>Every number in this document is exported from the game build. None are typed by hand.</p>
+<figure class="plate pending"><div class="plate-slot" role="img" aria-label="The map during a run, approximately four minutes in"></div><figcaption>The map during a run, approximately four minutes in</figcaption></figure>
+<section class="chapter" id="ch2">
+<h2><span class="folio">II</span> TERMS</h2>
+<h3><span class="num">2.1</span> Glossary</h3>
+<p>These terms appear in the game interface without definition. They are defined here once and used consistently for the rest of the manual.</p>
+<dl class="glossary">
+<dt>run</dt><dd>One attempt, from launch to ship destruction. Also called a shift in the game's own text.</dd>
+<dt>hull</dt><dd>The ship type you select before a run starts. There are <span class="fig">3</span> of them.</dd>
+<dt>pip</dt><dd>One unit of hull integrity. Contact with an enemy removes one pip. At zero pips the run ends.</dd>
+<dt>shield</dt><dd>A separate absorbing layer that regenerates. It refills only after <span class="fig">3</span> seconds without being hit.</dd>
+<dt>rack</dt><dd>The set of weapon slots on your ship. Weapons fire from the rack automatically.</dd>
+<dt>bay</dt><dd>One slot in the rack. One weapon occupies one bay. Hull type sets how many bays you have.</dd>
+<dt>draft</dt><dd>The choice of <span class="fig">4</span> upgrades offered when you gain a level. You select one; the rest are discarded.</dd>
+<dt>gem</dt><dd>The experience item dropped by a killed enemy. Collect it by moving within <span class="fig">100</span> units.</dd>
+<dt>level</dt><dd>Your experience rank within the current run. Gaining one triggers a draft. Resets every run.</dd>
+<dt>Mk</dt><dd>A weapon's rank. Ranking a weapon up increases its damage and rate of fire. The default cap is Mk <span class="fig">3</span>; some weapons have a higher cap.</dd>
+<dt>fork</dt><dd>A permanent branch chosen when a weapon reaches its final rank. It changes the weapon's behaviour, not only its numbers.</dd>
+<dt>fusion</dt><dd>A combination of two racked weapons into one new weapon. Also called a merger in the game's text.</dd>
+<dt>system</dt><dd>An upgrade that changes ship behaviour rather than adding a weapon.</dd>
+<dt>passive</dt><dd>An upgrade that modifies a statistic. Passives stack.</dd>
+<dt>synergy</dt><dd>An extra upgrade that becomes available in drafts only after you own a specific pair of other upgrades.</dd>
+<dt>element</dt><dd>One of five damage types. Four form a cycle; the fifth is neutral.</dd>
+<dt>champion</dt><dd>A stronger enemy variant carrying an element. Its death produces an area effect.</dd>
+<dt>boss</dt><dd>A scheduled large enemy. There are <span class="fig">5</span>, and they arrive in a fixed order.</dd>
+<dt>scrip</dt><dd>The currency kept between runs. Spent in the Depot.</dd>
+<dt>Depot</dt><dd>The between-run shop where scrip buys permanent upgrades. It has <span class="fig">23</span> entries.</dd>
+<dt>directive</dt><dd>A permanent rule change, unlocked by meeting a condition rather than bought.</dd>
+<dt>modifier</dt><dd>An optional difficulty increase selected before a run, which increases scrip earned.</dd>
+<dt>objective</dt><dd>A marked circle on the map. Holding position inside it awards a draft.</dd>
+<dt>landmark</dt><dd>A point of interest that appears at distance. Reaching it gives a reward.</dd>
+</dl>
+<section class="chapter" id="ch3">
+<h2><span class="folio">III</span> THE SHIP</h2>
+<h3><span class="num">3.1</span> Controls</h3>
+<table class="data"><thead>
+<tr><th>Input</th><th>Effect</th></tr>
+</thead><tbody>
+<tr><td>WASD or arrow keys</td><td>Move</td></tr>
+<tr><td>SPACE (hold)</td><td>Boost. Multiplies speed by <span class="fig">1.85</span> while fuel remains</td></tr>
+<tr><td>ESC</td><td>Pause</td></tr>
+</tbody></table>
+<p>Weapons fire on their own timers and select their own targets. There is no manual firing.</p>
+<h3><span class="num">3.2</span> Boost</h3>
+<p>Boost consumes fuel at <span class="fig">1.4</span> units per second while held. Fuel regenerates at <span class="fig">0.5</span> units per second, but only after you release the key.</p>
+<p>If fuel reaches zero, boost cuts out and does not restart until two conditions are both met: you have released the key, and fuel has recovered to <span class="fig">30</span> percent of capacity. Holding the key down on an empty tank therefore does nothing.</p>
+<h3><span class="num">3.3</span> Damage and survival</h3>
+<p>Your ship has a number of pips set by hull type, and a shield value also set by hull type.</p>
+<p>Incoming damage is applied to the shield first. When the shield is depleted, further contact removes pips. The shield begins regenerating <span class="fig">3</span> seconds after the last hit received, and that timer restarts on every hit.</p>
+<p>The practical consequence: repeated small contacts are more dangerous than a single large one, because they prevent the shield from ever regenerating. Continuous movement is the primary defence.</p>
+<h3><span class="num">3.4</span> Hull types</h3>
+<p>Hulls are alternatives, not a progression. Selection happens before the run starts and cannot be changed during it. Higher bay count means more simultaneous weapons; higher pip count means more contacts survived.</p>
 <section class="appendix-part" id="ap-hulls">
 <h3>HULLS</h3>
 <ul class="hulls">
@@ -55,31 +102,37 @@
 <li class="hull"><h4>CARRIER</h4><p class="tag">COMMANDER · REGIONAL DISTRIBUTION</p><dl><dt>bays</dt><dd>5</dd><dt>pips</dt><dd>2</dd><dt>shield</dt><dd>18</dd><dt>speed</dt><dd>205</dd></dl><p>Five deep launch bays and a standing quota. The interns are not unionized, but they focus-fire what you tag.</p></li>
 </ul>
 </section>
-<section class="chapter" id="ch2">
-<h2><span class="folio">II</span> THE FIELD</h2>
-<h3><span class="num">2.1</span> A shift has a clock</h3>
-<p>The floor fills on a schedule. It is not published, but it is fixed: the same seed produces the same shift, every time, down to the last drone. Nothing on the floor is rolled at random behind your back.</p>
-<h3><span class="num">2.2</span> Waves announce themselves</h3>
-<p>Ambient traffic is constant and grey. A wave is different — it arrives from one bearing, in one colour, and it tells you before it lands. The first one comes at <span class="fig">8</span> seconds and they continue on a <span class="fig">45</span>-second beat after that, escalating in content rather than in frequency.</p>
-<p>Grey means background. Colour means this is the wave. There is no interface element for this; the field itself is the readout.</p>
-<p>A wave carries one type, or two. Never three. When it carries two, one of them is the problem and the other is the complication.</p>
-<figure class="plate pending"><div class="plate-slot" role="img" aria-label="A wave arriving on a bearing"></div><figcaption>A wave arriving on a bearing</figcaption></figure>
-<h3><span class="num">2.3</span> Gems are experience</h3>
-<p>Everything you kill drops one. Their colour and size are the same information told twice: green below <span class="fig">3</span>, gold below <span class="fig">8</span>, and white-hot above that. Bigger and brighter is worth more, and you should be able to tell across a crowded floor without stopping to look.</p>
-<p>Collect enough and the company offers you a requisition. That is chapter three's problem.</p>
-<section class="chapter" id="ch3">
-<h2><span class="folio">III</span> THE COMPANY</h2>
-<h3><span class="num">3.1</span> The workforce</h3>
-<p>The floor staff are not one enemy with a health bar that grows. They are distinct roles that arrive at authored moments, and each one is introduced alone before it is ever combined with anything else. If you are meeting something for the first time, it is meeting you on its own — that is deliberate.</p>
-<figure class="plate pending"><div class="plate-slot" role="img" aria-label="Management arrives"></div><figcaption>Management arrives</figcaption></figure>
-<h3><span class="num">3.2</span> The wheel</h3>
-<p>Four elements, in a cycle. <span class="fig">Blaze</span> beats <span class="fig">Frost</span>, <span class="fig">Frost</span> beats <span class="fig">Shock</span>, <span class="fig">Shock</span> beats <span class="fig">Void</span>, and <span class="fig">Void</span> beats <span class="fig">Blaze</span>. A strong hit does <span class="fig">1.5</span> times damage; a weak one does <span class="fig">0.66</span>. Kinetic is neutral and is beaten by nothing.</p>
-<h3><span class="num">3.3</span> Champions are a tool</h3>
-<p>An elemental champion is worth more attention than its health suggests, because of what happens when it dies. Every champion death effect targets <strong>the other enemies</strong>, not you:</p>
-<p>Frost <span class="fig">leaves a lingering slow field</span> out to <span class="fig">150</span> units, lasting <span class="fig">5</span> seconds. Blaze <span class="fig">ignites nearby enemies</span> within <span class="fig">170</span>. Shock <span class="fig">stuns nearby enemies</span> within <span class="fig">190</span> for <span class="fig">1.1</span> seconds. Void <span class="fig">drags nearby enemies inward</span> within <span class="fig">260</span>, which is how you make a crowd into a target.</p>
-<p>Kill the champion in the right place and the wave does some of your work. Kill it in the wrong place and you have simply killed a champion.</p>
-<h3><span class="num">3.4</span> Management</h3>
-<p>There are <span class="fig">5</span> of them and they arrive in order. Each one is a different fight rather than a larger one, and each brings the arena with it.</p>
+<section class="chapter" id="ch4">
+<h2><span class="folio">IV</span> THE RUN</h2>
+<h3><span class="num">4.1</span> Spawning</h3>
+<p>Enemies spawn continuously around the ship, outside the visible area. Spawn rate and enemy strength increase on a fixed schedule as run time advances. The number of simultaneously living enemies is capped at <span class="fig">300</span>.</p>
+<h3><span class="num">4.2</span> Waves</h3>
+<p>In addition to continuous spawning, groups spawn at scheduled times. A group is called a wave.</p>
+<table class="data"><thead>
+<tr><th>Property</th><th>Value</th></tr>
+</thead><tbody>
+<tr><td>First wave</td><td><span class="fig">8</span> seconds</td></tr>
+<tr><td>Interval between waves</td><td><span class="fig">45</span> seconds</td></tr>
+<tr><td>Distinct scheduled waves</td><td><span class="fig">18</span></td></tr>
+<tr><td>Enemy types per wave</td><td>one or two, never three</td></tr>
+</tbody></table>
+<p>A wave arrives from one direction and is signalled before it lands. Continuous spawns are always kinetic, so they render grey. A wave may carry an element, in which case it renders in that element's colour. Colour therefore indicates group membership: grey is continuous traffic, colour is the wave.</p>
+<p>When a wave carries two enemy types, the second type is a support role rather than a duplicate.</p>
+<figure class="plate pending"><div class="plate-slot" role="img" aria-label="A wave arriving from one bearing"></div><figcaption>A wave arriving from one bearing</figcaption></figure>
+<h3><span class="num">4.3</span> Experience and levels</h3>
+<p>Every killed enemy drops one gem. Gems have three sizes and colours, which encode the same value on two channels:</p>
+<table class="data"><thead>
+<tr><th>Gem</th><th>Value range</th><th>Colour</th></tr>
+</thead><tbody>
+<tr><td>Small</td><td>below <span class="fig">3</span></td><td>green</td></tr>
+<tr><td>Medium</td><td><span class="fig">3</span> to <span class="fig">8</span></td><td>gold</td></tr>
+<tr><td>Large</td><td>above <span class="fig">8</span></td><td>white</td></tr>
+</tbody></table>
+<p>Gems are collected by moving within <span class="fig">100</span> units of them.</p>
+<p>Experience required for the first level is <span class="fig">16</span>. Each subsequent level requires <span class="fig">1.33</span> times the previous requirement. Reaching a level opens a draft immediately.</p>
+<h3><span class="num">4.4</span> Bosses</h3>
+<p>A boss spawns at <span class="fig">150</span> seconds, and another every <span class="fig">130</span> seconds after that. There are <span class="fig">5</span> in a fixed order.</p>
+<p>A boss encloses the fight in a ring of barrier rock with a radius of <span class="fig">640</span> units. Continuous spawning stops for <span class="fig">10</span> seconds after a boss dies.</p>
 <section class="appendix-part" id="ap-bosses">
 <h3>BOSSES</h3>
 <dl class="index">
@@ -90,12 +143,66 @@
 <dt>THE AUDITOR <span class="meta">5</span></dt><dd>your metrics have been escalated</dd>
 </dl>
 </section>
-<section class="chapter" id="ch4">
-<h2><span class="folio">IV</span> REQUISITION</h2>
-<h3><span class="num">4.1</span> The draft</h3>
-<p>Level up and the company offers you a choice of requisitions. You take one. You do not take the others, and that is the entire design — a draft you cannot lose is not a choice.</p>
-<h3><span class="num">4.2</span> Ordnance</h3>
-<p>Your rack fires by itself, so a weapon is a decision about coverage and behaviour, not about aim. There are <span class="fig">16</span> of them.</p>
+<section class="chapter" id="ch5">
+<h2><span class="folio">V</span> ENEMIES</h2>
+<h3><span class="num">5.1</span> Enemy roles</h3>
+<p>Enemies are separate types with separate behaviour, not one enemy with increasing health. Each type is first introduced alone in its own wave before it appears alongside others.</p>
+<p>Broadly, enemy behaviour falls into three groups: those that move directly toward you, those that keep distance and fire, and those that are stationary or slow but heavily armoured.</p>
+<figure class="plate pending"><div class="plate-slot" role="img" aria-label="A boss encounter"></div><figcaption>A boss encounter</figcaption></figure>
+<h3><span class="num">5.2</span> The element cycle</h3>
+<p>There are five elements. Four form a cycle in which each is strong against exactly one other and weak against exactly one other. The fifth, Kinetic, is neutral in both directions.</p>
+<table class="data"><thead>
+<tr><th>Attacker</th><th>Strong against</th></tr>
+</thead><tbody>
+<tr><td><span class="fig">Blaze</span></td><td><span class="fig">Frost</span></td></tr>
+<tr><td><span class="fig">Frost</span></td><td><span class="fig">Shock</span></td></tr>
+<tr><td><span class="fig">Shock</span></td><td><span class="fig">Void</span></td></tr>
+<tr><td><span class="fig">Void</span></td><td><span class="fig">Blaze</span></td></tr>
+<tr><td><span class="fig">Kinetic</span></td><td>nothing — neutral against all</td></tr>
+</tbody></table>
+<p>A strong match multiplies damage by <span class="fig">1.5</span>. A weak match multiplies damage by <span class="fig">0.66</span>. Any other pairing is unmodified.</p>
+<h3><span class="num">5.3</span> Champions</h3>
+<p>A champion is an enemy variant carrying an element. It has more health than the base type. When killed, it produces an area effect centred on its position.</p>
+<p>Every champion death effect acts on <strong>other enemies</strong>. None of them damage or move your ship.</p>
+<table class="data"><thead>
+<tr><th>Element</th><th>Effect on death</th><th>Radius</th><th>Duration</th></tr>
+</thead><tbody>
+<tr><td>Frost</td><td><span class="fig">leaves a lingering slow field</span></td><td><span class="fig">150</span></td><td><span class="fig">5</span> s</td></tr>
+<tr><td>Blaze</td><td><span class="fig">ignites nearby enemies</span></td><td><span class="fig">170</span></td><td><span class="fig">3.5</span> s</td></tr>
+<tr><td>Shock</td><td><span class="fig">stuns nearby enemies</span></td><td><span class="fig">190</span></td><td><span class="fig">1.1</span> s</td></tr>
+<tr><td>Void</td><td><span class="fig">drags nearby enemies inward</span></td><td><span class="fig">260</span></td><td>instant</td></tr>
+</tbody></table>
+<p>The Void effect pulls nearby enemies together, which groups them for area damage. The Shock effect prevents nearby enemies from moving briefly. Position matters: where a champion dies determines whether the effect is useful.</p>
+<section class="chapter" id="ch6">
+<h2><span class="folio">VI</span> WHERE UPGRADES COME FROM</h2>
+<h3><span class="num">6.1</span> The six sources</h3>
+<p>Upgrades come from six distinct sources. They differ in when they are offered, what they cost, and whether they persist after the run ends.</p>
+<table class="data"><thead>
+<tr><th>Source</th><th>When</th><th>Cost</th><th>Persists after the run</th></tr>
+</thead><tbody>
+<tr><td>Draft</td><td>On every level gained</td><td>Choose one of <span class="fig">4</span></td><td>No</td></tr>
+<tr><td>Fork</td><td>When a weapon reaches its final rank</td><td>Choose one branch</td><td>No</td></tr>
+<tr><td>Fusion</td><td>When two specific weapons are both racked</td><td>Consumes both</td><td>No</td></tr>
+<tr><td>Boss boon</td><td>After killing a boss</td><td>Free, optional</td><td>No</td></tr>
+<tr><td>Depot</td><td>Between runs</td><td>Scrip</td><td>Yes</td></tr>
+<tr><td>Directive</td><td>Unlocked by meeting a condition</td><td>Free once unlocked</td><td>Yes</td></tr>
+</tbody></table>
+<p>Modifiers are a seventh category but are not upgrades: they increase difficulty in exchange for more scrip.</p>
+<h3><span class="num">6.2</span> The draft</h3>
+<p>On gaining a level, the game pauses and offers <span class="fig">4</span> options. You take one. The others are discarded and are not offered again as a set.</p>
+<p>Options may be a new weapon, a rank-up of a weapon you already carry, a passive, a system, or a synergy if its requirements are met.</p>
+<p>Each option also rolls a rarity, which scales its strength.</p>
+<table class="data"><thead>
+<tr><th>Rarity</th><th>Chance</th></tr>
+</thead><tbody>
+<tr><td>Uncommon</td><td><span class="fig">30</span>%</td></tr>
+<tr><td>Rare</td><td><span class="fig">10</span>%</td></tr>
+<tr><td>Elite</td><td><span class="fig">1</span>%</td></tr>
+<tr><td>Common</td><td>the remainder</td></tr>
+</tbody></table>
+<p>An Elite weapon additionally gains a unique effect that no lower rarity provides.</p>
+<h3><span class="num">6.3</span> Weapons</h3>
+<p>A weapon occupies one bay and fires automatically. Because you do not aim, a weapon is a choice about firing pattern, range and behaviour rather than accuracy. There are <span class="fig">16</span>.</p>
 <section class="appendix-part" id="ap-weapons">
 <h3>WEAPONS</h3>
 <dl class="index">
@@ -117,8 +224,10 @@
 <dt>Solar Lance <span class="meta">Blaze · beam</span></dt><dd>A charging plasma lance — it winds up, fires a burning burst, then recharges. Radiant compliance.</dd>
 </dl>
 </section>
-<h3><span class="num">4.3</span> Forks and mergers</h3>
-<p>Rank a weapon far enough and it forks: two finals per base, and the fork changes what the weapon *is* rather than how big its number is. Mergers combine two racked weapons into something neither of them was. There are <span class="fig">12</span>.</p>
+<h3><span class="num">6.4</span> Forks</h3>
+<p>A weapon at its final rank offers a fork: a permanent branch that changes its behaviour. Two branches exist per weapon. The choice is permanent for that run.</p>
+<h3><span class="num">6.5</span> Fusions</h3>
+<p>A fusion combines two specific racked weapons into a single new weapon, freeing a bay. The requirement for each is listed below. There are <span class="fig">12</span>.</p>
 <section class="appendix-part" id="ap-fusions">
 <h3>FUSIONS</h3>
 <dl class="index">
@@ -136,8 +245,8 @@
 <dt>THE FINAL NOTICE <span class="meta">Transcontinental, Total Write-Off</span></dt><dd>Delivered to every address on the line. Then the line is repossessed.</dd>
 </dl>
 </section>
-<h3><span class="num">4.4</span> Systems and passives</h3>
-<p>Systems are ship behaviours rather than guns — they change what your hull does. Passives are quieter and stack.</p>
+<h3><span class="num">6.6</span> Systems</h3>
+<p>A system changes ship behaviour rather than adding a weapon. Systems occupy no bay.</p>
 <section class="appendix-part" id="ap-systems">
 <h3>SYSTEMS</h3>
 <dl class="index">
@@ -150,6 +259,8 @@
 <dt>Through-Freight Clause</dt><dd>Cleared to proceed through every employee. Non-stop.</dd>
 </dl>
 </section>
+<h3><span class="num">6.7</span> Passives</h3>
+<p>A passive modifies a statistic such as damage, rate of fire, movement speed or collection radius. Passives stack, and rarity scales the size of the modification.</p>
 <section class="appendix-part" id="ap-passives">
 <h3>PASSIVES</h3>
 <dl class="index">
@@ -161,8 +272,8 @@
 <dt>Reinforced Ordnance</dt><dd>Double-boxed. Hits like the invoice.</dd>
 </dl>
 </section>
-<h3><span class="num">4.5</span> Synergies</h3>
-<p>Own the right pair and a third thing appears in the draft that was not there before.</p>
+<h3><span class="num">6.8</span> Synergies</h3>
+<p>A synergy is an additional draft option that becomes possible only once you own a specific pair of other upgrades. It cannot be offered before its requirements are met.</p>
 <section class="appendix-part" id="ap-synergies">
 <h3>SYNERGIES</h3>
 <dl class="index">
@@ -173,30 +284,53 @@
 <dt>Compound Interest <span class="meta">GEMS WORTH +25%</span></dt><dd>Every pickup accrues. The rate is non-negotiable.</dd>
 </dl>
 </section>
-<section class="chapter" id="ch5">
-<h2><span class="folio">V</span> WHAT IS OUT THERE</h2>
-<h3><span class="num">5.1</span> The floor is not empty</h3>
-<p>Between the traffic there are things that were on the floor before you arrived and will be there after. None of them are aimed at you. All of them will kill you.</p>
-<h3><span class="num">5.2</span> Black holes</h3>
-<p>A well does not chase you and does not need to. Inside its reach it simply pulls, and the pull is stronger than you expect. You will see it on your own hull first — motes tearing off toward the well, and the ship visibly crabbing against its own thrust. When you see that, you are already inside.</p>
-<p>Most couriers die here, and they die because they did not believe it was dangerous.</p>
-<h3><span class="num">5.3</span> Asteroids and cracked rocks</h3>
-<p>Ordinary rock is cover, and cover works: it stops enemy fire, and enemy fire does not curve.</p>
-<p>A cracked rock is different. Break it and it pays a power moment — <span class="fig">6</span> kinds, one roll, never resources. Three are instant. Three are timed and run for <span class="fig">12</span> seconds, one at a time; a new one replaces whatever is running. All of your damage breaks rocks, including the passive and area sources, so you do not need to point anything at them.</p>
-<figure class="plate pending"><div class="plate-slot" role="img" aria-label="A cracked rock breaking"></div><figcaption>A cracked rock breaking</figcaption></figure>
-<h3><span class="num">5.4</span> Landmarks</h3>
-<p>There are places worth finding. They are rare on purpose and they will not appear next to you — the floor keeps them at least <span class="fig">1200</span> units out, and your odds improve by <strong>travelling</strong>, not by circling. Cover about <span class="fig">1500</span> units of real distance and the floor starts offering.</p>
-<p>You get one ping when you are near. There is no permanent arrow, and there will not be one.</p>
-<h3><span class="num">5.5</span> Objectives</h3>
-<p>A ring on the floor is an offer, and a dashed ring is an offer you have not accepted. Fly in and hold position to accept it; then hold the ring while its garrison converges on you. The garrison is elemental, it is stronger than the ambient floor, and it drops nothing at all — the payoff is the requisition at the end, not the bodies on the way.</p>
-<p>You can decline. The ring decays on its own and the shift continues. Declining is a real option and sometimes the correct one.</p>
-<figure class="plate pending"><div class="plate-slot" role="img" aria-label="An objective ring, accepted"></div><figcaption>An objective ring, accepted</figcaption></figure>
-<section class="chapter" id="ch6">
-<h2><span class="folio">VI</span> BETWEEN SHIFTS</h2>
-<h3><span class="num">6.1</span> Scrip</h3>
-<p>You are paid. Not well, and not in anything you can spend on the floor, but you are paid.</p>
-<h3><span class="num">6.2</span> The Depot</h3>
-<p>Scrip buys permanent upgrades that persist across shifts. There are <span class="fig">23</span> of them.</p>
+<h3><span class="num">6.9</span> Boss boons</h3>
+<p>Killing a boss offers a boon. Boons are optional and are separate from the draft.</p>
+<section class="appendix-part" id="ap-boons">
+<h3>BOONS</h3>
+<dl class="index">
+<dt>Executive Ordnance <span class="meta">ALL GUNS +45% DAMAGE</span></dt><dd>The board approved more firepower. It comes out of your paycheck.</dd>
+<dt>Mandatory Overtime <span class="meta">+30% FIRE RATE</span></dt><dd>The whole floor works faster now. Breaks remain unauthorized.</dd>
+<dt>Regional Expansion <span class="meta">+20% REACH</span></dt><dd>Your jurisdiction just widened. So did the liability.</dd>
+<dt>Expanded Roster <span class="meta">+1 WEAPON BAY</span></dt><dd>Headcount approved. One more mount, effective immediately.</dd>
+<dt>Logistics Overhaul <span class="meta">+50% PICKUP · GEMS +25%</span></dt><dd>Everything comes to you now, and it is worth more.</dd>
+<dt>Corporate Indemnity <span class="meta">+90 SHIELD · −8% MOVE SPEED</span></dt><dd>A fat policy, paid up front. The bulk slows you down. Read the exclusions later.</dd>
+<dt>Hazard Bonus <span class="meta">+55% DAMAGE · +15% CONTACT DAMAGE</span></dt><dd>Hazard pay, in both directions. You hit harder — so does the floor.</dd>
+<dt>Full Route Authority <span class="meta">+2 PIERCE · −25% FIRE RATE</span></dt><dd>Cleared through every body on the line. The line moves slower now.</dd>
+<dt>Iron Clause <span class="meta">+2 HULL PIPS · −15% DAMAGE</span></dt><dd>Two more mistakes before termination. The reinforcement dulls your edge.</dd>
+</dl>
+</section>
+<section class="chapter" id="ch7">
+<h2><span class="folio">VII</span> THE MAP</h2>
+<h3><span class="num">7.1</span> Contents</h3>
+<p>The map has no boundary. Objects on it exist independently of you and are not aimed at you. They are nonetheless capable of destroying your ship.</p>
+<h3><span class="num">7.2</span> Gravity wells</h3>
+<p>A gravity well applies a continuous pull to your ship within <span class="fig">540</span> units. It does not move and does not pursue. The pull increases as you approach the centre.</p>
+<p>Two indicators show that the pull is affecting you: particles leave your hull in the direction of the well, and the ship visibly drifts off the heading your input requested. Both appear on the ship rather than on the well, because your attention is on the ship.</p>
+<p>A gravity well is the most common cause of destruction for new players.</p>
+<h3><span class="num">7.3</span> Asteroids</h3>
+<p>Asteroids block enemy fire. Enemy projectiles travel in straight lines and do not track, so an asteroid between you and a firing enemy is complete cover.</p>
+<h3><span class="num">7.4</span> Cracked asteroids</h3>
+<p>A cracked asteroid is visually distinct and can be destroyed. Destroying one awards one of <span class="fig">6</span> effects, selected at random.</p>
+<p>Three of the effects are instant. Three are temporary and last <span class="fig">12</span> seconds. Only one temporary effect can be active at a time; collecting a second replaces the first.</p>
+<p>All damage sources destroy cracked asteroids, including area and passive damage. No aiming is required.</p>
+<figure class="plate pending"><div class="plate-slot" role="img" aria-label="A cracked asteroid being destroyed"></div><figcaption>A cracked asteroid being destroyed</figcaption></figure>
+<h3><span class="num">7.5</span> Landmarks</h3>
+<p>Landmarks are infrequent points of interest that award a reward on arrival. They never appear closer than <span class="fig">1200</span> units from your position.</p>
+<p>The probability of one appearing increases with distance travelled, measured as net displacement rather than total distance. Circling in one area therefore does not produce them; travelling in a direction does. Approximately <span class="fig">1500</span> units of displacement is required.</p>
+<p>An indicator appears once when you are near one. There is no permanent directional marker.</p>
+<h3><span class="num">7.6</span> Objectives</h3>
+<p>An objective is a large circle drawn on the map. A dashed outline means it has not been accepted.</p>
+<p>To accept it, move inside and remain there briefly. Once accepted, enemies spawn around it and you must stay inside the circle until the timer completes. Completing it awards a draft.</p>
+<p>Objective enemies have <span class="fig">1.55</span> times normal health and all carry the objective's element. They drop no gems, so the reward is the draft only.</p>
+<p>Objectives can be ignored. An unaccepted objective expires on its own with no penalty.</p>
+<figure class="plate pending"><div class="plate-slot" role="img" aria-label="An objective circle after acceptance"></div><figcaption>An objective circle after acceptance</figcaption></figure>
+<section class="chapter" id="ch8">
+<h2><span class="folio">VIII</span> BETWEEN RUNS</h2>
+<h3><span class="num">8.1</span> Scrip</h3>
+<p>Scrip is earned during a run and kept when the run ends, including when the ship is destroyed. It is the only resource that persists.</p>
+<h3><span class="num">8.2</span> The Depot</h3>
+<p>The Depot converts scrip into permanent upgrades that apply to every future run. Each entry has a maximum number of purchases, listed below. There are <span class="fig">23</span> entries.</p>
 <section class="appendix-part" id="ap-depot">
 <h3>DEPOT</h3>
 <dl class="index">
@@ -225,8 +359,8 @@
 <dt>Signing Bonus <span class="meta">1</span></dt><dd>Start each shift with one free installed weapon.</dd>
 </dl>
 </section>
-<h3><span class="num">6.3</span> Standing Directives</h3>
-<p>Directives are earned rewrites of the rules rather than bonuses. They change how a shift works.</p>
+<h3><span class="num">8.3</span> Directives</h3>
+<p>A directive is a permanent rule change rather than a numeric bonus. Directives are unlocked by meeting a condition, not by purchase. The unlock condition for each is listed.</p>
 <section class="appendix-part" id="ap-directives">
 <h3>DIRECTIVES</h3>
 <dl class="index">
@@ -237,8 +371,8 @@
 <dt>Single Vendor Agreement <span class="meta">Process 25,000 units (lifetime).</span></dt><dd>After your first install, the draft only ever offers THAT weapon. Duplicates forever. One supplier.</dd>
 </dl>
 </section>
-<h3><span class="num">6.4</span> The Hazard Pact</h3>
-<p>You can make a shift harder on purpose, and be paid more for it. The company is happy to accommodate this.</p>
+<h3><span class="num">8.4</span> Modifiers</h3>
+<p>A modifier increases difficulty in a specific way and increases scrip earned in exchange. Modifiers are selected before a run begins and are optional. The percentage shown is the scrip increase.</p>
 <section class="appendix-part" id="ap-modifiers">
 <h3>MODIFIERS</h3>
 <dl class="index">
@@ -254,34 +388,19 @@
 <dt>Event Horizon <span class="meta">18</span></dt><dd>Bigger, hungrier black holes.</dd>
 </dl>
 </section>
-<h3><span class="num">6.5</span> Boons</h3>
-<p>Beat management and it offers you something. Taking it is not compulsory.</p>
-<section class="appendix-part" id="ap-boons">
-<h3>BOONS</h3>
-<dl class="index">
-<dt>Executive Ordnance <span class="meta">ALL GUNS +45% DAMAGE</span></dt><dd>The board approved more firepower. It comes out of your paycheck.</dd>
-<dt>Mandatory Overtime <span class="meta">+30% FIRE RATE</span></dt><dd>The whole floor works faster now. Breaks remain unauthorized.</dd>
-<dt>Regional Expansion <span class="meta">+20% REACH</span></dt><dd>Your jurisdiction just widened. So did the liability.</dd>
-<dt>Expanded Roster <span class="meta">+1 WEAPON BAY</span></dt><dd>Headcount approved. One more mount, effective immediately.</dd>
-<dt>Logistics Overhaul <span class="meta">+50% PICKUP · GEMS +25%</span></dt><dd>Everything comes to you now, and it is worth more.</dd>
-<dt>Corporate Indemnity <span class="meta">+90 SHIELD · −8% MOVE SPEED</span></dt><dd>A fat policy, paid up front. The bulk slows you down. Read the exclusions later.</dd>
-<dt>Hazard Bonus <span class="meta">+55% DAMAGE · +15% CONTACT DAMAGE</span></dt><dd>Hazard pay, in both directions. You hit harder — so does the floor.</dd>
-<dt>Full Route Authority <span class="meta">+2 PIERCE · −25% FIRE RATE</span></dt><dd>Cleared through every body on the line. The line moves slower now.</dd>
-<dt>Iron Clause <span class="meta">+2 HULL PIPS · −15% DAMAGE</span></dt><dd>Two more mistakes before termination. The reinforcement dulls your edge.</dd>
-</dl>
-</section>
-<section class="chapter" id="ch7">
-<h2><span class="folio">VII</span> COLOPHON</h2>
-<h3><span class="num">7.1</span> Same seed, same shift</h3>
-<p>Fulfillment is deterministic. The same starting conditions produce the same run, every time — the same waves, on the same bearings, at the same second. The company does not believe in luck. Only in variance it has not yet priced.</p>
-<h3><span class="num">7.2</span> The paperwork</h3>
-<p>This manual is generated from the shipped game's own data. Every figure in it — every radius, duration, count and multiplier — is exported from the build rather than transcribed, so it cannot quietly drift out of date while the sentences around it stay still.</p>
-<p>Now clock in. Standard is expected.</p>
-<p>This document is company property. So are you.</p>
+<section class="chapter" id="ch9">
+<h2><span class="folio">IX</span> TECHNICAL NOTES</h2>
+<h3><span class="num">9.1</span> Determinism</h3>
+<p>The game is deterministic. A given starting seed produces an identical run: the same spawns, at the same times, from the same directions, with the same drops.</p>
+<p>All gameplay randomness comes from one seeded generator with a fixed call order. Visual effects use a separate generator and cannot influence gameplay outcomes.</p>
+<h3><span class="num">9.2</span> About this document</h3>
+<p>This manual is generated from the game build's own data files. Weapon lists, statistics, radii, durations and counts are exported directly from the shipped configuration rather than transcribed.</p>
+<p>The build fails if any number appears in this text without a corresponding exported source. The intended consequence is that the manual cannot describe a version of the game that does not exist.</p>
 </main>
 <footer>
-  <p>Generated from the shipped game's own data. Every figure here is exported, not transcribed.</p>
-  <p><a href="/games/">Back to the games</a> · <a href="https://jordan-doerksen.itch.io/fulfillment">itch.io</a></p>
+  <p>Every number in this document is exported from the game build, not transcribed by hand. If a value
+  changes in the game, it changes here when the manual is rebuilt.</p>
+  <p><a href="/games/">Other games</a> · <a href="https://jordan-doerksen.itch.io/fulfillment">itch.io</a></p>
 </footer>
 </body>
 </html>
