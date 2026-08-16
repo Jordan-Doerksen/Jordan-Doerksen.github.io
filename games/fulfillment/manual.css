@@ -103,3 +103,7 @@ footer { padding: 2.5rem 0; color: var(--quiet); font-size: .85rem; }
 .glossary { margin: 1.25rem 0; }
 .glossary dt { font: 600 .9rem ui-monospace, "JetBrains Mono", monospace; margin-top: .85rem; }
 .glossary dd { margin: .15rem 0 0; }
+
+/* Captured plates (tools/manual_plates.gd). Bordered rather than bled, so a 16:9 game frame sits as a
+   figure in a document instead of pretending to be the page. */
+.plate img { width: 100%; height: auto; display: block; border: 1px solid var(--rule); }
