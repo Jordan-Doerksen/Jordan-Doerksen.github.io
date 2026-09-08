@@ -105,14 +105,14 @@ def main():
             flow = ('<span class="flow">%s</span>' % esc(link["label"])) if link and link.get("label") else ""
 
             cards.append(
-                '<article class="card" data-label="%s"%s>'
+                '<article class="card" data-node="%s" data-label="%s"%s>'
                 '<span class="idx">%02d</span>'
                 '<h3>%s<span class="sub">%s</span></h3>'
                 '<p class="what">%s</p>'
                 '%s%s'
                 '<details><summary>Where it lives</summary><p>%s</p></details>'
                 '</article>'
-                % (esc(n["label"]),
+                % (esc(sid), esc(n["label"]),
                    (' data-badge="%s"' % esc(badge_text)) if badge_text else "",
                    si + 1, esc(n["label"]), esc(n.get("sub", "")),
                    esc(n.get("what", "")), badges, flow, esc(n.get("where", "—")))
@@ -129,7 +129,6 @@ def main():
             '<button type="button" class="btn btn-reset">Reset</button>'
             '<span class="readout" role="status" aria-live="polite"></span>'
             '</div>'
-            '<ol class="done" aria-label="Parts already shown"></ol>'
             '</div></section>'
             % (tid, esc(t["label"]), esc(t.get("blurb", "")), stage_attrs, "".join(cards))
         )
@@ -144,8 +143,74 @@ def main():
         '#t-%s:checked ~ .panels #p-%s{display:block}'
         % (esc(t["id"]), esc(t["id"]), esc(t["id"]), esc(t["id"])) for t in tours)
 
+    # ---- the mesh -------------------------------------------------------
+    # One shared diagram under every tour. Positions come from the graph's own
+    # col/row - not invented here - and rows are re-packed per column so the
+    # 26 nodes the tours actually use do not sit in a sparse 17-row canvas.
+    # Nodes and links start hidden; stage.js lights each one as its card files
+    # down, and a link lights only when BOTH its ends are already lit. Running a
+    # second tour therefore draws the joins to nodes the first one placed, which
+    # is where the mesh comes from.
+    COL_W, ROW_H, PAD, R = 172, 56, 30, 6.5
+    tour_ids = []
+    for t in tours:
+        for sid in t["steps"]:
+            if sid in nodes and sid not in tour_ids:
+                tour_ids.append(sid)
+
+    by_col = {}
+    for sid in tour_ids:
+        by_col.setdefault(nodes[sid].get("col", 0), []).append(sid)
+    pos = {}
+    for col, ids in by_col.items():
+        ids.sort(key=lambda s: nodes[s].get("row", 0))
+        for idx, sid in enumerate(ids):
+            pos[sid] = (PAD + col * COL_W, PAD + idx * ROW_H)
+
+    mesh_w = PAD * 2 + (max(by_col) + 1) * COL_W
+    mesh_h = PAD * 2 + max(len(v) for v in by_col.values()) * ROW_H
+
+    shared = {sid for sid in tour_ids
+              if sum(1 for t in tours if sid in t["steps"]) > 1}
+
+    mesh_links = []
+    for (a, b), e in links.items():
+        if a in pos and b in pos:
+            x1, y1 = pos[a]
+            x2, y2 = pos[b]
+            mx = (x1 + x2) / 2
+            mesh_links.append(
+                '<path class="mlink" id="l-%s--%s" data-a="%s" data-b="%s" '
+                'd="M%.1f %.1f C%.1f %.1f %.1f %.1f %.1f %.1f"><title>%s</title></path>'
+                % (esc(a), esc(b), esc(a), esc(b),
+                   x1 + R, y1, mx, y1, mx, y2, x2 - R, y2,
+                   esc(e.get("label") or (a + " to " + b))))
+
+    mesh_nodes = []
+    for sid in tour_ids:
+        x, y = pos[sid]
+        n = nodes[sid]
+        lab = n["label"]
+        if len(lab) > 20:
+            lab = lab[:19] + "…"
+        mesh_nodes.append(
+            '<g class="mnode%s" id="n-%s"><circle cx="%.1f" cy="%.1f" r="%.1f"/>'
+            '<text x="%.1f" y="%.1f">%s</text><title>%s</title></g>'
+            % (" joint" if sid in shared else "", esc(sid), x, y, R,
+               x + R + 7, y + 4, esc(lab), esc(n["label"])))
+
+    mesh_svg = (
+        '<svg class="meshsvg" viewBox="0 0 %d %d" role="img" '
+        'aria-label="The desk as a network. Parts light as each path runs.">'
+        '<g class="links">%s</g><g class="nodes">%s</g></svg>'
+        % (mesh_w, mesh_h, "".join(mesh_links), "".join(mesh_nodes)))
+
     page = TEMPLATE
     for key, value in {
+        "mesh": mesh_svg,
+        "meshcount": str(len(tour_ids)),
+        "meshlinks": str(len(mesh_links)),
+        "joints": str(len(shared)),
         "csstabs": css_tabs,
         "idea": idea_html,
         "radios": "\n  ".join(radios),
@@ -234,7 +299,16 @@ summary{cursor:pointer;font:500 11px/1.6 var(--mono);letter-spacing:.08em;text-t
 summary:hover,summary:focus-visible{color:var(--live)}
 details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
 .controls{display:flex;gap:8px;align-items:center;margin:16px 0 0;flex-wrap:wrap}
-.done{list-style:none;margin:0;padding:0}
+
+/* ---------- the mesh: one shared diagram under every tour --------------- */
+.mesh{margin:26px 0 0;padding:18px;border:1px solid var(--hair);background:var(--deep)}
+.mesh figcaption{margin:0 0 12px;font:400 11.5px/1.6 var(--mono);color:var(--muted)}
+.meshsvg{width:100%;height:auto;display:block;overflow:visible}
+.mnode circle{fill:var(--sheet);stroke:var(--wire);stroke-width:1.5}
+.mnode text{font:500 11px/1 var(--mono);fill:var(--muted)}
+.mnode.joint circle{stroke-dasharray:2 2}
+.mlink{fill:none;stroke:var(--wire);stroke-width:1.5}
+/* No JS: the finished diagram stands as a static picture of the whole system. */
 
 /* ---------- JS on: the stage ------------------------------------------- */
 .stage[data-js="on"] .slots{
@@ -270,12 +344,20 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
 .btn:hover{border-color:var(--live);color:var(--live)}
 .btn:focus-visible{outline:2px solid var(--live);outline-offset:2px}
 .readout{font:400 11px/1 var(--mono);color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
-.stage[data-js="on"] .done{margin-top:16px;border-top:1px solid var(--hair);padding-top:12px}
-.stage[data-js="on"] .done li{display:flex;gap:12px;align-items:baseline;padding:7px 0;
-  border-bottom:1px solid var(--hair);font:500 13px/1.5 var(--mono);color:var(--ink-2);
-  animation:land .4s ease both}
-.stage[data-js="on"] .done li .b{font:400 10px/1 var(--mono);letter-spacing:.06em;
-  text-transform:uppercase;color:var(--muted)}
+
+/* JS on: the mesh starts dark and lights part by part as cards file down. */
+.mesh[data-js="on"] .mnode{opacity:.18;transition:opacity .5s ease}
+.mesh[data-js="on"] .mlink{opacity:0;transition:opacity .6s ease}
+.mesh[data-js="on"] .mnode.on{opacity:1}
+.mesh[data-js="on"] .mnode.on circle{fill:var(--live);stroke:var(--live);
+  animation:pop .5s cubic-bezier(.2,.8,.3,1) both}
+.mesh[data-js="on"] .mnode.on text{fill:var(--ink)}
+.mesh[data-js="on"] .mnode.joint.on circle{fill:var(--warn);stroke:var(--warn)}
+.mesh[data-js="on"] .mlink.on{opacity:1;stroke:var(--live);
+  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  animation:wire .7s ease-out forwards}
+@keyframes pop{from{transform:scale(.2);transform-origin:center}to{transform:none}}
+@keyframes wire{to{stroke-dashoffset:0}}
 
 @media (max-width:820px){
   .stage[data-js="on"] .slots{grid-template-columns:1fr;gap:14px;min-height:0}
@@ -303,6 +385,14 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
   @@radios@@
   <div class="tabs">@@tabs@@</div>
   <div class="panels">@@panels@@</div>
+
+  <figure class="mesh">
+    <figcaption>The same @@meshcount@@ parts as one system. Each lights when its path
+    reaches it, and a wire appears once both ends are lit — so running a second path draws
+    the joins to parts the first one already placed. @@joints@@ parts sit on more than one
+    path; those are the joints.</figcaption>
+    @@mesh@@
+  </figure>
 
   <p class="foot">
     Topology read out of the running code: <b>@@nodes@@ parts, @@links@@ connections</b>,

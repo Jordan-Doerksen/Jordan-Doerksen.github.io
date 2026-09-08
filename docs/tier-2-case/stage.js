@@ -20,6 +20,28 @@
 
   var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* The mesh is ONE diagram shared by every tour, and what it has lit persists
+   * across tour switches on purpose: running a second path draws its joins to
+   * parts the first path already placed. That accumulation is the whole point,
+   * so `lit` lives here rather than inside a stage. */
+  var mesh = null;
+  var lit = Object.create(null);
+
+  function litUp(nodeId) {
+    if (!mesh || !nodeId || lit[nodeId]) return;
+    lit[nodeId] = true;
+    var g = mesh.querySelector('#n-' + CSS.escape(nodeId));
+    if (g) g.classList.add("on");
+    // A wire appears only when BOTH its ends are lit.
+    Array.prototype.forEach.call(mesh.querySelectorAll(".mlink"), function (p) {
+      if (p.classList.contains("on")) return;
+      if (lit[p.dataset.a] && lit[p.dataset.b]) {
+        try { p.style.setProperty("--len", p.getTotalLength().toFixed(1)); } catch (e) {}
+        p.classList.add("on");
+      }
+    });
+  }
+
   function setup(stage) {
     var cards = Array.prototype.slice.call(stage.querySelectorAll(".card"));
     if (!cards.length) return;
@@ -36,7 +58,6 @@
     };
 
     var slots = stage.querySelector(".slots");
-    var done = stage.querySelector(".done");
     var controls = stage.querySelector(".controls");
     var btnPlay = stage.querySelector(".btn-play");
     var btnStep = stage.querySelector(".btn-step");
@@ -57,6 +78,8 @@
     var i = 0;            // next card index to reveal
     var onStage = [];     // cards currently on the stage
     var timer = null;
+    var fileTimer = null;   // owned by fileDown; clear() must not touch it
+    var filing = false;
     var playing = false;
 
     function label() {
@@ -75,36 +98,37 @@
       timer = setTimeout(function () { timer = null; fn(); }, ms);
     }
 
-    // Move the finished batch into the list, then clear the stage.
+    // A file-down owns its OWN timer and is never cancelled by clear().
+    // It used to share `timer`, so a Step click (or a pause) during the 700ms
+    // hand-off killed the callback that lights the mesh - the batch vanished
+    // from the stage and never arrived. Rapid stepping lost 6 of 9 parts.
     function fileDown() {
+      if (filing) return;
+      filing = true;
       var batch = onStage.slice();
       onStage = [];
       batch.forEach(function (card) { card.classList.add("filing"); });
 
-      after(cfg.filedown, function () {
+      fileTimer = setTimeout(function () {
+        fileTimer = null;
+        filing = false;
         batch.forEach(function (card) {
           card.classList.remove("in", "filing");
-          var li = document.createElement("li");
-          li.textContent = card.dataset.label;
-          var badge = card.dataset.badge;
-          if (badge) {
-            var b = document.createElement("span");
-            b.className = "b";
-            b.textContent = badge;
-            li.appendChild(b);
-          }
-          done.appendChild(li);
+          card.removeAttribute("data-slot");
+          litUp(card.dataset.node);
         });
         if (i >= cards.length) {
           if (cfg.loop) { reset(); play(); } else { stop(true); }
           return;
         }
         if (playing) step();
-      });
+      }, cfg.filedown);
     }
 
     // Reveal exactly one card. Used by both autoplay and the Step button.
     function step() {
+      // A hand-off is in flight; let it finish rather than racing it.
+      if (filing) return;
       if (i >= cards.length && !onStage.length) { stop(true); return; }
 
       if (onStage.length >= cfg.batch) { fileDown(); return; }
@@ -150,6 +174,8 @@
 
     function reset() {
       clear();
+      if (fileTimer) { clearTimeout(fileTimer); fileTimer = null; }
+      filing = false;
       playing = false;
       i = 0;
       onStage = [];
@@ -157,7 +183,8 @@
         c.classList.remove("in", "filing");
         c.style.removeProperty("--slot");
       });
-      while (done.firstChild) done.removeChild(done.firstChild);
+      // Reset clears THIS stage only. The mesh keeps what it has lit, because
+      // accumulation across tours is the point of it (see litUp).
       stage.dataset.playing = "false";
       if (btnPlay) { btnPlay.textContent = "Play"; btnPlay.setAttribute("aria-pressed", "false"); }
       label();
@@ -172,19 +199,38 @@
     });
     if (btnReset) btnReset.addEventListener("click", reset);
 
-    // A tour that is switched away from must not keep running in the dark.
+    function onScreen() {
+      var tour = stage.closest(".tour");
+      return !tour || getComputedStyle(tour).display !== "none";
+    }
+
+    // Every tour has its own stage, and all of them boot. Without this check all
+    // five would autoplay at once, so the mesh would fill from four stages
+    // nobody is watching - which destroys the reveal the mesh exists for: you
+    // run a second path and SEE it join the parts the first one placed.
+    // A stage therefore runs only while its tour is on screen, and starts when
+    // it is switched to.
     document.addEventListener("change", function (e) {
-      if (e.target && e.target.name === "tour") {
-        var visible = stage.closest(".tour");
-        if (visible && getComputedStyle(visible).display === "none") { stop(false); reset(); }
+      if (!e.target || e.target.name !== "tour") return;
+      if (onScreen()) {
+        if (cfg.autoplay && !playing) play();
+      } else {
+        stop(false);
+        reset();
       }
     });
 
     label();
-    if (cfg.autoplay) play();
+    if (cfg.autoplay && onScreen()) play();
   }
 
   function boot() {
+    mesh = document.querySelector(".mesh");
+    // Under reduced motion the mesh is left exactly as it ships: the complete
+    // diagram, fully visible, nothing to wait for. Only arm the dark-then-light
+    // behaviour when motion is welcome.
+    if (mesh && !reduced) mesh.dataset.js = "on";
+
     Array.prototype.forEach.call(document.querySelectorAll(".stage"), function (s) {
       try { setup(s); } catch (err) {
         // Never leave a half-built stage: fall back to every card visible.

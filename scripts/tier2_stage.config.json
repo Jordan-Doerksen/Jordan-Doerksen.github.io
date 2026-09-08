@@ -11,8 +11,8 @@
   "lineDrawMs": 480,
   "_lineDrawMs": "How long the connector takes to draw to the next slot.",
 
-  "holdMs": 1500,
-  "_holdMs": "Pause on a completed card before the next one starts. This is the reading time - the single most important number here.",
+  "holdMs": 2200,
+  "_holdMs": "Pause on a completed card before the next one starts. This is the reading time - the single most important number here. Raised 1500 -> 2200 on 2026-09-08: the owner read 1.5s as a bit too fast.",
 
   "batchHoldMs": 2200,
   "_batchHoldMs": "Pause on a full stage before the trio files down into the list.",
