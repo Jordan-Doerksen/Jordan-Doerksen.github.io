@@ -151,7 +151,13 @@ def main():
     # down, and a link lights only when BOTH its ends are already lit. Running a
     # second tour therefore draws the joins to nodes the first one placed, which
     # is where the mesh comes from.
-    COL_W, ROW_H, PAD, R = 172, 56, 30, 6.5
+    # ROW_H carries the label now that it sits ABOVE its dot rather than beside
+    # it: with the name off to the right, every horizontal track running at a
+    # node's own y drove straight through some other node's text.
+    # PAD_TOP is deeper than PAD on purpose: a blocked row-0 run lifts into the
+    # channel half a row ABOVE row 0, which lands at y=0 without headroom - a
+    # track drawn flush along the panel's top edge.
+    COL_W, ROW_H, PAD, PAD_TOP, R = 172, 68, 34, 52, 6.5
     tour_ids = []
     for t in tours:
         for sid in t["steps"]:
@@ -165,26 +171,116 @@ def main():
     for col, ids in by_col.items():
         ids.sort(key=lambda s: nodes[s].get("row", 0))
         for idx, sid in enumerate(ids):
-            pos[sid] = (PAD + col * COL_W, PAD + idx * ROW_H)
+            pos[sid] = (PAD + col * COL_W, PAD_TOP + idx * ROW_H)
 
     mesh_w = PAD * 2 + (max(by_col) + 1) * COL_W
-    mesh_h = PAD * 2 + max(len(v) for v in by_col.values()) * ROW_H
+    mesh_h = PAD_TOP + PAD + max(len(v) for v in by_col.values()) * ROW_H
 
     shared = {sid for sid in tour_ids
               if sum(1 for t in tours if sid in t["steps"]) > 1}
 
+    # ---- track routing --------------------------------------------------
+    # Owner: route these like railway tracks so a wire never runs across a part
+    # it has nothing to do with.
+    #
+    # Five segments, all orthogonal:
+    #   1 short hop right out of the source, inside the source column's gutter
+    #   2 vertical down that gutter to a ROW CHANNEL
+    #   3 the long horizontal, in the channel BETWEEN two node rows
+    #   4 vertical down the target column's gutter
+    #   5 short hop into the target
+    #
+    # The row channel is the part that matters. Two earlier attempts ran the long
+    # horizontal at a node's own row - first the source's, then the target's -
+    # and both cut through every part sharing that row in the columns between.
+    # Dots sit exactly on rows, so a channel at the midpoint between rows is
+    # clear of all of them by half a row.
+    CH_BASE, CH_STEP, CORNER = 30.0, 9.0, 7.0
+
+    per_gutter = {}
+    ordered = [(a, b, e) for (a, b), e in links.items() if a in pos and b in pos]
+    for a, b, _e in ordered:
+        per_gutter.setdefault(nodes[a].get("col", 0), []).append((a, b))
+
+    def route(a, b):
+        """Corner points of one wire. The single source of truth for its shape."""
+        x1, y1 = pos[a]
+        x2, y2 = pos[b]
+        k = per_gutter[nodes[a].get("col", 0)].index((a, b))
+        jitter = (k % 4) * CH_STEP
+
+        sx, ex = x1 + R, x2 - R
+        cx1 = x1 + COL_W - CH_BASE - jitter
+        cx2 = x2 - CH_BASE + jitter * 0.5
+
+        same_row = abs(y1 - y2) < 0.5
+        # A straight track is only honest when the row is actually clear. Five of
+        # these parts share row 0, so tws -> capture spans two columns and ran
+        # straight through live-session sitting between them. Check first.
+        blocked = any(
+            sid not in (a, b) and abs(ny - y1) < 0.5 and min(x1, x2) < nx < max(x1, x2)
+            for sid, (nx, ny) in pos.items())
+
+        if same_row and x2 > x1 and not blocked:
+            return [(sx, y1), (ex, y2)]
+
+        # The channel between rows. For a blocked same-row run, lift into the gap
+        # ABOVE the row: clear of these dots, of the row above's dots, and of the
+        # labels, which sit 13-21px over their own dot.
+        if same_row:
+            ry = y1 - ROW_H / 2.0
+        else:
+            ry = y2 - ROW_H / 2.0 if y2 > y1 else y2 + ROW_H / 2.0
+
+        if x2 > x1 and cx2 > cx1 + CORNER * 2:
+            return [(sx, y1), (cx1, y1), (cx1, ry), (cx2, ry), (cx2, y2), (ex, y2)]
+        # Backward or same-column: drop into the channel and come back along it.
+        cx = min(cx1, cx2)
+        return [(sx, y1), (cx, y1), (cx, ry), (ex - CH_BASE, ry),
+                (ex - CH_BASE, y2), (ex, y2)]
+
+    def path_of(points):
+        """Rounded orthogonal path through the corner points."""
+        d = ["M%.1f %.1f" % points[0]]
+        for i in range(1, len(points) - 1):
+            (px, py), (cx, cy), (nx, ny) = points[i - 1], points[i], points[i + 1]
+            dx1, dy1 = cx - px, cy - py
+            dx2, dy2 = nx - cx, ny - cy
+            l1 = max(abs(dx1), abs(dy1)) or 1.0
+            l2 = max(abs(dx2), abs(dy2)) or 1.0
+            r = min(CORNER, l1 / 2.0, l2 / 2.0)
+            d.append("L%.1f %.1f" % (cx - dx1 / l1 * r, cy - dy1 / l1 * r))
+            d.append("Q%.1f %.1f %.1f %.1f"
+                     % (cx, cy, cx + dx2 / l2 * r, cy + dy2 / l2 * r))
+        d.append("L%.1f %.1f" % points[-1])
+        return " ".join(d)
+
     mesh_links = []
-    for (a, b), e in links.items():
-        if a in pos and b in pos:
-            x1, y1 = pos[a]
-            x2, y2 = pos[b]
-            mx = (x1 + x2) / 2
-            mesh_links.append(
-                '<path class="mlink" id="l-%s--%s" data-a="%s" data-b="%s" '
-                'd="M%.1f %.1f C%.1f %.1f %.1f %.1f %.1f %.1f"><title>%s</title></path>'
-                % (esc(a), esc(b), esc(a), esc(b),
-                   x1 + R, y1, mx, y1, mx, y2, x2 - R, y2,
-                   esc(e.get("label") or (a + " to " + b))))
+    for a, b, e in ordered:
+        mesh_links.append(
+            '<path class="mlink" id="l-%s--%s" data-a="%s" data-b="%s" d="%s">'
+            '<title>%s</title></path>'
+            % (esc(a), esc(b), esc(a), esc(b), path_of(route(a, b)),
+               esc(e.get("label") or (a + " to " + b))))
+
+    # Self-check: does any track run over a part it has nothing to do with?
+    # Every segment is axis-aligned, so a hit is an interval test. This is the
+    # claim the routing exists to make, so it is measured, not assumed - and it
+    # reads the SAME route() the drawing used.
+    CLEAR = R + 3.0
+    crossings = []
+    for a, b, _e in ordered:
+        pts = route(a, b)
+        for i in range(len(pts) - 1):
+            (px, py), (qx, qy) = pts[i], pts[i + 1]
+            lo_x, hi_x = min(px, qx), max(px, qx)
+            lo_y, hi_y = min(py, qy), max(py, qy)
+            for sid, (nx, ny) in pos.items():
+                if sid in (a, b):
+                    continue
+                if (lo_x - CLEAR < nx < hi_x + CLEAR
+                        and lo_y - CLEAR < ny < hi_y + CLEAR):
+                    crossings.append((a, b, sid))
 
     def mesh_label(n):
         """A node name a person can read.
@@ -192,8 +288,7 @@ def main():
         Some labels in the source are URL paths, not names: `p-live` is labelled
         "/" because that is where the live cockpit is served. A slash is not a
         node name, so when a label carries fewer than two letters the `sub`
-        stands in. The full "label · sub" is kept in the <title> either way, so
-        nothing is lost - only the drawn name changes.
+        stands in. The full "label · sub" is kept in the <title> either way.
         """
         lab = (n.get("label") or "").strip()
         if sum(c.isalpha() for c in lab) < 2:
@@ -209,7 +304,7 @@ def main():
             '<g class="mnode%s" id="n-%s"><circle cx="%.1f" cy="%.1f" r="%.1f"/>'
             '<text x="%.1f" y="%.1f">%s</text><title>%s</title></g>'
             % (" joint" if sid in shared else "", esc(sid), x, y, R,
-               x + R + 7, y + 4, esc(lab),
+               x - R + 1, y - 13, esc(lab),
                esc(" · ".join(p for p in [n.get("label"), n.get("sub")] if p))))
 
     mesh_svg = (
@@ -245,6 +340,12 @@ def main():
     print("wrote %s" % OUT_PATH)
     print("  %d tours | batch %d | %d nodes, %d links in source"
           % (len(tours), batch, len(g["nodes"]), len(g["links"])))
+    if crossings:
+        print("  WARNING: %d track(s) pass over an unrelated part:" % len(crossings))
+        for a, b, sid in crossings[:8]:
+            print("    %s -> %s crosses %s" % (a, b, sid))
+    else:
+        print("  no track passes over an unrelated part (%d wires checked)" % len(ordered))
     print("  stage.js present: %s" % (OUT_DIR / "stage.js").is_file())
     return 0
 
