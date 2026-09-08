@@ -1,11 +1,11 @@
 # DECISIONS.md — jordan-doerksen.github.io (Architecture Atlas redo)
 
 ## Core Goal
-Rebuild the portfolio monorepo as a **technical architecture atlas**: the front door, 7 category hubs, and a documentation page per project, all driven from `C:\projects\ARCHITECTURE-REFERENCE.md` (2026-07-06). The site itself is the proof of documentation and systems ability — README-shaped, not a pitch.
+Rebuild the portfolio monorepo as a **technical architecture atlas**: the front door, 7 category hubs, and a documentation page per project, all driven from `C:\projects\_archive\notes\ARCHITECTURE-REFERENCE.md` (2026-07-06). The site itself is the proof of documentation and systems ability — README-shaped, not a pitch.
 
 ## Non-Negotiable Constraints
 - **No build tools, no npm, no framework** for the shell/hub/atlas layer. Plain HTML/CSS/vanilla JS + JSON fetched at runtime.
-- **Daybreak Editorial** (styles/ copied from style-library — never edited here beyond additive `atlas.css`). `prefers-reduced-motion` is law.
+- **The Award-Winning Web UI/UX Style Bible is LAW** (`C:\projects\reference\award-winning-web-ui-ux-style-bible`): composition zones, narrative sequence, the ≤3 persistent-cluster budget, the card policy, motion-has-a-job, responsive **re-authoring**, and accessibility/performance as art direction. Its visual layer on this site is **Stagecraft** (`styles/stagecraft.*`). Daybreak Editorial is **superseded here** and survives only for `docs/legacy-front-door.html`. `prefers-reduced-motion` is law.
 - **Show nothing rather than something false.** Status labels are honest (live / built / frozen reference / retired / superseded / shelved / private). Unverified claims don't ship.
 - **Public-site privacy rules:** never present Jordan by a former job title (self-taught maker); private repos get minimal entries with no internal detail (no broker/prop-firm names, no account specifics); Sentinel family always labeled read-only.
 - **Old URLs never break.** Existing project app folders, redirect stubs, and the four legacy spoke pages stay reachable.
@@ -43,7 +43,114 @@ A single `atlas/index.html?p=<slug>` renders any project JSON + its SVG. Cards l
 
 ### D-A08 — Front door is the Tool Desk (2026-07-08)
 The front page is Jordan's daily driver, not a display case: sticky global search, filter chips, pinned tools, a dense "Mine" table (every registry project with status/port/local path, click-to-copy) and a "Toolkit" table (the ~160-tool it-toolkit catalog). The old atlas front door survives at `docs/legacy-front-door.html`; atlas pages, hubs, and project pages are unchanged.
-**Change Rule:** desk-only data (pins, notes, ports, paths, stars, installs) lives in the `data/desk.json` overlay — `registry.json` stays canonical for project facts and is never forked. `data/toolkit.js` is a mirror: edit in `C:\projects\it-toolkit`, copy over, never edit in place. Reverting to a presentation front door is a Change Request.
+**Change Rule:** desk-only data (pins, notes, ports, paths, stars, installs) lives in the `data/desk.json` overlay — `registry.json` stays canonical for project facts and is never forked. `data/toolkit.js` is a mirror: edit in `C:\projects\tools\it-toolkit`, copy over, never edit in place. Reverting to a presentation front door is a Change Request.
+
+### D-A09 — The style bible governs composition; Stagecraft is its visual layer (2026-07-25)
+Every public page on this site is composed against `award-winning-web-ui-ux-style-bible`:
+one dominant idea per stage, a written narrative sequence, **at most three persistent
+clusters** (identity+nav · scroll progress · find), cards only for genuinely peer-level
+content, motion only where it orients/explains/confirms, and responsive breakpoints that
+**re-author priority** rather than shrink the desktop layout. `styles/stagecraft.tokens.css`
+is the single control panel — palette, type scale, measure, and motion durations.
+**Change Rule:** breaking a bible non-negotiable (a fourth persistent cluster, a default
+card grid, ambient motion, content that dies with JavaScript) is a Change Request that
+names the principle broken and why. Retuning tokens inside the file is not.
+
+### D-A10 — The catalogue is a typographic index, not a card grid (2026-07-25)
+There are no per-project thumbnails in this repo, so 57 cards would be 57 empty
+rectangles. The index leads with names, states role and status, reveals detail on hover
+**and** focus, and renders an honest non-link row for anything private/frozen/retired.
+Cards survive in exactly one place: the atlas "Components" list, where the items are
+peers being compared.
+**Change Rule:** introducing a second card surface requires either real per-project media
+or a Change Request.
+
+### D-A11 — Copy invites; it does not boast. And no museum words. (2026-07-25)
+Two rules, one register.
+
+**1. Register.** Every user-facing string reads as *"here's what I'd point you at"*, never
+*"look what I built"*. Concretely: the page offers a starting point rather than presenting a
+body of work · counts are context, not a scoreboard · a link says what the reader gets
+("How it works →"), not what it cost to make ("Architecture entry →") · gaps are stated
+plainly and never dressed up.
+
+**2. Lexicon.** The site has **no collective name for itself** — it's Jordan Doerksen, and
+the back-link is "Home". Museum vocabulary is out.
+
+| Say this | Not this | Note |
+|---|---|---|
+| "how it works" | "atlas", "architecture entry" | `atlas` survives ONLY as the URL/template/stylesheet name — old URLs never break |
+| "section" | "wing" | `data-wing` survives as the attribute name |
+| "the list", "project" | "the index", "system" | `.index*` CSS classes survive — a typographic index is bible vocabulary |
+| "Home" | "The Archive" | the site does not name itself |
+| "written up" | "documented", "with an architecture entry" | `data-stat="documented"` survives as the key |
+| "hand-drawn" | "hand-authored" | applies to the diagram SVGs |
+
+The split is deliberate: **technical identifiers keep their old names** (URLs, attributes,
+CSS classes, data keys) so nothing breaks and no migration is needed; **only what a reader
+sees changes.** Anywhere a technical name leaks into visible copy, the copy wins.
+**Change Rule:** adding a collective noun for the site, or reintroducing a museum metaphor,
+is a Change Request. Renaming a technical identifier to match the copy is also a Change
+Request — it buys nothing and breaks URLs.
+
+### D-A12 — Three tiers, because there are three visitors (2026-09-07)
+The shell is rebuilt ground-up as **three tiers**, and the split is by *audience*, not by
+depth. **Tier 1 — intro:** who Jordan is, what he's interested in, resume-*feeling* but not a
+resume. **Tier 2 — the work:** real projects and tools, with code. **Tier 3 — games.**
+They are lateral peers, not a hierarchy: nothing is "deeper" than anything else, and no tier
+is a landing funnel into another. **Change Rule:** adding a fourth tier, or merging two, is a
+Change Request — the whole design rests on one audience per tier.
+
+### D-A13 — The audience is Jordan and other builders (2026-09-07, owner interview)
+Not recruiters, not conversion. The owner considered and rejected optimising for a hiring
+audience that does not exist yet, which is *why the previous shell felt hollow*. This is
+consistent with the pre-existing rule that the site reads simple, honest and literal —
+README-shaped, no slogans (see the Core Goal and D-A11). The overlap is deliberate: a site
+that satisfies builders also satisfies a technical hiring manager. The only visitor
+de-prioritised is the non-technical recruiter. **Change Rule:** any copy or layout added to
+convert a visitor — a CTA funnel, a hire-me banner, testimonial furniture — is a Change
+Request against this decision.
+
+### D-A14 — New shell, same repo; the hosted work does not move (2026-09-07)
+"Ground-up" applies to the **shell** — front door, tiers, navigation, visual system. It does
+**not** apply to the ~30 project apps and pages this repo already hosts under `/games/`,
+`/rail/`, `/trading/` and the rest. Those stay exactly where they sit. Rebuilding the stage
+does not mean rebuilding the props, and the existing constraint stands: **old URLs never
+break.** **Change Rule:** a proposal to re-host, move or re-slug any existing demo is a
+separate Change Request with a redirect plan.
+
+### D-A15 — Tier 2 is the centre of gravity (2026-09-07)
+Given D-A13, tier 2 gets the depth, the care and the maintenance budget. Builders do not
+linger on an intro. Tier 1 is short and confident; tier 3 is play. **The existing
+architecture-atlas pages ARE tier 2's spine** — written-up projects with hand-drawn diagrams
+is already the right artifact, so this is a re-frame of existing work, not a rebuild of it.
+**Change Rule:** work that makes tier 1 longer or more elaborate at tier 2's expense inverts
+this decision and needs a Change Request.
+
+### D-A16 — Annotated excerpts, not repo links (2026-09-07)
+Tier 2 shows **curated code excerpts with commentary, embedded in the page** — not links to
+source repos. Three reasons, in order: a chosen block with the reasoning attached teaches more
+than a repo nobody clones; it lets the strongest engineering appear on the site **without
+making private trading repos public**; and it decouples the site from the repo list entirely.
+Source links survive for a small showcase set only (currently `Ask-Johnny`, `clear-board`,
+and this repo). **Change Rule:** adding a repo link to a card is a Change Request, and it must
+name which repo becomes public and why.
+
+### D-A17 — The risk budget goes to tier 3 (2026-09-07)
+Motion and JS ambition are spent where failure costs least. **Tier 3 carries the showpiece.**
+Tier 1 is layered and has movement, but it must remain fully legible and useful with JS,
+canvas and motion dead — it is the page a stranger opens on a phone on a bad connection. This
+is the bible's survival rule applied to the tier that matters most. The owner's first instinct
+was the reverse (most risk on tier 1); it was reversed by argument, not by preference.
+**Change Rule:** any tier-1 element that becomes load-bearing on JS is a Change Request.
+
+### D-A18 — Counts are evidence, never a scoreboard (2026-09-07)
+Tier 2 may state real, verified figures — commits, test counts, guard counts — because for a
+builder audience they *are* the evidence. They are presented as context, in the D-A11 register
+("here's what I'd point you at"), never as a boast or a stat wall. **Every number on the site
+must be reproducible from the repos on the day it ships**, and an unverifiable number does not
+ship (the Core Goal's honesty constraint). Inherited figures are never claimed: e.g. Warden's
+1,345 test files came with the upstream fork and are **not** Jordan's to count.
 
 ## Build Timeline
 - C0 Manifest + ARCHITECTURE.md — this commit
@@ -53,15 +160,46 @@ The front page is Jordan's daily driver, not a display case: sticky global searc
 - C4 Cross-check: every slug resolves, every full page has JSON + diagram, local preview verified
 
 ## Open Questions
+- Write atlas entries for `first-light`, `fulfillment-lite`, `holdout` and promote them back
+  to tier `full`? (Needs real architecture content — three JSONs + three diagram SVGs.)
+- Keep the dark archive-plate ground, or flip `<html class="light">`? The token file carries
+  a contrast-checked paper ground either way; it's one attribute, not a rewrite.
 - Delete the legacy annex outright? (Operator decision, post-ship.)
 - Should the site's own entry link this DECISIONS.md as a live example? (Nice-to-have.)
 
 ## Change Log
+- 2026-09-07 — **CR-10 (owner-interviewed, four answers): the shell is rebuilt ground-up as
+  three tiers, for builders, with the work as evidence.** Decisions D-A12…D-A18.
+  **Trigger.** The owner said he hates the current sites, wants one public-facing site rebuilt
+  from the ground up rather than another surgical addition, and named the real brief:
+  *"something that says I didn't waste the last year of my life."*
+  **Why the previous shell failed.** Not craft — *aim*. It was built to present work to a
+  hiring audience that has not arrived, so it reads hollow to the one person who uses it daily.
+  D-A13 fixes the aim; the atlas work underneath it was never the problem.
+  **The diagnosis that shaped the design.** A survey the same day found the visibility exactly
+  inverted: 27 public repos with **zero tests between them**, while the work carrying 616
+  passing guards, an 890-test regime grader and a sabotage harness that proves its own guards
+  bite is all private. The site's job is to invert that — hence D-A15 (tier 2 is the centre)
+  and D-A16 (excerpts, so private work can be shown without publishing private repos).
+  **Verified evidence available to tier 2** (measured 2026-09-07, reproducible): **1,663
+  commits across 66 repos**, the earliest from mid-May — roughly four months, not a year — and
+  **~575 test files** that are Jordan's own (`trading-desk` 282, `oracle` 215, `sentinel-trader`
+  26, `sentinel-pro-v3` 25, `map-reading-trainer` 24, `underwriter` 3). Warden's 1,345 are
+  excluded as inherited from the upstream fork (D-A18).
+  **Scope.** Shell only. The ~30 hosted demos, every project app folder, the redirect stubs and
+  the legacy annex are untouched (D-A14); old URLs never break. The Core Goal is amended in
+  spirit — the site is still README-shaped proof of systems ability, now organised by audience
+  rather than as a single atlas; the atlas pages survive as tier 2's spine.
+  **Not decided yet, deliberately:** which excerpts tier 2 carries; the tier-1 visual
+  treatment; whether the remaining ~20 unlinked repos go private (that sweep is **paused** on
+  purpose until the excerpt list exists, so nothing is hidden that tier 2 turns out to need).
+  **Next:** read the style bible before any markup (Non-Negotiable Constraints), then the first
+  tier-1 slice.
 - 2026-08-16 — **CR-9 (owner-interviewed, three answers): the Fulfillment manual's design pass —
   `games/fulfillment/manual.css` goes from structural placeholder to the technical-print-manual
   skin, and this entry also BACKFILLS the generation contract the 2026-08-15 build owed.** The
   spec (`fulfillment/docs/specs/manual-and-box-2026-08-15.md`) required its contract recorded
-  here as a CR *before* markup; the manual shipped in the held-back commits without it.
+  here as a CR *before* markup; the manual shipped in the four held-back commits without it.
   Recorded late rather than never, and flagged as such.
   - **Layout contract (from the spec, verbatim):** `site_type` editorial · `dominant_idea`
     "A company-issue manual that teaches a job intending to kill you." · `primary_patterns`
@@ -86,6 +224,63 @@ The front page is Jordan's daily driver, not a display case: sticky global searc
     manual regenerated (22 opens / 22 closes). The stylesheet keeps its class-selectors-only
     discipline anyway.
   - No content changed, no identifier changed, no JS added. The page still reads with CSS off.
+- 2026-07-25 — **CR-8 (operator-approved, three interview answers): copy pass — the voice
+  moves from "look what I did" to "here's what's worth a look", and the museum vocabulary
+  goes.** New decision D-A11 carries the full lexicon table. Interview answers: the site gets
+  **no collective noun** (was "The Archive") · write-up pages are **"how it works"** (was
+  "atlas" / "Architecture entry") · groupings are **"sections"** (was "wings").
+  - Front page: `<title>` is now just "Jordan Doerksen" · h1 "Some of this / is worth a look."
+    (was "Built the tool. / Then documented it.") · cue "Four I'd point you at first" (was
+    "Start with the four that matter") · "Where I'd start" (was "Selected systems") · "The rest
+    of it" (was "The index") · counts read "57 projects · 30 written up · 22 you can open right
+    now" · footer "Made in Winnipeg, one at a time."
+  - Section pages regenerated from the same template; write-up pages, the finder, the desk
+    back-link, and every JS-generated string swept to match.
+  - **No identifier changed.** `/atlas/?p=` URLs, `data-wing`, `.index*` classes, and the
+    `data-stat` keys all kept their names on purpose — copy-only change, zero migration, no
+    broken URLs. The one exception is the front page's own `#systems` anchor → `#start`,
+    which shipped in CR-7 the same day and was never published.
+- 2026-07-25 — **CR-7 (operator-approved, two interview answers): the whole public shell is
+  re-authored under the Award-Winning Web UI/UX Style Bible, and the bible supersedes
+  Daybreak Editorial for webpages.** New decisions D-A09 + D-A10.
+  - **Layout contract** (the bible's generation contract, recorded before building):
+    `site_type` interactive_archive / individual_portfolio · `dominant_idea` "one maker,
+    57 systems, every one documented" · `primary_patterns` portfolio_as_experience +
+    editorial_rhythm + typographic_monument (three, the cap) · `narrative_sequence`
+    promise → what this is → four selected systems → the full index → how it's documented →
+    resolution · `persistent_clusters` identity_navigation + orientation_progress +
+    primary_action · `card_policy` "atlas Components only" · `responsive_transformations`
+    index sheds its description column then its folio, chrome sheds section links, atlas
+    rail collapses into section heads · `reduced_motion_equivalent` progress hidden,
+    entrances resolved, diagram pulses off — every state static and complete.
+  - **Visual layer — STAGECRAFT** (`styles/stagecraft.tokens.css` + `.base.css` +
+    `.compose.css`): archive-plate ground `#0b0b0d`, ink `#f4f2ee`, ONE signal `#f0b429`
+    (the Goldenrod thread re-pitched — 10.5:1 on the ground, so no second text shade).
+    Type trio unchanged (Space Grotesk / Inter / JetBrains Mono) — already loaded, legible,
+    and the display face now has a compositional job rather than only a larger size.
+    A contrast-checked `html.light` block flips the whole system back to a paper ground.
+  - **Pages:** front door rebuilt as a composed public archive (D-A08's Tool Desk moves to
+    `/desk/`, unchanged in function, wearing the new palette); the 7 wings re-authored
+    around the typographic index with an editorial transition cue to the next wing; the
+    atlas template re-authored as railed chapters (`js/atlas/atlas.js`). Shell behaviour
+    split into `js/shell/{boot,chrome,finder,index-list}.js`.
+  - **Retired from the shell:** the drifting sun, the marquee ticker, the ink cursor, the
+    3D card tilt, and `styles/{effects,shader,cmdk}.js` — ambient motion with no job, per
+    the bible. `styles/tokens.css` + `style.css` + those scripts stay on disk, now loaded
+    only by `docs/legacy-front-door.html`.
+  - **Fixed while building:** entrances animate transform ONLY (a fade gated on an
+    observer could hide content if JS or compositing failed — a bible non-negotiable);
+    narrow chrome re-authored instead of overflowing; `.railed > *{min-width:0}` so a wide
+    diagram scrolls inside its well instead of pushing the page sideways.
+  - **Registry correction found by the cross-check** (D-A02's Change Rule: a tier move is a
+    one-line registry edit): `first-light`, `fulfillment-lite`, and `holdout` were tier
+    `full` with **no `data/projects/*.json`** — pre-existing debt, not introduced here. Their
+    rows promised an architecture entry and delivered "no atlas entry". Demoted to tier
+    `entry`, so they now route to their live apps, which all exist. Registry is 57 projects /
+    **30 full-tier**. Writing the three missing atlas entries is open work, not a blocker.
+  - Diagram SVG contract, `data/projects/*.json`, embedded project apps, the legacy annex,
+    and every old URL are untouched. `/` still resolves; the desk gained a URL rather than
+    losing one.
 - 2026-07-08 — CR-6: front door pivots from presentation portfolio to personal Tool Desk (D-A08). Rationale: Jordan daily-drives the page as a database / tool search / reference, not a display case — the atlas already carries the presentation load. New `index.html` shell + `styles/desk.css` + `js/desk/{desk,render,search,copy}.js`; data = `registry.json` (canonical facts) + `data/desk.json` (overlay: pinned, mine notes/ports/paths, toolkit stars/installs) + `data/toolkit.js` (mirror of it-toolkit). Old front door preserved at `docs/legacy-front-door.html`. Atlas pages, hubs, project pages, and registry.json untouched.
 - 2026-07-07 — CR-4 (operator-approved, three layers picked by interview): front door comes alive. (1) House signatures at doc scale — drifting sun restored (`#sun`, desk-teal via tokens), kinetic word-rise on the h1 (now `id="hero-h"`), grain nudged .035→.05, page-scoped. (2) Living diagrams — new shared `assets/diagram-live.js` (hover lighting moved there from both pages + a gold-path traveling pulse per edge, IntersectionObserver-paced, one per figure chain), soft node press; loaded by the front door and the atlas template (post-render scan). (3) Alive index — springy row nudge + accent-derived hover tint, magnetic mono links, TOC number roll-up. Every layer gated on prefers-reduced-motion (and hover:none where pointer-based); scene props declined.
 - 2026-07-07 — CR-5 (operator-approved): style-library sync — Daybreak reference-pass upgrades applied. `styles/style.css` re-synced from the canonical style-library (adds the interactive state matrix: disabled/loading/pressed/aria-current, plus command-palette styles); new `styles/shader.js` (canvas noise blobs inside `#sun`, static single frame under reduced motion) wired into the 7 category hubs; new `styles/cmdk.js` (accessible Ctrl/Cmd-K palette) wired into the front door, searching all 54 registry projects + categories + sections (data injected after the registry fetch, section/category fallback if the fetch fails; full-tier projects route to their atlas entry). Front door deliberately does NOT get shader.js — it has no `#sun` (README-shape rule). External idea sources cataloged in style-library/REFERENCES.md.
