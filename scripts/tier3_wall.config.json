@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "_": "Tier-3 wall (DECISIONS.md CR-15). Config here, never in the logic. Read at build time and emitted as data attributes - no runtime fetch.",
+
+  "requireCanvas": true,
+  "_requireCanvas": "Include a registry entry only if its page actually contains a <canvas>. This exists because /games/fulfillment/ is 'Fulfillment - Manual' - documentation with no canvas and no loop - and it was once shipped into an arcade cabinet. The build proves a game is a game rather than trusting a category field.",
+
+  "requireAttract": true,
+  "_requireAttract": "A game appears on the wall only if it has its standalone attract asset at <game>/attract/index.html (game law 5b). A game without one is listed in the index below but shows no panel, and the build reports it by name. Never an empty box.",
+
+  "order": [
+    "fulfillment-lite",
+    "star-charter-pro",
+    "echo-bat",
+    "holdout",
+    "first-light",
+    "closing-bell",
+    "diablo-act1",
+    "star-charter",
+    "glass-atlas",
+    "orbital-field"
+  ],
+  "_order": "Reading order on the wall. Anything not named here follows in registry order, so adding a game never makes it vanish.",
+
+  "maxLive": 6,
+  "_maxLive": "Hard cap on attract screens mounted at once. Each is a real canvas loop, so this is a CPU budget. The furthest from the viewport is evicted first.",
+
+  "mountMargin": "400px",
+  "_mountMargin": "How far outside the viewport a panel mounts, so it is already running when it scrolls into view rather than starting blank.",
+
+  "unmountMargin": "1200px",
+  "_unmountMargin": "How far out a panel unmounts. Deliberately much larger than mountMargin: a panel that mounts and unmounts on the same boundary thrashes when a reader scrolls slowly across it."
+}
