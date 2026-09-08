@@ -4,11 +4,12 @@
  * a room you scan, where the things on the walls are alive.
  *
  * THE CPU BUDGET IS THE MECHANIC. Ten attract screens are ten canvas loops, and
- * running them all would make a laptop audible for no reader benefit. A panel
- * mounts its iframe when it comes near the viewport and unmounts when it goes
- * well past, with a hard cap on how many run at once. Mount and unmount use
- * DIFFERENT margins on purpose: equal ones thrash when a reader scrolls slowly
- * across the boundary.
+ * running them all would make a laptop audible for no reader benefit. At most
+ * `maxLive` run, and they are the ones nearest the middle of the viewport.
+ *
+ * The wall does not mount and unmount on events. It RECONCILES: every change
+ * recomputes which panels should be running and makes the page match. See
+ * reconcile() for the two bugs that model exists to kill.
  *
  * PROGRESSIVE ENHANCEMENT. The markup ships every game as a real link with its
  * name and description. With this file absent, blocked or throwing, that index
@@ -33,8 +34,9 @@
 
     var cfg = {
       maxLive: parseInt(wall.dataset.maxlive, 10) || 6,
-      mount: wall.dataset.mountmargin || "400px",
-      unmount: wall.dataset.unmountmargin || "1200px"
+      // One margin now. The second (unmountMargin) existed to drive a separate
+      // unmount observer and is unused since reconcile() replaced that model.
+      mount: wall.dataset.mountmargin || "400px"
     };
 
     var overlay = document.querySelector(".player");
@@ -50,7 +52,9 @@
       return;
     }
 
-    var live = [];   // panels with a mounted iframe, most recently seen last
+    // Margin in px, parsed once. Visibility is DERIVED from geometry in
+    // reconcile(), never stored - see the note there.
+    var MARGIN = parseInt(cfg.mount, 10) || 400;
 
     function mount(panel) {
       if (panel.dataset.mounted === "1") return;
@@ -63,8 +67,6 @@
       f.tabIndex = -1;              // a display, not a control; the link is the way in
       screen.appendChild(f);
       panel.dataset.mounted = "1";
-      live.push(panel);
-      evict();
     }
 
     function unmount(panel) {
@@ -72,14 +74,50 @@
       var f = panel.querySelector(".screen iframe");
       if (f) { f.src = "about:blank"; f.remove(); }   // dropping src stops the loop
       panel.dataset.mounted = "0";
-      live = live.filter(function (p) { return p !== panel; });
     }
 
-    function evict() {
-      while (live.length > cfg.maxLive) unmount(live[0]);
+    /* RECONCILE, do not mount imperatively.
+     *
+     * The first version mounted on an observer event and evicted live[0] - the
+     * oldest mount - whenever the cap was exceeded. Two ways that fails, and the
+     * owner hit both:
+     *
+     *   Not loading. Evicting the oldest can unmount a panel that is still on
+     *   screen. IntersectionObserver only fires on threshold CROSSINGS, so a
+     *   panel that never left the margin gets no further callback and stays
+     *   blank forever.
+     *
+     *   Not unloading. A panel mounted outright at boot, or one that never
+     *   crosses the unmount boundary, is never reconsidered at all.
+     *
+     * So the observers now only record what is visible, and every event
+     * recomputes the whole desired set: the visible panels nearest the middle of
+     * the viewport, capped. Anything mounted that is not wanted is dropped;
+     * anything wanted that is not mounted is started. State cannot drift,
+     * because nothing depends on having seen a particular event.
+     */
+    function reconcile() {
+      var vh = window.innerHeight;
+      var mid = vh / 2;
+
+      var want = panels
+        .map(function (p) {
+          var r = p.getBoundingClientRect();
+          var near = r.bottom > -MARGIN && r.top < vh + MARGIN;
+          return { p: p, near: near, d: Math.abs(r.top + r.height / 2 - mid) };
+        })
+        .filter(function (x) { return x.near; })
+        .sort(function (a, b) { return a.d - b.d; })
+        .slice(0, cfg.maxLive)
+        .map(function (x) { return x.p; });
+
+      panels.forEach(function (p) {
+        var wanted = want.indexOf(p) > -1;
+        if (wanted && p.dataset.mounted !== "1") mount(p);
+        else if (!wanted && p.dataset.mounted === "1") unmount(p);
+      });
     }
 
-    // Two observers, two margins. One boundary would thrash.
     panels.forEach(function (p) { p.dataset.mounted = "0"; });
 
     // Mount the first few OUTRIGHT, before any observer speaks. An
@@ -88,28 +126,31 @@
     // arrival - the same failure as a canvas that only ever draws from its
     // animation loop. These are the top of the page and effectively always in
     // view; the observers take over from here.
-    panels.slice(0, Math.min(3, cfg.maxLive)).forEach(mount);
-
     // Feature check FIRST, and no early return: the click handlers below are how
     // a game gets played, and skipping them would leave a wall you cannot use.
-    if ("IntersectionObserver" in window) {
-      // Two observers, two margins. One boundary would thrash when a reader
-      // scrolls slowly across it.
-      var mounter = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) { if (e.isIntersecting) mount(e.target); });
-      }, { rootMargin: cfg.mount });
-
-      var unmounter = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) { if (!e.isIntersecting) unmount(e.target); });
-      }, { rootMargin: cfg.unmount });
-
-      panels.forEach(function (p) {
-        mounter.observe(p);
-        unmounter.observe(p);
-      });
-    } else {
-      panels.slice(0, cfg.maxLive).forEach(mount);   // no observer: mount the cap
+    // Every trigger calls the SAME reconcile, and reconcile reads geometry, so
+    // it does not matter which events arrive or in what order. The observer is
+    // an efficiency, not a source of truth.
+    var ticking = false;
+    function schedule() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; reconcile(); });
     }
+
+    if ("IntersectionObserver" in window) {
+      var seen = new IntersectionObserver(schedule, { rootMargin: cfg.mount });
+      panels.forEach(function (p) { seen.observe(p); });
+    }
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    // Coming back to the tab: rAF and IntersectionObserver are both suspended
+    // while it is hidden, so the page can return with a stale set.
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) reconcile();
+    });
+
+    reconcile();   // the boot state, from geometry, not from an event
 
     function open(url, name) {
       if (!overlay || !frame) { window.location.href = url; return; }
@@ -119,7 +160,7 @@
       document.body.style.overflow = "hidden";
       // Everything on the wall stops while a game is being played. One loop at
       // a time is the whole point of the budget.
-      live.slice().forEach(unmount);
+      panels.forEach(unmount);
       if (closeBtn) closeBtn.focus();
     }
 
@@ -128,6 +169,7 @@
       overlay.hidden = true;
       frame.src = "about:blank";
       document.body.style.overflow = "";
+      reconcile();          // bring back whatever is on screen now
     }
 
     wall.addEventListener("click", function (e) {

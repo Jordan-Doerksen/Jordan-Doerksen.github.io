@@ -106,7 +106,6 @@ def main():
         "panelcount": str(len(panels)),
         "maxlive": str(cfg["maxLive"]),
         "mount": cfg["mountMargin"],
-        "unmount": cfg["unmountMargin"],
     }.items():
         page = page.replace("@@%s@@" % key, value)
 
@@ -211,8 +210,7 @@ h1{margin:0 0 14px;max-width:16ch;font:900 clamp(30px,6vw,58px)/.95 var(--displa
   each game, running now, no input needed. <b>Click a name to play the game itself</b>, in the
   browser, with nothing to install.</p>
 
-  <div class="wall" data-maxlive="@@maxlive@@" data-mountmargin="@@mount@@"
-       data-unmountmargin="@@unmount@@">
+  <div class="wall" data-maxlive="@@maxlive@@" data-mountmargin="@@mount@@">
       @@panels@@
   </div>
 
