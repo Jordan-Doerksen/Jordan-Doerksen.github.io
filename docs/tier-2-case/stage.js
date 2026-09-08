@@ -216,7 +216,11 @@
       if (filing) return;
       if (i >= cards.length && !onStage.length) { stop(true); return; }
 
-      if (onStage.length >= cfg.batch) { fileDown(); return; }
+      // Every card is revealed but some are still on the stage: the only thing
+      // left to do is hand them off. Falling through read cards[i] past the end
+      // and threw on undefined.classList - reachable by pressing Step at the end
+      // of a path.
+      if (i >= cards.length || onStage.length >= cfg.batch) { fileDown(); return; }
 
       var card = cards[i];
       i += 1;

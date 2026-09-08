@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The field — 10 games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#080A0E; --sheet:#11141A; --hair:#1C212A;
+  --ink:#F2F4F8; --ink-2:#AEB6C4; --muted:#6B7484;
+  --hot:#FF6B4A; --live:#39BDF8;
+  --display:Archivo,"Arial Black",sans-serif;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15.5px/1.6 var(--sans)}
+.wrap{max-width:1240px;margin:0 auto;padding:clamp(24px,4vw,48px) clamp(16px,4vw,40px) 90px}
+.kicker{margin:0 0 10px;font:500 11px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--hot)}
+h1{margin:0 0 14px;max-width:15ch;font:900 clamp(30px,6vw,58px)/.95 var(--display);letter-spacing:-.045em}
+.lede{margin:0 0 22px;max-width:58ch;color:var(--ink-2);font-size:16px}
+.lede b{color:var(--ink);font-weight:600}
+
+/* the scene only exists once the canvas is running */
+.stagewrap{display:none}
+.orbit[data-js="on"] .stagewrap{display:block;position:relative;margin:0 0 26px;
+  border:1px solid var(--hair);background:radial-gradient(60rem 40rem at 50% 40%,#0D1119,#06070A)}
+canvas.scene{display:block;width:100%;height:clamp(360px,58vh,620px)}
+.hint{position:absolute;left:14px;bottom:12px;margin:0;font:400 11px/1.5 var(--mono);
+  letter-spacing:.06em;color:var(--muted);pointer-events:none}
+
+/* the index: the fallback, the keyboard route, and the site map. Never hidden. */
+.index{list-style:none;margin:0;padding:0;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.index a{display:grid;grid-template-columns:2.2rem 1fr;gap:2px 10px;text-decoration:none;
+  border:1px solid var(--hair);background:var(--sheet);padding:12px 14px;color:inherit}
+.index a:hover,.index a:focus-visible{border-color:var(--hot)}
+.index a:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
+.index .n{grid-row:1/3;font:400 11px/1.7 var(--mono);color:var(--muted)}
+.index .t{font:600 15px/1.3 var(--sans)}
+.index .d{grid-column:2;color:var(--ink-2);font-size:13.5px}
+.index .s{grid-column:2;margin-top:4px;font:400 10px/1.5 var(--mono);letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted)}
+.orbit[data-js="on"] .index-head{display:block}
+.index-head{display:none;margin:0 0 10px;font:500 11px/1 var(--mono);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted)}
+
+/* the player */
+.player{position:fixed;inset:0;z-index:50;background:rgba(4,5,8,.94);
+  display:flex;flex-direction:column}
+.player[hidden]{display:none}
+.player-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:10px clamp(12px,3vw,24px);border-bottom:1px solid var(--hair)}
+.player-title{font:600 15px/1 var(--sans)}
+.player-close{cursor:pointer;background:var(--sheet);color:var(--ink);border:1px solid var(--hair);
+  padding:8px 14px;font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.player-close:hover{border-color:var(--hot);color:var(--hot)}
+.player iframe{flex:1;width:100%;border:0;background:#000}
+
+.foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--hair);
+  font:400 11.5px/1.75 var(--mono);color:var(--muted);max-width:76ch}
+.foot b{color:var(--ink-2);font-weight:500}
+@media (max-width:640px){ canvas.scene{height:clamp(300px,52vh,420px)} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Tier 3 · the field</p>
+  <h1>10 games, in one field.</h1>
+  <p class="lede">Every one runs in a browser with nothing to install.
+  <b>Point at a body to wake it, click it to play.</b> The list underneath is the same
+  10 games and works on its own.</p>
+
+  <div class="orbit" data-stars="220" data-speed="0.055" data-bodyr="13"
+       data-hoverr="46" data-drift="7">
+    <div class="stagewrap">
+      <canvas class="scene" role="img"
+              aria-label="A field of 10 games. The same games are listed below as links."></canvas>
+      <p class="hint">point to wake · click to play · esc to leave</p>
+    </div>
+
+    <p class="index-head">All 10</p>
+    <ul class="index">
+      <li><a href="../../games/closing-bell/" data-game="Closing Bell" data-spec="SINGLE FILE · SURVIVE TO 4PM"><span class="n">01</span><span class="t">Closing Bell</span><span class="d">A day-trading roguelite. Survive to the bell, bank it, buy upgrades. Repeat.</span><span class="s">SINGLE FILE · SURVIVE TO 4PM</span></a></li>
+      <li><a href="../../games/diablo-act1/" data-game="Diablo — Act 1" data-spec="SINGLE FILE · TRIBUTE"><span class="n">02</span><span class="t">Diablo — Act 1</span><span class="d">A single-file ARPG slice — town to Blood Raven, three classes, D2-style maps.</span><span class="s">SINGLE FILE · TRIBUTE</span></a></li>
+      <li><a href="../../games/echo-bat/" data-game="Echo Bat — Night Harvest" data-spec="SINGLE FILE · MOBILE-FIRST"><span class="n">03</span><span class="t">Echo Bat — Night Harvest</span><span class="d">A bat in the dark, harvesting fruit by sonar. Your voice paints the cave.</span><span class="s">SINGLE FILE · MOBILE-FIRST</span></a></li>
+      <li><a href="../../games/first-light/" data-game="First Light" data-spec="DOMAIN-SPLIT · SEEDED NIGHTS"><span class="n">04</span><span class="t">First Light</span><span class="d">A salvage lightship, eight dark hours, a quota. The lamp is both the chart and the shield.</span><span class="s">DOMAIN-SPLIT · SEEDED NIGHTS</span></a></li>
+      <li><a href="../../games/fulfillment-lite/" data-game="Fulfillment LITE" data-spec="DOMAIN-SPLIT · SEEDED SHIFTS"><span class="n">05</span><span class="t">Fulfillment LITE</span><span class="d">The survivor shift, ported to a canvas. Auto-fire turrets, a draft every promotion, and a Supervisor who always arrives.</span><span class="s">DOMAIN-SPLIT · SEEDED SHIFTS</span></a></li>
+      <li><a href="../../games/glass-atlas/" data-game="Glass Atlas" data-spec="DETERMINISTIC · SAVES PNG"><span class="n">06</span><span class="t">Glass Atlas</span><span class="d">Generative star-atlas plates. Every reroll is a 1-of-1; the seed rides in the URL.</span><span class="s">DETERMINISTIC · SAVES PNG</span></a></li>
+      <li><a href="../../games/holdout/" data-game="Holdout" data-spec="DOMAIN-SPLIT · WAVE 30 OR NOTHING"><span class="n">07</span><span class="t">Holdout</span><span class="d">An isometric bunker defense. Three lanes, one core, no unit micro — the decisions are the turrets you place and the tech you forgo.</span><span class="s">DOMAIN-SPLIT · WAVE 30 OR NOTHING</span></a></li>
+      <li><a href="../../games/orbital-field/" data-game="Orbital Field" data-spec="TOY · NO SCORE"><span class="n">08</span><span class="t">Orbital Field</span><span class="d">A quiet gravity toy. No goals, no score — just orbits that trace and decay.</span><span class="s">TOY · NO SCORE</span></a></li>
+      <li><a href="../../games/star-charter/" data-game="Star Charter" data-spec="SINGLE FILE · NO BUILD"><span class="n">09</span><span class="t">Star Charter</span><span class="d">The original constellation game — trace each blueprint on the atlas plate.</span><span class="s">SINGLE FILE · NO BUILD</span></a></li>
+      <li><a href="../../games/star-charter-pro/" data-game="Star Charter Pro" data-spec="SINGLE FILE · ROGUELITE"><span class="n">10</span><span class="t">Star Charter Pro</span><span class="d">The timed edition: heavy, drifty momentum and a refit every third plate.</span><span class="s">SINGLE FILE · ROGUELITE</span></a></li>
+    </ul>
+  </div>
+
+  <p class="foot">
+    The field is canvas 2D, not WebGL: this repo ships no framework, and hand-rolled GL makes
+    readable labels expensive for no gain at 10 bodies.<br>
+    <b>Nothing loads a game until you open one.</b> The scene draws itself; the game runs only
+    while its window is open, and closing it stops the loop.<br>
+    With JavaScript off the field never appears and the list below is the page — every game
+    still one click away, still working. Under reduced motion the field is drawn once, static,
+    and stays clickable.
+  </p>
+</div>
+
+<div class="player" hidden>
+  <div class="player-bar">
+    <span class="player-title"></span>
+    <button type="button" class="player-close">Close · Esc</button>
+  </div>
+  <iframe title="The game you opened" src="about:blank"></iframe>
+</div>
+
+<script src="orbit.js"></script>
+</body>
+</html>

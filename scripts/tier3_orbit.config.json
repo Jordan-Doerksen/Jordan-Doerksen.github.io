@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "_": "Tier-3 orbit scene (DECISIONS.md CR-14). Config here, never in the logic. Read at build time and emitted as data attributes - no runtime fetch.",
+
+  "requireCanvas": true,
+  "_requireCanvas": "Only include a registry entry whose page actually contains a <canvas>. This exists because /games/fulfillment/ is 'Fulfillment - Manual' - 4.5MB of documentation with no canvas and no animation loop - and it was shipped into an arcade cabinet. A games scene is built from things that are games, and the build proves it rather than trusting a category field.",
+
+  "starCount": 220,
+  "_starCount": "Background field. Three parallax depths are derived from this.",
+
+  "orbitSpeed": 0.055,
+  "_orbitSpeed": "Radians per second at the innermost ring. Outer rings are slower, so the field reads as depth rather than a spinning plate.",
+
+  "bodyRadius": 13,
+  "hoverRadius": 46,
+  "_hoverRadius": "Pointer distance in px at which a body wakes. Generous on purpose - hunting for a 13px target is not a feature.",
+
+  "labelAlways": true,
+  "_labelAlways": "Draw every name at all times. A scene where you must hover to find out what anything is fails the bible's rule against making people win a game to reach basic information.",
+
+  "driftAmp": 7,
+  "_driftAmp": "Idle bob, in px. Small. It should read as alive, not as drifting away."
+}
