@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "_": "Tier-3 arcade floor (DECISIONS.md CR-13). Config here, never in the logic. Read at build time and emitted as data attributes, so the page performs no runtime fetch.",
+
+  "liveSlots": 3,
+  "_liveSlots": "Cabinets running at once. Each is a real game in an iframe with its own animation loop, so this is a CPU budget, not a layout preference. Raising it past 4 makes a mid-range laptop audible.",
+
+  "powerOnMs": 900,
+  "_powerOnMs": "How long a cabinet takes to arrive and light up before the next one starts.",
+
+  "runMs": 7000,
+  "_runMs": "How long a cabinet runs its attract screen before the row files down. This is the watching time - the number that matters most here, the way holdMs matters on tier 2.",
+
+  "powerDownMs": 700,
+  "_powerDownMs": "The hand-off: capture a frame, dim, and move to the floor below.",
+
+  "captureFrames": true,
+  "_captureFrames": "Before a cabinet powers down, read a real frame off its canvas and use it as the plate on the floor. Same-origin, so this is allowed. There are no screenshots of these games anywhere; this makes real ones from the game actually running. If a game has no canvas or the read fails, the plate falls back to type - never a blank box, never a stock image.",
+
+  "autoplay": true,
+  "loop": false,
+  "_loop": "Restart from the first cabinet after the last. Off: the floor stands as the result."
+}
