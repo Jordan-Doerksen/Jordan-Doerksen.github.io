@@ -393,6 +393,28 @@ at once is also a Change Request — one path at a time is the answer to "too mu
 - Should the site's own entry link this DECISIONS.md as a live example? (Nice-to-have.)
 
 ## Change Log
+- 2026-09-08 — **CR-12 (owner ruling): the stage — tier 2 takes its first JavaScript
+  dependency, under D-A25's Change Rule.**
+  **Trigger.** The vertical pipeline from CR-11 was rejected: *"they don't feel connected, they
+  feel like erroneous distractions."* The pips animated between cards that were already all on
+  screen, so the motion decorated the layout instead of describing a flow.
+  **The owner's design, built as specified.** A screen-wide panel holds three cards. They arrive
+  one at a time with a connector drawing toward the next slot; when the batch is full it files
+  down into a running list below and the stage clears for the next three. Every arrival is a
+  state that can be paused on and resumed from.
+  **What a visitor loses with scripting off — the answer D-A25's Change Rule demands: nothing
+  of the content.** The markup ships every part of every path in document order and is fully
+  readable with `stage.js` absent, blocked or throwing. The script sets `data-js="on"` and only
+  then does the staged CSS apply; its boot is wrapped so a thrown error falls back to every card
+  visible rather than to a half-built stage. Verified by deleting the flag at runtime: all 9
+  parts of the market path remain visible. Under `prefers-reduced-motion` the stage stays static,
+  the controls are hidden and **no timer is ever created**.
+  **Config.** `scripts/tier2_stage.config.json` holds batch size and all six timings, read at
+  build time and emitted as data attributes — no runtime fetch, so a missing config cannot
+  break the page. The reading pause (`holdMs`) is called out there as the number that matters.
+  **Verified:** pause holds through 4s against a 2.6s cadence; step advances exactly one; reset
+  clears both stage and list; a full batch files down; 3 columns at desktop and 1 at 375px with
+  connectors suppressed and no horizontal scroll.
 - 2026-09-08 — **CR-11 (owner ruling): tier 2 becomes a display case; D-A17/D-A19/D-A24
   partly reversed.** Decision D-A25.
   **Trigger.** Three tier-2 drafts were rejected in a row — an accordion, mutants rendered in

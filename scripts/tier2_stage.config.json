@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "_": "Timings and sizing for the tier-2 stage animation (DECISIONS.md CR-12). Config lives here, never in the logic. The generator reads this at build time and emits the values as data attributes, so the page performs no runtime fetch and cannot break on a missing config.",
+
+  "batchSize": 3,
+  "_batchSize": "Cards on the stage at once. The owner's figure. Raising it past 4 makes the stage unreadable at 1280px.",
+
+  "cardEnterMs": 620,
+  "_cardEnterMs": "How long one card takes to arrive.",
+
+  "lineDrawMs": 480,
+  "_lineDrawMs": "How long the connector takes to draw to the next slot.",
+
+  "holdMs": 1500,
+  "_holdMs": "Pause on a completed card before the next one starts. This is the reading time - the single most important number here.",
+
+  "batchHoldMs": 2200,
+  "_batchHoldMs": "Pause on a full stage before the trio files down into the list.",
+
+  "filedownMs": 700,
+  "_filedownMs": "How long the trio takes to move into the list below.",
+
+  "autoplay": true,
+  "_autoplay": "Start moving on load. Ignored entirely under prefers-reduced-motion, which shows every card at once and never animates.",
+
+  "loop": false,
+  "_loop": "Restart from the first batch after the last. Off: the stage finishes and the full list stands as the result."
+}
