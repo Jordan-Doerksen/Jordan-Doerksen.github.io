@@ -26,7 +26,13 @@
     && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function boot() {
-    var wall = document.querySelector(".wall");
+    // Every .wall on the page, not just the first. Tier 2's demo strip reuses
+    // this exact budget rather than getting a second, drifting implementation
+    // of the same mount-and-evict logic. Each wall carries its own maxLive.
+    Array.prototype.forEach.call(document.querySelectorAll(".wall"), setupWall);
+  }
+
+  function setupWall(wall) {
     if (!wall) return;
 
     var panels = Array.prototype.slice.call(wall.querySelectorAll(".panel[data-attract]"));

@@ -526,6 +526,31 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
   animation:rise .6s ease both}
 .finale h2{margin:0 0 8px;font:800 clamp(20px,2.4vw,28px)/1.15 var(--display);letter-spacing:-.03em}
 .finale p{margin:0 0 16px;max-width:60ch;color:var(--ink-2);font-size:15px}
+/* ---- the workbench ------------------------------------------------------ */
+.bench{margin:52px 0 0;padding-top:26px;border-top:2px solid var(--ink)}
+.bench h2{margin:0 0 8px;font:800 clamp(20px,2.4vw,28px)/1.15 var(--display);letter-spacing:-.03em}
+.bench-lede{margin:0 0 22px;max-width:64ch;color:var(--ink-2);font-size:15px}
+.bench-lede b{color:var(--ink);font-weight:600}
+.monad{margin:0 0 22px;display:grid;grid-template-columns:minmax(260px,1.1fr) 1fr;
+  gap:clamp(14px,2vw,26px);align-items:start;border:1px solid var(--hair);
+  background:var(--sheet);padding:14px}
+.monad img{display:block;width:100%;height:auto;border:1px solid var(--hair)}
+.monad figcaption{color:var(--ink-2);font-size:14.5px;line-height:1.6}
+.monad figcaption b{color:var(--ink);font-weight:600}
+.monad .real{display:block;margin-top:10px;font:400 10.5px/1.5 var(--mono);
+  letter-spacing:.06em;text-transform:uppercase;color:var(--live)}
+@media (max-width:720px){.monad{grid-template-columns:1fr}}
+.bench-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:clamp(12px,1.6vw,20px)}
+.bench-wall .panel{border:1px solid var(--hair);background:var(--sheet)}
+.bench-wall .screen{position:relative;aspect-ratio:16/10;background:#04060B;overflow:hidden;
+  border-bottom:1px solid var(--hair)}
+.bench-wall .screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.bench-wall .meta{padding:12px 14px 14px}
+.bench-wall h3{margin:0 0 5px;font:600 15px/1.3 var(--sans)}
+.bench-wall h3 a{color:var(--ink);text-decoration:none}
+.bench-wall h3 a:hover,.bench-wall h3 a:focus-visible{color:var(--live)}
+.bench-wall p{margin:0;color:var(--ink-2);font-size:13.5px}
 .foot{margin-top:44px;padding-top:18px;border-top:1px solid var(--hair);
   font:400 11.5px/1.75 var(--mono);color:var(--muted);max-width:78ch}
 .foot b{color:var(--ink-2);font-weight:500}
@@ -567,6 +592,50 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
     path; those are the joints.</figcaption>
     @@mesh@@
   </figure>
+
+  <!-- The workbench. The desk is one program; these are the others, and the two
+       rail demos are the only place on the site where the training software is
+       shown rather than described. Each panel reuses tier 3's wall budget
+       (wall.js), so nothing here runs until it is scrolled near. -->
+  <section class="bench">
+    <h2>The rest of the bench</h2>
+    <p class="bench-lede">Three of these run right here. <b>Every figure in the desk demo is
+    synthetic and says so</b> — the desk cannot be shown with real data on this machine, and
+    inventing a market reading to look impressive is the one thing it must never do.</p>
+
+    <figure class="monad">
+      <img src="../../assets/shots/monad-desk-server.png" alt="Monad, showing the desk server's state and the buttons that change it" loading="lazy">
+      <figcaption>
+        <b>Monad</b> — one window for the desk. A list of the desk's parts on the left, the
+        selected part's state in the centre, the buttons that change it underneath.
+        <b>Every state carries the sentence that proves it</b>, and every button runs one of
+        the desk's own scripts. It ships as a compiled window, which is what stopped the
+        deployment problem: the operator runs a program, not a folder of scripts.
+        <span class="real">A real screenshot of the running app.</span>
+      </figcaption>
+    </figure>
+
+    <div class="wall bench-wall" data-maxlive="2" data-mountmargin="300px">
+      <article class="panel" data-name="Trading desk layout" data-attract="../../demos/trading-desk/">
+        <div class="screen"></div>
+        <div class="meta"><h3><a href="../../demos/trading-desk/" data-play="Trading desk layout">Trading desk — the cockpit</a></h3>
+        <p>The real three-column layout, running. Synthetic values, marked as such in a band
+        that cannot be scrolled away.</p></div>
+      </article>
+      <article class="panel" data-name="CROR signal aspects" data-attract="../../demos/rail-signals/">
+        <div class="screen"></div>
+        <div class="meta"><h3><a href="../../demos/rail-signals/" data-play="CROR signal aspects">CROR signal aspects</a></h3>
+        <p>38 aspects, cycling. Every name, indication and lamp arrangement is copied from
+        the rule source — the sequence is authored, the rules are not.</p></div>
+      </article>
+      <article class="panel" data-name="Yard switching" data-attract="../../demos/rail-switching/">
+        <div class="screen"></div>
+        <div class="meta"><h3><a href="../../demos/rail-switching/" data-play="Yard switching">Yard switching</a></h3>
+        <p>A yard, a cut of cars, and a move played out on a loop. An authored scenario, so
+        you can see the sim without solving it.</p></div>
+      </article>
+    </div>
+  </section>
 
   <p class="foot">
     Topology read out of the running code: <b>@@nodes@@ parts, @@links@@ connections</b>,

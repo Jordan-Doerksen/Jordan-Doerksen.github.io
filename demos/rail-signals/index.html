@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CROR Signal Aspects — cycling display</title>
+<style>
+  /* Tokens and type stacks are the app's own (rail/cror-signals). No webfonts: this file has to
+     render the same offline, in an iframe, and inside a zip. */
+  :root{--bg:#f4f7fb;--panel:#fff;--ink:#16202c;--muted:#586573;--faint:#6b7684;
+    --line:#e7ecf2;--green-ink:#0a7d3a;--lunar:#27405e;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  html,body{height:100%;margin:0;overflow:hidden;color:var(--ink);font-family:var(--sans)}
+  body{background:radial-gradient(1100px 560px at 50% -12%,#fff 0%,var(--bg) 58%) fixed;background-color:var(--bg)}
+  .stage{position:fixed;inset:0;display:flex;flex-direction:column;box-sizing:border-box;
+    padding:clamp(10px,2.2vmin,22px);gap:clamp(7px,1.4vmin,14px)}
+  .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+    font:700 clamp(8.5px,1.45vmin,12px)/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--faint)}
+  .top b{color:var(--green-ink);font-weight:800}
+  .bar{height:2px;background:var(--line);border-radius:2px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--green-ink);width:0}
+  .card{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;
+    gap:clamp(14px,3.4vmin,40px);background:var(--panel);border:1px solid var(--line);border-radius:18px;
+    padding:clamp(12px,2.4vmin,22px);box-sizing:border-box;
+    box-shadow:0 1px 2px rgba(16,32,44,.05),0 6px 18px rgba(16,32,44,.07)}
+  .art{display:flex;flex-direction:column;align-items:center;gap:8px;flex:none}
+  canvas{display:block;filter:drop-shadow(0 3px 8px rgba(16,32,44,.18))}
+  .form{font:600 clamp(8px,1.3vmin,11px)/1.4 var(--mono);color:var(--faint);letter-spacing:.04em;text-align:center}
+  .body{min-width:0;max-width:44ch}
+  .ref{font:700 clamp(10px,1.55vmin,13px)/1 var(--mono);color:var(--green-ink);letter-spacing:.06em}
+  h1{margin:.34em 0 .28em;font:800 clamp(17px,3.4vmin,31px)/1.1;letter-spacing:-.01em}
+  .ind{margin:0;font:600 clamp(12px,1.95vmin,17px)/1.45;color:var(--lunar)}
+  .lamps{margin:.75em 0 0;font:500 clamp(9px,1.4vmin,12px)/1.45 var(--mono);color:var(--muted)}
+  .rm{margin:.75em 0 0;font:500 clamp(9px,1.4vmin,12px)/1.5 var(--sans);color:var(--muted);display:none}
+  .foot{font:clamp(8px,1.25vmin,11px)/1.55 var(--mono);color:var(--faint);text-align:center;
+    border-top:1px solid var(--line);padding-top:clamp(5px,1.1vmin,10px)}
+  /* Re-authored, not shrunk: a narrow crop stacks the art over the type; a banner crop drops the
+     second-order lines first and keeps the ref, the name, the indication and the CN disclaimer. */
+  @media (max-width:620px){.card{flex-direction:column;text-align:center}.body{max-width:100%}}
+  @media (max-width:520px){.src{display:none}}
+  @media (max-height:280px){.lamps,.q{display:none}}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="top"><span><b id="fam">·</b> &nbsp;<span id="count">·</span></span>
+    <span class="src">Canadian Rail Operating Rules — Jan 28, 2025</span></div>
+  <div class="bar"><i id="prog"></i></div>
+  <div class="card" id="card">
+    <div class="art"><canvas id="cv"></canvas><div class="form" id="form"></div></div>
+    <div class="body">
+      <div class="ref" id="ref"></div>
+      <h1 id="name"></h1>
+      <p class="ind" id="ind"></p>
+      <p class="lamps" id="lamps"></p>
+      <p class="rm" id="rm">Reduced motion is set, so the cycle is stopped and only this aspect is
+        drawn. Aspects with a flashing lamp are held back: the flash is part of the indication, and a
+        steady lamp in its place would read as a different rule.</p>
+    </div>
+  </div>
+  <div class="foot"><span class="q">These are the 38 indications the source draws; indications it does not
+    draw are left out, not reconstructed. Aspect drawings reproduced from a study source and cross-checked
+    against the CROR — the rulebook governs. Verify any aspect against the CROR + SME before relying on it.</span>
+    <span>An independent study aid · not affiliated with or endorsed by CN.</span></div>
+</div>
+<script>
+(function(){
+"use strict";
+// Every field below is copied from rail/cror-signals/content/aspects.js — the 38 records that carry
+// a drawable `aspect.heads`. 401–404, 410, 418, 433A and 440 have no drawing in the source and are
+// therefore absent, not inferred. Row = ref|name|indication|heads(top→bottom)|mast/dwarf+stagger|plate|family
+var ROWS=[
+`405|Clear|Proceed.|G|m||clear`,
+`406|Clear to Limited|Proceed, approaching next signal at LIMITED speed.|Y Gf|m||clear`,
+`407|Clear to Medium|Proceed, approaching next signal at MEDIUM speed.|Y G|m||clear`,
+`408|Clear to Diverging|Proceed, approaching next signal at DIVERGING speed.|Y Y|d|DV|clear`,
+`409|Clear to Slow|Proceed, approaching next signal at SLOW speed.|Y Y|d||clear`,
+`411|Clear to Stop|Proceed, preparing to stop at next signal.|Y R|m||clear`,
+`412|Advance Clear to Limited|Proceed, approaching second signal at LIMITED speed.|Yf Gf|m||adv`,
+`413|Advance Clear to Medium|Proceed, approaching second signal at MEDIUM speed.|Yf G|m||adv`,
+`414|Advance Clear to Slow|Proceed, approaching second signal at SLOW speed.|Yf Y|m||adv`,
+`414A|Advance Clear to Diverging|Proceed, approaching second signal at DIVERGING speed.|Yf Y|m|DV|adv`,
+`415|Advance Clear to Stop|Proceed, prepared to Stop at second signal.|Yf R|m||adv`,
+`416|Limited to Clear|Proceed, LIMITED speed passing signal and through turnouts.|R G R|m|L|limited`,
+`417|Limited to Limited|Proceed, LIMITED speed passing signal and through turnouts, approaching next signal at LIMITED speed.|R Gf Gf|m||limited`,
+`419|Limited to Slow|Proceed, LIMITED speed passing signal and through turnouts, approaching next signal at SLOW speed.|R Gf Yf|m||limited`,
+`419A|Limited to Diverging|Proceed, LIMITED speed passing signal and through turnouts, approaching next signal at DIVERGING speed.|Gf Yf|d|DV|limited`,
+`420|Limited to Restricting|Proceed, LIMITED speed passing signal and through turnouts, next signal is displaying restricting signal.|Gf Rf|ms||limited`,
+`421|Limited to Stop|Proceed, LIMITED speed passing signal and through turnouts, preparing to stop at next signal.|R Y R|m|L|limited`,
+`422|Medium to Clear|Proceed, MEDIUM speed passing signal and through turnouts.|R G R|m||medium`,
+`423|Medium to Limited|Proceed, MEDIUM speed passing signal and through turnouts, approaching next signal at LIMITED speed.|G Gf|d||medium`,
+`424|Medium to Medium|Proceed, MEDIUM speed passing signal and through turnouts, approaching next signal at MEDIUM speed.|R G G|m||medium`,
+`425|Medium to Slow|Proceed, MEDIUM speed passing signal and through turnouts, approaching next signal at SLOW speed.|R G Yf|m||medium`,
+`425A|Medium to Diverging|Proceed, MEDIUM speed passing signal and through turnouts, approaching next signal at DIVERGING speed.|G Yf|d|DV|medium`,
+`426|Medium to Restricting|Proceed, MEDIUM speed passing signal and through turnouts, next signal is displaying restricting signal.|G Rf|ms||medium`,
+`427|Medium to Stop|Proceed, MEDIUM speed passing signal and through turnouts, preparing to stop at next signal.|R Y R|m||medium`,
+`428|Diverging to Clear|Proceed, DIVERGING speed passing signal and through turnouts.|R G|d|DV|diverging`,
+`429|Diverging to Stop|Proceed, DIVERGING speed passing signal and through turnouts preparing to stop at next signal.|R Yf|d|DV|diverging`,
+`430|Diverging|Proceed at REDUCED speed, not exceeding DIVERGING speed passing signal and through turnouts.|R Y|d|DV|diverging`,
+`432A|Diverging to Limited|Proceed, DIVERGING speed passing signal and through turnouts, approaching next signal at LIMITED speed.|R Yf Gf|m|DV|diverging`,
+`434A|Diverging to Diverging|Proceed, DIVERGING speed passing signal and through turnouts, approaching next signal at DIVERGING speed.|R Yf Yf|m|DV|diverging`,
+`431|Slow to Clear|Proceed, SLOW speed passing signal and through turnouts.|R G|m||slow`,
+`432|Slow to Limited|Proceed, SLOW speed passing signal and through turnouts, approaching next signal at LIMITED speed.|R Yf Gf|m||slow`,
+`433|Slow to Medium|Proceed, SLOW speed passing signal and through turnouts, approaching next signal at MEDIUM speed.|R Yf G|m||slow`,
+`434|Slow to Slow|Proceed, SLOW speed passing signal and through turnouts, approaching next signal at SLOW speed.|R Yf Yf|m||slow`,
+`435|Slow to Stop|Proceed, SLOW speed passing signal and through turnouts, preparing to stop at next signal.|R Yf|d||slow`,
+`436|Restricting|Proceed at RESTRICTED speed.|R R|ms|R|special`,
+`437|Stop and Proceed|Stop, then proceed at RESTRICTED speed.|R R|ms||special`,
+`438|Take or Leave Siding or Other Track|Indications will be specified in special instructions for each specific application of this signal.|R Rf|m||special`,
+`439|Stop|Stop.|R|m||special`];
+var FAM=[['clear','Clear'],['medium','Medium'],['limited','Limited'],['diverging','Diverging'],
+  ['slow','Slow'],['adv','Advance'],['special','Restricting / Stop']];   // data.js FAMILIES order
+var WORD={G:'green',R:'red',Y:'yellow',L:'lunar',D:'dark'};              // signal.js head vocabulary
+var MONO='ui-monospace,"SF Mono",Menlo,Consolas,monospace',TAU=6.283185307;
+var HOLD=5.5,FADE=.45;                                    // seconds held, then a fade to the next
+
+var LIST=ROWS.map(function(s){var f=s.split('|');return{ref:f[0],name:f[1],ind:f[2],
+  heads:f[3].split(' '),type:f[4].charAt(0)==='d'?'dwarf':'mast',stagger:f[4].length>1,
+  plaque:f[5]||null,fam:f[6]};});
+// The sequence is the app's own teaching order (FAMILIES), source order kept inside each family.
+LIST.sort(function(a,b){return FAM.findIndex(function(f){return f[0]===a.fam;})
+  -FAM.findIndex(function(f){return f[0]===b.fam;});});
+
+function lampFill(c){return({G:'#27d65a',R:'#ff453a',Y:'#ffd60a',L:'#dfe9ff',D:'#16202c'})[c]||'#16202c';}
+// signal.js formLabel, unchanged: the label is derived from the spec, never stored.
+function formLabel(s){var n=s.heads.length,b=[n===1?'single':n===2?'2-head':n+'-head',
+  s.type==='dwarf'?'dwarf':'mast'];if(s.stagger)b.push('staggered');
+  if(s.plaque)b.push(s.plaque+' plate');return b.join(' · ');}
+function lampWords(s){return s.heads.map(function(h){var f=h.charAt(h.length-1)==='f';
+  return (f?'flashing ':'')+WORD[f?h.slice(0,-1):h];}).join(' · ');}
+// drawSignal geometry, ported value for value from js/signal.js. Head order is top to bottom.
+function metrics(s){var R=12,gap=7,pitch=2*R+gap,n=s.heads.length,S=s.stagger?9:0,
+  W=80+2*S,top=14,headsH=n*pitch-gap,poleLen=s.type==='dwarf'?20:62;
+  return{R:R,pitch:pitch,n:n,S:S,W:W,top:top,headsH:headsH,poleLen:poleLen,
+    poleBottom:top+headsH+poleLen,cx:W/2};}
+// The whole cycle shares one canvas sized to the widest + tallest possible signal, and every
+// aspect hangs from the same footing line, so nothing reflows between aspects.
+var BW=98,BASE=162,BH=196;
+
+var cv=document.getElementById('cv'),ctx=cv.getContext('2d'),card=document.getElementById('card');
+var REDUCED=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var idx=0,phase=0,pt=0,last=0,DPR=1,scale=1;
+
+function rr(x,y,w,h,r){ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,r);else ctx.rect(x,y,w,h);}
+// SMIL values="1;0.12;1" over 1s, linear — reproduced so a flashing lamp reads as flashing.
+function flashA(t){return .12+.88*Math.abs(2*(t%1)-1);}
+
+function paint(s,t){
+  ctx.setTransform(DPR*scale,0,0,DPR*scale,0,0);
+  ctx.clearRect(0,0,BW,BH);
+  var m=metrics(s);
+  ctx.save();ctx.translate((BW-m.W)/2,BASE-m.poleBottom);
+  ctx.fillStyle='#46586e';
+  ctx.fillRect(m.cx-3,m.top+m.headsH-2,6,m.poleLen);
+  rr(m.cx-15,m.poleBottom-3,30,6,2);ctx.fill();
+  for(var i=0;i<m.n;i++){
+    var raw=s.heads[i],hf=raw.charAt(raw.length-1)==='f',c=hf?raw.slice(0,-1):raw;
+    var hx=m.cx+(s.stagger?(i%2===0?-m.S:m.S):0),cy=m.top+i*m.pitch+m.R,lit=c!=='D';
+    ctx.beginPath();ctx.arc(hx,cy,m.R+3,0,TAU);ctx.fillStyle='#0a0f16';ctx.fill();
+    ctx.lineWidth=1.5;ctx.strokeStyle='#2c3340';ctx.stroke();
+    ctx.globalAlpha=(hf&&lit&&!REDUCED)?flashA(t):1;   // only the lamp dips, as in the SVG
+    ctx.beginPath();ctx.arc(hx,cy,m.R,0,TAU);ctx.fillStyle=lampFill(c);ctx.fill();
+    ctx.lineWidth=1.2;ctx.strokeStyle='#000';ctx.stroke();
+    ctx.globalAlpha=1;
+    if(lit){ctx.beginPath();ctx.arc(hx-3.5,cy-3.5,3.2,0,TAU);ctx.fillStyle='rgba(255,255,255,.5)';ctx.fill();}
+  }
+  if(s.plaque){var py=m.poleBottom+4;                   // a plate changes the rule: never omitted
+    rr(m.cx-13,py,26,22,3);ctx.fillStyle='#eef';ctx.fill();
+    ctx.lineWidth=1;ctx.strokeStyle='#7a8aa0';ctx.stroke();
+    ctx.fillStyle='#111';ctx.font='800 14px '+MONO;ctx.textAlign='center';ctx.fillText(s.plaque,m.cx,py+16);}
+  ctx.restore();
+}
+
+function show(i){
+  var s=LIST[i],t=function(id,v){document.getElementById(id).textContent=v;};
+  t('ref','CROR '+s.ref);t('name',s.name);t('ind',s.ind);t('form',formLabel(s));
+  t('lamps','Lamps, top to bottom: '+lampWords(s));
+  t('fam',FAM[FAM.findIndex(function(f){return f[0]===s.fam;})][1]);
+  t('count',String(i+1).padStart(2,'0')+' / '+LIST.length+' drawn aspects');
+  document.getElementById('prog').style.width=((i+1)/LIST.length*100).toFixed(2)+'%';
+}
+
+function fit(){
+  DPR=Math.min(devicePixelRatio||1,2);
+  var col=getComputedStyle(card).flexDirection==='column',pad=parseFloat(getComputedStyle(card).paddingTop)||0;
+  var innerH=card.clientHeight-2*pad,innerW=card.clientWidth-2*pad;
+  var h=innerH-document.getElementById('form').offsetHeight-10;
+  if(col)h=Math.min(h,innerH*.44);
+  h=Math.max(60,Math.min(215,h));
+  var w=h*BW/BH,maxW=innerW*(col?.85:.32);
+  if(w>maxW){h*=maxW/w;w=maxW;}
+  scale=h/BH;
+  cv.style.width=Math.round(w)+'px';cv.style.height=Math.round(h)+'px';
+  cv.width=Math.round(w*DPR);cv.height=Math.round(h*DPR);
+  paint(LIST[idx],last/1000);              // repaint on every resize, before any rAF is scheduled
+}
+
+function frame(now){
+  var d=Math.min(.05,(now-last)/1000);last=now;pt+=d;
+  if(phase===0&&pt>=HOLD){phase=1;pt=0;}
+  else if(phase===1&&pt>=FADE){idx=(idx+1)%LIST.length;show(idx);phase=2;pt=0;}
+  else if(phase===2&&pt>=FADE){phase=0;pt=0;}
+  // The drawing and its type swap in the same instant, at zero opacity — a name must never sit
+  // beside another aspect's lamps, even for one frame.
+  card.style.opacity=(phase===1?1-pt/FADE:phase===2?pt/FADE:1).toFixed(3);
+  paint(LIST[idx],now/1000);
+  requestAnimationFrame(frame);
+}
+
+if(REDUCED){
+  // No timer, and no flashing aspect: a steady lamp drawn in place of a flashing one is a wrong rule.
+  idx=LIST.findIndex(function(s){return !s.heads.some(function(h){return h.charAt(h.length-1)==='f';});});
+  document.getElementById('rm').style.display='block';
+}
+show(idx);
+fit();                                     // paints once, synchronously: a hidden tab is not blank
+if(typeof ResizeObserver==='function')new ResizeObserver(fit).observe(document.body);
+addEventListener('resize',fit);            // RO delivery starves in a hidden tab; the event does not
+if(!REDUCED){last=performance.now();requestAnimationFrame(frame);}
+})();
+</script>
+</body>
+</html>

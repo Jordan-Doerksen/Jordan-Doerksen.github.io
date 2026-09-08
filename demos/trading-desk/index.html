@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trading desk ✦ layout demo (synthetic)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23EFF2F6'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%230D4FA0' stroke-width='3'/%3E%3C/svg%3E">
+<style>
+/* Hexes are copied from the desk's desk.tokens.css and live/styles.css, not re-picked: that file carries
+   audited WCAG ratios against three grounds, and eyeballing a near-enough colour re-breaks what it fixed. */
+:root{--bg:#EFF2F6;--raised:#FFFFFF;--sunken:#E7EBF1;--hair:#6B7889;--ink:#0F1720;--dim:#4E5A68;--faint:#58636F;
+ --up:#14603A;--down:#A82E10;--gold:#8A5300;--teal:#106B72;--live:#0D4FA0;--neutral:#414D5B;--panel2:#F4F7FB;
+ --ui:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ --mono:ui-monospace,"Cascadia Mono",Consolas,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root{--bg:#10161E;--raised:#1A2230;--sunken:#0A0E15;--hair:#6C7A8C;
+ --ink:#E6ECF4;--dim:#9FACBD;--faint:#8E9BAD;--up:#46C98A;--down:#F47265;--gold:#E0AC4E;--teal:#4FD1CF;
+ --live:#5FA8FF;--neutral:#B4C0D0;--panel2:#151C27}}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--ui);-webkit-font-smoothing:antialiased}
+/* The desk's own record says a corner chip failed: "a glance reads the numbers, not the chip". So the mark is a
+   fixed band outside the zoomed shell — it cannot be scrolled away, and it sizes the shell's top padding. */
+.band{position:fixed;top:0;left:0;right:0;z-index:9;background:var(--gold);color:var(--bg);padding:7px 20px;display:flex;flex-wrap:wrap;gap:2px 14px;align-items:baseline}
+.band b{font:600 12px/1.5 var(--mono);letter-spacing:.1em}
+.band span{font-size:12px;opacity:.94}
+.shell{padding:0 0 4px;container-type:inline-size}
+.deskbar{height:44px;display:flex;align-items:center;gap:14px;padding:0 20px;background:var(--sunken);border-bottom:1px solid var(--hair)}
+.name{font:600 11px var(--mono);color:var(--faint);white-space:nowrap}
+nav{display:flex;gap:14px;min-width:0;overflow:hidden}
+.ng{display:flex;align-items:center;gap:6px;padding-left:14px;border-left:1px solid var(--hair)}
+.ng .k{font:400 11px var(--ui);font-style:normal;color:var(--faint)}
+.ng b{font:500 14px var(--ui);height:28px;padding:0 12px;display:flex;align-items:center;border-radius:6px;
+ background:var(--raised);border:1px solid var(--faint);color:var(--ink);white-space:nowrap}
+.ng b.cur{font-weight:600;background:var(--live);border-color:var(--live);color:var(--sunken)}
+.end{margin-left:auto;font:400 11px var(--mono);color:var(--faint);white-space:nowrap}.app{padding:12px 20px 0}
+.topbar,.footbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.footbar{margin-top:12px;padding:10px 0 4px;border-top:1px solid var(--hair);font-size:11px;color:var(--dim)}
+.eye{width:18px;height:18px;border-radius:50%;border:2px solid var(--live);position:relative;flex:none}
+.eye i{position:absolute;inset:2px;border-radius:50%;animation:spin 3.4s linear infinite;opacity:.55;background:conic-gradient(var(--live),transparent 40%)}
+@keyframes spin{to{transform:rotate(360deg)}}.wordmark{font:400 15px var(--ui);color:var(--dim)}.wordmark b{color:var(--ink)}
+.sym,.pill,.chip{font:600 11px var(--mono);border:1px solid var(--hair);border-radius:6px;padding:3px 8px;color:var(--dim);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.sym{color:var(--ink)}.pill.gold{color:var(--gold);border-color:var(--gold)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}.sp{flex:1 1 40px}
+.clock{font:600 12px var(--mono);color:var(--ink)}.clock i{font:400 10px var(--ui);color:var(--dim);font-style:normal}
+main{display:grid;grid-template-columns:280px minmax(0,1fr) 256px;gap:12px;margin-top:12px}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.card{background:var(--raised);border:1px solid var(--hair);border-radius:6px;padding:12px}
+.hd{display:flex;align-items:baseline;gap:8px;font:600 11px var(--mono);letter-spacing:.08em;color:var(--faint)}
+.hd em{margin-left:auto;font:400 11px var(--ui);font-style:normal;color:var(--dim)}
+.price{font:600 34px/1.1 var(--mono);margin-top:6px}
+.quote,.sub{font:400 12px var(--mono);color:var(--dim);margin-top:2px}.chg{font:600 12px var(--mono);color:var(--down);margin-top:4px}
+.vbadge{margin-top:10px;padding-top:8px;border-top:1px solid var(--hair);font:600 14px var(--ui);color:var(--neutral)}
+.pos{margin:10px 0;height:20px;position:relative}.track{position:absolute;top:8px;left:0;right:0;height:4px;background:var(--sunken);border-radius:2px}
+.mk{position:absolute;top:2px;width:2px;height:16px;background:var(--teal)}.mk.px{background:var(--ink);width:3px}
+.scale{display:flex;justify-content:space-between;font:400 10px var(--mono);color:var(--dim)}
+.factor{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--sunken)}
+.f-id{flex:1 1 auto;min-width:0}.f-id b{font:600 12px var(--ui)}.f-mid{text-align:right;font:600 12px var(--mono)}
+.f-id i,.f-mid i{display:block;font:400 10px var(--ui);font-style:normal;color:var(--dim);letter-spacing:.06em}
+.obibar{margin-top:8px;height:8px;background:var(--sunken);border-radius:4px;position:relative;overflow:hidden}
+.obibar .midl{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--hair)}
+.obibar .fill{position:absolute;top:0;bottom:0;background:var(--down);opacity:.6}.rows{margin-top:6px}
+.rw{display:grid;grid-template-columns:1fr auto;gap:8px;font:400 11px var(--mono);color:var(--dim);padding:2px 0}.rw b{font-weight:600;color:var(--ink)}
+.focus{margin-top:8px;display:flex;align-items:center;gap:10px;padding:10px;border-radius:6px;background:var(--panel2);border-left:3px solid var(--down)}
+.focus .lab{font:600 14px var(--ui);color:var(--down)}
+.focus .px{font:600 20px var(--mono)}.focus .fsub{font:400 11px var(--ui);color:var(--dim)}
+.fr{margin-left:auto;font:600 20px var(--mono);color:var(--down)}
+.lk,.row{display:grid;grid-template-columns:96px 64px minmax(0,1fr) 92px;gap:8px;align-items:center}
+.lk{margin-top:10px;font:600 10px var(--mono);letter-spacing:.08em;color:var(--faint)}
+.row{position:relative;padding:3px 4px;font:400 12px var(--mono);border-radius:3px}
+.row .depth{position:absolute;left:0;top:0;bottom:0;background:var(--sunken);border-radius:3px;z-index:0}
+.row>span{position:relative;z-index:1}
+.row.ask .px{color:var(--down)}.row.bid .px{color:var(--up)}.row.abs{outline:1px solid var(--hair)}
+.shown,.traded{text-align:right}.traded i{color:var(--teal);font-style:normal}
+.heat{position:relative;height:14px;background:var(--sunken);border-radius:3px;overflow:hidden}
+.heat i{position:absolute;left:0;top:0;bottom:0;background:var(--gold);opacity:.55}
+.heat em{position:absolute;right:4px;top:0;font:600 10px/14px var(--mono);font-style:normal;color:var(--ink)}
+.mid-row{margin:6px 0;padding:4px;text-align:center;font:600 11px var(--mono);letter-spacing:.06em;color:var(--faint);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.ev{padding:8px 0;border-top:1px solid var(--sunken)}
+.ev-title{font:600 12px var(--ui)}.ev.bid .ev-title{color:var(--up)}.ev.ask .ev-title{color:var(--down)}
+.ev-t{font:400 10px var(--mono);color:var(--dim)}.ev-evid{font:400 11px var(--mono);color:var(--dim)}.ev-evid b{color:var(--ink)}
+.rec-now{display:flex;gap:8px;align-items:flex-start;margin-top:8px}
+.rec-dot{width:9px;height:9px;border-radius:50%;margin-top:5px;flex:none;background:var(--neutral)}
+.is-live .rec-dot{background:var(--up);animation:pulse 2.4s ease-in-out infinite}
+.is-warn .rec-dot{background:var(--gold)}.is-bad .rec-dot{background:var(--down)}
+@keyframes pulse{50%{opacity:.35}}
+.rec-headline{font:600 14px var(--ui)}.is-bad .rec-headline{color:var(--down)}.rec-sub{font:400 11px var(--ui);color:var(--dim)}
+.state{border:1px solid var(--hair);border-left:3px solid var(--gold);background:var(--raised);border-radius:6px;
+ padding:12px 20px;max-width:62ch;margin:20px}
+.state.is-bad{border-left-color:var(--down)}.code{font:600 12px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.state.is-bad .code{color:var(--down)}.state p{font-size:12px;color:var(--dim);margin-top:4px}
+.ro{font:600 11px var(--mono);color:var(--down);display:inline-flex;align-items:center;gap:6px}
+.ro .dot{animation:pulse 2.6s ease-in-out infinite}.jd{font:600 11px var(--mono);border:1px solid var(--hair);border-radius:4px;padding:2px 5px;color:var(--faint)}
+.tag{font:400 10px var(--ui);color:var(--dim);margin-top:6px;display:block}
+/* Container, not viewport: the shell is zoomed, so a viewport breakpoint would collapse the columns while the
+   zoomed layout still had room for them. These read the width the desk is actually laid out in. */
+@container (max-width:1100px){main{grid-template-columns:1fr 1fr}.col-hero{grid-column:1/-1;order:-1}}
+@container (max-width:820px){main{grid-template-columns:1fr}.lk,.row{grid-template-columns:76px 52px minmax(0,1fr) 68px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="band" id="band"><b>SYNTHETIC — NO LIVE DATA</b>
+<span>Layout demo of the trading desk. Every figure is invented sample data on a made-up session. No market was read.</span></div>
+<noscript><div class="state is-bad"><span class="code">JavaScript required</span>
+<p>This page shows live market data, so there is nothing meaningful to render without scripting. Showing nothing is
+deliberate: a stale price is worse than no price.</p></div></noscript>
+<div class="shell" id="shell">
+ <div class="deskbar"><span class="name">Trading desk</span><nav>
+  <span class="ng"><i class="k">Now</i><b class="cur">Live</b><b>0DTE</b><b>Portfolio</b><b>Recorder</b></span>
+  <span class="ng"><i class="k">The record</i><b>Review</b><b>Research</b><b>Regime</b></span>
+  <span class="ng"><b>Sky</b></span></nav><span class="end">version —</span></div>
+ <div class="app">
+  <div class="topbar"><span class="eye"><i></i></span><span class="wordmark"><b>trading</b> desk</span>
+   <span class="sym">ES</span><span class="sp"></span>
+   <span class="pill gold"><i class="dot"></i>SAMPLE · DLY</span><span class="pill">7.2 t/s</span>
+   <span class="pill">ABS 5<i class="chip">BID 4</i><i class="chip">ASK 6</i></span>
+   <span class="clock"><b id="clk">09:42:20</b> ET <i>demo clock</i></span></div>
+  <main>
+   <div class="col col-rail" id="rail"></div>
+   <div class="col col-hero" id="hero"></div>
+   <div class="col col-feed" id="feed"></div>
+  </main>
+  <div class="footbar"><span class="ro"><i class="dot"></i>READ-ONLY</span>
+   <span>observes &amp; displays only — never places an order</span><span class="sp"></span>
+   <span>✦ trading desk · read-only live detector</span><span class="jd">JD</span></div>
+ </div>
+</div>
+<script>
+(function(){"use strict";
+var RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+// The session is frozen to the sample's own anchor, 09:31:04–09:42:20 ET. A demo opened at 3am must not stamp an
+// absorption event with the current wall time: that would be a market reading for a closed market.
+var T0=9*3600+42*60+20,START=9*3600+31*60+4,t=T0,recIdx=0;
+function p2(n){return(n<10?'0':'')+n}
+function hms(s){return p2(s/3600|0)+':'+p2((s/60|0)%60)+':'+p2(s%60)}
+function dur(s){var h=s/3600|0,m=(s/60|0)%60;return h?h+'h '+m+'m':(m?m+'m '+(s%60)+'s':s%60+'s')}
+// px, shown, maxShown, traded, ratio, refreshes. Verbatim from the desk's buildAbsorptionSample.
+var ASK=[[7372,71,90,130,1.4,0],[7371.75,64,90,120,1.3,0],[7371.5,58,80,96,1.2,0],[7371.25,41,70,210,3,0],
+ [7371,52,120,540,4.5,4],[7370.75,47,70,150,2.1,0],[7370.25,40,120,380,9.5,6]];
+var BID=[[7369.75,38,80,110,1.4,0],[7369.5,44,90,168,2,0],[7369.25,36,130,612,6.8,5],[7369,51,75,140,1.7,0],
+ [7368.75,60,85,96,1.1,0],[7368.5,48,70,120,1.5,0]];
+var EV=[[12,'ask','BUY',7370.25,380,40,9.5],[64,'bid','SELL',7369.25,612,36,6.8],[158,'ask','BUY',7371,540,52,4.5],
+ [233,'bid','SELL',7368.5,288,44,3.1],[401,'ask','BUY',7372,244,38,2.7]];
+// Five named states, verbatim. "Not recording" is never a boolean here; only two of the five are faults.
+var REC=[['is-live','RECORDING','A tape is open and being written.'],
+ ['is-idle','NOT RECORDING','This is correct — no session window is open at the moment. It starts by itself when the next one opens.'],
+ ['is-warn','NOT RECORDING','The live detector is not armed, so nothing can be recorded.'],
+ ['is-warn','TURNED OFF','Recording is switched off in the configuration. Nothing is being written, deliberately.'],
+ ['is-bad','RECORDER FAILED','It stopped after a write error. Sessions are NOT being saved.']];
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function row(r,side){ // heat = ratio/10 of the bar, depth = shown/maxShown, both floored so a row never vanishes
+ return '<div class="row '+side+(r[5]?' abs':'')+'"><i class="depth" style="width:'+clamp(r[1]/71*100,4,100).toFixed(0)+'%"></i>'+
+ '<span class="px">'+(r[5]?'❄ ':'')+r[0].toFixed(2)+'</span><span class="shown">'+r[1]+'</span>'+
+ '<span class="heat"><i style="width:'+clamp(r[4]/10*100,6,100).toFixed(0)+'%"></i><em>'+r[4].toFixed(1)+'x</em></span>'+
+ '<span class="traded">'+r[3]+(r[5]?' <i>❄×'+r[5]+'</i>':'')+'</span></div>'}
+function spark(pts){return '<svg width="100" height="24" viewBox="0 0 100 24" aria-hidden="true">'+
+ '<polyline points="'+pts+'" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".7"/></svg>'}
+function factor(n,s,v,vote,col,pts){return '<div class="factor"><span class="f-id"><b>'+n+'</b><i>'+s+'</i></span>'+
+ '<span class="f-mid">'+v+'<i>'+vote+'</i></span><span style="color:var(--'+col+')">'+spark(pts)+'</span></div>'}
+// The votes are neutral / neutral / bull, so the vote count renders MIXED. Upgrading it to a livelier verdict would
+// misrepresent how the verdict is derived, which is the one thing this panel exists to show.
+document.getElementById('rail').innerHTML=
+ '<div class="card"><div class="hd">LAST · ES</div><div class="price">7369.50</div>'+
+ '<div class="quote">bid 7369.50 · ask 7370.00 · spr 0.50</div><div class="chg">−23.25 &nbsp;−0.31%</div>'+
+ '<div class="vbadge">MIXED<div class="sub">no consensus · OBI NEUTRAL · VWAP NEUTRAL · CVD BULL</div></div></div>'+
+ '<div class="card"><div class="hd">ORDER FLOW<em>at VWAP</em></div>'+
+ '<div class="pos"><div class="track"></div><div class="mk" style="left:59.8%"></div><div class="mk px" style="left:59.6%"></div></div>'+
+ '<div class="scale"><span>PDL 7322.75</span><span>VWAP 7369.72</span><span>PDH 7401.25</span></div>'+
+ factor('OBI','book imbalance','−0.08','NEUTRAL','neutral','0,14 20,11 40,15 60,10 80,14 100,12')+
+ factor('VWAP','price vs VWAP','at','NEUTRAL','neutral','0,6 20,10 40,9 60,13 80,11 100,12')+
+ factor('CVD','cumulative delta','+2132','BULL','up','0,20 20,17 40,18 60,11 80,8 100,5')+
+ '<div class="obibar"><div class="fill" style="left:50%;width:4%"></div><div class="midl"></div></div>'+
+ '<div class="scale"><span>bid pressure</span><span>ask pressure</span></div></div>'+
+ '<div class="card"><div class="hd">0DTE SPX SKEW<em>DLY</em></div><div class="price" style="font-size:20px">1.85</div>'+
+ '<div class="sub" style="color:var(--gold);font-weight:600">FEAR</div>'+
+ '<div class="sub">norm 0.142 · legs 25Δ/25Δ · ATM IV 14.2</div></div>'+
+ '<div class="card"><div class="hd">CONNECTION<em>SAMPLE / SIM</em></div><div class="rows">'+
+ ['Source|sim','Market data|synthetic','Skew feed|synthetic','Tape (CVD)|recorded','Depth|top-of-book','Alerts channel|none']
+ .map(function(r){r=r.split('|');return '<div class="rw"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>'}).join('')+
+ '</div><span class="tag">read-only · sample — open in app for live</span></div>';
+document.getElementById('hero').innerHTML=
+ '<div class="card"><div class="hd">ICEBERG · ABSORPTION<em>13 levels · 3 absorbing</em></div>'+
+ '<div class="focus"><span>❄</span><span><span class="lab">ASK ABSORPTION · BEAR</span>'+
+ '<div class="px">7370.25</div><div class="fsub">380 traded into 40 shown · ❄ held ×6</div></span>'+
+ '<span class="fr">9.5x</span></div>'+
+ '<div class="lk"><span>PRICE</span><span>SHOWN</span><span>ABSORPTION HEAT</span><span>TRADED</span></div>'+
+ ASK.map(function(r){return row(r,'ask')}).join('')+
+ '<div class="mid-row">◆ INSIDE 7369.75 · spr 0.50</div>'+
+ BID.map(function(r){return row(r,'bid')}).join('')+'</div>';
+document.getElementById('feed').innerHTML=
+ '<div class="card"><div class="hd">ABSORPTION EVENTS<em>5 shown</em></div>'+
+ EV.map(function(e){return '<div class="ev '+e[1]+'"><div class="ev-title">'+e[2]+' ABSORPTION @ '+e[3].toFixed(2)+
+  '</div><div class="ev-t">'+hms(T0-e[0])+' ET</div><div class="ev-evid"><b>'+e[4]+'</b> absorbed into <b>'+e[5]+
+  '</b> shown · '+e[6].toFixed(1)+'x · ❄ held</div></div>'}).join('')+'</div>'+
+ '<div class="card" id="rec"><div class="hd">RECORDER<em>demo</em></div>'+
+ '<div class="rec-now"><span class="rec-dot"></span><span><span class="rec-headline"></span>'+
+ '<div class="rec-sub"></div></span></div><div class="rows" id="facts"></div>'+
+ '<div class="hd" style="margin-top:10px">TAPES<em>synthetic</em></div><div class="rows">'+
+ '<div class="rw"><span>sample-a.tape · ES</span><b>4.1 MB</b></div>'+
+ '<div class="rw"><span>sample-b.tape · ES</span><b>2.7 MB</b></div></div>'+
+ '<span class="tag">The recorder reports five named states. The demo cycles them; the elapsed counter is the demo\'s '+
+ 'own timer, not a server reading.</span></div>';
+var rec=document.getElementById('rec'),facts=document.getElementById('facts'),clk=document.getElementById('clk');
+function fact(k,v){return '<div class="rw"><span>'+k+'</span><b>'+v+'</b></div>'}
+function drawRec(){var s=REC[recIdx],live=recIdx===0,d='—'; // a missing value is an em dash, never a zero
+ rec.className='card '+s[0];
+ rec.querySelector('.rec-headline').textContent=s[1];
+ rec.querySelector('.rec-sub').textContent=s[2];
+ facts.innerHTML=fact('Started',live?hms(START)+' ET':d)+fact('Running for',live?dur(t-START):d)+
+  fact('Writing to',live?'sessions/sample/es-demo.tape':d)+fact('Window','09:30–16:00 ET');}
+// The desk scales itself with a zoom knob; the same knob fits the whole cockpit into a short banner crop. Under
+// 900 wide it re-authors to two columns and then one and the page scrolls — the desk's own rule. Above that this
+// fits all three columns to the box: a guess from the window, then corrections, because the desk's many 1px rules
+// round up at a small zoom and leave the content taller than the scale factor predicts. The band is outside the
+// zoomed shell, so a 1200x300 banner miniaturises the desk but never the honesty label.
+function fit(){var sh=document.getElementById('shell'),b=document.getElementById('band').offsetHeight,o,i;
+ document.body.style.paddingTop=b+'px';
+ var z=innerWidth<900?1:clamp(Math.min(innerWidth/1140,(innerHeight-b)/920),.26,1);sh.style.zoom=z.toFixed(3);
+ for(i=0;innerWidth>=900&&i<3;i++){ // corrections apply to the fitted case only — under 900 the desk stacks
+  o=document.documentElement.scrollHeight-innerHeight+1; // and the page scrolls, so the guess above stands at 1
+  if(o<=0||z<=.26)break;z=clamp(z*innerHeight/(innerHeight+o+2),.26,1);sh.style.zoom=z.toFixed(3);}}
+drawRec();fit(); // paint one composed frame synchronously: a timer or rAF gives a hidden tab a blank rectangle
+addEventListener('resize',fit); // RO too: an embed can be resized without the window firing anything. It cannot
+if(window.ResizeObserver)new ResizeObserver(fit).observe(document.documentElement); // loop — one window size, one zoom
+if(!RM){ // reduced motion keeps the frame above and starts nothing
+ setInterval(function(){t++;clk.textContent=hms(t);if(recIdx===0)drawRec();},1000);
+ setInterval(function(){recIdx=(recIdx+1)%REC.length;drawRec();fit();},9000);}
+})();
+</script>
+</body>
+</html>

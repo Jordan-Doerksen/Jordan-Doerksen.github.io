@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Switch List ✦ Yard Switching Demo</title>
+<meta name="theme-color" content="#0f1216">
+<style>
+  /* Palette lifted from switch-list render.js. No webfont: this has to work offline and in a cold iframe. */
+  :root{--ground:#0f1216;--ink:#e7ebf0;--dim:#8b94a0;--faint:#6d7684;--si:#f2b134;--cyan:#11a3c4;--line:#2a313b;
+    --mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace}
+  html,body{height:100%;margin:0;background:var(--ground);overflow:hidden}
+  canvas{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+  /* pointer-events:none throughout — this demo takes no input. Top-left is the one region the schematic
+     leaves empty at every aspect: the ladder climbs right, the tracks start past x=650, the lead is low. */
+  .wrap{position:fixed;inset:0;z-index:1;display:flex;align-items:flex-start;padding:clamp(10px,3vmin,30px);pointer-events:none}
+  .panel{box-sizing:border-box;max-width:min(31rem,60%);border-radius:12px;border:1px solid var(--line);background:rgba(11,14,18,.84);
+    backdrop-filter:blur(10px) saturate(1.1);-webkit-backdrop-filter:blur(10px) saturate(1.1);box-shadow:0 14px 50px rgba(0,0,0,.45);
+    padding:clamp(10px,2.2vmin,20px) clamp(13px,2.8vmin,26px)}
+  .eyebrow,.note,.colophon{font:500 clamp(8.5px,1.25vmin,10.5px)/1.75 var(--mono);margin:0;color:var(--faint)}
+  .eyebrow{letter-spacing:.3em;text-transform:uppercase;color:var(--si);margin-bottom:clamp(6px,1.4vmin,12px)}
+  h1{font:600 clamp(17px,3.6vmin,32px)/1.15 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--ink);margin:0}
+  h1 b{color:var(--cyan);font-weight:600}
+  .lede{font:400 clamp(10.5px,1.55vmin,13px)/1.6 var(--mono);color:var(--dim);margin:clamp(7px,1.6vmin,13px) 0 0}
+  .rule{display:flex;align-items:center;gap:10px;color:var(--si);margin:clamp(9px,1.8vmin,16px) 0}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:rgba(109,118,132,.4)}
+  .rule span{font-size:10px;line-height:1}
+  .stat{font:600 clamp(10px,1.5vmin,12.5px)/1.75 var(--mono);color:var(--ink);margin:0;overflow-wrap:anywhere}
+  .stat b{color:var(--si);font-weight:600}
+  .stat.sub{font-weight:400;color:var(--dim)}
+  .note{margin-top:clamp(8px,1.7vmin,14px)}
+  .colophon{letter-spacing:.24em;text-transform:uppercase;margin-top:clamp(7px,1.5vmin,13px)}
+  .colophon b{color:#8a6f2c;font-weight:500}
+  /* Short banner crops: the prose goes first, the live counters stay. */
+  @media (max-height:300px){.lede,.colophon{display:none}.rule{margin:8px 0}}
+  @media (max-height:210px){.note{display:none}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="yard"></canvas>
+<div class="wrap"><main class="panel">
+  <p class="eyebrow">✦ Yard switching</p>
+  <h1>Switch <b>List</b></h1>
+  <p class="lede">Line the road · call the move · watch the engineer work it. — built on the CROR.</p>
+  <div class="rule"><span>✦</span></div>
+  <p class="stat"><b>P0-1</b> · MAKE UP THE CUT</p>
+  <p class="stat" id="readout">Moves 0 / par 5 · Joints 0</p>
+  <p class="stat sub" id="msg">—</p>
+  <p class="note" id="note"></p>
+  <p class="colophon">✦ &nbsp;Jordan Doerksen&nbsp; <b>·</b> &nbsp;MMXXVI</p>
+</main></div>
+<script>
+(function(){
+'use strict';
+const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv=document.getElementById('yard'),ctx=cv.getContext('2d'),MONO='ui-monospace, monospace',TAU=Math.PI*2;
+const RO=document.getElementById('readout'),MS=document.getElementById('msg'),NT=document.getElementById('note');
+
+/* --- geometry.js. The logical box stays 1340x460 and is never refitted to its content: the lead runs
+   off-frame left and the main line off-frame top, and that is what reads as departure and the road. --- */
+const LW=1340,LH=460,LEAD_Y=372,LEAD_LEFT=-320,FOOT={x:300,y:LEAD_Y},SX=70,SY=52;
+const N=6,IDS=['AS71','AS72','AS73','AS74','AS75','AS76'],TRACK_RIGHT=1292,ENGLEN=64,CLEAR=30,SPOT_CLEAR=120,GAP=42;
+const swX=i=>FOOT.x+(i+1)*SX,swY=i=>FOOT.y-(i+1)*SY,S_FOOT=Math.abs(FOOT.x-LEAD_LEFT);
+const sSwitch=i=>S_FOOT+(i+1)*Math.hypot(SX,SY);                     // arclength lead-left → switch i
+const restS=cut=>Math.min(120-LEAD_LEFT,S_FOOT-CLEAR-ENGLEN/2-cut);  // backs off-frame as the cut grows
+const LEAD_ROUTE=[{x:LEAD_LEFT,y:LEAD_Y},{x:FOOT.x+40,y:LEAD_Y}];
+const routeTo=i=>[{x:LEAD_LEFT,y:LEAD_Y},FOOT,{x:swX(i),y:swY(i)},{x:TRACK_RIGHT,y:swY(i)}];
+const TYPES={box:{len:42,fill:'#aeb6c0',edge:'#5b636e',tag:'BX'},hopper:{len:47,fill:'#9fb6a2',edge:'#5a6b5d',tag:'HP'},
+  tank:{len:50,fill:'#b3a7c4',edge:'#665d77',tag:'TK'},centerbeam:{len:61,fill:'#c6b88c',edge:'#6f6543',tag:'CB'},
+  autorack:{len:75,fill:'#9fb4c6',edge:'#566875',tag:'AR'}};
+const C={bg:'#0f1216',rail:'#7d8794',railDim:'#4a525c',normal:'#39b58a',reverse:'#f2b134',clear:'#e2574c',loco:'#2d333c',
+  locoEdge:'#11a3c4',head:'#ffd27a',carText:'#1b1f26',label:'#cfd6df',dim:'#7b8590',main:'#9aa3ad'};
+
+// Point + heading at arclength s, extrapolating past both ends so equipment can sit off-frame.
+function polyAt(r,s){const g=[];let acc=0;
+  for(let i=0;i<r.length-1;i++){const a=r[i],b=r[i+1],dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy)||1e-6;g.push({a,dx,dy,L,ang:Math.atan2(dy,dx)});}
+  if(s<0){const f=g[0];return{x:f.a.x+f.dx/f.L*s,y:f.a.y+f.dy/f.L*s,angle:f.ang};}
+  for(const q of g){if(s<=acc+q.L){const t=(s-acc)/q.L;return{x:q.a.x+q.dx*t,y:q.a.y+q.dy*t,angle:q.ang};}acc+=q.L;}
+  const l=g[g.length-1],o=s-acc;return{x:l.a.x+l.dx+l.dx/l.L*o,y:l.a.y+l.dy+l.dy/l.L*o,angle:l.ang};}
+/* --- puzzles.js p0-1 "Make up the cut": its start, its own par, its own authored optimal line. --- */
+const P={par:5,goal:'AS75',opt:[['pull','AS73',3],['pull','AS72',3],['spot','AS75',6]],
+  start:{AS71:[160,['GATX 64012','tank'],['GATX 64088','tank'],['UTLX 99014','tank']],
+         AS72:[180,'CN 411002','CN 411040','CN 411068'],
+         AS73:[200,'CN 412110','CN 412128','CN 412146'],
+         AS74:[180,['SHPX 33120','hopper'],['SHPX 33148','hopper']],
+         AS76:[200,['ETTX 88102','autorack'],['ETTX 88290','autorack']]}};
+let st=null,M=null;
+const len=m=>TYPES[st.type[m]].len;
+
+// freshState(): lay each cut out from the authored gaps, then settle it DEEP so its far edge lands on
+// TRACK_RIGHT — the authored numbers are spacings between cars, not final positions.
+function fresh(){
+  const s={tracks:{},pos:{},type:{},lined:{},engine:[],out:true,moves:0,joints:0,msg:''};
+  for(let i=0;i<N;i++){
+    const id=IDS[i],cars=[],pos=[];let cur=null;
+    for(const e of (P.start[id]||[])){
+      if(typeof e==='number'){cur=cur==null?e:cur+e;continue;}
+      const mark=Array.isArray(e)?e[0]:e,ty=Array.isArray(e)?(e[1]||'box'):'box';if(cur==null)cur=SPOT_CLEAR;
+      cars.push(mark);pos.push(cur);s.type[mark]=ty;cur+=TYPES[ty].len;
+    }
+    const deep=cars.length?pos[pos.length-1]+TYPES[s.type[cars[cars.length-1]]].len:0,shift=cars.length?Math.max(0,(TRACK_RIGHT-swX(i))-deep):0;
+    s.tracks[id]=cars;s.pos[id]=pos.map(p=>p+shift);s.lined[id]='normal';
+  }
+  return s;}
+// Where a spotted cut lands: the end of an empty track, or tight against your own build.
+function plan(id,n){const T=st.tracks[id],lens=st.engine.slice(st.engine.length-n).map(len),total=lens.reduce((a,b)=>a+b,0);
+  let deep=TRACK_RIGHT-swX(IDS.indexOf(id));
+  if(T.length){const p0=st.pos[id][0];deep=(id===P.goal||p0-GAP-total<CLEAR)?p0:p0-GAP;}
+  let c=deep-total;const out=[];for(const L of lens){out.push(c);c+=L;}return out;}
+// MOVES count engine legs, not handlings: a PULL is back-in plus pull-out (2); a SPOT is the
+// shove-in only (1) and defers its pull-out, charged as +1 on the next move. Hence 5, not 6.
+function pull(id,n){
+  st.engine.push(...st.tracks[id].splice(0,n));st.pos[id].splice(0,n);
+  st.joints+=1;st.moves+=(st.out?0:1)+2;st.out=true;st.msg=`Pulled ${n} from ${id}.`;}
+function spot(id,n){
+  const onto=st.tracks[id].length>0,yp=plan(id,n),taken=st.engine.splice(st.engine.length-n,n);
+  st.tracks[id]=taken.concat(st.tracks[id]);st.pos[id]=yp.concat(st.pos[id]);if(onto)st.joints+=1;
+  st.moves+=(st.out?0:1)+1;st.out=false;st.msg=`Spotted ${n} to ${id}.`;}
+const lineFor=id=>{for(const t of IDS)st.lined[t]=(t===id)?'reverse':'normal';};
+const hud=()=>{RO.textContent=`Moves ${st.moves} / par ${P.par} · Joints ${st.joints}`;MS.textContent=st.msg;};
+/* --- render.js --- */
+let CW=0,CH=0,DPR=1,K=1,OX=0,OY=0,VL=0;
+const rr=(x,y,w,h,r)=>{ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();};
+const rail=(a,b,col,w)=>{ctx.strokeStyle=col;ctx.lineWidth=w;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();};
+// Every canvas label rides a dark pill: cars draw after switches and ticks, so without it the rail
+// and the equipment pass straight through the text.
+function tag(txt,x,y,align,col,font){
+  ctx.font=font||'700 12px '+MONO;ctx.textAlign='left';ctx.textBaseline='middle';
+  const w=ctx.measureText(txt).width,tx=align==='right'?x-w:x;
+  ctx.fillStyle='rgba(10,13,17,0.8)';rr(tx-6,y-8.5,w+12,17,5);ctx.fill();ctx.fillStyle=col;ctx.fillText(txt,tx,y+0.5);}
+function car(x,y,ang,l,label,type){
+  ctx.save();ctx.translate(x,y);ctx.rotate(ang);const h=20;
+  if(!label){                                    // the locomotive: cyan outline, headlight leading
+    ctx.fillStyle=C.loco;ctx.strokeStyle=C.locoEdge;ctx.lineWidth=2;rr(-l/2,-h/2-2,l,h+4,4);ctx.fill();ctx.stroke();
+    ctx.fillStyle=C.head;ctx.beginPath();ctx.arc(-l/2+5,0,2.6,0,TAU);ctx.fill();
+  }else{
+    const ty=TYPES[type];ctx.fillStyle=ty.fill;ctx.strokeStyle=ty.edge;ctx.lineWidth=1.5;
+    rr(-l/2,-h/2,l,h,3);ctx.fill();ctx.stroke();
+    // A car shows its NUMBER only — that is how it gets called; the mark stays in the work order.
+    const disp=label.split(' ').pop();let fs=9;ctx.fillStyle=C.carText;ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='700 9px '+MONO;
+    while(ctx.measureText(disp).width>l-8&&fs>6){fs-=0.5;ctx.font='700 '+fs+'px '+MONO;}
+    ctx.fillText(disp,0,0.5);
+    ctx.fillStyle='rgba(20,24,30,0.55)';ctx.font='700 6.5px '+MONO;ctx.textAlign='left';ctx.fillText(ty.tag,-l/2+3,-h/2+5);
+  }
+  ctx.restore();
+}
+function train(route,engS,cut){
+  const lo=polyAt(route,engS);car(lo.x,lo.y,lo.angle,ENGLEN,null);let s=engS+ENGLEN/2;
+  for(const m of cut){const w=len(m),p=polyAt(route,s+w/2);car(p.x,p.y,p.angle,w,m,st.type[m]);s+=w;}}
+function render(){
+  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.fillStyle=C.bg;ctx.fillRect(0,0,CW,CH);
+  ctx.setTransform(DPR*K,0,0,DPR*K,DPR*OX,DPR*OY);
+  // Main line and lead are drawn past the logical box so they still leave the frame in a taller or
+  // wider container. Equipment is clipped to the box instead, so off-frame stays off-frame.
+  rail({x:swX(5),y:swY(5)},{x:swX(5)+SX*30,y:swY(5)-SY*30},C.railDim,3);
+  let p=FOOT;for(let i=0;i<N;i++){const q={x:swX(i),y:swY(i)};rail(p,q,C.railDim,3);p=q;}
+  rail({x:Math.min(LEAD_LEFT,VL-40),y:LEAD_Y},FOOT,C.rail,4);
+  for(let i=0;i<N;i++)rail({x:swX(i),y:swY(i)},{x:TRACK_RIGHT,y:swY(i)},C.rail,4);
+  tag('◄ DEPARTURE · LEAD / DRILL',10,LEAD_Y-24,'left',C.dim);
+  tag('MAIN LINE → the road',840,18,'left',C.main);
+  tag('15 MPH · REDUCED (CROR 105)',LW-10,18,'right',C.main);
+  for(let i=0;i<N;i++){
+    const x=swX(i),y=swY(i),on=st.lined[IDS[i]]==='reverse';
+    ctx.strokeStyle=C.clear;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+CLEAR,y-9);ctx.lineTo(x+CLEAR,y+9);ctx.stroke(); // foul tick
+    if(on){ctx.save();ctx.globalAlpha=.25;ctx.fillStyle=C.reverse;ctx.beginPath();ctx.arc(x,y,13,0,TAU);ctx.fill();ctx.restore();}
+    ctx.save();ctx.translate(x,y);ctx.rotate(Math.PI/4);                   // switch target diamond
+    ctx.fillStyle=on?C.reverse:C.normal;ctx.strokeStyle='#0c0e11';ctx.lineWidth=2;
+    ctx.fillRect(-7,-7,14,14);ctx.strokeRect(-7,-7,14,14);ctx.restore();
+    tag(IDS[i],TRACK_RIGHT+10,y,'left',C.label,'700 13px '+MONO);
+  }
+  ctx.save();ctx.beginPath();ctx.rect(0,0,LW,LH);ctx.clip();
+  for(let i=0;i<N;i++){const sx=swX(i),y=swY(i),T=st.tracks[IDS[i]],Q=st.pos[IDS[i]];
+    for(let k=0;k<T.length;k++){const w=len(T[k]);car(sx+Q[k]+w/2,y,0,w,T[k],st.type[T[k]]);}}
+  if(M)train(M.route,M.engS,M.cut);
+  else train(LEAD_ROUTE,restS(st.engine.reduce((a,c)=>a+len(c),0)),st.engine);
+  ctx.restore();
+}
+/* --- the replay: switch-list's own watch-optimal choreography, put on a loop --- */
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2,SLOW=1.7;   // watch-optimal is slow-mo; pauses do not scale
+const SC=[],step=(dur,fn,enter)=>SC.push({dur,fn,enter});
+function prep(kind,id,n){const i=IDS.indexOf(id),held=st.engine.reduce((a,c)=>a+len(c),0);
+  // Where the deepest car of the cut comes to rest: the loco stops there, never driving on through it.
+  const far=kind==='pull'?sSwitch(i)+st.pos[id][0]:sSwitch(i)+plan(id,n).pop()+len(st.engine[st.engine.length-1]);
+  const a=restS(held);M={route:routeTo(i),kind,id,n,cut:st.engine.slice(),done:false,a,b:far-ENGLEN/2-held,c:a,engS:a};
+}
+function commit(){                                          // idempotent: two phases share it
+  if(M.done)return;M.done=true;(M.kind==='pull'?pull:spot)(M.id,M.n);
+  M.cut=st.engine.slice();M.c=restS(st.engine.reduce((a,c)=>a+len(c),0));}
+function build(){
+  step(900,null,()=>{st=fresh();M=null;st.msg=`▶ Watching the optimal line — par ${P.par} moves`;hud();});
+  for(const[kind,id,n]of P.opt){
+    step(520,null,()=>lineFor(id));                                   // line the road, then move
+    step(600*SLOW,t=>{M.engS=M.a+(M.b-M.a)*t;},()=>prep(kind,id,n));  // run in and couple
+    // CROR 113.2 — after coupling you stretch the joint to prove the knuckles locked. Pull only.
+    if(kind==='pull')step(280*SLOW,t=>{M.engS=M.b-6*Math.sin(t*Math.PI);},commit);
+    step(600*SLOW,t=>{M.engS=M.b+(M.c-M.b)*t;},commit);               // run back out to the lead
+    step(320,null,()=>{M=null;hud();});
+  }
+  step(2600,null,()=>lineFor(null));                                  // hold the finished cut
+}
+let idx=0,t0=0;
+function frame(now){
+  let s=SC[idx];
+  // A backgrounded tab hands back a jump of many seconds — walk the script through it rather than
+  // letting one step swallow the whole gap.
+  while(now-t0>=s.dur){if(s.fn)s.fn(1);t0+=s.dur;idx=(idx+1)%SC.length;s=SC[idx];if(s.enter)s.enter();}
+  if(s.fn)s.fn(ease((now-t0)/s.dur));render();requestAnimationFrame(frame);
+}
+function resize(){
+  const w=Math.max(1,cv.clientWidth||innerWidth),h=Math.max(1,cv.clientHeight||innerHeight);
+  if(w===CW&&h===CH)return;                      // ResizeObserver also fires once on observe()
+  CW=w;CH=h;DPR=Math.min(2,devicePixelRatio||1);cv.width=Math.round(w*DPR);cv.height=Math.round(h*DPR);
+  // Fit the whole box, centred. The spare axis becomes more lead or more main line, which is why a
+  // 4:3 embed and a wide banner read as the same yard rather than a cropped one.
+  K=Math.min(w/LW,h/LH);OX=(w-LW*K)/2;OY=(h-LH*K)/2;VL=-OX/K;render();
+}
+NT.textContent=(REDUCE?'Motion reduced: the finished line, held static. ':'Authored scenario on a loop — nobody is playing and nothing is being solved. ')
+  +'The yard is the sim’s simplified teaching ladder, not a real yard plan, and the reporting marks are invented.';
+st=fresh();
+// Reduced motion gets one composed frame: the line already worked, the counters already final.
+if(REDUCE){for(const[k,id,n]of P.opt){lineFor(id);(k==='pull'?pull:spot)(id,n);}lineFor(null);}
+hud();
+addEventListener('resize',resize);
+if(self.ResizeObserver)new ResizeObserver(resize).observe(cv);
+resize();                                        // frame one, painted synchronously
+if(!REDUCE){build();SC[0].enter();t0=performance.now();requestAnimationFrame(frame);}
+})();
+</script>
+</body>
+</html>
