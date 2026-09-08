@@ -186,18 +186,31 @@ def main():
                    x1 + R, y1, mx, y1, mx, y2, x2 - R, y2,
                    esc(e.get("label") or (a + " to " + b))))
 
+    def mesh_label(n):
+        """A node name a person can read.
+
+        Some labels in the source are URL paths, not names: `p-live` is labelled
+        "/" because that is where the live cockpit is served. A slash is not a
+        node name, so when a label carries fewer than two letters the `sub`
+        stands in. The full "label · sub" is kept in the <title> either way, so
+        nothing is lost - only the drawn name changes.
+        """
+        lab = (n.get("label") or "").strip()
+        if sum(c.isalpha() for c in lab) < 2:
+            lab = (n.get("sub") or "").strip() or n["id"]
+        return lab[:19] + "…" if len(lab) > 20 else lab
+
     mesh_nodes = []
     for sid in tour_ids:
         x, y = pos[sid]
         n = nodes[sid]
-        lab = n["label"]
-        if len(lab) > 20:
-            lab = lab[:19] + "…"
+        lab = mesh_label(n)
         mesh_nodes.append(
             '<g class="mnode%s" id="n-%s"><circle cx="%.1f" cy="%.1f" r="%.1f"/>'
             '<text x="%.1f" y="%.1f">%s</text><title>%s</title></g>'
             % (" joint" if sid in shared else "", esc(sid), x, y, R,
-               x + R + 7, y + 4, esc(lab), esc(n["label"])))
+               x + R + 7, y + 4, esc(lab),
+               esc(" · ".join(p for p in [n.get("label"), n.get("sub")] if p))))
 
     mesh_svg = (
         '<svg class="meshsvg" viewBox="0 0 %d %d" role="img" '
@@ -305,7 +318,13 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
 .mesh figcaption{margin:0 0 12px;font:400 11.5px/1.6 var(--mono);color:var(--muted)}
 .meshsvg{width:100%;height:auto;display:block;overflow:visible}
 .mnode circle{fill:var(--sheet);stroke:var(--wire);stroke-width:1.5}
-.mnode text{font:500 11px/1 var(--mono);fill:var(--muted)}
+/* A wire must never make a name hard to read. The label is painted stroke-first
+   in the panel's own background colour, which knocks a halo out of anything
+   passing behind the glyphs. Text still sits above the links group as well;
+   the halo is what handles a wire crossing directly under a letter. */
+.mnode text{font:500 11px/1 var(--mono);fill:var(--muted);
+  paint-order:stroke fill;stroke:var(--deep);stroke-width:3.5px;
+  stroke-linejoin:round;stroke-linecap:round}
 .mnode.joint circle{stroke-dasharray:2 2}
 .mlink{fill:none;stroke:var(--wire);stroke-width:1.5}
 /* No JS: the finished diagram stands as a static picture of the whole system. */
