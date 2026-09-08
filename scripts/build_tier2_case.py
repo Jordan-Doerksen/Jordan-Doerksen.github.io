@@ -71,10 +71,12 @@ def main():
     batch = int(cfg["batchSize"])
     stage_attrs = (
         'data-batch="%d" data-enter="%d" data-draw="%d" data-hold="%d" '
-        'data-batchhold="%d" data-filedown="%d" data-autoplay="%s" data-loop="%s"'
+        'data-batchhold="%d" data-filedown="%d" data-autoplay="%s" data-loop="%s" '
+        'data-chain="%s"'
         % (batch, cfg["cardEnterMs"], cfg["lineDrawMs"], cfg["holdMs"],
            cfg["batchHoldMs"], cfg["filedownMs"],
-           str(bool(cfg["autoplay"])).lower(), str(bool(cfg["loop"])).lower())
+           str(bool(cfg["autoplay"])).lower(), str(bool(cfg["loop"])).lower(),
+           str(bool(cfg.get("chainTours", True))).lower())
     )
 
     radios, tabs, panels = [], [], []
@@ -333,6 +335,7 @@ def main():
         "meshcount": str(len(tour_ids)),
         "meshlinks": str(len(mesh_links)),
         "joints": str(len(shared)),
+        "tourcount": str(len(tours)),
         "csstabs": css_tabs,
         "idea": idea_html,
         "radios": "\n  ".join(radios),
@@ -516,6 +519,11 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
   .stage[data-js] .slots{grid-template-columns:1fr!important;gap:14px!important;min-height:0!important}
   .card::after,.card::before{content:none!important}
 }
+.finale{margin:26px 0 0;padding:22px;border:1px solid var(--live);
+  background:linear-gradient(180deg,rgba(57,189,248,.08),transparent 70%);
+  animation:rise .6s ease both}
+.finale h2{margin:0 0 8px;font:800 clamp(20px,2.4vw,28px)/1.15 var(--display);letter-spacing:-.03em}
+.finale p{margin:0 0 16px;max-width:60ch;color:var(--ink-2);font-size:15px}
 .foot{margin-top:44px;padding-top:18px;border-top:1px solid var(--hair);
   font:400 11.5px/1.75 var(--mono);color:var(--muted);max-width:78ch}
 .foot b{color:var(--ink-2);font-weight:500}
@@ -530,6 +538,20 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
   @@radios@@
   <div class="tabs">@@tabs@@</div>
   <div class="panels">@@panels@@</div>
+
+  <!-- Shown once every path has run. Without it the last path ends on an empty
+       panel, which reads as the page having broken rather than finished. -->
+  <!-- Counts are written by stage.js from what was ACTUALLY lit. They are not
+       baked in: jumping straight to the last path and finishing it would
+       otherwise print "every part reached" over a mesh that is mostly dark. -->
+  <section class="finale" hidden aria-live="polite">
+    <h2 class="f-head">Done.</h2>
+    <p class="f-body">…</p>
+    <div class="controls">
+      <button type="button" class="btn btn-again">Run all again</button>
+      <span class="readout">complete</span>
+    </div>
+  </section>
 
   <figure class="mesh">
     <figcaption>The same @@meshcount@@ parts as one system. Each lights when its path

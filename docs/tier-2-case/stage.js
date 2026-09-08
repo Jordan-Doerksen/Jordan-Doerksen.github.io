@@ -26,6 +26,77 @@
    * so `lit` lives here rather than inside a stage. */
   var mesh = null;
   var lit = Object.create(null);
+  var finale = null;
+  var panels = null;
+  var ran = Object.create(null);   // which paths actually completed
+
+  function radios() {
+    return Array.prototype.slice.call(document.querySelectorAll('input[name="tour"]'));
+  }
+
+  /* A finished path used to leave an empty panel on screen, which reads as the
+   * page having broken rather than having finished. Chain to the next path, and
+   * when the last one is done show the finale instead of nothing. */
+  function advanceOrFinish() {
+    var rs = radios();
+    var i = rs.findIndex(function (r) { return r.checked; });
+    if (i > -1) ran[rs[i].id] = true;
+    if (i > -1 && i < rs.length - 1) {
+      rs[i + 1].checked = true;
+      rs[i + 1].dispatchEvent(new Event("change", { bubbles: true }));
+      return;
+    }
+    if (!finale) return;
+
+    // Report what actually happened, not the totals. Running only the last path
+    // and stopping there must not print "every part reached" over a mesh that is
+    // mostly dark - the same absent-is-not-zero rule the badges follow.
+    var totalNodes = mesh ? mesh.querySelectorAll(".mnode").length : 0;
+    var totalWires = mesh ? mesh.querySelectorAll(".mlink").length : 0;
+    var litNodes = mesh ? mesh.querySelectorAll(".mnode.on").length : 0;
+    var litWires = mesh ? mesh.querySelectorAll(".mlink.on").length : 0;
+    var ranCount = Object.keys(ran).length;
+    var totalTours = rs.length;
+    var whole = litNodes >= totalNodes && litWires >= totalWires;
+
+    var head = finale.querySelector(".f-head");
+    var body = finale.querySelector(".f-body");
+    if (head) {
+      head.textContent = ranCount >= totalTours
+        ? "All " + totalTours + " paths run."
+        : ranCount + " of " + totalTours + " paths run.";
+    }
+    if (body) {
+      body.textContent = whole
+        ? "Every part has been reached and every connection between them drawn: "
+          + totalNodes + " parts, " + totalWires + " connections."
+        : litNodes + " of " + totalNodes + " parts reached, "
+          + litWires + " of " + totalWires + " connections drawn. "
+          + "The rest belong to paths that have not been run.";
+    }
+
+    finale.hidden = false;
+    if (panels) panels.hidden = true;
+  }
+
+  function restartAll() {
+    if (finale) finale.hidden = true;
+    if (panels) panels.hidden = false;
+    lit = Object.create(null);
+    ran = Object.create(null);
+    if (mesh) {
+      Array.prototype.forEach.call(mesh.querySelectorAll(".on"), function (el) {
+        el.classList.remove("on");
+        el.style.removeProperty("--len");
+      });
+    }
+    document.dispatchEvent(new CustomEvent("stage:resetall"));
+    var rs = radios();
+    if (rs.length) {
+      rs[0].checked = true;
+      rs[0].dispatchEvent(new Event("change", { bubbles: true }));
+    }
+  }
 
   function litUp(nodeId) {
     if (!mesh || !nodeId || lit[nodeId]) return;
@@ -54,7 +125,8 @@
       batchHold: parseInt(stage.dataset.batchhold, 10) || 2200,
       filedown: parseInt(stage.dataset.filedown, 10) || 700,
       autoplay: stage.dataset.autoplay === "true",
-      loop: stage.dataset.loop === "true"
+      loop: stage.dataset.loop === "true",
+      chain: stage.dataset.chain === "true"
     };
 
     var slots = stage.querySelector(".slots");
@@ -98,6 +170,16 @@
       timer = setTimeout(function () { timer = null; fn(); }, ms);
     }
 
+    // A pending file-down gets its OWN timer, like the file-down itself. It used
+    // to be scheduled on the shared one, so anything calling stop() during the
+    // hold cancelled it - and the last batch of a path is handed off by exactly
+    // that callback. The run ended with cards still on the stage, "6 of 6", and
+    // the chain to the next path never fired.
+    function scheduleFileDown(ms) {
+      if (fileTimer || filing) return;
+      fileTimer = setTimeout(function () { fileTimer = null; fileDown(); }, ms);
+    }
+
     // A file-down owns its OWN timer and is never cancelled by clear().
     // It used to share `timer`, so a Step click (or a pause) during the 700ms
     // hand-off killed the callback that lights the mesh - the batch vanished
@@ -118,7 +200,10 @@
           litUp(card.dataset.node);
         });
         if (i >= cards.length) {
-          if (cfg.loop) { reset(); play(); } else { stop(true); }
+          if (cfg.loop) { reset(); play(); return; }
+          stop(true);
+          // This path is done. Hand off to the next one, or finish the run.
+          if (cfg.chain && onScreen()) advanceOrFinish();
           return;
         }
         if (playing) step();
@@ -148,9 +233,9 @@
       var last = i >= cards.length;
 
       if (!playing) return;
-      if (last) { after(cfg.batchHold, fileDown); return; }
-      after(full ? cfg.batchHold : cfg.hold + cfg.enter + cfg.draw,
-            full ? fileDown : step);
+      if (last) { scheduleFileDown(cfg.batchHold); return; }
+      if (full) { scheduleFileDown(cfg.batchHold); return; }
+      after(cfg.hold + cfg.enter + cfg.draw, step);
     }
 
     function play() {
@@ -220,12 +305,19 @@
       }
     });
 
+    // "Run all again" clears the mesh and every stage, not just the visible one.
+    document.addEventListener("stage:resetall", reset);
+
     label();
     if (cfg.autoplay && onScreen()) play();
   }
 
   function boot() {
     mesh = document.querySelector(".mesh");
+    finale = document.querySelector(".finale");
+    panels = document.querySelector(".panels");
+    var again = finale && finale.querySelector(".btn-again");
+    if (again) again.addEventListener("click", restartAll);
     // Under reduced motion the mesh is left exactly as it ships: the complete
     // diagram, fully visible, nothing to wait for. Only arm the dark-then-light
     // behaviour when motion is welcome.

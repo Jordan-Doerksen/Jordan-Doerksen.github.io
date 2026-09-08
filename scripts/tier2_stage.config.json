@@ -23,6 +23,9 @@
   "autoplay": true,
   "_autoplay": "Start moving on load. Ignored entirely under prefers-reduced-motion, which shows every card at once and never animates.",
 
+  "chainTours": true,
+  "_chainTours": "When a path finishes, move to the next one and start it. With this off each path stops at its end and waits for the tabs.",
+
   "loop": false,
   "_loop": "Restart from the first batch after the last. Off: the stage finishes and the full list stands as the result."
 }
