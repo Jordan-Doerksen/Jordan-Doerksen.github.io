@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Star Charter Pro ✦ Field Atlas</title>
+<style>
+  /* No webfonts: this file must work offline and inside an itch.io zip, so every family is a
+     local-or-fallback stack that keeps the game's four voices (display / accent / ui / mono). */
+  :root{--ink:#04060c;--text:#f2f4fa;--dim:#97a0b5;--faint:#737e98;--gold:#d8ac4e;
+    --font-display:"Space Grotesk",ui-sans-serif,system-ui,"Segoe UI",Arial,sans-serif;
+    --font-ui:Inter,ui-sans-serif,system-ui,"Segoe UI",Arial,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,"Courier New",monospace;
+    --font-accent:Fraunces,Georgia,"Times New Roman",serif;}
+  html,body{height:100%;margin:0;background:var(--ink);overflow:hidden}
+  #sky{position:fixed;inset:0;width:100%;height:100%;display:block}
+  .grain,.vig,.wrap{position:fixed;inset:0;pointer-events:none}
+  .grain{opacity:.035}
+  .vig{background:radial-gradient(ellipse at 50% 45%,transparent 40%,rgba(0,0,0,.42) 100%)}
+  /* Bottom padding reserves the atlas plate's strip so the panel never sits on it. */
+  .wrap{display:flex;align-items:center;justify-content:center;padding:4vmin 4vmin calc(4vmin + 150px)}
+  .panel{max-width:44rem;text-align:center;border-radius:14px;
+    padding:clamp(18px,3.4vmin,34px) clamp(20px,4vmin,44px);
+    background:rgba(10,14,24,.58);backdrop-filter:blur(18px) saturate(1.15);
+    -webkit-backdrop-filter:blur(18px) saturate(1.15);border:1px solid rgba(190,205,255,.20);
+    box-shadow:inset 0 1px 0 rgba(235,245,255,.14),0 24px 60px rgba(0,0,0,.45);
+    animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(34px);filter:blur(7px)}to{opacity:1;transform:none;filter:none}}
+  .eyebrow{font:500 clamp(9px,1.5vmin,11px)/1 var(--font-mono);letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin:0 0 clamp(10px,2.2vmin,18px)}
+  h1{font:700 clamp(30px,6.6vmin,60px)/1.02 var(--font-display);letter-spacing:-.03em;color:var(--text);margin:0}
+  h1 em{font-family:var(--font-accent);font-style:italic;font-weight:440;color:var(--gold);font-variation-settings:"opsz" 72}
+  .lede{font:400 clamp(13px,1.9vmin,16px)/1.55 var(--font-ui);color:var(--dim);max-width:34rem;margin:clamp(10px,2.2vmin,18px) auto 0}
+  .rule{display:flex;align-items:center;gap:12px;color:var(--gold);margin:clamp(14px,2.6vmin,24px) 0}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:rgba(190,205,255,.20)}
+  .rule span{font-size:11px;line-height:1}
+  .hints,.colophon{font:500 clamp(8.5px,1.35vmin,10.5px)/1.9 var(--font-mono);text-transform:uppercase;margin:0}
+  /* --dim, not --faint: at embed scale the hints are ~9px on glass, and faint drops below legible. */
+  .hints{letter-spacing:.2em;color:var(--dim)}
+  .colophon{letter-spacing:.26em;color:var(--faint);margin-top:clamp(12px,2.2vmin,20px)}
+  /* Banner crops: drop the prose and the reserved plate strip, keep title + colophon. */
+  @media (max-height:430px){.wrap{padding-bottom:4vmin}.lede,.hints{display:none}.rule{margin:10px 0}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<svg class="grain" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3"/></filter>
+  <rect width="100%" height="100%" filter="url(#grain)"/>
+</svg>
+<div class="vig"></div>
+<div class="wrap">
+  <main class="panel">
+    <p class="eyebrow">N°02 ✦ Field Atlas</p>
+    <h1>Star Charter <em>Pro</em></h1>
+    <p class="lede">Chart the unmapped sky. A survey probe traces each constellation onto the plate below.
+      Asteroids, comets, black holes and pulsars disagree.</p>
+    <div class="rule"><span>✦</span></div>
+    <p class="hints">Drift ✦ Hold shift to focus ✦ Every third plate, refit</p>
+    <!-- The game's own colophon still reads "The Glass Archive" — a retired collective name, so it is
+         not repeated here (CLAUDE.md 2026-07-25). -->
+    <p class="colophon">N°02 ✦ Jordan Doerksen ✦ MMXXVI</p>
+  </main>
+</div>
+<script>
+(function(){
+"use strict";
+var cv=document.getElementById('sky'),g=cv.getContext('2d');
+var REDUCED=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var HUES=['#d8ac4e','#4fe3d0','#c084fc','#6aa9ff','#ffaa44','#8fb7ff'];   // PLATE_HUES, returns to gold
+var NAMES=['LYRA','VELA','CORVUS','PYXIS','DORADO','CETUS','LEPUS','TUCANA'];
+var W=0,H=0,S=1,t=0,last=0,hue=0,plateN=1,lit=0;
+var stars=[],way=[],trail=[],meteor=null,nextMet=5;
+var pr={x:0,y:0,vx:40,vy:0,a:0},cam={x:0,y:0};
+function rnd(a,b){return a+Math.random()*(b-a);}
+
+// A wandering walk of 4-7 points, scaled by its LARGEST extent so a flat asterism stays flat
+// instead of being stretched to fill the field.
+function newPlate(){
+  var n=4+(Math.random()*4|0),p=[{x:rnd(.2,.8),y:rnd(.2,.8)}],i,a,d;
+  for(i=1;i<n;i++){a=rnd(0,6.283);d=rnd(.2,.36);p.push({x:p[i-1].x+Math.cos(a)*d,y:p[i-1].y+Math.sin(a)*d});}
+  var xs=p.map(function(q){return q.x;}),ys=p.map(function(q){return q.y;});
+  var x0=Math.min.apply(0,xs),y0=Math.min.apply(0,ys);
+  var sc=1/Math.max(.4,Math.max(Math.max.apply(0,xs)-x0,Math.max.apply(0,ys)-y0));
+  way=p.map(function(q){return{x:(q.x-x0)*sc,y:(q.y-y0)*sc};});
+  lit=0;
+}
+function room(){return H<430?26:150*S;}                       // strip held for the atlas plate
+function pos(i){var m=Math.max(70,W*.13),top=Math.max(56,H*.13),bot=H-room()-30*S;
+  return{x:m+way[i].x*(W-2*m),y:top+way[i].y*Math.max(70,bot-top)};}
+
+function fit(){
+  var d=Math.min(devicePixelRatio||1,2);
+  W=cv.clientWidth||innerWidth;H=cv.clientHeight||innerHeight;
+  cv.width=W*d|0;cv.height=H*d|0;g.setTransform(d,0,0,d,0,0);
+  S=Math.max(.62,Math.min(1.3,Math.min(W/1180,H/760)*1.2));
+  var n=REDUCED?150:Math.min(340,Math.round(W*H/3300)),i;
+  stars=[];
+  for(i=0;i<n;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:rnd(.4,1.4),
+    l:i%3,p:Math.random()*6.283,c:Math.random()<.12?'#e8c88c':'#e9edf6'});
+  if(!way.length){newPlate();lit=Math.min(2,way.length-1);}   // open mid-survey, never on an empty plate
+  var s=pos(lit);pr.x=s.x-90;pr.y=s.y+40;
+  draw();                                                     // paint before any rAF exists (hidden tabs)
+}
+
+function step(d){
+  t+=d;
+  var tgt=pos(lit),dx=tgt.x-pr.x,dy=tgt.y-pr.y,dist=Math.hypot(dx,dy)||1,i;
+  pr.vx+=dx/dist*300*d;pr.vy+=dy/dist*300*d;
+  var drag=Math.pow(.45,d);pr.vx*=drag;pr.vy*=drag;
+  var sp=Math.hypot(pr.vx,pr.vy);if(sp>230){pr.vx*=230/sp;pr.vy*=230/sp;}
+  pr.x+=pr.vx*d;pr.y+=pr.vy*d;pr.a=Math.atan2(pr.vy,pr.vx);
+  cam.x-=pr.vx*d*.09;cam.y-=pr.vy*d*.09;
+  trail.push({x:pr.x,y:pr.y,l:1});if(trail.length>26)trail.shift();
+  for(i=0;i<trail.length;i++)trail[i].l-=d*1.1;
+  if(dist<24*S){lit++;if(lit>=way.length){newPlate();hue=(hue+1)%6;plateN++;}}
+  nextMet-=d;
+  if(nextMet<=0&&!meteor){meteor={x:rnd(-.1,.9)*W,y:rnd(-60,H*.45),vx:rnd(160,300),vy:rnd(90,170),l:1};nextMet=rnd(9,21);}
+  if(meteor){meteor.x+=meteor.vx*d;meteor.y+=meteor.vy*d;meteor.l-=d*.4;if(meteor.l<=0)meteor=null;}
+}
+
+function neb(x,y,r,col,a){var q=g.createRadialGradient(x,y,0,x,y,r);
+  q.addColorStop(0,col);q.addColorStop(1,'rgba(4,6,12,0)');
+  g.globalAlpha=a;g.fillStyle=q;g.fillRect(0,0,W,H);g.globalAlpha=1;}
+function star8(x,y,r,rot){var i,a,rr;g.beginPath();
+  for(i=0;i<16;i++){a=rot+i*Math.PI/8;rr=i%2?r*.42:r;
+    g[i?'lineTo':'moveTo'](x+Math.cos(a)*rr,y+Math.sin(a)*rr);}g.closePath();}
+
+function draw(){
+  var i,p,a,b,col=HUES[hue];
+  g.fillStyle='#04060c';g.fillRect(0,0,W,H);
+  neb((.5+Math.sin(t*.05)*.2)*W,(.34+Math.cos(t*.04)*.12)*H,Math.max(W,H)*.6,col,.14);
+  neb((.24+Math.cos(t*.03)*.14)*W,(.72+Math.sin(t*.045)*.1)*H,Math.max(W,H)*.5,'rgb(59,74,143)',.12);
+  for(i=0;i<stars.length;i++){var s=stars[i],k=(s.l+1)*.4;
+    // double modulo: the camera drifts past -W over a long attract run, and one +W is not enough
+    var x=((s.x+cam.x*k)%W+W)%W,y=((s.y+cam.y*k)%H+H)%H;
+    g.globalAlpha=REDUCED?.7:.42+.5*Math.sin(t*1.7+s.p);
+    g.fillStyle=s.c;g.beginPath();g.arc(x,y,s.r*(1+s.l*.28),0,6.283);g.fill();}
+  g.globalAlpha=1;
+  if(meteor){var mx=meteor.x-meteor.vx*.5,my=meteor.y-meteor.vy*.5;
+    var q=g.createLinearGradient(meteor.x,meteor.y,mx,my);
+    q.addColorStop(0,'rgba(235,245,255,.95)');q.addColorStop(1,'rgba(190,215,255,0)');
+    g.globalAlpha=Math.max(0,meteor.l);g.strokeStyle=q;g.lineWidth=1.6;
+    g.beginPath();g.moveTo(meteor.x,meteor.y);g.lineTo(mx,my);g.stroke();g.globalAlpha=1;}
+  g.lineCap='round';
+  for(i=1;i<way.length;i++){a=pos(i-1);b=pos(i);
+    var inked=i<lit;
+    g.strokeStyle=inked?col:'rgba(190,205,255,0.14)';g.lineWidth=(inked?1.7:1)*S;
+    g.setLineDash(inked?[]:[5*S,8*S]);g.shadowBlur=inked?14*S:0;g.shadowColor=col;
+    g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);g.stroke();}
+  g.setLineDash([]);
+  if(lit>0){a=pos(lit-1);g.strokeStyle=col;g.lineWidth=1.7*S;g.shadowBlur=14*S;
+    g.beginPath();g.moveTo(a.x,a.y);g.lineTo(pr.x,pr.y);g.stroke();}
+  g.shadowBlur=0;
+  for(i=0;i<way.length;i++){p=pos(i);g.shadowColor=col;g.shadowBlur=18*S;
+    g.fillStyle=i<lit?'#f2f4fa':col;star8(p.x,p.y,(i===lit?9:7)*S,t*.35+i);g.fill();g.shadowBlur=0;
+    if(i===lit){g.strokeStyle='#d8ac4e';g.globalAlpha=.5+.35*Math.sin(t*3);g.lineWidth=1.4*S;
+      g.beginPath();g.arc(p.x,p.y,(16+3*Math.sin(t*3))*S,0,6.283);g.stroke();g.globalAlpha=1;}}
+  for(i=0;i<trail.length;i++){var q2=trail[i];if(q2.l<=0)continue;
+    g.globalAlpha=q2.l*.32;g.fillStyle='#8fb7ff';
+    g.beginPath();g.arc(q2.x,q2.y,1.7*S,0,6.283);g.fill();}
+  g.globalAlpha=1;
+  probe();
+  plate();
+}
+
+function probe(){
+  var r=9*S,e=(12+(REDUCED?0:4*Math.sin(t*22)))*S;
+  g.save();g.translate(pr.x,pr.y);g.rotate(pr.a);
+  g.fillStyle='#8cf0e1';g.globalAlpha=.75;                     // exhaust first; the hull hides its root
+  g.beginPath();g.moveTo(-r,0);g.lineTo(-r-e,3.2*S);g.lineTo(-r-e,-3.2*S);g.closePath();g.fill();
+  g.globalAlpha=1;g.fillStyle='#d8ac4e';g.strokeStyle='#f2f4fa';g.lineWidth=.7*S;
+  g.fillRect(-2*S,-r-3.4*S,7*S,3.4*S);g.strokeRect(-2*S,-r-3.4*S,7*S,3.4*S);
+  g.fillRect(-2*S,r,7*S,3.4*S);g.strokeRect(-2*S,r,7*S,3.4*S);
+  var lens=g.createRadialGradient(-2.5*S,-2.5*S,0,0,0,r);
+  lens.addColorStop(0,'#ffffff');lens.addColorStop(.5,'#8fb7ff');lens.addColorStop(1,'#0b101c');
+  g.fillStyle=lens;g.beginPath();g.arc(0,0,r,0,6.283);g.fill();
+  g.strokeStyle='#d8ac4e';g.lineWidth=1.3*S;g.stroke();
+  g.fillStyle='#f2f4fa';g.beginPath();g.arc(r*.7,0,1.4*S,0,6.283);g.fill();
+  g.restore();
+  for(var i=0;i<2;i++){g.strokeStyle='#d8ac4e';g.globalAlpha=.18+.1*Math.sin(t*2-i);g.lineWidth=S;
+    g.beginPath();g.arc(pr.x,pr.y,(17+i*6+Math.sin(t*2-i)*1.5)*S,0,6.283);g.stroke();}
+  g.globalAlpha=1;
+}
+
+function plate(){
+  if(H<430)return;                                             // a banner crop has no room for the plate
+  var w=240*S,h=112*S,x=(W-w)/2,y=H-h-18*S,i,n=Math.min(lit,way.length-1);
+  var px=function(i){return x+14*S+way[i].x*(w-28*S);},py=function(i){return y+28*S+way[i].y*(h-42*S);};
+  g.fillStyle='rgba(10,14,24,0.58)';g.strokeStyle='rgba(190,205,255,0.20)';g.lineWidth=1;
+  g.beginPath();if(g.roundRect)g.roundRect(x,y,w,h,6*S);else g.rect(x,y,w,h);g.fill();g.stroke();
+  g.setLineDash([4*S,5*S]);g.strokeStyle='rgba(190,205,255,0.22)';g.lineWidth=S;g.beginPath();
+  for(i=0;i<way.length;i++)i?g.lineTo(px(i),py(i)):g.moveTo(px(i),py(i));
+  g.stroke();g.setLineDash([]);
+  if(lit>0){g.strokeStyle=HUES[hue];g.lineWidth=1.7*S;g.beginPath();
+    for(i=0;i<lit;i++)i?g.lineTo(px(i),py(i)):g.moveTo(px(i),py(i));g.stroke();}
+  for(i=0;i<way.length;i++){g.globalAlpha=.35;g.fillStyle=HUES[hue];
+    g.beginPath();g.arc(px(i),py(i),4*S,0,6.283);g.fill();
+    g.globalAlpha=1;g.fillStyle='#f2f4fa';g.beginPath();g.arc(px(i),py(i),1.7*S,0,6.283);g.fill();}
+  g.strokeStyle='#d8ac4e';g.globalAlpha=.5+.4*Math.sin(t*3);g.lineWidth=1.2*S;
+  g.beginPath();g.arc(px(n),py(n),(6+1.5*Math.sin(t*3))*S,0,6.283);g.stroke();g.globalAlpha=1;
+  g.font='500 '+(9.5*S)+'px "JetBrains Mono",ui-monospace,monospace';
+  if('letterSpacing' in g)g.letterSpacing=(1.5*S)+'px';
+  g.fillStyle='#97a0b5';g.textAlign='left';
+  g.fillText('PLATE '+('0'+plateN).slice(-2)+' ✦ '+NAMES[plateN%NAMES.length],x+14*S,y+17*S);
+  g.textAlign='right';g.fillStyle='#d8ac4e';g.fillText(lit+'/'+way.length,x+w-14*S,y+17*S);
+  g.textAlign='left';if('letterSpacing' in g)g.letterSpacing='0px';
+}
+
+function frame(now){var d=Math.min(.05,(now-last)/1000);last=now;step(d);draw();requestAnimationFrame(frame);}
+fit();
+if(typeof ResizeObserver==='function')new ResizeObserver(fit).observe(cv);else addEventListener('resize',fit);
+if(!REDUCED){t=.6;last=performance.now();requestAnimationFrame(frame);}
+})();
+</script>
+</body>
+</html>

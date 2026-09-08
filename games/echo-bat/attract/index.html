@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Echo Bat ✦ Night Harvest</title>
+<style>
+  /* Rounded-first system stack, as in the game. No web fonts — this file must work offline. */
+  html,body{height:100%;margin:0;background:#050309;overflow:hidden}
+  #stage{position:absolute;inset:0;overflow:hidden;color:#ece8f8;font-family:ui-rounded,'SF Pro Rounded','Segoe UI Variable Display',system-ui,-apple-system,'Segoe UI',sans-serif}
+  canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  /* Vignette sits above the canvas so the cave edges fall off, not the panel. */
+  .vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 52%,rgba(0,0,0,.55) 100%)}
+  .panel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(30rem,86%);box-sizing:border-box;text-align:center;padding:clamp(.9rem,3.4vmin,1.6rem) clamp(1rem,4vmin,2rem);background:rgba(15,11,24,.78);backdrop-filter:blur(16px) saturate(1.1);border:1px solid rgba(179,157,245,.14);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.55),inset 0 1px 0 rgba(220,205,255,.08)}
+  .eyebrow{color:#b39df5;font-size:clamp(.5rem,1.5vmin,.62rem);letter-spacing:.32em;text-transform:uppercase;margin:0}
+  /* Type scales on the SMALLER axis too, so a 1200x300 banner does not get a headline taller than it. */
+  h1{font-size:clamp(1.15rem,min(5.4vw,9vh),2.3rem);font-weight:800;letter-spacing:-.03em;text-wrap:balance;margin:.5em 0 .35em;line-height:1.08}
+  h1 em{color:#b39df5;font-style:normal}
+  .lede{color:#9b92b8;font-size:clamp(.68rem,1.9vmin,.84rem);line-height:1.5;max-width:38ch;margin:0 auto}
+  .rule{width:76%;height:1px;margin:clamp(.7rem,2.4vmin,1.1rem) auto;border:0;background:linear-gradient(90deg,transparent,rgba(179,157,245,.5),transparent)}
+  .hint{color:#7d7599;font-size:clamp(.46rem,1.4vmin,.56rem);letter-spacing:.2em;text-transform:uppercase;margin:0}.hint b{color:#ffb05e;font-weight:400}
+  .colophon{color:#7d7599;font-size:clamp(.44rem,1.3vmin,.54rem);letter-spacing:.24em;text-transform:uppercase;margin:clamp(.6rem,2vmin,1rem) 0 0}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv"></canvas>
+  <div class="vig"></div>
+  <div class="panel">
+    <p class="eyebrow">Echo Bat ✦ Night Harvest</p>
+    <h1>Sing, and the <em>dark</em> answers.</h1>
+    <p class="lede">A small bat in a deep cave. The fruit glows — the stone does not. Sonar shows you the rest, briefly.</p>
+    <hr class="rule">
+    <p class="hint">Sonar <b>✦</b> pulses on its own</p>
+    <p class="colophon">N°03 ✦ The Glass Archive ✦ MMXXVI</p>
+  </div>
+</div>
+<script>
+(function(){
+'use strict';
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d'),TAU=Math.PI*2;
+const rand=(a,b)=>a+Math.random()*(b-a);
+const HUE={berry:[255,176,94],plum:[196,154,255],moth:[255,228,150],heart:[255,122,140]};
+let W=0,H=0,S=1,pillars=[],spores=[],fruits=[],pulses=[],parts=[],pulseT=.4,last=0;
+const bat={x:0,y:0,vx:0,vy:0,r:11,ang:0,flap:0,trail:[]};
+
+// A jagged spike as a precomputed polygon, tip at +len — the game's own makePillar construction.
+function makePillar(x,top,len,w){
+  const pts=[],steps=5;
+  for(let i=0;i<=steps;i++){const t=i/steps;pts.push([-w/2*(1-t*.8)+rand(-2,2)*S,len*t]);}
+  for(let i=steps;i>=0;i--){const t=i/steps;pts.push([w/2*(1-t*.8)+rand(-2,2)*S,len*t]);}
+  return {x,top,len,poly:pts,lit:0};
+}
+const fruit=k=>({kind:k,x:rand(W*.12,W*.88),y:rand(H*.18,H*.82),r:7*S,bob:rand(0,6),dir:rand(0,TAU),flap:0});
+const maxR=()=>Math.max(W,H)*.62;
+// Anchor point used for sonar hit-tests: mid-height of a spike, or the spore itself.
+const anchor=o=>o.len===undefined?o.y:(o.top?o.len*.5:H-o.len*.5);
+
+function build(){
+  // Rebuilt on every resize, so the cave always fits its container instead of being cropped.
+  pillars=[];spores=[];fruits=[];pulses=[];parts=[];
+  const n=Math.max(5,Math.min(11,Math.round(W/110)));
+  for(let i=0;i<n;i++)pillars.push(makePillar(W*(i+.5)/n+rand(-14,14)*S,i%2===0,rand(H*.14,H*.32),rand(22,34)*S));
+  for(let i=0;i<4;i++)spores.push({x:rand(W*.1,W*.9),y:rand(H*.2,H*.8),vx:rand(-16,16)*S,vy:rand(-16,16)*S,r:8*S,t:rand(0,6),lit:0});
+  for(const k of['berry','plum','moth','heart'])fruits.push(fruit(k));
+  bat.x=W*.5;bat.y=H*.5;bat.vx=40*S;bat.vy=0;bat.trail=[];
+}
+function resize(){
+  const dpr=Math.min(2,devicePixelRatio||1);
+  W=cv.clientWidth||innerWidth;H=cv.clientHeight||innerHeight;
+  cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+  S=Math.max(.7,Math.min(1.7,Math.min(W,H)/520));
+  build();REDUCED?still():draw();
+}
+function step(dt){
+  // The bat flies itself at the nearest fruit — the game's demo steering, no input anywhere.
+  let tgt=fruits[0],best=1e9;
+  for(const f of fruits){const d=(f.x-bat.x)**2+(f.y-bat.y)**2;if(d<best){best=d;tgt=f;}}
+  const a=Math.atan2(tgt.y-bat.y,tgt.x-bat.x);
+  bat.vx+=Math.cos(a)*260*S*dt;bat.vy+=Math.sin(a)*260*S*dt+90*S*dt; // +gravity: resting sinks
+  const sp=Math.hypot(bat.vx,bat.vy),cap=210*S;
+  if(sp>cap){bat.vx*=cap/sp;bat.vy*=cap/sp;}
+  bat.x+=bat.vx*dt;bat.y+=bat.vy*dt;
+  if(bat.x<20*S||bat.x>W-20*S)bat.vx*=-.8;if(bat.y<20*S||bat.y>H-20*S)bat.vy*=-.8;
+  bat.x=Math.max(20*S,Math.min(W-20*S,bat.x));bat.y=Math.max(20*S,Math.min(H-20*S,bat.y));
+  bat.ang+=(Math.atan2(bat.vy,bat.vx)*.22-bat.ang)*Math.min(1,dt*5); // a tilt, not a barrel roll
+  bat.flap+=dt*(8+sp/(30*S));
+  bat.trail.push({x:bat.x,y:bat.y});if(bat.trail.length>14)bat.trail.shift();
+  if((pulseT-=dt)<=0){pulseT=rand(1.5,2.3);pulses.push({x:bat.x,y:bat.y,r:10*S});}
+  for(let i=pulses.length-1;i>=0;i--){
+    const p=pulses[i];p.r+=430*S*dt;
+    for(const o of pillars)if(Math.abs(Math.hypot(o.x-p.x,anchor(o)-p.y)-p.r)<16*S)o.lit=1;
+    for(const o of spores)if(Math.abs(Math.hypot(o.x-p.x,o.y-p.y)-p.r)<16*S)o.lit=1;
+    if(p.r>maxR())pulses.splice(i,1);
+  }
+  for(const o of pillars.concat(spores)){
+    o.lit=Math.max(0,o.lit-dt/1.5); // echoFade(): the light is a loan, not a gift
+    if(Math.hypot(o.x-bat.x,anchor(o)-bat.y)<78*S)o.lit=Math.max(o.lit,.55); // nightsight
+  }
+  for(const s of spores){
+    s.t+=dt;s.x+=s.vx*dt;s.y+=s.vy*dt;
+    if(s.x<s.r||s.x>W-s.r)s.vx*=-1;if(s.y<s.r||s.y>H-s.r)s.vy*=-1;
+  }
+  for(let i=0;i<fruits.length;i++){
+    const f=fruits[i];f.bob+=dt*2.2;f.flap+=dt*13;
+    if(f.kind==='moth'){f.dir+=rand(-2,2)*dt;f.x+=Math.cos(f.dir)*26*S*dt;f.y+=Math.sin(f.dir)*26*S*dt;
+      f.x=Math.max(20*S,Math.min(W-20*S,f.x));f.y=Math.max(20*S,Math.min(H-20*S,f.y));}
+    if(Math.hypot(f.x-bat.x,f.y-bat.y)<(bat.r+9)*S){
+      for(let k=0;k<14;k++){const an=rand(0,TAU),v=rand(50,180)*S;parts.push({x:f.x,y:f.y,vx:Math.cos(an)*v,vy:Math.sin(an)*v,life:1,c:HUE[f.kind]});}
+      fruits[i]=fruit(f.kind); // eaten fruit respawns elsewhere: the loop never ends and never scores
+    }
+  }
+  for(let i=parts.length-1;i>=0;i--){
+    const p=parts[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=.94;p.vy*=.94;
+    if((p.life-=dt*1.4)<=0)parts.splice(i,1);
+  }
+}
+function wash(x,y,rad,c){
+  const g=ctx.createRadialGradient(x,y,0,x,y,rad);
+  g.addColorStop(0,c);g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+}
+function draw(){
+  ctx.fillStyle='#050309';ctx.fillRect(0,0,W,H);
+  wash(W*.2,H*.15,Math.max(W,H)*.7,'rgba(60,44,110,.10)');
+  wash(W*.85,H*.9,Math.max(W,H)*.6,'rgba(34,48,96,.09)');
+  const t=performance.now()/1000; // 16 drifting dust motes, positions derived from index and time
+  if(!REDUCED){ctx.fillStyle='rgba(180,170,220,.06)';for(let i=0;i<16;i++)ctx.fillRect((i*173.3+t*9)%W,(i*97.7+t*4)%H,1,1);}
+  for(const pl of pillars){ // stone sits at .05 ambient; sonar paints the rest of it in
+    ctx.save();ctx.translate(pl.x,pl.top?0:H);if(!pl.top)ctx.scale(1,-1);
+    ctx.beginPath();pl.poly.forEach(([px,py],i)=>i?ctx.lineTo(px,py):ctx.moveTo(px,py));ctx.closePath();
+    ctx.fillStyle='rgba(157,184,255,'+(.06*pl.lit)+')';ctx.fill();
+    ctx.strokeStyle='rgba(157,184,255,'+(.05+.9*pl.lit)+')';ctx.lineWidth=1.3;ctx.stroke();ctx.restore();
+  }
+  for(const s of spores){
+    const a=.05+.9*s.lit;
+    ctx.save();ctx.translate(s.x,s.y);ctx.rotate(s.t*.6);
+    ctx.strokeStyle='rgba(179,157,245,'+a+')';ctx.lineWidth=1.2;ctx.beginPath();
+    for(let i=0;i<8;i++){const an=i/8*TAU;ctx.moveTo(Math.cos(an)*s.r*.7,Math.sin(an)*s.r*.7);ctx.lineTo(Math.cos(an)*s.r*1.25,Math.sin(an)*s.r*1.25);}
+    ctx.stroke();ctx.beginPath();ctx.arc(0,0,s.r*.7,0,TAU);ctx.stroke();
+    ctx.fillStyle='rgba(179,157,245,'+(.1*a)+')';ctx.fill();ctx.restore();
+  }
+  for(const p of pulses){ // two rings: a thin moon-blue leading edge, a thick violet body behind it
+    const fade=1-p.r/maxR();
+    ctx.strokeStyle='rgba(157,184,255,'+(.4*fade)+')';ctx.lineWidth=1.6;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,TAU);ctx.stroke();
+    ctx.strokeStyle='rgba(179,157,245,'+(.18*fade)+')';ctx.lineWidth=4;
+    ctx.beginPath();ctx.arc(p.x,p.y,Math.max(1,p.r-5*S),0,TAU);ctx.stroke();
+  }
+  for(const f of fruits)drawFruit(f);
+  for(const p of parts){ctx.fillStyle='rgba('+p.c+','+Math.max(0,p.life*.9)+')';ctx.beginPath();ctx.arc(p.x,p.y,1+p.life*1.4,0,TAU);ctx.fill();}
+  drawBat();
+}
+function drawFruit(f){ // fruit is the only thing always at full brightness — it is the light source
+  const h=HUE[f.kind],p=REDUCED?.5:.5+.5*Math.sin(f.bob*1.4),by=f.y+(f.kind==='moth'?0:Math.sin(f.bob)*3*S);
+  const g=ctx.createRadialGradient(f.x,by,0,f.x,by,f.r*3.4);
+  g.addColorStop(0,'rgba('+h+','+(.36+p*.2)+')');g.addColorStop(1,'transparent');
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(f.x,by,f.r*3.4,0,TAU);ctx.fill();
+  ctx.fillStyle='rgb('+h+')';
+  if(f.kind==='moth'){
+    const wf=Math.sin(f.flap)*.8;
+    ctx.save();ctx.translate(f.x,by);ctx.rotate(f.dir+Math.PI/2);
+    for(const sg of[-1,1]){ctx.beginPath();ctx.ellipse(sg*f.r*.7,0,f.r*.7,f.r*(.32+Math.abs(wf)*.3),sg*wf*.5,0,TAU);ctx.fill();}
+    ctx.fillStyle='rgba(255,255,240,.95)';ctx.beginPath();ctx.ellipse(0,0,f.r*.22,f.r*.55,0,0,TAU);ctx.fill();
+    ctx.restore();return;
+  }
+  if(f.kind==='heart'){
+    const r=f.r*(.82+p*.12);ctx.beginPath();ctx.moveTo(f.x,by+r);
+    ctx.bezierCurveTo(f.x-r*1.5,by-r*.3,f.x-r*.55,by-r*1.15,f.x,by-r*.45);
+    ctx.bezierCurveTo(f.x+r*.55,by-r*1.15,f.x+r*1.5,by-r*.3,f.x,by+r);ctx.fill();return;
+  }
+  ctx.beginPath();ctx.arc(f.x,by,f.r*.85,0,TAU);ctx.fill();
+  ctx.fillStyle='rgba(255,240,220,.9)';ctx.beginPath();ctx.arc(f.x-f.r*.25,by-f.r*.3,f.r*.26,0,TAU);ctx.fill();
+  ctx.strokeStyle='rgba(140,220,150,.8)';ctx.lineWidth=1.4;ctx.beginPath();
+  ctx.moveTo(f.x,by-f.r*.8);ctx.quadraticCurveTo(f.x+4*S,by-f.r*1.6,f.x+7*S,by-f.r*1.3);ctx.stroke();
+  if(f.kind==='plum'){ // the echo plum hums with held song — a second leaf and a pulsing ring
+    ctx.beginPath();ctx.moveTo(f.x,by-f.r*.8);ctx.quadraticCurveTo(f.x-4*S,by-f.r*1.6,f.x-7*S,by-f.r*1.3);ctx.stroke();
+    ctx.strokeStyle='rgba(196,154,255,'+(.22+p*.2)+')';ctx.lineWidth=1;
+    ctx.beginPath();ctx.arc(f.x,by,f.r*(1.6+p*.5),0,TAU);ctx.stroke();
+  }
+}
+function drawBat(){
+  if(!REDUCED)for(let i=0;i<bat.trail.length-1;i++){const t=bat.trail[i],a=i/bat.trail.length;
+    ctx.fillStyle='rgba(179,157,245,'+(a*.16)+')';ctx.beginPath();ctx.arc(t.x,t.y,1+a*1.8*S,0,TAU);ctx.fill();}
+  const r=bat.r*S,nr=78*S;
+  wash(bat.x,bat.y,nr,'rgba(179,157,245,.07)'); // nightsight halo
+  ctx.save();ctx.translate(bat.x,bat.y);ctx.rotate(bat.ang);
+  const flap=Math.sin(bat.flap)*.9;
+  ctx.fillStyle='rgba(24,16,42,.97)';ctx.strokeStyle='rgba(179,157,245,.6)';ctx.lineWidth=1.2;
+  for(const sg of[-1,1]){ // membrane: wrist, tip, two finger joints, tail — the bat silhouette
+    const wX=sg*r*1.15,wY=-r*(.5+flap*.5),tX=sg*r*2.45,tY=-r*(.1+flap*.95),
+          aX=sg*r*1.75,aY=r*(.35-flap*.5),bX=sg*r,bY=r*(.62-flap*.25),cX=sg*r*.12,cY=r*.66;
+    ctx.beginPath();ctx.moveTo(sg*r*.22,-r*.18);
+    ctx.quadraticCurveTo(wX,wY-r*.35,tX,tY);
+    ctx.quadraticCurveTo((tX+aX)/2-sg*r*.3,(tY+aY)/2-r*.18,aX,aY);
+    ctx.quadraticCurveTo((aX+bX)/2-sg*r*.22,(aY+bY)/2-r*.2,bX,bY);
+    ctx.quadraticCurveTo((bX+cX)/2-sg*r*.15,(bY+cY)/2-r*.16,cX,cY);
+    ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.strokeStyle='rgba(179,157,245,.38)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(wX,wY);ctx.lineTo(aX,aY);ctx.moveTo(wX,wY);ctx.lineTo(bX,bY);ctx.stroke();
+    ctx.strokeStyle='rgba(179,157,245,.6)';ctx.lineWidth=1.2;
+  }
+  ctx.fillStyle='#19112c';ctx.beginPath();ctx.ellipse(0,0,r*.5,r*.74,0,0,TAU);ctx.fill();
+  ctx.strokeStyle='rgba(179,157,245,.55)';ctx.lineWidth=1.1;ctx.stroke();
+  ctx.beginPath(); // ears, tall and pricked
+  ctx.moveTo(-r*.34,-r*.52);ctx.quadraticCurveTo(-r*.62,-r,-r*.5,-r*1.42);ctx.quadraticCurveTo(-r*.22,-r*1.05,-r*.06,-r*.66);
+  ctx.moveTo(r*.34,-r*.52);ctx.quadraticCurveTo(r*.62,-r,r*.5,-r*1.42);ctx.quadraticCurveTo(r*.22,-r*1.05,r*.06,-r*.66);
+  ctx.fillStyle='#19112c';ctx.fill();ctx.stroke();
+  ctx.fillStyle='rgba(179,157,245,.75)';ctx.beginPath();ctx.arc(0,r*.04,1.1*S,0,TAU);ctx.fill();
+  ctx.fillStyle='#ece8f8';ctx.beginPath();ctx.arc(-r*.2,-r*.18,1.5*S,0,TAU);ctx.fill();
+  ctx.beginPath();ctx.arc(r*.2,-r*.18,1.5*S,0,TAU);ctx.fill();
+  ctx.restore();
+}
+// Reduced motion: one composed frame, stone already lit by a mid-flight pulse, and no loop at all.
+function still(){
+  pulses=[{x:bat.x,y:bat.y,r:maxR()*.45}];
+  for(const o of pillars.concat(spores))o.lit=.6;
+  bat.flap=1.1;bat.ang=-.08;draw();
+}
+function frame(now){
+  const dt=Math.min(.05,(now-last)/1000)||.016;last=now;
+  step(dt);draw();requestAnimationFrame(frame);
+}
+addEventListener('resize',resize);
+// ResizeObserver as well as window resize: the container can change size without the window doing so.
+if(self.ResizeObserver)new ResizeObserver(resize).observe(cv);
+resize(); // paints frame one synchronously — rAF never fires in a hidden tab, and a blank embed is useless
+if(!REDUCED)requestAnimationFrame(n=>{last=n;frame(n);});
+})();
+</script>
+</body>
+</html>

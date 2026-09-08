@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fulfillment LITE ✦ attract</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2303060B'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%236BE0FF'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#03060B; --ink:#EDF7FF; --mute:#8FA8CC; --cyan:#6BE0FF; --gold:#FFD470;
+    --disp:'Chakra Petch','Rajdhani','Bahnschrift','Segoe UI Semibold',system-ui,sans-serif;
+    --ui:'Rajdhani','Chakra Petch','Segoe UI',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:var(--bg);overflow:hidden}
+  /* the wrapper is the sizing authority: this file is embedded in an iframe or a card,
+     so every measurement comes from the element, never from the viewport */
+  #wrap{position:relative;width:100%;height:100%;color:var(--ink);font-family:var(--ui);
+    user-select:none;-webkit-font-smoothing:antialiased;container:stage / size}
+  #sky{position:absolute;inset:0;width:100%;height:100%;display:block;background:var(--bg)}
+  .scrim{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(circle at 50% 38%,rgba(6,11,22,.55),rgba(3,6,11,.94))}
+  .col{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;text-align:center;padding:4% 6% 7%;pointer-events:none}
+  .eyebrow{font-family:var(--disp);font-size:clamp(8px,1.5vh,11px);letter-spacing:.42em;
+    text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
+  .sub{font-family:var(--disp);font-size:clamp(8px,1.3vh,10px);letter-spacing:.34em;
+    text-transform:uppercase;color:var(--mute);margin-bottom:min(3.2vh,22px)}
+  h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;line-height:.95;
+    letter-spacing:.02em;font-size:clamp(1.5rem,min(9vw,13vh),4.6rem)}
+  h1 .cy{color:var(--cyan)}
+  h1 .lite{display:block;font-size:.3em;letter-spacing:.7em;color:var(--gold);
+    margin:10px 0 0 .7em;font-weight:600}
+  .tag{color:var(--mute);margin-top:min(2.6vh,18px);max-width:42ch;line-height:1.6;
+    font-size:clamp(12px,1.9vh,15px)}
+  .colophon{position:absolute;left:0;right:0;bottom:14px;text-align:center;font-family:var(--disp);
+    font-size:10px;letter-spacing:.34em;color:var(--mute);opacity:.5;text-transform:uppercase}
+  /* vw/vh above is right when this file is the iframe; when it is dropped into a div on a page
+     the container units below take over, so the type tracks the embed and not the browser window */
+  @supports (height:1cqh){
+    .eyebrow{font-size:clamp(8px,1.5cqh,11px)}
+    .sub{font-size:clamp(8px,1.3cqh,10px);margin-bottom:min(3.2cqh,22px)}
+    h1{font-size:clamp(1.5rem,min(9cqw,13cqh),4.6rem)}
+    .tag{font-size:clamp(12px,1.9cqh,15px);margin-top:min(2.6cqh,18px)}
+  }
+  /* a wide banner has no room for the corporate letterhead - the wordmark carries it alone */
+  @media (max-height:280px){.sub,.tag,.colophon{display:none}.eyebrow{margin-bottom:6px}}
+  @container stage (max-height:280px){.sub,.tag,.colophon{display:none}.eyebrow{margin-bottom:6px}}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="sky"></canvas>
+  <div class="scrim"></div>
+  <div class="col">
+    <p class="eyebrow">MERIDIAN FULFILLMENT GROUP</p>
+    <p class="sub">ORBITAL LOGISTICS · DIVISION 7</p>
+    <h1>Fulfill<span class="cy">ment</span><span class="lite">LITE</span></h1>
+    <p class="tag">Every delivery matters. Every courier is replaceable.</p>
+  </div>
+  <p class="colophon">N°11 ✦ Jordan Doerksen ✦ MMXXVI</p>
+</div>
+<script>
+(function(){
+"use strict";
+var wrap=document.getElementById('wrap'), cv=document.getElementById('sky');
+var ctx=cv.getContext('2d',{alpha:false});
+var RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var HULL='#101B2E', CY='#6BE0FF', CAN='#9FE8FF', INK='#EDF7FF', GOLD='#FFD470', PROP='#3C4C68';
+// corner count encodes strength, exactly as in the game: 0 drone, 3 dart, 4 spitter, 6 bruiser, 8 SUPERVISOR
+var KINDS=[{n:0,c:'#ADB8C9',r:11},{n:3,c:'#FF6B2B',r:13},{n:4,c:'#45D9FF',r:14},
+           {n:6,c:'#C25CFF',r:16},{n:8,c:'#FF8066',r:22}];
+var W=1,H=1,S=1,T=1.6,last=0,nextKill=3.2,killIx=0,fx=[];
+// one seeded generator: the star and prop field must be identical on every load and every resize
+var sd=0x9E3779B9;
+function rnd(){sd=(sd+0x6D2B79F5)|0;var t=Math.imul(sd^sd>>>15,1|sd);t=(t+Math.imul(t^t>>>7,61|t))^t;return((t^t>>>14)>>>0)/4294967296;}
+function list(n,f){var a=[],i=0;for(;i<n;i++)a.push(f(i));return a;}
+var stars=list(220,function(){return{x:rnd(),y:rnd(),d:.35+rnd()*.65};});
+var props=list(12,function(){return{x:rnd(),y:rnd(),k:rnd()<.66?0:1,w:26+rnd()*46,
+  rot:rnd()*6.283,spin:(rnd()-.5)*.11,band:rnd()<.4};});
+var foes=KINDS.map(function(k,i){return{n:k.n,c:k.c,r:k.r,a:i*1.27,rad:.19+i*.052,sp:.17+i*.043};});
+var gems=list(6,function(){return{x:rnd(),y:rnd(),ph:rnd()*6.283};});
+var q=function(v){return Math.round(v/3)*3;}; // bitcrunch grid: particles snap to 3px
+
+function fit(){
+  var dpr=Math.min(2,window.devicePixelRatio||1); // DPR capped at 2, same perf law as the game
+  W=wrap.clientWidth||300; H=wrap.clientHeight||200;
+  cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  S=Math.max(.55,Math.min(1.5,Math.min(W,H)/700)); // one scale knob keeps a banner from looking oversized
+}
+function poly(x,y,r,n,rot){
+  if(!n){ctx.beginPath();ctx.arc(x,y,r,0,6.283);return;}
+  ctx.beginPath();
+  for(var i=0;i<n;i++){var a=rot+i*6.283/n,X=x+Math.cos(a)*r,Y=y+Math.sin(a)*r;i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);}
+  ctx.closePath();
+}
+function hullPath(x,y,rot,r){
+  var P=[[0,-1.15],[.42,-.2],[1,.6],[.3,.42],[0,.68],[-.3,.42],[-1,.6],[-.42,-.2]],c=Math.cos(rot),s=Math.sin(rot);
+  ctx.beginPath();
+  for(var i=0;i<8;i++){var X=x+(P[i][0]*c-P[i][1]*s)*r,Y=y+(P[i][0]*s+P[i][1]*c)*r;i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);}
+  ctx.closePath();
+}
+function shipAt(t){return[W*.5+Math.sin(t*.34)*W*.30, H*.56+Math.sin(t*.68+1.1)*H*.20];}
+function foeAt(f,t){var m=Math.min(W,H);return[W*.5+Math.cos(f.a+t*f.sp)*m*f.rad*1.35,
+  H*.56+Math.sin(f.a+t*f.sp)*m*f.rad*.78];}
+
+function step(dt){
+  T+=dt;
+  if(T>nextKill){ // scripted deaths: the screen needs a death beat without a player to cause one
+    var f=foes[killIx++%foes.length],p=foeAt(f,T);
+    fx.push({t:0,x:p[0],y:p[1],c:f.n===8?'#FF8066':'#45D9FF',big:f.n===8});
+    f.a+=2.1; f.rad=.18+Math.random()*.28; nextKill=T+2.4+Math.random()*1.4;
+  }
+  for(var i=fx.length-1;i>=0;i--){fx[i].t+=dt;if(fx[i].t>1.1)fx.splice(i,1);}
+}
+function draw(t){
+  ctx.fillStyle='#03060B'; ctx.fillRect(0,0,W,H);
+  var cam=t*13,i,p;
+  ctx.fillStyle=INK;
+  for(i=0;i<stars.length;i++){var st=stars[i],sx=(st.x*W-cam*.45*st.d)%W;
+    if(sx<0)sx+=W; ctx.globalAlpha=.18+st.d*.5; ctx.fillRect(sx|0,(st.y*H)|0,st.d>.8?2:1,st.d>.8?2:1);}
+  ctx.globalAlpha=.2; // props sit behind the play plane, always dim
+  for(i=0;i<props.length;i++){var pr=props[i],px=(pr.x*W-cam*.2)%W;if(px<0)px+=W;
+    var py=(pr.y*H+t*4)%H,rot=pr.rot+t*pr.spin,w=pr.w*S,h=w*.42;
+    ctx.save();ctx.translate(px,py);ctx.rotate(rot);
+    if(pr.k===0){ctx.fillStyle=PROP;ctx.fillRect(-w/2,-h/2,w,h);
+      ctx.strokeStyle='#7C93BE';ctx.lineWidth=1;ctx.strokeRect(-w/2,-h/2,w,h);
+      if(pr.band){ctx.fillStyle=GOLD;ctx.fillRect(-w*.16,-h/2,w*.09,h);}
+    }else{ctx.strokeStyle='#7C93BE';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(-w,0);ctx.lineTo(w,0);ctx.moveTo(w*.3,-h);ctx.lineTo(w*.3,h);ctx.stroke();}
+    ctx.restore();}
+  ctx.globalAlpha=1;
+  ctx.fillStyle=GOLD; // XP gems: four-point diamonds, drifting
+  for(i=0;i<gems.length;i++){var g=gems[i],gx=(g.x*W+Math.sin(t*.3+g.ph)*18*S),gy=(g.y*H+t*9)%H,r=2.8*S;
+    ctx.beginPath();ctx.moveTo(gx,gy-r*1.5);ctx.lineTo(gx+r,gy);ctx.lineTo(gx,gy+r*1.5);ctx.lineTo(gx-r,gy);
+    ctx.closePath();ctx.fill();}
+  for(i=0;i<foes.length;i++){var f=foes[i];p=foeAt(f,t);var fr=f.r*S,sp=t*.6+i;
+    ctx.globalAlpha=.2;ctx.fillStyle=f.c;poly(p[0],p[1],fr,f.n,sp);ctx.fill();
+    ctx.globalAlpha=1;ctx.strokeStyle=f.c;ctx.lineWidth=2;poly(p[0],p[1],fr,f.n,sp);ctx.stroke();
+    ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.5;
+    poly(p[0],p[1],fr*.5,f.n,-sp);ctx.fill();
+    ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
+    if(f.n===8){ctx.globalAlpha=.55;poly(p[0],p[1],fr*1.3,8,-sp*1.4);ctx.lineWidth=2.5;ctx.stroke();ctx.globalAlpha=1;}}
+  var s0=shipAt(t),s1=shipAt(t+.05),rot=Math.atan2(s1[1]-s0[1],s1[0]-s0[0])+Math.PI/2;
+  var spd=Math.hypot(s1[0]-s0[0],s1[1]-s0[1])/.05, boost=(t%11)>8.4, r=17*S;
+  var plume=(9+spd*.055)*S*(boost?1.9:1);
+  ctx.globalCompositeOperation='lighter'; // no blur filter anywhere - glow is a lighter pass, the game's perf law
+  ctx.strokeStyle=boost?'rgba(255,179,71,.85)':'rgba(107,224,255,.5)';ctx.lineWidth=r*.55;ctx.lineCap='round';
+  var fwx=Math.sin(rot),fwy=-Math.cos(rot); // forward unit; the plume runs the other way, from the engine notch
+  ctx.beginPath();ctx.moveTo(s0[0]-fwx*r*.45,s0[1]-fwy*r*.45);
+  ctx.lineTo(s0[0]-fwx*(r*.45+plume),s0[1]-fwy*(r*.45+plume));ctx.stroke();
+  ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=r*.16;ctx.stroke();
+  ctx.globalCompositeOperation='source-over';
+  hullPath(s0[0],s0[1],rot,r);ctx.fillStyle=HULL;ctx.fill();
+  ctx.strokeStyle=CY;ctx.lineWidth=2;ctx.stroke();
+  ctx.globalAlpha=.35;ctx.beginPath(); // dorsal ridge
+  ctx.moveTo(s0[0]+Math.sin(rot)*r*.9,s0[1]-Math.cos(rot)*r*.9);
+  ctx.lineTo(s0[0]-Math.sin(rot)*r*.35,s0[1]+Math.cos(rot)*r*.35);ctx.stroke();ctx.globalAlpha=1;
+  ctx.fillStyle=CAN;ctx.beginPath();
+  ctx.arc(s0[0]+Math.sin(rot)*r*.35,s0[1]-Math.cos(rot)*r*.35,r*.22,0,6.283);ctx.fill();
+  for(i=0;i<fx.length;i++){var e=fx[i],k=e.t/1.1,ring=Math.floor(k*5)/5; // rings pop in 5 hard steps
+    if(k<.75){ctx.globalCompositeOperation='lighter';ctx.strokeStyle=e.c;ctx.lineWidth=2;
+      ctx.globalAlpha=.9-k;ctx.beginPath();
+      ctx.arc(e.x,e.y,(10+ring*(e.big?90:56))*S,0,6.283);ctx.stroke();ctx.globalCompositeOperation='source-over';}
+    if(k<.18){ctx.fillStyle='#fff';var f2=(e.big?12:8)*S; // hard white square kill flash
+      ctx.fillRect(e.x-f2/2,e.y-f2/2,f2,f2);}
+    ctx.globalAlpha=[1,.7,.4,.15][Math.min(3,Math.floor(k*4))]; // alpha in 4 hard steps, not a ramp
+    ctx.fillStyle=e.c;
+    for(var j=0;j<9;j++){var an=j*.7+e.x,d=k*70*S*(.4+(j%4)*.25);
+      ctx.fillRect(q(e.x+Math.cos(an)*d),q(e.y+Math.sin(an)*d),j%2?3:2,j%2?3:2);}
+    ctx.globalAlpha=Math.max(0,1-k*1.2);
+    ctx.fillStyle=GOLD;ctx.font="700 "+Math.round(15*S)+"px 'Chakra Petch',"+"'Rajdhani',sans-serif";
+    ctx.textAlign='center';ctx.fillText(e.big?'184':'46',e.x,e.y-18*S-k*26*S);
+    ctx.globalAlpha=1;}
+}
+function loop(now){
+  var dt=Math.min(.05,(now-last)/1000); last=now;
+  step(dt); draw(T); requestAnimationFrame(loop);
+}
+fit(); draw(T); // paint synchronously first: rAF never fires in a hidden or background tab
+addEventListener('resize',function(){fit();draw(T);});
+if(window.ResizeObserver)new ResizeObserver(function(){fit();draw(T);}).observe(wrap);
+if(!RM){last=performance.now();requestAnimationFrame(loop);} // reduced motion: one composed frame, no loop
+})();
+</script>
+</body>
+</html>

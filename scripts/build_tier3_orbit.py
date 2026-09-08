@@ -69,6 +69,35 @@ def main():
         print("ERROR: no playable games survived the canvas check")
         return 1
 
+    # ---- featured: the attract assets lead the page ----------------------
+    # Game law 5b gives every game a standalone attract screen. Those are what
+    # run up here, NOT the games: an attract asset is purpose-built to start
+    # with no input and to paint its first frame immediately, which an embedded
+    # game does not guarantee. A featured slug with no attract asset is dropped
+    # and reported rather than silently rendering an empty box.
+    by_slug = {p["slug"]: p for p in games}
+    hero = []
+    for slug in cfg.get("featured", []):
+        gme = by_slug.get(slug)
+        if not gme:
+            dropped.append((slug, "featured, but not a playable game in the scene"))
+            continue
+        attract = REPO_ROOT / "games" / slug / "attract" / "index.html"
+        if not attract.is_file():
+            dropped.append((slug, "featured, but has no attract/index.html (game law 5b)"))
+            continue
+        hero.append(
+            '<figure class="feat">'
+            '<div class="feat-screen">'
+            '<iframe src="../../games/%s/attract/" loading="lazy" scrolling="no" '
+            'title="%s, attract screen"></iframe>'
+            '</div>'
+            '<figcaption><a href="../../games/%s/">%s</a>'
+            '<span>%s</span></figcaption></figure>'
+            % (esc(slug), esc(gme["name"]), esc(slug), esc(gme["name"]),
+               esc(gme.get("spec", "")))
+        )
+
     items = []
     for n, gme in enumerate(games, 1):
         items.append(
@@ -85,6 +114,8 @@ def main():
     page = TEMPLATE
     for key, value in {
         "items": "\n      ".join(items),
+        "hero": "\n      ".join(hero),
+        "herocount": str(len(hero)),
         "count": str(len(games)),
         "stars": str(cfg["starCount"]),
         "speed": str(cfg["orbitSpeed"]),
@@ -98,7 +129,7 @@ def main():
     OUT_PATH.write_text(page, encoding="utf-8", newline="\n")
 
     print("wrote %s" % OUT_PATH)
-    print("  %d playable games in the scene" % len(games))
+    print("  %d playable games in the scene | %d featured attract screens" % (len(games), len(hero)))
     if dropped:
         print("  DROPPED %d entry(s) the registry calls games:" % len(dropped))
         for slug, why in dropped:
@@ -135,6 +166,22 @@ body{margin:0;background:var(--paper);color:var(--ink);font:400 15.5px/1.6 var(-
 h1{margin:0 0 14px;max-width:15ch;font:900 clamp(30px,6vw,58px)/.95 var(--display);letter-spacing:-.045em}
 .lede{margin:0 0 22px;max-width:58ch;color:var(--ink-2);font-size:16px}
 .lede b{color:var(--ink);font-weight:600}
+
+/* the featured band: three attract assets, running. Not the games - an attract
+   screen is built to start with no input and paint at once. */
+.featured{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.4vw,18px);
+  margin:0 0 26px}
+.feat{margin:0}
+.feat-screen{position:relative;aspect-ratio:4/3;background:#04060B;
+  border:1px solid var(--hair);overflow:hidden}
+.feat-screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.feat figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  padding:8px 2px 0;flex-wrap:wrap}
+.feat figcaption a{font:600 14px/1.3 var(--sans);color:var(--ink);text-decoration:none}
+.feat figcaption a:hover,.feat figcaption a:focus-visible{color:var(--hot)}
+.feat figcaption span{font:400 10px/1.5 var(--mono);letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted)}
+@media (max-width:820px){ .featured{grid-template-columns:1fr} }
 
 /* the scene only exists once the canvas is running */
 .stagewrap{display:none}
@@ -186,6 +233,10 @@ canvas.scene{display:block;width:100%;height:clamp(360px,58vh,620px)}
   <b>Point at a body to wake it, click it to play.</b> The list underneath is the same
   @@count@@ games and works on its own.</p>
 
+  <div class="featured">
+      @@hero@@
+  </div>
+
   <div class="orbit" data-stars="@@stars@@" data-speed="@@speed@@" data-bodyr="@@bodyr@@"
        data-hoverr="@@hoverr@@" data-drift="@@drift@@">
     <div class="stagewrap">
@@ -201,6 +252,9 @@ canvas.scene{display:block;width:100%;height:clamp(360px,58vh,620px)}
   </div>
 
   <p class="foot">
+    The three above are <b>attract screens</b>, not the games: standalone assets built to run
+    with no input and to paint their first frame immediately, so they are alive even in a
+    background tab. Every game ships one.<br>
     The field is canvas 2D, not WebGL: this repo ships no framework, and hand-rolled GL makes
     readable labels expensive for no gain at @@count@@ bodies.<br>
     <b>Nothing loads a game until you open one.</b> The scene draws itself; the game runs only
