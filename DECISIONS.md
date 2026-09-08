@@ -182,6 +182,41 @@ reachable. This is D-A18 applied to a static site.
 out of tier 3, is a Change Request. So is any figure on the page that cannot be regenerated
 from a real run on the day it ships.
 
+### D-A20 — Tier 2's generation contract is written and binding (2026-09-07)
+The bible requires a declared generation contract before any markup. Tier 2's lives at
+**`docs/tier-2.contract.json`** in the bible's own vocabulary (zones from
+`composition_zones/zones.json`, relationships from its allowed list, pattern ids from
+`patterns/`). The reasoning that JSON cannot hold is recorded here.
+
+**Two patterns, not three.** `interactive_explainer` + `anti_card_composition`. The budget
+allows three; a third would compete with the explainer for the stage, and the stage is the
+whole point of this tier.
+
+**Two persistent clusters, not three.** `identity_navigation` + `orientation_progress`. There
+is deliberately **no `primary_action` cluster** — D-A13 rules out conversion furniture, and
+this tier asks nothing of the visitor. Under-spending the budget is a decision, not an
+oversight; do not "complete" it later.
+
+**The narrative order is fixed by the pattern, not by taste:** premise → overview →
+demonstration → proof → index. The pattern's own rules require a plain-language opening, an
+overview before detail, and sources kept beside results.
+
+**The card policy resolves an apparent conflict.** D-A10 already ruled the catalogue is a
+typographic index rather than a card grid, and `anti_card_composition` agrees when titles beat
+thumbnails. Cards survive in exactly one place — a side-by-side guard comparison, where the
+items are true peers being scanned at once, which is the one case the pattern explicitly
+protects.
+
+**Failure behaviour is specified, not assumed.** With JavaScript off, every guard, its code and
+its sabotage case are real markup: the tier degrades to a long document, never a blank stage.
+No canvas or WebGL appears in this tier at all — that is quarantined to tier 3. If the data
+snapshot is missing, the page says so and shows no figures; it never substitutes an estimate.
+
+**Change Rule:** changing a pattern, adding the third persistent cluster, introducing cards
+outside the comparison view, or shipping a figure that cannot be regenerated from a real run
+that day, is a Change Request against this contract. The contract file and this decision must
+be updated together — the JSON is not a copy of the decision, it is half of it.
+
 ## Build Timeline
 - C0 Manifest + ARCHITECTURE.md — this commit
 - C1 Data layer: registry rebuild + ~50 `data/projects/*.json` (parallel agents, one per reference section)

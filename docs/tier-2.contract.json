@@ -1,0 +1,74 @@
+{
+  "_": "Tier 2 generation contract. Required by the Award-Winning Web UI/UX Style Bible before any markup (see DECISIONS.md Non-Negotiable Constraints). Vocabulary is taken from the bible's composition_zones/zones.json and patterns/. Human rationale lives in DECISIONS.md D-A20.",
+  "tier": 2,
+  "tier_name": "The work",
+  "authored": "2026-09-07",
+  "site_type": "portfolio",
+  "section_behaviour": "interactive_explainer",
+
+  "dominant_idea": "A system that proves itself. Select a guard and see both the code it protects and the sabotage case that proves the guard actually bites.",
+
+  "primary_patterns": ["interactive_explainer", "anti_card_composition"],
+  "_patterns_note": "Two, not the permitted three. A third pattern would compete with the explainer for the stage.",
+
+  "narrative_sequence": ["premise", "overview", "demonstration", "proof", "index"],
+  "_narrative_note": "Order is fixed by the pattern's own rules: start with a plain-language premise, give overview before detail, and keep sources and assumptions beside results.",
+
+  "persistent_clusters": ["identity_navigation", "orientation_progress"],
+  "_clusters_note": "Two of the permitted three. There is deliberately NO primary_action cluster: D-A13 rules out conversion furniture, and this tier asks nothing of the visitor.",
+
+  "zones": [
+    { "zone": "persistent_chrome", "relationship": "anchored", "carries": "identity, tier switch, current position" },
+    { "zone": "hero_field", "relationship": "contained", "carries": "the premise in plain language, and an honest next cue" },
+    { "zone": "viewport_stage", "relationship": "split", "carries": "the explainer: guard list against the code and its sabotage case" },
+    { "zone": "narrative_rail", "relationship": "sticky_then_release", "carries": "which subsystem is in view; collapses to a label on small screens" },
+    { "zone": "content_band", "relationship": "contained", "carries": "the readable non-interactive explanation of what the guards are and why they exist" },
+    { "zone": "edge_annotation", "relationship": "contextual_reveal", "carries": "provenance stamps: run date, commit, counts" },
+    { "zone": "footer_resolution", "relationship": "sequential", "carries": "the typographic project index" }
+  ],
+
+  "card_policy": "No cards for projects. The existing typographic index stands (D-A10) because titles are more useful than thumbnails here. Cards are permitted in exactly one place: a side-by-side guard comparison, where the items are genuine peers being scanned simultaneously.",
+
+  "data_contract": {
+    "source": "a stamped JSON snapshot generated from a real run",
+    "must_show": ["run date", "source commit", "what was counted"],
+    "forbidden": [
+      "any figure that cannot be regenerated from a real run on the day it ships",
+      "presenting a snapshot as a live reading",
+      "fetching from a machine that is not reachable from a static page",
+      "counting inherited upstream tests as Jordan's own"
+    ],
+    "_": "D-A18 and D-A19 applied under the repo's no-build-tools constraint."
+  },
+
+  "responsive_transformations": [
+    "Flatten the split stage into sequential sections, preserving semantic reading order.",
+    "Replace hover-only disclosure on guard rows with tap and focus.",
+    "Move edge annotations into the content flow when touch insets get narrow.",
+    "Cap display typography and re-author line breaks at representative widths.",
+    "Collapse the narrative rail to a single label that still says where you are."
+  ],
+
+  "reduced_motion_equivalent": "Static keyframes in the same narrative order. The explainer becomes an expanded static list: every guard rendered with its code and sabotage case inline, nothing hidden behind a transition.",
+
+  "failure_behaviour": {
+    "no_javascript": "The premise, the readable explanation, every guard with its code and sabotage case, and the full project index are all present as real markup. The explainer degrades to a long document, not a blank stage.",
+    "no_canvas_or_webgl": "Not used in this tier at all. The spatial canvas is quarantined to tier 3 (D-A17, D-A19).",
+    "snapshot_missing": "Render the explanation without figures and say the snapshot is missing. Never substitute an estimate."
+  },
+
+  "accessibility_contract": [
+    "Every explainer state is reachable by keyboard.",
+    "Every guard has its own linkable fragment.",
+    "Semantic document order is preserved beneath the visual composition.",
+    "Animation shows causality only; it never rewards a click."
+  ],
+
+  "self_check": [
+    "Can a visitor with JS disabled still read every guard, its code, and its sabotage case?",
+    "Is the important path understandable before any spectacle appears?",
+    "Does the interface frame the evidence, or consume it?",
+    "Is every number on the page regenerable from a real run today?",
+    "Are there still only two persistent clusters?"
+  ]
+}
