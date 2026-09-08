@@ -251,6 +251,47 @@ generator wins because it is the one that can be re-run.
 `evidence_sources.json` is a Change Request. So is publishing a run whose
 `totals.suspectZeros` is non-empty. Editing `data/evidence.json` by hand is never permitted.
 
+### D-A22 — The failure was the folder system, not the palette (2026-09-07, owner)
+**Diagnosis, owner's, and it corrects the working assumption.** The shell was assumed to feel
+stale because of identity carry-overs from Daybreak — the goldenrod, Space Grotesk, the ✦. It
+does not. A skin lab (`docs/skin-lab/`, scratch) rendered five palettes over **identical
+structure**: nav, hero, stat row, three-row index. The owner found essentially every palette
+acceptable. The variable held constant is therefore the defect: **the site is a folder system
+with good typography.**
+
+The bible states this before any pattern or case study: *"Web layout is not a folder system."*
+GitHub already renders the repos as a list; re-rendering that list in better type adds nothing
+a visitor cannot get from the profile page. This is why a genuine re-composition (CR-7) still
+read as the old site.
+
+**Consequence.** A tier is not allowed to be an index of everything by default. D-A19's
+`interactive_explainer` for tier 2 is the structural escape and is now load-bearing rather
+than stylistic: **one system taken apart** — a guard, the code it protects, the sabotage that
+proves it bites — not "here are my projects". The existing typographic index survives as a
+*destination* for someone who wants the full list, never as the shape of a tier.
+
+**Change Rule:** any tier whose primary composition is a list of projects is a Change Request,
+and must state what dominant idea it carries other than enumeration.
+
+### D-A23 — Palettes are per-tier and disposable; the through-line is structural (2026-09-07, owner)
+Each tier may carry its own ground and accent. This is already supported: CR-3 page-scoped a
+complete token override into `index.html` alone. Three audiences with three dominant ideas can
+legitimately wear three palettes.
+
+**The identity does not live in the paint.** A token file is ~123 lines (Stagecraft v1) and
+swapping one costs an evening, so no skin decision is allowed to block structural work. The
+owner's position, recorded because it is the reason this is safe: colour is not the uncertain
+part, and multiple palettes are wanted, not tolerated.
+
+**The constraint that keeps it one site.** Three palettes read as one site only if something
+else is constant. **The through-line is the type scale, the spacing rhythm, and the component
+grammar — not colour.** Those three are shared across all tiers and are NOT per-tier
+tweakables.
+
+**Change Rule:** a per-tier palette is a token override only. Any per-tier change to the type
+scale, spacing rhythm or component grammar is a Change Request, because that is the layer
+carrying the identity.
+
 ## Build Timeline
 - C0 Manifest + ARCHITECTURE.md — this commit
 - C1 Data layer: registry rebuild + ~50 `data/projects/*.json` (parallel agents, one per reference section)
