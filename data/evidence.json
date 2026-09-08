@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "_": "GENERATED - do not hand-edit. Rebuild with scripts/build_evidence_snapshot.py. Every figure carries a `method`; 'unavailable' means we could not look, never zero.",
+  "generated": "2026-09-08T04:01:04+00:00",
+  "generatedBy": "scripts/build_evidence_snapshot.py",
+  "siteCommit": "42d3a3c",
+  "suitesExecuted": true,
+  "commitActivity": {
+    "method": "counted",
+    "since": "2025-09-07",
+    "repos": 71,
+    "commits": 1752,
+    "earliest": "2026-05-18"
+  },
+  "totals": {
+    "method": "counted",
+    "ownTestFiles": 575,
+    "ownSourcesCounted": 6,
+    "excludedAsInherited": [
+      "warden"
+    ],
+    "unavailable": [],
+    "suspectZeros": []
+  },
+  "sources": [
+    {
+      "id": "trading-desk",
+      "label": "Trading desk",
+      "own": true,
+      "path": "trading/trading-desk",
+      "note": "Guard suite. The sabotage harness in tests/sabotage.ps1 proves the guards bite.",
+      "commit": "4780e3a",
+      "tests": {
+        "method": "counted",
+        "files": 282
+      },
+      "suite": {
+        "method": "executed",
+        "exit_code": 0,
+        "green": true,
+        "passed": 616,
+        "failed": 0,
+        "skipped": 2,
+        "summary_line": "616 passed, 2 skipped in 71.49s (0:01:11)"
+      }
+    },
+    {
+      "id": "oracle",
+      "label": "Oracle",
+      "own": true,
+      "path": "trading/oracle",
+      "commit": "7937c75",
+      "tests": {
+        "method": "counted",
+        "files": 215
+      }
+    },
+    {
+      "id": "sentinel-trader",
+      "label": "Sentinel Trader",
+      "own": true,
+      "path": "trading/sentinel-trader",
+      "commit": "078cb47",
+      "tests": {
+        "method": "counted",
+        "files": 26
+      }
+    },
+    {
+      "id": "sentinel-pro-v3",
+      "label": "Sentinel Pro v3",
+      "own": true,
+      "path": "trading/sentinel-pro-v3",
+      "commit": "22012e7",
+      "tests": {
+        "method": "counted",
+        "files": 25
+      }
+    },
+    {
+      "id": "map-reading-trainer",
+      "label": "Map Reading Trainer",
+      "own": true,
+      "path": "map-reading-trainer",
+      "commit": "9fe9256",
+      "tests": {
+        "method": "counted",
+        "files": 24
+      }
+    },
+    {
+      "id": "underwriter",
+      "label": "Underwriter",
+      "own": true,
+      "path": "trading/underwriter",
+      "commit": "41eac43",
+      "tests": {
+        "method": "counted",
+        "files": 3
+      }
+    },
+    {
+      "id": "warden",
+      "label": "Warden (retired Odysseus fork)",
+      "own": false,
+      "path": "trading/sentinel",
+      "note": "EXCLUDED from every 'own' total. Its tests came with the upstream Odysseus fork and are not Jordan's to claim (D-A18). Kept in the snapshot only so the exclusion is visible rather than silent.",
+      "commit": "2ee554c",
+      "tests": {
+        "method": "counted",
+        "files": 1345
+      }
+    }
+  ]
+}

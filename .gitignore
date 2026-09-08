@@ -4,3 +4,6 @@ desktop.ini
 
 # local dev tooling
 .claude/
+
+# generated run logs
+scripts/logs/

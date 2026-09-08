@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "_": "Sources for the tier-2 evidence snapshot (docs/tier-2.contract.json, DECISIONS.md D-A18/D-A19/D-A20). Tweakables live here; the script holds no repo names or counts. Adding a source here is how the snapshot grows - never by editing a number into data/evidence.json.",
+
+  "projectsRoot": "C:/projects",
+  "output": "data/evidence.json",
+
+  "commitWindow": {
+    "since": "2025-09-07",
+    "_": "Counted across every git repo found under projectsRoot, excluding the paths below. The snapshot reports the EARLIEST commit found in the window too, so the page can say 'four months', not 'a year', without anyone doing the arithmetic by hand."
+  },
+
+  "scanExclude": ["_archive", "_backups", "_to_delete", "node_modules", "target", ".git"],
+
+  "sources": [
+    {
+      "id": "trading-desk",
+      "label": "Trading desk",
+      "path": "trading/trading-desk",
+      "own": true,
+      "testPatterns": ["test_*.py", "*_test.py"],
+      "suite": { "cmd": ["python", "-m", "pytest", "tests", "-q"], "parser": "pytest" },
+      "note": "Guard suite. The sabotage harness in tests/sabotage.ps1 proves the guards bite."
+    },
+    {
+      "id": "oracle",
+      "label": "Oracle",
+      "path": "trading/oracle",
+      "own": true,
+      "testPatterns": ["test_*.py", "*_test.py"],
+      "suite": null
+    },
+    {
+      "id": "sentinel-trader",
+      "label": "Sentinel Trader",
+      "path": "trading/sentinel-trader",
+      "own": true,
+      "testPatterns": ["test_*.py", "*_test.py"],
+      "suite": null
+    },
+    {
+      "id": "sentinel-pro-v3",
+      "label": "Sentinel Pro v3",
+      "path": "trading/sentinel-pro-v3",
+      "own": true,
+      "testPatterns": ["test_*.py", "*_test.py"],
+      "suite": null
+    },
+    {
+      "id": "map-reading-trainer",
+      "label": "Map Reading Trainer",
+      "path": "map-reading-trainer",
+      "own": true,
+      "testPatterns": ["*.test.ts", "*.spec.ts", "*.test.js", "*.spec.js"],
+      "suite": null
+    },
+    {
+      "id": "underwriter",
+      "label": "Underwriter",
+      "path": "trading/underwriter",
+      "own": true,
+      "testPatterns": ["test_*.py", "test_*.rs"],
+      "suite": null
+    },
+    {
+      "id": "warden",
+      "label": "Warden (retired Odysseus fork)",
+      "path": "trading/sentinel",
+      "own": false,
+      "testPatterns": ["test_*.py", "*_test.py"],
+      "suite": null,
+      "note": "EXCLUDED from every 'own' total. Its tests came with the upstream Odysseus fork and are not Jordan's to claim (D-A18). Kept in the snapshot only so the exclusion is visible rather than silent."
+    }
+  ]
+}

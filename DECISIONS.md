@@ -217,6 +217,40 @@ outside the comparison view, or shipping a figure that cannot be regenerated fro
 that day, is a Change Request against this contract. The contract file and this decision must
 be updated together — the JSON is not a copy of the decision, it is half of it.
 
+### D-A21 — One generator owns every figure on the site (2026-09-07)
+`scripts/build_evidence_snapshot.py` (stdlib only, matching `build_cabinet_manifest.py`) reads
+`scripts/evidence_sources.json` and writes `data/evidence.json`. **That file is generated and
+must never be hand-edited**, and no number reaches a page by any other route. Manual:
+`scripts/EVIDENCE-MANUAL.md`.
+
+**Every figure carries its own `method`** — `executed` (a suite ran; this is its reported
+result), `counted` (files or commits counted; real, but not proof anything passes), or
+`unavailable` (**we could not look — never zero**). The distinction is the entire reason the
+tool exists: "616 tests pass" and "616 test files exist" are different claims, and a static
+page has no way to show the difference unless the generator records it.
+
+**Suspect zeros.** A test count of 0 where patterns *were* configured is flagged
+`suspect: true` and listed in `totals.suspectZeros`, because a count cannot distinguish "no
+tests" from "wrong patterns". This is not hypothetical: on the first run
+`map-reading-trainer` reported a confident 0 while holding 24 `*.test.ts` files, because the
+config listed `*.test.js`. An unflagged zero would have gone onto the page as fact.
+
+**Inherited work is measured and excluded, not hidden.** Warden stays in the snapshot with
+`own: false` so the exclusion is visible in the data, not just asserted in prose (D-A18).
+
+**First real run, 2026-09-07:** 575 own test files across 6 sources; trading-desk executed
+green at 616 passed / 2 skipped / exit 0; 1,752 commits across 71 repos since 2025-09-07,
+earliest 2026-05-18.
+
+**Supersedes the ad-hoc figures in CR-10.** That entry quotes 1,663 commits across 66 repos
+from a hand-run shell scan with a different depth and exclude list. The CR entry stands as a
+dated record, but **the generator is now the only authority**; where they disagree, the
+generator wins because it is the one that can be re-run.
+
+**Change Rule:** adding a figure to any page without a source in
+`evidence_sources.json` is a Change Request. So is publishing a run whose
+`totals.suspectZeros` is non-empty. Editing `data/evidence.json` by hand is never permitted.
+
 ## Build Timeline
 - C0 Manifest + ARCHITECTURE.md — this commit
 - C1 Data layer: registry rebuild + ~50 `data/projects/*.json` (parallel agents, one per reference section)
