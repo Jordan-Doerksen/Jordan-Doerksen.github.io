@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The desk, one path at a time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#0B0E13; --sheet:#131922; --deep:#0E141C;
+  --ink:#EAF0F7; --ink-2:#A9B6C6; --muted:#6E7E92;
+  --hair:#1E2733; --wire:#24303E;
+  --live:#39BDF8; --warn:#F2994A; --ok:#4ADE80;
+  --display:Archivo,"Arial Black",sans-serif;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15.5px/1.6 var(--sans)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(60rem 40rem at 70% -10%,rgba(57,189,248,.10),transparent 60%)}
+.wrap{position:relative;z-index:1;max-width:920px;margin:0 auto;
+  padding:clamp(28px,5vw,64px) clamp(16px,4vw,40px) 100px}
+
+.kicker{margin:0 0 14px;font:500 11px/1 var(--mono);letter-spacing:.18em;
+  text-transform:uppercase;color:var(--live)}
+h1{margin:0 0 22px;max-width:16ch;font:900 clamp(30px,5.6vw,58px)/.97 var(--display);
+  letter-spacing:-.045em}
+.idea{margin:0 0 34px;max-width:60ch;font-size:clamp(16px,1.5vw,19px);line-height:1.55;color:var(--ink-2)}
+.idea span{display:block;opacity:0;animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards;
+  animation-delay:var(--d)}
+.idea span:first-child{color:var(--ink);font-weight:600}
+@keyframes rise{from{opacity:0;transform:translateY(.5em)}to{opacity:1;transform:none}}
+
+.t-radio{position:absolute;opacity:0;pointer-events:none}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px}
+.tab{cursor:pointer;border:1px solid var(--hair);background:var(--sheet);
+  padding:9px 13px;display:flex;flex-direction:column;gap:2px;line-height:1.2}
+.tab b{font:600 13px/1.3 var(--sans)}
+.tab span{font:400 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tab:hover{border-color:var(--live)}
+.t-radio:focus-visible ~ .tabs label{outline:2px solid var(--live);outline-offset:2px}
+.tour{display:none}
+#t-market:checked ~ .tabs label[for="t-market"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+#t-market:checked ~ .panels #p-market{display:block}
+#t-order:checked ~ .tabs label[for="t-order"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+#t-order:checked ~ .panels #p-order{display:block}
+#t-evidence:checked ~ .tabs label[for="t-evidence"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+#t-evidence:checked ~ .panels #p-evidence{display:block}
+#t-iceberg:checked ~ .tabs label[for="t-iceberg"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+#t-iceberg:checked ~ .panels #p-iceberg{display:block}
+#t-regime:checked ~ .tabs label[for="t-regime"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+#t-regime:checked ~ .panels #p-regime{display:block}
+
+.blurb{margin:0 0 22px;max-width:58ch;color:var(--muted);font:400 14.5px/1.6 var(--sans)}
+.step{position:relative;padding:0 0 0 34px;animation:in .55s ease both;animation-delay:var(--d)}
+@keyframes in{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.dot{position:absolute;left:6px;top:16px;width:11px;height:11px;border-radius:50%;
+  background:var(--live);box-shadow:0 0 0 4px rgba(57,189,248,.15)}
+.wire{position:relative;height:46px;margin-left:11px;border-left:2px solid var(--wire);
+  animation:grow .5s ease both;animation-delay:var(--d)}
+@keyframes grow{from{height:0}to{height:46px}}
+.wlabel{position:absolute;left:14px;top:13px;font:400 10.5px/1 var(--mono);
+  letter-spacing:.06em;color:var(--muted);white-space:nowrap;max-width:60vw;overflow:hidden;
+  text-overflow:ellipsis}
+.pip{position:absolute;left:-4px;top:0;width:6px;height:6px;border-radius:50%;
+  background:var(--live);animation:flow 2.4s linear infinite;animation-delay:var(--d)}
+.pip.p2{animation-delay:calc(var(--d) + 1.2s);opacity:.55}
+@keyframes flow{from{transform:translateY(-4px);opacity:0}
+  12%{opacity:1} 88%{opacity:1} to{transform:translateY(44px);opacity:0}}
+
+.card{background:var(--sheet);border:1px solid var(--hair);padding:14px 16px}
+.card h3{margin:0 0 6px;font:600 16px/1.3 var(--sans);display:flex;gap:10px;
+  align-items:baseline;flex-wrap:wrap}
+.card h3 .sub{font:400 11px/1.4 var(--mono);color:var(--live);letter-spacing:.04em}
+.what{margin:0 0 10px;color:var(--ink-2);font-size:14.5px;max-width:62ch}
+.badge{display:inline-block;margin:0 6px 0 0;padding:2px 8px;font:500 10.5px/1.7 var(--mono);
+  letter-spacing:.06em;text-transform:uppercase;border:1px solid currentColor}
+.badge.g{color:var(--ok)} .badge.f{color:var(--warn)}
+details{margin-top:10px;border-top:1px solid var(--hair);padding-top:8px}
+summary{cursor:pointer;font:500 11px/1.6 var(--mono);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted)}
+summary:hover,summary:focus-visible{color:var(--live)}
+details p{margin:8px 0 0;color:var(--ink-2);font-size:14px;max-width:62ch}
+
+.foot{margin-top:48px;padding-top:18px;border-top:1px solid var(--hair);
+  font:400 11.5px/1.75 var(--mono);color:var(--muted);max-width:74ch}
+.foot b{color:var(--ink-2);font-weight:500}
+
+@media (prefers-reduced-motion:reduce){
+  .idea span,.step,.wire{animation:none;opacity:1;transform:none;height:46px}
+  .pip{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Tier 2 · the display case</p>
+  <h1>The desk, one path at a time.</h1>
+  <p class="idea"><span style="--d:0ms">Market data enters once</span><span style="--d:420ms">is measured once</span><span style="--d:840ms">and leaves by four separate doors: a tape</span><span style="--d:1260ms">a webhook</span><span style="--d:1680ms">a web page and a one-line file.</span></p>
+
+  <input type="radio" name="tour" id="t-market" class="t-radio" checked>
+  <input type="radio" name="tour" id="t-order" class="t-radio">
+  <input type="radio" name="tour" id="t-evidence" class="t-radio">
+  <input type="radio" name="tour" id="t-iceberg" class="t-radio">
+  <input type="radio" name="tour" id="t-regime" class="t-radio">
+  <div class="tabs"><label for="t-market" class="tab"><b>The market data path</b><span>9 parts</span></label><label for="t-order" class="tab"><b>The order path</b><span>4 parts</span></label><label for="t-evidence" class="tab"><b>The evidence path</b><span>6 parts</span></label><label for="t-iceberg" class="tab"><b>The iceberg join</b><span>6 parts</span></label><label for="t-regime" class="tab"><b>The regime seam</b><span>6 parts</span></label></div>
+  <div class="panels"><section class="tour" id="p-market" aria-label="The market data path"><p class="blurb">From the book to the page, once.</p><article class="step" style="--d:0ms"><div class="dot"></div><div class="card"><h3>TWS / IB Gateway<span class="sub">:7496 · read-only</span></h3><p class="what">Interactive Brokers Trader Workstation, logged into the live account. The only source of market data.</p><details><summary>Where it lives</summary><p>The operator&#x27;s Windows box, port 7496</p></details></div></article><div class="wire" style="--d:220ms"><span class="pip"></span><span class="pip p2"></span><span class="wlabel">book + prints, read-only</span></div><article class="step" style="--d:220ms"><div class="dot"></div><div class="card"><h3>sentinel/capture/<span class="sub">live_tws · replay</span></h3><p class="what">The market-data connectors and the tape schema. One connector for a live TWS feed, one for replaying a recorded tape.</p><details><summary>Where it lives</summary><p>server/sentinel/capture/</p></details></div></article><div class="wire" style="--d:440ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:440ms"><div class="dot"></div><div class="card"><h3>engine/cycle_input.py<span class="sub">assemble_input</span></h3><p class="what">Assembles one cycle&#x27;s worth of market state from the connector before the engine sees it.</p><details><summary>Where it lives</summary><p>server/sentinel/engine/cycle_input.py</p></details></div></article><div class="wire" style="--d:660ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:660ms"><div class="dot"></div><div class="card"><h3>engine/runner.py<span class="sub">the cycle</span></h3><p class="what">One pass over the book and the prints, producing a market state that everything downstream reads.</p><details><summary>Where it lives</summary><p>server/sentinel/engine/runner.py</p></details></div></article><div class="wire" style="--d:880ms"><span class="pip"></span><span class="pip p2"></span><span class="wlabel">market state</span></div><article class="step" style="--d:880ms"><div class="dot"></div><div class="card"><h3>alerting/detectors.py<span class="sub">OBI · VWAP · CVD</span></h3><p class="what">The three book-and-tape measures, and the session-window rules that decide when a setup counts.</p><details><summary>Where it lives</summary><p>server/sentinel/alerting/detectors.py</p></details></div></article><div class="wire" style="--d:1100ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:1100ms"><div class="dot"></div><div class="card"><h3>alerting/pump.py<span class="sub">alert fan-out</span></h3><p class="what">The single place every alert passes through on its way out. It counts them, sends the summary, and appends the signal line.</p><details><summary>Where it lives</summary><p>server/sentinel/alerting/pump.py</p></details></div></article><div class="wire" style="--d:1320ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:1320ms"><div class="dot"></div><div class="card"><h3>routes/live.py<span class="sub">state · arm/stop · tapes</span></h3><p class="what">The live surface: current state, absorption, the recorder, the tape and signal listings, the arm and stop commands, and the read-only account view.</p><span class="badge g">5 guards</span><span class="badge f">1 open defect</span><details><summary>Where it lives</summary><p>server/routes/live.py</p></details></div></article><div class="wire" style="--d:1540ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:1540ms"><div class="dot"></div><div class="card"><h3>/<span class="sub">Live cockpit</span></h3><p class="what">Is the desk watching, and what is it seeing right now?</p><details><summary>Where it lives</summary><p>web/index.html, web/live/app.js</p></details></div></article><div class="wire" style="--d:1760ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:1760ms"><div class="dot"></div><div class="card"><h3>Operator&#x27;s browser<span class="sub">127.0.0.1 only</span></h3><p class="what">The only reader of these pages.</p><details><summary>Where it lives</summary><p>http://127.0.0.1:7600</p></details></div></article></section><section class="tour" id="p-order" aria-label="The order path"><p class="blurb">The only chain that can end in a trade. It is three steps long, and it starts with a file.</p><article class="step" style="--d:0ms"><div class="dot"></div><div class="card"><h3>alerting/pump.py<span class="sub">alert fan-out</span></h3><p class="what">The single place every alert passes through on its way out. It counts them, sends the summary, and appends the signal line.</p><details><summary>Where it lives</summary><p>server/sentinel/alerting/pump.py</p></details></div></article><div class="wire" style="--d:220ms"><span class="pip"></span><span class="pip p2"></span><span class="wlabel">one flushed line per fired break</span></div><article class="step" style="--d:220ms"><div class="dot"></div><div class="card"><h3>data/signals/<span class="sub">one line per fired break</span></h3><p class="what">An append-only file. One flushed line per fired break alert, and nothing else.</p><details><summary>Where it lives</summary><p>data/signals/</p></details></div></article><div class="wire" style="--d:440ms"><span class="pip"></span><span class="pip p2"></span><span class="wlabel">the bot reads, and mostly refuses</span></div><article class="step" style="--d:440ms"><div class="dot"></div><div class="card"><h3>sentinel-trader<span class="sub">separate process</span></h3><p class="what">The only part of this system that can place an order. It reads signal lines, applies its own rules, and mostly refuses.</p><details><summary>Where it lives</summary><p>bot/ (vendored) · C:\projects\trading\sentinel-trader</p></details></div></article><div class="wire" style="--d:660ms"><span class="pip"></span><span class="pip p2"></span><span class="wlabel">the only path to an order</span></div><article class="step" style="--d:660ms"><div class="dot"></div><div class="card"><h3>NinjaTrader<span class="sub">→ the broker</span></h3><p class="what">The platform the bot sends brackets through, over the ATI interface.</p><details><summary>Where it lives</summary><p>The operator&#x27;s box</p></details></div></article></section><section class="tour" id="p-evidence" aria-label="The evidence path"><p class="blurb">Nothing is believed unless it was recorded.</p><article class="step" style="--d:0ms"><div class="dot"></div><div class="card"><h3>live_session.py<span class="sub">TWS loop · daemon thread</span></h3><p class="what">Owns the connection to TWS and drives the detection loop. Runs its own asyncio loop on a daemon thread.</p><span class="badge g">1 guard</span><span class="badge f">1 open defect</span><details><summary>Where it lives</summary><p>server/live_session.py</p></details></div></article><div class="wire" style="--d:220ms"><span class="pip"></span><span class="pip p2"></span><span class="wlabel">inside the NY window</span></div><article class="step" style="--d:220ms"><div class="dot"></div><div class="card"><h3>data/recordings/<span class="sub">New York · .jsonl.gz</span></h3><p class="what">One gzipped line per cycle, written inside the New York window (09:30-16:15 ET).</p><details><summary>Where it lives</summary><p>data/recordings/</p></details></div></article><div class="wire" style="--d:440ms"><span class="pip"></span><span class="pip p2"></span><span class="wlabel">scored from the tape</span></div><article class="step" style="--d:440ms"><div class="dot"></div><div class="card"><h3>*.report.json<span class="sub">session scoreboards</span></h3><p class="what">The scoreboard for one session: how many setups, which triggers fired, what each one did next, and whether hidden size confirmed or rejected the break.</p><details><summary>Where it lives</summary><p>Beside each tape; the Asia corpus routes into asia/</p></details></div></article><div class="wire" style="--d:660ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:660ms"><div class="dot"></div><div class="card"><h3>routes/review.py<span class="sub">sessions · backtest</span></h3><p class="what">The session index, the per-session report and scoreboard, the pooled backtest, the doctor read-out, and the local-LLM analyst and council reads.</p><span class="badge f">1 open defect</span><details><summary>Where it lives</summary><p>server/routes/review.py</p></details></div></article><div class="wire" style="--d:880ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:880ms"><div class="dot"></div><div class="card"><h3>/review<span class="sub">Sessions and scoreboards</span></h3><p class="what">What happened in this session - computed from the tape rather than from memory.</p><span class="badge g">1 guard</span><span class="badge f">4 open defects</span><details><summary>Where it lives</summary><p>web/review.html, web/js/review.js</p></details></div></article><div class="wire" style="--d:1100ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:1100ms"><div class="dot"></div><div class="card"><h3>Operator&#x27;s browser<span class="sub">127.0.0.1 only</span></h3><p class="what">The only reader of these pages.</p><details><summary>Where it lives</summary><p>http://127.0.0.1:7600</p></details></div></article></section><section class="tour" id="p-iceberg" aria-label="The iceberg join"><p class="blurb">A break that hidden size ate is not a break.</p><article class="step" style="--d:0ms"><div class="dot"></div><div class="card"><h3>engine/runner.py<span class="sub">the cycle</span></h3><p class="what">One pass over the book and the prints, producing a market state that everything downstream reads.</p><details><summary>Where it lives</summary><p>server/sentinel/engine/runner.py</p></details></div></article><div class="wire" style="--d:220ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:220ms"><div class="dot"></div><div class="card"><h3>iceberg/absorption.py<span class="sub">hidden-size state machine</span></h3><p class="what">Watches a price level soak up an attempted break - hidden size absorbing the move.</p><details><summary>Where it lives</summary><p>server/iceberg/absorption.py</p></details></div></article><div class="wire" style="--d:440ms"><span class="pip"></span><span class="pip p2"></span><span class="wlabel">the absorption</span></div><article class="step" style="--d:440ms"><div class="dot"></div><div class="card"><h3>iceberg_at_break.py<span class="sub">60 s · 8-tick gate</span></h3><p class="what">Joins an absorption event to a break, but only when it lands inside both a time window and a price gate.</p><details><summary>Where it lives</summary><p>server/sentinel/alerting/iceberg_at_break.py</p></details></div></article><div class="wire" style="--d:660ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:660ms"><div class="dot"></div><div class="card"><h3>alerting/pump.py<span class="sub">alert fan-out</span></h3><p class="what">The single place every alert passes through on its way out. It counts them, sends the summary, and appends the signal line.</p><details><summary>Where it lives</summary><p>server/sentinel/alerting/pump.py</p></details></div></article><div class="wire" style="--d:880ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:880ms"><div class="dot"></div><div class="card"><h3>alerting/discord.py<span class="sub">summary only · no numbers</span></h3><p class="what">Posts a short human summary of an alert to one webhook.</p><details><summary>Where it lives</summary><p>server/sentinel/alerting/discord.py</p></details></div></article><div class="wire" style="--d:1100ms"><span class="pip"></span><span class="pip p2"></span><span class="wlabel">a sentence, no numbers</span></div><article class="step" style="--d:1100ms"><div class="dot"></div><div class="card"><h3>Discord webhook<span class="sub">one channel</span></h3><p class="what">Where alerts arrive as they happen.</p><details><summary>Where it lives</summary><p>config/alerts.json, or DISCORD_WEBHOOK_URL</p></details></div></article></section><section class="tour" id="p-regime" aria-label="The regime seam"><p class="blurb">One way, and absolute.</p><article class="step" style="--d:0ms"><div class="dot"></div><div class="card"><h3>FRED · CFTC · EIA<span class="sub">BLS · BEA · Fed</span></h3><p class="what">Public macro and positioning data, pulled by the regime grader.</p><details><summary>Where it lives</summary><p>bellwether/bellwether/providers/</p></details></div></article><div class="wire" style="--d:220ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:220ms"><div class="dot"></div><div class="card"><h3>bellwether<span class="sub">run by hand, weekdays</span></h3><p class="what">A weekday regime grader: sector rotation, macro and COT, graded to a single letter.</p><details><summary>Where it lives</summary><p>bellwether/ (vendored sibling)</p></details></div></article><div class="wire" style="--d:440ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:440ms"><div class="dot"></div><div class="card"><h3>reports/out/<span class="sub">bellwether&#x27;s nightly read</span></h3><p class="what">One graded report per weekday, as HTML, Markdown and JSON.</p><details><summary>Where it lives</summary><p>bellwether/reports/out/</p></details></div></article><div class="wire" style="--d:660ms"><span class="pip"></span><span class="pip p2"></span><span class="wlabel">one way: the desk only reads</span></div><article class="step" style="--d:660ms"><div class="dot"></div><div class="card"><h3>routes/regime.py<span class="sub">reads bellwether</span></h3><p class="what">Lists the stored regime reads and frames the chosen one.</p><details><summary>Where it lives</summary><p>server/routes/regime.py</p></details></div></article><div class="wire" style="--d:880ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:880ms"><div class="dot"></div><div class="card"><h3>/regime<span class="sub">Regime read</span></h3><p class="what">Bellwether&#x27;s grade for the day, framed inside the desk.</p><details><summary>Where it lives</summary><p>web/regime.html</p></details></div></article><div class="wire" style="--d:1100ms"><span class="pip"></span><span class="pip p2"></span></div><article class="step" style="--d:1100ms"><div class="dot"></div><div class="card"><h3>Operator&#x27;s browser<span class="sub">127.0.0.1 only</span></h3><p class="what">The only reader of these pages.</p><details><summary>Where it lives</summary><p>http://127.0.0.1:7600</p></details></div></article></section></div>
+
+  <p class="foot">
+    Topology read out of the running code: <b>54 parts, 78 connections</b>,
+    of which one path is shown at a time. Guard and defect badges appear only where a node's
+    file matched real data — <b>a node with no badge is unmatched, not clean</b>.<br>
+    Five tours, zero JavaScript. The switcher is radio inputs; the motion is CSS and stops
+    entirely under reduced-motion.
+  </p>
+</div>
+</body>
+</html>

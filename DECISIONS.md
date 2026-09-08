@@ -332,6 +332,51 @@ requiring product screens is blocked on a capture pass that cannot happen on thi
 point. Removing the open-findings section is also a Change Request: without it the page
 asserts reliability instead of evidencing it, which is the failure this decision exists to fix.
 
+### D-A25 — Tier 2 is a display case, not a tool (2026-09-08, owner. Reverses D-A17/D-A19/D-A24 in part)
+**The owner's argument, which is correct and which three drafts got wrong.** The desk,
+underwriter and the rest are austere *because they are bound* — read-only, fail-closed, no
+motion, honest when they cannot answer. **The site is not bound that way.** Applying tool
+discipline to a display case is a category error, and it is the single reason the accordion,
+the mutants-in-source and the aggregate-evidence drafts were all rejected on sight.
+
+It also satisfies the bible's `portfolio_as_experience` rule "make the interface prove a
+relevant capability": the desk cannot demonstrate that its author builds sophisticated
+interactive UI. Only the site can. **Flash is the point of this tier, not a lapse.**
+
+**What this reverses.** D-A17 gave the whole risk budget to tier 3 — tier 2 now takes a share.
+D-A19 assigned tier 2 `interactive_explainer` with legibility as the dominant idea. D-A24's
+FORMAT (aggregate-first evidence page) is withdrawn.
+
+**What survives, deliberately.** D-A24's *claim* stands — the tier still proves "he builds
+things that hold up", now by showing the system working rather than by tabulating evidence.
+The generators and their data (`guards.json`, `findings.json`, `evidence.json`) survive
+untouched: a display case still needs something true to display.
+
+**Subject: one path at a time.** The source graph (`trading/desk-network-map`) holds 54 nodes
+and 78 links. The owner's ruling on it: *"a good draft but too large a section with too much
+that nobody clicks."* So the unit is the graph's own curated **tour** — the market data path is
+9 parts, the order path is 4 parts and 3 hops. Five tours, one visible at a time.
+
+**Technical ruling, made explicitly rather than silently.** The diagram layer is **SVG/CSS, not
+WebGL.** It delivers everything asked for — flowcharts, pips travelling the wires, expanding
+windows, animated lines and text — while keeping text crisp, selectable and reachable. WebGL
+earns its place for particles and 3D, which is tier 3. An ambient canvas layer *behind* the
+diagram remains available later without changing this.
+
+**The one non-negotiable that does NOT bend.** "Essential content survives JS, canvas and
+WebGL failure" is law in this manifest's Non-Negotiable Constraints. The built page has **zero
+JavaScript**: the tour switcher is radio inputs and `:checked`, the motion is CSS keyframes,
+and every animation stops under `prefers-reduced-motion`.
+
+**Honesty rules carried over unchanged.** A node shows guard and defect badges only where its
+file genuinely matched real data. **A node with no badge is unmatched, not clean** — the same
+absent-is-not-zero discipline as the evidence snapshot's suspect-zero flag. The private-repo
+line from D-A24 also stands.
+
+**Change Rule:** giving tier 2 a JavaScript dependency for anything load-bearing is a Change
+Request, and must state what a visitor loses with scripting off. Adding a second tour on screen
+at once is also a Change Request — one path at a time is the answer to "too much nobody clicks".
+
 ## Build Timeline
 - C0 Manifest + ARCHITECTURE.md — this commit
 - C1 Data layer: registry rebuild + ~50 `data/projects/*.json` (parallel agents, one per reference section)
@@ -348,6 +393,22 @@ asserts reliability instead of evidencing it, which is the failure this decision
 - Should the site's own entry link this DECISIONS.md as a live example? (Nice-to-have.)
 
 ## Change Log
+- 2026-09-08 — **CR-11 (owner ruling): tier 2 becomes a display case; D-A17/D-A19/D-A24
+  partly reversed.** Decision D-A25.
+  **Trigger.** Three tier-2 drafts were rejected in a row — an accordion, mutants rendered in
+  source, and an aggregate-first evidence page. The owner named the cause: *"the actual tools
+  obey the laws and can't break, this shit is a display case so let's start treating it like
+  one."* Every draft had applied the tools' austerity to a page that is not a tool.
+  **Built.** `docs/tier-2-case/` from `scripts/build_tier2_case.py`. The subject is the desk's
+  own runtime graph, shown one curated tour at a time rather than as 54 nodes: pips travel the
+  wire between parts, the connector draws in, the opening sentence reveals a clause at a time,
+  and each part expands for detail. Guard and defect badges are joined onto the nodes where the
+  data genuinely matches — 3 guard badges and 4 defect badges across the shown paths.
+  **Zero JavaScript**, verified: 5 tours, radio switcher, 52 pips, all CSS.
+  **Withdrawn.** D-A24's aggregate-first FORMAT. Its claim, its honesty rules and its
+  private-repo line all stand.
+  **Not done, deliberately:** the three superseded drafts (`docs/tier-2-slice/`,
+  `docs/tier-2-desk/`) are left on disk rather than deleted, pending the owner's call.
 - 2026-09-07 — **CR-10 (owner-interviewed, four answers): the shell is rebuilt ground-up as
   three tiers, for builders, with the work as evidence.** Decisions D-A12…D-A18.
   **Trigger.** The owner said he hates the current sites, wants one public-facing site rebuilt
