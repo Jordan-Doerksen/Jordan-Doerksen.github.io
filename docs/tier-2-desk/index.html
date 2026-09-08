@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The trading desk — does it hold up?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --paper:#EFF2F6; --sheet:#FFFFFF; --deep:#E7EBF1;
+  --ink:#0F1720; --ink-2:#3A4654; --muted:#4E5A68;
+  --hair:#D3DCE8; --rule:#E9EEF4;
+  --keep:#0D4FA0; --cut:#A82E10; --ok:#1D6F42;
+  --display:Archivo,"Arial Black",sans-serif;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+ --hh:3.25rem; }
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15.5px/1.62 var(--sans);
+  background-image:
+    repeating-linear-gradient(to right,var(--rule) 0 1px,transparent 1px 24px),
+    repeating-linear-gradient(to bottom,var(--rule) 0 1px,transparent 1px 24px)}
+.bar{position:sticky;top:0;z-index:3;height:var(--hh);display:flex;align-items:center;
+  justify-content:space-between;gap:18px;padding:0 clamp(16px,4vw,40px);
+  background:var(--paper);border-bottom:1px solid var(--hair)}
+.bar .id{font:800 14px/1 var(--display);letter-spacing:-.03em}
+.bar a{font:500 12.5px/1 var(--sans);color:var(--muted);text-decoration:none;margin-left:16px}
+.bar a:hover,.bar a:focus-visible{color:var(--keep)}
+.wrap{max-width:900px;margin:0 auto;padding:clamp(30px,5vw,60px) clamp(16px,4vw,40px) 100px}
+.kicker{margin:0 0 12px;font:500 11px/1 var(--mono);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted)}
+h1{margin:0 0 18px;max-width:18ch;font:900 clamp(30px,5.4vw,54px)/.97 var(--display);
+  letter-spacing:-.045em}
+.lede{margin:0 0 32px;max-width:64ch;color:var(--ink-2);font-size:16px}
+.lede b{color:var(--ink);font-weight:600}
+section{margin:0 0 clamp(40px,6vw,64px);scroll-margin-top:calc(var(--hh) + 10px)}
+h2{margin:0 0 6px;font:800 clamp(20px,2.5vw,26px)/1.15 var(--display);letter-spacing:-.03em}
+h2 .step{display:block;font:500 10.5px/1.8 var(--mono);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted)}
+.say{margin:0 0 20px;max-width:62ch;color:var(--ink-2);font-size:15px}
+.headline{display:flex;flex-wrap:wrap;gap:clamp(18px,3vw,40px);padding:18px 0;margin:0 0 20px;
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.headline b{display:block;font:800 clamp(24px,2.8vw,34px)/1 var(--display);letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums}
+.headline span{display:block;margin-top:5px;font:400 10.5px/1.4 var(--mono);
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chart{width:100%;height:auto;display:block;margin:0 0 6px;background:var(--sheet);
+  border:1px solid var(--hair);padding:12px}
+.chart .bl{font:500 12px/1 var(--mono);fill:var(--ink)}
+.chart .bv{font:500 12px/1 var(--mono);fill:var(--muted);font-variant-numeric:tabular-nums}
+figcaption{margin:0 0 22px;font:400 11.5px/1.6 var(--mono);color:var(--muted)}
+.mutant{display:grid;gap:5px;margin:0 0 12px}
+.delta{overflow-x:auto;background:var(--sheet);border:1px solid var(--hair)}
+.delta:focus-visible{outline:2px solid var(--keep);outline-offset:2px}
+pre{margin:0;padding:8px 12px 8px 28px;position:relative;font:400 12.5px/1.6 var(--mono);white-space:pre}
+pre::before{position:absolute;left:10px;font-weight:500}
+.keep{border-left:3px solid var(--keep)} .keep::before{content:"\2212";color:var(--keep)}
+.cut{border-left:3px solid var(--cut);background:#FDF6F4} .cut::before{content:"+";color:var(--cut)}
+.test{margin:0;font:400 11px/1.6 var(--mono);color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+.test .f{color:var(--ink)}
+ul.findings{list-style:none;margin:0 0 8px;padding:0}
+ul.findings li{display:grid;grid-template-columns:7.5rem 1fr;gap:4px 14px;padding:11px 0;
+  border-bottom:1px solid var(--rule)}
+.sev{font:500 10px/1.7 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  align-self:start;padding:1px 6px;border:1px solid currentColor;justify-self:start}
+.s-breaks-now{color:var(--cut)} .s-wrong-output{color:#8A5A00}
+.s-breaks-later{color:var(--keep)} .s-cosmetic{color:var(--muted)} .s-unrecorded{color:var(--muted)}
+.ft{font-size:14.5px;line-height:1.5}
+.meta{grid-column:2;font:400 11px/1.6 var(--mono);color:var(--muted);word-break:break-all}
+.f-fixed .ft{color:var(--muted)}
+.f-fixed .sev{color:var(--ok)}
+@media (max-width:620px){ul.findings li{grid-template-columns:1fr}.meta{grid-column:1}}
+.stamp{margin-top:40px;padding-top:18px;border-top:2px solid var(--ink);
+  font:400 11.5px/1.75 var(--mono);color:var(--muted);max-width:74ch}
+.stamp b{color:var(--ink);font-weight:500}
+</style>
+</head>
+<body>
+<div class="bar">
+  <span class="id">JORDAN DOERKSEN</span>
+  <nav><a href="../../">Home</a><a href="#risk">Risks</a><a href="#guards">Guards</a><a href="#open">Open</a></nav>
+</div>
+<div class="wrap">
+
+  <p class="kicker">Tier 2 · the work · one project</p>
+  <h1>The trading desk. Does it hold up?</h1>
+  <p class="lede">A read-only market desk. It never places an order. The interesting question
+  is not what it does — it is whether it can be trusted when it says something.
+  <b>This page is the evidence, including the parts that fail.</b></p>
+
+  <div class="headline">
+    <div><b>90</b><span>guards</span></div>
+    <div><b>616</b><span>tests passing</span></div>
+    <div><b>17</b><span>defects open</span></div>
+    <div><b>5</b><span>found and fixed</span></div>
+  </div>
+
+  <section id="risk">
+    <h2><span class="step">Step 1</span>What can go wrong</h2>
+    <p class="say">A desk that reports the wrong number quietly is worse than one that crashes.
+    These are the failure classes the harness actually mutates, and how many guards stand
+    against each.</p>
+    <figure>
+      <svg class="chart" viewBox="0 0 640 170" role="img" aria-label="Guards by mutation class"><text x="0" y="18" class="bl">text replaced</text><rect x="190" y="0" width="404" height="26" fill="#0D4FA0" rx="1"/><text x="602" y="18" class="bv">57</text><text x="0" y="52" class="bl">text disabled</text><rect x="190" y="34" width="127" height="26" fill="#0D4FA0" rx="1"/><text x="325" y="52" class="bv">18</text><text x="0" y="86" class="bl">line appended</text><rect x="190" y="68" width="85" height="26" fill="#0D4FA0" rx="1"/><text x="283" y="86" class="bv">12</text><text x="0" y="120" class="bl">file rewritten</text><rect x="190" y="102" width="14" height="26" fill="#0D4FA0" rx="1"/><text x="212" y="120" class="bv">2</text><text x="0" y="154" class="bl">text removed</text><rect x="190" y="136" width="7" height="26" fill="#0D4FA0" rx="1"/><text x="205" y="154" class="bv">1</text></svg>
+      <figcaption>Guards by the kind of damage they are tested against. 90 guards
+      across 45 files.</figcaption>
+    </figure>
+  </section>
+
+  <section id="guards">
+    <h2><span class="step">Step 2</span>What catches it</h2>
+    <p class="say">Every guard was driven into the failure it exists to catch, then the file
+    was restored and the restore checked by SHA256. A test that has never failed proves
+    nothing. The suite last ran green at 616 passed, 2 skipped.</p>
+  </section>
+
+  <section id="proof">
+    <h2><span class="step">Step 3</span>Proof they bite</h2>
+    <p class="say">Blue is the text a guard protects. Red is what the sabotage puts there
+    instead. If the test does not go red, the guard does not ship. 12 of 90
+    shown.</p>
+        <article class="mutant" id="d01"><div class="delta" role="region" tabindex="0" aria-label="Guard 1, protected text and sabotage"><pre class="keep">logs\ops</pre><pre class="cut">logs\nope</pre></div><p class="test"><span class="f">start-desk.bat</span>test_every_operator_script_writes_a_log</p></article>
+    <article class="mutant" id="d02"><div class="delta" role="region" tabindex="0" aria-label="Guard 2, protected text and sabotage"><pre class="keep">`r`npause`r`n</pre><pre class="cut">`r`nrem no pause`r`n</pre></div><p class="test"><span class="f">stop-desk.bat</span>test_every_operator_script_pauses</p></article>
+    <article class="mutant" id="d03"><div class="delta" role="region" tabindex="0" aria-label="Guard 3, protected text and sabotage"><pre class="keep">type nul &gt; &quot;%ROOT%.pause&quot; 2&gt;nul</pre><pre class="cut">rem sabotage: flag not set</pre></div><p class="test"><span class="f">stop-desk.bat</span>test_stop_sets_the_pause_flag_before_it_kills_anything</p></article>
+    <article class="mutant" id="d04"><div class="delta" role="region" tabindex="0" aria-label="Guard 4, protected text and sabotage"><pre class="keep">match &#x27;desk-watchdog&#x27;</pre><pre class="cut">match &#x27;nothing-at-all&#x27;</pre></div><p class="test"><span class="f">stop-desk.bat</span>test_stop_kills_the_watchdog_and_not_merely_the_server</p></article>
+    <article class="mutant" id="d05"><div class="delta" role="region" tabindex="0" aria-label="Guard 5, protected text and sabotage"><pre class="keep">if not exist &quot;%TEMP%\_desk_update.bat&quot; (</pre><pre class="cut">if 1==2 (</pre></div><p class="test"><span class="f">update-desk.bat</span>test_update_verifies_its_own_temp_copy</p></article>
+    <article class="mutant" id="d06"><div class="delta" role="region" tabindex="0" aria-label="Guard 6, protected text and sabotage"><pre class="keep">git reset --hard !BACKTO!</pre><pre class="cut">rem sabotage: no rollback</pre></div><p class="test"><span class="f">update-desk.bat</span>test_update_can_actually_roll_back</p></article>
+    <article class="mutant" id="d07"><div class="delta" role="region" tabindex="0" aria-label="Guard 7, protected text and sabotage"><pre class="keep">if /i &quot;%~3&quot;==&quot;rollback&quot; goto rollback_only</pre><pre class="cut">rem if /i &quot;%~3&quot;==&quot;rollback&quot; goto rollback_only</pre></div><p class="test"><span class="f">update-desk.bat</span>test_the_operator_argument_survives_the_temp_re_exec</p></article>
+    <article class="mutant" id="d08"><div class="delta" role="region" tabindex="0" aria-label="Guard 8, protected text and sabotage"><pre class="keep">for /f &quot;delims=&quot; %%D in (&#x27;git status --porcelain 2^&gt;nul&#x27;) do set &quot;DIRTY=1&quot;</pre><pre class="cut">rem sabotage: nothing asks whether the tree is dirty</pre></div><p class="test"><span class="f">update-desk.bat</span>test_the_rollback_refuses_to_discard_uncommitted_work</p></article>
+    <article class="mutant" id="d09"><div class="delta" role="region" tabindex="0" aria-label="Guard 9, protected text and sabotage"><pre class="keep">git tag -f last-good</pre><pre class="cut">rem sabotage: never tagged</pre></div><p class="test"><span class="f">update-desk.bat</span>test_update_records_last_good_only_after_a_health_check</p></article>
+    <article class="mutant" id="d10"><div class="delta" role="region" tabindex="0" aria-label="Guard 10, protected text and sabotage"><pre class="keep">if !tries! geq 20 goto desk_failed</pre><pre class="cut">if !tries! geq 20 goto desk_ok</pre></div><p class="test"><span class="f">update-desk.bat</span>test_no_launcher_treats_a_health_timeout_as_success</p></article>
+    <article class="mutant" id="d11"><div class="delta" role="region" tabindex="0" aria-label="Guard 11, protected text and sabotage"><pre class="keep">if ($written -match &#x27;GetParentFolderName&#x27;) {</pre><pre class="cut">if ($false) {</pre></div><p class="test"><span class="f">probe/install-autostart.ps1</span>test_the_read_back_refuses_a_self_resolving_startup_file</p></article>
+    <article class="mutant" id="d12"><div class="delta" role="region" tabindex="0" aria-label="Guard 12, protected text and sabotage"><pre class="keep">  powershell -NoProfile -ExecutionPolicy Bypass -File &quot;%ROOT%probe\install-autostart.ps1&quot; &gt;&gt;&quot;%LOG%&quot; 2&gt;&amp;1</pre><pre class="cut">  rem sabotage: the Startup entry is never refreshed</pre></div><p class="test"><span class="f">update-desk.bat</span>test_update_refreshes_the_autostart_entry</p></article>
+  </section>
+
+  <section id="open">
+    <h2><span class="step">Step 4</span>What is still broken</h2>
+    <p class="say">17 defects are open right now, 7 of them severe enough to break
+    something on use. They are listed because a reliability claim with a curated defect list is
+    worth nothing.</p>
+    <figure>
+      <svg class="chart" viewBox="0 0 640 170" role="img" aria-label="Findings by severity"><text x="0" y="18" class="bl">breaks-now</text><rect x="190" y="0" width="404" height="26" fill="#A82E10" rx="1"/><text x="602" y="18" class="bv">7</text><text x="0" y="52" class="bl">wrong-output</text><rect x="190" y="34" width="288" height="26" fill="#A82E10" rx="1"/><text x="486" y="52" class="bv">5</text><text x="0" y="86" class="bl">breaks-later</text><rect x="190" y="68" width="173" height="26" fill="#A82E10" rx="1"/><text x="371" y="86" class="bv">3</text><text x="0" y="120" class="bl">cosmetic</text><rect x="190" y="102" width="115" height="26" fill="#A82E10" rx="1"/><text x="313" y="120" class="bv">2</text><text x="0" y="154" class="bl">unrecorded</text><rect x="190" y="136" width="288" height="26" fill="#A82E10" rx="1"/><text x="486" y="154" class="bv">5</text></svg>
+      <figcaption>All 22 findings by severity, open and fixed together.</figcaption>
+    </figure>
+    <figure>
+      <svg class="chart" viewBox="0 0 640 204" role="img" aria-label="Findings by discovery method"><text x="0" y="18" class="bl">web-behaviour sweep</text><rect x="190" y="0" width="404" height="26" fill="#4E5A68" rx="1"/><text x="602" y="18" class="bv">9</text><text x="0" y="52" class="bl">unrecorded</text><rect x="190" y="34" width="224" height="26" fill="#4E5A68" rx="1"/><text x="422" y="52" class="bv">5</text><text x="0" y="86" class="bl">dead-mechanics sweep</text><rect x="190" y="68" width="179" height="26" fill="#4E5A68" rx="1"/><text x="377" y="86" class="bv">4</text><text x="0" y="120" class="bl">http-surface sweep</text><rect x="190" y="102" width="89" height="26" fill="#4E5A68" rx="1"/><text x="287" y="120" class="bv">2</text><text x="0" y="154" class="bl">running the desk on this machin…</text><rect x="190" y="136" width="44" height="26" fill="#4E5A68" rx="1"/><text x="242" y="154" class="bv">1</text><text x="0" y="188" class="bl">port-fidelity sweep</text><rect x="190" y="170" width="44" height="26" fill="#4E5A68" rx="1"/><text x="242" y="188" class="bv">1</text></svg>
+      <figcaption>How each defect was discovered. Most came from deliberate sweeps rather
+      than from something breaking in use.</figcaption>
+    </figure>
+    <ul class="findings"><li class="f-open"><span class="sev s-wrong-output">wrong-output</span><span class="ft">DESK_LIVE_AUTOSTART=0 logs &quot;no market data will happen&quot; and then the cockpit page arms a live TWS session anyway</span><span class="meta">server/routes/live.py  ·  running the desk on this machine, 2026-08-05 — not by the sweep</span></li><li class="f-open"><span class="sev s-breaks-now">breaks-now</span><span class="ft">Review page&#x27;s &quot;Live detector&quot; button injects {&quot;detail&quot;:&quot;Not Found&quot;} — /static/live/index.html 404s and web/live/index.html does not exist</span><span class="meta">web/js/review.js:761  ·  dead-mechanics sweep</span></li><li class="f-open"><span class="sev s-breaks-now">breaks-now</span><span class="ft">desk.css&#x27;s Minimize/Close hide rule matches zero of the six non-Sentinel ids; clicking Close permanently blanks the panel it was written to prevent</span><span class="meta">web/desk.css:131  ·  dead-mechanics sweep</span></li><li class="f-open"><span class="sev s-breaks-now">breaks-now</span><span class="ft">review.js loads the embedded live cockpit from three old-host /static/live/... paths that all 404, and the fetch has no res.ok check so it injects the literal string {&quot;detail&quot;:&quot;Not Found&quot;} into the panel</span><span class="meta">web/js/review.js:761  ·  web-behaviour sweep</span></li><li class="f-open"><span class="sev s-breaks-now">breaks-now</span><span class="ft">/0dte.html opens two full-viewport centred modal panes at the same z-index; the secondary Session Reviews pane covers the primary 0DTE engine pane</span><span class="meta">web/0dte.html:44  ·  web-behaviour sweep</span></li><li class="f-open"><span class="sev s-breaks-now">breaks-now</span><span class="ft">desk.css&#x27;s rule that hides the ported window controls matches only 1 of the 4 panels — Close and Minimize stay live on 0DTE, Session Reviews and Portfolio, and both destroy the page with no way back</span><span class="meta">web/desk.css:131  ·  web-behaviour sweep</span></li><li class="f-open"><span class="sev s-breaks-now">breaks-now</span><span class="ft">The session pickers on /review.html and /0dte.html are plain &lt;div&gt;s with click handlers and zero tabindex/role across all four panel modules — the pages&#x27; core task is unreachable by keyboard</span><span class="meta">web/js/review.js:327  ·  web-behaviour sweep</span></li><li class="f-open"><span class="sev s-breaks-now">breaks-now</span><span class="ft">The backtest filter inputs on /review.html remove the focus ring and replace it with nothing — the substitute rule uses an undefined variable on a border that also does not exist</span><span class="meta">web/js/review.js:130  ·  web-behaviour sweep</span></li><li class="f-open"><span class="sev s-wrong-output">wrong-output</span><span class="ft">GET /api/sentinel/session/{sid} falls back to a prefix glob and returns a DIFFERENT session&#x27;s numbers under the requested id</span><span class="meta">server/routes/review.py:317  ·  http-surface sweep</span></li><li class="f-open"><span class="sev s-wrong-output">wrong-output</span><span class="ft">POST /api/sentinel/engine/live/stop returns {&quot;stopped&quot;: true} but the supervisor re-arms the detector within 30s</span><span class="meta">server/live_session.py:840  ·  http-surface sweep</span></li><li class="f-open"><span class="sev s-wrong-output">wrong-output</span><span class="ft">Nine CSS custom properties from the old host are used by all four panel modules but declared nowhere — bull and bear render the same colour, panels lose backgrounds and borders</span><span class="meta">web/desk.tokens.css:1  ·  dead-mechanics sweep</span></li><li class="f-open"><span class="sev s-wrong-output">wrong-output</span><span class="ft">All 4 panel modules style themselves with CSS variables that are defined nowhere in web/ — semantic green/red collapses to one colour and the panes lose background + border</span><span class="meta">web/js/portfolio.js:55  ·  web-behaviour sweep</span></li><li class="f-open"><span class="sev s-breaks-later">breaks-later</span><span class="ft">odte.py documents the wrong env var: the comment says UNDERWRITER_URL, the code reads ODTE_ENGINE_URL</span><span class="meta">server/routes/odte.py:20  ·  port-fidelity sweep</span></li><li class="f-open"><span class="sev s-breaks-later">breaks-later</span><span class="ft">DECISIONS.md D8 names four page routes that all 404 — the real pages are only reachable with a .html suffix</span><span class="meta">docs/DECISIONS.md:182  ·  web-behaviour sweep</span></li><li class="f-open"><span class="sev s-breaks-later">breaks-later</span><span class="ft">web/live/research.html is served but its only data source, research.data.js, is gitignored — the page ships broken to any fresh clone, and five orphan files under /live/ are reachable with no link to them</span><span class="meta">web/live/.gitignore:5  ·  web-behaviour sweep</span></li><li class="f-open"><span class="sev s-cosmetic">cosmetic</span><span class="ft">0DTE panel still renders a &quot;Report a bug&quot; button whose only action is a console.info</span><span class="meta">web/js/odte.js:832  ·  dead-mechanics sweep</span></li><li class="f-open"><span class="sev s-cosmetic">cosmetic</span><span class="ft">DECISIONS.md states the live page&#x27;s ambient animation is static in V1; ten infinite loops are still shipping, including the 14s radar sweep and 26s void drift</span><span class="meta">web/live/styles.css:113  ·  web-behaviour sweep</span></li></ul>
+    <h2 style="margin-top:34px"><span class="step">Closed</span>Found and fixed</h2>
+    <ul class="findings"><li class="f-fixed"><span class="sev s-unrecorded">unrecorded</span><span class="ft">F23 FIXED. Found by asking why the 0DTE panel had never shown anything.</span><span class="meta"></span></li><li class="f-fixed"><span class="sev s-unrecorded">unrecorded</span><span class="ft">F18 FIXED, F19 FIXED. Found by running a real stop/start cycle.</span><span class="meta"></span></li><li class="f-fixed"><span class="sev s-unrecorded">unrecorded</span><span class="ft">F20 FIXED by CR-2026-08-19-G (heading corrected 2026-09-06, CR-2026-09-06-AM)</span><span class="meta"></span></li><li class="f-fixed"><span class="sev s-unrecorded">unrecorded</span><span class="ft">F21 FIXED. The desk never came back after a reboot.</span><span class="meta"></span></li><li class="f-fixed"><span class="sev s-unrecorded">unrecorded</span><span class="ft">F22 FIXED. The Regime page could never fill in on the operator&#x27;s machine.</span><span class="meta"></span></li></ul>
+  </section>
+
+  <p class="stamp">
+    Guards from <b>tests/sabotage.ps1</b> at commit <b>4780e3a</b>. Findings from
+    <b>docs/FINDINGS-OPEN.md</b> at commit <b>4780e3a</b>. Generated <b>2026-09-08</b> — a stamped
+    snapshot, not a live reading.<br>
+    The desk is a private repo. Titles, severity, status, discovery method and file references
+    are published; the failure analyses and fixes are not.<br>
+    No diagram of the desk exists yet, so this page carries none rather than reusing the
+    retired Warden one.
+  </p>
+</div>
+</body>
+</html>
