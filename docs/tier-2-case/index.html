@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The desk, one path at a time</title>
+<title>The trading desk, one path at a time</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -28,6 +28,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
 .kicker{margin:0 0 14px;font:500 11px/1 var(--mono);letter-spacing:.18em;
   text-transform:uppercase;color:var(--live)}
 h1{margin:0 0 20px;max-width:16ch;font:900 clamp(30px,5.6vw,56px)/.97 var(--display);letter-spacing:-.045em}
+.what-it-is{margin:0 0 22px;max-width:60ch;font-size:16px;line-height:1.6;color:var(--ink-2)}
+.what-it-is b{color:var(--ink);font-weight:600}
 .idea{margin:0 0 30px;max-width:62ch;font-size:clamp(16px,1.5vw,19px);line-height:1.55;color:var(--ink-2)}
 .idea span{display:block;opacity:0;animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards;animation-delay:var(--d)}
 .idea span:first-child{color:var(--ink);font-weight:600}
@@ -167,8 +169,13 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
 </head>
 <body>
 <div class="wrap">
-  <p class="kicker">Tier 2 · the display case</p>
-  <h1>The desk, one path at a time.</h1>
+  <p class="kicker">Tier 2 · the work</p>
+  <h1>The trading desk, one path at a time.</h1>
+  <!-- The section used to open on "the desk" and never say what that was. A
+       reader arriving here has no idea whether it trades, and it does not. -->
+  <p class="what-it-is">A read-only market desk. It records the tape, measures it, and
+  reports what it sees. <b>It never places an order</b> — that is a constraint in the
+  build, not a setting. Below is every path data takes through it, one part at a time.</p>
   <p class="idea"><span style="--d:0ms">Market data enters once</span><span style="--d:420ms">is measured once</span><span style="--d:840ms">and leaves by four separate doors: a tape</span><span style="--d:1260ms">a webhook</span><span style="--d:1680ms">a web page and a one-line file.</span></p>
 
   <input type="radio" name="tour" id="t-market" class="t-radio" checked>

@@ -253,7 +253,9 @@ body{margin:0;background:#EFF2F6;color:#0F1720;
   <div class="wrap">
     <p class="eyebrow">Winnipeg</p>
     <h1>Jordan Doerksen</h1>
-    <p class="role">Self-taught maker. Read-only trading instruments, rail training
+    <!-- "maker" dropped at the owner's instruction, 2026-09-08. The noun was
+         doing no work: the next clause already says what he builds. -->
+    <p class="role">Self-taught. I build read-only trading instruments, rail training
     software, and games.</p>
 
     <p class="intro">Most of what I build watches something and refuses to guess. The

@@ -79,7 +79,7 @@ body{margin:0;background:#EFF2F6;color:#0F1720;
 }.t2, .t2 *::before, .t2 *::after{box-sizing:border-box}.t2{overflow-x:clip}.t2{margin:0;background:var(--paper);color:var(--ink);font:400 15.5px/1.6 var(--sans)}.t2::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(60rem 40rem at 70% -10%,rgba(57,189,248,.10),transparent 60%)}.t2 .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;
   padding:clamp(28px,5vw,60px) clamp(16px,4vw,40px) 100px}.t2 .kicker{margin:0 0 14px;font:500 11px/1 var(--mono);letter-spacing:.18em;
-  text-transform:uppercase;color:var(--live)}.t2 h1{margin:0 0 20px;max-width:16ch;font:900 clamp(30px,5.6vw,56px)/.97 var(--display);letter-spacing:-.045em}.t2 .idea{margin:0 0 30px;max-width:62ch;font-size:clamp(16px,1.5vw,19px);line-height:1.55;color:var(--ink-2)}.t2 .idea span{display:block;opacity:0;animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards;animation-delay:var(--d)}.t2 .idea span:first-child{color:var(--ink);font-weight:600}
+  text-transform:uppercase;color:var(--live)}.t2 h1{margin:0 0 20px;max-width:16ch;font:900 clamp(30px,5.6vw,56px)/.97 var(--display);letter-spacing:-.045em}.t2 .what-it-is{margin:0 0 22px;max-width:60ch;font-size:16px;line-height:1.6;color:var(--ink-2)}.t2 .what-it-is b{color:var(--ink);font-weight:600}.t2 .idea{margin:0 0 30px;max-width:62ch;font-size:clamp(16px,1.5vw,19px);line-height:1.55;color:var(--ink-2)}.t2 .idea span{display:block;opacity:0;animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards;animation-delay:var(--d)}.t2 .idea span:first-child{color:var(--ink);font-weight:600}
 @keyframes rise{from{opacity:0;transform:translateY(.5em)}to{opacity:1;transform:none}}.t2 .t-radio{position:absolute;opacity:0;pointer-events:none}.t2 .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}.t2 .tab{cursor:pointer;border:1px solid var(--hair);background:var(--sheet);padding:9px 13px;
   display:flex;flex-direction:column;gap:2px;line-height:1.2}.t2 .tab b{font:600 13px/1.3 var(--sans)}.t2 .tab span{font:400 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.t2 .tab:hover{border-color:var(--live)}.t2 .t-radio:focus-visible ~ .tabs label{outline:2px solid var(--live);outline-offset:2px}.t2 .tour{display:none}.t2 #t-market:checked ~ .tabs label[for="t-market"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}.t2 #t-market:checked ~ .panels #p-market{display:block}.t2 #t-order:checked ~ .tabs label[for="t-order"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}.t2 #t-order:checked ~ .panels #p-order{display:block}.t2 #t-evidence:checked ~ .tabs label[for="t-evidence"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}.t2 #t-evidence:checked ~ .panels #p-evidence{display:block}.t2 #t-iceberg:checked ~ .tabs label[for="t-iceberg"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}.t2 #t-iceberg:checked ~ .panels #p-iceberg{display:block}.t2 #t-regime:checked ~ .tabs label[for="t-regime"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}.t2 #t-regime:checked ~ .panels #p-regime{display:block}.t2 .blurb{margin:0 0 18px;max-width:60ch;color:var(--muted);font:400 14.5px/1.6 var(--sans)}.t2 /* ---------- no JS: every card in document order. This IS the fallback. ---- */
 .slots{display:grid;gap:14px}.t2 .card{position:relative;background:var(--sheet);border:1px solid var(--hair);padding:15px 17px}.t2 .idx{position:absolute;top:12px;right:14px;font:500 10px/1 var(--mono);color:var(--muted)}.t2 .card h3{margin:0 0 6px;font:600 16px/1.3 var(--sans);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}.t2 .card h3 .sub{font:400 11px/1.4 var(--mono);color:var(--live);letter-spacing:.04em}.t2 .what{margin:0 0 10px;color:var(--ink-2);font-size:14.5px}.t2 .badge{display:inline-block;margin:0 6px 0 0;padding:2px 8px;font:500 10.5px/1.7 var(--mono);
@@ -180,7 +180,9 @@ body{margin:0;background:#EFF2F6;color:#0F1720;
   <div class="wrap">
     <p class="eyebrow">Winnipeg</p>
     <h1>Jordan Doerksen</h1>
-    <p class="role">Self-taught maker. Read-only trading instruments, rail training
+    <!-- "maker" dropped at the owner's instruction, 2026-09-08. The noun was
+         doing no work: the next clause already says what he builds. -->
+    <p class="role">Self-taught. I build read-only trading instruments, rail training
     software, and games.</p>
 
     <p class="intro">Most of what I build watches something and refuses to guess. The
@@ -217,8 +219,13 @@ body{margin:0;background:#EFF2F6;color:#0F1720;
 
 <section class="tier t2" id="t2" data-atmos="t2">
 <div class="wrap">
-  <p class="kicker">Tier 2 · the display case</p>
-  <h1>The desk, one path at a time.</h1>
+  <p class="kicker">Tier 2 · the work</p>
+  <h1>The trading desk, one path at a time.</h1>
+  <!-- The section used to open on "the desk" and never say what that was. A
+       reader arriving here has no idea whether it trades, and it does not. -->
+  <p class="what-it-is">A read-only market desk. It records the tape, measures it, and
+  reports what it sees. <b>It never places an order</b> — that is a constraint in the
+  build, not a setting. Below is every path data takes through it, one part at a time.</p>
   <p class="idea"><span style="--d:0ms">Market data enters once</span><span style="--d:420ms">is measured once</span><span style="--d:840ms">and leaves by four separate doors: a tape</span><span style="--d:1260ms">a webhook</span><span style="--d:1680ms">a web page and a one-line file.</span></p>
 
   <input type="radio" name="tour" id="t-market" class="t-radio" checked>
