@@ -40,7 +40,7 @@
   ],
   "links": {
     "live": "/rail/cror-trainer/",
-    "repo": "https://github.com/Jordan-Doerksen/cn-conductor-trainer"
+    "repo": null
   },
   "diagram": "/assets/diagrams/cn-conductor-trainer.svg"
 }

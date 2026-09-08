@@ -28,6 +28,6 @@
     "Orbit-spawn math uses the real circular-orbit formula, not an arbitrary value.",
     "The two-canvas split is a performance decision — only bodies and trails need per-frame redraw."
   ],
-  "links": { "live": "/games/orbital-field/", "repo": "https://github.com/Jordan-Doerksen/orbital-field" },
+  "links": { "live": "/games/orbital-field/", "repo": null },
   "diagram": "/assets/diagrams/orbital-field.svg"
 }

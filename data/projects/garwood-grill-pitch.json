@@ -29,6 +29,6 @@
     "No contact form, analytics, or CMS — a static page a diner can actually own.",
     "Mobile hamburger nav for the phone-first audience."
   ],
-  "links": { "live": "/studio/garwood-grill-pitch/", "repo": "https://github.com/Jordan-Doerksen/garwood-grill-pitch" },
+  "links": { "live": "/studio/garwood-grill-pitch/", "repo": null },
   "diagram": "/assets/diagrams/garwood-grill-pitch.svg"
 }

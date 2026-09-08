@@ -31,6 +31,6 @@
     "Documented mid-build self-corrections (Phase Veil dodge cap lowered 4 to 3; Quick Plot redefined).",
     "A parked-not-now list keeps alt controls, boss plates, meta-progression, and mobile explicitly out of scope."
   ],
-  "links": { "live": "/games/star-charter-pro/", "repo": "https://github.com/Jordan-Doerksen/star-charter-pro" },
+  "links": { "live": "/games/star-charter-pro/", "repo": null },
   "diagram": "/assets/diagrams/star-charter-pro.svg"
 }

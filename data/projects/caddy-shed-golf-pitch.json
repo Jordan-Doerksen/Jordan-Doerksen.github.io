@@ -31,6 +31,6 @@
     "Each direction handles hours differently — static table, animated counter, or a live open/closed computation.",
     "prefers-reduced-motion respected across the whole package."
   ],
-  "links": { "live": "/studio/caddy-shed-golf-pitch/", "repo": "https://github.com/Jordan-Doerksen/caddy-shed-golf-pitch" },
+  "links": { "live": "/studio/caddy-shed-golf-pitch/", "repo": null },
   "diagram": "/assets/diagrams/caddy-shed-golf-pitch.svg"
 }

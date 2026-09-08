@@ -41,6 +41,6 @@
     "All expected-move math derives from the interpolated ATM straddle mid; broker IV never enters a time-scaling formula.",
     "KPI honesty — the UI states unconditional 0DTE selling is roughly zero-EV after frictions; POP is never presented as edge."
   ],
-  "links": { "live": null, "repo": "https://github.com/Jordan-Doerksen/underwriter" },
+  "links": { "live": null, "repo": null },
   "diagram": "/assets/diagrams/underwriter.svg"
 }

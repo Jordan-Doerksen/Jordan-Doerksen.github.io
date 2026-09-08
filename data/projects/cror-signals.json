@@ -41,7 +41,7 @@
   ],
   "links": {
     "live": "/rail/cror-signals/",
-    "repo": "https://github.com/Jordan-Doerksen/cror-signals"
+    "repo": null
   },
   "diagram": "/assets/diagrams/cror-signals.svg"
 }

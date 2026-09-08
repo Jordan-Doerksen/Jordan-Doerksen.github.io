@@ -40,7 +40,7 @@
    "slug": "tools",
    "name": "Tools",
    "num": "07",
-   "desc": "Small tools that kill real friction"
+   "desc": "Small tools for small annoyances"
   }
  ],
  "projects": [
@@ -74,7 +74,7 @@
    "status": "live",
    "tier": "full",
    "url": "/rail/cror-signals/",
-   "repo": "https://github.com/Jordan-Doerksen/cror-signals",
+   "repo": null,
    "featured": false,
    "spec": "FULL SIGNAL SUITE · FREE",
    "supersededBy": "clear-board"
@@ -91,7 +91,7 @@
    "status": "live",
    "tier": "full",
    "url": "/rail/cror-trainer/",
-   "repo": "https://github.com/Jordan-Doerksen/cn-conductor-trainer",
+   "repo": null,
    "featured": false,
    "spec": "7 MODULES · CROR JAN-2025",
    "supersededBy": "clear-board"
@@ -108,7 +108,7 @@
    "status": "live",
    "tier": "full",
    "url": "/rail/training-assistant/",
-   "repo": "https://github.com/Jordan-Doerksen/training-assistant",
+   "repo": null,
    "featured": false,
    "spec": "CROR JAN-2025 · CITED",
    "supersededBy": "clear-board"
@@ -125,7 +125,7 @@
    "status": "live",
    "tier": "full",
    "url": "/rail/switch-list/",
-   "repo": "https://github.com/Jordan-Doerksen/switch-list",
+   "repo": null,
    "featured": false,
    "spec": "19 JOBS · MACHINE-VERIFIED PAR",
    "supersededBy": "clear-board"
@@ -158,7 +158,7 @@
    "status": "live",
    "tier": "full",
    "url": "/games/diablo-act1/",
-   "repo": "https://github.com/Jordan-Doerksen/diablo-act1",
+   "repo": null,
    "featured": false,
    "spec": "SINGLE FILE · TRIBUTE"
   },
@@ -174,7 +174,7 @@
    "status": "live",
    "tier": "full",
    "url": "/games/echo-bat/",
-   "repo": "https://github.com/Jordan-Doerksen/echo-bat",
+   "repo": null,
    "featured": false,
    "spec": "SINGLE FILE · MOBILE-FIRST"
   },
@@ -189,9 +189,9 @@
     "Seeded"
    ],
    "status": "live",
-   "tier": "full",
+   "tier": "entry",
    "url": "/games/first-light/",
-   "repo": "https://github.com/Jordan-Doerksen/first-light",
+   "repo": null,
    "featured": false,
    "spec": "DOMAIN-SPLIT · SEEDED NIGHTS"
   },
@@ -222,9 +222,9 @@
     "Seeded"
    ],
    "status": "live",
-   "tier": "full",
+   "tier": "entry",
    "url": "/games/fulfillment-lite/",
-   "repo": "https://github.com/Jordan-Doerksen/fulfillment-lite",
+   "repo": null,
    "featured": false,
    "spec": "DOMAIN-SPLIT · SEEDED SHIFTS"
   },
@@ -240,7 +240,7 @@
    "status": "live",
    "tier": "full",
    "url": "/games/glass-atlas/",
-   "repo": "https://github.com/Jordan-Doerksen/glass-atlas",
+   "repo": null,
    "featured": true,
    "spec": "DETERMINISTIC · SAVES PNG"
   },
@@ -255,9 +255,9 @@
     "Isometric"
    ],
    "status": "live",
-   "tier": "full",
+   "tier": "entry",
    "url": "/games/holdout/",
-   "repo": "https://github.com/Jordan-Doerksen/holdout",
+   "repo": null,
    "featured": false,
    "spec": "DOMAIN-SPLIT · WAVE 30 OR NOTHING"
   },
@@ -273,7 +273,7 @@
    "status": "live",
    "tier": "full",
    "url": "/games/orbital-field/",
-   "repo": "https://github.com/Jordan-Doerksen/orbital-field",
+   "repo": null,
    "featured": false,
    "spec": "TOY · NO SCORE"
   },
@@ -306,7 +306,7 @@
    "status": "live",
    "tier": "full",
    "url": "/games/star-charter/",
-   "repo": "https://github.com/Jordan-Doerksen/star-charter",
+   "repo": null,
    "featured": false,
    "spec": "SINGLE FILE · NO BUILD"
   },
@@ -322,7 +322,7 @@
    "status": "live",
    "tier": "full",
    "url": "/games/star-charter-pro/",
-   "repo": "https://github.com/Jordan-Doerksen/star-charter-pro",
+   "repo": null,
    "featured": false,
    "spec": "SINGLE FILE · ROGUELITE"
   },
@@ -438,7 +438,7 @@
    "status": "built",
    "tier": "full",
    "url": null,
-   "repo": "https://github.com/Jordan-Doerksen/underwriter",
+   "repo": null,
    "featured": false,
    "spec": "SLICE 1 OF 5 · READ-ONLY FOREVER"
   },
@@ -639,7 +639,7 @@
    "status": "live",
    "tier": "full",
    "url": "/studio/bonnie-day-pitch/",
-   "repo": "https://github.com/Jordan-Doerksen/bonnie-day-pitch",
+   "repo": null,
    "featured": false,
    "spec": "MOBILE-FIRST · 3 PAGES"
   },
@@ -655,7 +655,7 @@
    "status": "live",
    "tier": "full",
    "url": "/studio/caddy-shed-golf-pitch/",
-   "repo": "https://github.com/Jordan-Doerksen/caddy-shed-golf-pitch",
+   "repo": null,
    "featured": false,
    "spec": "3 DIRECTIONS · PITCH"
   },
@@ -671,7 +671,7 @@
    "status": "live",
    "tier": "full",
    "url": "/studio/garwood-grill-pitch/",
-   "repo": "https://github.com/Jordan-Doerksen/garwood-grill-pitch",
+   "repo": null,
    "featured": false,
    "spec": "SITE + PROPOSAL"
   },
@@ -687,7 +687,7 @@
    "status": "live",
    "tier": "full",
    "url": "/studio/hoagie-boyz-pitch/",
-   "repo": "https://github.com/Jordan-Doerksen/hoagie-boyz-pitch",
+   "repo": null,
    "featured": false,
    "spec": "SITE + PROPOSAL"
   },
@@ -695,7 +695,7 @@
    "slug": "portfolio-monorepo",
    "name": "jordan-doerksen.github.io",
    "category": "studio",
-   "blurb": "This site. The atlas contains an entry for the atlas.",
+   "blurb": "This site. There's a write-up of it in here somewhere.",
    "tags": [
     "Monorepo",
     "No Build",
@@ -720,7 +720,7 @@
    "status": "live",
    "tier": "full",
    "url": "https://jordan-doerksen.github.io/Resume/",
-   "repo": "https://github.com/Jordan-Doerksen/Resume",
+   "repo": null,
    "featured": false,
    "spec": "ONE JSON · WEB + DOCX"
   },
@@ -736,7 +736,7 @@
    "status": "live",
    "tier": "full",
    "url": "https://jordan-doerksen.github.io/style-library/",
-   "repo": "https://github.com/Jordan-Doerksen/style-library",
+   "repo": null,
    "featured": false,
    "spec": "3 FILES · NO BUILD"
   },
@@ -819,7 +819,7 @@
    "status": "active",
    "tier": "full",
    "url": null,
-   "repo": "https://github.com/Jordan-Doerksen/spectrum",
+   "repo": null,
    "featured": false,
    "spec": "RUST + TAURI · NO API KEYS"
   },
@@ -887,7 +887,7 @@
    "status": "built",
    "tier": "entry",
    "url": null,
-   "repo": "https://github.com/Jordan-Doerksen/fun-police",
+   "repo": null,
    "featured": false,
    "spec": "NODE · DISCORD.JS V14"
   },

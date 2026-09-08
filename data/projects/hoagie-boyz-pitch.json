@@ -30,6 +30,6 @@
     "Marquee banner disabled under prefers-reduced-motion.",
     "Menu disclaims that prices are recent and may shift."
   ],
-  "links": { "live": "/studio/hoagie-boyz-pitch/", "repo": "https://github.com/Jordan-Doerksen/hoagie-boyz-pitch" },
+  "links": { "live": "/studio/hoagie-boyz-pitch/", "repo": null },
   "diagram": "/assets/diagrams/hoagie-boyz-pitch.svg"
 }

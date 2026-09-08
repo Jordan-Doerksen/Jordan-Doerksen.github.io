@@ -29,6 +29,6 @@
     "Safe-zone spawn generation is a deliberate nod to D2's own map-generation discipline.",
     "The skill system mirrors D2's class-identity structure (one primary + a 3-skill kit) rather than a generic combo system."
   ],
-  "links": { "live": "/games/diablo-act1/", "repo": "https://github.com/Jordan-Doerksen/diablo-act1" },
+  "links": { "live": "/games/diablo-act1/", "repo": null },
   "diagram": "/assets/diagrams/diablo-act1.svg"
 }

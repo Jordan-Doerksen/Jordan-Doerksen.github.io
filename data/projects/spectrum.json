@@ -32,6 +32,6 @@
     "Restart loses the in-memory drip queue — an accepted V1 trade-off.",
     "Vanilla UI with withGlobalTauri, mirroring the house Tauri pattern; a React swap is a documented future option."
   ],
-  "links": { "live": null, "repo": "https://github.com/Jordan-Doerksen/spectrum" },
+  "links": { "live": null, "repo": null },
   "diagram": "/assets/diagrams/spectrum.svg"
 }

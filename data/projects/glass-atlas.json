@@ -30,6 +30,6 @@
     "Content pools are tuned for a deadpan celestial naming voice, consistent with the house voice.",
     "Under reduced-motion the static base is blitted once instead of animating twinkle."
   ],
-  "links": { "live": "/games/glass-atlas/", "repo": "https://github.com/Jordan-Doerksen/glass-atlas" },
+  "links": { "live": "/games/glass-atlas/", "repo": null },
   "diagram": "/assets/diagrams/glass-atlas.svg"
 }

@@ -30,6 +30,6 @@
     "Every photo flagged as a stand-in — the most explicit stock-photo honesty of the four.",
     "Carries over an in-memoriam dedication from the real business's site — sensitive content preserved, not stripped."
   ],
-  "links": { "live": "/studio/bonnie-day-pitch/", "repo": "https://github.com/Jordan-Doerksen/bonnie-day-pitch" },
+  "links": { "live": "/studio/bonnie-day-pitch/", "repo": null },
   "diagram": "/assets/diagrams/bonnie-day-pitch.svg"
 }

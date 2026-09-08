@@ -40,7 +40,7 @@
   ],
   "links": {
     "live": "/rail/training-assistant/",
-    "repo": "https://github.com/Jordan-Doerksen/training-assistant"
+    "repo": null
   },
   "diagram": "/assets/diagrams/training-assistant.svg"
 }

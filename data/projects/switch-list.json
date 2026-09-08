@@ -40,7 +40,7 @@
   ],
   "links": {
     "live": "/rail/switch-list/",
-    "repo": "https://github.com/Jordan-Doerksen/switch-list"
+    "repo": null
   },
   "diagram": "/assets/diagrams/switch-list.svg"
 }

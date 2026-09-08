@@ -33,6 +33,6 @@
     "Owls are level-gated to 4+ so players learn the core mechanic hazard-free first.",
     "Single file, zero dependencies is a locked decision — module-splitting deferred until it hurts."
   ],
-  "links": { "live": "/games/echo-bat/", "repo": "https://github.com/Jordan-Doerksen/echo-bat" },
+  "links": { "live": "/games/echo-bat/", "repo": null },
   "diagram": "/assets/diagrams/echo-bat.svg"
 }

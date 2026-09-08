@@ -33,6 +33,6 @@
     "prefers-reduced-motion disables background meteors and halves particle counts.",
     "The repo intentionally keeps the full git history — where the line was born."
   ],
-  "links": { "live": "/games/star-charter/", "repo": "https://github.com/Jordan-Doerksen/star-charter" },
+  "links": { "live": "/games/star-charter/", "repo": null },
   "diagram": "/assets/diagrams/star-charter.svg"
 }

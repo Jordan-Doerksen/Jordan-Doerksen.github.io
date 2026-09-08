@@ -1,4 +1,4 @@
-// MIRRORED from C:\projects\it-toolkit\data\tools.js — edit there, copy here.
+// MIRRORED from C:\projects\tools\it-toolkit\data\tools.js — edit there, copy here.
 /*
  * IT Toolkit — structured tool data (drives index.html)
  * ---------------------------------------------------------------------------
