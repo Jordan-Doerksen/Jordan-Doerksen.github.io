@@ -1,0 +1,918 @@
+{
+  "schema": 1,
+  "_": "GENERATED - do not hand-edit. Rebuild with scripts/build_guards.py. A guard whose test no longer exists is EXCLUDED, never shown, and counted in `stale`.",
+  "generated": "2026-09-08T04:44:46+00:00",
+  "source": {
+    "repo": "trading-desk",
+    "file": "tests/sabotage.ps1",
+    "commit": "4780e3a"
+  },
+  "premise": "A test that has never failed is not a guard - it is a green light of unknown wiring. Each case below is driven into the failure it exists to catch, then the tree is restored and the restore is proven by SHA256.",
+  "counts": {
+    "published": 90,
+    "staleExcluded": 0,
+    "staleTests": []
+  },
+  "guards": [
+    {
+      "test": "test_every_bat_is_crlf_on_disk",
+      "file": "stop-desk.bat",
+      "find": null,
+      "replace": null,
+      "append": null,
+      "mode": "ToLF",
+      "exists": true,
+      "mutation": "Rewrites the file's line endings (ToLF), which is the exact condition the guard exists to reject."
+    },
+    {
+      "test": "test_every_operator_script_writes_a_log",
+      "file": "start-desk.bat",
+      "find": "logs\\ops",
+      "replace": "logs\\nope",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_operator_script_pauses",
+      "file": "stop-desk.bat",
+      "find": "`r`npause`r`n",
+      "replace": "`r`nrem no pause`r`n",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_stop_sets_the_pause_flag_before_it_kills_anything",
+      "file": "stop-desk.bat",
+      "find": "type nul > \"%ROOT%.pause\" 2>nul",
+      "replace": "rem sabotage: flag not set",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_stop_kills_the_watchdog_and_not_merely_the_server",
+      "file": "stop-desk.bat",
+      "find": "match 'desk-watchdog'",
+      "replace": "match 'nothing-at-all'",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_process_kills_match_on_command_line_not_image_name",
+      "file": "stop-desk.bat",
+      "find": null,
+      "replace": null,
+      "append": "taskkill /IM python.exe /F",
+      "mode": null,
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_update_verifies_its_own_temp_copy",
+      "file": "update-desk.bat",
+      "find": "if not exist \"%TEMP%\\_desk_update.bat\" (",
+      "replace": "if 1==2 (",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_update_can_actually_roll_back",
+      "file": "update-desk.bat",
+      "find": "git reset --hard !BACKTO!",
+      "replace": "rem sabotage: no rollback",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_operator_argument_survives_the_temp_re_exec",
+      "file": "update-desk.bat",
+      "find": "if /i \"%~3\"==\"rollback\" goto rollback_only",
+      "replace": "rem if /i \"%~3\"==\"rollback\" goto rollback_only",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_rollback_refuses_to_discard_uncommitted_work",
+      "file": "update-desk.bat",
+      "find": "for /f \"delims=\" %%D in ('git status --porcelain 2^>nul') do set \"DIRTY=1\"",
+      "replace": "rem sabotage: nothing asks whether the tree is dirty",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_update_records_last_good_only_after_a_health_check",
+      "file": "update-desk.bat",
+      "find": "git tag -f last-good",
+      "replace": "rem sabotage: never tagged",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_launcher_treats_a_health_timeout_as_success",
+      "file": "update-desk.bat",
+      "find": "if !tries! geq 20 goto desk_failed",
+      "replace": "if !tries! geq 20 goto desk_ok",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_read_back_refuses_a_self_resolving_startup_file",
+      "file": "probe/install-autostart.ps1",
+      "find": "if ($written -match 'GetParentFolderName') {",
+      "replace": "if ($false) {",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_update_refreshes_the_autostart_entry",
+      "file": "update-desk.bat",
+      "find": "  powershell -NoProfile -ExecutionPolicy Bypass -File \"%ROOT%probe\\install-autostart.ps1\" >>\"%LOG%\" 2>&1",
+      "replace": "  rem sabotage: the Startup entry is never refreshed",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_start_installs_autostart_through_the_generator",
+      "file": "start-desk.bat",
+      "find": "  powershell -NoProfile -ExecutionPolicy Bypass -File \"%ROOT%probe\\install-autostart.ps1\" >>\"%LOG%\" 2>&1",
+      "replace": "  rem sabotage: autostart is never installed",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_update_desk_also_refreshes_the_regime_page",
+      "file": "update-desk.bat",
+      "find": "  start \"\" wscript.exe \"%ROOT%regime-hidden.vbs\"",
+      "replace": "  rem sabotage: the Regime page is never refreshed",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_session_boundary_is_proven_by_running_it",
+      "file": "update-regime.bat",
+      "find": "[TimeSpan]'16:15:00'",
+      "replace": "[TimeSpan]'09:15:00'",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_auto_grade_marker_keys_on_the_session_not_the_run_date",
+      "file": "update-regime.bat",
+      "find": "ConvertTimeBySystemTimeZoneId(",
+      "replace": "ConvertTimeBySystemTimeZoneIdBROKEN(",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_regime_launcher_checks_the_desk_is_up_first",
+      "file": "update-regime.bat",
+      "find": "curl -fs -o NUL --max-time 5 \"%HEALTH%\" >nul 2>&1",
+      "replace": "rem sabotage: the desk is never probed",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_stands_down_on_the_pause_flag",
+      "file": "desk-watchdog.bat",
+      "find": "if exist \"%ROOT%.pause\" (",
+      "replace": "if 1==2 (",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_stands_down_on_the_pause_flag",
+      "file": "desk-watchdog.bat",
+      "find": "if exist \"%ROOT%.pause\" (",
+      "replace": "rem if exist \"%ROOT%.pause\" (",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_treats_an_error_page_as_a_failure",
+      "file": "desk-watchdog.bat",
+      "find": "curl -fs -o NUL",
+      "replace": "curl -s -o NUL",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_never_builds_or_pulls",
+      "file": "desk-watchdog.bat",
+      "find": null,
+      "replace": null,
+      "append": "git pull --ff-only",
+      "mode": null,
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_no_operator_script_deletes_the_way_back",
+      "file": "stop-desk.bat",
+      "find": null,
+      "replace": null,
+      "append": "git tag -d last-good",
+      "mode": null,
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_doctor_changes_nothing",
+      "file": "doctor.bat",
+      "find": null,
+      "replace": null,
+      "append": "taskkill /IM python.exe /F",
+      "mode": null,
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_the_inventory_changes_nothing_and_leaks_nothing",
+      "file": "probe/inventory.ps1",
+      "find": null,
+      "replace": null,
+      "append": "Stop-Process -Name python -Force",
+      "mode": null,
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_powershell_scripts_with_non_ascii_carry_a_utf8_bom",
+      "file": "probe/doctor.ps1",
+      "find": null,
+      "replace": null,
+      "append": null,
+      "mode": "StripBom",
+      "exists": true,
+      "mutation": "Rewrites the file's line endings (StripBom), which is the exact condition the guard exists to reject."
+    },
+    {
+      "test": "test_no_bat_counts_files_by_piping_inside_a_for_loop",
+      "file": "import-recordings.bat",
+      "find": null,
+      "replace": null,
+      "append": "for /f %%N in ('powershell -NoProfile -Command \"(Get-ChildItem . ^| Measure-Object).Count\"') do set \"X=%%N\"",
+      "mode": null,
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_backup_syncs_with_the_remote_before_staging_anything",
+      "file": "backup-recordings.bat",
+      "find": "git merge --ff-only origin/main >>\"%LOG%\" 2>&1",
+      "replace": "rem sabotage: staged on top of an unknown remote",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_backup_tripwire_is_scoped_to_tapes_not_to_every_deletion",
+      "file": "backup-recordings.bat",
+      "find": "else { Write-Output ('adoption housekeeping: D '+$p) }",
+      "replace": "else { $bad += ('sabotage: every deletion aborts ' + $p) }",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_backup_refuses_on_zero_tapes_before_it_mirrors_anything",
+      "file": "backup-recordings.bat",
+      "find": "if \"%NTAPES%\"==\"0\" (",
+      "replace": "if \"%NTAPES%\"==\"-1\" (",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_backup_mirror_excludes_the_vendor_dump_and_refreshes_torn_files",
+      "file": "backup-recordings.bat",
+      "find": "/E /XO /XF cboe_raw* /R:1 /W:1",
+      "replace": "/E /XO /XN /XF cboe_raw* /R:1 /W:1",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_import_never_copies_the_old_desks_nested_git_state",
+      "file": "import-recordings.bat",
+      "find": "/E /XO /XN /XD .git /XF _backup.log /R:1",
+      "replace": "/E /XO /XN /R:1",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backup_schedule_stays_removed_and_cannot_hang_forever",
+      "file": "probe/install-backup-schedule.ps1",
+      "find": "if (Test-Path $Marker) {",
+      "replace": "if ($false) {",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_ops_schedule_stays_removed_and_doctor_can_tell_why",
+      "file": "probe/install-ops-schedule.ps1",
+      "find": "if (Test-Path $Marker) {",
+      "replace": "if ($false) {",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_scheduled_backup_can_never_hang_on_a_hidden_credential_prompt",
+      "file": "backup-recordings.bat",
+      "find": "set \"GIT_TERMINAL_PROMPT=0\"",
+      "replace": "rem sabotage: prompts stay on",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_scheduled_task_launches_a_visible_console",
+      "file": "probe/install-ops-schedule.ps1",
+      "find": "New-ScheduledTaskAction -Execute $wscript",
+      "replace": "New-ScheduledTaskAction -Execute $psExe",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ops_report_surfaces_named_log_failures_to_discord",
+      "file": "probe/ops-report.ps1",
+      "find": "|$failHash\"",
+      "replace": "\"",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_discord_post_sends_utf8_bytes",
+      "file": "probe/ops-report.ps1",
+      "find": "    Invoke-RestMethod -Uri $hook -Method Post -ContentType 'application/json; charset=utf-8' -Body ([Text.Encoding]::UTF8.GetBytes($payload)) | Out-Null",
+      "replace": "    # Invoke-RestMethod -Uri $hook -Method Post -ContentType 'application/json; charset=utf-8' -Body ([Text.Encoding]::UTF8.GetBytes($payload)) | Out-Null",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_discord_post_sends_the_webhook_url_as_its_body",
+      "file": "probe/ops-report.ps1",
+      "find": "UTF8.GetBytes($payload)",
+      "replace": "UTF8.GetBytes($hook)",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_live_arm_honours_the_autostart_kill_switch",
+      "file": "server/routes/live.py",
+      "find": "\"state\": \"LIVE_DISABLED\",",
+      "replace": "\"state\": \"OOPS\",",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_autostart_guard_defaults_to_enabled",
+      "file": "server/main.py",
+      "find": "os.getenv(\"DESK_LIVE_AUTOSTART\", \"1\")",
+      "replace": "os.getenv(\"DESK_LIVE_AUTOSTART\", \"0\")",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_engine_url_constant_matches_the_variable_it_reads",
+      "file": "server/routes/odte.py",
+      "find": "`nODTE_ENGINE_URL = os.getenv",
+      "replace": "`nUNDERWRITER_URL = os.getenv",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_offline_state_is_named_and_never_raised",
+      "file": "server/routes/odte.py",
+      "find": null,
+      "replace": null,
+      "append": "# raise HTTPException(status_code=502)",
+      "mode": null,
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_the_research_bundle_is_published_atomically_and_dated",
+      "file": "server/sentinel/research/publish.py",
+      "find": "os.replace(tmp, dest)",
+      "replace": "os.rename(tmp, dest)",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_corpus_counts_and_names_the_torn_tapes_it_read",
+      "file": "server/sentinel/alerting/obi_fade_replay.py",
+      "find": "        integ = tape_integrity(p)",
+      "replace": "        integ = {\"torn\": False, \"reason\": None}",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_css_variable_the_pages_use_is_declared",
+      "file": "web/desk.tokens.css",
+      "find": "  --red:             var(--bad);",
+      "replace": "",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Deletes the protected text entirely."
+    },
+    {
+      "test": "test_no_page_references_a_file_that_is_not_there",
+      "file": "web/review.html",
+      "find": "<link rel=\"stylesheet\" href=\"desk.css\" />",
+      "replace": "<link rel=\"stylesheet\" href=\"desk.css\" /><script src=\"ghost.js\"></script>",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_runtime_state_is_ignored_and_the_config_template_is_not",
+      "file": ".gitignore",
+      "find": "/.pause",
+      "replace": "#/.pause",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_secret_shaped_string_outside_the_documented_exception",
+      "file": "docs/CHANGELOG.md",
+      "find": null,
+      "replace": null,
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Mutates the file in the way this guard exists to catch."
+    },
+    {
+      "test": "test_the_cutover_runbook_is_four_steps_and_free_of_jargon",
+      "file": "CUTOVER.txt",
+      "find": null,
+      "replace": null,
+      "append": "STEP 3 - REDEPLOY THE CONTAINER`r`nRun the docker rollback.",
+      "mode": null,
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_the_engine_binaries_match_their_recorded_provenance",
+      "file": "0dte-engine/PROVENANCE.json",
+      "find": "\"SHA256\": \"C44A278E",
+      "replace": "\"SHA256\": \"DEADBEEF",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_update_relabels_recorded_sessions_and_survives_a_failure",
+      "file": "update-desk.bat",
+      "find": "uw-review.exe data --out data\\reviews --no-open",
+      "replace": "uw-review.exe data --no-open",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_regenerate_control_is_offline_only",
+      "file": "web/js/regen.js",
+      "find": null,
+      "replace": null,
+      "append": "// FLATTENEVERYTHING",
+      "mode": null,
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_the_desk_never_imports_the_bot",
+      "file": "server/signal_feed.py",
+      "find": null,
+      "replace": null,
+      "append": "import sentinel_trader",
+      "mode": null,
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_the_runtime_path_model_reaches_the_nested_bot",
+      "file": "runtime/python/python314._pth",
+      "find": "..\\..\\bot",
+      "replace": "",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Deletes the protected text entirely."
+    },
+    {
+      "test": "test_the_nested_bot_runs_on_the_committed_runtime",
+      "file": "bot/sentinel_trader/signals.py",
+      "find": null,
+      "replace": null,
+      "append": "raise SystemExit(\"sabotage\")",
+      "mode": null,
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_the_feed_and_the_bot_agree_on_the_pair_contract",
+      "file": "bot/sentinel_trader/signals.py",
+      "find": "SCHEMA_VERSION = 2",
+      "replace": "SCHEMA_VERSION = 3",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_pair_check_fails_closed_when_identity_is_unknown",
+      "file": "server/signal_feed.py",
+      "find": "return \"UNKNOWN-DESK\"",
+      "replace": "return \"\"",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_signal_wiring_check_compares_real_resolved_paths",
+      "file": "server/routes/live.py",
+      "find": "os.path.isabs(raw)",
+      "replace": "False",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_feed_and_journal_use_their_own_date_keys",
+      "file": "server/routes/live.py",
+      "find": "_Z(\"UTC\")",
+      "replace": "_Z(\"America/New_York\")",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_regenerate_job_cannot_run_twice_at_once",
+      "file": "server/routes/live.py",
+      "find": "if self._state.get(\"state\") == \"RUNNING\":",
+      "replace": "if False:",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_regenerate_subprocess_output_is_captured_and_bounded",
+      "file": "server/routes/live.py",
+      "find": "rc = proc.wait(timeout=self.TIMEOUT_S)",
+      "replace": "rc = proc.wait()",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_browser_module_imports_as_an_es_module",
+      "file": "web/js/portfolio.js",
+      "find": null,
+      "replace": null,
+      "append": "const broken = `unterminated template",
+      "mode": null,
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_every_page_links_to_every_other_page",
+      "file": "web/0dte.html",
+      "find": "<a href=\"/recorder.html\" data-label=\"Recorder\">Recorder</a>",
+      "replace": "",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Deletes the protected text entirely."
+    },
+    {
+      "test": "test_the_0dte_tws_chip_reads_the_engine_not_the_proxy",
+      "file": "web/js/odte.js",
+      "find": "if (s === 'CONNECTED') return chip('TWS CONNECTED', 'green');",
+      "replace": "if (s) return chip('TWS CONNECTED', 'green');",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_quarter_tape_is_excluded_by_name_with_the_number_and_the_floor",
+      "file": "server/sky/rules.py",
+      "find": "    elif coverage < ctx.coverage_floor:",
+      "replace": "    elif coverage < 0:",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_full_span_tape_with_no_print_is_excluded_by_name_with_the_count",
+      "file": "server/sky/rules.py",
+      "find": "    elif ticks < ctx.min_ticks:",
+      "replace": "    elif ticks < 0:",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_report_with_no_tape_is_in_the_population_and_excluded_by_name",
+      "file": "server/sky/join.py",
+      "find": "            if name in tape_names:",
+      "replace": "            if True:",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_calendar_rules",
+      "file": "server/sky/night.py",
+      "find": "    return open_weekday(night) in _CALENDAR_RULES[calendar_rule]",
+      "replace": "    return True",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_clipped_coverage",
+      "file": "server/sky/night.py",
+      "find": "    overlap = max(0.0, min(float(last_t), close_t) - max(float(first_t), open_t))",
+      "replace": "    overlap = min(float(last_t), close_t) - max(float(first_t), open_t)",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_tzdata_unavailable_is_named_and_never_utc",
+      "file": "server/sky/night.py",
+      "find": "        raise TzdataUnavailable(\"tzdata is missing from the runtime\") from exc",
+      "replace": "        return None",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_unknown_line_is_a_named_failure",
+      "file": "server/sky/calendar.py",
+      "find": "            raise CalendarUnreadable(f\"unknown key under `{section}`\", line_no, raw)",
+      "replace": "            continue",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_friday_or_saturday_asia_open_is_not_a_calendar_night",
+      "file": "server/sky/rules.py",
+      "find": "    elif not _night.is_calendar_night(corpus, night, rule):",
+      "replace": "    elif False:",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_duplicate_window_keeps_the_greatest_coverage_and_names_the_winner",
+      "file": "server/sky/rules.py",
+      "find": "        copies = sorted(by_night[night_key], key=lambda r: (-(r[\"coverage\"] or 0.0), r[\"name\"]))",
+      "replace": "        copies = sorted(by_night[night_key], key=lambda r: (r[\"coverage\"] or 0.0, r[\"name\"]))",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_coverage_is_clipped_to_the_stats_window_and_clamped_at_both_ends",
+      "file": "server/sky/rules.py",
+      "find": "    elif coverage <= 0.0:",
+      "replace": "    elif False:",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_tape_closed_by_the_finalizer_carries_its_trailer_and_a_killed_one_does_not",
+      "file": "server/sentinel/capture/recorder.py",
+      "find": "            \"ev\": \"end\", \"t\": end_t, \"ticks\": self.n_ticks, \"quotes\": self.n_quotes,",
+      "replace": "            \"ev\": \"not-an-end\", \"t\": end_t, \"ticks\": self.n_ticks, \"quotes\": self.n_quotes,",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_restart_path_can_leave_the_stand_down_flag_set",
+      "file": "update-desk.bat",
+      "find": "if exist \"%ROOT%.pause\" del \"%ROOT%.pause\" >nul 2>&1",
+      "replace": "rem sabotage: the flag is not cleared",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_block_usability",
+      "file": "server/sky/blocks.py",
+      "find": "    if int(distinct_stamps) < int(min_distinct_stamps):",
+      "replace": "    if False:",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_metric_is_duration_invariant",
+      "file": "server/sky/estimator.py",
+      "find": "        score = math.sqrt(PARKINSON_CONSTANT * statistics.mean(terms))",
+      "replace": "        score = math.sqrt(PARKINSON_CONSTANT * statistics.mean(terms)) / len(terms)",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_key_the_file_did_not_supply_is_a_fallback_whatever_its_value",
+      "file": "server/sky/sections.py",
+      "find": "    return key in record",
+      "replace": "    return True",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_delivered_setup_row_carries_the_numeric_join_key",
+      "file": "server/session_recorder.py",
+      "find": "        \"t\": s.get(\"t\"),",
+      "replace": "        rem_sabotage = None",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_block_usability",
+      "file": "server/sky/blocks.py",
+      "find": "    return float(stamp_span) >= float(min_time_coverage) * float(block_seconds)",
+      "replace": "    return True",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_unequally_spaced_table_is_a_fallback",
+      "file": "server/sky/sections.py",
+      "find": "            if abs(gap - step) > 1e-6:",
+      "replace": "            if False:",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_text_tokens_clear_aa_on_both_grounds",
+      "file": "web/sky.css",
+      "find": "  --sky-faint:#948062;",
+      "replace": "  --sky-faint:#6f5f45;",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_strip_count_is_no_longer_wiped_by_the_note",
+      "file": "web/js/sky.js",
+      "find": "  if (note) setProse('skStripNote', note);",
+      "replace": "  setProse('skStripNote', note);",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_moon_plate_draws_the_true_illumination",
+      "file": "web/js/sky-plates.js",
+      "find": "  const term = ((kk > 0.5) === !!waxing) ? 1 : 0;",
+      "replace": "  const term = ((kk > 0.5) === !!waxing) ? 0 : 1;",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_server_owns_the_live_clock_and_doctor_only_reads_it",
+      "file": "server/live_session.py",
+      "find": "                    _clock.touch(status().get(\"status\"))",
+      "replace": "                    pass  # sabotage: the anchor never moves",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_server_owns_the_live_clock_and_doctor_only_reads_it",
+      "file": "probe/doctor.ps1",
+      "find": "        # Well: nothing to add, and NOTHING to write - the server owns the anchor [CR-AP].",
+      "replace": "        Set-Content -LiteralPath $liveClock -Value 0",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_documented_page_routes_are_declared_before_the_static_mount",
+      "file": "server/main.py",
+      "find": "\"review\", \"0dte\", \"portfolio\", \"recorder\"",
+      "replace": "\"review\", \"0dte\", \"portfolio\"",
+      "append": null,
+      "mode": null,
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    }
+  ]
+}

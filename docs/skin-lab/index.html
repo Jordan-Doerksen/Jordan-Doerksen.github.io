@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skin lab — four identities, same page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter+Tight:wght@400;500;700&family=Archivo:wght@400;600;800;900&display=swap">
+<style>
+/* ==========================================================================
+   SKIN LAB — scratch. Not part of the site. Delete docs/skin-lab/ any time.
+   Same markup rendered four times; only palette + type change per panel.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #17171a; color: #e8e8e6;
+       font: 400 15px/1.6 Inter, system-ui, sans-serif; }
+
+.lab-head { padding: 28px 24px 20px; border-bottom: 1px solid #2e2e34; }
+.lab-head h1 { margin: 0 0 6px; font: 600 18px/1.3 Inter, system-ui, sans-serif; }
+.lab-head p { margin: 0; color: #9a9aa2; max-width: 62ch; font-size: 13.5px; }
+.jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.jump a { font: 500 12px/1 JetBrains Mono, ui-monospace, monospace; letter-spacing: .04em;
+          text-transform: uppercase; color: #cfcfd6; text-decoration: none;
+          border: 1px solid #3a3a42; border-radius: 999px; padding: 7px 12px; }
+.jump a:hover, .jump a:focus-visible { border-color: #7a7a86; color: #fff; }
+
+/* ---- the specimen ------------------------------------------------------ */
+.skin { --pad: clamp(24px, 5vw, 64px);
+        background: var(--ground); color: var(--ink);
+        font-family: var(--sans); padding: var(--pad) var(--pad) calc(var(--pad) + 8px);
+        border-top: 4px solid var(--edge, transparent); }
+.tag { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between;
+       align-items: baseline; gap: 16px; flex-wrap: wrap;
+       background: var(--ground); padding: 6px 0 18px; }
+.tag b { font: 500 11px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase;
+         color: var(--signal); }
+.tag span { font: 400 11px/1.5 var(--mono); color: var(--muted); }
+
+.nav { display: flex; gap: 22px; align-items: baseline; flex-wrap: wrap;
+       padding-bottom: clamp(28px, 5vw, 56px); }
+.nav .id { font: var(--id-weight, 700) clamp(15px,1.6vw,17px)/1 var(--display);
+           letter-spacing: var(--id-track, -.01em); color: var(--ink); }
+.nav a { font: 500 13px/1 var(--sans); color: var(--muted); text-decoration: none; }
+.nav a:hover { color: var(--signal); }
+
+h2.hero { margin: 0 0 18px; max-width: 18ch;
+          font: var(--hero-weight, 700) clamp(34px, 6.2vw, 68px)/var(--hero-lh, 1.02) var(--display);
+          letter-spacing: var(--hero-track, -.03em); color: var(--ink); }
+.lede { margin: 0 0 clamp(30px,4vw,48px); max-width: 52ch; font-size: clamp(15px,1.3vw,17px);
+        line-height: 1.65; color: var(--ink-2); }
+
+.stats { display: flex; flex-wrap: wrap; gap: clamp(20px,3vw,44px);
+         padding: 20px 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair);
+         margin-bottom: clamp(30px,4vw,48px); }
+.stat b { display: block; font: var(--num-weight,500) clamp(22px,2.4vw,30px)/1 var(--display);
+          color: var(--signal); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.stat span { display: block; margin-top: 6px; font: 400 11px/1.4 var(--mono);
+             letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.rows { border-top: 1px solid var(--hair); }
+.row { display: grid; grid-template-columns: 3.2rem 1fr auto; gap: clamp(12px,2vw,26px);
+       align-items: baseline; padding: clamp(14px,1.6vw,20px) 0;
+       border-bottom: 1px solid var(--hair); text-decoration: none; color: inherit; }
+.row:hover { background: var(--wash); }
+.row .n { font: 400 11px/1.6 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.row .t { font: var(--row-weight,500) clamp(17px,2vw,23px)/1.2 var(--display);
+          letter-spacing: -.015em; color: var(--ink); }
+.row .d { display: block; margin-top: 5px; font-size: 13.5px; line-height: 1.5;
+          color: var(--muted); max-width: 56ch; }
+.row .m { font: 400 10.5px/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase;
+          color: var(--signal); white-space: nowrap; }
+.foot { padding-top: clamp(26px,3.4vw,42px); font: 400 12px/1.6 var(--mono); color: var(--muted); }
+
+@media (max-width: 620px) {
+  .row { grid-template-columns: 2.4rem 1fr; }
+  .row .m { grid-column: 2; margin-top: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ==== A · CURRENT — Stagecraft, for comparison ========================== */
+#a { --ground:#0b0b0d; --ink:#f4f2ee; --ink-2:#c8c5bd; --muted:#8e8b83;
+     --hair:rgba(244,242,238,.13); --wash:rgba(240,180,41,.05); --signal:#f0b429;
+     --display:"Space Grotesk",sans-serif; --sans:Inter,sans-serif; --mono:"JetBrains Mono",monospace;
+     --edge:#f0b429; }
+
+/* ==== B · BLUEPRINT — instrument, cool, no gold ======================== */
+#b { --ground:#0e1116; --ink:#e6edf3; --ink-2:#b6c2cf; --muted:#7d8794;
+     --hair:rgba(230,237,243,.12); --wash:rgba(125,211,252,.06); --signal:#7dd3fc;
+     --display:"IBM Plex Sans",sans-serif; --sans:"IBM Plex Sans",sans-serif;
+     --mono:"IBM Plex Mono",monospace; --edge:#7dd3fc;
+     --hero-weight:600; --hero-track:-.025em; --row-weight:600; --id-weight:600; }
+
+/* ==== C · FIELD NOTE — light, serif display, oxide accent ============== */
+#c { --ground:#faf8f5; --ink:#16181c; --ink-2:#3d424a; --muted:#767c85;
+     --hair:rgba(22,24,28,.14); --wash:rgba(199,73,36,.05); --signal:#c74924;
+     --display:Newsreader,Georgia,serif; --sans:"Inter Tight",Inter,sans-serif;
+     --mono:"IBM Plex Mono",monospace; --edge:#c74924;
+     --hero-weight:500; --hero-lh:1.06; --hero-track:-.02em; --num-weight:500; --row-weight:500; }
+
+/* ==== E · DRAFTING MONOLITH — Stagecraft v2 x Monolith =================
+   v2 gives the ground, the ink, the measured palette and the drafting rule
+   (blue draws, red corrects). Monolith gives the law that hierarchy comes
+   from SCALE AND WEIGHT, never from colour - so the blue is demoted out of
+   the headline and out of the numbers, and only survives where it has a job.
+   The 24/96px ruling is v2's drafting grid, which is what makes the ground
+   read as paper instead of as a flat fill. */
+#e { --ground:#EFF2F6; --ink:#0F1720; --ink-2:#3A4654; --muted:#4E5A68;
+     --hair:#D3DCE8; --wash:#F4F7FB; --signal:#0D4FA0;
+     --display:Archivo,"Arial Black",sans-serif; --sans:"IBM Plex Sans",sans-serif;
+     --mono:"IBM Plex Mono",monospace; --edge:#0F1720;
+     --hero-weight:900; --hero-lh:.93; --hero-track:-.045em;
+     --num-weight:800; --row-weight:600; --id-weight:800; --id-track:-.03em;
+     background-image:
+       repeating-linear-gradient(to right,  #E3E9F1 0 1px, transparent 1px 24px),
+       repeating-linear-gradient(to bottom, #E3E9F1 0 1px, transparent 1px 24px),
+       repeating-linear-gradient(to right,  #D3DCE8 0 1px, transparent 1px 96px),
+       repeating-linear-gradient(to bottom, #D3DCE8 0 1px, transparent 1px 96px); }
+/* Monolith's rule, applied: the numbers are ink, not accent. Scale carries them. */
+#e .stat b { color: var(--ink); }
+#e .tag, #e .rows { background: var(--ground); }
+/* v2's red pencil - correction and attention ONLY, never decoration. */
+#e .row:first-child .m { color: #A82E10; }
+
+/* ==== D · MONOLITH — achromatic, no accent hue at all ================== */
+#d { --ground:#0a0a0a; --ink:#fafafa; --ink-2:#c9c9c9; --muted:#7e7e7e;
+     --hair:rgba(250,250,250,.16); --wash:rgba(250,250,250,.05); --signal:#fafafa;
+     --display:Archivo,"Arial Black",sans-serif; --sans:Inter,sans-serif;
+     --mono:ui-monospace,"SFMono-Regular",monospace; --edge:#fafafa;
+     --hero-weight:900; --hero-lh:.94; --hero-track:-.045em; --num-weight:800;
+     --row-weight:600; --id-weight:800; --id-track:-.03em; }
+</style>
+</head>
+<body>
+
+<header class="lab-head">
+  <h1>Skin lab — four identities, one page</h1>
+  <p>Same markup, same real content, same numbers. Only palette and type change. A is what
+     you have now, so the other three read as a difference rather than an idea in isolation.
+     Scratch file: delete <code>docs/skin-lab/</code> whenever.</p>
+  <nav class="jump">
+    <a href="#a">A · Current</a>
+    <a href="#b">B · Blueprint</a>
+    <a href="#c">C · Field note</a>
+    <a href="#d">D · Monolith</a>
+    <a href="#e" style="border-color:#6f7f95;color:#fff">E · Drafting Monolith</a>
+  </nav>
+</header>
+
+<section class="skin" id="a">
+  <div class="tag"><b>A · Current — Stagecraft</b><span>#0b0b0d + #f0b429 · Space Grotesk / Inter / JetBrains Mono · keeps Daybreak's goldenrod, type and ✦</span></div>
+  <div class="nav"><span class="id">Jordan Doerksen ✦</span><a href="#a">The work</a><a href="#a">Games</a><a href="#a">Desk</a></div>
+  <h2 class="hero">I build tools that check their own work.</h2>
+  <p class="lede">Read-only trading instruments, rail training software, and games. Most of it runs on one machine in Winnipeg and reports honestly when it cannot do its job.</p>
+  <div class="stats">
+    <div class="stat"><b>1,752</b><span>commits since May</span></div>
+    <div class="stat"><b>575</b><span>test files</span></div>
+    <div class="stat"><b>616</b><span>guards passing</span></div>
+  </div>
+  <div class="rows">
+    <a class="row" href="#a"><span class="n">01</span><span><span class="t">Trading desk</span><span class="d">A read-only market desk with a harness that proves its own guards bite.</span></span><span class="m">Written up</span></a>
+    <a class="row" href="#a"><span class="n">02</span><span><span class="t">Clear Board</span><span class="d">The unified CROR trainer — the one that absorbed the other four.</span></span><span class="m">Live</span></a>
+    <a class="row" href="#a"><span class="n">03</span><span><span class="t">Glass Atlas</span><span class="d">Generative star-atlas plates. Every reroll is a 1-of-1; the seed rides in the URL.</span></span><span class="m">Live</span></a>
+  </div>
+  <p class="foot">Made in Winnipeg, one at a time.</p>
+</section>
+
+<section class="skin" id="b">
+  <div class="tag"><b>B · Blueprint</b><span>#0e1116 + ice #7dd3fc · IBM Plex Sans / Plex Mono · instrument-room, zero warmth, no ornament</span></div>
+  <div class="nav"><span class="id">Jordan Doerksen</span><a href="#b">The work</a><a href="#b">Games</a><a href="#b">Desk</a></div>
+  <h2 class="hero">I build tools that check their own work.</h2>
+  <p class="lede">Read-only trading instruments, rail training software, and games. Most of it runs on one machine in Winnipeg and reports honestly when it cannot do its job.</p>
+  <div class="stats">
+    <div class="stat"><b>1,752</b><span>commits since May</span></div>
+    <div class="stat"><b>575</b><span>test files</span></div>
+    <div class="stat"><b>616</b><span>guards passing</span></div>
+  </div>
+  <div class="rows">
+    <a class="row" href="#b"><span class="n">01</span><span><span class="t">Trading desk</span><span class="d">A read-only market desk with a harness that proves its own guards bite.</span></span><span class="m">Written up</span></a>
+    <a class="row" href="#b"><span class="n">02</span><span><span class="t">Clear Board</span><span class="d">The unified CROR trainer — the one that absorbed the other four.</span></span><span class="m">Live</span></a>
+    <a class="row" href="#b"><span class="n">03</span><span><span class="t">Glass Atlas</span><span class="d">Generative star-atlas plates. Every reroll is a 1-of-1; the seed rides in the URL.</span></span><span class="m">Live</span></a>
+  </div>
+  <p class="foot">Made in Winnipeg, one at a time.</p>
+</section>
+
+<section class="skin" id="c">
+  <div class="tag"><b>C · Field note</b><span>#faf8f5 + oxide #c74924 · Newsreader / Inter Tight · light, serif display — editorial without Daybreak's gold</span></div>
+  <div class="nav"><span class="id">Jordan Doerksen</span><a href="#c">The work</a><a href="#c">Games</a><a href="#c">Desk</a></div>
+  <h2 class="hero">I build tools that check their own work.</h2>
+  <p class="lede">Read-only trading instruments, rail training software, and games. Most of it runs on one machine in Winnipeg and reports honestly when it cannot do its job.</p>
+  <div class="stats">
+    <div class="stat"><b>1,752</b><span>commits since May</span></div>
+    <div class="stat"><b>575</b><span>test files</span></div>
+    <div class="stat"><b>616</b><span>guards passing</span></div>
+  </div>
+  <div class="rows">
+    <a class="row" href="#c"><span class="n">01</span><span><span class="t">Trading desk</span><span class="d">A read-only market desk with a harness that proves its own guards bite.</span></span><span class="m">Written up</span></a>
+    <a class="row" href="#c"><span class="n">02</span><span><span class="t">Clear Board</span><span class="d">The unified CROR trainer — the one that absorbed the other four.</span></span><span class="m">Live</span></a>
+    <a class="row" href="#c"><span class="n">03</span><span><span class="t">Glass Atlas</span><span class="d">Generative star-atlas plates. Every reroll is a 1-of-1; the seed rides in the URL.</span></span><span class="m">Live</span></a>
+  </div>
+  <p class="foot">Made in Winnipeg, one at a time.</p>
+</section>
+
+<section class="skin" id="d">
+  <div class="tag"><b>D · Monolith</b><span>#0a0a0a, no accent hue at all · Archivo black display · hierarchy carried by scale and weight only</span></div>
+  <div class="nav"><span class="id">JORDAN DOERKSEN</span><a href="#d">The work</a><a href="#d">Games</a><a href="#d">Desk</a></div>
+  <h2 class="hero">I build tools that check their own work.</h2>
+  <p class="lede">Read-only trading instruments, rail training software, and games. Most of it runs on one machine in Winnipeg and reports honestly when it cannot do its job.</p>
+  <div class="stats">
+    <div class="stat"><b>1,752</b><span>commits since May</span></div>
+    <div class="stat"><b>575</b><span>test files</span></div>
+    <div class="stat"><b>616</b><span>guards passing</span></div>
+  </div>
+  <div class="rows">
+    <a class="row" href="#d"><span class="n">01</span><span><span class="t">Trading desk</span><span class="d">A read-only market desk with a harness that proves its own guards bite.</span></span><span class="m">Written up</span></a>
+    <a class="row" href="#d"><span class="n">02</span><span><span class="t">Clear Board</span><span class="d">The unified CROR trainer — the one that absorbed the other four.</span></span><span class="m">Live</span></a>
+    <a class="row" href="#d"><span class="n">03</span><span><span class="t">Glass Atlas</span><span class="d">Generative star-atlas plates. Every reroll is a 1-of-1; the seed rides in the URL.</span></span><span class="m">Live</span></a>
+  </div>
+  <p class="foot">Made in Winnipeg, one at a time.</p>
+</section>
+
+<section class="skin" id="e">
+  <div class="tag"><b>E · Drafting Monolith — Stagecraft v2 × Monolith</b><span>#EFF2F6 drafting paper + 24/96 ruling · Archivo 900 in ink · drafting blue demoted to link-and-status only · red pencil = correction</span></div>
+  <div class="nav"><span class="id">JORDAN DOERKSEN</span><a href="#e">The work</a><a href="#e">Games</a><a href="#e">Desk</a></div>
+  <h2 class="hero">I build tools that check their own work.</h2>
+  <p class="lede">Read-only trading instruments, rail training software, and games. Most of it runs on one machine in Winnipeg and reports honestly when it cannot do its job.</p>
+  <div class="stats">
+    <div class="stat"><b>1,752</b><span>commits since May</span></div>
+    <div class="stat"><b>575</b><span>test files</span></div>
+    <div class="stat"><b>616</b><span>guards passing</span></div>
+  </div>
+  <div class="rows">
+    <a class="row" href="#e"><span class="n">01</span><span><span class="t">Trading desk</span><span class="d">A read-only market desk with a harness that proves its own guards bite.</span></span><span class="m">Needs a look</span></a>
+    <a class="row" href="#e"><span class="n">02</span><span><span class="t">Clear Board</span><span class="d">The unified CROR trainer — the one that absorbed the other four.</span></span><span class="m">Live</span></a>
+    <a class="row" href="#e"><span class="n">03</span><span><span class="t">Glass Atlas</span><span class="d">Generative star-atlas plates. Every reroll is a 1-of-1; the seed rides in the URL.</span></span><span class="m">Live</span></a>
+  </div>
+  <p class="foot">Made in Winnipeg, one at a time.</p>
+</section>
+
+</body>
+</html>
