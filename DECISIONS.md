@@ -152,6 +152,36 @@ must be reproducible from the repos on the day it ships**, and an unverifiable n
 ship (the Core Goal's honesty constraint). Inherited figures are never claimed: e.g. Warden's
 1,345 test files came with the upstream fork and are **not** Jordan's to count.
 
+### D-A19 — One dominant idea PER TIER, and tier 2 leads (2026-09-07, owner interview)
+The bible's rule is one dominant idea **per viewport**, not per site, so the three tiers take
+three different patterns rather than competing for one. The owner wanted both the
+systems-explainer and the spatial-canvas routes; the tier split is what makes that legal
+instead of muddled.
+
+| Tier | Dominant idea | Primary pattern |
+|---|---|---|
+| 1 — intro | A person worth reading, in one screen | restrained; `editorial_rhythm` |
+| 2 — the work | **The systems prove themselves** | `interactive_explainer` + `anti_card_composition` |
+| 3 — games | A world you move through | `spatial_canvas` + `portfolio_as_experience` |
+
+**Tier 2 is built first.** The explainer is the proof and the brief; the tier-3 world is the
+reward. Building the world first produces spectacle wrapped around nothing — which is the
+bible's own stated failure mode for this pattern ("do not let the interface consume the
+evidence it is meant to frame").
+
+**Tier 2's centrepiece:** the guard suite, explained interactively — select a guard, see the
+code it protects *and* the sabotage case that proves it bites, sourced from the real
+`tests/sabotage.ps1`. The content already exists; none of it is invented for the page.
+
+**Honest-data rule (with the no-build-tools constraint).** Figures ship as a **stamped JSON
+snapshot generated from a real run**, with the run date shown on the page. Nothing is
+presented as live that is not live, and nothing is fetched from a machine that is not
+reachable. This is D-A18 applied to a static site.
+
+**Change Rule:** giving a second tier the same dominant pattern, or moving the spatial canvas
+out of tier 3, is a Change Request. So is any figure on the page that cannot be regenerated
+from a real run on the day it ships.
+
 ## Build Timeline
 - C0 Manifest + ARCHITECTURE.md — this commit
 - C1 Data layer: registry rebuild + ~50 `data/projects/*.json` (parallel agents, one per reference section)
