@@ -1,17 +1,21 @@
-"""Generate the tier-2 demonstration slice (DECISIONS.md D-A19..D-A23).
+"""Generate the tier-2 evidence page (DECISIONS.md D-A19..D-A23).
 
 Stdlib only. Reads data/guards.json + data/evidence.json and writes
-docs/tier-2-slice/index.html as REAL MARKUP - every guard, its protected text
-and its sabotage case are in the document, not fetched.
+docs/tier-2-slice/index.html.
 
-Why generated rather than hand-authored: docs/tier-2.contract.json requires that
-with JavaScript off, every guard is present and readable. A static page cannot
-fetch, and this repo bans frameworks, so the markup is produced at author time
-the same way build_cabinet_manifest.py produces its manifests.
+STRUCTURE: "mutants rendered in the source", after the Stryker mutation-testing
+report and mutation-testing-elements (github.com/stryker-mutator/mutation-testing-elements).
+Results group by file; each guard shows the protected literal with the guarded
+line marked, and DIRECTLY BENEATH IT the mutation as a two-line diff. The reading
+unit is a delta held on screen, not an entry you open. Nothing is behind a toggle.
 
-There is NO JavaScript in the output at all. Select-a-guard is native
-<details>/<summary>: keyboard-reachable, linkable by fragment, and unaffected by
-prefers-reduced-motion because nothing animates.
+Honest limit on the precedent, stated rather than glossed: Stryker renders mutants
+inside COMPLETE source files. This data holds only the protected fragment, so
+"the file is the index" is weaker here than in the original.
+
+Zero JavaScript. Position comes from a sticky filename, navigation from a
+45-item ordinal index. The diff gutters are CSS content, so the delta survives
+colour-blindness, printing and a failed font load.
 
 Usage:
     python scripts/build_tier2_slice.py
@@ -27,219 +31,281 @@ GUARDS_PATH = REPO_ROOT / "data" / "guards.json"
 EVIDENCE_PATH = REPO_ROOT / "data" / "evidence.json"
 OUT_PATH = REPO_ROOT / "docs" / "tier-2-slice" / "index.html"
 
-# Palette E, "Drafting Monolith" (Stagecraft v2 x Monolith). Per D-A23 a palette
-# is a per-tier token override and disposable - swap this block, change nothing
-# else. The through-line is the type scale, spacing and component grammar below.
+HEADER_H = "3.25rem"
+
+# Palette per D-A23: a per-tier token override, disposable. Swap this block and
+# nothing else changes. The through-line is the type scale, spacing and
+# component grammar below, which are NOT per-tier tweakables.
 TOKENS = """
   --paper:#EFF2F6; --sheet:#FFFFFF; --deep:#E7EBF1;
   --ink:#0F1720; --ink-2:#3A4654; --muted:#4E5A68;
-  --hair:#D3DCE8; --rule:#E3E9F1;
-  --signal:#0D4FA0; --correct:#A82E10;
+  --hair:#D3DCE8; --rule:#E9EEF4;
+  --keep:#0D4FA0; --cut:#A82E10;
   --display:Archivo,"Arial Black",sans-serif;
   --sans:"IBM Plex Sans",system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
 """
 
 
-def esc(value):
-    return html.escape(value if value is not None else "", quote=True)
+def esc(v):
+    return html.escape(v if v is not None else "", quote=True)
 
 
-def code(value):
-    """Render a literal exactly, or say plainly that there isn't one."""
-    if value is None or value == "":
-        return '<span class="none">no literal — the whole file is rewritten</span>'
-    return "<code>%s</code>" % esc(value)
+def mutation_of(g):
+    """What the sabotage puts in place of the protected text."""
+    if g.get("replace") is not None:
+        return g["replace"], "replaced"
+    if g.get("append") is not None:
+        return g["append"], "appended"
+    if g.get("mode"):
+        return g["mode"], "rewritten"
+    return None, "removed"
 
 
 def main():
-    guards_doc = json.loads(GUARDS_PATH.read_text(encoding="utf-8"))
-    guards = guards_doc["guards"]
+    doc_guards = json.loads(GUARDS_PATH.read_text(encoding="utf-8"))
+    guards = doc_guards["guards"]
 
-    # The suite result is only quotable if a suite actually ran (D-A18/D-A21).
-    suite_line = None
+    suite = None
     if EVIDENCE_PATH.exists():
         ev = json.loads(EVIDENCE_PATH.read_text(encoding="utf-8"))
         desk = next((s for s in ev["sources"] if s["id"] == "trading-desk"), None)
         if desk and desk.get("suite", {}).get("method") == "executed":
             s = desk["suite"]
-            suite_line = "%d passed, %d skipped" % (s["passed"], s["skipped"])
+            suite = "%d passed, %d skipped" % (s["passed"], s["skipped"])
 
     by_file = {}
     for g in guards:
         by_file.setdefault(g["file"] or "(whole tree)", []).append(g)
-    files = sorted(by_file.items(), key=lambda kv: (-len(kv[1]), kv[0]))
+    files = sorted(by_file.items(), key=lambda kv: kv[0])
 
-    rows = []
-    n = 0
-    for filename, items in files:
-        rows.append('<section class="plate">')
-        rows.append('<h3 class="plate-h">%s <span class="cnt">%d guard%s</span></h3>'
+    nav, body, gnum = [], [], 0
+    for fi, (filename, items) in enumerate(files, 1):
+        fid = "f%02d" % fi
+        nav.append('<li><a href="#%s">%s</a> <span>%d</span></li>'
+                   % (fid, esc(filename), len(items)))
+        body.append('<section class="file" id="%s">' % fid)
+        body.append('<h2>%s <span class="n">%d guard%s</span></h2>'
                     % (esc(filename), len(items), "" if len(items) == 1 else "s"))
-        for g in items:
-            n += 1
-            gid = "g-%s" % esc(g["test"]).replace("_", "-")
-            rows.append(
-                '<details id="%s" class="guard">'
-                '<summary><span class="n">%03d</span>'
-                '<span class="t">%s</span></summary>'
-                '<div class="body">'
-                '<p class="what">%s</p>'
-                '<dl>'
-                '<dt>Protects</dt><dd>%s</dd>'
-                '<dt>Sabotage</dt><dd>%s</dd>'
-                '</dl></div></details>'
-                % (gid, n, esc(g["test"]), esc(g["mutation"]),
-                   code(g["find"]),
-                   code(g["replace"] if g["replace"] is not None
-                        else (g["append"] if g["append"] is not None else g["mode"])))
-            )
-        rows.append("</section>")
 
-    doc = """<!doctype html>
+        for g in items:
+            gnum += 1
+            gid = "g%03d" % gnum
+            kept = g.get("find")
+            cut, verb = mutation_of(g)
+
+            body.append('<article class="mutant" id="%s">' % gid)
+            body.append('<div class="delta" role="region" tabindex="0" '
+                        'aria-label="Guard %d: protected text and its sabotage">' % gnum)
+            if kept:
+                body.append('<pre class="keep"><mark>%s</mark></pre>' % esc(kept))
+            else:
+                body.append('<pre class="keep none">the whole file is rewritten — '
+                            'no single protected literal</pre>')
+            if cut is not None and kept:
+                body.append('<pre class="cut">%s</pre>' % esc(cut))
+            elif cut is not None:
+                body.append('<pre class="cut">%s</pre>' % esc(cut))
+            else:
+                body.append('<pre class="cut">the protected text is deleted</pre>')
+            body.append("</div>")
+            body.append('<p class="test"><a href="#%s">%s</a><span class="verb">%s</span></p>'
+                        % (gid, esc(g["test"]), esc(verb)))
+            body.append("</article>")
+
+        body.append("</section>")
+
+    # Prescriptive closing section. Ranked by guard count, stated WITHOUT a
+    # denominator claim: this data cannot say what coverage a file needs, only
+    # how many guards it currently has.
+    thin = [(f, len(i)) for f, i in files if len(i) == 1]
+    thin_rows = "".join('<li><a href="#f%02d">%s</a></li>'
+                        % ([n for n, (fn, _) in enumerate(files, 1) if fn == f][0], esc(f))
+                        for f, _ in thin)
+
+    page = """<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How the guards are proven — tier 2 slice</title>
+<title>%(gcount)d guards and their sabotage cases</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-:root {%(tokens)s
-  --measure: 62ch;
-}
+:root {%(tokens)s --hh:%(hh)s; }
 *,*::before,*::after { box-sizing:border-box; }
+html { overflow-x:clip; scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } }
 body { margin:0; background:var(--paper); color:var(--ink);
-  font:400 15.5px/1.65 var(--sans);
+  font:400 15.5px/1.6 var(--sans);
   background-image:
     repeating-linear-gradient(to right, var(--rule) 0 1px, transparent 1px 24px),
     repeating-linear-gradient(to bottom, var(--rule) 0 1px, transparent 1px 24px); }
-.wrap { max-width:1020px; margin:0 auto; padding:clamp(28px,5vw,72px) clamp(20px,4vw,44px) 96px; }
 
-/* --- persistent cluster 1 of 2: identity + navigation ------------------- */
-.chrome { display:flex; justify-content:space-between; align-items:baseline; gap:20px;
-  flex-wrap:wrap; padding-bottom:clamp(34px,5vw,64px); }
-.chrome .id { font:800 16px/1 var(--display); letter-spacing:-.03em; }
-.chrome nav a { font:500 13px/1 var(--sans); color:var(--muted); text-decoration:none; margin-left:20px; }
-.chrome nav a:hover, .chrome nav a:focus-visible { color:var(--signal); }
+.bar { position:sticky; top:0; z-index:3; height:var(--hh); display:flex;
+  align-items:center; justify-content:space-between; gap:20px;
+  padding:0 clamp(16px,4vw,40px); background:var(--paper);
+  border-bottom:1px solid var(--hair); }
+.bar .id { font:800 14px/1 var(--display); letter-spacing:-.03em; }
+.bar a { font:500 12.5px/1 var(--sans); color:var(--muted); text-decoration:none; margin-left:18px; }
+.bar a:hover, .bar a:focus-visible { color:var(--keep); }
 
-.kicker { font:500 11px/1 var(--mono); letter-spacing:.16em; text-transform:uppercase;
-  color:var(--muted); margin:0 0 16px; }
-h1 { margin:0 0 22px; max-width:16ch; font:900 clamp(34px,6vw,62px)/.94 var(--display);
+.wrap { max-width:1120px; margin:0 auto; padding:clamp(30px,5vw,64px) clamp(16px,4vw,40px) 100px; }
+.kicker { margin:0 0 14px; font:500 11px/1 var(--mono); letter-spacing:.16em;
+  text-transform:uppercase; color:var(--muted); }
+h1 { margin:0 0 20px; max-width:20ch; font:900 clamp(30px,5.4vw,56px)/.96 var(--display);
   letter-spacing:-.045em; }
-.premise { margin:0 0 clamp(30px,4vw,44px); max-width:var(--measure);
-  font-size:clamp(16px,1.4vw,18px); line-height:1.6; color:var(--ink-2); }
-.premise b { color:var(--ink); font-weight:600; }
+.lede { margin:0 0 30px; max-width:66ch; color:var(--ink-2); font-size:16px; }
+.lede b { color:var(--ink); font-weight:600; }
 
-/* --- overview before detail (contract narrative_sequence) --------------- */
-.overview { display:flex; flex-wrap:wrap; gap:clamp(20px,3vw,48px);
-  padding:22px 0; border-top:1px solid var(--hair); border-bottom:1px solid var(--hair);
-  margin-bottom:clamp(30px,4vw,46px); }
-.ov b { display:block; font:800 clamp(24px,2.6vw,32px)/1 var(--display);
+.counts { display:flex; flex-wrap:wrap; gap:clamp(18px,3vw,44px); padding:20px 0;
+  border-top:1px solid var(--hair); border-bottom:1px solid var(--hair); margin-bottom:34px; }
+.counts b { display:block; font:800 clamp(22px,2.4vw,30px)/1 var(--display);
   letter-spacing:-.03em; font-variant-numeric:tabular-nums; }
-.ov span { display:block; margin-top:6px; font:400 11px/1.4 var(--mono);
+.counts span { display:block; margin-top:5px; font:400 10.5px/1.4 var(--mono);
   letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
 
-/* --- the demonstration -------------------------------------------------- */
-.plate { background:var(--sheet); border:1px solid var(--hair); border-radius:3px;
-  margin-bottom:18px; }
-.plate-h { margin:0; padding:14px 18px; border-bottom:1px solid var(--hair);
-  font:500 13px/1.4 var(--mono); color:var(--ink); display:flex;
-  justify-content:space-between; gap:16px; flex-wrap:wrap; }
-.plate-h .cnt { color:var(--muted); font-size:11px; letter-spacing:.06em;
+/* index — the JS-off navigation and the sitemap */
+.index { margin:0 0 40px; }
+.index h2 { margin:0 0 12px; font:500 11px/1 var(--mono); letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted); }
+.index ol { counter-reset:n; list-style:none; margin:0; padding:0;
+  columns:2; column-gap:32px; }
+@media (max-width:720px) { .index ol { columns:1; } }
+.index li { counter-increment:n; break-inside:avoid; display:flex; gap:10px;
+  align-items:baseline; padding:5px 0; border-bottom:1px solid var(--rule); }
+.index li::before { content:counter(n,decimal-leading-zero);
+  font:400 10.5px/1.7 var(--mono); color:var(--muted); }
+.index a { flex:1; font:500 13px/1.5 var(--mono); color:var(--ink);
+  text-decoration:none; word-break:break-all; }
+.index a:hover, .index a:focus-visible { color:var(--keep); }
+.index span { font:400 10.5px/1.7 var(--mono); color:var(--muted); }
+
+/* one section per file; the filename is the position indicator */
+.file { margin-bottom:40px; }
+.file h2 { position:sticky; top:var(--hh); z-index:2; margin:0 0 14px;
+  padding:10px 14px; background:var(--deep); border-left:2px solid var(--ink);
+  font:500 13px/1.5 var(--mono); display:flex; justify-content:space-between;
+  gap:14px; flex-wrap:wrap; word-break:break-all; }
+.file h2 .n { color:var(--muted); font-size:10.5px; letter-spacing:.08em;
   text-transform:uppercase; }
-.guard { border-bottom:1px solid var(--rule); }
-.guard:last-child { border-bottom:0; }
-summary { display:flex; gap:14px; align-items:baseline; cursor:pointer;
-  padding:12px 18px; list-style:none; }
-summary::-webkit-details-marker { display:none; }
-summary:hover { background:#F4F7FB; }
-summary:focus-visible { outline:2px solid var(--signal); outline-offset:-2px; }
-.guard[open] summary { background:#F4F7FB; }
-.n { font:400 11px/1.7 var(--mono); color:var(--muted); font-variant-numeric:tabular-nums; }
-.t { font:500 14px/1.5 var(--mono); color:var(--ink); word-break:break-word; }
-.body { padding:2px 18px 18px 46px; }
-.what { margin:0 0 14px; max-width:var(--measure); color:var(--ink-2); font-size:14.5px; }
-dl { margin:0; display:grid; grid-template-columns:6.5rem 1fr; gap:8px 16px; }
-dt { font:500 10.5px/1.7 var(--mono); letter-spacing:.1em; text-transform:uppercase;
-  color:var(--muted); }
-dd { margin:0; min-width:0; }
-code { display:block; overflow-x:auto; padding:9px 11px; background:var(--deep);
-  border-left:2px solid var(--signal); font:400 12.5px/1.6 var(--mono);
-  color:var(--ink); white-space:pre-wrap; word-break:break-word; }
-dd:last-of-type code { border-left-color:var(--correct); }
-.none { font:400 12.5px/1.6 var(--mono); color:var(--muted); }
+.file { scroll-margin-top:calc(var(--hh) + 8px); }
+.mutant { scroll-margin-top:calc(var(--hh) + 60px); }
 
-.stamp { margin-top:clamp(34px,4vw,52px); padding-top:20px;
-  border-top:2px solid var(--ink); font:400 12px/1.7 var(--mono); color:var(--muted); }
-.stamp b { color:var(--ink); font-weight:500; }
+/* the delta: protected text, then what the sabotage puts there */
+.mutant { display:grid; grid-template-columns:1fr; gap:6px; margin:0 0 16px; }
+.delta { overflow-x:auto; background:var(--sheet); border:1px solid var(--hair); }
+.delta:focus-visible { outline:2px solid var(--keep); outline-offset:2px; }
+pre { margin:0; padding:9px 12px 9px 30px; position:relative;
+  font:400 12.5px/1.65 var(--mono); white-space:pre; }
+pre::before { position:absolute; left:11px; font-weight:500; }
+.keep { color:var(--ink); border-left:3px solid var(--keep); }
+.keep::before { content:"\\2212"; color:var(--keep); }
+.cut { color:var(--ink); border-left:3px solid var(--cut); background:#FDF6F4; }
+.cut::before { content:"+"; color:var(--cut); }
+.keep mark { background:#E6EDF9; color:inherit; padding:0 2px; }
+.none, .cut:only-of-type { font-style:normal; color:var(--muted); }
+.test { margin:0; font:400 11.5px/1.6 var(--mono); color:var(--muted);
+  display:flex; gap:10px; flex-wrap:wrap; }
+.test a { color:var(--muted); text-decoration:none; word-break:break-all; }
+.test a:hover, .test a:focus-visible { color:var(--keep); text-decoration:underline; }
+.test .verb { color:var(--cut); letter-spacing:.06em; text-transform:uppercase; font-size:10px; }
 
-@media (max-width:600px) {
-  .body { padding-left:18px; }
-  dl { grid-template-columns:1fr; gap:5px; }
-  dt { margin-top:8px; }
+/* edge annotation at wide widths; normal flow below */
+@media (min-width:56rem) {
+  .mutant { grid-template-columns:1fr 15rem; column-gap:20px; align-items:start; }
+  .test { justify-content:flex-start; padding-top:8px; }
 }
+
+.gaps { margin-top:48px; padding-top:22px; border-top:2px solid var(--ink); }
+.gaps h2 { margin:0 0 8px; font:800 20px/1.2 var(--display); letter-spacing:-.03em; }
+.gaps p { margin:0 0 14px; max-width:62ch; color:var(--ink-2); font-size:14.5px; }
+.gaps ul { margin:0; padding:0; list-style:none; columns:2; column-gap:28px; }
+@media (max-width:720px) { .gaps ul { columns:1; } }
+.gaps li { break-inside:avoid; padding:4px 0; }
+.gaps a { font:500 12.5px/1.6 var(--mono); color:var(--ink); text-decoration:none;
+  word-break:break-all; }
+.gaps a:hover, .gaps a:focus-visible { color:var(--keep); }
+
+.stamp { margin-top:36px; padding-top:18px; border-top:1px solid var(--hair);
+  font:400 11.5px/1.75 var(--mono); color:var(--muted); max-width:74ch; }
+.stamp b { color:var(--ink); font-weight:500; }
 </style>
 </head>
 <body>
+
+<div class="bar">
+  <span class="id">JORDAN DOERKSEN</span>
+  <nav><a href="../../">Home</a><a href="#index">Files</a><a href="#gaps">Thin cover</a></nav>
+</div>
+
 <div class="wrap">
+  <p class="kicker">Tier 2 · the work</p>
+  <h1>%(gcount)d guards, each one broken on purpose.</h1>
+  <p class="lede">A test that has never failed proves nothing. Every guard below was driven
+  into the failure it exists to catch, then the file was restored and the restore checked by
+  SHA256. <b>Blue is the text the guard protects. Red is what the sabotage puts there
+  instead.</b> If the guard does not go red, it does not ship.</p>
 
-  <header class="chrome">
-    <span class="id">JORDAN DOERKSEN</span>
-    <nav><a href="../../">Home</a><a href="../skin-lab/">Skin lab</a></nav>
-  </header>
-
-  <p class="kicker">Tier 2 · slice 1 · the work</p>
-  <h1>A green light of unknown wiring.</h1>
-  <p class="premise">A test that has never failed is not a guard. To find out whether one
-  actually bites, you have to break the thing it protects on purpose and watch it go red.
-  <b>%(published)d guards below, across %(filecount)d files.</b> Each one is driven into the
-  failure it exists to catch, then the tree is restored — and the restore is proven by SHA256,
-  because a sabotage run that leaves a stray character behind is worse than none.</p>
-
-  <div class="overview">
-    <div class="ov"><b>%(published)d</b><span>guards proven to bite</span></div>
-    <div class="ov"><b>%(filecount)d</b><span>files protected</span></div>
-    <div class="ov"><b>%(stale)d</b><span>stale, excluded</span></div>
+  <div class="counts">
+    <div><b>%(gcount)d</b><span>guards</span></div>
+    <div><b>%(fcount)d</b><span>files</span></div>
+    <div><b>%(stale)d</b><span>stale, excluded</span></div>
     %(suite)s
   </div>
 
-%(rows)s
+  <nav class="index" id="index">
+    <h2>Files</h2>
+    <ol>%(nav)s</ol>
+  </nav>
+
+%(body)s
+
+  <section class="gaps" id="gaps">
+    <h2>Thin cover</h2>
+    <p>%(thincount)d of these files carry exactly one guard. That is a count, not a verdict —
+    this data cannot say how many guards a file needs, only how many it has.</p>
+    <ul>%(thin)s</ul>
+  </section>
 
   <p class="stamp">
-    Generated <b>%(generated)s</b> from <b>%(srcfile)s</b> at commit <b>%(commit)s</b>.
-    This is a stamped snapshot, not a live reading.<br>
-    A guard whose test no longer exists is excluded rather than shown —
-    %(stalewords)s.
+    Generated <b>%(gen)s</b> from <b>%(src)s</b> at commit <b>%(commit)s</b>. A stamped
+    snapshot, not a live reading.<br>
+    A guard whose test is no longer defined in the suite is excluded rather than shown —
+    %(stalewords)s.<br>
+    Structure after the Stryker mutation-testing report. Stryker renders mutants inside
+    complete source files; this page holds only the protected fragment, so the file is a
+    grouping here rather than the full index it is there.
   </p>
-
 </div>
+
 </body>
 </html>
 """ % {
         "tokens": TOKENS,
-        "rows": "\n".join("  " + r for r in rows),
-        "published": guards_doc["counts"]["published"],
-        "stale": guards_doc["counts"]["staleExcluded"],
-        "stalewords": ("this run found none"
-                       if guards_doc["counts"]["staleExcluded"] == 0
-                       else "this run excluded %d" % guards_doc["counts"]["staleExcluded"]),
-        "filecount": len(files),
-        "generated": esc(guards_doc["generated"][:10]),
-        "srcfile": esc(guards_doc["source"]["file"]),
-        "commit": esc(guards_doc["source"]["commit"] or "unknown"),
-        "suite": ('<div class="ov"><b>%s</b><span>last real run</span></div>'
-                  % esc(suite_line)) if suite_line else "",
+        "hh": HEADER_H,
+        "gcount": doc_guards["counts"]["published"],
+        "fcount": len(files),
+        "stale": doc_guards["counts"]["staleExcluded"],
+        "stalewords": ("this run found none" if doc_guards["counts"]["staleExcluded"] == 0
+                       else "this run excluded %d" % doc_guards["counts"]["staleExcluded"]),
+        "suite": ('<div><b>%s</b><span>last real run</span></div>' % esc(suite)) if suite else "",
+        "nav": "".join(nav),
+        "body": "\n".join("  " + b for b in body),
+        "thin": thin_rows,
+        "thincount": len(thin),
+        "gen": esc(doc_guards["generated"][:10]),
+        "src": esc(doc_guards["source"]["file"]),
+        "commit": esc(doc_guards["source"]["commit"] or "unknown"),
     }
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    OUT_PATH.write_text(doc, encoding="utf-8", newline="\n")
+    OUT_PATH.write_text(page, encoding="utf-8", newline="\n")
     print("wrote %s" % OUT_PATH)
-    print("  %d guards, %d files, %d stale excluded"
-          % (guards_doc["counts"]["published"], len(files),
-             guards_doc["counts"]["staleExcluded"]))
-    print("  suite line: %s" % (suite_line or "NOT SHOWN - no executed run in evidence.json"))
+    print("  %d guards, %d files, %d with a single guard"
+          % (doc_guards["counts"]["published"], len(files), len(thin)))
+    print("  suite line: %s" % (suite or "NOT SHOWN — no executed run recorded"))
     return 0
 
 

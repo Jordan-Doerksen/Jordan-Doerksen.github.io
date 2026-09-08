@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How the guards are proven — tier 2 slice</title>
+<title>90 guards and their sabotage cases</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -11,343 +11,921 @@
 :root {
   --paper:#EFF2F6; --sheet:#FFFFFF; --deep:#E7EBF1;
   --ink:#0F1720; --ink-2:#3A4654; --muted:#4E5A68;
-  --hair:#D3DCE8; --rule:#E3E9F1;
-  --signal:#0D4FA0; --correct:#A82E10;
+  --hair:#D3DCE8; --rule:#E9EEF4;
+  --keep:#0D4FA0; --cut:#A82E10;
   --display:Archivo,"Arial Black",sans-serif;
   --sans:"IBM Plex Sans",system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
-
-  --measure: 62ch;
-}
+ --hh:3.25rem; }
 *,*::before,*::after { box-sizing:border-box; }
+html { overflow-x:clip; scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } }
 body { margin:0; background:var(--paper); color:var(--ink);
-  font:400 15.5px/1.65 var(--sans);
+  font:400 15.5px/1.6 var(--sans);
   background-image:
     repeating-linear-gradient(to right, var(--rule) 0 1px, transparent 1px 24px),
     repeating-linear-gradient(to bottom, var(--rule) 0 1px, transparent 1px 24px); }
-.wrap { max-width:1020px; margin:0 auto; padding:clamp(28px,5vw,72px) clamp(20px,4vw,44px) 96px; }
 
-/* --- persistent cluster 1 of 2: identity + navigation ------------------- */
-.chrome { display:flex; justify-content:space-between; align-items:baseline; gap:20px;
-  flex-wrap:wrap; padding-bottom:clamp(34px,5vw,64px); }
-.chrome .id { font:800 16px/1 var(--display); letter-spacing:-.03em; }
-.chrome nav a { font:500 13px/1 var(--sans); color:var(--muted); text-decoration:none; margin-left:20px; }
-.chrome nav a:hover, .chrome nav a:focus-visible { color:var(--signal); }
+.bar { position:sticky; top:0; z-index:3; height:var(--hh); display:flex;
+  align-items:center; justify-content:space-between; gap:20px;
+  padding:0 clamp(16px,4vw,40px); background:var(--paper);
+  border-bottom:1px solid var(--hair); }
+.bar .id { font:800 14px/1 var(--display); letter-spacing:-.03em; }
+.bar a { font:500 12.5px/1 var(--sans); color:var(--muted); text-decoration:none; margin-left:18px; }
+.bar a:hover, .bar a:focus-visible { color:var(--keep); }
 
-.kicker { font:500 11px/1 var(--mono); letter-spacing:.16em; text-transform:uppercase;
-  color:var(--muted); margin:0 0 16px; }
-h1 { margin:0 0 22px; max-width:16ch; font:900 clamp(34px,6vw,62px)/.94 var(--display);
+.wrap { max-width:1120px; margin:0 auto; padding:clamp(30px,5vw,64px) clamp(16px,4vw,40px) 100px; }
+.kicker { margin:0 0 14px; font:500 11px/1 var(--mono); letter-spacing:.16em;
+  text-transform:uppercase; color:var(--muted); }
+h1 { margin:0 0 20px; max-width:20ch; font:900 clamp(30px,5.4vw,56px)/.96 var(--display);
   letter-spacing:-.045em; }
-.premise { margin:0 0 clamp(30px,4vw,44px); max-width:var(--measure);
-  font-size:clamp(16px,1.4vw,18px); line-height:1.6; color:var(--ink-2); }
-.premise b { color:var(--ink); font-weight:600; }
+.lede { margin:0 0 30px; max-width:66ch; color:var(--ink-2); font-size:16px; }
+.lede b { color:var(--ink); font-weight:600; }
 
-/* --- overview before detail (contract narrative_sequence) --------------- */
-.overview { display:flex; flex-wrap:wrap; gap:clamp(20px,3vw,48px);
-  padding:22px 0; border-top:1px solid var(--hair); border-bottom:1px solid var(--hair);
-  margin-bottom:clamp(30px,4vw,46px); }
-.ov b { display:block; font:800 clamp(24px,2.6vw,32px)/1 var(--display);
+.counts { display:flex; flex-wrap:wrap; gap:clamp(18px,3vw,44px); padding:20px 0;
+  border-top:1px solid var(--hair); border-bottom:1px solid var(--hair); margin-bottom:34px; }
+.counts b { display:block; font:800 clamp(22px,2.4vw,30px)/1 var(--display);
   letter-spacing:-.03em; font-variant-numeric:tabular-nums; }
-.ov span { display:block; margin-top:6px; font:400 11px/1.4 var(--mono);
+.counts span { display:block; margin-top:5px; font:400 10.5px/1.4 var(--mono);
   letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
 
-/* --- the demonstration -------------------------------------------------- */
-.plate { background:var(--sheet); border:1px solid var(--hair); border-radius:3px;
-  margin-bottom:18px; }
-.plate-h { margin:0; padding:14px 18px; border-bottom:1px solid var(--hair);
-  font:500 13px/1.4 var(--mono); color:var(--ink); display:flex;
-  justify-content:space-between; gap:16px; flex-wrap:wrap; }
-.plate-h .cnt { color:var(--muted); font-size:11px; letter-spacing:.06em;
+/* index — the JS-off navigation and the sitemap */
+.index { margin:0 0 40px; }
+.index h2 { margin:0 0 12px; font:500 11px/1 var(--mono); letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted); }
+.index ol { counter-reset:n; list-style:none; margin:0; padding:0;
+  columns:2; column-gap:32px; }
+@media (max-width:720px) { .index ol { columns:1; } }
+.index li { counter-increment:n; break-inside:avoid; display:flex; gap:10px;
+  align-items:baseline; padding:5px 0; border-bottom:1px solid var(--rule); }
+.index li::before { content:counter(n,decimal-leading-zero);
+  font:400 10.5px/1.7 var(--mono); color:var(--muted); }
+.index a { flex:1; font:500 13px/1.5 var(--mono); color:var(--ink);
+  text-decoration:none; word-break:break-all; }
+.index a:hover, .index a:focus-visible { color:var(--keep); }
+.index span { font:400 10.5px/1.7 var(--mono); color:var(--muted); }
+
+/* one section per file; the filename is the position indicator */
+.file { margin-bottom:40px; }
+.file h2 { position:sticky; top:var(--hh); z-index:2; margin:0 0 14px;
+  padding:10px 14px; background:var(--deep); border-left:2px solid var(--ink);
+  font:500 13px/1.5 var(--mono); display:flex; justify-content:space-between;
+  gap:14px; flex-wrap:wrap; word-break:break-all; }
+.file h2 .n { color:var(--muted); font-size:10.5px; letter-spacing:.08em;
   text-transform:uppercase; }
-.guard { border-bottom:1px solid var(--rule); }
-.guard:last-child { border-bottom:0; }
-summary { display:flex; gap:14px; align-items:baseline; cursor:pointer;
-  padding:12px 18px; list-style:none; }
-summary::-webkit-details-marker { display:none; }
-summary:hover { background:#F4F7FB; }
-summary:focus-visible { outline:2px solid var(--signal); outline-offset:-2px; }
-.guard[open] summary { background:#F4F7FB; }
-.n { font:400 11px/1.7 var(--mono); color:var(--muted); font-variant-numeric:tabular-nums; }
-.t { font:500 14px/1.5 var(--mono); color:var(--ink); word-break:break-word; }
-.body { padding:2px 18px 18px 46px; }
-.what { margin:0 0 14px; max-width:var(--measure); color:var(--ink-2); font-size:14.5px; }
-dl { margin:0; display:grid; grid-template-columns:6.5rem 1fr; gap:8px 16px; }
-dt { font:500 10.5px/1.7 var(--mono); letter-spacing:.1em; text-transform:uppercase;
-  color:var(--muted); }
-dd { margin:0; min-width:0; }
-code { display:block; overflow-x:auto; padding:9px 11px; background:var(--deep);
-  border-left:2px solid var(--signal); font:400 12.5px/1.6 var(--mono);
-  color:var(--ink); white-space:pre-wrap; word-break:break-word; }
-dd:last-of-type code { border-left-color:var(--correct); }
-.none { font:400 12.5px/1.6 var(--mono); color:var(--muted); }
+.file { scroll-margin-top:calc(var(--hh) + 8px); }
+.mutant { scroll-margin-top:calc(var(--hh) + 60px); }
 
-.stamp { margin-top:clamp(34px,4vw,52px); padding-top:20px;
-  border-top:2px solid var(--ink); font:400 12px/1.7 var(--mono); color:var(--muted); }
-.stamp b { color:var(--ink); font-weight:500; }
+/* the delta: protected text, then what the sabotage puts there */
+.mutant { display:grid; grid-template-columns:1fr; gap:6px; margin:0 0 16px; }
+.delta { overflow-x:auto; background:var(--sheet); border:1px solid var(--hair); }
+.delta:focus-visible { outline:2px solid var(--keep); outline-offset:2px; }
+pre { margin:0; padding:9px 12px 9px 30px; position:relative;
+  font:400 12.5px/1.65 var(--mono); white-space:pre; }
+pre::before { position:absolute; left:11px; font-weight:500; }
+.keep { color:var(--ink); border-left:3px solid var(--keep); }
+.keep::before { content:"\2212"; color:var(--keep); }
+.cut { color:var(--ink); border-left:3px solid var(--cut); background:#FDF6F4; }
+.cut::before { content:"+"; color:var(--cut); }
+.keep mark { background:#E6EDF9; color:inherit; padding:0 2px; }
+.none, .cut:only-of-type { font-style:normal; color:var(--muted); }
+.test { margin:0; font:400 11.5px/1.6 var(--mono); color:var(--muted);
+  display:flex; gap:10px; flex-wrap:wrap; }
+.test a { color:var(--muted); text-decoration:none; word-break:break-all; }
+.test a:hover, .test a:focus-visible { color:var(--keep); text-decoration:underline; }
+.test .verb { color:var(--cut); letter-spacing:.06em; text-transform:uppercase; font-size:10px; }
 
-@media (max-width:600px) {
-  .body { padding-left:18px; }
-  dl { grid-template-columns:1fr; gap:5px; }
-  dt { margin-top:8px; }
+/* edge annotation at wide widths; normal flow below */
+@media (min-width:56rem) {
+  .mutant { grid-template-columns:1fr 15rem; column-gap:20px; align-items:start; }
+  .test { justify-content:flex-start; padding-top:8px; }
 }
+
+.gaps { margin-top:48px; padding-top:22px; border-top:2px solid var(--ink); }
+.gaps h2 { margin:0 0 8px; font:800 20px/1.2 var(--display); letter-spacing:-.03em; }
+.gaps p { margin:0 0 14px; max-width:62ch; color:var(--ink-2); font-size:14.5px; }
+.gaps ul { margin:0; padding:0; list-style:none; columns:2; column-gap:28px; }
+@media (max-width:720px) { .gaps ul { columns:1; } }
+.gaps li { break-inside:avoid; padding:4px 0; }
+.gaps a { font:500 12.5px/1.6 var(--mono); color:var(--ink); text-decoration:none;
+  word-break:break-all; }
+.gaps a:hover, .gaps a:focus-visible { color:var(--keep); }
+
+.stamp { margin-top:36px; padding-top:18px; border-top:1px solid var(--hair);
+  font:400 11.5px/1.75 var(--mono); color:var(--muted); max-width:74ch; }
+.stamp b { color:var(--ink); font-weight:500; }
 </style>
 </head>
 <body>
+
+<div class="bar">
+  <span class="id">JORDAN DOERKSEN</span>
+  <nav><a href="../../">Home</a><a href="#index">Files</a><a href="#gaps">Thin cover</a></nav>
+</div>
+
 <div class="wrap">
+  <p class="kicker">Tier 2 · the work</p>
+  <h1>90 guards, each one broken on purpose.</h1>
+  <p class="lede">A test that has never failed proves nothing. Every guard below was driven
+  into the failure it exists to catch, then the file was restored and the restore checked by
+  SHA256. <b>Blue is the text the guard protects. Red is what the sabotage puts there
+  instead.</b> If the guard does not go red, it does not ship.</p>
 
-  <header class="chrome">
-    <span class="id">JORDAN DOERKSEN</span>
-    <nav><a href="../../">Home</a><a href="../skin-lab/">Skin lab</a></nav>
-  </header>
-
-  <p class="kicker">Tier 2 · slice 1 · the work</p>
-  <h1>A green light of unknown wiring.</h1>
-  <p class="premise">A test that has never failed is not a guard. To find out whether one
-  actually bites, you have to break the thing it protects on purpose and watch it go red.
-  <b>90 guards below, across 45 files.</b> Each one is driven into the
-  failure it exists to catch, then the tree is restored — and the restore is proven by SHA256,
-  because a sabotage run that leaves a stray character behind is worse than none.</p>
-
-  <div class="overview">
-    <div class="ov"><b>90</b><span>guards proven to bite</span></div>
-    <div class="ov"><b>45</b><span>files protected</span></div>
-    <div class="ov"><b>0</b><span>stale, excluded</span></div>
-    <div class="ov"><b>616 passed, 2 skipped</b><span>last real run</span></div>
+  <div class="counts">
+    <div><b>90</b><span>guards</span></div>
+    <div><b>45</b><span>files</span></div>
+    <div><b>0</b><span>stale, excluded</span></div>
+    <div><b>616 passed, 2 skipped</b><span>last real run</span></div>
   </div>
 
-  <section class="plate">
-  <h3 class="plate-h">update-desk.bat <span class="cnt">10 guards</span></h3>
-  <details id="g-test-update-verifies-its-own-temp-copy" class="guard"><summary><span class="n">001</span><span class="t">test_update_verifies_its_own_temp_copy</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>if not exist &quot;%TEMP%\_desk_update.bat&quot; (</code></dd><dt>Sabotage</dt><dd><code>if 1==2 (</code></dd></dl></div></details>
-  <details id="g-test-update-can-actually-roll-back" class="guard"><summary><span class="n">002</span><span class="t">test_update_can_actually_roll_back</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>git reset --hard !BACKTO!</code></dd><dt>Sabotage</dt><dd><code>rem sabotage: no rollback</code></dd></dl></div></details>
-  <details id="g-test-the-operator-argument-survives-the-temp-re-exec" class="guard"><summary><span class="n">003</span><span class="t">test_the_operator_argument_survives_the_temp_re_exec</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>if /i &quot;%~3&quot;==&quot;rollback&quot; goto rollback_only</code></dd><dt>Sabotage</dt><dd><code>rem if /i &quot;%~3&quot;==&quot;rollback&quot; goto rollback_only</code></dd></dl></div></details>
-  <details id="g-test-the-rollback-refuses-to-discard-uncommitted-work" class="guard"><summary><span class="n">004</span><span class="t">test_the_rollback_refuses_to_discard_uncommitted_work</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>for /f &quot;delims=&quot; %%D in (&#x27;git status --porcelain 2^&gt;nul&#x27;) do set &quot;DIRTY=1&quot;</code></dd><dt>Sabotage</dt><dd><code>rem sabotage: nothing asks whether the tree is dirty</code></dd></dl></div></details>
-  <details id="g-test-update-records-last-good-only-after-a-health-check" class="guard"><summary><span class="n">005</span><span class="t">test_update_records_last_good_only_after_a_health_check</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>git tag -f last-good</code></dd><dt>Sabotage</dt><dd><code>rem sabotage: never tagged</code></dd></dl></div></details>
-  <details id="g-test-no-launcher-treats-a-health-timeout-as-success" class="guard"><summary><span class="n">006</span><span class="t">test_no_launcher_treats_a_health_timeout_as_success</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>if !tries! geq 20 goto desk_failed</code></dd><dt>Sabotage</dt><dd><code>if !tries! geq 20 goto desk_ok</code></dd></dl></div></details>
-  <details id="g-test-update-refreshes-the-autostart-entry" class="guard"><summary><span class="n">007</span><span class="t">test_update_refreshes_the_autostart_entry</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>  powershell -NoProfile -ExecutionPolicy Bypass -File &quot;%ROOT%probe\install-autostart.ps1&quot; &gt;&gt;&quot;%LOG%&quot; 2&gt;&amp;1</code></dd><dt>Sabotage</dt><dd><code>  rem sabotage: the Startup entry is never refreshed</code></dd></dl></div></details>
-  <details id="g-test-update-desk-also-refreshes-the-regime-page" class="guard"><summary><span class="n">008</span><span class="t">test_update_desk_also_refreshes_the_regime_page</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>  start &quot;&quot; wscript.exe &quot;%ROOT%regime-hidden.vbs&quot;</code></dd><dt>Sabotage</dt><dd><code>  rem sabotage: the Regime page is never refreshed</code></dd></dl></div></details>
-  <details id="g-test-update-relabels-recorded-sessions-and-survives-a-failure" class="guard"><summary><span class="n">009</span><span class="t">test_update_relabels_recorded_sessions_and_survives_a_failure</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>uw-review.exe data --out data\reviews --no-open</code></dd><dt>Sabotage</dt><dd><code>uw-review.exe data --no-open</code></dd></dl></div></details>
-  <details id="g-test-no-restart-path-can-leave-the-stand-down-flag-set" class="guard"><summary><span class="n">010</span><span class="t">test_no_restart_path_can_leave_the_stand_down_flag_set</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>if exist &quot;%ROOT%.pause&quot; del &quot;%ROOT%.pause&quot; &gt;nul 2&gt;&amp;1</code></dd><dt>Sabotage</dt><dd><code>rem sabotage: the flag is not cleared</code></dd></dl></div></details>
+  <nav class="index" id="index">
+    <h2>Files</h2>
+    <ol><li><a href="#f01">.gitignore</a> <span>1</span></li><li><a href="#f02">0dte-engine/PROVENANCE.json</a> <span>1</span></li><li><a href="#f03">CUTOVER.txt</a> <span>1</span></li><li><a href="#f04">backup-recordings.bat</a> <span>5</span></li><li><a href="#f05">bot/sentinel_trader/signals.py</a> <span>2</span></li><li><a href="#f06">desk-watchdog.bat</a> <span>4</span></li><li><a href="#f07">docs/CHANGELOG.md</a> <span>1</span></li><li><a href="#f08">doctor.bat</a> <span>1</span></li><li><a href="#f09">import-recordings.bat</a> <span>2</span></li><li><a href="#f10">probe/doctor.ps1</a> <span>2</span></li><li><a href="#f11">probe/install-autostart.ps1</a> <span>1</span></li><li><a href="#f12">probe/install-backup-schedule.ps1</a> <span>1</span></li><li><a href="#f13">probe/install-ops-schedule.ps1</a> <span>2</span></li><li><a href="#f14">probe/inventory.ps1</a> <span>1</span></li><li><a href="#f15">probe/ops-report.ps1</a> <span>3</span></li><li><a href="#f16">runtime/python/python314._pth</a> <span>1</span></li><li><a href="#f17">server/live_session.py</a> <span>1</span></li><li><a href="#f18">server/main.py</a> <span>2</span></li><li><a href="#f19">server/routes/live.py</a> <span>5</span></li><li><a href="#f20">server/routes/odte.py</a> <span>2</span></li><li><a href="#f21">server/sentinel/alerting/obi_fade_replay.py</a> <span>1</span></li><li><a href="#f22">server/sentinel/capture/recorder.py</a> <span>1</span></li><li><a href="#f23">server/sentinel/research/publish.py</a> <span>1</span></li><li><a href="#f24">server/session_recorder.py</a> <span>1</span></li><li><a href="#f25">server/signal_feed.py</a> <span>2</span></li><li><a href="#f26">server/sky/blocks.py</a> <span>2</span></li><li><a href="#f27">server/sky/calendar.py</a> <span>1</span></li><li><a href="#f28">server/sky/estimator.py</a> <span>1</span></li><li><a href="#f29">server/sky/join.py</a> <span>1</span></li><li><a href="#f30">server/sky/night.py</a> <span>3</span></li><li><a href="#f31">server/sky/rules.py</a> <span>5</span></li><li><a href="#f32">server/sky/sections.py</a> <span>2</span></li><li><a href="#f33">start-desk.bat</a> <span>2</span></li><li><a href="#f34">stop-desk.bat</a> <span>6</span></li><li><a href="#f35">update-desk.bat</a> <span>10</span></li><li><a href="#f36">update-regime.bat</a> <span>3</span></li><li><a href="#f37">web/0dte.html</a> <span>1</span></li><li><a href="#f38">web/desk.tokens.css</a> <span>1</span></li><li><a href="#f39">web/js/odte.js</a> <span>1</span></li><li><a href="#f40">web/js/portfolio.js</a> <span>1</span></li><li><a href="#f41">web/js/regen.js</a> <span>1</span></li><li><a href="#f42">web/js/sky-plates.js</a> <span>1</span></li><li><a href="#f43">web/js/sky.js</a> <span>1</span></li><li><a href="#f44">web/review.html</a> <span>1</span></li><li><a href="#f45">web/sky.css</a> <span>1</span></li></ol>
+  </nav>
+
+  <section class="file" id="f01">
+  <h2>.gitignore <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g001">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 1: protected text and its sabotage">
+  <pre class="keep"><mark>/.pause</mark></pre>
+  <pre class="cut">#/.pause</pre>
+  </div>
+  <p class="test"><a href="#g001">test_runtime_state_is_ignored_and_the_config_template_is_not</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">stop-desk.bat <span class="cnt">6 guards</span></h3>
-  <details id="g-test-every-bat-is-crlf-on-disk" class="guard"><summary><span class="n">011</span><span class="t">test_every_bat_is_crlf_on_disk</span></summary><div class="body"><p class="what">Rewrites the file&#x27;s line endings (ToLF), which is the exact condition the guard exists to reject.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>ToLF</code></dd></dl></div></details>
-  <details id="g-test-every-operator-script-pauses" class="guard"><summary><span class="n">012</span><span class="t">test_every_operator_script_pauses</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>`r`npause`r`n</code></dd><dt>Sabotage</dt><dd><code>`r`nrem no pause`r`n</code></dd></dl></div></details>
-  <details id="g-test-stop-sets-the-pause-flag-before-it-kills-anything" class="guard"><summary><span class="n">013</span><span class="t">test_stop_sets_the_pause_flag_before_it_kills_anything</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>type nul &gt; &quot;%ROOT%.pause&quot; 2&gt;nul</code></dd><dt>Sabotage</dt><dd><code>rem sabotage: flag not set</code></dd></dl></div></details>
-  <details id="g-test-stop-kills-the-watchdog-and-not-merely-the-server" class="guard"><summary><span class="n">014</span><span class="t">test_stop_kills_the_watchdog_and_not_merely_the_server</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>match &#x27;desk-watchdog&#x27;</code></dd><dt>Sabotage</dt><dd><code>match &#x27;nothing-at-all&#x27;</code></dd></dl></div></details>
-  <details id="g-test-process-kills-match-on-command-line-not-image-name" class="guard"><summary><span class="n">015</span><span class="t">test_process_kills_match_on_command_line_not_image_name</span></summary><div class="body"><p class="what">Appends a line the guard must refuse to accept.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>taskkill /IM python.exe /F</code></dd></dl></div></details>
-  <details id="g-test-no-operator-script-deletes-the-way-back" class="guard"><summary><span class="n">016</span><span class="t">test_no_operator_script_deletes_the_way_back</span></summary><div class="body"><p class="what">Appends a line the guard must refuse to accept.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>git tag -d last-good</code></dd></dl></div></details>
+  <section class="file" id="f02">
+  <h2>0dte-engine/PROVENANCE.json <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g002">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 2: protected text and its sabotage">
+  <pre class="keep"><mark>&quot;SHA256&quot;: &quot;C44A278E</mark></pre>
+  <pre class="cut">&quot;SHA256&quot;: &quot;DEADBEEF</pre>
+  </div>
+  <p class="test"><a href="#g002">test_the_engine_binaries_match_their_recorded_provenance</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">backup-recordings.bat <span class="cnt">5 guards</span></h3>
-  <details id="g-test-backup-syncs-with-the-remote-before-staging-anything" class="guard"><summary><span class="n">017</span><span class="t">test_backup_syncs_with_the_remote_before_staging_anything</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>git merge --ff-only origin/main &gt;&gt;&quot;%LOG%&quot; 2&gt;&amp;1</code></dd><dt>Sabotage</dt><dd><code>rem sabotage: staged on top of an unknown remote</code></dd></dl></div></details>
-  <details id="g-test-backup-tripwire-is-scoped-to-tapes-not-to-every-deletion" class="guard"><summary><span class="n">018</span><span class="t">test_backup_tripwire_is_scoped_to_tapes_not_to_every_deletion</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>else { Write-Output (&#x27;adoption housekeeping: D &#x27;+$p) }</code></dd><dt>Sabotage</dt><dd><code>else { $bad += (&#x27;sabotage: every deletion aborts &#x27; + $p) }</code></dd></dl></div></details>
-  <details id="g-test-backup-refuses-on-zero-tapes-before-it-mirrors-anything" class="guard"><summary><span class="n">019</span><span class="t">test_backup_refuses_on_zero_tapes_before_it_mirrors_anything</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>if &quot;%NTAPES%&quot;==&quot;0&quot; (</code></dd><dt>Sabotage</dt><dd><code>if &quot;%NTAPES%&quot;==&quot;-1&quot; (</code></dd></dl></div></details>
-  <details id="g-test-backup-mirror-excludes-the-vendor-dump-and-refreshes-torn-files" class="guard"><summary><span class="n">020</span><span class="t">test_backup_mirror_excludes_the_vendor_dump_and_refreshes_torn_files</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>/E /XO /XF cboe_raw* /R:1 /W:1</code></dd><dt>Sabotage</dt><dd><code>/E /XO /XN /XF cboe_raw* /R:1 /W:1</code></dd></dl></div></details>
-  <details id="g-test-the-scheduled-backup-can-never-hang-on-a-hidden-credential-prompt" class="guard"><summary><span class="n">021</span><span class="t">test_the_scheduled_backup_can_never_hang_on_a_hidden_credential_prompt</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>set &quot;GIT_TERMINAL_PROMPT=0&quot;</code></dd><dt>Sabotage</dt><dd><code>rem sabotage: prompts stay on</code></dd></dl></div></details>
+  <section class="file" id="f03">
+  <h2>CUTOVER.txt <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g003">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 3: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">STEP 3 - REDEPLOY THE CONTAINER`r`nRun the docker rollback.</pre>
+  </div>
+  <p class="test"><a href="#g003">test_the_cutover_runbook_is_four_steps_and_free_of_jargon</a><span class="verb">appended</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/routes/live.py <span class="cnt">5 guards</span></h3>
-  <details id="g-test-live-arm-honours-the-autostart-kill-switch" class="guard"><summary><span class="n">022</span><span class="t">test_live_arm_honours_the_autostart_kill_switch</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>&quot;state&quot;: &quot;LIVE_DISABLED&quot;,</code></dd><dt>Sabotage</dt><dd><code>&quot;state&quot;: &quot;OOPS&quot;,</code></dd></dl></div></details>
-  <details id="g-test-the-signal-wiring-check-compares-real-resolved-paths" class="guard"><summary><span class="n">023</span><span class="t">test_the_signal_wiring_check_compares_real_resolved_paths</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>os.path.isabs(raw)</code></dd><dt>Sabotage</dt><dd><code>False</code></dd></dl></div></details>
-  <details id="g-test-the-feed-and-journal-use-their-own-date-keys" class="guard"><summary><span class="n">024</span><span class="t">test_the_feed_and_journal_use_their_own_date_keys</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>_Z(&quot;UTC&quot;)</code></dd><dt>Sabotage</dt><dd><code>_Z(&quot;America/New_York&quot;)</code></dd></dl></div></details>
-  <details id="g-test-the-regenerate-job-cannot-run-twice-at-once" class="guard"><summary><span class="n">025</span><span class="t">test_the_regenerate_job_cannot_run_twice_at_once</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>if self._state.get(&quot;state&quot;) == &quot;RUNNING&quot;:</code></dd><dt>Sabotage</dt><dd><code>if False:</code></dd></dl></div></details>
-  <details id="g-test-the-regenerate-subprocess-output-is-captured-and-bounded" class="guard"><summary><span class="n">026</span><span class="t">test_the_regenerate_subprocess_output_is_captured_and_bounded</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>rc = proc.wait(timeout=self.TIMEOUT_S)</code></dd><dt>Sabotage</dt><dd><code>rc = proc.wait()</code></dd></dl></div></details>
+  <section class="file" id="f04">
+  <h2>backup-recordings.bat <span class="n">5 guards</span></h2>
+  <article class="mutant" id="g004">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 4: protected text and its sabotage">
+  <pre class="keep"><mark>git merge --ff-only origin/main &gt;&gt;&quot;%LOG%&quot; 2&gt;&amp;1</mark></pre>
+  <pre class="cut">rem sabotage: staged on top of an unknown remote</pre>
+  </div>
+  <p class="test"><a href="#g004">test_backup_syncs_with_the_remote_before_staging_anything</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g005">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 5: protected text and its sabotage">
+  <pre class="keep"><mark>else { Write-Output (&#x27;adoption housekeeping: D &#x27;+$p) }</mark></pre>
+  <pre class="cut">else { $bad += (&#x27;sabotage: every deletion aborts &#x27; + $p) }</pre>
+  </div>
+  <p class="test"><a href="#g005">test_backup_tripwire_is_scoped_to_tapes_not_to_every_deletion</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g006">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 6: protected text and its sabotage">
+  <pre class="keep"><mark>if &quot;%NTAPES%&quot;==&quot;0&quot; (</mark></pre>
+  <pre class="cut">if &quot;%NTAPES%&quot;==&quot;-1&quot; (</pre>
+  </div>
+  <p class="test"><a href="#g006">test_backup_refuses_on_zero_tapes_before_it_mirrors_anything</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g007">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 7: protected text and its sabotage">
+  <pre class="keep"><mark>/E /XO /XF cboe_raw* /R:1 /W:1</mark></pre>
+  <pre class="cut">/E /XO /XN /XF cboe_raw* /R:1 /W:1</pre>
+  </div>
+  <p class="test"><a href="#g007">test_backup_mirror_excludes_the_vendor_dump_and_refreshes_torn_files</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g008">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 8: protected text and its sabotage">
+  <pre class="keep"><mark>set &quot;GIT_TERMINAL_PROMPT=0&quot;</mark></pre>
+  <pre class="cut">rem sabotage: prompts stay on</pre>
+  </div>
+  <p class="test"><a href="#g008">test_the_scheduled_backup_can_never_hang_on_a_hidden_credential_prompt</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/sky/rules.py <span class="cnt">5 guards</span></h3>
-  <details id="g-test-a-quarter-tape-is-excluded-by-name-with-the-number-and-the-floor" class="guard"><summary><span class="n">027</span><span class="t">test_a_quarter_tape_is_excluded_by_name_with_the_number_and_the_floor</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>    elif coverage &lt; ctx.coverage_floor:</code></dd><dt>Sabotage</dt><dd><code>    elif coverage &lt; 0:</code></dd></dl></div></details>
-  <details id="g-test-a-full-span-tape-with-no-print-is-excluded-by-name-with-the-count" class="guard"><summary><span class="n">028</span><span class="t">test_a_full_span_tape_with_no_print_is_excluded_by_name_with_the_count</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>    elif ticks &lt; ctx.min_ticks:</code></dd><dt>Sabotage</dt><dd><code>    elif ticks &lt; 0:</code></dd></dl></div></details>
-  <details id="g-test-a-friday-or-saturday-asia-open-is-not-a-calendar-night" class="guard"><summary><span class="n">029</span><span class="t">test_a_friday_or_saturday_asia_open_is_not_a_calendar_night</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>    elif not _night.is_calendar_night(corpus, night, rule):</code></dd><dt>Sabotage</dt><dd><code>    elif False:</code></dd></dl></div></details>
-  <details id="g-test-duplicate-window-keeps-the-greatest-coverage-and-names-the-winner" class="guard"><summary><span class="n">030</span><span class="t">test_duplicate_window_keeps_the_greatest_coverage_and_names_the_winner</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>        copies = sorted(by_night[night_key], key=lambda r: (-(r[&quot;coverage&quot;] or 0.0), r[&quot;name&quot;]))</code></dd><dt>Sabotage</dt><dd><code>        copies = sorted(by_night[night_key], key=lambda r: (r[&quot;coverage&quot;] or 0.0, r[&quot;name&quot;]))</code></dd></dl></div></details>
-  <details id="g-test-coverage-is-clipped-to-the-stats-window-and-clamped-at-both-ends" class="guard"><summary><span class="n">031</span><span class="t">test_coverage_is_clipped_to_the_stats_window_and_clamped_at_both_ends</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>    elif coverage &lt;= 0.0:</code></dd><dt>Sabotage</dt><dd><code>    elif False:</code></dd></dl></div></details>
+  <section class="file" id="f05">
+  <h2>bot/sentinel_trader/signals.py <span class="n">2 guards</span></h2>
+  <article class="mutant" id="g009">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 9: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">raise SystemExit(&quot;sabotage&quot;)</pre>
+  </div>
+  <p class="test"><a href="#g009">test_the_nested_bot_runs_on_the_committed_runtime</a><span class="verb">appended</span></p>
+  </article>
+  <article class="mutant" id="g010">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 10: protected text and its sabotage">
+  <pre class="keep"><mark>SCHEMA_VERSION = 2</mark></pre>
+  <pre class="cut">SCHEMA_VERSION = 3</pre>
+  </div>
+  <p class="test"><a href="#g010">test_the_feed_and_the_bot_agree_on_the_pair_contract</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">desk-watchdog.bat <span class="cnt">4 guards</span></h3>
-  <details id="g-test-watchdog-stands-down-on-the-pause-flag" class="guard"><summary><span class="n">032</span><span class="t">test_watchdog_stands_down_on_the_pause_flag</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>if exist &quot;%ROOT%.pause&quot; (</code></dd><dt>Sabotage</dt><dd><code>if 1==2 (</code></dd></dl></div></details>
-  <details id="g-test-watchdog-stands-down-on-the-pause-flag" class="guard"><summary><span class="n">033</span><span class="t">test_watchdog_stands_down_on_the_pause_flag</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>if exist &quot;%ROOT%.pause&quot; (</code></dd><dt>Sabotage</dt><dd><code>rem if exist &quot;%ROOT%.pause&quot; (</code></dd></dl></div></details>
-  <details id="g-test-watchdog-treats-an-error-page-as-a-failure" class="guard"><summary><span class="n">034</span><span class="t">test_watchdog_treats_an_error_page_as_a_failure</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>curl -fs -o NUL</code></dd><dt>Sabotage</dt><dd><code>curl -s -o NUL</code></dd></dl></div></details>
-  <details id="g-test-watchdog-never-builds-or-pulls" class="guard"><summary><span class="n">035</span><span class="t">test_watchdog_never_builds_or_pulls</span></summary><div class="body"><p class="what">Appends a line the guard must refuse to accept.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>git pull --ff-only</code></dd></dl></div></details>
+  <section class="file" id="f06">
+  <h2>desk-watchdog.bat <span class="n">4 guards</span></h2>
+  <article class="mutant" id="g011">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 11: protected text and its sabotage">
+  <pre class="keep"><mark>if exist &quot;%ROOT%.pause&quot; (</mark></pre>
+  <pre class="cut">if 1==2 (</pre>
+  </div>
+  <p class="test"><a href="#g011">test_watchdog_stands_down_on_the_pause_flag</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g012">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 12: protected text and its sabotage">
+  <pre class="keep"><mark>if exist &quot;%ROOT%.pause&quot; (</mark></pre>
+  <pre class="cut">rem if exist &quot;%ROOT%.pause&quot; (</pre>
+  </div>
+  <p class="test"><a href="#g012">test_watchdog_stands_down_on_the_pause_flag</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g013">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 13: protected text and its sabotage">
+  <pre class="keep"><mark>curl -fs -o NUL</mark></pre>
+  <pre class="cut">curl -s -o NUL</pre>
+  </div>
+  <p class="test"><a href="#g013">test_watchdog_treats_an_error_page_as_a_failure</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g014">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 14: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">git pull --ff-only</pre>
+  </div>
+  <p class="test"><a href="#g014">test_watchdog_never_builds_or_pulls</a><span class="verb">appended</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">probe/ops-report.ps1 <span class="cnt">3 guards</span></h3>
-  <details id="g-test-ops-report-surfaces-named-log-failures-to-discord" class="guard"><summary><span class="n">036</span><span class="t">test_ops_report_surfaces_named_log_failures_to_discord</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>|$failHash&quot;</code></dd><dt>Sabotage</dt><dd><code>&quot;</code></dd></dl></div></details>
-  <details id="g-test-every-discord-post-sends-utf8-bytes" class="guard"><summary><span class="n">037</span><span class="t">test_every_discord_post_sends_utf8_bytes</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>    Invoke-RestMethod -Uri $hook -Method Post -ContentType &#x27;application/json; charset=utf-8&#x27; -Body ([Text.Encoding]::UTF8.GetBytes($payload)) | Out-Null</code></dd><dt>Sabotage</dt><dd><code>    # Invoke-RestMethod -Uri $hook -Method Post -ContentType &#x27;application/json; charset=utf-8&#x27; -Body ([Text.Encoding]::UTF8.GetBytes($payload)) | Out-Null</code></dd></dl></div></details>
-  <details id="g-test-no-discord-post-sends-the-webhook-url-as-its-body" class="guard"><summary><span class="n">038</span><span class="t">test_no_discord_post_sends_the_webhook_url_as_its_body</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>UTF8.GetBytes($payload)</code></dd><dt>Sabotage</dt><dd><code>UTF8.GetBytes($hook)</code></dd></dl></div></details>
+  <section class="file" id="f07">
+  <h2>docs/CHANGELOG.md <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g015">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 15: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">the protected text is deleted</pre>
+  </div>
+  <p class="test"><a href="#g015">test_no_secret_shaped_string_outside_the_documented_exception</a><span class="verb">removed</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/sky/night.py <span class="cnt">3 guards</span></h3>
-  <details id="g-test-calendar-rules" class="guard"><summary><span class="n">039</span><span class="t">test_calendar_rules</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>    return open_weekday(night) in _CALENDAR_RULES[calendar_rule]</code></dd><dt>Sabotage</dt><dd><code>    return True</code></dd></dl></div></details>
-  <details id="g-test-clipped-coverage" class="guard"><summary><span class="n">040</span><span class="t">test_clipped_coverage</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>    overlap = max(0.0, min(float(last_t), close_t) - max(float(first_t), open_t))</code></dd><dt>Sabotage</dt><dd><code>    overlap = min(float(last_t), close_t) - max(float(first_t), open_t)</code></dd></dl></div></details>
-  <details id="g-test-tzdata-unavailable-is-named-and-never-utc" class="guard"><summary><span class="n">041</span><span class="t">test_tzdata_unavailable_is_named_and_never_utc</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>        raise TzdataUnavailable(&quot;tzdata is missing from the runtime&quot;) from exc</code></dd><dt>Sabotage</dt><dd><code>        return None</code></dd></dl></div></details>
+  <section class="file" id="f08">
+  <h2>doctor.bat <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g016">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 16: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">taskkill /IM python.exe /F</pre>
+  </div>
+  <p class="test"><a href="#g016">test_doctor_changes_nothing</a><span class="verb">appended</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">update-regime.bat <span class="cnt">3 guards</span></h3>
-  <details id="g-test-the-session-boundary-is-proven-by-running-it" class="guard"><summary><span class="n">042</span><span class="t">test_the_session_boundary_is_proven_by_running_it</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>[TimeSpan]&#x27;16:15:00&#x27;</code></dd><dt>Sabotage</dt><dd><code>[TimeSpan]&#x27;09:15:00&#x27;</code></dd></dl></div></details>
-  <details id="g-test-the-auto-grade-marker-keys-on-the-session-not-the-run-date" class="guard"><summary><span class="n">043</span><span class="t">test_the_auto_grade_marker_keys_on_the_session_not_the_run_date</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>ConvertTimeBySystemTimeZoneId(</code></dd><dt>Sabotage</dt><dd><code>ConvertTimeBySystemTimeZoneIdBROKEN(</code></dd></dl></div></details>
-  <details id="g-test-the-regime-launcher-checks-the-desk-is-up-first" class="guard"><summary><span class="n">044</span><span class="t">test_the_regime_launcher_checks_the_desk_is_up_first</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>curl -fs -o NUL --max-time 5 &quot;%HEALTH%&quot; &gt;nul 2&gt;&amp;1</code></dd><dt>Sabotage</dt><dd><code>rem sabotage: the desk is never probed</code></dd></dl></div></details>
+  <section class="file" id="f09">
+  <h2>import-recordings.bat <span class="n">2 guards</span></h2>
+  <article class="mutant" id="g017">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 17: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">for /f %%N in (&#x27;powershell -NoProfile -Command &quot;(Get-ChildItem . ^| Measure-Object).Count&quot;&#x27;) do set &quot;X=%%N&quot;</pre>
+  </div>
+  <p class="test"><a href="#g017">test_no_bat_counts_files_by_piping_inside_a_for_loop</a><span class="verb">appended</span></p>
+  </article>
+  <article class="mutant" id="g018">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 18: protected text and its sabotage">
+  <pre class="keep"><mark>/E /XO /XN /XD .git /XF _backup.log /R:1</mark></pre>
+  <pre class="cut">/E /XO /XN /R:1</pre>
+  </div>
+  <p class="test"><a href="#g018">test_import_never_copies_the_old_desks_nested_git_state</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">bot/sentinel_trader/signals.py <span class="cnt">2 guards</span></h3>
-  <details id="g-test-the-nested-bot-runs-on-the-committed-runtime" class="guard"><summary><span class="n">045</span><span class="t">test_the_nested_bot_runs_on_the_committed_runtime</span></summary><div class="body"><p class="what">Appends a line the guard must refuse to accept.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>raise SystemExit(&quot;sabotage&quot;)</code></dd></dl></div></details>
-  <details id="g-test-the-feed-and-the-bot-agree-on-the-pair-contract" class="guard"><summary><span class="n">046</span><span class="t">test_the_feed_and_the_bot_agree_on_the_pair_contract</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>SCHEMA_VERSION = 2</code></dd><dt>Sabotage</dt><dd><code>SCHEMA_VERSION = 3</code></dd></dl></div></details>
+  <section class="file" id="f10">
+  <h2>probe/doctor.ps1 <span class="n">2 guards</span></h2>
+  <article class="mutant" id="g019">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 19: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">StripBom</pre>
+  </div>
+  <p class="test"><a href="#g019">test_powershell_scripts_with_non_ascii_carry_a_utf8_bom</a><span class="verb">rewritten</span></p>
+  </article>
+  <article class="mutant" id="g020">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 20: protected text and its sabotage">
+  <pre class="keep"><mark>        # Well: nothing to add, and NOTHING to write - the server owns the anchor [CR-AP].</mark></pre>
+  <pre class="cut">        Set-Content -LiteralPath $liveClock -Value 0</pre>
+  </div>
+  <p class="test"><a href="#g020">test_the_server_owns_the_live_clock_and_doctor_only_reads_it</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">import-recordings.bat <span class="cnt">2 guards</span></h3>
-  <details id="g-test-no-bat-counts-files-by-piping-inside-a-for-loop" class="guard"><summary><span class="n">047</span><span class="t">test_no_bat_counts_files_by_piping_inside_a_for_loop</span></summary><div class="body"><p class="what">Appends a line the guard must refuse to accept.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>for /f %%N in (&#x27;powershell -NoProfile -Command &quot;(Get-ChildItem . ^| Measure-Object).Count&quot;&#x27;) do set &quot;X=%%N&quot;</code></dd></dl></div></details>
-  <details id="g-test-import-never-copies-the-old-desks-nested-git-state" class="guard"><summary><span class="n">048</span><span class="t">test_import_never_copies_the_old_desks_nested_git_state</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>/E /XO /XN /XD .git /XF _backup.log /R:1</code></dd><dt>Sabotage</dt><dd><code>/E /XO /XN /R:1</code></dd></dl></div></details>
+  <section class="file" id="f11">
+  <h2>probe/install-autostart.ps1 <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g021">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 21: protected text and its sabotage">
+  <pre class="keep"><mark>if ($written -match &#x27;GetParentFolderName&#x27;) {</mark></pre>
+  <pre class="cut">if ($false) {</pre>
+  </div>
+  <p class="test"><a href="#g021">test_the_read_back_refuses_a_self_resolving_startup_file</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">probe/doctor.ps1 <span class="cnt">2 guards</span></h3>
-  <details id="g-test-powershell-scripts-with-non-ascii-carry-a-utf8-bom" class="guard"><summary><span class="n">049</span><span class="t">test_powershell_scripts_with_non_ascii_carry_a_utf8_bom</span></summary><div class="body"><p class="what">Rewrites the file&#x27;s line endings (StripBom), which is the exact condition the guard exists to reject.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>StripBom</code></dd></dl></div></details>
-  <details id="g-test-the-server-owns-the-live-clock-and-doctor-only-reads-it" class="guard"><summary><span class="n">050</span><span class="t">test_the_server_owns_the_live_clock_and_doctor_only_reads_it</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>        # Well: nothing to add, and NOTHING to write - the server owns the anchor [CR-AP].</code></dd><dt>Sabotage</dt><dd><code>        Set-Content -LiteralPath $liveClock -Value 0</code></dd></dl></div></details>
+  <section class="file" id="f12">
+  <h2>probe/install-backup-schedule.ps1 <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g022">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 22: protected text and its sabotage">
+  <pre class="keep"><mark>if (Test-Path $Marker) {</mark></pre>
+  <pre class="cut">if ($false) {</pre>
+  </div>
+  <p class="test"><a href="#g022">test_the_backup_schedule_stays_removed_and_cannot_hang_forever</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">probe/install-ops-schedule.ps1 <span class="cnt">2 guards</span></h3>
-  <details id="g-test-the-ops-schedule-stays-removed-and-doctor-can-tell-why" class="guard"><summary><span class="n">051</span><span class="t">test_the_ops_schedule_stays_removed_and_doctor_can_tell_why</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>if (Test-Path $Marker) {</code></dd><dt>Sabotage</dt><dd><code>if ($false) {</code></dd></dl></div></details>
-  <details id="g-test-no-scheduled-task-launches-a-visible-console" class="guard"><summary><span class="n">052</span><span class="t">test_no_scheduled_task_launches_a_visible_console</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>New-ScheduledTaskAction -Execute $wscript</code></dd><dt>Sabotage</dt><dd><code>New-ScheduledTaskAction -Execute $psExe</code></dd></dl></div></details>
+  <section class="file" id="f13">
+  <h2>probe/install-ops-schedule.ps1 <span class="n">2 guards</span></h2>
+  <article class="mutant" id="g023">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 23: protected text and its sabotage">
+  <pre class="keep"><mark>if (Test-Path $Marker) {</mark></pre>
+  <pre class="cut">if ($false) {</pre>
+  </div>
+  <p class="test"><a href="#g023">test_the_ops_schedule_stays_removed_and_doctor_can_tell_why</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g024">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 24: protected text and its sabotage">
+  <pre class="keep"><mark>New-ScheduledTaskAction -Execute $wscript</mark></pre>
+  <pre class="cut">New-ScheduledTaskAction -Execute $psExe</pre>
+  </div>
+  <p class="test"><a href="#g024">test_no_scheduled_task_launches_a_visible_console</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/main.py <span class="cnt">2 guards</span></h3>
-  <details id="g-test-the-autostart-guard-defaults-to-enabled" class="guard"><summary><span class="n">053</span><span class="t">test_the_autostart_guard_defaults_to_enabled</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>os.getenv(&quot;DESK_LIVE_AUTOSTART&quot;, &quot;1&quot;)</code></dd><dt>Sabotage</dt><dd><code>os.getenv(&quot;DESK_LIVE_AUTOSTART&quot;, &quot;0&quot;)</code></dd></dl></div></details>
-  <details id="g-test-the-documented-page-routes-are-declared-before-the-static-mount" class="guard"><summary><span class="n">054</span><span class="t">test_the_documented_page_routes_are_declared_before_the_static_mount</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>&quot;review&quot;, &quot;0dte&quot;, &quot;portfolio&quot;, &quot;recorder&quot;</code></dd><dt>Sabotage</dt><dd><code>&quot;review&quot;, &quot;0dte&quot;, &quot;portfolio&quot;</code></dd></dl></div></details>
+  <section class="file" id="f14">
+  <h2>probe/inventory.ps1 <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g025">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 25: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">Stop-Process -Name python -Force</pre>
+  </div>
+  <p class="test"><a href="#g025">test_the_inventory_changes_nothing_and_leaks_nothing</a><span class="verb">appended</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/routes/odte.py <span class="cnt">2 guards</span></h3>
-  <details id="g-test-the-engine-url-constant-matches-the-variable-it-reads" class="guard"><summary><span class="n">055</span><span class="t">test_the_engine_url_constant_matches_the_variable_it_reads</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>`nODTE_ENGINE_URL = os.getenv</code></dd><dt>Sabotage</dt><dd><code>`nUNDERWRITER_URL = os.getenv</code></dd></dl></div></details>
-  <details id="g-test-the-offline-state-is-named-and-never-raised" class="guard"><summary><span class="n">056</span><span class="t">test_the_offline_state_is_named_and_never_raised</span></summary><div class="body"><p class="what">Appends a line the guard must refuse to accept.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code># raise HTTPException(status_code=502)</code></dd></dl></div></details>
+  <section class="file" id="f15">
+  <h2>probe/ops-report.ps1 <span class="n">3 guards</span></h2>
+  <article class="mutant" id="g026">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 26: protected text and its sabotage">
+  <pre class="keep"><mark>|$failHash&quot;</mark></pre>
+  <pre class="cut">&quot;</pre>
+  </div>
+  <p class="test"><a href="#g026">test_ops_report_surfaces_named_log_failures_to_discord</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g027">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 27: protected text and its sabotage">
+  <pre class="keep"><mark>    Invoke-RestMethod -Uri $hook -Method Post -ContentType &#x27;application/json; charset=utf-8&#x27; -Body ([Text.Encoding]::UTF8.GetBytes($payload)) | Out-Null</mark></pre>
+  <pre class="cut">    # Invoke-RestMethod -Uri $hook -Method Post -ContentType &#x27;application/json; charset=utf-8&#x27; -Body ([Text.Encoding]::UTF8.GetBytes($payload)) | Out-Null</pre>
+  </div>
+  <p class="test"><a href="#g027">test_every_discord_post_sends_utf8_bytes</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g028">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 28: protected text and its sabotage">
+  <pre class="keep"><mark>UTF8.GetBytes($payload)</mark></pre>
+  <pre class="cut">UTF8.GetBytes($hook)</pre>
+  </div>
+  <p class="test"><a href="#g028">test_no_discord_post_sends_the_webhook_url_as_its_body</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/signal_feed.py <span class="cnt">2 guards</span></h3>
-  <details id="g-test-the-desk-never-imports-the-bot" class="guard"><summary><span class="n">057</span><span class="t">test_the_desk_never_imports_the_bot</span></summary><div class="body"><p class="what">Appends a line the guard must refuse to accept.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>import sentinel_trader</code></dd></dl></div></details>
-  <details id="g-test-the-pair-check-fails-closed-when-identity-is-unknown" class="guard"><summary><span class="n">058</span><span class="t">test_the_pair_check_fails_closed_when_identity_is_unknown</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>return &quot;UNKNOWN-DESK&quot;</code></dd><dt>Sabotage</dt><dd><code>return &quot;&quot;</code></dd></dl></div></details>
+  <section class="file" id="f16">
+  <h2>runtime/python/python314._pth <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g029">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 29: protected text and its sabotage">
+  <pre class="keep"><mark>..\..\bot</mark></pre>
+  <pre class="cut"></pre>
+  </div>
+  <p class="test"><a href="#g029">test_the_runtime_path_model_reaches_the_nested_bot</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/sky/blocks.py <span class="cnt">2 guards</span></h3>
-  <details id="g-test-block-usability" class="guard"><summary><span class="n">059</span><span class="t">test_block_usability</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>    if int(distinct_stamps) &lt; int(min_distinct_stamps):</code></dd><dt>Sabotage</dt><dd><code>    if False:</code></dd></dl></div></details>
-  <details id="g-test-block-usability" class="guard"><summary><span class="n">060</span><span class="t">test_block_usability</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>    return float(stamp_span) &gt;= float(min_time_coverage) * float(block_seconds)</code></dd><dt>Sabotage</dt><dd><code>    return True</code></dd></dl></div></details>
+  <section class="file" id="f17">
+  <h2>server/live_session.py <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g030">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 30: protected text and its sabotage">
+  <pre class="keep"><mark>                    _clock.touch(status().get(&quot;status&quot;))</mark></pre>
+  <pre class="cut">                    pass  # sabotage: the anchor never moves</pre>
+  </div>
+  <p class="test"><a href="#g030">test_the_server_owns_the_live_clock_and_doctor_only_reads_it</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/sky/sections.py <span class="cnt">2 guards</span></h3>
-  <details id="g-test-a-key-the-file-did-not-supply-is-a-fallback-whatever-its-value" class="guard"><summary><span class="n">061</span><span class="t">test_a_key_the_file_did_not_supply_is_a_fallback_whatever_its_value</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>    return key in record</code></dd><dt>Sabotage</dt><dd><code>    return True</code></dd></dl></div></details>
-  <details id="g-test-an-unequally-spaced-table-is-a-fallback" class="guard"><summary><span class="n">062</span><span class="t">test_an_unequally_spaced_table_is_a_fallback</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>            if abs(gap - step) &gt; 1e-6:</code></dd><dt>Sabotage</dt><dd><code>            if False:</code></dd></dl></div></details>
+  <section class="file" id="f18">
+  <h2>server/main.py <span class="n">2 guards</span></h2>
+  <article class="mutant" id="g031">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 31: protected text and its sabotage">
+  <pre class="keep"><mark>os.getenv(&quot;DESK_LIVE_AUTOSTART&quot;, &quot;1&quot;)</mark></pre>
+  <pre class="cut">os.getenv(&quot;DESK_LIVE_AUTOSTART&quot;, &quot;0&quot;)</pre>
+  </div>
+  <p class="test"><a href="#g031">test_the_autostart_guard_defaults_to_enabled</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g032">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 32: protected text and its sabotage">
+  <pre class="keep"><mark>&quot;review&quot;, &quot;0dte&quot;, &quot;portfolio&quot;, &quot;recorder&quot;</mark></pre>
+  <pre class="cut">&quot;review&quot;, &quot;0dte&quot;, &quot;portfolio&quot;</pre>
+  </div>
+  <p class="test"><a href="#g032">test_the_documented_page_routes_are_declared_before_the_static_mount</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">start-desk.bat <span class="cnt">2 guards</span></h3>
-  <details id="g-test-every-operator-script-writes-a-log" class="guard"><summary><span class="n">063</span><span class="t">test_every_operator_script_writes_a_log</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>logs\ops</code></dd><dt>Sabotage</dt><dd><code>logs\nope</code></dd></dl></div></details>
-  <details id="g-test-start-installs-autostart-through-the-generator" class="guard"><summary><span class="n">064</span><span class="t">test_start_installs_autostart_through_the_generator</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>  powershell -NoProfile -ExecutionPolicy Bypass -File &quot;%ROOT%probe\install-autostart.ps1&quot; &gt;&gt;&quot;%LOG%&quot; 2&gt;&amp;1</code></dd><dt>Sabotage</dt><dd><code>  rem sabotage: autostart is never installed</code></dd></dl></div></details>
+  <section class="file" id="f19">
+  <h2>server/routes/live.py <span class="n">5 guards</span></h2>
+  <article class="mutant" id="g033">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 33: protected text and its sabotage">
+  <pre class="keep"><mark>&quot;state&quot;: &quot;LIVE_DISABLED&quot;,</mark></pre>
+  <pre class="cut">&quot;state&quot;: &quot;OOPS&quot;,</pre>
+  </div>
+  <p class="test"><a href="#g033">test_live_arm_honours_the_autostart_kill_switch</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g034">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 34: protected text and its sabotage">
+  <pre class="keep"><mark>os.path.isabs(raw)</mark></pre>
+  <pre class="cut">False</pre>
+  </div>
+  <p class="test"><a href="#g034">test_the_signal_wiring_check_compares_real_resolved_paths</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g035">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 35: protected text and its sabotage">
+  <pre class="keep"><mark>_Z(&quot;UTC&quot;)</mark></pre>
+  <pre class="cut">_Z(&quot;America/New_York&quot;)</pre>
+  </div>
+  <p class="test"><a href="#g035">test_the_feed_and_journal_use_their_own_date_keys</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g036">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 36: protected text and its sabotage">
+  <pre class="keep"><mark>if self._state.get(&quot;state&quot;) == &quot;RUNNING&quot;:</mark></pre>
+  <pre class="cut">if False:</pre>
+  </div>
+  <p class="test"><a href="#g036">test_the_regenerate_job_cannot_run_twice_at_once</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g037">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 37: protected text and its sabotage">
+  <pre class="keep"><mark>rc = proc.wait(timeout=self.TIMEOUT_S)</mark></pre>
+  <pre class="cut">rc = proc.wait()</pre>
+  </div>
+  <p class="test"><a href="#g037">test_the_regenerate_subprocess_output_is_captured_and_bounded</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">.gitignore <span class="cnt">1 guard</span></h3>
-  <details id="g-test-runtime-state-is-ignored-and-the-config-template-is-not" class="guard"><summary><span class="n">065</span><span class="t">test_runtime_state_is_ignored_and_the_config_template_is_not</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>/.pause</code></dd><dt>Sabotage</dt><dd><code>#/.pause</code></dd></dl></div></details>
+  <section class="file" id="f20">
+  <h2>server/routes/odte.py <span class="n">2 guards</span></h2>
+  <article class="mutant" id="g038">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 38: protected text and its sabotage">
+  <pre class="keep"><mark>`nODTE_ENGINE_URL = os.getenv</mark></pre>
+  <pre class="cut">`nUNDERWRITER_URL = os.getenv</pre>
+  </div>
+  <p class="test"><a href="#g038">test_the_engine_url_constant_matches_the_variable_it_reads</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g039">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 39: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut"># raise HTTPException(status_code=502)</pre>
+  </div>
+  <p class="test"><a href="#g039">test_the_offline_state_is_named_and_never_raised</a><span class="verb">appended</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">0dte-engine/PROVENANCE.json <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-engine-binaries-match-their-recorded-provenance" class="guard"><summary><span class="n">066</span><span class="t">test_the_engine_binaries_match_their_recorded_provenance</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>&quot;SHA256&quot;: &quot;C44A278E</code></dd><dt>Sabotage</dt><dd><code>&quot;SHA256&quot;: &quot;DEADBEEF</code></dd></dl></div></details>
+  <section class="file" id="f21">
+  <h2>server/sentinel/alerting/obi_fade_replay.py <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g040">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 40: protected text and its sabotage">
+  <pre class="keep"><mark>        integ = tape_integrity(p)</mark></pre>
+  <pre class="cut">        integ = {&quot;torn&quot;: False, &quot;reason&quot;: None}</pre>
+  </div>
+  <p class="test"><a href="#g040">test_the_corpus_counts_and_names_the_torn_tapes_it_read</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">CUTOVER.txt <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-cutover-runbook-is-four-steps-and-free-of-jargon" class="guard"><summary><span class="n">067</span><span class="t">test_the_cutover_runbook_is_four_steps_and_free_of_jargon</span></summary><div class="body"><p class="what">Appends a line the guard must refuse to accept.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>STEP 3 - REDEPLOY THE CONTAINER`r`nRun the docker rollback.</code></dd></dl></div></details>
+  <section class="file" id="f22">
+  <h2>server/sentinel/capture/recorder.py <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g041">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 41: protected text and its sabotage">
+  <pre class="keep"><mark>            &quot;ev&quot;: &quot;end&quot;, &quot;t&quot;: end_t, &quot;ticks&quot;: self.n_ticks, &quot;quotes&quot;: self.n_quotes,</mark></pre>
+  <pre class="cut">            &quot;ev&quot;: &quot;not-an-end&quot;, &quot;t&quot;: end_t, &quot;ticks&quot;: self.n_ticks, &quot;quotes&quot;: self.n_quotes,</pre>
+  </div>
+  <p class="test"><a href="#g041">test_a_tape_closed_by_the_finalizer_carries_its_trailer_and_a_killed_one_does_not</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">docs/CHANGELOG.md <span class="cnt">1 guard</span></h3>
-  <details id="g-test-no-secret-shaped-string-outside-the-documented-exception" class="guard"><summary><span class="n">068</span><span class="t">test_no_secret_shaped_string_outside_the_documented_exception</span></summary><div class="body"><p class="what">Mutates the file in the way this guard exists to catch.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd></dl></div></details>
+  <section class="file" id="f23">
+  <h2>server/sentinel/research/publish.py <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g042">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 42: protected text and its sabotage">
+  <pre class="keep"><mark>os.replace(tmp, dest)</mark></pre>
+  <pre class="cut">os.rename(tmp, dest)</pre>
+  </div>
+  <p class="test"><a href="#g042">test_the_research_bundle_is_published_atomically_and_dated</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">doctor.bat <span class="cnt">1 guard</span></h3>
-  <details id="g-test-doctor-changes-nothing" class="guard"><summary><span class="n">069</span><span class="t">test_doctor_changes_nothing</span></summary><div class="body"><p class="what">Appends a line the guard must refuse to accept.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>taskkill /IM python.exe /F</code></dd></dl></div></details>
+  <section class="file" id="f24">
+  <h2>server/session_recorder.py <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g043">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 43: protected text and its sabotage">
+  <pre class="keep"><mark>        &quot;t&quot;: s.get(&quot;t&quot;),</mark></pre>
+  <pre class="cut">        rem_sabotage = None</pre>
+  </div>
+  <p class="test"><a href="#g043">test_the_delivered_setup_row_carries_the_numeric_join_key</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">probe/install-autostart.ps1 <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-read-back-refuses-a-self-resolving-startup-file" class="guard"><summary><span class="n">070</span><span class="t">test_the_read_back_refuses_a_self_resolving_startup_file</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>if ($written -match &#x27;GetParentFolderName&#x27;) {</code></dd><dt>Sabotage</dt><dd><code>if ($false) {</code></dd></dl></div></details>
+  <section class="file" id="f25">
+  <h2>server/signal_feed.py <span class="n">2 guards</span></h2>
+  <article class="mutant" id="g044">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 44: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">import sentinel_trader</pre>
+  </div>
+  <p class="test"><a href="#g044">test_the_desk_never_imports_the_bot</a><span class="verb">appended</span></p>
+  </article>
+  <article class="mutant" id="g045">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 45: protected text and its sabotage">
+  <pre class="keep"><mark>return &quot;UNKNOWN-DESK&quot;</mark></pre>
+  <pre class="cut">return &quot;&quot;</pre>
+  </div>
+  <p class="test"><a href="#g045">test_the_pair_check_fails_closed_when_identity_is_unknown</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">probe/install-backup-schedule.ps1 <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-backup-schedule-stays-removed-and-cannot-hang-forever" class="guard"><summary><span class="n">071</span><span class="t">test_the_backup_schedule_stays_removed_and_cannot_hang_forever</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>if (Test-Path $Marker) {</code></dd><dt>Sabotage</dt><dd><code>if ($false) {</code></dd></dl></div></details>
+  <section class="file" id="f26">
+  <h2>server/sky/blocks.py <span class="n">2 guards</span></h2>
+  <article class="mutant" id="g046">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 46: protected text and its sabotage">
+  <pre class="keep"><mark>    if int(distinct_stamps) &lt; int(min_distinct_stamps):</mark></pre>
+  <pre class="cut">    if False:</pre>
+  </div>
+  <p class="test"><a href="#g046">test_block_usability</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g047">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 47: protected text and its sabotage">
+  <pre class="keep"><mark>    return float(stamp_span) &gt;= float(min_time_coverage) * float(block_seconds)</mark></pre>
+  <pre class="cut">    return True</pre>
+  </div>
+  <p class="test"><a href="#g047">test_block_usability</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">probe/inventory.ps1 <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-inventory-changes-nothing-and-leaks-nothing" class="guard"><summary><span class="n">072</span><span class="t">test_the_inventory_changes_nothing_and_leaks_nothing</span></summary><div class="body"><p class="what">Appends a line the guard must refuse to accept.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>Stop-Process -Name python -Force</code></dd></dl></div></details>
+  <section class="file" id="f27">
+  <h2>server/sky/calendar.py <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g048">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 48: protected text and its sabotage">
+  <pre class="keep"><mark>            raise CalendarUnreadable(f&quot;unknown key under `{section}`&quot;, line_no, raw)</mark></pre>
+  <pre class="cut">            continue</pre>
+  </div>
+  <p class="test"><a href="#g048">test_an_unknown_line_is_a_named_failure</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">runtime/python/python314._pth <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-runtime-path-model-reaches-the-nested-bot" class="guard"><summary><span class="n">073</span><span class="t">test_the_runtime_path_model_reaches_the_nested_bot</span></summary><div class="body"><p class="what">Deletes the protected text entirely.</p><dl><dt>Protects</dt><dd><code>..\..\bot</code></dd><dt>Sabotage</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd></dl></div></details>
+  <section class="file" id="f28">
+  <h2>server/sky/estimator.py <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g049">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 49: protected text and its sabotage">
+  <pre class="keep"><mark>        score = math.sqrt(PARKINSON_CONSTANT * statistics.mean(terms))</mark></pre>
+  <pre class="cut">        score = math.sqrt(PARKINSON_CONSTANT * statistics.mean(terms)) / len(terms)</pre>
+  </div>
+  <p class="test"><a href="#g049">test_metric_is_duration_invariant</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/live_session.py <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-server-owns-the-live-clock-and-doctor-only-reads-it" class="guard"><summary><span class="n">074</span><span class="t">test_the_server_owns_the_live_clock_and_doctor_only_reads_it</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>                    _clock.touch(status().get(&quot;status&quot;))</code></dd><dt>Sabotage</dt><dd><code>                    pass  # sabotage: the anchor never moves</code></dd></dl></div></details>
+  <section class="file" id="f29">
+  <h2>server/sky/join.py <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g050">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 50: protected text and its sabotage">
+  <pre class="keep"><mark>            if name in tape_names:</mark></pre>
+  <pre class="cut">            if True:</pre>
+  </div>
+  <p class="test"><a href="#g050">test_a_report_with_no_tape_is_in_the_population_and_excluded_by_name</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/sentinel/alerting/obi_fade_replay.py <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-corpus-counts-and-names-the-torn-tapes-it-read" class="guard"><summary><span class="n">075</span><span class="t">test_the_corpus_counts_and_names_the_torn_tapes_it_read</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>        integ = tape_integrity(p)</code></dd><dt>Sabotage</dt><dd><code>        integ = {&quot;torn&quot;: False, &quot;reason&quot;: None}</code></dd></dl></div></details>
+  <section class="file" id="f30">
+  <h2>server/sky/night.py <span class="n">3 guards</span></h2>
+  <article class="mutant" id="g051">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 51: protected text and its sabotage">
+  <pre class="keep"><mark>    return open_weekday(night) in _CALENDAR_RULES[calendar_rule]</mark></pre>
+  <pre class="cut">    return True</pre>
+  </div>
+  <p class="test"><a href="#g051">test_calendar_rules</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g052">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 52: protected text and its sabotage">
+  <pre class="keep"><mark>    overlap = max(0.0, min(float(last_t), close_t) - max(float(first_t), open_t))</mark></pre>
+  <pre class="cut">    overlap = min(float(last_t), close_t) - max(float(first_t), open_t)</pre>
+  </div>
+  <p class="test"><a href="#g052">test_clipped_coverage</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g053">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 53: protected text and its sabotage">
+  <pre class="keep"><mark>        raise TzdataUnavailable(&quot;tzdata is missing from the runtime&quot;) from exc</mark></pre>
+  <pre class="cut">        return None</pre>
+  </div>
+  <p class="test"><a href="#g053">test_tzdata_unavailable_is_named_and_never_utc</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/sentinel/capture/recorder.py <span class="cnt">1 guard</span></h3>
-  <details id="g-test-a-tape-closed-by-the-finalizer-carries-its-trailer-and-a-killed-one-does-not" class="guard"><summary><span class="n">076</span><span class="t">test_a_tape_closed_by_the_finalizer_carries_its_trailer_and_a_killed_one_does_not</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>            &quot;ev&quot;: &quot;end&quot;, &quot;t&quot;: end_t, &quot;ticks&quot;: self.n_ticks, &quot;quotes&quot;: self.n_quotes,</code></dd><dt>Sabotage</dt><dd><code>            &quot;ev&quot;: &quot;not-an-end&quot;, &quot;t&quot;: end_t, &quot;ticks&quot;: self.n_ticks, &quot;quotes&quot;: self.n_quotes,</code></dd></dl></div></details>
+  <section class="file" id="f31">
+  <h2>server/sky/rules.py <span class="n">5 guards</span></h2>
+  <article class="mutant" id="g054">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 54: protected text and its sabotage">
+  <pre class="keep"><mark>    elif coverage &lt; ctx.coverage_floor:</mark></pre>
+  <pre class="cut">    elif coverage &lt; 0:</pre>
+  </div>
+  <p class="test"><a href="#g054">test_a_quarter_tape_is_excluded_by_name_with_the_number_and_the_floor</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g055">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 55: protected text and its sabotage">
+  <pre class="keep"><mark>    elif ticks &lt; ctx.min_ticks:</mark></pre>
+  <pre class="cut">    elif ticks &lt; 0:</pre>
+  </div>
+  <p class="test"><a href="#g055">test_a_full_span_tape_with_no_print_is_excluded_by_name_with_the_count</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g056">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 56: protected text and its sabotage">
+  <pre class="keep"><mark>    elif not _night.is_calendar_night(corpus, night, rule):</mark></pre>
+  <pre class="cut">    elif False:</pre>
+  </div>
+  <p class="test"><a href="#g056">test_a_friday_or_saturday_asia_open_is_not_a_calendar_night</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g057">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 57: protected text and its sabotage">
+  <pre class="keep"><mark>        copies = sorted(by_night[night_key], key=lambda r: (-(r[&quot;coverage&quot;] or 0.0), r[&quot;name&quot;]))</mark></pre>
+  <pre class="cut">        copies = sorted(by_night[night_key], key=lambda r: (r[&quot;coverage&quot;] or 0.0, r[&quot;name&quot;]))</pre>
+  </div>
+  <p class="test"><a href="#g057">test_duplicate_window_keeps_the_greatest_coverage_and_names_the_winner</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g058">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 58: protected text and its sabotage">
+  <pre class="keep"><mark>    elif coverage &lt;= 0.0:</mark></pre>
+  <pre class="cut">    elif False:</pre>
+  </div>
+  <p class="test"><a href="#g058">test_coverage_is_clipped_to_the_stats_window_and_clamped_at_both_ends</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/sentinel/research/publish.py <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-research-bundle-is-published-atomically-and-dated" class="guard"><summary><span class="n">077</span><span class="t">test_the_research_bundle_is_published_atomically_and_dated</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>os.replace(tmp, dest)</code></dd><dt>Sabotage</dt><dd><code>os.rename(tmp, dest)</code></dd></dl></div></details>
+  <section class="file" id="f32">
+  <h2>server/sky/sections.py <span class="n">2 guards</span></h2>
+  <article class="mutant" id="g059">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 59: protected text and its sabotage">
+  <pre class="keep"><mark>    return key in record</mark></pre>
+  <pre class="cut">    return True</pre>
+  </div>
+  <p class="test"><a href="#g059">test_a_key_the_file_did_not_supply_is_a_fallback_whatever_its_value</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g060">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 60: protected text and its sabotage">
+  <pre class="keep"><mark>            if abs(gap - step) &gt; 1e-6:</mark></pre>
+  <pre class="cut">            if False:</pre>
+  </div>
+  <p class="test"><a href="#g060">test_an_unequally_spaced_table_is_a_fallback</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/session_recorder.py <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-delivered-setup-row-carries-the-numeric-join-key" class="guard"><summary><span class="n">078</span><span class="t">test_the_delivered_setup_row_carries_the_numeric_join_key</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>        &quot;t&quot;: s.get(&quot;t&quot;),</code></dd><dt>Sabotage</dt><dd><code>        rem_sabotage = None</code></dd></dl></div></details>
+  <section class="file" id="f33">
+  <h2>start-desk.bat <span class="n">2 guards</span></h2>
+  <article class="mutant" id="g061">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 61: protected text and its sabotage">
+  <pre class="keep"><mark>logs\ops</mark></pre>
+  <pre class="cut">logs\nope</pre>
+  </div>
+  <p class="test"><a href="#g061">test_every_operator_script_writes_a_log</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g062">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 62: protected text and its sabotage">
+  <pre class="keep"><mark>  powershell -NoProfile -ExecutionPolicy Bypass -File &quot;%ROOT%probe\install-autostart.ps1&quot; &gt;&gt;&quot;%LOG%&quot; 2&gt;&amp;1</mark></pre>
+  <pre class="cut">  rem sabotage: autostart is never installed</pre>
+  </div>
+  <p class="test"><a href="#g062">test_start_installs_autostart_through_the_generator</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/sky/calendar.py <span class="cnt">1 guard</span></h3>
-  <details id="g-test-an-unknown-line-is-a-named-failure" class="guard"><summary><span class="n">079</span><span class="t">test_an_unknown_line_is_a_named_failure</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>            raise CalendarUnreadable(f&quot;unknown key under `{section}`&quot;, line_no, raw)</code></dd><dt>Sabotage</dt><dd><code>            continue</code></dd></dl></div></details>
+  <section class="file" id="f34">
+  <h2>stop-desk.bat <span class="n">6 guards</span></h2>
+  <article class="mutant" id="g063">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 63: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">ToLF</pre>
+  </div>
+  <p class="test"><a href="#g063">test_every_bat_is_crlf_on_disk</a><span class="verb">rewritten</span></p>
+  </article>
+  <article class="mutant" id="g064">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 64: protected text and its sabotage">
+  <pre class="keep"><mark>`r`npause`r`n</mark></pre>
+  <pre class="cut">`r`nrem no pause`r`n</pre>
+  </div>
+  <p class="test"><a href="#g064">test_every_operator_script_pauses</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g065">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 65: protected text and its sabotage">
+  <pre class="keep"><mark>type nul &gt; &quot;%ROOT%.pause&quot; 2&gt;nul</mark></pre>
+  <pre class="cut">rem sabotage: flag not set</pre>
+  </div>
+  <p class="test"><a href="#g065">test_stop_sets_the_pause_flag_before_it_kills_anything</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g066">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 66: protected text and its sabotage">
+  <pre class="keep"><mark>match &#x27;desk-watchdog&#x27;</mark></pre>
+  <pre class="cut">match &#x27;nothing-at-all&#x27;</pre>
+  </div>
+  <p class="test"><a href="#g066">test_stop_kills_the_watchdog_and_not_merely_the_server</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g067">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 67: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">taskkill /IM python.exe /F</pre>
+  </div>
+  <p class="test"><a href="#g067">test_process_kills_match_on_command_line_not_image_name</a><span class="verb">appended</span></p>
+  </article>
+  <article class="mutant" id="g068">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 68: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">git tag -d last-good</pre>
+  </div>
+  <p class="test"><a href="#g068">test_no_operator_script_deletes_the_way_back</a><span class="verb">appended</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/sky/estimator.py <span class="cnt">1 guard</span></h3>
-  <details id="g-test-metric-is-duration-invariant" class="guard"><summary><span class="n">080</span><span class="t">test_metric_is_duration_invariant</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>        score = math.sqrt(PARKINSON_CONSTANT * statistics.mean(terms))</code></dd><dt>Sabotage</dt><dd><code>        score = math.sqrt(PARKINSON_CONSTANT * statistics.mean(terms)) / len(terms)</code></dd></dl></div></details>
+  <section class="file" id="f35">
+  <h2>update-desk.bat <span class="n">10 guards</span></h2>
+  <article class="mutant" id="g069">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 69: protected text and its sabotage">
+  <pre class="keep"><mark>if not exist &quot;%TEMP%\_desk_update.bat&quot; (</mark></pre>
+  <pre class="cut">if 1==2 (</pre>
+  </div>
+  <p class="test"><a href="#g069">test_update_verifies_its_own_temp_copy</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g070">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 70: protected text and its sabotage">
+  <pre class="keep"><mark>git reset --hard !BACKTO!</mark></pre>
+  <pre class="cut">rem sabotage: no rollback</pre>
+  </div>
+  <p class="test"><a href="#g070">test_update_can_actually_roll_back</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g071">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 71: protected text and its sabotage">
+  <pre class="keep"><mark>if /i &quot;%~3&quot;==&quot;rollback&quot; goto rollback_only</mark></pre>
+  <pre class="cut">rem if /i &quot;%~3&quot;==&quot;rollback&quot; goto rollback_only</pre>
+  </div>
+  <p class="test"><a href="#g071">test_the_operator_argument_survives_the_temp_re_exec</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g072">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 72: protected text and its sabotage">
+  <pre class="keep"><mark>for /f &quot;delims=&quot; %%D in (&#x27;git status --porcelain 2^&gt;nul&#x27;) do set &quot;DIRTY=1&quot;</mark></pre>
+  <pre class="cut">rem sabotage: nothing asks whether the tree is dirty</pre>
+  </div>
+  <p class="test"><a href="#g072">test_the_rollback_refuses_to_discard_uncommitted_work</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g073">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 73: protected text and its sabotage">
+  <pre class="keep"><mark>git tag -f last-good</mark></pre>
+  <pre class="cut">rem sabotage: never tagged</pre>
+  </div>
+  <p class="test"><a href="#g073">test_update_records_last_good_only_after_a_health_check</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g074">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 74: protected text and its sabotage">
+  <pre class="keep"><mark>if !tries! geq 20 goto desk_failed</mark></pre>
+  <pre class="cut">if !tries! geq 20 goto desk_ok</pre>
+  </div>
+  <p class="test"><a href="#g074">test_no_launcher_treats_a_health_timeout_as_success</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g075">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 75: protected text and its sabotage">
+  <pre class="keep"><mark>  powershell -NoProfile -ExecutionPolicy Bypass -File &quot;%ROOT%probe\install-autostart.ps1&quot; &gt;&gt;&quot;%LOG%&quot; 2&gt;&amp;1</mark></pre>
+  <pre class="cut">  rem sabotage: the Startup entry is never refreshed</pre>
+  </div>
+  <p class="test"><a href="#g075">test_update_refreshes_the_autostart_entry</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g076">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 76: protected text and its sabotage">
+  <pre class="keep"><mark>  start &quot;&quot; wscript.exe &quot;%ROOT%regime-hidden.vbs&quot;</mark></pre>
+  <pre class="cut">  rem sabotage: the Regime page is never refreshed</pre>
+  </div>
+  <p class="test"><a href="#g076">test_update_desk_also_refreshes_the_regime_page</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g077">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 77: protected text and its sabotage">
+  <pre class="keep"><mark>uw-review.exe data --out data\reviews --no-open</mark></pre>
+  <pre class="cut">uw-review.exe data --no-open</pre>
+  </div>
+  <p class="test"><a href="#g077">test_update_relabels_recorded_sessions_and_survives_a_failure</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g078">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 78: protected text and its sabotage">
+  <pre class="keep"><mark>if exist &quot;%ROOT%.pause&quot; del &quot;%ROOT%.pause&quot; &gt;nul 2&gt;&amp;1</mark></pre>
+  <pre class="cut">rem sabotage: the flag is not cleared</pre>
+  </div>
+  <p class="test"><a href="#g078">test_no_restart_path_can_leave_the_stand_down_flag_set</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">server/sky/join.py <span class="cnt">1 guard</span></h3>
-  <details id="g-test-a-report-with-no-tape-is-in-the-population-and-excluded-by-name" class="guard"><summary><span class="n">081</span><span class="t">test_a_report_with_no_tape_is_in_the_population_and_excluded_by_name</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>            if name in tape_names:</code></dd><dt>Sabotage</dt><dd><code>            if True:</code></dd></dl></div></details>
+  <section class="file" id="f36">
+  <h2>update-regime.bat <span class="n">3 guards</span></h2>
+  <article class="mutant" id="g079">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 79: protected text and its sabotage">
+  <pre class="keep"><mark>[TimeSpan]&#x27;16:15:00&#x27;</mark></pre>
+  <pre class="cut">[TimeSpan]&#x27;09:15:00&#x27;</pre>
+  </div>
+  <p class="test"><a href="#g079">test_the_session_boundary_is_proven_by_running_it</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g080">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 80: protected text and its sabotage">
+  <pre class="keep"><mark>ConvertTimeBySystemTimeZoneId(</mark></pre>
+  <pre class="cut">ConvertTimeBySystemTimeZoneIdBROKEN(</pre>
+  </div>
+  <p class="test"><a href="#g080">test_the_auto_grade_marker_keys_on_the_session_not_the_run_date</a><span class="verb">replaced</span></p>
+  </article>
+  <article class="mutant" id="g081">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 81: protected text and its sabotage">
+  <pre class="keep"><mark>curl -fs -o NUL --max-time 5 &quot;%HEALTH%&quot; &gt;nul 2&gt;&amp;1</mark></pre>
+  <pre class="cut">rem sabotage: the desk is never probed</pre>
+  </div>
+  <p class="test"><a href="#g081">test_the_regime_launcher_checks_the_desk_is_up_first</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">web/0dte.html <span class="cnt">1 guard</span></h3>
-  <details id="g-test-every-page-links-to-every-other-page" class="guard"><summary><span class="n">082</span><span class="t">test_every_page_links_to_every_other_page</span></summary><div class="body"><p class="what">Deletes the protected text entirely.</p><dl><dt>Protects</dt><dd><code>&lt;a href=&quot;/recorder.html&quot; data-label=&quot;Recorder&quot;&gt;Recorder&lt;/a&gt;</code></dd><dt>Sabotage</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd></dl></div></details>
+  <section class="file" id="f37">
+  <h2>web/0dte.html <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g082">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 82: protected text and its sabotage">
+  <pre class="keep"><mark>&lt;a href=&quot;/recorder.html&quot; data-label=&quot;Recorder&quot;&gt;Recorder&lt;/a&gt;</mark></pre>
+  <pre class="cut"></pre>
+  </div>
+  <p class="test"><a href="#g082">test_every_page_links_to_every_other_page</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">web/desk.tokens.css <span class="cnt">1 guard</span></h3>
-  <details id="g-test-every-css-variable-the-pages-use-is-declared" class="guard"><summary><span class="n">083</span><span class="t">test_every_css_variable_the_pages_use_is_declared</span></summary><div class="body"><p class="what">Deletes the protected text entirely.</p><dl><dt>Protects</dt><dd><code>  --red:             var(--bad);</code></dd><dt>Sabotage</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd></dl></div></details>
+  <section class="file" id="f38">
+  <h2>web/desk.tokens.css <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g083">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 83: protected text and its sabotage">
+  <pre class="keep"><mark>  --red:             var(--bad);</mark></pre>
+  <pre class="cut"></pre>
+  </div>
+  <p class="test"><a href="#g083">test_every_css_variable_the_pages_use_is_declared</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">web/js/odte.js <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-0dte-tws-chip-reads-the-engine-not-the-proxy" class="guard"><summary><span class="n">084</span><span class="t">test_the_0dte_tws_chip_reads_the_engine_not_the_proxy</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>if (s === &#x27;CONNECTED&#x27;) return chip(&#x27;TWS CONNECTED&#x27;, &#x27;green&#x27;);</code></dd><dt>Sabotage</dt><dd><code>if (s) return chip(&#x27;TWS CONNECTED&#x27;, &#x27;green&#x27;);</code></dd></dl></div></details>
+  <section class="file" id="f39">
+  <h2>web/js/odte.js <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g084">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 84: protected text and its sabotage">
+  <pre class="keep"><mark>if (s === &#x27;CONNECTED&#x27;) return chip(&#x27;TWS CONNECTED&#x27;, &#x27;green&#x27;);</mark></pre>
+  <pre class="cut">if (s) return chip(&#x27;TWS CONNECTED&#x27;, &#x27;green&#x27;);</pre>
+  </div>
+  <p class="test"><a href="#g084">test_the_0dte_tws_chip_reads_the_engine_not_the_proxy</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">web/js/portfolio.js <span class="cnt">1 guard</span></h3>
-  <details id="g-test-every-browser-module-imports-as-an-es-module" class="guard"><summary><span class="n">085</span><span class="t">test_every_browser_module_imports_as_an_es_module</span></summary><div class="body"><p class="what">Appends a line the guard must refuse to accept.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>const broken = `unterminated template</code></dd></dl></div></details>
+  <section class="file" id="f40">
+  <h2>web/js/portfolio.js <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g085">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 85: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">const broken = `unterminated template</pre>
+  </div>
+  <p class="test"><a href="#g085">test_every_browser_module_imports_as_an_es_module</a><span class="verb">appended</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">web/js/regen.js <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-regenerate-control-is-offline-only" class="guard"><summary><span class="n">086</span><span class="t">test_the_regenerate_control_is_offline_only</span></summary><div class="body"><p class="what">Appends a line the guard must refuse to accept.</p><dl><dt>Protects</dt><dd><span class="none">no literal — the whole file is rewritten</span></dd><dt>Sabotage</dt><dd><code>// FLATTENEVERYTHING</code></dd></dl></div></details>
+  <section class="file" id="f41">
+  <h2>web/js/regen.js <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g086">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 86: protected text and its sabotage">
+  <pre class="keep none">the whole file is rewritten — no single protected literal</pre>
+  <pre class="cut">// FLATTENEVERYTHING</pre>
+  </div>
+  <p class="test"><a href="#g086">test_the_regenerate_control_is_offline_only</a><span class="verb">appended</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">web/js/sky-plates.js <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-moon-plate-draws-the-true-illumination" class="guard"><summary><span class="n">087</span><span class="t">test_the_moon_plate_draws_the_true_illumination</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>  const term = ((kk &gt; 0.5) === !!waxing) ? 1 : 0;</code></dd><dt>Sabotage</dt><dd><code>  const term = ((kk &gt; 0.5) === !!waxing) ? 0 : 1;</code></dd></dl></div></details>
+  <section class="file" id="f42">
+  <h2>web/js/sky-plates.js <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g087">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 87: protected text and its sabotage">
+  <pre class="keep"><mark>  const term = ((kk &gt; 0.5) === !!waxing) ? 1 : 0;</mark></pre>
+  <pre class="cut">  const term = ((kk &gt; 0.5) === !!waxing) ? 0 : 1;</pre>
+  </div>
+  <p class="test"><a href="#g087">test_the_moon_plate_draws_the_true_illumination</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">web/js/sky.js <span class="cnt">1 guard</span></h3>
-  <details id="g-test-the-strip-count-is-no-longer-wiped-by-the-note" class="guard"><summary><span class="n">088</span><span class="t">test_the_strip_count_is_no_longer_wiped_by_the_note</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>  if (note) setProse(&#x27;skStripNote&#x27;, note);</code></dd><dt>Sabotage</dt><dd><code>  setProse(&#x27;skStripNote&#x27;, note);</code></dd></dl></div></details>
+  <section class="file" id="f43">
+  <h2>web/js/sky.js <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g088">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 88: protected text and its sabotage">
+  <pre class="keep"><mark>  if (note) setProse(&#x27;skStripNote&#x27;, note);</mark></pre>
+  <pre class="cut">  setProse(&#x27;skStripNote&#x27;, note);</pre>
+  </div>
+  <p class="test"><a href="#g088">test_the_strip_count_is_no_longer_wiped_by_the_note</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">web/review.html <span class="cnt">1 guard</span></h3>
-  <details id="g-test-no-page-references-a-file-that-is-not-there" class="guard"><summary><span class="n">089</span><span class="t">test_no_page_references_a_file_that_is_not_there</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;desk.css&quot; /&gt;</code></dd><dt>Sabotage</dt><dd><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;desk.css&quot; /&gt;&lt;script src=&quot;ghost.js&quot;&gt;&lt;/script&gt;</code></dd></dl></div></details>
+  <section class="file" id="f44">
+  <h2>web/review.html <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g089">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 89: protected text and its sabotage">
+  <pre class="keep"><mark>&lt;link rel=&quot;stylesheet&quot; href=&quot;desk.css&quot; /&gt;</mark></pre>
+  <pre class="cut">&lt;link rel=&quot;stylesheet&quot; href=&quot;desk.css&quot; /&gt;&lt;script src=&quot;ghost.js&quot;&gt;&lt;/script&gt;</pre>
+  </div>
+  <p class="test"><a href="#g089">test_no_page_references_a_file_that_is_not_there</a><span class="verb">replaced</span></p>
+  </article>
   </section>
-  <section class="plate">
-  <h3 class="plate-h">web/sky.css <span class="cnt">1 guard</span></h3>
-  <details id="g-test-text-tokens-clear-aa-on-both-grounds" class="guard"><summary><span class="n">090</span><span class="t">test_text_tokens_clear_aa_on_both_grounds</span></summary><div class="body"><p class="what">Replaces the protected text with something plausible but wrong.</p><dl><dt>Protects</dt><dd><code>  --sky-faint:#948062;</code></dd><dt>Sabotage</dt><dd><code>  --sky-faint:#6f5f45;</code></dd></dl></div></details>
+  <section class="file" id="f45">
+  <h2>web/sky.css <span class="n">1 guard</span></h2>
+  <article class="mutant" id="g090">
+  <div class="delta" role="region" tabindex="0" aria-label="Guard 90: protected text and its sabotage">
+  <pre class="keep"><mark>  --sky-faint:#948062;</mark></pre>
+  <pre class="cut">  --sky-faint:#6f5f45;</pre>
+  </div>
+  <p class="test"><a href="#g090">test_text_tokens_clear_aa_on_both_grounds</a><span class="verb">replaced</span></p>
+  </article>
+  </section>
+
+  <section class="gaps" id="gaps">
+    <h2>Thin cover</h2>
+    <p>26 of these files carry exactly one guard. That is a count, not a verdict —
+    this data cannot say how many guards a file needs, only how many it has.</p>
+    <ul><li><a href="#f01">.gitignore</a></li><li><a href="#f02">0dte-engine/PROVENANCE.json</a></li><li><a href="#f03">CUTOVER.txt</a></li><li><a href="#f07">docs/CHANGELOG.md</a></li><li><a href="#f08">doctor.bat</a></li><li><a href="#f11">probe/install-autostart.ps1</a></li><li><a href="#f12">probe/install-backup-schedule.ps1</a></li><li><a href="#f14">probe/inventory.ps1</a></li><li><a href="#f16">runtime/python/python314._pth</a></li><li><a href="#f17">server/live_session.py</a></li><li><a href="#f21">server/sentinel/alerting/obi_fade_replay.py</a></li><li><a href="#f22">server/sentinel/capture/recorder.py</a></li><li><a href="#f23">server/sentinel/research/publish.py</a></li><li><a href="#f24">server/session_recorder.py</a></li><li><a href="#f27">server/sky/calendar.py</a></li><li><a href="#f28">server/sky/estimator.py</a></li><li><a href="#f29">server/sky/join.py</a></li><li><a href="#f37">web/0dte.html</a></li><li><a href="#f38">web/desk.tokens.css</a></li><li><a href="#f39">web/js/odte.js</a></li><li><a href="#f40">web/js/portfolio.js</a></li><li><a href="#f41">web/js/regen.js</a></li><li><a href="#f42">web/js/sky-plates.js</a></li><li><a href="#f43">web/js/sky.js</a></li><li><a href="#f44">web/review.html</a></li><li><a href="#f45">web/sky.css</a></li></ul>
   </section>
 
   <p class="stamp">
-    Generated <b>2026-09-08</b> from <b>tests/sabotage.ps1</b> at commit <b>4780e3a</b>.
-    This is a stamped snapshot, not a live reading.<br>
-    A guard whose test no longer exists is excluded rather than shown —
-    this run found none.
+    Generated <b>2026-09-08</b> from <b>tests/sabotage.ps1</b> at commit <b>4780e3a</b>. A stamped
+    snapshot, not a live reading.<br>
+    A guard whose test is no longer defined in the suite is excluded rather than shown —
+    this run found none.<br>
+    Structure after the Stryker mutation-testing report. Stryker renders mutants inside
+    complete source files; this page holds only the protected fragment, so the file is a
+    grouping here rather than the full index it is there.
   </p>
-
 </div>
+
 </body>
 </html>
