@@ -1,0 +1,230 @@
+{
+  "schema": 1,
+  "_": "GENERATED - do not hand-edit. Rebuild with scripts/build_findings.py. Titles, severity, status, discovery method and file:line only. The 'how it fails', 'suggested fix' and verifier prose are deliberately NOT extracted: the source repo is private (D-A24, and the public-site privacy rules).",
+  "generated": "2026-09-08T05:53:07+00:00",
+  "source": {
+    "repo": "trading-desk",
+    "file": "docs/FINDINGS-OPEN.md",
+    "commit": "4780e3a"
+  },
+  "counts": {
+    "total": 22,
+    "open": 17,
+    "fixed": 5,
+    "bySeverity": {
+      "breaks-now": 7,
+      "unrecorded": 5,
+      "wrong-output": 5,
+      "breaks-later": 3,
+      "cosmetic": 2
+    },
+    "byFoundBy": {
+      "web-behaviour sweep": 9,
+      "unrecorded": 5,
+      "dead-mechanics sweep": 4,
+      "http-surface sweep": 2,
+      "running the desk on this machine, 2026-08-05 \u2014 not by the sweep": 1,
+      "port-fidelity sweep": 1
+    }
+  },
+  "findings": [
+    {
+      "id": null,
+      "title": "F23 FIXED. Found by asking why the 0DTE panel had never shown anything.",
+      "date": "2026-08-30",
+      "status": "fixed",
+      "severity": null,
+      "where": null,
+      "foundBy": null
+    },
+    {
+      "id": null,
+      "title": "F18 FIXED, F19 FIXED. Found by running a real stop/start cycle.",
+      "date": "2026-08-06",
+      "status": "fixed",
+      "severity": null,
+      "where": null,
+      "foundBy": null
+    },
+    {
+      "id": "17",
+      "title": "DESK_LIVE_AUTOSTART=0 logs \"no market data will happen\" and then the cockpit page arms a live TWS session anyway",
+      "date": null,
+      "status": "open",
+      "severity": "wrong-output",
+      "where": "server/routes/live.py",
+      "foundBy": "running the desk on this machine, 2026-08-05 \u2014 not by the sweep"
+    },
+    {
+      "id": "1",
+      "title": "Review page's \"Live detector\" button injects {\"detail\":\"Not Found\"} \u2014 /static/live/index.html 404s and web/live/index.html does not exist",
+      "date": null,
+      "status": "open",
+      "severity": "breaks-now",
+      "where": "web/js/review.js:761",
+      "foundBy": "dead-mechanics sweep"
+    },
+    {
+      "id": "2",
+      "title": "desk.css's Minimize/Close hide rule matches zero of the six non-Sentinel ids; clicking Close permanently blanks the panel it was written to prevent",
+      "date": null,
+      "status": "open",
+      "severity": "breaks-now",
+      "where": "web/desk.css:131",
+      "foundBy": "dead-mechanics sweep"
+    },
+    {
+      "id": "3",
+      "title": "review.js loads the embedded live cockpit from three old-host /static/live/... paths that all 404, and the fetch has no res.ok check so it injects the literal string {\"detail\":\"Not Found\"} into the panel",
+      "date": null,
+      "status": "open",
+      "severity": "breaks-now",
+      "where": "web/js/review.js:761",
+      "foundBy": "web-behaviour sweep"
+    },
+    {
+      "id": "4",
+      "title": "/0dte.html opens two full-viewport centred modal panes at the same z-index; the secondary Session Reviews pane covers the primary 0DTE engine pane",
+      "date": null,
+      "status": "open",
+      "severity": "breaks-now",
+      "where": "web/0dte.html:44",
+      "foundBy": "web-behaviour sweep"
+    },
+    {
+      "id": "5",
+      "title": "desk.css's rule that hides the ported window controls matches only 1 of the 4 panels \u2014 Close and Minimize stay live on 0DTE, Session Reviews and Portfolio, and both destroy the page with no way back",
+      "date": null,
+      "status": "open",
+      "severity": "breaks-now",
+      "where": "web/desk.css:131",
+      "foundBy": "web-behaviour sweep"
+    },
+    {
+      "id": "6",
+      "title": "The session pickers on /review.html and /0dte.html are plain <div>s with click handlers and zero tabindex/role across all four panel modules \u2014 the pages' core task is unreachable by keyboard",
+      "date": null,
+      "status": "open",
+      "severity": "breaks-now",
+      "where": "web/js/review.js:327",
+      "foundBy": "web-behaviour sweep"
+    },
+    {
+      "id": "7",
+      "title": "The backtest filter inputs on /review.html remove the focus ring and replace it with nothing \u2014 the substitute rule uses an undefined variable on a border that also does not exist",
+      "date": null,
+      "status": "open",
+      "severity": "breaks-now",
+      "where": "web/js/review.js:130",
+      "foundBy": "web-behaviour sweep"
+    },
+    {
+      "id": "8",
+      "title": "GET /api/sentinel/session/{sid} falls back to a prefix glob and returns a DIFFERENT session's numbers under the requested id",
+      "date": null,
+      "status": "open",
+      "severity": "wrong-output",
+      "where": "server/routes/review.py:317",
+      "foundBy": "http-surface sweep"
+    },
+    {
+      "id": "9",
+      "title": "POST /api/sentinel/engine/live/stop returns {\"stopped\": true} but the supervisor re-arms the detector within 30s",
+      "date": null,
+      "status": "open",
+      "severity": "wrong-output",
+      "where": "server/live_session.py:840",
+      "foundBy": "http-surface sweep"
+    },
+    {
+      "id": "10",
+      "title": "Nine CSS custom properties from the old host are used by all four panel modules but declared nowhere \u2014 bull and bear render the same colour, panels lose backgrounds and borders",
+      "date": null,
+      "status": "open",
+      "severity": "wrong-output",
+      "where": "web/desk.tokens.css:1",
+      "foundBy": "dead-mechanics sweep"
+    },
+    {
+      "id": "11",
+      "title": "All 4 panel modules style themselves with CSS variables that are defined nowhere in web/ \u2014 semantic green/red collapses to one colour and the panes lose background + border",
+      "date": null,
+      "status": "open",
+      "severity": "wrong-output",
+      "where": "web/js/portfolio.js:55",
+      "foundBy": "web-behaviour sweep"
+    },
+    {
+      "id": "12",
+      "title": "odte.py documents the wrong env var: the comment says UNDERWRITER_URL, the code reads ODTE_ENGINE_URL",
+      "date": null,
+      "status": "open",
+      "severity": "breaks-later",
+      "where": "server/routes/odte.py:20",
+      "foundBy": "port-fidelity sweep"
+    },
+    {
+      "id": "13",
+      "title": "DECISIONS.md D8 names four page routes that all 404 \u2014 the real pages are only reachable with a .html suffix",
+      "date": null,
+      "status": "open",
+      "severity": "breaks-later",
+      "where": "docs/DECISIONS.md:182",
+      "foundBy": "web-behaviour sweep"
+    },
+    {
+      "id": "14",
+      "title": "web/live/research.html is served but its only data source, research.data.js, is gitignored \u2014 the page ships broken to any fresh clone, and five orphan files under /live/ are reachable with no link to them",
+      "date": null,
+      "status": "open",
+      "severity": "breaks-later",
+      "where": "web/live/.gitignore:5",
+      "foundBy": "web-behaviour sweep"
+    },
+    {
+      "id": "15",
+      "title": "0DTE panel still renders a \"Report a bug\" button whose only action is a console.info",
+      "date": null,
+      "status": "open",
+      "severity": "cosmetic",
+      "where": "web/js/odte.js:832",
+      "foundBy": "dead-mechanics sweep"
+    },
+    {
+      "id": "16",
+      "title": "DECISIONS.md states the live page's ambient animation is static in V1; ten infinite loops are still shipping, including the 14s radar sweep and 26s void drift",
+      "date": null,
+      "status": "open",
+      "severity": "cosmetic",
+      "where": "web/live/styles.css:113",
+      "foundBy": "web-behaviour sweep"
+    },
+    {
+      "id": null,
+      "title": "F20 FIXED by CR-2026-08-19-G (heading corrected 2026-09-06, CR-2026-09-06-AM)",
+      "date": "2026-08-19",
+      "status": "fixed",
+      "severity": null,
+      "where": null,
+      "foundBy": null
+    },
+    {
+      "id": null,
+      "title": "F21 FIXED. The desk never came back after a reboot.",
+      "date": "2026-08-19",
+      "status": "fixed",
+      "severity": null,
+      "where": null,
+      "foundBy": null
+    },
+    {
+      "id": null,
+      "title": "F22 FIXED. The Regime page could never fill in on the operator's machine.",
+      "date": "2026-08-19",
+      "status": "fixed",
+      "severity": null,
+      "where": null,
+      "foundBy": null
+    }
+  ]
+}

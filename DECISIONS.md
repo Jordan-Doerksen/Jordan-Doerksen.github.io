@@ -292,6 +292,46 @@ tweakables.
 scale, spacing rhythm or component grammar is a Change Request, because that is the layer
 carrying the identity.
 
+### D-A24 — Tier 2 is ONE project in depth, and its claim is "it holds up" (2026-09-08, owner)
+**The two previous slices are discarded prototypes.** The accordion draft and the
+mutants-in-source draft both failed the same test, which the owner named exactly: *"I look at
+it and ask myself why it exists."* They were evidence with no claim attached. The format was
+argued three times while the unanswered question was what the page should PROVE.
+
+**Decided by interview.** After tier 2, a visitor should be able to say: **"he builds things
+that hold up."** Rejected alternatives, recorded because they remain valid pages someone could
+argue for later: "built a lot fast" (velocity — reads as vanity metrics), "makes things I'd
+use" (artifacts — blocked, see assets below), "thinks clearly before building" (judgment —
+text-heavy, and the owner asked for charts).
+
+**Consequence: tier 2 covers ONE project, the trading desk, in depth.** Not 45 files, not 90
+guards as a catalogue, and explicitly not a survey of everything. This also settles D-A22 from
+the other direction — a single deep case study cannot become a list of projects.
+
+**The argument, in order.** The page is a claim with proof, not a catalogue:
+1. What the desk is, and the diagram.
+2. What can go wrong — the real failure classes.
+3. What catches each one — the 90 guards, **aggregated into a chart first**.
+4. Proof the guards bite — the sabotage deltas, as drill-down beneath the aggregate.
+5. **What is still broken** — the open findings, with severity and status.
+
+**Step 5 is the load-bearing one.** `trading-desk/docs/FINDINGS-OPEN.md` (886 lines) carries
+numbered findings with severity, OPEN/FIXED status, dates, and how each was discovered. The
+most credible proof that something holds up is showing precisely where it does not. It also
+satisfies the 2026 prescriptive-not-descriptive requirement recorded in CR-10.
+
+**Aggregate before detail (owner, 2026-09-08).** "People don't read code." Every section leads
+with a number or a chart from real data; code appears only as drill-down. This overrules the
+earlier ranking that put the source-rendered mutants first.
+
+**Assets, checked 2026-09-08:** `trading-desk` has **zero screenshots**, so any design
+requiring product screens is blocked on a capture pass that cannot happen on this machine.
+`assets/diagrams/warden.svg` exists; the desk is its successor and may need its own.
+
+**Change Rule:** adding a second project to tier 2 is a Change Request — the depth is the
+point. Removing the open-findings section is also a Change Request: without it the page
+asserts reliability instead of evidencing it, which is the failure this decision exists to fix.
+
 ## Build Timeline
 - C0 Manifest + ARCHITECTURE.md — this commit
 - C1 Data layer: registry rebuild + ~50 `data/projects/*.json` (parallel agents, one per reference section)
