@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sanctuary: Act I ✦ attract</title>
+<style>
+  /* Trebuchet MS with a local fallback stack: the game paints every string in it, and this file
+     must run offline, inside an itch.io zip, and in an iframe with no network. */
+  :root{--font:"Trebuchet MS",Candara,"Segoe UI",system-ui,sans-serif;
+    --parch:#cdbf99;--dim:#9a8e6e;--faint:#6b6452;--blood:#c01535}
+  html,body{height:100%;margin:0;background:#05060a;overflow:hidden}
+  #stage{position:absolute;inset:0;overflow:hidden;font-family:var(--font)}
+  canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  /* Bottom padding reserves the orb and XP strip, so the panel never sits on the HUD. */
+  .wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    padding:4vmin 4vmin calc(4vmin + 108px);pointer-events:none}
+  /* The game's own panel: near-opaque pitch box, 2px #6a5530 outer rule, 1px #3a2e1a inner rule. */
+  .panel{max-width:38rem;text-align:center;background:rgba(14,11,7,.94);border:2px solid #6a5530;
+    outline:1px solid #3a2e1a;outline-offset:-5px;box-shadow:0 22px 60px rgba(0,0,0,.6);
+    padding:clamp(16px,3.2vmin,30px) clamp(20px,4vmin,42px)}
+  .eyebrow,.hint,.colophon{letter-spacing:.24em;text-transform:uppercase;margin:0;font-size:clamp(9px,1.35vmin,11px)}
+  .eyebrow{color:var(--faint)}
+  /* Title as drawTitle paints it: crimson over a hard +2/+2 dark-red shadow. It scales on the
+     smaller axis too, so a 1200x300 banner keeps the headline inside the frame. */
+  h1{font-size:clamp(30px,min(11vw,15vh),64px);font-weight:700;letter-spacing:.02em;line-height:1;
+    color:var(--blood);text-shadow:2px 2px 0 #8a1020;margin:clamp(8px,1.8vmin,14px) 0 0}
+  .sub{font-size:clamp(11px,1.9vmin,20px);color:var(--dim);margin:clamp(8px,1.6vmin,14px) 0 0}
+  .crumb{font-size:clamp(9px,1.3vmin,13px);color:var(--faint);margin:.6em 0 0}
+  .rule{border:0;border-top:1px solid #3a2e1a;margin:clamp(10px,2.2vmin,18px) 0}
+  .lede{font-size:clamp(11px,1.7vmin,15px);line-height:1.55;color:var(--parch);max-width:34rem;margin:0 auto}
+  .hint{color:var(--dim);margin-top:clamp(10px,2vmin,16px)}
+  .colophon{color:var(--faint);margin-top:clamp(8px,1.6vmin,14px)}
+  /* Banner crops: drop the prose and the reserved HUD strip, keep the title block. */
+  @media (max-height:430px){.wrap{padding-bottom:4vmin}.lede,.rule,.hint{display:none}.crumb{margin-top:.4em}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv"></canvas>
+  <div class="wrap"><main class="panel">
+    <p class="eyebrow">A Diablo II Act I tribute</p>
+    <h1>SANCTUARY</h1>
+    <p class="sub">A C T &nbsp;I &nbsp;—&nbsp; The Sightless Eye</p>
+    <p class="crumb">Rogue Encampment · Blood Moor · Den of Evil · Burial Grounds</p>
+    <hr class="rule">
+    <p class="lede">Three classes, four zones, one boss. Click to move and attack, right-click casts the bound skill, and loot drops in four rarities.</p>
+    <p class="hint">Attract loop ✦ nobody is at the controls</p>
+    <p class="colophon">Jordan Doerksen ✦ MMXXVI</p>
+  </main></div>
+</div>
+<script>
+(function(){
+'use strict';
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv=document.getElementById('cv'),cx=cv.getContext('2d'),TAU=Math.PI*2;
+const rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[(Math.random()*a.length)|0];
+const clamp=(v,a,b)=>v<a?a:v>b?b:v,dist=(a,b,c,d)=>Math.hypot(a-c,b-d);
+// The game's own deterministic tile hash — the ground must shade the way it does in play.
+function hash2(x,y){let h=x*374761393+y*668265263;h=(h^(h>>13))*1274126177;return((h^(h>>16))>>>0)/4294967295;}
+function shade(hex,amt){const n=parseInt(hex.slice(1),16);
+  return 'rgb('+clamp((n>>16)+amt,0,255)+','+clamp(((n>>8)&255)+amt,0,255)+','+clamp((n&255)+amt,0,255)+')';}
+const MOB={fallen:{col:'#c0392b',r:13,hp:18,sp:96},quillrat:{col:'#a8702f',r:12,hp:14,sp:128},
+  zombie:{col:'#5f8049',r:16,hp:34,sp:52},shaman:{col:'#8e44ad',r:14,hp:30,sp:84}};
+const RAR=['#d8d8d8','#d8d8d8','#6a86ff','#6a86ff','#ffe24a','#c8893b'];
+const FONT='"Trebuchet MS",Candara,sans-serif';
+const LOOT=['Short Sword','Buckler','Quilted Armor','Ring','Sash','Cap','Amulet'];
+let W=0,H=0,S=1,mobs=[],parts=[],floats=[],items=[],projs=[],deco=[],torch=[],xp=.22,spawnT=1.6,last=0,t=0;
+const p={x:0,y:0,face:0,anim:0,hp:.78,mana:.64,cd:.4,nova:2.2}; // the Sorceress: fire bolt and frost nova
+function ring(x,y,r,col){parts.push({x,y,ring:1,r0:8*S,r,life:.35,max:.35,col});}
+function blood(x,y,col,n){for(let i=0;i<n;i++){const a=rnd(0,TAU),v=rnd(40,190)*S;
+  parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:.6,max:.6,col,r:rnd(2,4)*S});}}
+function float(x,y,txt,col){floats.push({x,y,txt,col,life:.9});}
+function spawn(){const k=pick(['fallen','fallen','quillrat','quillrat','zombie','shaman']),d=MOB[k],a=rnd(0,TAU),R=Math.max(W,H)*.55;
+  mobs.push({k,d,hp:d.hp,cd:rnd(.6,1.6),face:0,x:clamp(W/2+Math.cos(a)*R,30,W-30),y:clamp(H/2+Math.sin(a)*R,30,H-30)});}
+function kill(m,i){blood(m.x,m.y,m.d.col,16);ring(m.x,m.y,34*S,m.d.col);mobs.splice(i,1);
+  xp=(xp+.06)%1; // the XP strip wraps instead of levelling: this demo keeps no character
+  if(Math.random()<.55)items.push({x:m.x,y:m.y,n:pick(LOOT),col:pick(RAR),t:0});}
+function build(){ // rebuilt on every resize, so the arena fits the container instead of cropping
+  mobs=[];parts=[];floats=[];items=[];projs=[];deco=[];torch=[];p.x=W*.5;p.y=H*.54;
+  for(let i=0,n=clamp(Math.round(W*H/70000),4,16);i<n;i++)deco.push({t:pick(['grave','grave','grave','rock','rock','tent']),x:rnd(W*.06,W*.94),y:rnd(H*.12,H*.9)});
+  for(let i=0,n=clamp(Math.round(W/380),2,6);i<n;i++)torch.push({x:W*(i+.5)/n+rnd(-26,26),y:rnd(H*.16,H*.84)});
+  for(let i=0;i<3;i++)spawn();}
+function nearest(){let m=null,b=1e9;for(const o of mobs){const d=dist(o.x,o.y,p.x,p.y);if(d<b){b=d;m=o;}}return[m,b];}
+function step(dt){
+  t+=dt;const [m,d]=nearest();
+  if(m){ // she holds a casting range: closes past 260px, backs off inside 150px, never stands still
+    p.face=Math.atan2(m.y-p.y,m.x-p.x);const push=d>260*S?1:d<150*S?-1:0;
+    p.x=clamp(p.x+Math.cos(p.face)*push*110*S*dt,40*S,W-40*S);p.y=clamp(p.y+Math.sin(p.face)*push*110*S*dt,40*S,H-40*S);}
+  p.anim=Math.max(0,p.anim-dt);p.cd-=dt;p.nova-=dt;
+  p.mana=clamp(p.mana+dt*.09,0,1);p.hp=clamp(p.hp+dt*.02,0,1);
+  if(m&&p.cd<=0&&p.mana>.07&&d<420*S){projs.push({x:p.x,y:p.y,a:p.face,life:1.4});p.cd=.34;p.mana-=.06;p.anim=.18;}
+  if(m&&p.nova<=0&&d<150*S&&p.mana>.2){ // frost nova: 26 particles on even angles, plus the skill ring
+    for(let i=0;i<26;i++){const a=i/26*TAU;parts.push({x:p.x,y:p.y,vx:Math.cos(a)*230*S,vy:Math.sin(a)*230*S,life:.5,max:.5,col:'#7ad6ff',r:3*S});}
+    ring(p.x,p.y,150*S,'#7ad6ff');p.nova=rnd(4,7);p.mana-=.2;p.anim=.22;
+    for(let i=mobs.length-1;i>=0;i--){const o=mobs[i];if(dist(o.x,o.y,p.x,p.y)<150*S){
+      o.hp-=11;float(o.x,o.y-o.d.r,'11','#7ad6ff');if(o.hp<=0)kill(o,i);}}}
+  for(const o of mobs){o.cd-=dt;o.face=Math.atan2(p.y-o.y,p.x-o.x);
+    if(dist(o.x,o.y,p.x,p.y)>34*S+o.d.r){o.x+=Math.cos(o.face)*o.d.sp*S*dt;o.y+=Math.sin(o.face)*o.d.sp*S*dt;}
+    else if(o.cd<=0){o.cd=1.2;p.hp=clamp(p.hp-.05,.12,1);blood(p.x,p.y,'#c01535',5);float(p.x,p.y-22*S,'-6','#ff5a5a');}}
+  for(let i=projs.length-1;i>=0;i--){const b=projs[i];b.x+=Math.cos(b.a)*420*S*dt;b.y+=Math.sin(b.a)*420*S*dt;b.life-=dt;
+    let hit=b.life<=0||b.x<0||b.y<0||b.x>W||b.y>H;
+    for(let j=mobs.length-1;j>=0&&!hit;j--){const o=mobs[j];if(dist(o.x,o.y,b.x,b.y)<o.d.r+6*S){
+      hit=1;o.hp-=8;blood(b.x,b.y,o.d.col,5);float(o.x,o.y-o.d.r,'8','#ffd27a');if(o.hp<=0)kill(o,j);}}
+    if(hit)projs.splice(i,1);}
+  for(let i=parts.length-1;i>=0;i--){const q=parts[i];q.life-=dt;
+    if(q.ring)q.r0+=(q.r-q.r0)*Math.min(1,dt/.12); // the ring radius lerps outward over ~0.35s
+    else{q.x+=q.vx*dt;q.y+=q.vy*dt;const dr=Math.pow(.92,dt*60);q.vx*=dr;q.vy*=dr;}
+    if(q.life<=0)parts.splice(i,1);}
+  for(let i=floats.length-1;i>=0;i--){const f=floats[i];f.y-=30*S*dt;if((f.life-=dt)<=0)floats.splice(i,1);}
+  for(let i=items.length-1;i>=0;i--){const it=items[i];it.t+=dt;
+    if(dist(it.x,it.y,p.x,p.y)<26*S){float(p.x,p.y-30*S,it.n,it.col);items.splice(i,1);}
+    else if(it.t>10)items.splice(i,1);}
+  if(mobs.length<3&&(spawnT-=dt)<=0){spawn();spawnT=rnd(1.4,3.2);}}
+function ground(){ // 44px cells, each shaded +/-22 by the hash; ~7% of them carry a litter square
+  cx.fillStyle='#05060a';cx.fillRect(0,0,W,H);
+  const T=44*S,cols=Math.ceil(W/T),rows=Math.ceil(H/T);
+  for(let gy=0;gy<=rows;gy++)for(let gx=0;gx<=cols;gx++){const h=hash2(gx,gy);
+    if(gx===0||gy===0||gx>=cols||gy>=rows){ // the outer ring: walls read as recessed blocks, not outlines
+      cx.fillStyle='#0a0806';cx.fillRect(gx*T,gy*T,T,T);
+      cx.fillStyle='rgba(0,0,0,.4)';cx.fillRect(gx*T+4,gy*T+4,T-8,T-8);continue;}
+    cx.fillStyle=shade('#222421',(h*44-22)|0);cx.fillRect(gx*T,gy*T,T,T);
+    if(h>.93){cx.fillStyle='rgba(0,0,0,.18)';cx.fillRect(gx*T+T*.3,gy*T+T*.3,T*.4,T*.4);}}}
+function drawDeco(d){const s=S;
+  if(d.t==='rock'){cx.fillStyle='#3a3328';cx.beginPath();cx.ellipse(d.x,d.y,14*s,10*s,0,0,TAU);cx.fill();
+    cx.fillStyle='#2a251d';cx.beginPath();cx.ellipse(d.x,d.y+3*s,10*s,7*s,0,0,TAU);cx.fill();}
+  else if(d.t==='grave'){cx.fillStyle='#4a4a44';cx.fillRect(d.x-9*s,d.y-22*s,18*s,26*s);
+    cx.beginPath();cx.arc(d.x,d.y-22*s,9*s,Math.PI,0);cx.fill();cx.fillStyle='rgba(0,0,0,.3)';cx.fillRect(d.x-9*s,d.y+2*s,18*s,4*s);}
+  else{cx.fillStyle='#5a3a28';cx.beginPath();cx.moveTo(d.x-30*s,d.y+14*s);cx.lineTo(d.x,d.y-26*s);
+    cx.lineTo(d.x+30*s,d.y+14*s);cx.closePath();cx.fill();cx.fillStyle='#3e281c';cx.fillRect(d.x-5*s,d.y-2*s,10*s,16*s);}}
+function drawTorch(o){const f=.7+Math.sin(t*9+o.x)*.3,R=150*S*f; // the light pool and the flame share one beat
+  const g=cx.createRadialGradient(o.x,o.y,0,o.x,o.y,R);
+  g.addColorStop(0,'rgba(255,150,40,'+(.35*f)+')');g.addColorStop(1,'rgba(255,120,30,0)');
+  cx.fillStyle=g;cx.beginPath();cx.arc(o.x,o.y,R,0,TAU);cx.fill();
+  cx.fillStyle='#3a2a18';cx.fillRect(o.x-3*S,o.y-2*S,6*S,18*S);
+  cx.fillStyle='#ffb04a';cx.beginPath();cx.ellipse(o.x,o.y-6*S,4*S,7*S*f,0,0,TAU);cx.fill();cx.fillStyle='#ffe08a';cx.beginPath();cx.ellipse(o.x,o.y-7*S,2*S,4*S*f,0,0,TAU);cx.fill();}
+function bodyFigure(x,y,col,accent,r,face,anim){ // shadow, one quadratic cloak, a head, and a weapon arm
+  cx.fillStyle='rgba(0,0,0,.35)';cx.beginPath();cx.ellipse(x,y+r*.9,r,r*.45,0,0,TAU);cx.fill();
+  cx.fillStyle=col;cx.beginPath();cx.moveTo(x-r,y+r*.8);cx.quadraticCurveTo(x,y-r*1.3,x+r,y+r*.8);cx.closePath();cx.fill();
+  cx.fillStyle=accent;cx.beginPath();cx.arc(x,y-r*.7,r*.5,0,TAU);cx.fill(); const wl=r*(anim>0?1.9:1.4);cx.strokeStyle=accent;cx.lineWidth=3;cx.lineCap='round';
+  cx.beginPath();cx.moveTo(x,y);cx.lineTo(x+Math.cos(face)*wl,y+Math.sin(face)*wl);cx.stroke();}
+function drawMob(o){const r=o.d.r*S;
+  cx.fillStyle='rgba(0,0,0,.35)';cx.beginPath();cx.ellipse(o.x,o.y+r*.9,r,r*.45,0,0,TAU);cx.fill();
+  if(o.k==='shaman'){const g=cx.createRadialGradient(o.x,o.y,0,o.x,o.y,r*1.8); // the shaman's breathing aura
+    g.addColorStop(0,'rgba(180,100,255,'+(.18+.1*Math.sin(t*6))+')');g.addColorStop(1,'rgba(180,100,255,0)');
+    cx.fillStyle=g;cx.beginPath();cx.arc(o.x,o.y,r*1.8,0,TAU);cx.fill();}
+  cx.fillStyle=o.d.col;cx.beginPath();cx.ellipse(o.x,o.y,r*.85,r,0,0,TAU);cx.fill();
+  if(o.k==='quillrat'){cx.strokeStyle=o.d.col;cx.lineWidth=2;cx.beginPath();
+    for(let i=0;i<8;i++){const a=i/8*TAU;cx.moveTo(o.x+Math.cos(a)*r*.8,o.y+Math.sin(a)*r*.8);
+      cx.lineTo(o.x+Math.cos(a)*r*1.5,o.y+Math.sin(a)*r*1.5);}cx.stroke();}
+  else if(o.k==='fallen'){cx.fillStyle='#3a0d0d';
+    cx.beginPath();cx.moveTo(o.x-r,o.y-r*.6);cx.lineTo(o.x-r*.4,o.y-r);cx.lineTo(o.x-r*.5,o.y-r*.3);cx.closePath();
+    cx.moveTo(o.x+r,o.y-r*.6);cx.lineTo(o.x+r*.4,o.y-r);cx.lineTo(o.x+r*.5,o.y-r*.3);cx.closePath();cx.fill();cx.fillStyle='#ffd24a';cx.fillRect(o.x-r*.4,o.y-r*.2,2*S,2*S);cx.fillRect(o.x+r*.2,o.y-r*.2,2*S,2*S);}}
+function drawItem(it){ // rarity beam, bobbing sprite, and a name plate once she is inside 150px
+  const g=cx.createLinearGradient(0,it.y-40*S,0,it.y);
+  g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,it.col+'59');cx.fillStyle=g;cx.fillRect(it.x-5*S,it.y-40*S,10*S,40*S);
+  cx.fillStyle=it.col;cx.fillRect(it.x-4*S,it.y-4*S+Math.sin(t*3)*3*S,8*S,8*S);
+  if(dist(it.x,it.y,p.x,p.y)<150*S){cx.font=(12*S|0)+'px '+FONT;cx.textAlign='center';
+    const w=cx.measureText(it.n).width+10*S;cx.fillStyle='rgba(0,0,0,.7)';cx.fillRect(it.x-w/2,it.y-30*S,w,16*S);
+    cx.fillStyle=it.col;cx.fillText(it.n,it.x,it.y-18*S);}}
+function draw(){
+  ground();
+  for(const d of deco)drawDeco(d);
+  for(const o of torch)drawTorch(o);
+  for(const it of items)drawItem(it);
+  for(const o of mobs)drawMob(o);
+  bodyFigure(p.x,p.y,'#6fb4ff','#bfe0ff',15*S,p.face,p.anim);
+  for(const b of projs){const r=6*S,g=cx.createRadialGradient(b.x,b.y,0,b.x,b.y,r*2.4); // glow plus a white core
+    g.addColorStop(0,'#ff7a2a');g.addColorStop(1,'rgba(255,122,42,0)');
+    cx.fillStyle=g;cx.beginPath();cx.arc(b.x,b.y,r*2.4,0,TAU);cx.fill();cx.fillStyle='#fff';cx.beginPath();cx.arc(b.x,b.y,r*.6,0,TAU);cx.fill();}
+  for(const q of parts){cx.globalAlpha=Math.max(0,q.life/q.max);
+    if(q.ring){cx.strokeStyle=q.col;cx.lineWidth=3;cx.beginPath();cx.arc(q.x,q.y,q.r0,0,TAU);cx.stroke();}
+    else{cx.fillStyle=q.col;cx.beginPath();cx.arc(q.x,q.y,q.r,0,TAU);cx.fill();}cx.globalAlpha=1;}
+  cx.textAlign='center';cx.font='bold '+(14*S|0)+'px '+FONT;
+  for(const f of floats){cx.globalAlpha=Math.max(0,f.life/.9); // painted twice: black shadow, then colour
+    cx.fillStyle='#000';cx.fillText(f.txt,f.x+1,f.y+1);cx.fillStyle=f.col;cx.fillText(f.txt,f.x,f.y);cx.globalAlpha=1;}
+  const [m]=nearest(); // the game's crosshair cursor, parked on whatever she is aiming at
+  if(m){cx.strokeStyle='rgba(230,200,140,.8)';cx.lineWidth=1.5;const k=11*S,gp=4*S;cx.beginPath();
+    cx.moveTo(m.x-k,m.y);cx.lineTo(m.x-gp,m.y);cx.moveTo(m.x+gp,m.y);cx.lineTo(m.x+k,m.y);
+    cx.moveTo(m.x,m.y-k);cx.lineTo(m.x,m.y-gp);cx.moveTo(m.x,m.y+gp);cx.lineTo(m.x,m.y+k);cx.stroke();
+    cx.fillStyle='rgba(230,200,140,.8)';cx.fillRect(m.x-1,m.y-1,2,2);}
+  const vg=cx.createRadialGradient(W/2,H/2,H*.4,W/2,H/2,H*.85); // the game's vignette, same two stops
+  vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.66)');
+  cx.fillStyle=vg;cx.fillRect(0,0,W,H);hud();}
+function orb(x,y,r,frac,c1,c2){ // clipped well, bottom-up fill, meniscus, then the double rim
+  cx.save();cx.beginPath();cx.arc(x,y,r,0,TAU);cx.clip();
+  cx.fillStyle='#150505';cx.fillRect(x-r,y-r,r*2,r*2);
+  const fy=y+r-2*r*frac,g=cx.createLinearGradient(0,fy,0,y+r);g.addColorStop(0,c1);g.addColorStop(1,c2);
+  cx.fillStyle=g;cx.fillRect(x-r,fy,r*2,2*r);
+  cx.fillStyle='rgba(255,255,255,.12)';cx.beginPath();cx.ellipse(x-r*.3,fy+r*.2,r*.5,r*.2,0,0,TAU);cx.fill();
+  cx.restore();cx.strokeStyle='#2a2014';cx.lineWidth=4;cx.beginPath();cx.arc(x,y,r,0,TAU);cx.stroke();
+  cx.strokeStyle='#5a4a2a';cx.lineWidth=1.5;cx.beginPath();cx.arc(x,y,r-2,0,TAU);cx.stroke();}
+function hud(){
+  cx.fillStyle='rgba(0,0,0,.6)';cx.fillRect(0,H-6,W,6);
+  cx.fillStyle='#5a3a8a';cx.fillRect(0,H-6,W*xp,6);cx.fillStyle='#9a6ad0';cx.fillRect(0,H-6,W*xp,2);
+  const r=clamp(Math.min(W,H)*.075,24,46); // the orbs shrink with the embed, and never overlap the panel
+  orb(r+14,H-r-16,r,p.hp,'#ff5a5a','#7a0000');
+  orb(W-r-14,H-r-16,r,p.mana,'#5a9aff','#001a6a');}
+function resize(){
+  const dpr=Math.min(2,devicePixelRatio||1);
+  W=cv.clientWidth||innerWidth;H=cv.clientHeight||innerHeight;
+  cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);S=clamp(Math.min(W,H)/560,.62,1.5);
+  build();RM?still():draw();}
+// Reduced motion: one composed frame — a bolt in flight, a nova ring part-expanded, loot on the ground.
+function still(){const a=mobs[0];p.face=Math.atan2(a.y-p.y,a.x-p.x);p.anim=.2;t=1.2;
+  projs.push({x:p.x+Math.cos(p.face)*60*S,y:p.y+Math.sin(p.face)*60*S,a:p.face,life:1});
+  ring(p.x,p.y,150*S,'#7ad6ff');parts[0].r0=96*S;blood(a.x,a.y,a.d.col,10);float(a.x,a.y-20*S,'8','#ffd27a');
+  items.push({x:p.x-70*S,y:p.y+46*S,n:'Short Sword',col:'#6a86ff',t:0});
+  draw();}
+function frame(now){const dt=Math.min(.05,(now-last)/1000)||.016;last=now;step(dt);draw();requestAnimationFrame(frame);}
+addEventListener('resize',resize);
+// ResizeObserver too: an embed container can change size without the window changing size.
+if(self.ResizeObserver)new ResizeObserver(resize).observe(cv);
+resize(); // paints frame one synchronously — rAF never fires in a hidden tab, and a blank embed is useless
+if(!RM)requestAnimationFrame(n=>{last=n;frame(n);});
+})();
+</script>
+</body>
+</html>

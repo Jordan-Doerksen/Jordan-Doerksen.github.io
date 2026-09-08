@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>First Light ✦ attract</title>
+<style>
+  /* No web fonts: this file ships inside an itch.io zip and an offline iframe, so every family is a
+     local-or-fallback stack that keeps the game's four voices (display / accent / ui / mono). */
+  :root{--ink:#040810;--text:#f2f4fa;--dim:#97a0b5;--faint:#5f6c85;--gold:#d8ac4e;
+    --display:"Space Grotesk",ui-sans-serif,system-ui,"Segoe UI",Arial,sans-serif;--ui:Inter,ui-sans-serif,system-ui,"Segoe UI",Arial,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,Consolas,"Courier New",monospace;--accent:Fraunces,Georgia,"Times New Roman",serif;}
+  html,body{height:100%;margin:0;background:var(--ink);overflow:hidden}
+  /* The wrapper is the sizing authority — this file is an embed, so nothing measures the window. */
+  #stage{position:absolute;inset:0;overflow:hidden;color:var(--text);user-select:none}
+  canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .scrim,.wrap{position:absolute;inset:0;pointer-events:none}
+  /* Darkest at the centre and at the edges, lighter in the ring between: the type gets a ground to
+     sit on and the scene still reads around it. The game's own title screen works this way. */
+  .scrim{background:radial-gradient(ellipse at 50% 46%,rgba(4,8,16,.66),rgba(4,8,16,.28) 44%,rgba(4,8,16,.86))}
+  .wrap{display:flex;align-items:center;justify-content:center;text-align:center;padding:6vmin 6vmin 9vmin}
+  .col{max-width:44rem}
+  .eyebrow{font:500 clamp(9px,1.5vmin,12px)/1 var(--mono);letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin:0 0 clamp(10px,2.4vmin,20px)}
+  /* Scales on the smaller axis too, so a 1200x300 banner never gets a headline taller than itself. */
+  h1{font:700 clamp(26px,min(9vw,13vh),70px)/1 var(--display);letter-spacing:-.02em;margin:0}
+  h1 em{font-family:var(--accent);font-style:italic;font-weight:440;color:var(--gold);font-variation-settings:"opsz" 72} /* the second word is the ornament */
+  .lede{font:400 clamp(12px,1.9vmin,16px)/1.55 var(--ui);color:var(--dim);max-width:40ch;margin:clamp(10px,2.4vmin,20px) auto 0}
+  .rule{display:flex;align-items:center;gap:12px;color:var(--gold);margin:clamp(12px,2.6vmin,22px) 0 0}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:rgba(190,205,255,.16)}
+  .rule span{font-size:11px;line-height:1}
+  .hint{font:500 clamp(8.5px,1.35vmin,10.5px)/1.9 var(--mono);letter-spacing:.2em;color:var(--dim);margin:clamp(10px,2vmin,16px) 0 0}
+  .colophon{position:absolute;left:0;right:0;bottom:clamp(10px,2.4vmin,18px);text-align:center;margin:0;pointer-events:none;font:500 clamp(8px,1.2vmin,11px)/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;color:var(--faint)}
+  @media (max-height:400px){.lede,.rule,.hint{display:none}.wrap{padding-bottom:6vmin}} /* banner crop */
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="sea"></canvas>
+  <div class="scrim"></div>
+  <div class="wrap"><div class="col">
+    <p class="eyebrow">N°04 ✦ A night's sounding</p>
+    <h1>First <em>Light</em></h1>
+    <p class="lede">A lightship on a dark sea. The lamp shows one thing at a time. Chart the wrecks before dawn; the water is not empty.</p>
+    <div class="rule"><span>✦</span></div>
+    <p class="hint">steer · pointer ✦ focus · hold shift ✦ pause · p</p>
+  </div></div>
+  <p class="colophon">N°04 ✦ Jordan Doerksen ✦ MMXXVI</p>
+</div>
+<script>
+(function(){
+"use strict";
+var cv=document.getElementById('sea'),ctx=cv.getContext('2d');
+var REDUCED=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var TAU=Math.PI*2,ARC=1.1,rnd=function(a,b){return a+Math.random()*(b-a);};
+// config/game.json colours, verbatim, as rgb triples so the alpha work stays cheap.
+var C={ink:'74,101,132',star:'242,244,250',lamp:'216,172,78',core:'255,240,200',sonar:'79,227,208',
+  wreck:'143,183,255',gold:'216,172,78',mine:'255,107,53',eyes:'255,176,94',lev:'28,44,64',
+  hull:'233,237,246',wake:'157,184,255'};
+var rgba=function(c,a){return 'rgba('+c+','+a+')';},RANGE=function(){return 380*S;};
+var W=0,H=0,S=1,t=0,last=0,ping=1.2,reseed=0,beamA=0;
+var stars=[],shim=[],wrecks=[],reefs=[],mines=[],pings=[],parts=[],lev=null;
+var ship={x:0,y:0,vx:0,vy:0,head:0,trail:[]};
+// Normalized cosmetic fields, built once — a resize then costs nothing.
+for(var i=0;i<70;i++)stars.push({x:Math.random(),y:Math.random()*.8,s:.5+Math.random()*1.3,ph:rnd(0,TAU),a:.2+Math.random()*.5});
+for(i=0;i<22;i++)shim.push({x:Math.random(),y:.12+Math.random()*.85,w:.05+Math.random()*.11,sp:.006+Math.random()*.012,ph:rnd(0,TAU)});
+
+function jag(n,base,spread){var p=[];for(var i=0;i<n;i++)p.push({a:i/n*TAU,r:base+Math.random()*spread});return p;}
+// Everything is placed in the OUTER ring: the wordmark owns the middle, so nothing lights up under it.
+function outer(m){
+  for(var i=0;i<80;i++){var x=rnd(m,W-m),y=rnd(m,H-m),u=(x-W/2)/(W*.36),v=(y-H*.46)/(H*.44);
+    if(u*u+v*v>1)return{x:x,y:y};}
+  return{x:m,y:H-m};
+}
+function build(){
+  S=Math.max(.55,Math.min(1.5,Math.min(W,H)/620)); // one scale knob, so a banner is not a cropped 4:3
+  wrecks=[];reefs=[];mines=[];pings=[];parts=[];reseed=0;var m=Math.min(W,H)*.1+18,p,i;
+  for(i=0;i<3;i++){p=outer(m);wrecks.push({x:p.x,y:p.y,r:26*S,tilt:rnd(0,TAU),pts:jag(7+i,.62,.5),lit:0,seen:0,prog:0,done:false});}
+  for(i=0;i<3;i++){p=outer(m);reefs.push({x:p.x,y:p.y,r:rnd(26,58)*S,pts:jag(6+i,.7,.36),lit:0,seen:0});}
+  for(i=0;i<2;i++){p=outer(m);mines.push({x:p.x,y:p.y,r:11*S,vx:rnd(-1,1)*20*S,vy:rnd(-1,1)*20*S,ph:rnd(0,TAU),lit:0,seen:0});}
+  lev={x:-60*S,y:H*.86,r:34*S,blink:0}; // it patrols the low water and is never charted
+  ship.x=W*.5;ship.y=H*.9;ship.vx=0;ship.vy=0;ship.trail=[];
+}
+function resize(){
+  var dpr=Math.min(2,devicePixelRatio||1);W=cv.clientWidth||innerWidth;H=cv.clientHeight||innerHeight;
+  cv.width=Math.max(1,W*dpr);cv.height=Math.max(1,H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+  build();REDUCED?still():draw();
+}
+function inBeam(x,y){
+  if(Math.hypot(x-ship.x,y-ship.y)>RANGE())return false;
+  var da=Math.atan2(y-ship.y,x-ship.x)-beamA;
+  return Math.abs(Math.atan2(Math.sin(da),Math.cos(da)))<ARC/2; // wrapped to ±π without a loop
+}
+// The visibility law: lit is a loan that decays over revealHold; seen sticks, and becomes chart ink.
+function light(e,dt){
+  var v=inBeam(e.x,e.y)?1:0,i,p;
+  if(Math.hypot(e.x-ship.x,e.y-ship.y)<95*S)v=Math.max(v,.85); // nightsight halo
+  for(i=0;i<pings.length;i++){p=pings[i]; // sonar ring front
+    if(Math.abs(Math.hypot(e.x-p.x,e.y-p.y)-p.r)<70*S)v=Math.max(v,.9);}
+  e.lit=Math.max(e.lit-dt/1.7,v);if(e.lit>.05)e.seen=1;
+}
+function step(dt){
+  t+=dt;var tgt=null,best=1e9,i,e,d,q;
+  for(i=0;i<wrecks.length;i++){e=wrecks[i];if(e.done)continue;d=Math.hypot(e.x-ship.x,e.y-ship.y);if(d<best){best=d;tgt=e;}}
+  // Sector charted: hold a beat, then lay a new field. That is the loop, and it needs no input.
+  if(!tgt){if((reseed+=dt)>3.5)build();tgt={x:W*.5,y:H*.5};best=Math.hypot(tgt.x-ship.x,tgt.y-ship.y);}
+  var a=Math.atan2(tgt.y-ship.y,tgt.x-ship.x),sp,cap;
+  if(best<95*S)a+=Math.PI*.5; // inside survey range it orbits instead of ramming the wreck
+  ship.vx+=Math.cos(a)*620*S*dt;ship.vy+=Math.sin(a)*620*S*dt;
+  sp=Math.hypot(ship.vx,ship.vy);cap=(best<95*S?110:190)*S;if(sp>cap){ship.vx*=cap/sp;ship.vy*=cap/sp;}
+  ship.x+=ship.vx*dt;ship.y+=ship.vy*dt;ship.head=Math.atan2(ship.vy,ship.vx);
+  beamA=ship.head+(REDUCED?0:.3*Math.sin(t*.7)); // a slow scan, since no pointer is aiming the lamp
+  ship.trail.push({x:ship.x,y:ship.y});if(ship.trail.length>14)ship.trail.shift();
+  if((ping-=dt)<=0){ping=2.6;pings.push({x:ship.x,y:ship.y,r:0});}
+  for(i=pings.length-1;i>=0;i--){pings[i].r+=300*S*dt;if(pings[i].r>460*S)pings.splice(i,1);}
+  for(i=0;i<reefs.length;i++)light(reefs[i],dt);
+  for(i=0;i<mines.length;i++){e=mines[i];light(e,dt);e.x+=e.vx*dt;e.y+=e.vy*dt;
+    if(e.x<e.r||e.x>W-e.r)e.vx*=-1;if(e.y<e.r||e.y>H-e.r)e.vy*=-1;}
+  for(i=0;i<wrecks.length;i++){e=wrecks[i];light(e,dt);if(e.done)continue;
+    if(Math.hypot(e.x-ship.x,e.y-ship.y)<95*S){if((e.prog+=dt/2.2)>=1){e.prog=1;e.done=true;
+        if(!REDUCED)for(var k=0;k<16;k++){var an=rnd(0,TAU),v2=rnd(40,190)*S;parts.push({x:e.x,y:e.y,vx:Math.cos(an)*v2,vy:Math.sin(an)*v2,life:1});}}
+    }else e.prog=Math.max(0,e.prog-dt/2.2*.5);} // survey decays at half rate once the lamp leaves
+  lev.blink+=dt;lev.x+=34*S*dt;if(lev.x>W+80*S)lev.x=-80*S; // one slow pass, then another
+  for(i=parts.length-1;i>=0;i--){q=parts[i];q.x+=q.vx*dt;q.y+=q.vy*dt;q.vx*=.93;q.vy*=.93;if((q.life-=dt*1.3)<=0)parts.splice(i,1);}
+}
+function poly(e,rot){ // a seeded jagged radial polygon — wrecks and reefs are both made this way
+  ctx.beginPath();
+  for(var i=0;i<e.pts.length;i++){var p=e.pts[i],an=p.a+(rot||0),x=e.x+Math.cos(an)*e.r*p.r,y=e.y+Math.sin(an)*e.r*p.r;
+    i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+  ctx.closePath();
+}
+function star4(x,y,r){ // the ✦, the game's one ornament
+  ctx.beginPath();ctx.moveTo(x,y-r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.quadraticCurveTo(x,y,x,y+r);ctx.quadraticCurveTo(x,y,x-r,y);ctx.quadraticCurveTo(x,y,x,y-r);ctx.fill();
+}
+function draw(){
+  var i,k,e,g,p,al,x,an;
+  g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#040810');g.addColorStop(1,'#081220');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);ctx.fillStyle=rgba(C.star,1);
+  for(i=0;i<stars.length;i++){e=stars[i];ctx.globalAlpha=e.a*(REDUCED?.75:.55+.45*Math.sin(t*1.7+e.ph));ctx.fillRect(e.x*W,e.y*H,e.s,e.s);}
+  ctx.strokeStyle='#16283c';ctx.lineWidth=1;
+  for(i=0;i<shim.length;i++){e=shim[i];x=((e.x+(REDUCED?0:t*e.sp))%1)*W;ctx.globalAlpha=REDUCED?.3:.16+.18*Math.sin(t*.8+e.ph);
+    ctx.beginPath();ctx.moveTo(x,e.y*H);ctx.lineTo(x+e.w*W,e.y*H);ctx.stroke();} // 22 drifting rules = the sea
+  // chart ink — every shape ever lit, faint and monochrome, for the rest of the sector
+  ctx.strokeStyle=rgba(C.ink,1);ctx.lineWidth=1.2;ctx.globalAlpha=.16;
+  for(i=0;i<wrecks.length;i++){e=wrecks[i];if(e.seen&&!e.done){poly(e,e.tilt);ctx.stroke();}}
+  for(i=0;i<reefs.length;i++){e=reefs[i];if(e.seen){poly(e,0);ctx.stroke();}}
+  for(i=0;i<mines.length;i++){e=mines[i];if(e.seen){ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,TAU);ctx.stroke();}}
+  ctx.globalAlpha=1;ctx.save();ctx.globalCompositeOperation='lighter';ctx.lineWidth=1.5;
+  for(i=0;i<pings.length;i++){p=pings[i];al=Math.max(0,1-p.r/(460*S));ctx.strokeStyle=rgba(C.sonar,.45*al*al);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,TAU);ctx.stroke();}
+  // the beam: three stacked cones over one radial gradient — the signature image
+  var R=RANGE(),cones=[[1.12,.45],[.85,.55],[.5,.5]];
+  g=ctx.createRadialGradient(ship.x,ship.y,4,ship.x,ship.y,R);
+  g.addColorStop(0,rgba(C.core,.6));g.addColorStop(.2,rgba(C.lamp,.3));g.addColorStop(1,rgba(C.lamp,0));ctx.fillStyle=g;
+  for(i=0;i<3;i++){var hf=ARC/2*cones[i][0];ctx.globalAlpha=cones[i][1];ctx.beginPath();
+    ctx.moveTo(ship.x,ship.y);ctx.arc(ship.x,ship.y,R,beamA-hf,beamA+hf);ctx.closePath();ctx.fill();}
+  ctx.restore();ctx.globalAlpha=1;
+  for(i=0;i<reefs.length;i++){e=reefs[i];if(e.lit<=.01)continue;ctx.globalAlpha=e.lit;ctx.fillStyle='#25344a';poly(e,0);ctx.fill();
+    ctx.strokeStyle='rgba(123,144,175,.9)';ctx.lineWidth=1.5;ctx.stroke();} // dark rock, star-mixed rim light
+  for(i=0;i<wrecks.length;i++){e=wrecks[i];
+    al=e.done?Math.max(e.lit,.26):e.lit;if(al<=.01)continue; // a charted wreck stays legible in ink
+    ctx.globalAlpha=al;ctx.fillStyle=rgba(e.done?'76,60,27':'50,64,89',.85);poly(e,e.tilt);ctx.fill();
+    ctx.strokeStyle=rgba(e.done?C.gold:C.wreck,.95);ctx.lineWidth=1.6;ctx.stroke();
+    ctx.beginPath();ctx.lineWidth=1; // the broken keel line across the hull
+    ctx.moveTo(e.x-Math.cos(e.tilt)*e.r*.7,e.y-Math.sin(e.tilt)*e.r*.7);
+    ctx.lineTo(e.x+Math.cos(e.tilt)*e.r*.7,e.y+Math.sin(e.tilt)*e.r*.7);ctx.stroke();
+    if(e.done){ctx.fillStyle=rgba(C.gold,1);star4(e.x,e.y-e.r-10,5);}}
+  for(i=0;i<mines.length;i++){e=mines[i];if(e.lit<=.01)continue;
+    ctx.globalAlpha=e.lit;ctx.strokeStyle=rgba(C.mine,.95);ctx.lineWidth=1.5;
+    for(k=0;k<8;k++){an=k/8*TAU;ctx.beginPath();ctx.moveTo(e.x+Math.cos(an)*e.r,e.y+Math.sin(an)*e.r);
+      ctx.lineTo(e.x+Math.cos(an)*e.r*1.55,e.y+Math.sin(an)*e.r*1.55);ctx.stroke();}
+    ctx.fillStyle='#80351a';ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,TAU);ctx.fill();ctx.stroke();
+    ctx.globalAlpha=e.lit*(REDUCED?.7:.45+.55*Math.sin(e.ph+t*5))*.6; // the warning core, ~5Hz
+    ctx.fillStyle=rgba(C.mine,1);ctx.beginPath();ctx.arc(e.x,e.y,e.r*.4,0,TAU);ctx.fill();}
+  ctx.globalAlpha=1;
+  for(i=0;i<wrecks.length;i++){e=wrecks[i];if(e.done||e.prog<=0)continue; // survey arc, clockwise from -π/2
+    var pu=REDUCED?0:Math.sin(t*3)*2;ctx.strokeStyle=rgba(C.gold,.18);ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.arc(e.x,e.y,95*S+pu,0,TAU);ctx.stroke();ctx.strokeStyle=rgba(C.gold,.9);ctx.lineWidth=2.5;
+    ctx.beginPath();ctx.arc(e.x,e.y,95*S+pu,-Math.PI/2,-Math.PI/2+e.prog*TAU);ctx.stroke();}
+  // the leviathan: bulk, two wake ripples, and eyes that only blink
+  ctx.save();ctx.translate(lev.x,lev.y);
+  ctx.fillStyle=rgba(C.lev,.6);ctx.beginPath();ctx.ellipse(0,0,lev.r*1.5,lev.r*.95,0,0,TAU);ctx.fill();
+  ctx.strokeStyle=inBeam(lev.x,lev.y)?rgba(C.gold,REDUCED?.4:.25+.2*Math.sin(t*9)):rgba(C.ink,.12); // gold only while lit
+  ctx.lineWidth=1.5;ctx.stroke();ctx.strokeStyle=rgba(C.ink,.08);ctx.lineWidth=1;
+  for(i=0;i<2;i++){var rr=[1.9,2.5][i];ctx.beginPath();ctx.ellipse(0,0,lev.r*rr,lev.r*rr*.62,0,0,TAU);ctx.stroke();}
+  if((lev.blink%3.4)>.13)for(i=0;i<2;i++){var ey=(i?1:-1)*lev.r*.3;ctx.fillStyle=rgba(C.eyes,.22);
+    ctx.beginPath();ctx.arc(lev.r*.62,ey,6.7,0,TAU);ctx.fill();ctx.fillStyle=rgba(C.eyes,.95);
+    ctx.beginPath();ctx.arc(lev.r*.62,ey,2.8,0,TAU);ctx.fill();}
+  ctx.restore();ctx.fillStyle=rgba(C.gold,1);
+  for(i=0;i<parts.length;i++){p=parts[i];ctx.globalAlpha=Math.max(0,p.life);ctx.fillRect(p.x-1.5,p.y-1.5,3,3);}
+  ctx.globalAlpha=1;ctx.strokeStyle=rgba(C.wake,1);ctx.lineCap='round';
+  for(i=1;i<ship.trail.length;i++){ctx.globalAlpha=i/ship.trail.length*.3;ctx.lineWidth=i/ship.trail.length*2.5;
+    ctx.beginPath();ctx.moveTo(ship.trail[i-1].x,ship.trail[i-1].y);ctx.lineTo(ship.trail[i].x,ship.trail[i].y);ctx.stroke();}
+  ctx.globalAlpha=1;var r=12*S;ctx.save();ctx.translate(ship.x,ship.y);ctx.rotate(ship.head);
+  ctx.fillStyle=rgba(C.hull,1);ctx.beginPath(); // slim lightship hull, bow toward heading
+  ctx.moveTo(r*1.45,0);ctx.quadraticCurveTo(r*.3,-r*.62,-r*1.05,-r*.42);ctx.lineTo(-r*1.3,0);
+  ctx.lineTo(-r*1.05,r*.42);ctx.quadraticCurveTo(r*.3,r*.62,r*1.45,0);ctx.fill();
+  ctx.fillStyle=rgba(C.core,.5);ctx.beginPath();ctx.arc(r*1.02,0,r*.42,0,TAU);ctx.fill(); // lamp housing
+  ctx.fillStyle=rgba(C.lamp,1);ctx.beginPath();ctx.arc(r*1.02,0,r*.26,0,TAU);ctx.fill();ctx.restore();
+  g=ctx.createRadialGradient(W/2,H*.46,Math.min(W,H)*.36,W/2,H*.46,Math.hypot(W,H)*.62);
+  g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,.55)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H); // vignette, full night value
+}
+// Reduced motion: one composed frame, mid-survey, and no loop is ever started.
+function still(){
+  var i;ship.x=W*.34;ship.y=H*.72;ship.head=-.5;beamA=-.5;t=0;pings=[{x:ship.x,y:ship.y,r:200*S}];
+  for(i=0;i<wrecks.length;i++){wrecks[i].seen=1;wrecks[i].lit=i?.25:.9;wrecks[i].done=i===0;wrecks[i].prog=i===1?.62:0;}
+  for(i=0;i<reefs.length;i++){reefs[i].seen=1;reefs[i].lit=.35;}
+  for(i=0;i<mines.length;i++){mines[i].seen=1;mines[i].lit=.5;}
+  lev.x=W*.78;lev.blink=1;draw(); // one frame, and the loop below is never armed
+}
+function frame(now){
+  var dt=Math.min(.05,(now-last)/1000)||.016;last=now;step(dt);draw();requestAnimationFrame(frame);
+}
+addEventListener('resize',resize);
+// ResizeObserver too: the container can change size without the window changing size.
+if(self.ResizeObserver)new ResizeObserver(resize).observe(cv);
+resize(); // paints frame one SYNCHRONOUSLY — rAF never fires in a hidden tab, and a blank embed is useless
+if(!REDUCED)requestAnimationFrame(function(n){last=n;frame(n);});
+})();
+</script>
+</body>
+</html>

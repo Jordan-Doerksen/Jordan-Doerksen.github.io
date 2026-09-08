@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>holdout ✦ attract</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2312100c'/%3E%3Ctext x='16' y='23' font-size='19' text-anchor='middle' fill='%23b8860b'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#12100c;overflow:hidden}
+  /* The wrapper is the sizing authority — this file is embedded, so nothing measures the viewport. */
+  #wrap{position:relative;width:100%;height:100%;container:stage / size;user-select:none;color:#e8e2d5;font-family:'JetBrains Mono','Cascadia Mono',Consolas,ui-monospace,monospace}
+  canvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:#12100c}
+  /* The game's own title screen is a scrim over the live board. Same idea, lighter at the edges,
+     so the battle still reads while the type keeps its contrast in the middle. */
+  .scrim{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.80) 0%,rgba(0,0,0,.66) 42%,rgba(0,0,0,.30) 100%)}
+  .col{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5% 6%;pointer-events:none}
+  .eyebrow{font-size:clamp(7px,1.5vh,10px);letter-spacing:.42em;text-indent:.42em;text-transform:uppercase;color:#b8860b;margin-bottom:1.4em}
+  /* Wordmark: a matching text-indent cancels the trailing letter-space, so the tracking stays centred. */
+  h1{font-weight:700;text-transform:uppercase;line-height:1;letter-spacing:.32em;text-indent:.32em;font-size:clamp(1.05rem,min(8vw,12vh),3.2rem)}
+  h1 span{color:#b8860b}
+  .tag{color:rgba(232,226,213,.62);font-size:clamp(10px,1.9vh,14px);line-height:1.6;max-width:44ch;margin-top:1.6em}
+  .rule{width:min(62%,320px);height:1px;border:0;margin-top:clamp(.8rem,3vh,1.4rem);background:linear-gradient(90deg,transparent,rgba(184,134,11,.55),transparent)}
+  .facts{font-size:clamp(7px,1.4vh,10px);letter-spacing:.26em;text-indent:.26em;text-transform:uppercase;color:rgba(232,226,213,.45);margin-top:clamp(.7rem,2.4vh,1.2rem)}
+  .colophon{position:absolute;left:0;right:0;bottom:3.4%;text-align:center;text-transform:uppercase;font-size:clamp(7px,1.3vh,9px);letter-spacing:.18em;text-indent:.18em;color:rgba(232,226,213,.38)}
+  /* vh above is right when this file is the iframe; container units take over when it is a div on a page. */
+  @supports (height:1cqh){
+    .eyebrow{font-size:clamp(7px,1.5cqh,10px)}h1{font-size:clamp(1.05rem,min(8cqw,12cqh),3.2rem)}.tag{font-size:clamp(10px,1.9cqh,14px)}
+    .facts{font-size:clamp(7px,1.4cqh,10px);margin-top:clamp(.7rem,2.4cqh,1.2rem)}.colophon{font-size:clamp(7px,1.3cqh,9px)}
+  }
+  /* A banner has no room for the supporting copy — the wordmark carries it alone. */
+  @media (max-height:260px){.tag,.rule,.facts,.colophon{display:none}.eyebrow{margin-bottom:.9em}}
+  @container stage (max-height:260px){.tag,.rule,.facts,.colophon{display:none}.eyebrow{margin-bottom:.9em}}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="cv"></canvas>
+  <div class="scrim"></div>
+  <div class="col">
+    <p class="eyebrow">Isometric bunker defense</p>
+    <h1>Hold<span>out</span></h1>
+    <p class="tag">Three lanes. One core. It will probably be fine.</p>
+    <hr class="rule">
+    <p class="facts">Thirty waves ✦ No unit micro</p>
+  </div>
+  <p class="colophon">✦ Jordan Doerksen ✦ MMXXVI</p>
+</div>
+<script>
+(function(){
+'use strict';
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d'),TAU=Math.PI*2;
+const rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[(Math.random()*a.length)|0];
+// The palette is lifted from config/game.json. Nothing below invents a colour.
+const P={ground:'#2a2622',groundAlt:'#242019',back:'#12100c',lane:'#3a3128',slot:'#4a5568',gold:'#b8860b',
+  glow:'#e8c15a',base:'#3d3a35',bug:'#7aa35c',bugDark:'#4d6b3a',alien:'#7c6bd4',shield:'#9db8ff',unit:'#5b8db8',
+  unitAccent:'#cfe3f2',hpGood:'#6aa84f',hpBad:'#cc4125',essence:'#8fbc5a',alienTech:'#a78bfa',credits:'#e8c15a',text:'#e8e2d5'};
+const TW=48,TH=24,COLS=24,ROWS=18;                                   // config/map.json grid, unchanged
+const SX=(x,y)=>(x-y)*TW/2, SY=(x,y)=>(x+y)*TH/2;                    // the game's 2:1 projection, offset folded into the fit
+const WW=(COLS+ROWS-2)*TW/2+TW,WH=(COLS+ROWS-2)*TH/2+TH,CX=(COLS-ROWS)*TW/4,CY=(COLS+ROWS-2)*TH/4+26;
+const hex=(h,a)=>{const n=parseInt(h.slice(1),16);return'rgba('+(n>>16&255)+','+(n>>8&255)+','+(n&255)+','+a+')';};
+const shade=(h,f)=>{const n=parseInt(h.slice(1),16);return'rgb('+Math.round((n>>16&255)*f)+','+Math.round((n>>8&255)*f)+','+Math.round((n&255)*f)+')';};
+const mix=(a,b,t)=>{const x=parseInt(a.slice(1),16),y=parseInt(b.slice(1),16),c=(s,e)=>Math.round(s+(e-s)*t);
+  return'rgb('+c(x>>16&255,y>>16&255)+','+c(x>>8&255,y>>8&255)+','+c(x&255,y&255)+')';};
+function dia(x,y,s){const w=TW*s/2,h=TH*s/2;ctx.beginPath();ctx.moveTo(x,y-h);ctx.lineTo(x+w,y);ctx.lineTo(x,y+h);ctx.lineTo(x-w,y);ctx.closePath();}
+function box(x,y,s,h,c){const w=TW*s/2,d=TH*s/2;                     // top diamond + exactly two shaded faces
+  ctx.fillStyle=shade(c,.55);ctx.beginPath();ctx.moveTo(x-w,y);ctx.lineTo(x,y+d);ctx.lineTo(x,y+d-h);ctx.lineTo(x-w,y-h);ctx.fill();
+  ctx.fillStyle=shade(c,.72);ctx.beginPath();ctx.moveTo(x+w,y);ctx.lineTo(x,y+d);ctx.lineTo(x,y+d-h);ctx.lineTo(x+w,y-h);ctx.fill();
+  ctx.fillStyle=c;dia(x,y-h,s);ctx.fill();}
+function hp(x,y,v,m,w){if(v>=m)return;const f=Math.max(0,v/m);
+  ctx.fillStyle=hex(P.groundAlt,.9);ctx.fillRect(x-w/2,y,w,3);ctx.fillStyle=mix(P.hpBad,P.hpGood,f);ctx.fillRect(x-w/2,y,w*f,3);}
+
+const LANES=[{wp:[[2,1],[7,1],[7,6],[12,6],[12,10],[14,11.5]]},{wp:[[22,1],[22,5],[18,5],[18,9],[16,11]]},
+  {wp:[[1,16],[6,16],[6,13],[11,13],[13.5,12.5]]}];
+LANES.forEach(L=>{L.d=[0];for(let i=1;i<L.wp.length;i++)L.d.push(L.d[i-1]+Math.hypot(L.wp[i][0]-L.wp[i-1][0],L.wp[i][1]-L.wp[i-1][1]));L.len=L.d[L.d.length-1];});
+const FREE=[[6,3],[11,7],[10,9],[20,4],[17,10],[4,15],[7,14],[12,12],[18,12]],PADS=[[13,15],[17,15]];
+const GUN={turret:{r:4.6,cd:.5},bunker:{r:5,cd:.8},marine:{r:4,cd:.9}};
+const BUILDS=[{t:'core',x:15,y:12},{t:'income',x:17,y:13,lv:2},{t:'barracks',x:13,y:13,lv:2},
+  {t:'turret',x:8,y:4,lv:1},{t:'turret',x:13,y:8,lv:2},{t:'turret',x:17,y:6,lv:1},{t:'turret',x:19,y:8,lv:2},
+  {t:'turret',x:9,y:12,lv:1},{t:'turret',x:11,y:15,lv:2},{t:'bunker',x:13,y:10,g:3},{t:'bunker',x:16,y:10,g:2}];
+BUILDS.forEach(b=>{b.cd=rnd(0,.6);b.aim=-Math.PI/4;});
+// x/y are seeded from the rally position, not left for step() — frame one and the static frame both draw before any step.
+const MAR=[[12,9.2],[12.7,9.9],[11.3,14.4],[12,14.9],[17.1,9.3]].map((m,i)=>({bx:m[0],by:m[1],x:m[0],y:m[1],ph:i*1.7,cd:rnd(0,.9)}));
+const KIND=[{k:'ling',r:5,hp:12,sp:1.5},{k:'roach',r:9,hp:32,sp:.8},{k:'spitter',r:6,hp:16,sp:1.1},{k:'phantom',r:6,hp:20,sp:1.2,alien:1}];
+let W=0,H=0,DPR=1,SC=1,OX=0,OY=0,t=0,last=0,foes=[],trs=[],pts=[],flo=[],shake=0,spawnT=.6,bossT=22,hovT=0,hov=0,core=100;
+
+function at(f){const L=f.L,d=L.d;let i=1;while(i<d.length-1&&d[i]<f.s)i++;
+  const a=L.wp[i-1],b=L.wp[i],u=Math.min(1,Math.max(0,(f.s-d[i-1])/((d[i]-d[i-1])||1)));
+  return{x:a[0]+(b[0]-a[0])*u,y:a[1]+(b[1]-a[1])*u};}
+function spawn(boss){
+  const L=pick(LANES),f=boss?{L,s:0,r:19,hp:280,mx:280,sp:.5,k:'boss',name:pick(['Brood Titan','Hive Queen','The Devourer'])}
+    :(()=>{const K=pick(KIND),el=Math.random()<.13,h=K.hp*(el?2:1);
+      return{L,s:0,r:K.r*(el?1.3:1),hp:h,mx:h,sp:K.sp,k:K.k,el,alien:K.alien,shield:K.alien?10:0};})();
+  f.p=at(f);foes.push(f);}
+function burst(x,y,n,c){if(RM)return;                                 // the game skips particles under reduced motion
+  for(let i=0;i<n&&pts.length<300;i++)pts.push({x,y,vx:rnd(-45,45),vy:rnd(-70,10),life:rnd(.35,.8),c});}
+function kill(f){const p=SX(f.p.x,f.p.y),q=SY(f.p.x,f.p.y);
+  burst(p,q-6,f.k==='boss'?20:8,f.alien?P.alien:P.bug);
+  flo.push({x:p,y:q-14,age:0,c:f.alien?P.alienTech:P.essence});}
+function fire(gx,gy,rise,f,col,w,dmg){
+  trs.push({ax:SX(gx,gy),ay:SY(gx,gy)-rise,bx:SX(f.p.x,f.p.y),by:SY(f.p.x,f.p.y)-8,p:0,c:col,w});
+  if(f.shield>0)f.shield-=dmg;else f.hp-=dmg;}
+function near(x,y,r){let best=null,bd=r*r;
+  for(const f of foes){const d=(f.p.x-x)**2+(f.p.y-y)**2;if(d<bd){bd=d;best=f;}}return best;}
+
+function step(dt){
+  t+=dt;
+  if((spawnT-=dt)<=0&&foes.length<26){spawn();spawnT=rnd(.5,1.05);}
+  if((bossT-=dt)<=0){spawn(1);bossT=rnd(34,48);}
+  if((hovT-=dt)<=0){hov=(hov+1)%FREE.length;hovT=3.4;}               // a ghost cursor shops the empty slots
+  for(let i=foes.length-1;i>=0;i--){const f=foes[i];
+    f.s+=f.sp*dt;f.p=at(f);
+    // A leaker chips the core and shakes the frame. The floor is there because an attract loop has no
+    // fail state to show — it must not stage a defeat the player never played.
+    if(f.s>=f.L.len){shake=1;core=Math.max(38,core-4);burst(SX(15,12),SY(15,12)-20,10,P.bug);foes.splice(i,1);}
+    else if(f.hp<=0){kill(f);foes.splice(i,1);}}
+  for(const b of BUILDS){const g=GUN[b.t];if(!g)continue;
+    const f=near(b.x,b.y,g.r);
+    if(f)b.aim=Math.atan2(SY(f.p.x,f.p.y)-8-(SY(b.x,b.y)-10),SX(f.p.x,f.p.y)-SX(b.x,b.y));else b.aim=-Math.PI/4;
+    if((b.cd-=dt)>0||!f)continue;
+    b.cd=g.cd;
+    if(b.t==='turret')fire(b.x,b.y,10,f,b.lv>=2?P.gold:P.unitAccent,b.lv>=2?2:1,b.lv>=2?11:7);
+    else for(let i=0;i<b.g;i++)fire(b.x,b.y,7,f,P.unitAccent,1,4);}
+  for(const m of MAR){m.x=m.bx+Math.sin(t*1.1+m.ph)*.07;m.y=m.by+Math.cos(t*.9+m.ph)*.05;
+    const f=near(m.x,m.y,GUN.marine.r);
+    if((m.cd-=dt)<=0&&f){m.cd=GUN.marine.cd;fire(m.x,m.y,5,f,P.unitAccent,1,4);}}
+  for(let i=trs.length-1;i>=0;i--)if((trs[i].p+=dt*7)>1.12)trs.splice(i,1);
+  for(let i=pts.length-1;i>=0;i--){const p=pts[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=70*dt;if((p.life-=dt*1.5)<=0)pts.splice(i,1);}
+  for(let i=flo.length-1;i>=0;i--)if((flo[i].age+=dt)>1.15)flo.splice(i,1);
+  shake=Math.max(0,shake-dt*1.8);core=Math.min(100,core+dt*2.2);
+}
+
+function world(){
+  for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){dia(SX(x,y),SY(x,y),1);ctx.fillStyle=(x+y)%2===0?P.ground:P.groundAlt;ctx.fill();}
+  ctx.lineJoin=ctx.lineCap='round';
+  for(const L of LANES)for(const pass of[[shade(P.lane,.7),TH*1.05],[P.lane,TH*.8]]){
+    ctx.beginPath();L.wp.forEach((w,i)=>i?ctx.lineTo(SX(w[0],w[1]),SY(w[0],w[1])):ctx.moveTo(SX(w[0],w[1]),SY(w[0],w[1])));
+    ctx.strokeStyle=pass[0];ctx.lineWidth=pass[1];ctx.stroke();}
+  for(const kind of[[FREE,[]],[PADS,[4,3]]]){ctx.setLineDash(kind[1]);
+    kind[0].forEach((s,i)=>{const on=kind[1].length===0&&i===hov;
+      dia(SX(s[0],s[1]),SY(s[0],s[1]),.9);
+      if(on){ctx.fillStyle=hex(P.gold,.18);ctx.fill();}
+      ctx.strokeStyle=on?P.gold:P.slot;ctx.lineWidth=on?2:1.25;ctx.stroke();});}
+  ctx.setLineDash([]);
+  const s=FREE[hov],rx=4.6*(TW/2)*Math.SQRT2,ry=4.6*(TH/2)*Math.SQRT2;
+  ctx.beginPath();ctx.ellipse(SX(s[0],s[1]),SY(s[0],s[1]),rx,ry,0,0,TAU);
+  ctx.fillStyle=hex(P.gold,.07);ctx.fill();ctx.strokeStyle=hex(P.gold,.5);ctx.lineWidth=1;ctx.stroke();
+}
+function pips(x,y,n){ctx.fillStyle=P.gold;for(let i=0;i<n;i++)ctx.fillRect(x-8+i*6,y,4,3);}
+function building(b){const x=SX(b.x,b.y),y=SY(b.x,b.y);
+  if(b.t==='core'){const pulse=RM?.6:.5+.3*Math.sin(t*2.2);
+    ctx.save();ctx.shadowColor=P.glow;ctx.shadowBlur=14+pulse*14;
+    box(x,y,1.8,22,P.base);box(x,y-22,.9,12,P.gold);ctx.fillStyle=P.glow;dia(x,y-38,.3);ctx.fill();ctx.restore();
+    hp(x,y-52,core,100,40);
+  }else if(b.t==='income'){box(x,y,.95,12,P.base);ctx.fillStyle=P.credits;dia(x,y-12,.35);ctx.fill();pips(x,y-24,b.lv);
+  }else if(b.t==='barracks'){box(x,y,1.1,16,P.base);ctx.fillStyle=shade(P.base,.4);ctx.fillRect(x-3,y-8,6,9);
+    ctx.fillStyle=P.unit;ctx.fillRect(x+6,y-22,3,8);pips(x,y-30,b.lv);
+  }else if(b.t==='turret'){box(x,y,.7,8,P.base);
+    ctx.strokeStyle=b.lv>=2?P.gold:P.unitAccent;ctx.lineWidth=b.lv>=2?3:2;
+    ctx.beginPath();ctx.moveTo(x,y-10);ctx.lineTo(x+Math.cos(b.aim)*12,y-10+Math.sin(b.aim)*7);ctx.stroke();
+    ctx.fillStyle=P.base;ctx.beginPath();ctx.arc(x,y-10,4,0,TAU);ctx.fill();pips(x,y-20,b.lv);
+  }else{box(x,y,1,10,P.base);ctx.fillStyle=shade(P.base,.35);ctx.fillRect(x-9,y-7,18,2.5);
+    ctx.fillStyle=P.unit;for(let i=0;i<b.g;i++){ctx.beginPath();ctx.arc(x-8+i*8,y-16,2.5,0,TAU);ctx.fill();}}
+}
+function marine(m){const x=SX(m.x,m.y),y=SY(m.x,m.y),r=3;
+  ctx.fillStyle=hex(P.groundAlt,.6);ctx.beginPath();ctx.ellipse(x,y+1,r+2,(r+2)/2,0,0,TAU);ctx.fill();
+  ctx.fillStyle=P.unit;ctx.beginPath();ctx.ellipse(x,y-r-2,r,r*1.6,0,0,TAU);ctx.fill();
+  ctx.fillStyle=P.unitAccent;ctx.beginPath();ctx.arc(x,y-r*3-1,r*.7,0,TAU);ctx.fill();}
+function enemy(f){const x=SX(f.p.x,f.p.y),y=SY(f.p.x,f.p.y),r=f.r,al=f.alien;
+  const body=al?P.alien:P.bug,dark=al?shade(P.alien,.6):P.bugDark;
+  const sq=RM?0:Math.sin(t*8+(f.p.x+f.p.y)*2)*.1;                     // the blob squashes as it travels
+  ctx.fillStyle=hex(P.groundAlt,.6);ctx.beginPath();ctx.ellipse(x,y+1,r*1.1,r*.5,0,0,TAU);ctx.fill();
+  ctx.fillStyle=dark;
+  ctx.beginPath();ctx.ellipse(x-r*.5,y-r*.4,r*.6,r*.45,0,0,TAU);ctx.fill();
+  ctx.beginPath();ctx.ellipse(x+r*.5,y-r*.4,r*.6,r*.45,0,0,TAU);ctx.fill();
+  ctx.fillStyle=body;ctx.beginPath();ctx.ellipse(x,y-r*.7,r*(1+sq),r*.8*(1-sq),0,0,TAU);ctx.fill();
+  if(f.el){ctx.strokeStyle=P.text;ctx.lineWidth=1.5;ctx.stroke();}
+  if(f.shield>0){ctx.strokeStyle=P.shield;ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(x,y-r*.7,r*1.5,r*1.2,0,0,TAU);ctx.stroke();}
+  hp(x,y-r*1.8-6,f.hp,f.mx,Math.max(14,r*2.2));
+  if(f.name){ctx.font='10px "JetBrains Mono",Consolas,monospace';ctx.textAlign='center';
+    const w=ctx.measureText(f.name).width+10,ny=y-r*1.8-18;
+    ctx.fillStyle=hex(P.groundAlt,.85);ctx.fillRect(x-w/2,ny-9,w,12);
+    ctx.fillStyle=P.text;ctx.fillText(f.name,x,ny);ctx.textAlign='start';}}
+
+function draw(){
+  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.fillStyle=P.back;ctx.fillRect(0,0,W,H); // backdrop repaints every frame, as in-game
+  ctx.save();ctx.translate(OX+(RM?0:rnd(-6,6)*shake),OY+(RM?0:rnd(-4,4)*shake));ctx.scale(SC,SC);
+  world();
+  const list=BUILDS.map(b=>({z:b.x+b.y,f:()=>building(b)})).concat(MAR.map(m=>({z:m.x+m.y,f:()=>marine(m)})),foes.map(f=>({z:f.p.x+f.p.y,f:()=>enemy(f)})));
+  list.sort((a,b)=>a.z-b.z).forEach(d=>d.f());                        // painter's algorithm: iso overlap by x+y
+  for(const s of trs){const a=Math.max(0,s.p-.12),b=Math.min(1,s.p);ctx.strokeStyle=s.c;ctx.lineWidth=s.w;ctx.beginPath();
+    ctx.moveTo(s.ax+(s.bx-s.ax)*a,s.ay+(s.by-s.ay)*a);ctx.lineTo(s.ax+(s.bx-s.ax)*b,s.ay+(s.by-s.ay)*b);ctx.stroke();}
+  for(const p of pts){ctx.fillStyle=hex(p.c,Math.max(0,p.life));ctx.fillRect(p.x,p.y,2,2);}
+  ctx.font='11px "JetBrains Mono",Consolas,monospace';ctx.textAlign='center';
+  for(const f of flo){ctx.fillStyle=hex(f.c,Math.max(0,1-f.age));ctx.fillText('+1 ✦',f.x,f.y-12-f.age*22);}
+  ctx.textAlign='start';ctx.restore();
+}
+// Reduced motion: one composed frame — mid-lane enemies, two tracers in flight, no particles, no loop.
+function still(){
+  [[0,.34,0],[0,.66,1],[1,.28,2],[1,.58,3],[2,.42,0],[2,.72,2]].forEach(a=>{const K=KIND[a[2]],L=LANES[a[0]];
+    const f={L,s:L.len*a[1],r:K.r,hp:K.hp*.72,mx:K.hp,sp:0,k:K.k,alien:K.alien,shield:K.alien?6:0};f.p=at(f);foes.push(f);});
+  BUILDS.forEach(b=>{const f=GUN[b.t]&&near(b.x,b.y,GUN[b.t].r);if(f)b.aim=Math.atan2(SY(f.p.x,f.p.y)-8-(SY(b.x,b.y)-10),SX(f.p.x,f.p.y)-SX(b.x,b.y));});
+  const a=foes[0],b=foes[3];
+  trs.push({ax:SX(13,8),ay:SY(13,8)-10,bx:SX(a.p.x,a.p.y),by:SY(a.p.x,a.p.y)-8,p:.7,c:P.gold,w:2},
+    {ax:SX(19,8),ay:SY(19,8)-10,bx:SX(b.p.x,b.p.y),by:SY(b.p.x,b.p.y)-8,p:.55,c:P.unitAccent,w:1});
+  flo.push({x:SX(12,7),y:SY(12,7),age:.25,c:P.essence});hov=2;t=1.4;
+}
+function resize(){
+  DPR=Math.min(2,devicePixelRatio||1);W=cv.clientWidth||innerWidth;H=cv.clientHeight||innerHeight;
+  cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);
+  // Contain-fit with a mild overscale, so a 4:3 embed fills and a wide banner only loses empty corners.
+  const fit=Math.min(W/WW,H/WH);SC=Math.min(Math.max(W/WW,H/WH),fit*1.18);OX=W/2-CX*SC;OY=H/2-CY*SC;
+  draw();
+}
+addEventListener('resize',resize);if(self.ResizeObserver)new ResizeObserver(resize).observe(cv); // the container can resize without the window doing so
+if(RM)still();  // compose the static frame first; the resize() below is what actually paints it
+resize();       // frame one is painted synchronously — rAF never fires in a hidden or background tab
+if(!RM)requestAnimationFrame(function loop(now){const dt=Math.min(.05,(now-last)/1000)||.016;last=now;step(dt);draw();requestAnimationFrame(loop);});
+})();
+</script>
+</body>
+</html>

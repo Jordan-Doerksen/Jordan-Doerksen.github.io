@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Closing Bell ✦ attract</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef2f8'/%3E%3Ctext x='16' y='24' font-size='20' text-anchor='middle'%3E%F0%9F%94%94%3C/text%3E%3C/svg%3E">
+<style>
+  /* The one LIGHT build in the set. No web fonts: this ships in an itch.io zip and offline, so every family is a local-or-fallback stack. */
+  :root{--ink:#0f172a;--muted:#5b6a80;--line:#e3e8f0;--blue:#2563eb;--up:#15803d;--down:#b91c1c;--gold:#b08327;
+    --mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#eef2f8;overflow:hidden}
+  /* The wrapper is the sizing authority — this file is an iframe or a card, never the viewport. */
+  #wrap{position:relative;width:100%;height:100%;font-family:var(--sans);color:var(--ink);
+    user-select:none;-webkit-font-smoothing:antialiased;container:stage / size}
+  #board{position:absolute;inset:0;width:100%;height:100%;display:block}
+  /* Covers the chart only, as the game's title screen does, so the live top bar, clock and tape stay readable
+     around it; JS writes its box from the canvas layout. The game veils at .82 over a blank canvas — a live board
+     is under this one, so the wash is lighter. pointer-events:none: an embed must never offer a dead control. */
+  .veil{position:absolute;border-radius:14px;background:rgba(238,242,248,.70);backdrop-filter:blur(2px);
+    display:flex;align-items:center;justify-content:center;padding:clamp(8px,3%,22px);pointer-events:none}
+  /* min-width:0 or the keycap row's min-content pushes the sheet wider than the veil on a narrow embed, and centring hangs it off both edges. */
+  .sheet{width:100%;max-width:560px;min-width:0;background:#fff;border-radius:18px;text-align:center;
+    padding:clamp(14px,3.4cqh,28px) clamp(14px,3vw,26px);box-shadow:0 24px 60px rgba(15,23,42,.18)}
+  h1{font-size:clamp(20px,min(5.2cqw,7.4cqh),30px);letter-spacing:.01em;font-weight:700;line-height:1.1}
+  .sub{color:var(--muted);font-size:clamp(11px,1.9cqh,13.5px);line-height:1.55;max-width:430px;margin:clamp(6px,1.4cqh,10px) auto 0}
+  .sub b.u{color:var(--up)} .sub b.d{color:var(--down)}
+  .keys{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:center;align-items:center;
+    margin-top:clamp(8px,1.8cqh,14px);font-size:clamp(10px,1.6cqh,12px);color:var(--muted)}
+  .kbd{font-family:var(--mono);font-size:.92em;background:#f7f9fc;border:1px solid var(--line);
+    border-bottom-width:2px;border-radius:5px;padding:2px 6px;color:var(--ink);margin-right:5px}
+  .cta{display:inline-block;margin-top:clamp(9px,2cqh,15px);background:var(--blue);color:#fff;border-radius:9px;
+    padding:8px 18px;font-size:clamp(11px,1.8cqh,13px);font-weight:600}
+  .colophon{margin-top:clamp(8px,1.8cqh,14px);font-size:10.5px;letter-spacing:.1em;color:var(--muted)}
+  .colophon .star{color:var(--gold)}
+  /* Banner crop: a 1200x300 strip has no room for prose. Title and legend carry it alone. */
+  @container stage (max-height:300px){.sub,.colophon{display:none}.keys{margin-top:8px}}
+  @media (max-height:300px){.sub,.colophon{display:none}}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="board"></canvas>
+  <div class="veil" id="veil">
+    <div class="sheet">
+      <h1>Closing Bell</h1>
+      <p class="sub">You're on the desk. The tape scrolls, the clock runs to 4:00. Go <b class="u">long</b> when it's rising,
+        <b class="d">short</b> when it's falling, flat to lock it in. Survive to the closing bell, buy an edge, then tomorrow comes in harder.</p>
+      <div class="keys"><div><span class="kbd">↑ / W</span>Long</div><div><span class="kbd">↓ / S</span>Short</div>
+        <div><span class="kbd">Space / F</span>Flat</div><div><span class="kbd">P</span>Pause</div></div>
+      <span class="cta">Ring the opening bell ▸</span>
+      <div class="colophon">CLOSING BELL <span class="star">✦</span> MMXXVI</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+"use strict";
+var wrap=document.getElementById('wrap'), veil=document.getElementById('veil');
+var cv=document.getElementById('board'), ctx=cv.getContext('2d',{alpha:false});
+var RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var MONO='ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace';
+var SANS='-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif';
+// Candles keep the game's brighter canvas green/red; the AA-safe TUP/TDN are for text only.
+var CUP='#16a34a',CDN='#dc2626',TUP='#15803d',TDN='#b91c1c',INK='#0f172a',MUT='#5b6a80';
+var LINE='#e3e8f0',GRID='#eef2f7',AXIS='#94a3b8',BLUE='#2563eb';
+var SYMS=['VEGA','NOVA','HELX','ORBT','APEX','FLUX','KRON','ZPHR','AXIM','LUMA'];
+var REG=[['Momentum ▲',.00045,1,TUP],['Risk-off ▼',-.00045,1.1,TDN],['Grind ▲',.00022,.8,TUP],
+  ['Choppy ◆',0,1.25,MUT],['Squeeze ▲',.0006,1.35,TUP],['Bleed ▼',-.0003,.95,TDN]];
+var HUP=['beats on earnings','guides higher','wins major contract','upgraded to Buy','short squeeze building'];
+var HDN=['misses estimates','cuts guidance','probe opened','downgraded to Sell','margins compress'];
+var HMAC=['CPI cools, risk-on bid','hawkish surprise, yields rip','liquidity drains into the close','dovish Fed minutes hit the wire'];
+var VISIBLE=58,BAR=.8,DAY=52; // 58 candles and a 09:30-16:00 clock, as the game draws them
+var W=1,H=1,S=1,L={},last=0,bars=[],price=142.3,p0=142.3,barT=0,reg=0,regT=0,sym=3,day=3;
+var pos=0,avg=0,qty=0,posT=4,bank=10000,dayPnl=0,clk=0;
+var parts=[],tape=[],tapeX=0,tapeW=1,newsT=1.2,flash=null,lastPt={x:0,y:0};
+var pick=function(a){return a[Math.random()*a.length|0];};
+var money=function(v){return (v<0?'-$':'$')+Math.abs(Math.round(v)).toLocaleString('en-US');};
+// wt omitted = the chip/stat default of 600; wt '' = genuinely unweighted, which the 11px price
+// axis and the tape headlines need — '' must not fall through to the default.
+var mono=function(sz,wt){wt=wt==null?'600':wt;ctx.font=(wt?wt+' ':'')+(sz*S)+'px '+MONO;};
+var sans=function(sz,wt){ctx.font=(wt?wt+' ':'')+(sz*S)+'px '+SANS;};
+function gauss(){var u=1-Math.random(),v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(6.283*v);}
+function seedBars(base){bars=[];var p=base,i,o;
+  for(i=0;i<VISIBLE;i++){o=p;p*=1+.0004+gauss()*.011;bars.push({o:o,h:Math.max(o,p)*1.002,l:Math.min(o,p)*.998,c:p});}
+  price=p;p0=bars[0].o;} // p0 drives the top-bar percent, so it is the first open of the day, not the last
+// Each day gets a fresh symbol and series, as the game starts one — which also stops an unattended screen drifting to a five-figure share price.
+function newDay(){day++;dayPnl=0;pos=0;clk=0;sym=(sym+1)%10;seedBars(60+Math.random()*180);}
+function news(){var up=Math.random()<.5,mac=Math.random()<.34;
+  tape.push({lead:(mac?'MACRO':SYMS[Math.random()*10|0])+' '+(up?'▲':'▼'),txt:mac?pick(HMAC):(up?pick(HUP):pick(HDN)),up:up});
+  if(tape.length>9)tape.shift();}
+function burst(pnl){ // the game's close beat: circle spray, a rising number, a full-bleed wash
+  var c=pnl>=0?'22,163,74':'220,38,38',n=3+Math.min(19,Math.abs(pnl)/70|0),i,a,v;
+  for(i=0;i<n;i++){a=Math.random()*6.283;v=(40+Math.random()*150)*S;
+    parts.push({x:lastPt.x,y:lastPt.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-60*S,life:1,col:c});}
+  parts.push({x:lastPt.x,y:lastPt.y-14*S,vx:0,vy:-70*S,life:1.4,col:c,txt:(pnl>=0?'+$':'-$')+Math.abs(Math.round(pnl)).toLocaleString('en-US')});
+  flash={a:.9,col:c};}
+// The desk trades itself: it sides with the last six closes, holds a few bars, then flats — nothing else would produce the opens and
+// closes the game is built on. The bankroll band sits at the only place bank changes; at a day boundary a good run painted six figures first.
+function decide(){
+  if(pos){var pnl=(price-avg)*qty*pos;bank+=pnl;dayPnl+=pnl;burst(pnl);pos=0;posT=1.1+Math.random()*1.7;
+    if(bank>45000||bank<2500){bank=10000;day=0;newDay();} return;} // out of band: margin call, new career
+  var n=bars.length,d=bars[n-1].c-bars[Math.max(0,n-6)].c;
+  pos=d>=0?1:-1;avg=price;qty=Math.max(1,Math.round(bank*1.5/price));posT=3.4+Math.random()*3.6;}
+function step(dt){
+  var r=REG[reg],b=bars[bars.length-1],i,p;
+  // Drift is scaled to the visible window (58 candles ~= a day on screen), not the game's per-bar tick: a bigger multiplier ramps the chart flat.
+  price*=1+r[1]*8*dt+gauss()*.0125*r[2]*Math.sqrt(dt);
+  if(!isFinite(price)||price<=0)price=b.o; // self-healing: one bad tick must not leave a wall of NaN
+  b.c=price; if(price>b.h)b.h=price; if(price<b.l)b.l=price;
+  if((barT-=dt)<=0){barT=BAR;bars.push({o:price,h:price,l:price,c:price});if(bars.length>VISIBLE+4)bars.shift();}
+  if((regT-=dt)<=0){regT=13+Math.random()*8;reg=Math.random()*REG.length|0;}
+  if((newsT-=dt)<=0){newsT=2.8+Math.random()*2.6;news();}
+  if((posT-=dt)<=0)decide();
+  clk+=dt/DAY; if(clk>=1)newDay(); // the day rolls; the loop never ends
+  for(i=parts.length-1;i>=0;i--){p=parts[i]; if(!p.txt)p.vy+=520*S*dt; // gravity on the spray only
+    p.x+=p.vx*dt;p.y+=p.vy*dt; if((p.life-=dt/(p.txt?1.4:1))<=0)parts.splice(i,1);}
+  if(flash&&(flash.a-=dt/.55)<=0)flash=null;}
+function fit(){
+  var dpr=Math.min(2,window.devicePixelRatio||1); W=wrap.clientWidth||640; H=wrap.clientHeight||440;
+  cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); ctx.setTransform(dpr,0,0,dpr,0,0);
+  S=Math.max(.46,Math.min(1.25,Math.min(W/940,H/580))); // one scale knob keeps a banner from looking zoomed
+  var p=Math.round(12*S),th=Math.round(46*S),tp=Math.round(30*S),g=Math.round(10*S);
+  L={p:p,w:W-p*2,topH:th,chY:p+th+g,chH:Math.max(60,H-p*2-th-tp-g*2),tapeY:H-p-tp,tapeH:tp};
+  veil.style.cssText='left:'+L.p+'px;top:'+L.chY+'px;width:'+L.w+'px;height:'+L.chH+'px';}
+function rr(x,y,w,h,r){ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,r);else ctx.rect(x,y,w,h);}
+function card(x,y,w,h,r){ // the game's depth card: white, 1px line, a soft dropped shadow
+  ctx.save();ctx.shadowColor='rgba(15,23,42,.09)';ctx.shadowBlur=24*S;ctx.shadowOffsetY=8*S;
+  ctx.fillStyle='#fff';rr(x,y,w,h,r);ctx.fill();ctx.restore();
+  ctx.strokeStyle=LINE;ctx.lineWidth=1;rr(x,y,w,h,r);ctx.stroke();}
+function stat(right,cy,k,v,col){
+  ctx.textAlign='right';sans(9.5);ctx.fillStyle=MUT;ctx.fillText(k,right,cy-8*S);
+  mono(14,'700');ctx.fillStyle=col;ctx.fillText(v,right,cy+6*S);
+  ctx.textAlign='left';return right-Math.max(84*S,ctx.measureText(v).width+22*S);}
+function clock(right,cy){ // 09:30 to 16:00 on the 78x4 bar, blue until 85% of the day, then red
+  var m=Math.round(390*clk),t=('0'+(9+((30+m)/60|0))).slice(-2)+':'+('0'+((30+m)%60)).slice(-2),c=right-42*S;
+  ctx.textAlign='center';mono(15,'700');ctx.fillStyle=INK;ctx.fillText(t,c,cy-6*S);
+  ctx.fillStyle=GRID;rr(c-39*S,cy+6*S,78*S,4*S,3*S);ctx.fill();
+  ctx.fillStyle=clk>.85?TDN:BLUE;rr(c-39*S,cy+6*S,Math.max(2,78*S*clk),4*S,3*S);ctx.fill();
+  ctx.textAlign='left';return right-98*S;}
+function drawTop(){
+  var x=L.p,y=L.p,w=L.w,h=L.topH,cy=y+h/2,chg=(price-p0)/p0*100,cx=x+142*S,lim=x+136*S,g=9*S;
+  card(x,y,w,h,14*S); ctx.textBaseline='middle'; ctx.textAlign='left';
+  sans(17);ctx.fillText('🔔',x+13*S,cy);
+  sans(14,'700');ctx.fillStyle=INK;ctx.fillText('CLOSING BELL',x+36*S,cy-7*S);
+  sans(10);ctx.fillStyle=MUT;ctx.fillText('DAY '+day,x+36*S,cy+7*S);
+  // Chip and stats lay out from measured text: symbol, price and percent each change width every tick, so a fixed grid collides the moment one
+  // grows. The right-hand chrome then drops in order as it would reach the brand, which keeps a narrow embed from overlapping.
+  var sy=SYMS[sym],ps=price.toFixed(2),cs=(chg>=0?'+':'')+chg.toFixed(2)+'%';
+  mono(12,'700');var w1=ctx.measureText(sy).width; mono(12);var w2=ctx.measureText(ps).width;
+  mono(10.5);var w3=ctx.measureText(cs).width,cw=w1+w2+w3+g*2+18*S;
+  if(w>380*S+cw){
+    ctx.fillStyle='#f7f9fc';rr(cx,cy-12*S,cw,24*S,9*S);ctx.fill();ctx.strokeStyle=LINE;ctx.lineWidth=1;ctx.stroke();
+    mono(12,'700');ctx.fillStyle=INK;ctx.fillText(sy,cx+9*S,cy); mono(12);ctx.fillText(ps,cx+9*S+w1+g,cy);
+    mono(10.5);ctx.fillStyle=chg>=0?TUP:TDN;ctx.fillText(cs,cx+9*S+w1+w2+g*2,cy); lim=cx+cw+14*S;}
+  var eq=bank+(pos?(price-avg)*qty*pos:0),r=x+w-12*S,need=function(n){return r-n>lim;};
+  if(need(86*S))r=stat(r,cy,'DAY P&L',money(dayPnl),dayPnl>=0?TUP:TDN);
+  if(need(98*S))r=clock(r,cy);
+  if(need(86*S))r=stat(r,cy,'EQUITY',money(eq),INK);
+  if(need(86*S))stat(r,cy,'BANKROLL',money(bank),INK);}
+function drawChart(){
+  var X=L.p,Y=L.chY,w=L.w,h=L.chH,i;
+  card(X,Y,w,h,14*S); ctx.save(); rr(X,Y,w,h,14*S); ctx.clip();
+  var padR=58*S,padL=10*S,pw=w-padR-padL,ph=h-32*S,vis=bars.slice(-VISIBLE),n=vis.length,hi=-1e9,lo=1e9;
+  for(i=0;i<n;i++){if(vis[i].h>hi)hi=vis[i].h; if(vis[i].l<lo)lo=vis[i].l;}
+  if(pos){hi=Math.max(hi,avg);lo=Math.min(lo,avg);} // the entry line stays inside the visible range
+  var pd=(hi-lo)*.12||1; hi+=pd; lo-=pd;
+  var y=function(p){return Y+16*S+(1-(p-lo)/(hi-lo))*ph;},slot=pw/VISIBLE,bw=Math.max(1.5,slot*.62);
+  mono(11,'');ctx.textBaseline='middle';ctx.textAlign='left';
+  for(i=0;i<=5;i++){var gp=lo+(hi-lo)*i/5,gy=y(gp); // 5 grid lines and the right-gutter price axis
+    ctx.strokeStyle=GRID;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(X+padL,gy);ctx.lineTo(X+padL+pw,gy);ctx.stroke();
+    ctx.fillStyle=AXIS;ctx.fillText(gp.toFixed(2),X+padL+pw+6*S,gy);}
+  if(pos){var ey=y(avg),lg=pos>0; // dashed entry line with its right-aligned ▲/▼ price label
+    ctx.strokeStyle=lg?'rgba(22,163,74,.55)':'rgba(220,38,38,.55)';ctx.lineWidth=1.5;ctx.setLineDash([5*S,4*S]);
+    ctx.beginPath();ctx.moveTo(X+padL,ey);ctx.lineTo(X+padL+pw,ey);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=lg?CUP:CDN;ctx.textAlign='right';ctx.fillText((lg?'▲ ':'▼ ')+avg.toFixed(2),X+padL+pw-4*S,ey-9*S);
+    ctx.textAlign='left';}
+  for(i=0;i<n;i++){var b=vis[i],xx=X+padL+(i+.5)*slot+(VISIBLE-n)*slot,up=b.c>=b.o,yo=y(b.o),yc=y(b.c);
+    ctx.strokeStyle=ctx.fillStyle=up?CUP:CDN;ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(xx,y(b.h));ctx.lineTo(xx,y(b.l));ctx.stroke(); // wick, then the body
+    ctx.globalAlpha=up?.9:1;ctx.fillRect(xx-bw/2,Math.min(yo,yc),bw,Math.max(1.5,Math.abs(yc-yo)));ctx.globalAlpha=1;}
+  var lb=bars[bars.length-1],ly=y(price); lastPt={x:X+padL+pw,y:ly};
+  ctx.fillStyle=lb.c>=lb.o?CUP:CDN;ctx.fillRect(lastPt.x,ly-9*S,padR-2*S,18*S); // last-price gutter tab
+  ctx.fillStyle='#fff';ctx.fillText(price.toFixed(2),lastPt.x+5*S,ly);
+  for(i=0;i<parts.length;i++){var q=parts[i];ctx.globalAlpha=Math.max(0,Math.min(1,q.life));ctx.fillStyle='rgb('+q.col+')';
+    if(q.txt){mono(18,'800');ctx.textAlign='center';ctx.fillText(q.txt,q.x,q.y);ctx.textAlign='left';mono(11,'');}
+    else{ctx.beginPath();ctx.arc(q.x,q.y,2.4*S,0,6.283);ctx.fill();}}
+  ctx.globalAlpha=1; var r=REG[reg]; sans(10);ctx.fillStyle=MUT;ctx.fillText('Regime',X+14*S,Y+18*S); // regime pill
+  sans(10.5,'600');ctx.fillStyle='#f7f9fc';rr(X+52*S,Y+8*S,ctx.measureText(r[0]).width+18*S,20*S,999);ctx.fill();
+  ctx.strokeStyle=LINE;ctx.stroke();ctx.fillStyle=r[3];ctx.fillText(r[0],X+61*S,Y+18*S);
+  ctx.restore();}
+function drawTape(){
+  var x=L.p,y=L.tapeY,w=L.w,h=L.tapeH,lw=Math.round(46*S),pad=26*S,wid=[],i,k,cx,my=y+h/2;
+  ctx.fillStyle=INK;rr(x,y,w,h,11*S);ctx.fill(); ctx.save();rr(x,y,w,h,11*S);ctx.clip();
+  ctx.fillStyle='#1d4ed8';ctx.fillRect(x,y,lw,h);ctx.textBaseline='middle';ctx.textAlign='left'; // blue-ink label block
+  sans(10,'700');ctx.fillStyle='#e2e8f0';ctx.fillText('TAPE',x+9*S,my); mono(12,''); tapeW=0;
+  for(i=0;i<tape.length;i++){wid[i]=ctx.measureText(tape[i].lead+' '+tape[i].txt).width+pad*2;tapeW+=wid[i];}
+  if(tapeW<1)tapeW=1;
+  for(k=0;k<2;k++){cx=x+lw+tapeX+k*tapeW; // two copies: the scroll wraps with no seam
+    for(i=0;i<tape.length;i++){
+      if(cx+wid[i]>x+lw&&cx<x+w){ctx.fillStyle=tape[i].up?'#86efac':'#fca5a5';ctx.fillText(tape[i].lead,cx+pad,my);
+        ctx.fillStyle='#e2e8f0';ctx.fillText(tape[i].txt,cx+pad+ctx.measureText(tape[i].lead+' ').width,my);}
+      cx+=wid[i];}}
+  ctx.restore();}
+function draw(){
+  var g=ctx.createRadialGradient(W*.7,-H*.1,0,W*.7,-H*.1,Math.max(W,H)*1.2); // the page's own ground
+  g.addColorStop(0,'#fbfcff');g.addColorStop(1,'#eef2f8');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);drawTop();drawChart();drawTape();
+  if(flash){var f=ctx.createRadialGradient(W*.5,H*.6,0,W*.5,H*.6,Math.max(W,H)*.6); // full-bleed close wash
+    f.addColorStop(0,'rgba('+flash.col+','+(.22*Math.max(0,flash.a))+')');f.addColorStop(.6,'rgba('+flash.col+',0)');
+    ctx.fillStyle=f;ctx.fillRect(0,0,W,H);}}
+// Prime a full board before frame one: 58 candles, an open long with its entry line, a close mid-flight. Reduced motion gets this frame and no more.
+(function prime(){
+  fit(); var i,a,v; seedBars(142.3);
+  clk=.42;pos=1;avg=price*.994;qty=Math.round(bank*1.5/price);bank+=1180;dayPnl=1180;
+  for(i=0;i<7;i++)news();
+  draw(); // lastPt is known only after a draw, so the primed burst can land on the price marker
+  for(i=0;i<11;i++){a=Math.random()*6.283;v=(40+Math.random()*130)*S;
+    parts.push({x:lastPt.x,y:lastPt.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-40*S,life:.62,col:'22,163,74'});}
+  parts.push({x:lastPt.x,y:lastPt.y-30*S,vx:0,vy:-70*S,life:.8,col:'22,163,74',txt:'+$1,180'});
+  flash={a:.45,col:'22,163,74'};
+  draw(); // paint synchronously: rAF never fires in a hidden or background tab, and a blank embed is useless
+})();
+// dt must be positive and small before Math.sqrt(): a backgrounded tab or a stamp from another time origin hands back a negative or huge
+// gap, and sqrt(-n) is one NaN that would poison the price for the life of the page.
+function loop(now){
+  var dt=(now-last)/1000; last=now; if(!(dt>0)||dt>.05)dt=.016;
+  step(dt); tapeX-=60*S*dt; if(tapeX<=-tapeW)tapeX+=tapeW;
+  draw(); requestAnimationFrame(loop);}
+addEventListener('resize',function(){fit();draw();});
+// ResizeObserver too: the container can change size without the window doing so.
+if(window.ResizeObserver)new ResizeObserver(function(){fit();draw();}).observe(wrap);
+if(!RM){last=performance.now();requestAnimationFrame(loop);}
+})();
+</script>
+</body>
+</html>

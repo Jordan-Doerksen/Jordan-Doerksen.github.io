@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Glass Atlas ✦ A Field Survey</title>
+<style>
+  /* No webfonts: this file must work offline, inside an itch.io zip and in an iframe, so each of
+     the plate's three voices (display / serif whisper / mono) is a local-or-fallback stack. */
+  :root{--ink:#04060c;--text:#e9edf6;--mute:#97a0b5;--faint:#5e677d;--gold:#d8ac4e;
+    --display:"Space Grotesk",ui-sans-serif,system-ui,"Segoe UI",Arial,sans-serif;
+    --serif:Fraunces,Georgia,"Times New Roman",serif;
+    --mono:"JetBrains Mono",ui-monospace,Consolas,"Courier New",monospace;}
+  html,body{height:100%;margin:0;background:var(--ink);overflow:hidden}
+  #plate{position:fixed;inset:0;width:100%;height:100%;display:block}
+  /* Scrim in CSS, not canvas: the caption block must stay readable over whatever the plate put
+     under it, and a gradient div costs nothing to redraw on resize. */
+  .scrim{position:fixed;inset:auto 0 0 0;height:46%;pointer-events:none;background:linear-gradient(to bottom,rgba(4,6,12,0),rgba(4,6,12,.72) 55%,rgba(4,6,12,.93))}
+  /* The double hairline frame, verbatim from the plate: gold outside, a cooler line just inside. */
+  .frame{position:fixed;inset:clamp(9px,2vmin,22px);border:1px solid rgba(216,172,78,.55);pointer-events:none}
+  .frame::after{content:"";position:absolute;inset:6px;border:1px solid rgba(190,205,255,.10)}
+  /* Furniture is HTML, not canvas — it re-flows for a banner crop while the art behind it is
+     simply regenerated at that aspect. */
+  .furn{position:fixed;inset:clamp(9px,2vmin,22px);padding:clamp(11px,2.4vmin,22px);box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}
+  .eyebrow{display:grid;grid-template-columns:1fr auto 1fr;align-items:baseline;font:500 clamp(7.5px,1.35vmin,12px)/1 var(--mono);letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+  .eyebrow .r{text-align:right}.eyebrow .o{color:rgba(216,172,78,.8);letter-spacing:0}
+  .band{display:flex;flex-direction:column;gap:clamp(8px,1.6vmin,14px)}
+  /* Gold rule with the ✦ sitting on it, separating the field from the caption block. */
+  .rule{position:relative;height:1px;background:rgba(216,172,78,.5)}
+  .rule span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--ink);padding:0 8px;color:rgba(216,172,78,.9);font:12px/1 var(--mono)}
+  .foot{display:flex;align-items:flex-end;justify-content:space-between;gap:clamp(12px,3vmin,40px)}
+  h1{font:600 clamp(17px,4.6vmin,40px)/1.06 var(--display);letter-spacing:-.02em;color:var(--text);margin:0}
+  h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--gold);font-size:1.05em}
+  .sub{font:400 clamp(9px,1.6vmin,14px)/1.4 var(--display);color:var(--mute);margin:.5em 0 0}
+  .cat{text-align:right;font:400 clamp(8px,1.4vmin,13px)/1.55 var(--mono);color:var(--mute);white-space:nowrap}
+  .cat i{font-style:normal;color:var(--faint)}
+  .colophon{text-align:center;font:500 clamp(7px,1.25vmin,11px)/1 var(--mono);letter-spacing:.24em;color:var(--faint);text-transform:uppercase}
+  /* Banner crops: the catalog and the sub-caption go first, the title and the plate line stay. */
+  @media (max-height:400px),(max-width:520px){.cat,.sub{display:none}}
+  @media (max-height:260px){.colophon{display:none}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="plate"></canvas>
+<div class="scrim"></div>
+<div class="frame"></div>
+<div class="furn">
+  <div class="eyebrow"><span id="ebL">PLATE N°07</span><span class="o">✦</span><span class="r">A Field Survey</span></div>
+  <div class="band">
+    <div class="rule"><span>✦</span></div>
+    <div class="foot">
+      <div>
+        <!-- The game builds plate titles as article + serif-italic adjective + noun; its own name
+             already has that shape, so the product title wears the game's own treatment. -->
+        <h1>The <em>Glass</em> Atlas</h1>
+        <p class="sub">Surveyed once. Unlikely to recur.</p>
+      </div>
+      <div class="cat">
+        <div id="c0"></div><div id="c1"></div><div id="c2"></div><div id="c3"></div><div id="c4"></div><i id="c5"></i>
+      </div>
+    </div>
+    <div class="colophon">N°<span id="cNum">07</span> &nbsp;✦&nbsp; Jordan Doerksen &nbsp;✦&nbsp; MMXXVI</div>
+  </div>
+</div>
+<script>
+(function(){
+"use strict";
+var cv=document.getElementById('plate'),ctx=cv.getContext('2d'),furn=document.querySelector('.furn');
+var REDUCED=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var GOLD='#d8ac4e',STAR='#f2f4fa',TAU=6.28318;
+var HUES=[{a:'#4fe3d0',b:'#1d6e8c'},{a:'#c084fc',b:'#5b3a8c'},{a:'#6aa9ff',b:'#27406e'},
+  {a:'#ffaa44',b:'#7a3f1e'},{a:'#8fb7ff',b:'#34507e'},{a:'#5fd6a0',b:'#1f6e54'},{a:'#ff7a8a',b:'#7a2f3e'}];
+var ART=['The','A'];
+var ADJ=['Quiet','Folded','Patient','Hollow','Distant','Unhurried','Pale','Vast','Slow','Forgotten','Drifting','Tilted','Northern','Sunken','Borrowed','Narrow','Late','Half-lit'];
+var NOUN=['Meridian','Drift','Horizon','Expanse','Threshold','Lantern','Passage','Reach','Vault','Lattice','Aperture','Wake','Veil','Furrow','Anchorage','Causeway','Ledger','Margin'];
+var GREEK=['α','β','γ','δ','ε','ζ','η','θ','ι','κ','λ','μ','ν','ξ','ο','π','ρ','σ','τ'];
+var CONST=['And','Lyr','Cyg','Ori','Vel','Dra','Aql','Crv','Lup','Vol','Pyx','Cae','Ant','Hor','Tuc','Gru','Pic'];
+var HOLD=7.5,CROSS=1.9;                       // seconds a plate is held, then crossed to the next
+var W=0,H=0,DPR=1,S=1,seed=(Math.random()*1e9)|0;
+var A={c:document.createElement('canvas')},B={c:document.createElement('canvas')};
+var fade=1,timer=0,swapped=false,last=0;
+
+function hexA(h,a){var n=parseInt(h.slice(1),16);return 'rgba('+(n>>16&255)+','+(n>>8&255)+','+(n&255)+','+a+')';}
+function dot(g,x,y,r){g.beginPath();g.arc(x,y,r,0,TAU);g.fill();}
+// mulberry32, exactly as the game uses it: one seed reproduces one plate, forever.
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
+
+// Renders one plate into pl.c and returns its twinkle set + caption metadata. Positions are in
+// pixels, so a resize re-runs this with the SAME seed and re-composes that plate for the new
+// aspect, instead of stretching a bitmap authored for another one.
+function make(pl,sd){
+  var rng=mulberry32(sd),rr=function(a,b){return a+(b-a)*rng();},ri=function(a,b){return Math.floor(rr(a,b+1));},pick=function(x){return x[ri(0,x.length-1)];};
+  pl.c.width=W*DPR|0;pl.c.height=H*DPR|0;
+  var g=pl.c.getContext('2d');g.setTransform(DPR,0,0,DPR,0,0);
+  var hue=pick(HUES),i,j,x,y,r,q,nb=3+ri(0,2),nc=ri(1,2),nf=ri(2,4);
+  g.fillStyle='#04060c';g.fillRect(0,0,W,H);
+  // 3-5 nebula blooms from ONE hue pair, drawn additively so overlaps brighten instead of muddy.
+  g.globalCompositeOperation='lighter';
+  for(i=0;i<nb;i++){
+    x=rr(0,W);y=rr(0,H*.92);r=rr(150,360)*S;q=g.createRadialGradient(x,y,0,x,y,r);
+    q.addColorStop(0,hexA(i%2?hue.b:hue.a,1));q.addColorStop(1,hexA(i%2?hue.b:hue.a,0));
+    g.globalAlpha=rr(.10,.22);g.fillStyle=q;g.fillRect(0,0,W,H);
+  }
+  g.globalCompositeOperation='source-over';g.globalAlpha=1;
+  // atlas graticule
+  g.strokeStyle='rgba(190,205,255,0.05)';g.lineWidth=1;g.beginPath();
+  for(x=64*S;x<W;x+=64*S){g.moveTo((x|0)+.5,0);g.lineTo((x|0)+.5,H);}
+  for(y=64*S;y<H;y+=64*S){g.moveTo(0,(y|0)+.5);g.lineTo(W,(y|0)+.5);}
+  g.stroke();
+  // Starfield. pow(rand,2.4) keeps almost all of them pinpricks, so the handful of bright ones
+  // read as stars and not as confetti. Density follows area, not the plate's fixed 800x1200.
+  var nRaw=ri(260,460),n=Math.round(nRaw*Math.max(.45,Math.min(2.4,(W*H)/960000))),tw=[];
+  for(i=0;i<n;i++){
+    var s={x:rr(10,W-10),y:rr(10,H-10),r:Math.pow(rng(),2.4)*1.8+.35,a:rr(.25,.95),c:STAR};
+    var warm=rng();s.c=warm<.12?'#ffd9a8':warm>.9?'#bcd0ff':STAR;
+    // 16% are held OUT of the base plate and redrawn every frame as the twinkle overlay.
+    // Under reduced motion there is no overlay, so they are painted in and the field stays full.
+    if(rng()<.16&&!REDUCED){tw.push(s);continue;}
+    g.globalAlpha=s.a;g.fillStyle=s.c;dot(g,s.x,s.y,s.r);
+  }
+  g.globalAlpha=1;
+  // 1-2 constellation chains: scattered nodes joined by a greedy nearest-neighbour path
+  for(j=0;j<nc;j++){
+    var k=ri(5,9),cx=rr(W*.22,W*.78),cy=rr(H*.18,H*.62),sp=rr(110,210)*S,pts=[],path;
+    for(i=0;i<k;i++)pts.push({x:cx+rr(-sp,sp),y:cy+rr(-sp,sp)});
+    path=[pts.shift()];
+    while(pts.length){var bi=0,bd=1e9,lp=path[path.length-1];
+      pts.forEach(function(p,ix){var d=(p.x-lp.x)*(p.x-lp.x)+(p.y-lp.y)*(p.y-lp.y);if(d<bd){bd=d;bi=ix;}});
+      path.push(pts.splice(bi,1)[0]);}
+    g.strokeStyle=hexA(GOLD,.5);g.lineWidth=1;g.beginPath();
+    path.forEach(function(p,ix){ix?g.lineTo(p.x,p.y):g.moveTo(p.x,p.y);});g.stroke();
+    path.forEach(function(p){g.fillStyle=hexA(GOLD,.18);dot(g,p.x,p.y,5*S);
+      g.fillStyle=GOLD;dot(g,p.x,p.y,1.8*S);});
+  }
+  // 2-4 feature stars with 4-point diffraction spikes
+  for(i=0;i<nf;i++){
+    x=rr(W*.1,W*.9);y=rr(H*.1,H*.78);r=rr(2.2,4.2)*S;var col=rng()<.5?GOLD:STAR;
+    q=g.createRadialGradient(x,y,0,x,y,r*9);q.addColorStop(0,hexA(col,.55));q.addColorStop(1,hexA(col,0));
+    g.fillStyle=q;g.fillRect(x-r*9,y-r*9,r*18,r*18);
+    g.strokeStyle=hexA(col,.5);g.lineWidth=1;g.beginPath();g.moveTo(x-r*10,y);g.lineTo(x+r*10,y);
+    g.moveTo(x,y-r*10);g.lineTo(x,y+r*10);g.stroke();
+    g.fillStyle=STAR;dot(g,x,y,r);
+  }
+  // vignette, centred high like the plate's own
+  q=g.createRadialGradient(W/2,H*.42,0,W/2,H*.42,Math.max(W,H)*.78);
+  q.addColorStop(0,'rgba(4,6,12,0)');q.addColorStop(1,'rgba(4,6,12,.85)');
+  g.fillStyle=q;g.fillRect(0,0,W,H);
+  var pn=String(ri(1,99)).padStart(2,'0'),hex=(sd>>>0).toString(16).padStart(8,'0').slice(0,6).toUpperCase();
+  pl.tw=tw;pl.meta={
+    eb:'Plate N°'+pn+' · '+pick(ART)+' '+pick(ADJ)+' '+pick(NOUN),num:pn,
+    cat:['GA–'+ri(1000,9989)+pick(['','',' '+pick(GREEK)+' '+pick(CONST)]),
+      'RA '+String(ri(0,23)).padStart(2,'0')+'h '+String(ri(0,59)).padStart(2,'0')+'m '+String(ri(0,59)).padStart(2,'0')+'s',
+      'DEC '+(rng()<.5?'+':'−')+String(ri(0,89)).padStart(2,'0')+'° '+String(ri(0,59)).padStart(2,'0')+'′ '+String(ri(0,59)).padStart(2,'0')+'″',
+      'MAG +'+rr(0.2,5.8).toFixed(2),'FIELD '+n+' ✦','SEED '+hex]
+  };
+  return pl;
+}
+
+function apply(m){
+  document.getElementById('ebL').textContent=m.eb;document.getElementById('cNum').textContent=m.num;
+  for(var i=0;i<6;i++)document.getElementById('c'+i).textContent=m.cat[i];
+}
+
+function twinkle(list,mul,t){
+  for(var i=0;i<list.length;i++){var s=list[i];
+    ctx.globalAlpha=s.a*(0.45+0.55*Math.abs(Math.sin(t*0.9+i)))*mul;
+    ctx.fillStyle=s.c;dot(ctx,s.x,s.y,s.r);}
+  ctx.globalAlpha=1;
+}
+
+function composite(t){
+  ctx.clearRect(0,0,W,H);ctx.drawImage(A.c,0,0,W,H);
+  if(!REDUCED)twinkle(A.tw,1,t);
+  if(fade<1){                                  // the incoming plate rides over the outgoing one
+    ctx.globalAlpha=fade;ctx.drawImage(B.c,0,0,W,H);ctx.globalAlpha=1;
+    if(!REDUCED)twinkle(B.tw,fade,t);
+  }
+}
+
+function fit(){
+  DPR=Math.min(devicePixelRatio||1,2);
+  W=cv.clientWidth||innerWidth;H=cv.clientHeight||innerHeight;
+  cv.width=W*DPR|0;cv.height=H*DPR|0;ctx.setTransform(DPR,0,0,DPR,0,0);
+  S=Math.max(.55,Math.min(1.6,Math.min(W,H)/700));
+  make(A,seed);apply(A.meta);
+  if(fade<1)make(B,B.seed);                    // a resize mid-cross-fade keeps both plates honest
+  composite(0);                                // paint BEFORE any rAF: a hidden tab must not be blank
+}
+
+function frame(now){
+  var d=Math.min(.05,(now-last)/1000),t=now/1000;last=now;
+  if(fade<1){
+    fade=Math.min(1,fade+d/CROSS);
+    // The caption belongs to the plate, so it dips out and returns with the art, swapping at the
+    // midpoint where both plates are equally present.
+    furn.style.opacity=Math.abs(2*fade-1).toFixed(3);
+    if(!swapped&&fade>=.5){swapped=true;apply(B.meta);}
+    if(fade>=1){var t2=A;A=B;B=t2;seed=A.seed;timer=0;}
+  }else{
+    timer+=d;
+    if(timer>=HOLD){B.seed=(Math.random()*1e9)|0;make(B,B.seed);fade=0;swapped=false;}
+  }
+  composite(t);
+  requestAnimationFrame(frame);
+}
+
+A.seed=seed;
+fit();
+if(typeof ResizeObserver==='function')new ResizeObserver(fit).observe(cv);else addEventListener('resize',fit);
+if(!REDUCED){last=performance.now();requestAnimationFrame(frame);}
+})();
+</script>
+</body>
+</html>

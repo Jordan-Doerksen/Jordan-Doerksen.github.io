@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orbital Field ✦ Gravity Sandbox</title>
+<meta name="theme-color" content="#04060c">
+<style>
+  /* One type voice, as in the game: wide-tracked monospace on near-black, gold the single accent.
+     No webfont — this file has to work offline, inside an itch.io zip and in a cold iframe. */
+  :root{--ink:#04060c;--text:#f2f4fa;--dim:#97a0b5;--faint:#727c98;--gold:#d8ac4e;
+    --mono:"JetBrains Mono",ui-monospace,Consolas,"Courier New",monospace}
+  html,body{height:100%;margin:0;background:var(--ink);overflow:hidden}
+  canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
+  #bg{z-index:0}#fg{z-index:1}
+  /* pointer-events:none everywhere — this screen takes no input of any kind. */
+  .wrap{position:fixed;inset:0;z-index:2;display:flex;align-items:flex-end;justify-content:center;
+    padding:5vmin 5vmin 6vmin;pointer-events:none}
+  .panel{box-sizing:border-box;max-width:34rem;text-align:center;border-radius:12px;
+    padding:clamp(13px,2.8vmin,24px) clamp(16px,3.6vmin,32px);
+    background:rgba(10,15,29,.74);backdrop-filter:blur(14px) saturate(1.1);
+    -webkit-backdrop-filter:blur(14px) saturate(1.1);
+    border:1px solid rgba(114,124,152,.45);box-shadow:0 20px 52px rgba(0,0,0,.55)}
+  /* Wide embeds: the star moves right of centre and the type takes the left third, so the panel
+     never sits on the star. The 1.35 threshold is mirrored in resize() below. */
+  @media (min-aspect-ratio:27/20){
+    .wrap{align-items:center;justify-content:flex-start;padding:5vmin}
+    .panel{text-align:left;max-width:27rem}
+  }
+  .eyebrow,.hints,.colophon{font:500 clamp(8.5px,1.3vmin,10.5px)/1.8 var(--mono);text-transform:uppercase;margin:0}
+  .eyebrow{letter-spacing:.3em;color:var(--gold);margin-bottom:clamp(8px,1.8vmin,14px)}
+  h1{font:600 clamp(19px,4.4vmin,40px)/1.16 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--text);margin:0}
+  h1 b{color:var(--gold);font-weight:600}
+  .lede{font:400 clamp(11px,1.7vmin,13.5px)/1.65 var(--mono);letter-spacing:.01em;color:var(--dim);
+    margin:clamp(9px,1.9vmin,15px) 0 0}
+  .rule{display:flex;align-items:center;gap:11px;color:var(--gold);margin:clamp(11px,2.2vmin,19px) 0}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:rgba(114,124,152,.42)}
+  .rule span{font-size:10px;line-height:1}
+  /* --dim, not --faint: at embed scale this line is ~9px on glass and faint drops below legible. */
+  .hints{letter-spacing:.2em;color:var(--dim)}
+  .hints b{color:var(--gold);font-weight:600}
+  .colophon{letter-spacing:.26em;color:var(--faint);margin-top:clamp(9px,1.8vmin,15px)}
+  .colophon b{color:#9a7a33;font-weight:500}
+  /* Short banner crops: keep title, verbs and colophon; the prose is the first thing to go. */
+  @media (max-height:270px){.lede{display:none}.rule{margin:9px 0}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<canvas id="fg"></canvas>
+<div class="wrap">
+  <main class="panel">
+    <p class="eyebrow">✦ Gravity Sandbox</p>
+    <h1>Orbital <b>Field</b></h1>
+    <p class="lede">A star at the centre, and whatever is still in orbit around it. Worlds that fall
+      in are swallowed. The field seeds more.</p>
+    <div class="rule"><span>✦</span></div>
+    <p class="hints"><b>Drag</b> to fling a world ✦ <b>Hold</b> to bend gravity ✦ <b>Tap</b> for an orbit</p>
+    <!-- No N° here: this game carries no number in the series, and the game's own colophon still
+         reads "The Glass Archive", a retired collective name that is not repeated (CLAUDE.md 2026-07-25). -->
+    <p class="colophon">✦ &nbsp;Jordan Doerksen&nbsp; <b>·</b> &nbsp;MMXXVI</p>
+  </main>
+</div>
+<script>
+(function(){
+'use strict';
+const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const bgc=document.getElementById('bg'),fgc=document.getElementById('fg');
+const bx=bgc.getContext('2d'),fx=fgc.getContext('2d');
+const HUES=['#4fe3d0','#c084fc','#6aa9ff','#ffaa44','#8fb7ff','#5fd6a0','#d8ac4e'];
+const GOLD='#d8ac4e',TAU=Math.PI*2;
+const rr=(a,b)=>a+Math.random()*(b-a);
+let W=0,H=0,DPR=1,LS=1,SS=1,GM=0,SOFT=26,EAT=26,RMIN=70,RMAX=200,TARGET=14,spawnAt=0,last=0;
+const star={x:0,y:0};
+let bodies=[],flashes=[];
+
+function hexA(hex,a){const n=parseInt(hex.slice(1),16);return 'rgba('+(n>>16&255)+','+(n>>8&255)+','+(n&255)+','+a+')';}
+function glow(c,x,y,r,col,a){const g=c.createRadialGradient(x,y,0,x,y,r);
+  g.addColorStop(0,hexA(col,a));g.addColorStop(1,hexA(col,0));
+  c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,TAU);c.fill();}
+
+// Background: blooms, starfield, vignette. Painted once per size — it does not animate in the game either.
+function paintBg(){
+  bx.fillStyle='#04060c';bx.fillRect(0,0,W,H);
+  bx.globalCompositeOperation='lighter';
+  const ha=HUES[Math.floor(rr(0,6))],hb=HUES[Math.floor(rr(0,6))];
+  for(let i=0;i<5;i++){
+    const x=rr(0,W),y=rr(0,H),r=rr(W*.18,W*.5),col=i%2?ha:hb;
+    const g=bx.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0,hexA(col,rr(.05,.12)));g.addColorStop(1,hexA(col,0));
+    bx.fillStyle=g;bx.beginPath();bx.arc(x,y,r,0,TAU);bx.fill();
+  }
+  bx.globalCompositeOperation='source-over';
+  for(let i=0,n=Math.round(W*H/5200);i<n;i++){
+    bx.fillStyle='rgba(242,244,250,'+rr(.15,.8)+')';
+    bx.beginPath();bx.arc(rr(0,W),rr(0,H),Math.pow(Math.random(),2.5)*1.5+.3,0,TAU);bx.fill();
+  }
+  // Vignette centred on the star, not on the canvas: the star is the light source in this frame.
+  const v=bx.createRadialGradient(star.x,star.y,Math.min(W,H)*.2,star.x,star.y,Math.max(W,H)*.75);
+  v.addColorStop(0,'rgba(4,6,12,0)');v.addColorStop(1,'rgba(4,6,12,.9)');
+  bx.fillStyle=v;bx.fillRect(0,0,W,H);
+}
+
+function spawnOrbit(ang,r){
+  const ux=Math.cos(ang),uy=Math.sin(ang),dir=Math.random()<.5?1:-1;
+  // v=sqrt(GM/r) is the circular speed; the 0.85-1.08 jitter is what makes orbits ellipses,
+  // and what eventually drops some of them into the star.
+  const v=Math.sqrt(GM/r)*rr(.85,1.08);
+  bodies.push({x:star.x+ux*r,y:star.y+uy*r,vx:-uy*v*dir,vy:ux*v*dir,
+    hue:HUES[Math.floor(rr(0,HUES.length))],r:rr(1.8,3.6)});
+}
+const seedOne=()=>spawnOrbit(rr(0,TAU),rr(RMIN,RMAX));
+
+function step(dt,now){
+  for(let i=bodies.length-1;i>=0;i--){
+    const b=bodies[i];
+    const dx=star.x-b.x,dy=star.y-b.y,r2=dx*dx+dy*dy+SOFT*SOFT,r=Math.sqrt(r2),a=GM/r2;
+    b.vx+=a*dx/r*dt;b.vy+=a*dy/r*dt;b.x+=b.vx*dt;b.y+=b.vy*dt;
+    if(r<EAT){flashes.push({x:b.x,y:b.y,r:4,a:.9,hue:b.hue});bodies.splice(i,1);continue;}
+    if(b.x<-W||b.x>2*W||b.y<-H||b.y>2*H)bodies.splice(i,1);
+  }
+  // The game refills below 6 bodies every 900ms. An embed must never look near-empty, so this
+  // holds a fuller field and refills faster. Same mechanism, different floor.
+  if(bodies.length<TARGET&&now-spawnAt>420){seedOne();spawnAt=now;}
+  for(let i=flashes.length-1;i>=0;i--){
+    const f=flashes[i];f.r+=260*LS*dt;f.a-=dt*1.6;if(f.a<=0)flashes.splice(i,1);
+  }
+}
+
+function paint(now){
+  // The foreground is never cleared, only faded — that is the light-painting trail, and the whole
+  // field composites additively on top of what is left.
+  fx.globalCompositeOperation='destination-out';
+  fx.fillStyle='rgba(0,0,0,'+(REDUCE?.14:.075)+')';fx.fillRect(0,0,W,H);
+  fx.globalCompositeOperation='lighter';
+  const pulse=REDUCE?1:1+.06*Math.sin(now/700);
+  glow(fx,star.x,star.y,46*SS*pulse,GOLD,.16);
+  glow(fx,star.x,star.y,15*SS*pulse,'#fff7e0',.6);
+  for(const b of bodies){
+    glow(fx,b.x,b.y,b.r*5,b.hue,.32);
+    fx.globalAlpha=.9;fx.fillStyle='#fff';
+    fx.beginPath();fx.arc(b.x,b.y,b.r*.7,0,TAU);fx.fill();fx.globalAlpha=1;
+  }
+  for(const f of flashes){
+    fx.strokeStyle=hexA(f.hue,f.a);fx.lineWidth=2;
+    fx.beginPath();fx.arc(f.x,f.y,f.r,0,TAU);fx.stroke();
+  }
+  fx.globalCompositeOperation='source-over';
+}
+
+// Frame one has to arrive already smeared into ribbons. rAF does not fire in a hidden or background
+// tab, so the trail history is simulated and painted here, synchronously, before any loop exists.
+function warm(){
+  const dt=1/60;
+  for(let i=0;i<120;i++){
+    const t=i*1000/60;
+    step(dt,t);
+    // Late enough that the ring is still expanding when the first visible frame lands.
+    if(i===96){const a=rr(0,TAU),d=EAT*1.2;
+      flashes.push({x:star.x+Math.cos(a)*d,y:star.y+Math.sin(a)*d,r:4,a:.9,hue:HUES[Math.floor(rr(0,HUES.length))]});}
+    paint(t);
+  }
+}
+
+function resize(){
+  const nw=Math.max(1,fgc.clientWidth||innerWidth),nh=Math.max(1,fgc.clientHeight||innerHeight);
+  if(nw===W&&nh===H)return;                       // ResizeObserver also fires once on observe()
+  W=nw;H=nh;DPR=Math.min(2,devicePixelRatio||1);
+  bgc.width=fgc.width=W*DPR;bgc.height=fgc.height=H*DPR;
+  bx.setTransform(DPR,0,0,DPR,0,0);fx.setTransform(DPR,0,0,DPR,0,0);
+  LS=Math.max(.42,Math.min(1.4,Math.min(W,H)/760));
+  SS=Math.max(.62,LS);                            // the star and its bite stay legible on a short banner
+  GM=3.2e6*LS*LS*LS;                              // cubing the length scale holds orbit PERIODS constant at any size
+  SOFT=26*LS;EAT=26*SS;
+  RMIN=Math.max(72*LS,46*SS);                     // never seed inside the swallow radius
+  TARGET=Math.max(9,Math.min(22,Math.round(W*H/26000)));
+  // 1.35 mirrors min-aspect-ratio:27/20 in the CSS: wide puts the star right, type left.
+  const wide=W/H>=1.35;
+  star.x=W*(wide?.68:.5);star.y=H*(wide?.5:.36);
+  // Orbits stay inside the short axis; when the type sits at the bottom the envelope is also
+  // capped at 0.32H so the system hangs above the panel instead of orbiting through it.
+  RMAX=Math.max(RMIN*1.4,Math.min(Math.min(W,H)*.44,wide?1e9:H*.32));
+  bodies=[];flashes=[];spawnAt=-1e4;
+  for(let i=0;i<TARGET;i++)seedOne();
+  paintBg();warm();
+}
+
+function frame(now){
+  const dt=Math.min(.033,(now-last)/1000)||1/60;last=now;
+  step(dt,now);paint(now);requestAnimationFrame(frame);
+}
+
+addEventListener('resize',resize);
+// The container can change size without the window doing so — an embed can be re-laid-out alone.
+if(self.ResizeObserver)new ResizeObserver(resize).observe(fgc);
+resize();                                         // frame one, painted synchronously
+if(!REDUCE){last=performance.now();requestAnimationFrame(frame);}
+})();
+</script>
+</body>
+</html>
