@@ -158,6 +158,7 @@ def main():
     # channel half a row ABOVE row 0, which lands at y=0 without headroom - a
     # track drawn flush along the panel's top edge.
     COL_W, ROW_H, PAD, PAD_TOP, R = 172, 68, 34, 52, 6.5
+    CLEAR, CH_GAP = R + 3.0, 96.0
     tour_ids = []
     for t in tours:
         for sid in t["steps"]:
@@ -171,79 +172,104 @@ def main():
     for col, ids in by_col.items():
         ids.sort(key=lambda s: nodes[s].get("row", 0))
         for idx, sid in enumerate(ids):
-            pos[sid] = (PAD + col * COL_W, PAD_TOP + idx * ROW_H)
+            # Stagger alternate columns by half a row. This is what makes the
+            # routing simple: with every column sharing rows, a straight wire
+            # from column 0 lands exactly on a dot in column 2, so the router
+            # had to jog around it. Offset the columns and that stops happening
+            # by construction - the layout does the work, not the router.
+            stagger = (col % 2) * (ROW_H / 2.0)
+            pos[sid] = (PAD + col * COL_W, PAD_TOP + idx * ROW_H + stagger)
 
     mesh_w = PAD * 2 + (max(by_col) + 1) * COL_W
-    mesh_h = PAD_TOP + PAD + max(len(v) for v in by_col.values()) * ROW_H
+    mesh_h = PAD_TOP + PAD + max(len(v) for v in by_col.values()) * ROW_H + ROW_H / 2.0
 
     shared = {sid for sid in tour_ids
               if sum(1 for t in tours if sid in t["steps"]) > 1}
 
     # ---- track routing --------------------------------------------------
-    # Owner: route these like railway tracks so a wire never runs across a part
-    # it has nothing to do with.
+    # THE RULE (owner): wires may cross each other. Wires may NOT pass through a
+    # part. Nothing else is enforced.
     #
-    # Five segments, all orthogonal:
-    #   1 short hop right out of the source, inside the source column's gutter
-    #   2 vertical down that gutter to a ROW CHANNEL
-    #   3 the long horizontal, in the channel BETWEEN two node rows
-    #   4 vertical down the target column's gutter
-    #   5 short hop into the target
+    # The previous router also kept every wire in its own channel, so parallel
+    # runs never overlapped. That second constraint bought nothing a reader
+    # cares about and cost a ladder of jogs - "overly complex for no reason".
     #
-    # The row channel is the part that matters. Two earlier attempts ran the long
-    # horizontal at a node's own row - first the source's, then the target's -
-    # and both cut through every part sharing that row in the columns between.
-    # Dots sit exactly on rows, so a channel at the midpoint between rows is
-    # clear of all of them by half a row.
-    CH_BASE, CH_STEP, CORNER = 30.0, 9.0, 7.0
+    # Now each wire takes the SIMPLEST orthogonal shape that clears every other
+    # part: a straight run if it can, then a single corner, then two. Crossings
+    # between wires are allowed and are not counted.
+    CORNER = 7.0
 
-    per_gutter = {}
-    ordered = [(a, b, e) for (a, b), e in links.items() if a in pos and b in pos]
-    for a, b, _e in ordered:
-        per_gutter.setdefault(nodes[a].get("col", 0), []).append((a, b))
+    def clears(points, a, b):
+        """True when no segment passes within CLEAR of a part that is not an end."""
+        for i in range(len(points) - 1):
+            (px, py), (qx, qy) = points[i], points[i + 1]
+            lo_x, hi_x = min(px, qx), max(px, qx)
+            lo_y, hi_y = min(py, qy), max(py, qy)
+            for sid, (nx, ny) in pos.items():
+                if sid in (a, b):
+                    continue
+                if (lo_x - CLEAR < nx < hi_x + CLEAR
+                        and lo_y - CLEAR < ny < hi_y + CLEAR):
+                    return False
+        return True
 
     def route(a, b):
-        """Corner points of one wire. The single source of truth for its shape."""
+        """Simplest orthogonal route from a to b that clears every other part."""
         x1, y1 = pos[a]
         x2, y2 = pos[b]
-        k = per_gutter[nodes[a].get("col", 0)].index((a, b))
-        jitter = (k % 4) * CH_STEP
-
         sx, ex = x1 + R, x2 - R
-        cx1 = x1 + COL_W - CH_BASE - jitter
-        cx2 = x2 - CH_BASE + jitter * 0.5
+        gut = (COL_W - CH_GAP) / 2.0        # the empty band between two columns
 
-        same_row = abs(y1 - y2) < 0.5
-        # A straight track is only honest when the row is actually clear. Five of
-        # these parts share row 0, so tws -> capture spans two columns and ran
-        # straight through live-session sitting between them. Check first.
-        blocked = any(
-            sid not in (a, b) and abs(ny - y1) < 0.5 and min(x1, x2) < nx < max(x1, x2)
-            for sid, (nx, ny) in pos.items())
+        candidates = []
+        if abs(y1 - y2) < 0.5:
+            candidates.append([(sx, y1), (ex, y2)])          # straight
+        candidates.append([(sx, y1), (ex, y1), (ex, y2)])    # one corner, turn late
+        candidates.append([(sx, y1), (sx, y2), (ex, y2)])    # one corner, turn early
+        # two corners: drop into the gutter just past the source, then across
+        cx = x1 + COL_W - gut
+        candidates.append([(sx, y1), (cx, y1), (cx, y2), (ex, y2)])
+        # two corners the other way: across first, down the target's gutter
+        cx2 = x2 - gut
+        candidates.append([(sx, y1), (cx2, y1), (cx2, y2), (ex, y2)])
+        for pts in candidates:
+            if clears(pts, a, b):
+                return pts
 
-        if same_row and x2 > x1 and not blocked:
-            return [(sx, y1), (ex, y2)]
-
-        # The channel between rows. For a blocked same-row run, lift into the gap
-        # ABOVE the row: clear of these dots, of the row above's dots, and of the
-        # labels, which sit 13-21px over their own dot.
-        if same_row:
-            ry = y1 - ROW_H / 2.0
-        else:
-            ry = y2 - ROW_H / 2.0 if y2 > y1 else y2 + ROW_H / 2.0
-
-        if x2 > x1 and cx2 > cx1 + CORNER * 2:
-            return [(sx, y1), (cx1, y1), (cx1, ry), (cx2, ry), (cx2, y2), (ex, y2)]
-        # Backward or same-column: drop into the channel and come back along it.
-        cx = min(cx1, cx2)
-        return [(sx, y1), (cx, y1), (cx, ry), (ex - CH_BASE, ry),
-                (ex - CH_BASE, y2), (ex, y2)]
+        # Nothing simple fits, so find a clear LANE rather than inventing another
+        # bespoke shape. Lanes sit between rows, searched outward from the source;
+        # the first one that clears wins. This is what a long wire spanning three
+        # columns needs - live-session -> r-live had no simple route at all.
+        # Consider EVERY lane in the panel, nearest to the wire first. Searching
+        # only from the source's own row left a three-column wire with no lane
+        # once the panel bounds were enforced; the lane it needed existed, just
+        # not at a whole-row offset from where it started.
+        # A lane outside the panel is not a lane - the SVG does not clip, and an
+        # unbounded search drew a wire above the top border.
+        top = PAD_TOP - ROW_H / 2.0 + 8.0
+        bottom = max(p[1] for p in pos.values()) + ROW_H / 2.0 - 8.0
+        lanes = []
+        ry = top
+        while ry <= bottom:
+            lanes.append(ry)
+            ry += ROW_H / 2.0
+        lanes.sort(key=lambda v: abs(v - (y1 + y2) / 2.0))
+        for ry in lanes:
+            pts = [(sx, y1), (cx, y1), (cx, ry), (cx2, ry), (cx2, y2), (ex, y2)]
+            if clears(pts, a, b):
+                return pts
+        return candidates[-1]
 
     def path_of(points):
         """Rounded orthogonal path through the corner points."""
-        d = ["M%.1f %.1f" % points[0]]
-        for i in range(1, len(points) - 1):
-            (px, py), (cx, cy), (nx, ny) = points[i - 1], points[i], points[i + 1]
+        pts = [points[0]]
+        for q in points[1:]:
+            if abs(q[0] - pts[-1][0]) > 0.1 or abs(q[1] - pts[-1][1]) > 0.1:
+                pts.append(q)
+        if len(pts) < 2:
+            return "M%.1f %.1f" % points[0]
+        d = ["M%.1f %.1f" % pts[0]]
+        for i in range(1, len(pts) - 1):
+            (px, py), (cx, cy), (nx, ny) = pts[i - 1], pts[i], pts[i + 1]
             dx1, dy1 = cx - px, cy - py
             dx2, dy2 = nx - cx, ny - cy
             l1 = max(abs(dx1), abs(dy1)) or 1.0
@@ -252,8 +278,10 @@ def main():
             d.append("L%.1f %.1f" % (cx - dx1 / l1 * r, cy - dy1 / l1 * r))
             d.append("Q%.1f %.1f %.1f %.1f"
                      % (cx, cy, cx + dx2 / l2 * r, cy + dy2 / l2 * r))
-        d.append("L%.1f %.1f" % points[-1])
+        d.append("L%.1f %.1f" % pts[-1])
         return " ".join(d)
+
+    ordered = [(a, b, e) for (a, b), e in links.items() if a in pos and b in pos]
 
     mesh_links = []
     for a, b, e in ordered:
@@ -263,24 +291,10 @@ def main():
             % (esc(a), esc(b), esc(a), esc(b), path_of(route(a, b)),
                esc(e.get("label") or (a + " to " + b))))
 
-    # Self-check: does any track run over a part it has nothing to do with?
-    # Every segment is axis-aligned, so a hit is an interval test. This is the
-    # claim the routing exists to make, so it is measured, not assumed - and it
-    # reads the SAME route() the drawing used.
-    CLEAR = R + 3.0
-    crossings = []
-    for a, b, _e in ordered:
-        pts = route(a, b)
-        for i in range(len(pts) - 1):
-            (px, py), (qx, qy) = pts[i], pts[i + 1]
-            lo_x, hi_x = min(px, qx), max(px, qx)
-            lo_y, hi_y = min(py, qy), max(py, qy)
-            for sid, (nx, ny) in pos.items():
-                if sid in (a, b):
-                    continue
-                if (lo_x - CLEAR < nx < hi_x + CLEAR
-                        and lo_y - CLEAR < ny < hi_y + CLEAR):
-                    crossings.append((a, b, sid))
+    # Self-check reads the SAME route(), so it cannot drift from what is drawn.
+    # Wire-to-wire crossings are deliberately not counted - they are allowed.
+    crossings = [(a, b) for a, b, _e in ordered if not clears(route(a, b), a, b)]
+    corners = sum(max(0, len(route(a, b)) - 2) for a, b, _e in ordered)
 
     def mesh_label(n):
         """A node name a person can read.
@@ -341,11 +355,15 @@ def main():
     print("  %d tours | batch %d | %d nodes, %d links in source"
           % (len(tours), batch, len(g["nodes"]), len(g["links"])))
     if crossings:
-        print("  WARNING: %d track(s) pass over an unrelated part:" % len(crossings))
-        for a, b, sid in crossings[:8]:
-            print("    %s -> %s crosses %s" % (a, b, sid))
+        print("  WARNING: %d wire(s) pass through a part:" % len(crossings))
+        for a, b in crossings[:8]:
+            print("    %s -> %s" % (a, b))
     else:
-        print("  no track passes over an unrelated part (%d wires checked)" % len(ordered))
+        print("  no wire passes through a part (%d checked)" % len(ordered))
+    # Elegance metric: bends. Wire-to-wire crossings are allowed and uncounted.
+    print("  %d bends across %d wires (%.2f per wire); %d wires are straight"
+          % (corners, len(ordered), corners / float(len(ordered) or 1),
+             sum(1 for a, b, _e in ordered if len(route(a, b)) == 2)))
     print("  stage.js present: %s" % (OUT_DIR / "stage.js").is_file())
     return 0
 
