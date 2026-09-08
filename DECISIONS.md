@@ -377,6 +377,36 @@ line from D-A24 also stands.
 Request, and must state what a visitor loses with scripting off. Adding a second tour on screen
 at once is also a Change Request — one path at a time is the answer to "too much nobody clicks".
 
+### D-A26 — The tiers become sections of one scroll, and the atmosphere changes between them (2026-09-08, owner)
+The three tiers stop being three pages and become three **sections of one continuous
+scroll**: the intro, then the work, then the games. The palette changes as you move between
+them, so each tier has its own atmosphere.
+
+**This does not overturn D-A12 or D-A23, it completes them.** D-A12 split the tiers by
+audience; that split survives, and each section still carries one dominant idea. D-A23
+already permitted a per-tier palette and named the through-line as the type scale, the
+spacing rhythm and the component grammar — not colour. A scroll that changes ground colour
+between sections is exactly the case D-A23 was written for.
+
+| Section | Atmosphere | State |
+|---|---|---|
+| 1 · intro | **Stagecraft v2**, light "Drafting Paper" — `#EFF2F6`, drafting blue `#0D4FA0` | **not built** |
+| 2 · the work | Drafting Monolith, dark — the stage and the mesh | built (CR-12, CR-14) |
+| 3 · games | Near-black `#08090C`, hot `#FF6B4A` — the wall of attract screens | built (CR-15) |
+
+**Built at `/docs/site/` first, promoted to the root after review** (owner's call). The live
+front door is not touched while tier 1 — which has never been built — takes its passes.
+
+**The transition is a section property, not a scroll effect.** Each section paints its own
+ground, so the palette is correct with JavaScript off and under reduced motion; a script only
+cross-fades the page-level wash between them. **Change Rule:** if the palette of a section
+depends on a scroll listener to be correct, that is a defect, not a feature.
+
+**Weight is the real risk.** One document would hold the tier-2 stage, the mesh, and ten game
+iframes. Tier 3's reconcile already refuses to mount a panel that is not near the viewport, so
+the games cost nothing until reached — that behaviour is now load-bearing for the whole page,
+not just for tier 3.
+
 ## Build Timeline
 - C0 Manifest + ARCHITECTURE.md — this commit
 - C1 Data layer: registry rebuild + ~50 `data/projects/*.json` (parallel agents, one per reference section)

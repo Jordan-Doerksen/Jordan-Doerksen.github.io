@@ -140,8 +140,17 @@ TEMPLATE = """<!doctype html>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 :root{
-  --paper:#08090C; --sheet:#11141A; --hair:#1C212A; --deep:#0B0D12;
-  --ink:#F2F4F8; --ink-2:#AEB6C4; --muted:#6B7484;
+  /* A LIT ROOM, not a second dark one (D-A26, owner 2026-09-08).
+     Composed into one scroll, tier 2 (#0B0E13) and tier 3 sat 9 apart in RGB -
+     the same colour to any eye, in a design whose whole point is one atmosphere
+     per section. Warming it only reached 13: at near-black luminance no hue
+     separates two grounds. So the arcade lifts to a warm charcoal and the
+     sequence becomes light -> dark -> lit.
+     The cabinets go DARKER than the wall, so a panel reads as recessed.
+     --muted had to move with the ground: the old #6B7484 measured 3.44:1 here
+     and failed AA. #9A8C84 is 4.98:1. */
+  --paper:#2A1E18; --sheet:#191110; --hair:#3A2A22; --deep:#120C0A;
+  --ink:#F2F4F8; --ink-2:#AEB6C4; --muted:#9A8C84;
   --hot:#FF6B4A;
   --display:Archivo,"Arial Black",sans-serif;
   --sans:"IBM Plex Sans",system-ui,sans-serif;
