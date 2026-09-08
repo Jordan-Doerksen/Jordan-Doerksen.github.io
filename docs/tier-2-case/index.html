@@ -122,10 +122,17 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
 .btn:focus-visible{outline:2px solid var(--live);outline-offset:2px}
 .readout{font:400 11px/1 var(--mono);color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
 
-/* JS on: the mesh starts dark and lights part by part as cards file down. */
-.mesh[data-js="on"] .mnode{opacity:.18;transition:opacity .5s ease}
-.mesh[data-js="on"] .mlink{opacity:0;transition:opacity .6s ease}
-.mesh[data-js="on"] .mnode.on{opacity:1}
+/* JS on: the mesh starts unlit and lights part by part as cards file down.
+   A node that is not yet reached is DE-EMPHASISED, never illegible. Fading the
+   whole <g> was the bug: it took the label's knockout halo down with it, so the
+   name ended up muted grey at 18% on near-black and could not be read at all.
+   The two states are carried by colour and by the circle's fill instead, and
+   the text never drops below --ink-2. */
+.mesh[data-js="on"] .mnode{opacity:1}
+.mesh[data-js="on"] .mnode circle{fill:var(--deep);stroke:var(--wire);
+  transition:fill .5s ease,stroke .5s ease}
+.mesh[data-js="on"] .mnode text{fill:var(--ink-2);transition:fill .5s ease}
+.mesh[data-js="on"] .mlink{opacity:.22;transition:opacity .6s ease}
 .mesh[data-js="on"] .mnode.on circle{fill:var(--live);stroke:var(--live);
   animation:pop .5s cubic-bezier(.2,.8,.3,1) both}
 .mesh[data-js="on"] .mnode.on text{fill:var(--ink)}
