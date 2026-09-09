@@ -298,27 +298,32 @@ body{margin:0;background:#EFF2F6;color:#0F1720;
     <!-- "The games are small and finish" was a false claim and the owner caught it:
          none of them is finished. Removed rather than softened. The honest line is
          that they run, which is a different and smaller claim. -->
+    <!-- "The trading tools are read-only" was too broad: the analysis side is,
+         the execution side is not. Corrected by the owner, 2026-09-08. -->
     <p class="intro">Most of what I build watches something and refuses to guess. The
-    trading tools are read-only by design and fail closed. The training software cites the
-    rule it is drilling. <b>Everything below runs; nothing here is a mockup.</b> Running is
-    not the same as finished, and the games are where that shows.</p>
+    analysis tools are read-only by design; the ones that act fail closed. The training
+    software cites the rule it is drilling. <b>Everything below runs; nothing here is a
+    mockup.</b> Running is not the same as finished, and the games are where that shows.</p>
 
     <div class="stats">@@stats@@</div>
 
     <div class="what">
       <div><span class="k">Instruments</span>
-        <h2>Read-only market tools</h2>
-        <p>A desk that records and measures, and never places an order. Guards that are
-        broken on purpose to prove they catch what they claim.</p></div>
+        <h2>Market analysis, and the bots that act on it</h2>
+        <p>Read-only analysis and depth-of-book recording on one side; execution
+        algorithms on the other. <b>The analysis never places an order</b> — that is built
+        in, not configured. The execution side fails closed. Both are guarded heavily and
+        tested hard.</p></div>
       <div><span class="k">Training</span>
         <h2>Rail software</h2>
-        <p>Rule drills and switching simulations, every answer traced back to the rule
-        book rather than to memory.</p></div>
+        <p>CROR rule drills, switching, signals, and general railroad safety.
+        <b>Every answer cites the exact rule it came from.</b> The rulebook governs, not
+        recall.</p></div>
       <div><span class="k">Games</span>
-        <h2>Ten games that run</h2>
-        <p>Playable in a browser with nothing to install, and each ships its own attract
-        screen. <b>None of them is finished</b> — they are where a mechanic gets tried
-        before it earns anything larger.</p></div>
+        <h2>Ten experiments</h2>
+        <p>Ideas I wanted to see run — to play, or to find out whether I could. The method
+        moved from single HTML files that need no installation to config-driven, typed,
+        systems-heavy builds. <b>None is finished.</b> All of them run.</p></div>
     </div>
 
     <div class="onward">
