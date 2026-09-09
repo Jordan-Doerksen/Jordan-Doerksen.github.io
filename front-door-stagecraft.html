@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en" data-root="">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jordan Doerksen</title>
+<meta name="description" content="Rail trainers, a read-only trading desk, games, bots, and small tools — built one at a time in Winnipeg, mostly because something was annoying enough to fix. Most of them have a write-up.">
+<meta name="theme-color" content="#0b0b0d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230b0b0d'/%3E%3Ctext x='50' y='73' font-size='66' text-anchor='middle' fill='%23f0b429'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/stagecraft.tokens.css">
+<link rel="stylesheet" href="styles/stagecraft.base.css">
+<link rel="stylesheet" href="styles/stagecraft.compose.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- PERSISTENT CHROME — the only three clusters on this site:
+     identity+nav · orientation (the progress hairline) · primary action (find) -->
+<header class="chrome">
+  <div class="chrome-in">
+    <a class="mark" href="/">Jordan Doerksen <b>✦</b></a>
+    <nav class="chrome-nav" aria-label="Sections">
+      <a href="#start">Worth a look</a>
+      <a href="#index">The list</a>
+      <a href="/desk/">Desk</a>
+    </nav>
+    <button class="find" type="button">Find <kbd>Ctrl K</kbd></button>
+  </div>
+  <div class="progress" aria-hidden="true"></div>
+</header>
+
+<main id="main">
+
+  <!-- ZONE: viewport_stage — one promise, one next cue, nothing else -->
+  <section class="stage wrap">
+    <p class="folio">Winnipeg <b>·</b> 2026</p>
+    <!-- the space before .step matters: the span is display:block so it never
+         renders, but without it a screen reader says "Some of thisis worth a look" -->
+    <h1>Some of this <span class="step">is worth a look.</span></h1>
+    <p class="lede">Rail trainers, a read-only trading desk, games, bots, and small tools.
+      Built one at a time, mostly because something was annoying enough to fix.</p>
+    <a class="cue" href="#start">Four I'd point you at first <span class="arw" aria-hidden="true">↓</span></a>
+
+    <!-- ZONE: edge_annotation — counts refresh from the registry; the numbers
+         printed here are true at publish and never the only source of truth -->
+    <p class="note">
+      <span><b data-stat="total">57</b> projects</span>
+      <span><b data-stat="documented">30</b> written up</span>
+      <span><b data-stat="live">22</b> you can open right now</span>
+    </p>
+  </section>
+
+  <!-- ZONE: content_band — quiet chapter, controlled measure -->
+  <section class="chapter quiet wrap">
+    <div class="chapter-head">
+      <h2>What this is</h2>
+      <span class="folio bare">§ 00</span>
+    </div>
+    <p class="body-copy">None of it is a product. Each one exists because something was
+      annoying enough to fix — a rulebook that wouldn't stay in my head, a market I wanted
+      to read without touching, a game I wanted to exist.</p>
+    <p class="body-copy">The count isn't the interesting part. What might actually be worth
+      your time is the write-up behind most of them: what it's made of, how data moves
+      through it, and which decisions you'd have to argue with to change it. <strong>If
+      something here has nothing behind it, it says so</strong> — private, frozen, or
+      retired, never a dead link.</p>
+    <a class="turn" href="#start">Four, then the whole list</a>
+  </section>
+
+  <!-- ZONE: content_band — the curated sequence. Four bands, not four cards:
+       each has its own numeral and reading rhythm. Hard-coded on purpose so the
+       page still makes its case with the registry fetch dead. -->
+  <section class="chapter wrap" id="start" aria-labelledby="start-h">
+    <div class="chapter-head">
+      <h2 id="start-h">Where I'd start</h2>
+      <span class="folio bare">§ 01 — 04</span>
+    </div>
+
+    <div class="works">
+
+      <a class="work-item enter" href="/atlas/?p=warden">
+        <span class="work-num" aria-hidden="true">01</span>
+        <span class="work-side">
+          <span class="k">Trading · active · private</span>
+          <h3>Warden</h3>
+          <p>The self-hosted workspace with the whole Sentinel desk inside it.
+             Reads everything, trades nothing.</p>
+          <span class="work-spec"><span>FASTAPI</span><span>LOCAL LLM</span><span>READ-ONLY</span></span>
+          <span class="work-open">How it works <span class="arw" aria-hidden="true">→</span></span>
+        </span>
+      </a>
+
+      <a class="work-item enter" href="/atlas/?p=clear-board">
+        <span class="work-num" aria-hidden="true">02</span>
+        <span class="work-side">
+          <span class="k">Rail · live</span>
+          <h3>Clear Board</h3>
+          <p>The unified CROR qualification trainer — the one that absorbed the other four.</p>
+          <span class="work-spec"><span>REACT + TAURI</span><span>CROR</span><span>FREE</span></span>
+          <span class="work-open">How it works <span class="arw" aria-hidden="true">→</span></span>
+        </span>
+      </a>
+
+      <a class="work-item enter" href="/atlas/?p=spectrum">
+        <span class="work-num" aria-hidden="true">03</span>
+        <span class="work-side">
+          <span class="k">Signals · active</span>
+          <h3>Spectrum</h3>
+          <p>The one that ate the other three. A Rust engine reads the news;
+             a local LLM sorts it.</p>
+          <span class="work-spec"><span>RUST + TAURI</span><span>NO API KEYS</span></span>
+          <span class="work-open">How it works <span class="arw" aria-hidden="true">→</span></span>
+        </span>
+      </a>
+
+      <a class="work-item enter" href="/atlas/?p=fulfillment">
+        <span class="work-num" aria-hidden="true">04</span>
+        <span class="work-side">
+          <span class="k">Games · live</span>
+          <h3>Fulfillment</h3>
+          <p>A deterministic corporate space survivor. Fly the shift, draft the rack,
+             meet management. Every courier is replaceable.</p>
+          <span class="work-spec"><span>GODOT 4.7</span><span>DETERMINISTIC 60HZ</span><span>ON ITCH</span></span>
+          <span class="work-open">How it works <span class="arw" aria-hidden="true">→</span></span>
+        </span>
+      </a>
+
+    </div>
+
+    <a class="turn" href="#index">Everything else</a>
+  </section>
+
+  <!-- ZONE: content_band — the direct index. Titles beat thumbnails here, so the
+       list is typographic. Cards would be 57 empty rectangles. -->
+  <section class="chapter wrap" id="index" aria-labelledby="index-h">
+    <div class="chapter-head">
+      <h2 id="index-h">The rest of it</h2>
+      <span class="folio bare">Everything, by section</span>
+    </div>
+
+    <div class="index-tools">
+      <input class="index-filter" type="search" autocomplete="off"
+             aria-label="Filter the list" placeholder="Filter by name, tag, stack, status…">
+      <div class="chips" role="group" aria-label="Filter by section"></div>
+      <span class="index-count" role="status" aria-live="polite"></span>
+    </div>
+
+    <div class="index" data-wing="all">
+      <noscript><p class="index-empty">The list needs JavaScript. The repos live at
+        <a href="https://github.com/Jordan-Doerksen">github.com/Jordan-Doerksen</a>.</p></noscript>
+    </div>
+
+    <a class="turn" href="#method">Where the write-ups come from</a>
+  </section>
+
+  <!-- ZONE: content_band — quiet close before resolution -->
+  <section class="chapter quiet wrap" id="method" aria-labelledby="method-h">
+    <div class="chapter-head">
+      <h2 id="method-h">How the write-ups work</h2>
+      <span class="folio bare">§ 05</span>
+    </div>
+    <p class="body-copy">Each one that's written up gets a single page, rendered from one
+      JSON file by one template. Adding a project is an object in a list; writing it up is a
+      file and a hand-drawn diagram. No page code changes, no build step.</p>
+    <ol class="ol-steps enter">
+      <li>A list entry gives it a name, a section, an honest status, and one line of description.</li>
+      <li>A project file adds the stack, the components, the data flow, and the decisions.</li>
+      <li>A hand-drawn SVG shows how data actually moves — no diagram engine, no runtime deps.</li>
+      <li>One template renders all three. If there's no write-up yet, the page says so.</li>
+    </ol>
+    <a class="turn" href="/atlas/?p=clear-board">Read one — Clear Board</a>
+  </section>
+
+</main>
+
+<!-- ZONE: footer_resolution — closure and routes, not a second homepage -->
+<footer class="site">
+  <div class="wrap">
+    <div class="f-grid">
+      <h2>Made in Winnipeg, one at a time.</h2>
+
+      <div class="f-col">
+        <h3>Sections</h3>
+        <a href="/rail/">Rail</a>
+        <a href="/games/">Games</a>
+        <a href="/trading/">Trading</a>
+        <a href="/studio/">Studio</a>
+        <a href="/signals/">Signals</a>
+        <a href="/bots/">Bots</a>
+        <a href="/tools/">Tools</a>
+      </div>
+
+      <div class="f-col">
+        <h3>Elsewhere</h3>
+        <a href="https://github.com/Jordan-Doerksen">GitHub</a>
+        <a href="mailto:doerksen.jordan@gmail.com">doerksen.jordan@gmail.com</a>
+        <a href="/desk/">The Tool Desk</a>
+        <a href="/docs/legacy-front-door.html">Previous front page</a>
+      </div>
+    </div>
+
+    <p class="colophon">
+      <span>✦ Jordan Doerksen · 2026</span>
+      <span>Layout rules borrowed from sites that won awards</span>
+      <span>Static HTML · no build step · no framework</span>
+      <span><a href="https://github.com/Jordan-Doerksen/jordan-doerksen.github.io">Source</a></span>
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="js/shell/boot.js"></script>
+</body>
+</html>

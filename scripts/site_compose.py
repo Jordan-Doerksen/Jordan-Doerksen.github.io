@@ -18,7 +18,13 @@ paints its own ground, so the palette is right with JavaScript off and under
 reduced motion. atmos.js only cross-fades the page-level wash between them.
 
 Usage:
-    python scripts/site_compose.py
+    python scripts/site_compose.py           # build at docs/site/ for review
+    python scripts/site_compose.py --root    # promote: build as the site index
+
+PROMOTION rewrites depth. docs/site/ sits two levels down, so the tier markup it
+reuses carries `../../games/`, `../../demos/`, `../../assets/`. At the root those
+prefixes are wrong, and the three scripts move to js/site/ so the index does not
+reach up into docs/ for its behaviour.
 """
 
 import json
@@ -29,6 +35,14 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = REPO_ROOT / "docs" / "site"
 OUT_PATH = OUT_DIR / "index.html"
+
+# The three behaviours the composed page loads. In root mode they are copied to
+# js/site/ so the site index does not reach into docs/ for how it works.
+SCRIPTS = [
+    ("stage.js", REPO_ROOT / "docs" / "tier-2-case" / "stage.js"),
+    ("wall.js", REPO_ROOT / "docs" / "tier-3" / "wall.js"),
+    ("atmos.js", REPO_ROOT / "docs" / "site" / "atmos.js"),
+]
 EVIDENCE = REPO_ROOT / "data" / "evidence.json"
 
 TIERS = [
@@ -159,9 +173,32 @@ def main():
     }.items():
         page = page.replace("@@%s@@" % k, v)
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    OUT_PATH.write_text(page, encoding="utf-8", newline="\n")
-    print("wrote %s" % OUT_PATH)
+    root_mode = "--root" in sys.argv[1:]
+    if root_mode:
+        # "../../" is correct from docs/site/ and wrong from the root. Do the
+        # bare href FIRST: it means "the site root", which at the root is "/",
+        # not the empty string.
+        page = page.replace('href="../../"', 'href="/"')
+        page = page.replace("../../", "")
+        page = page.replace('src="../tier-2-case/stage.js"', 'src="js/site/stage.js"')
+        page = page.replace('src="../tier-3/wall.js"', 'src="js/site/wall.js"')
+        page = page.replace('src="atmos.js"', 'src="js/site/atmos.js"')
+
+        js_dir = REPO_ROOT / "js" / "site"
+        js_dir.mkdir(parents=True, exist_ok=True)
+        for name, src_path in SCRIPTS:
+            if src_path.is_file():
+                js_dir.joinpath(name).write_text(
+                    src_path.read_text(encoding="utf-8"), encoding="utf-8", newline="\n")
+            else:
+                print("  WARNING: %s missing - the page would load a 404" % src_path)
+        out = REPO_ROOT / "index.html"
+    else:
+        out = OUT_PATH
+
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(page, encoding="utf-8", newline="\n")
+    print("wrote %s%s" % (out, "   [PROMOTED TO THE SITE INDEX]" if root_mode else ""))
     print("  %d tier sections composed | figures as of %s" % (len(sections), f["asOf"]))
     print("  tier 1 authored here; tiers 2 and 3 read from their own built pages")
     return 0

@@ -423,6 +423,21 @@ not just for tier 3.
 - Should the site's own entry link this DECISIONS.md as a live example? (Nice-to-have.)
 
 ## Change Log
+- 2026-09-08 — **CR-16 (owner ruling): the three-tier scroll is PROMOTED to the site index.**
+  D-A26 built it at `/docs/site/` and said it would move to the root after review. Reviewed,
+  approved, moved. `index.html` is now the composed scroll; `docs/site/` stays as the review
+  copy and both are produced by the same generator (`--root` rewrites depth and relocates the
+  three behaviours to `js/site/`).
+  ⚑ **The previous front door was six weeks of UNCOMMITTED work and promotion would have
+  destroyed it.** The working copy of `index.html` was the CR-7 Stagecraft rebuild — 10,168
+  bytes against 2,403 in HEAD — never committed since 2026-07-25. It is preserved verbatim at
+  **`front-door-stagecraft.html`**, kept at root depth so its `styles/` and `js/` paths still
+  resolve, and committed here so it finally exists somewhere other than one disk.
+  **Only the files the promotion needed were committed.** The other seventeen modified files
+  and five untracked directories from CR-7 are left exactly as they were (`PROFILE.md`: never
+  tidy or commit a dirty tree on your own initiative).
+  Verified after promotion: zero leftover `../` paths, all three scripts 200, and every
+  referenced demo, attract screen, asset and archived page resolves 200 from the root.
 - 2026-09-08 — **CR-12 (owner ruling): the stage — tier 2 takes its first JavaScript
   dependency, under D-A25's Change Rule.**
   **Trigger.** The vertical pipeline from CR-11 was rejected: *"they don't feel connected, they
