@@ -1,118 +1,93 @@
-/* atlas.css — atlas-layer styles ONLY (additive; tokens.css/style.css stay
-   byte-identical to style-library). Two jobs:
-   1. The canonical .diagram/.dg-* system every project diagram is styled by
-      (the front door's inline copy mirrors this — see ARCHITECTURE.md).
-   2. Layout for atlas/index.html, the one template page. */
+/* ============================================================================
+   atlas.css — the atlas layer, re-pitched onto STAGECRAFT (CR-7)
+   ----------------------------------------------------------------------------
+   Two jobs, unchanged in kind:
+     1. The .diagram / .dg-* system every committed project SVG is styled by.
+        The SVG contract in ARCHITECTURE.md is untouched — only the colours moved
+        from the paper ground to the archive-plate ground, so no diagram file
+        needed editing.
+     2. The little that atlas/index.html needs beyond the shared composition
+        primitives. Chapters, the narrative rail, step lists, peer cards, and
+        tags all come from stagecraft.compose.css now; this file no longer
+        re-implements them.
 
-/* ---- diagram well + internals ---- */
-.diagram{margin:clamp(30px,5vh,48px) 0 0}
+   Loads after stagecraft.tokens.css + .base.css + .compose.css.
+   ============================================================================ */
+
+/* ---- diagram well + internals (ZONE: media_field) ---------------------- */
+.diagram{margin:clamp(26px,4.5vh,44px) 0 0}
 .diagram-well{
-  border:1px solid var(--hair);border-radius:14px;
-  background:linear-gradient(180deg,#fff,var(--paper-2));
+  border:1px solid var(--hair);border-radius:12px;
+  background:var(--ground-2);
   overflow-x:auto;padding:clamp(12px,1.8vw,24px);
-  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 2px 6px -3px rgba(120,66,38,.12);
+  max-width:100%;                 /* the figure scrolls; the page never does */
 }
 .diagram-well svg{display:block;width:100%;min-width:880px;height:auto;font-family:var(--mono)}
 .diagram-cap{
   font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--muted);margin-top:12px;display:flex;align-items:center;gap:10px;
 }
-.diagram-cap::before{content:"";width:22px;height:1px;background:var(--accent);flex:none}
+.diagram-cap::before{content:"";width:22px;height:1px;background:var(--signal);flex:none}
 
-/* hover highlight only — no animated draws, nothing to gate for reduced motion */
-.dg-node rect{fill:#fff;stroke:var(--hair);stroke-width:1;transition:stroke .2s ease}
-.dg-node:hover rect{stroke:var(--accent);stroke-width:1.5}
+/* hover lighting only — orientation, no ambient draw */
+.dg-node rect{fill:var(--ground-3);stroke:var(--hair);stroke-width:1;transition:stroke var(--m-orient) ease}
+.dg-node:hover rect{stroke:var(--signal);stroke-width:1.5}
 .dg-node .n{fill:var(--ink);font-size:12px;letter-spacing:.06em;font-weight:500}
 .dg-node .r{fill:var(--muted);font-size:10px;letter-spacing:.02em}
-/* stroke-opacity .8 keeps muted edges above the 3:1 non-text contrast floor on the white well */
-.dg-edge path{fill:none;stroke:var(--muted);stroke-opacity:.8;stroke-width:1.2;transition:stroke .2s ease,stroke-opacity .2s ease,stroke-width .2s ease}
-.dg-edge.gold path{stroke:var(--accent);stroke-opacity:.9;stroke-width:1.6}
+.dg-edge path{fill:none;stroke:var(--muted);stroke-opacity:.85;stroke-width:1.2;
+  transition:stroke var(--m-orient) ease,stroke-opacity var(--m-orient) ease,stroke-width var(--m-orient) ease}
+.dg-edge.gold path{stroke:var(--signal);stroke-opacity:.9;stroke-width:1.6}
 .dg-edge.dash path{stroke-dasharray:5 4}
 .dg-edge text{fill:var(--muted);font-size:9.5px;letter-spacing:.04em}
-.dg-edge.lit path{stroke:var(--accent-ink);stroke-opacity:1;stroke-width:1.9}
-.dg-edge.lit text{fill:var(--accent-ink)}
-/* diagram-live.js: the packet traveling the gold path (js sets cx/cy/opacity) */
-.dg-pulse{fill:var(--accent);pointer-events:none;opacity:0}
-/* soft press: nodes rise a hair under the cursor; killed under reduced motion */
+.dg-edge.lit path{stroke:var(--signal);stroke-opacity:1;stroke-width:1.9}
+.dg-edge.lit text{fill:var(--signal)}
+/* diagram-live.js: the packet traveling the primary path (js sets cx/cy/opacity) */
+.dg-pulse{fill:var(--signal);pointer-events:none;opacity:0}
 .dg-node rect{transform-box:fill-box;transform-origin:center}
 .dg-node:hover rect{transform:translateY(-1.5px)}
 @media (prefers-reduced-motion:reduce){
   .dg-node:hover rect{transform:none}
   .dg-pulse{display:none}
 }
-.dg-arrow-a{fill:var(--accent);fill-opacity:.9}
+.dg-arrow-a{fill:var(--signal);fill-opacity:.9}
 .dg-arrow-m{fill:var(--muted);fill-opacity:.85}
-.dg-callout{fill:var(--accent-ink);font-size:10px;letter-spacing:.08em}
+.dg-callout{fill:var(--signal);font-size:10px;letter-spacing:.08em}
 .dg-callout-sub{fill:var(--muted);font-size:9.5px;letter-spacing:.03em}
-.dg-bound{fill:none;stroke:var(--accent);stroke-opacity:.6;stroke-width:1.2;stroke-dasharray:2 5}
-.dg-shell{fill:none;stroke:var(--accent-line);stroke-width:1.2;stroke-dasharray:7 6}
-.dg-shell-label{fill:var(--accent-ink);font-size:10px;letter-spacing:.12em}
+.dg-bound{fill:none;stroke:var(--signal);stroke-opacity:.6;stroke-width:1.2;stroke-dasharray:2 5}
+.dg-shell{fill:none;stroke:var(--signal-line);stroke-width:1.2;stroke-dasharray:7 6}
+.dg-shell-label{fill:var(--signal);font-size:10px;letter-spacing:.12em}
 
-/* ---- atlas page layout ---- */
-.atlas-head{padding:clamp(14px,3vh,32px) 0 clamp(24px,4vh,40px)}
-.atlas-head h1{
-  font-family:var(--display);font-weight:600;line-height:1.02;
-  font-size:clamp(2.4rem,6vw,4.4rem);letter-spacing:-.02em;
-}
-.atlas-head h1 em{font-style:normal;color:var(--accent-ink)}
-.atlas-oneliner{font-size:clamp(1rem,1.3vw,1.18rem);line-height:1.65;color:var(--muted);max-width:70ch;margin-top:14px}
+/* ---- the entry's opening stage ----------------------------------------- */
+.atlas-head{padding:clamp(30px,6vh,72px) 0 clamp(24px,4vh,44px)}
+.atlas-head h1{font-size:var(--t-chapter);letter-spacing:-.03em;margin:14px 0 0}
+.atlas-oneliner{font-size:clamp(1rem,1.35vw,1.2rem);line-height:1.6;color:var(--ink-2);max-width:var(--measure);margin-top:16px}
 .atlas-meta{
-  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--muted);display:flex;gap:8px 22px;flex-wrap:wrap;align-items:baseline;
-  margin-top:clamp(18px,3vh,26px);padding-top:14px;border-top:1px solid var(--hair);
+  font-family:var(--mono);font-size:var(--t-label);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);display:flex;gap:8px 24px;flex-wrap:wrap;align-items:baseline;
+  margin-top:clamp(20px,3.4vh,30px);padding-top:16px;border-top:1px solid var(--hair);
 }
-.atlas-status{color:var(--accent-ink)}
-.atlas-status::before{content:"✦ ";color:var(--accent)}
+.atlas-status{color:var(--signal)}
+.atlas-status::before{content:"✦ "}
 .atlas-note{
   font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted);line-height:1.9;max-width:80ch;margin-top:10px;
 }
-
-.atlas-sec{margin-top:clamp(34px,6vh,56px)}
-.atlas-sec .sec-head h2{font-size:clamp(1.5rem,2.6vw,2.1rem)}
-
-.atlas-stack{display:flex;flex-wrap:wrap;gap:8px}
-
-.atlas-comp{list-style:none;margin:0;padding:0;max-width:820px}
-.atlas-comp li{
-  display:flex;gap:6px 18px;padding:12px 0;border-bottom:1px solid var(--hair);
-  flex-wrap:wrap;font-size:.95rem;line-height:1.55;
-}
-.atlas-comp li:last-child{border-bottom:0}
-.atlas-comp .c-name{font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--ink);font-weight:500;flex:0 0 22ch;min-width:0;padding-top:2px}
-.atlas-comp .c-desc{color:var(--muted);flex:1 1 30ch;min-width:0}
-@media (max-width:560px){ .atlas-comp .c-name{flex-basis:100%} }
-
-.atlas-flow{list-style:none;margin:0;padding:0;max-width:76ch;counter-reset:flow}
-.atlas-flow li{
-  counter-increment:flow;display:flex;gap:18px;padding:12px 0;
-  border-bottom:1px solid var(--hair);color:var(--muted);line-height:1.55;font-size:.95rem;
-}
-.atlas-flow li::before{
-  content:counter(flow,decimal-leading-zero);
-  font-family:var(--mono);font-size:11px;letter-spacing:.14em;
-  color:var(--accent-ink);flex:none;padding-top:3px;
-}
-.atlas-flow li:last-child{border-bottom:0}
-
-.atlas-dlist{list-style:none;margin:0;padding:0;max-width:76ch}
-.atlas-dlist li{padding:11px 0 11px 22px;border-bottom:1px solid var(--hair);font-size:.95rem;line-height:1.55;color:var(--muted);position:relative}
-.atlas-dlist li::before{content:"✦";color:var(--accent);position:absolute;left:0;top:11px;font-size:11px}
-.atlas-dlist li:last-child{border-bottom:0}
-
-.atlas-int{display:flex;flex-wrap:wrap;gap:8px}
-
-.atlas-links{display:flex;gap:10px 26px;align-items:baseline;flex-wrap:wrap;margin-top:6px}
+.atlas-links{display:flex;gap:10px 26px;align-items:baseline;flex-wrap:wrap;margin-top:20px}
 .atlas-link{
   font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--accent-ink);text-decoration:none;
+  color:var(--signal);text-decoration:none;
 }
 .atlas-link:hover,.atlas-link:focus-visible{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 .atlas-private{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
-/* explicit empty state — never a blank page, never a fake one */
+/* atlas chapters are tighter than front-door chapters — this is reference
+   material being read, not a page being toured */
+.atlas-sec{padding:clamp(34px,6vh,60px) 0 0}
+.atlas-sec .chapter-head{margin-bottom:clamp(20px,3vh,32px)}
+
+/* ---- explicit empty state — never a blank page, never a fake one -------- */
 .atlas-missing{
   font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--muted);padding:clamp(40px,8vh,90px) 0;line-height:2.2;
+  color:var(--muted);padding:clamp(50px,10vh,110px) 0;line-height:2.2;max-width:none;
 }
-.atlas-missing a{color:var(--accent-ink)}
+.atlas-missing a{color:var(--signal)}

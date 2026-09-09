@@ -8,6 +8,10 @@ import { buildModel, render } from './render.js';
 import { initSearch } from './search.js';
 import { initCopy } from './copy.js';
 
+/* The desk moved from "/" to "/desk/" in CR-7, so paths are resolved from
+   <html data-root> rather than assumed relative to the site root. */
+const ROOT = document.documentElement.dataset.root || '';
+
 async function fetchJson(url) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`${url}: ${res.status}`);
@@ -17,7 +21,7 @@ async function fetchJson(url) {
 async function main() {
   let registry;
   try {
-    registry = await fetchJson('data/registry.json');
+    registry = await fetchJson(`${ROOT}data/registry.json`);
   } catch (err) {
     // Without the registry there is no desk — say so quietly, show nothing false.
     document.getElementById('counts').textContent = 'registry unavailable';
@@ -27,7 +31,7 @@ async function main() {
 
   let desk = { pinned: [], mine: {}, toolkit: {} };
   try {
-    desk = Object.assign(desk, await fetchJson('data/desk.json'));
+    desk = Object.assign(desk, await fetchJson(`${ROOT}data/desk.json`));
   } catch (err) {
     console.warn('desk.json unavailable — rendering from registry alone', err);
   }

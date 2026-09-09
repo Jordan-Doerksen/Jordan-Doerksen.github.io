@@ -2,7 +2,7 @@
 
 License law (AI-Brain, 2026-07-16): the license source of truth is the itch page the pack
 was downloaded from, never `.url` shortcuts inside the pack. Only curated copies ship;
-raw packs stay in `C:\projects\fulfillment\assets\` (the shared asset library).
+raw packs stay in `C:\projects\games\fulfillment\assets\` (the shared asset library).
 
 | File | Source pack | Source file | License |
 |------|-------------|-------------|---------|

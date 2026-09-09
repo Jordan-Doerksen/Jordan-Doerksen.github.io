@@ -1,155 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-root="../">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tools — Jordan Doerksen</title>
-<meta name="description" content="Small tools that kill real friction — Jordan Doerksen, The Archive.">
+<meta name="description" content="Small tools that kill real friction — one of seven sections of Jordan Doerksen's work.">
+<meta name="theme-color" content="#0b0b0d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230b0b0d'/%3E%3Ctext x='50' y='73' font-size='66' text-anchor='middle' fill='%23f0b429'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/tokens.css">
-<link rel="stylesheet" href="../styles/style.css">
-<style>
-/* Hub-specific layout ONLY — every component rule lives in ../styles/style.css. */
-.hero--hub{padding:clamp(14px,3vh,32px) 0 clamp(36px,6vh,64px)}
-.hero--hub h1{font-size:clamp(3rem,9vw,7.5rem)}
-.hero--hub .subline{margin-bottom:0}
-.empty-note{
-  grid-column:1/-1;
-  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--muted);padding:clamp(24px,4vh,40px) 0;
-}
-.card .spec.spec-private{color:var(--muted)}
-.card .spec.spec-private::before{color:var(--muted)}
-.fback{
-  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--muted);text-decoration:none;transition:color .25s ease;
-}
-.fback:hover,.fback:focus-visible{color:var(--accent-ink)}
-</style>
+<link rel="stylesheet" href="../styles/stagecraft.tokens.css">
+<link rel="stylesheet" href="../styles/stagecraft.base.css">
+<link rel="stylesheet" href="../styles/stagecraft.compose.css">
 </head>
 <body>
 
-  <svg class="grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <filter id="paperNoise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter>
-    <rect width="100%" height="100%" filter="url(#paperNoise)"/>
-  </svg>
-  <div class="rules" aria-hidden="true"></div>
-  <div class="sun" id="sun" aria-hidden="true"></div>
-  <div class="cursor" id="cursor" aria-hidden="true"></div>
+<a class="skip" href="#main">Skip to content</a>
 
-  <div class="wrap">
-    <header class="site">
-      <a href="../" class="wordmark">JORDAN <span>DOERKSEN</span></a>
-      <nav class="site-nav" aria-label="Breadcrumb">
-        <a href="../" class="n-work">← The Archive</a>
-      </nav>
-    </header>
-
-    <main>
-      <!-- HERO — compact hub variant -->
-      <section class="hero hero--hub" aria-labelledby="hero-h">
-        <p class="eyebrow">Category 07</p>
-        <h1 id="hero-h" class="reveal"><em>Tools</em></h1>
-        <p class="subline reveal">Small tools that kill real friction</p>
-      </section>
-
-      <!-- PROJECT GRID — cards come from ../data/registry.json at runtime -->
-      <section id="work" aria-labelledby="work-h">
-        <div class="sec-head reveal">
-          <h2 id="work-h">In this wing</h2>
-          <span class="idx" id="sec-idx">§ 07</span>
-        </div>
-        <div class="work" id="grid">
-          <noscript><p class="empty-note">the catalogue needs JavaScript</p></noscript>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site">
-      <p class="ftxt reveal">Part of the archive.</p>
-      <p class="fmark reveal">✦ Jordan Doerksen · <span>2026</span></p>
-      <a class="fback reveal" href="../">← The Archive</a>
-    </footer>
+<header class="chrome">
+  <div class="chrome-in">
+    <a class="mark" href="/">Jordan Doerksen <b>✦</b></a>
+    <nav class="chrome-nav" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <a href="/#index">The list</a>
+      <a href="/desk/">Desk</a>
+    </nav>
+    <button class="find" type="button">Find <kbd>Ctrl K</kbd></button>
   </div>
+  <div class="progress" aria-hidden="true"></div>
+</header>
 
-<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
-<script>
-(function () {
-  "use strict";
-  var CATEGORY = "tools";
-  var SECTION = "§ 07";
+<main id="main">
 
-  var grid = document.getElementById("grid");
-  var idx = document.getElementById("sec-idx");
+  <!-- ZONE: viewport_stage — the section name IS the dominant idea. One statement,
+       one measure of prose, one edge annotation. No card grid above the fold. -->
+  <section class="stage wrap">
+    <p class="folio">Section <b>07</b> of seven</p>
+    <h1>Tools</h1>
+    <p class="lede">Small, unglamorous, load-bearing. Each one exists because something was annoying enough to fix.</p>
+    <p class="note">
+      <span>Small tools that kill real friction</span>
+      <span><a href="/#index">All seven sections →</a></span>
+    </p>
+  </section>
 
-  function el(tag, cls, text) {
-    var n = document.createElement(tag);
-    if (cls) n.className = cls;
-    if (text) n.textContent = text;
-    return n;
-  }
+  <!-- ZONE: content_band — the same typographic list as the front page, scoped
+       to this section by data-wing. Titles beat thumbnails; there are no thumbnails. -->
+  <section class="chapter wrap" aria-labelledby="here-h">
+    <div class="chapter-head">
+      <h2 id="here-h">What's in here</h2>
+      <span class="index-count folio bare" role="status" aria-live="polite"></span>
+    </div>
 
-  function emptyNote() {
-    if (!grid) return;
-    grid.textContent = "";
-    grid.appendChild(el("p", "empty-note", "nothing catalogued yet"));
-  }
+    <div class="index" data-wing="tools">
+      <noscript><p class="index-empty">The list needs JavaScript. The repos live at
+        <a href="https://github.com/Jordan-Doerksen">github.com/Jordan-Doerksen</a>.</p></noscript>
+    </div>
 
-  function buildCard(p) {
-    /* full-tier projects route to their atlas entry; the atlas page links
-       on to the live app and repo. entry-tier cards keep the old behavior. */
-    var href = (p.tier === "full" && p.slug)
-      ? "../atlas/?p=" + encodeURIComponent(p.slug)
-      : (p.url || p.repo || null);
-    var card = document.createElement(href ? "a" : "div");
-    card.className = "card reveal";
-    if (href) card.href = href;
-    card.appendChild(el("span", "kicker", p.status || "project"));
-    card.appendChild(el("h3", null, p.name || p.slug || "Untitled"));
-    card.appendChild(el("p", null, p.blurb || ""));
-    if (Array.isArray(p.tags) && p.tags.length) {
-      var tags = el("div", "tags");
-      p.tags.forEach(function (t) { tags.appendChild(el("span", "tag", t)); });
-      card.appendChild(tags);
-    }
-    /* both url and repo null → unlinked card with a muted PRIVATE spec */
-    /* unlinked cards say what they honestly are (retired/frozen/private) */
-    card.appendChild(href
-      ? el("span", "spec", p.spec || "open")
-      : el("span", "spec spec-private", p.status || "private"));
-    return card;
-  }
+    <a class="turn" href="/#index">Back to the full list</a>
+  </section>
 
-  function render(data) {
-    if (!grid) return;
-    var list = (data && Array.isArray(data.projects))
-      ? data.projects.filter(function (p) { return p && p.category === CATEGORY; })
-      : [];
-    if (!list.length) { emptyNote(); return; }
-    grid.textContent = "";
-    list.forEach(function (p) { grid.appendChild(buildCard(p)); });
-    if (idx) idx.textContent = SECTION + " · " + list.length + (list.length === 1 ? " project" : " projects");
-  }
+</main>
 
-  /* WORKAROUND: effects.js binds its hooks (reveal observer, card tilt, hot-cursor
-     targets) to whatever is in the DOM when it runs — cards fetched later would miss
-     all of it. So instead of a static <script defer>, we inject effects.js AFTER the
-     grid is rendered (or after the fetch fails), so the cards get the full treatment. */
-  function loadEffects() {
-    var s = document.createElement("script");
-    s.src = "../styles/effects.js";
-    document.body.appendChild(s);
-  }
+<footer class="site">
+  <div class="wrap">
+    <div class="f-grid">
+      <h2>Seven sections. That's all of it.</h2>
 
-  fetch("../data/registry.json")
-    .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error(r.status)); })
-    .then(function (data) { try { render(data); } catch (e) { emptyNote(); } })
-    .catch(emptyNote)
-    .finally(loadEffects);
-})();
-</script>
-<script src="../styles/shader.js" defer></script>
+      <div class="f-col">
+        <h3>Sections</h3>
+        <a href="/rail/">Rail</a>
+        <a href="/games/">Games</a>
+        <a href="/trading/">Trading</a>
+        <a href="/studio/">Studio</a>
+        <a href="/signals/">Signals</a>
+        <a href="/bots/">Bots</a>
+        <a href="/tools/">Tools</a>
+      </div>
+
+      <div class="f-col">
+        <h3>Elsewhere</h3>
+        <a href="https://github.com/Jordan-Doerksen">GitHub</a>
+        <a href="mailto:doerksen.jordan@gmail.com">doerksen.jordan@gmail.com</a>
+        <a href="/desk/">The Tool Desk</a>
+      </div>
+    </div>
+
+    <p class="colophon">
+      <span>✦ Jordan Doerksen · 2026</span>
+      <span>Layout rules borrowed from sites that won awards</span>
+      <span>Static HTML · no build step · no framework</span>
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="../js/shell/boot.js"></script>
 </body>
 </html>

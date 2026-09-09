@@ -1,11 +1,14 @@
 /* ============================================================================
-   desk.css — the Tool Desk front page (dense, utilitarian)
+   desk.css — the Tool Desk (dense, utilitarian) · now served at /desk/
    ----------------------------------------------------------------------------
-   Layout + components for the Tool Desk. Loads AFTER tokens.css + style.css
-   and reads the Daybreak tokens. Ported from the approved mockup
-   (tool-desk-mockup.html); mockup's local vars mapped to house tokens:
-     --card → --paper-2 · --line → --hair · --disp → --display · --body → --sans
-   Density is deliberate: this is a daily-driver database, not a display case.
+   Layout + components for the Tool Desk. Loads AFTER stagecraft.tokens.css +
+   stagecraft.base.css and reads the Daybreak-era token names, which the tokens
+   file aliases onto Stagecraft (--paper→--ground, --accent→--signal, …). That
+   bridge is why this file needed no palette rewrite in CR-7 — only the handful
+   of hardcoded light swatches at the bottom of the status block.
+
+   Density is deliberate: this is a daily-driver database, not a display case,
+   and the bible exempts dense comparison surfaces from its anti-card rule.
    ============================================================================ */
 
 body.desk{font-size:14px;line-height:1.45}
@@ -19,7 +22,10 @@ body.desk a:hover{text-decoration:underline}
   position:sticky;top:0;background:var(--paper);
   padding:10px 0;border-bottom:1px solid var(--hair);z-index:5;
 }
-.topbar .brand{font-family:var(--mono);font-size:12px;color:var(--accent-ink);letter-spacing:.1em;white-space:nowrap}
+.topbar .brand{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.1em;white-space:nowrap;text-decoration:none}
+.topbar .brand:hover{color:var(--ink);text-decoration:none}
+.topbar .brand-title{color:var(--accent-ink)}
+@media(max-width:640px){ .topbar .brand-title{display:none} }
 .topbar input{
   flex:1;min-width:260px;padding:10px 14px;
   border:1px solid var(--hair);border-radius:8px;background:var(--paper-2);
@@ -75,16 +81,18 @@ td.note{color:var(--muted);font-size:13px}
 td.mono,.mono{font-family:var(--mono);font-size:12px}
 .copy{cursor:pointer;color:var(--accent-ink);border-bottom:1px dashed var(--hair)}
 .copy:hover{background:var(--accent-soft)}
-.copy.copied{background:#e8f0e2}
+.copy.copied{background:rgba(96,190,120,.22);color:#8fe0a8}
 .links a{margin-right:10px;font-family:var(--mono);font-size:12px}
 .superseded{color:var(--muted);font-style:italic}
 
-/* status chips — one class per registry status */
+/* status chips — one class per registry status.
+   Re-pitched for the Stagecraft ground in CR-7: tinted fills instead of the old
+   pastel swatches, each text colour checked ≥4.5:1 against its own fill. */
 .status{font-family:var(--mono);font-size:10.5px;padding:1px 8px;border-radius:999px;white-space:nowrap}
-.s-live,.s-built{background:#e8f0e2;color:#3d6b2f}
+.s-live,.s-built{background:rgba(96,190,120,.16);color:#8fe0a8}
 .s-active,.s-building{background:var(--accent-soft);color:var(--accent-ink)}
-.s-frozen,.s-shelved{background:#e8ecf0;color:#4a5a6b}
-.s-retired,.s-superseded,.s-private{background:#efe9df;color:#8a8272}
+.s-frozen,.s-shelved{background:rgba(140,170,205,.14);color:#a9c2dc}
+.s-retired,.s-superseded,.s-private{background:rgba(244,242,238,.07);color:var(--muted)}
 
 /* empty-search row */
 .empty td{color:var(--muted);font-style:italic;text-align:center;padding:14px 12px}

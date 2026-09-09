@@ -1,0 +1,123 @@
+/* ============================================================================
+   stagecraft.tokens.css — the archive's web house style · control panel
+   ----------------------------------------------------------------------------
+   STAGECRAFT is the visual layer of the Award-Winning Web UI/UX Style Bible
+   (C:\projects\reference\award-winning-web-ui-ux-style-bible). Named for the bible's
+   first principle — "the centre is a stage for the current idea, not permanent
+   chrome". It SUPERSEDES Daybreak Editorial for webpages (2026-07-25, CR-7).
+   The old paper/Goldenrod system survives in styles/tokens.css + style.css,
+   loaded only by docs/legacy-front-door.html.
+
+   Load this FIRST. stagecraft.base.css and stagecraft.compose.css read it.
+
+   PALETTE — an archive plate under instrument light.
+     Ground (page)     --ground #0b0b0d / --ground-2 #131317 / --ground-3 #1b1b20
+     Ink (text)        --ink #f4f2ee / --ink-2 #c8c5bd / --muted #8e8b83
+     Hairlines         --hair (13%) / --hair-soft (7%)
+     Signal — ONE accent, the Goldenrod thread re-pitched for a dark ground:
+       --signal      #f0b429   10.5:1 on --ground — text-safe on its own,
+                               so there is no second "ink" shade to remember.
+       --signal-rgb  240,180,41
+       derived: --signal-soft / --signal-tint / --signal-line
+
+   TYPE — carried over deliberately: already loaded, legible, and the display
+   face has a compositional job here rather than just a bigger size.
+     --display  Space Grotesk  → stage statements, chapter numerals, index names
+     --sans     Inter          → body copy inside a controlled measure
+     --mono     JetBrains Mono → folios, labels, status, metadata
+
+   MOTION — every duration here belongs to a job (orient / cause / confirm).
+   There is no ambient loop token on purpose; the bible forbids idle motion.
+
+   TO GO BACK TO A LIGHT GROUND: swap the four --ground/--ink values in the
+   LIGHT GROUND block at the bottom of this file. Nothing else needs editing —
+   every rule downstream reads these names.
+   ============================================================================ */
+
+:root{
+  /* ---- ground ---- */
+  --ground:#0b0b0d;
+  --ground-2:#131317;
+  --ground-3:#1b1b20;
+
+  /* ---- ink ---- */
+  --ink:#f4f2ee;
+  --ink-2:#c8c5bd;
+  --muted:#8e8b83;
+
+  --hair:rgba(244,242,238,.13);
+  --hair-soft:rgba(244,242,238,.07);
+
+  /* ---- the one signal ---- */
+  --signal:#f0b429;
+  --signal-rgb:240,180,41;
+  --signal-soft:rgba(var(--signal-rgb),.16);
+  --signal-tint:rgba(var(--signal-rgb),.07);
+  --signal-line:rgba(var(--signal-rgb),.38);
+
+  /* ---- type ---- */
+  --sans:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
+  --display:"Space Grotesk","Inter",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  /* display scale — fluid with HARD bounds (typographic_monument: "use fluid
+     sizing with hard minimum and maximum bounds") */
+  --t-stage:clamp(2.9rem,9.2vw,8.4rem);   /* the one statement per page      */
+  --t-chapter:clamp(2rem,5vw,4.2rem);     /* chapter titles                  */
+  --t-section:clamp(1.35rem,2.6vw,2rem);  /* section heads                   */
+  --t-index:clamp(1.15rem,2.1vw,1.7rem);  /* index row names                 */
+  --t-body:clamp(15px,1.05vw,17px);
+  --t-label:11px;
+
+  /* ---- measure + rhythm ---- */
+  --measure:64ch;          /* body copy never exceeds this, however wide the page */
+  --measure-tight:46ch;
+  --mar:clamp(20px,5vw,84px);
+  --maxw:1280px;
+  --rail:190px;            /* narrative rail width at desktop */
+
+  /* ---- motion, each with a job ---- */
+  --m-confirm:120ms;       /* input feedback — must feel instant             */
+  --m-orient:280ms;        /* state/hover orientation                        */
+  --m-narrative:640ms;     /* section entrance, chapter transitions          */
+  --ease:cubic-bezier(.2,.7,.2,1);
+
+  /* ---- elevation: light, not decorative. Cards are conditional here. ---- */
+  --lift:0 1px 0 rgba(255,255,255,.04) inset, 0 18px 40px -28px rgba(0,0,0,.9);
+
+  /* ==========================================================================
+     COMPATIBILITY BRIDGE — do not extend.
+     styles/desk.css and styles/atlas.css were authored against the Daybreak
+     token names. Rather than fork them, the old names alias onto Stagecraft so
+     the utility layers inherit the new palette with no duplicate values.
+     New rules must use the Stagecraft names above.
+     ========================================================================== */
+  --paper:var(--ground);
+  --paper-2:var(--ground-2);
+  --accent:var(--signal);
+  --accent-ink:var(--signal);
+  --accent-rgb:var(--signal-rgb);
+  --accent-soft:var(--signal-soft);
+  --accent-tint:var(--signal-tint);
+  --accent-line:var(--signal-line);
+}
+
+/* ==========================================================================
+   LIGHT GROUND (opt-in). Add class="light" to <html> to flip the whole system.
+   Kept as a real, contrast-checked alternative rather than a comment, so the
+   choice is one attribute and never a rewrite.
+   ========================================================================== */
+html.light{
+  --ground:#f7f5f0;
+  --ground-2:#fffdf9;
+  --ground-3:#efece4;
+  --ink:#15140f;
+  --ink-2:#3a3730;
+  --muted:#635e54;                 /* 5.9:1 on --ground */
+  --hair:rgba(21,20,15,.16);
+  --hair-soft:rgba(21,20,15,.08);
+  --signal:#8a6508;                /* 5.6:1 on --ground — the dark-ground amber
+                                      fails on paper, so the shade swaps too */
+  --signal-rgb:138,101,8;
+  --lift:0 1px 0 rgba(255,255,255,.8) inset, 0 18px 40px -28px rgba(90,70,30,.5);
+}

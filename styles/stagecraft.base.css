@@ -1,0 +1,227 @@
+/* ============================================================================
+   stagecraft.base.css — reset, type, persistent chrome, footer, a11y, motion
+   ----------------------------------------------------------------------------
+   Half of the STAGECRAFT layer. Composition primitives (stage, chapters, the
+   typographic index, rails) live in stagecraft.compose.css.
+
+   The bible caps persistent interface at THREE clusters. This file owns all
+   three and nothing else may join them:
+     1. identity_navigation  — .chrome .mark + .chrome-nav
+     2. orientation_progress — .progress (scroll hairline) + .folio
+     3. primary_action       — .find (opens the overlay finder)
+
+   Requires stagecraft.tokens.css first.
+   ============================================================================ */
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:var(--t-body);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* Content must survive the background canvas failing (bible non-negotiable),
+   so the "canvas" is a static CSS wash — no script, nothing to break. */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(120% 80% at 82% -10%,rgba(var(--signal-rgb),.10),transparent 58%),
+    radial-gradient(90% 60% at 0% 100%,rgba(var(--signal-rgb),.05),transparent 60%);
+}
+
+.wrap{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 var(--mar)}
+
+/* skip link — keyboard route past the chrome, first tab stop on every page */
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:60;
+  font-family:var(--mono);font-size:var(--t-label);letter-spacing:.16em;text-transform:uppercase;
+  background:var(--signal);color:#0b0b0d;padding:12px 18px;text-decoration:none;
+}
+.skip:focus{left:var(--mar);top:10px}
+
+/* ---- typography defaults ---------------------------------------------- */
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-.02em;line-height:1.04}
+p{max-width:var(--measure)}
+a{color:var(--signal);text-underline-offset:3px}
+
+.lede{
+  font-size:clamp(1.05rem,1.55vw,1.3rem);line-height:1.6;
+  color:var(--ink-2);max-width:var(--measure-tight);
+}
+.body-copy{color:var(--ink-2);max-width:var(--measure)}
+.body-copy + .body-copy{margin-top:1.1em}
+.body-copy strong{color:var(--ink);font-weight:600}
+
+/* folio — the recurring label that creates continuity across chapters
+   (editorial_rhythm: "use recurring labels or folios") */
+.folio{
+  font-family:var(--mono);font-size:var(--t-label);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);display:inline-flex;align-items:center;gap:10px;
+}
+.folio b{color:var(--signal);font-weight:500}
+.folio::before{content:"";width:22px;height:1px;background:var(--signal);flex:none}
+.folio.bare::before{display:none}
+
+/* ---- CLUSTER 1 — identity + navigation --------------------------------- */
+.chrome{
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in srgb,var(--ground) 86%,transparent);
+  backdrop-filter:saturate(140%) blur(9px);
+  border-bottom:1px solid var(--hair-soft);
+}
+@supports not (backdrop-filter:blur(1px)){ .chrome{background:var(--ground)} }
+
+.chrome-in{
+  max-width:var(--maxw);margin:0 auto;padding:14px var(--mar);
+  display:flex;align-items:center;gap:clamp(14px,3vw,34px);
+}
+.mark{
+  font-family:var(--mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--ink);text-decoration:none;white-space:nowrap;
+}
+.mark b{color:var(--signal);font-weight:400}
+
+.chrome-nav{display:flex;gap:clamp(10px,2vw,26px);margin-left:auto;align-items:center}
+.chrome-nav a{
+  font-family:var(--mono);font-size:var(--t-label);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;padding:5px 0;position:relative;
+  transition:color var(--m-orient) var(--ease);
+}
+.chrome-nav a::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--signal);
+  transform:scaleX(0);transform-origin:right;
+  transition:transform var(--m-orient) var(--ease);
+}
+.chrome-nav a:hover,.chrome-nav a:focus-visible{color:var(--ink)}
+.chrome-nav a:hover::after,.chrome-nav a:focus-visible::after{transform:scaleX(1);transform-origin:left}
+.chrome-nav a[aria-current="page"]{color:var(--ink)}
+.chrome-nav a[aria-current="page"]::after{transform:scaleX(1);transform-origin:left}
+
+/* ---- CLUSTER 2 — orientation: scroll progress hairline ------------------ */
+.progress{
+  position:absolute;left:0;bottom:-1px;height:1px;width:100%;
+  background:var(--signal);transform:scaleX(0);transform-origin:left;
+  will-change:transform;
+}
+
+/* ---- CLUSTER 3 — primary action: find ---------------------------------- */
+.find{
+  font-family:var(--mono);font-size:var(--t-label);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);background:transparent;border:1px solid var(--hair);
+  border-radius:999px;padding:7px 14px;display:inline-flex;align-items:center;gap:10px;
+  cursor:pointer;white-space:nowrap;
+  transition:color var(--m-orient) var(--ease),border-color var(--m-orient) var(--ease);
+}
+.find:hover,.find:focus-visible{color:var(--ink);border-color:var(--signal-line)}
+.find kbd{font-family:var(--mono);font-size:10px;color:var(--muted);border:1px solid var(--hair);border-radius:4px;padding:1px 5px}
+
+/* Narrow chrome is RE-AUTHORED, not shrunk. The bar drops to its two
+   load-bearing jobs — identity (which is also the route home) and the primary
+   action. The section links it sheds are anchors that exist in the page itself
+   and again in the footer, so no destination becomes unreachable. */
+@media (max-width:640px){ .find kbd{display:none} }
+@media (max-width:620px){
+  .chrome-in{gap:12px}
+  .mark{font-size:11px;letter-spacing:.14em}
+  .chrome-nav{gap:14px}
+  .chrome-nav a:not(:first-child){display:none}
+  .find{padding:7px 12px}
+}
+@media (max-width:430px){
+  .chrome-nav{display:none}
+}
+
+/* ---- overlay_layer — the finder ---------------------------------------- */
+.veil{
+  position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.62);
+  opacity:0;pointer-events:none;transition:opacity var(--m-orient) ease;
+}
+.veil.open{opacity:1;pointer-events:auto}
+.finder{
+  position:fixed;top:12vh;left:50%;transform:translateX(-50%) translateY(-6px);
+  width:min(620px,92vw);z-index:51;
+  background:var(--ground-2);border:1px solid var(--hair);border-radius:14px;
+  box-shadow:var(--lift);overflow:hidden;
+  opacity:0;pointer-events:none;
+  transition:opacity var(--m-orient) ease,transform var(--m-orient) var(--ease);
+}
+.veil.open .finder{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.finder input{
+  width:100%;border:0;border-bottom:1px solid var(--hair);background:transparent;
+  font-family:var(--sans);font-size:1.05rem;color:var(--ink);padding:18px 22px;outline:none;
+}
+.finder input::placeholder{color:var(--muted)}
+.finder ul{list-style:none;max-height:44vh;overflow-y:auto;padding:8px}
+.finder li{
+  font-size:.95rem;color:var(--ink-2);padding:11px 14px;border-radius:9px;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+}
+.finder li[aria-selected="true"]{background:var(--signal-soft);color:var(--ink)}
+.finder li .f-meta{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.finder li[aria-selected="true"] .f-meta{color:var(--signal)}
+.finder .f-empty{padding:22px;color:var(--muted);font-size:.92rem}
+
+/* ---- footer_resolution -------------------------------------------------- */
+footer.site{
+  position:relative;z-index:2;margin-top:clamp(70px,12vh,140px);
+  border-top:1px solid var(--hair);
+  padding:clamp(40px,7vh,72px) 0 clamp(48px,8vh,90px);
+}
+footer.site .f-grid{
+  display:grid;grid-template-columns:minmax(0,1.4fr) repeat(2,minmax(0,1fr));
+  gap:clamp(24px,4vw,56px);align-items:start;
+}
+footer.site h2{font-size:var(--t-section);max-width:20ch}
+footer.site .f-col h3{
+  font-family:var(--mono);font-size:var(--t-label);font-weight:400;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:12px;
+}
+footer.site .f-col a{display:block;color:var(--ink-2);text-decoration:none;padding:4px 0;font-size:.95rem}
+footer.site .f-col a:hover,footer.site .f-col a:focus-visible{color:var(--signal);text-decoration:underline}
+footer.site .colophon{
+  margin-top:clamp(30px,5vh,52px);padding-top:20px;border-top:1px solid var(--hair-soft);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);display:flex;gap:10px 26px;flex-wrap:wrap;max-width:none;
+}
+footer.site .colophon a{color:var(--muted)}
+footer.site .colophon a:hover{color:var(--signal)}
+@media (max-width:760px){ footer.site .f-grid{grid-template-columns:1fr} }
+
+/* ---- focus: visible on every ground ------------------------------------ */
+a:focus-visible,button:focus-visible,input:focus-visible,
+[tabindex]:focus-visible,.row:focus-visible{
+  outline:2px solid var(--signal);outline-offset:3px;border-radius:4px;
+}
+
+/* ---- entrance: narrative, not decorative --------------------------------
+   TRANSFORM ONLY, never opacity. An entrance must not be able to hide content:
+   if the module fails to load, IntersectionObserver is missing, or the tab
+   never composites, every .enter element is still fully readable — it just
+   sits 18px lower than its settled position. "Essential information must
+   survive animation and JavaScript failure" is a bible non-negotiable, and a
+   fade-in gated on an observer breaks it. */
+.enter{transform:translateY(18px);transition:transform var(--m-narrative) var(--ease)}
+.enter.in{transform:none}
+
+/* ---- reduced motion: meaningful STATIC states, never blanks -------------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .enter{transform:none}
+  .progress{display:none}          /* the folio still reports position */
+}
+
+/* ---- print: the archive should read on paper too ------------------------ */
+@media print{
+  body::before,.chrome,.veil,.finder{display:none}
+  body{background:#fff;color:#000}
+}
