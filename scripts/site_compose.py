@@ -301,12 +301,16 @@ body{margin:0;background:#EFF2F6;color:#0F1720;
     <!-- Four months is what the repos carry: the earliest commit in any of them
          is 2026-05-18. Every figure on this page is stamped reproducible from
          those repos, and a duration is a figure. -->
-    <p class="intro">Most of what I build gets broken on purpose, over and over, to find
-    the weak points — before any of it sees a version 1. It runs on design systems and a
-    custom AI harness tuned to my own workflow, built over the last four months: it started
-    as a simple loop and became the design and production system everything here goes
-    through. <b>Everything below runs; nothing here is a mockup.</b> Running is not the
-    same as finished, and the games are where that shows.</p>
+    <!-- "Broken on purpose" led here until 2026-09-09. It is the right line in tier 2,
+         where it is technical context, and the wrong one as the first thing said about a
+         person: it reads as destructive rather than as a standard. Same practice, stated
+         as what it is for. -->
+    <p class="intro"><b>Good enough is not good enough.</b> I test my own systems against
+    themselves and keep improving them, so the work rarely sits in a resting state. All of
+    it runs on design systems and a custom AI harness tuned to my workflow, built over the
+    last four months — it started as a simple loop and became the design and production
+    system everything here goes through. Everything below runs; nothing here is a mockup.
+    Running is not the same as finished, and the games are where that shows.</p>
 
     <div class="stats">@@stats@@</div>
 
