@@ -176,17 +176,21 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
 .monad .real{display:block;margin-top:10px;font:400 10.5px/1.5 var(--mono);
   letter-spacing:.06em;text-transform:uppercase;color:var(--live)}
 @media (max-width:720px){.monad{grid-template-columns:1fr}}
-.bench-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:clamp(12px,1.6vw,20px)}
+/* PAGE-WIDE, stacked. Three across put a three-column trading cockpit and a
+   signal head with a full indication sentence into ~300px each: cramped, and
+   the signal caption overlapped its own footer. These demos are detailed
+   interfaces, not thumbnails - they need the width to be legible at all. */
+.bench-wall{display:grid;grid-template-columns:1fr;gap:clamp(18px,2.4vw,30px)}
 .bench-wall .panel{border:1px solid var(--hair);background:var(--sheet)}
-.bench-wall .screen{position:relative;aspect-ratio:16/10;background:#04060B;overflow:hidden;
+.bench-wall .screen{position:relative;aspect-ratio:16/9;background:#04060B;overflow:hidden;
   border-bottom:1px solid var(--hair)}
+@media (max-width:700px){.bench-wall .screen{aspect-ratio:4/3}}
 .bench-wall .screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
-.bench-wall .meta{padding:12px 14px 14px}
-.bench-wall h3{margin:0 0 5px;font:600 15px/1.3 var(--sans)}
+.bench-wall .meta{padding:15px 18px 18px}
+.bench-wall h3{margin:0 0 6px;font:600 17px/1.3 var(--sans)}
 .bench-wall h3 a{color:var(--ink);text-decoration:none}
 .bench-wall h3 a:hover,.bench-wall h3 a:focus-visible{color:var(--live)}
-.bench-wall p{margin:0;color:var(--ink-2);font-size:13.5px}
+.bench-wall p{margin:0;color:var(--ink-2);font-size:14.5px;max-width:70ch}
 .foot{margin-top:44px;padding-top:18px;border-top:1px solid var(--hair);
   font:400 11.5px/1.75 var(--mono);color:var(--muted);max-width:78ch}
 .foot b{color:var(--ink-2);font-weight:500}

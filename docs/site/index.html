@@ -135,9 +135,13 @@ body{margin:0;background:#EFF2F6;color:#0F1720;
   gap:clamp(14px,2vw,26px);align-items:start;border:1px solid var(--hair);
   background:var(--sheet);padding:14px}.t2 .monad img{display:block;width:100%;height:auto;border:1px solid var(--hair)}.t2 .monad figcaption{color:var(--ink-2);font-size:14.5px;line-height:1.6}.t2 .monad figcaption b{color:var(--ink);font-weight:600}.t2 .monad .real{display:block;margin-top:10px;font:400 10.5px/1.5 var(--mono);
   letter-spacing:.06em;text-transform:uppercase;color:var(--live)}
-@media (max-width:720px){.t2 .monad{grid-template-columns:1fr}}.t2 .bench-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:clamp(12px,1.6vw,20px)}.t2 .bench-wall .panel{border:1px solid var(--hair);background:var(--sheet)}.t2 .bench-wall .screen{position:relative;aspect-ratio:16/10;background:#04060B;overflow:hidden;
-  border-bottom:1px solid var(--hair)}.t2 .bench-wall .screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}.t2 .bench-wall .meta{padding:12px 14px 14px}.t2 .bench-wall h3{margin:0 0 5px;font:600 15px/1.3 var(--sans)}.t2 .bench-wall h3 a{color:var(--ink);text-decoration:none}.t2 .bench-wall h3 a:hover, .t2 .bench-wall h3 a:focus-visible{color:var(--live)}.t2 .bench-wall p{margin:0;color:var(--ink-2);font-size:13.5px}.t2 .foot{margin-top:44px;padding-top:18px;border-top:1px solid var(--hair);
+@media (max-width:720px){.t2 .monad{grid-template-columns:1fr}}.t2 /* PAGE-WIDE, .t2 stacked. Three across put a three-column trading cockpit and a
+   signal head with a full indication sentence into ~300px each: cramped, .t2 and
+   the signal caption overlapped its own footer. These demos are detailed
+   interfaces, .t2 not thumbnails - they need the width to be legible at all. */
+.bench-wall{display:grid;grid-template-columns:1fr;gap:clamp(18px,2.4vw,30px)}.t2 .bench-wall .panel{border:1px solid var(--hair);background:var(--sheet)}.t2 .bench-wall .screen{position:relative;aspect-ratio:16/9;background:#04060B;overflow:hidden;
+  border-bottom:1px solid var(--hair)}
+@media (max-width:700px){.t2 .bench-wall .screen{aspect-ratio:4/3}}.t2 .bench-wall .screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}.t2 .bench-wall .meta{padding:15px 18px 18px}.t2 .bench-wall h3{margin:0 0 6px;font:600 17px/1.3 var(--sans)}.t2 .bench-wall h3 a{color:var(--ink);text-decoration:none}.t2 .bench-wall h3 a:hover, .t2 .bench-wall h3 a:focus-visible{color:var(--live)}.t2 .bench-wall p{margin:0;color:var(--ink-2);font-size:14.5px;max-width:70ch}.t2 .foot{margin-top:44px;padding-top:18px;border-top:1px solid var(--hair);
   font:400 11.5px/1.75 var(--mono);color:var(--muted);max-width:78ch}.t2 .foot b{color:var(--ink-2);font-weight:500}
 
 /* ---- t3 ---- */
@@ -192,10 +196,13 @@ body{margin:0;background:#EFF2F6;color:#0F1720;
     <p class="role">Self-taught. I build read-only trading instruments, rail training
     software, and games.</p>
 
+    <!-- "The games are small and finish" was a false claim and the owner caught it:
+         none of them is finished. Removed rather than softened. The honest line is
+         that they run, which is a different and smaller claim. -->
     <p class="intro">Most of what I build watches something and refuses to guess. The
     trading tools are read-only by design and fail closed. The training software cites the
-    rule it is drilling. The games are small and finish. <b>Everything below runs; nothing
-    here is a mockup.</b></p>
+    rule it is drilling. <b>Everything below runs; nothing here is a mockup.</b> Running is
+    not the same as finished, and the games are where that shows.</p>
 
     <div class="stats"><div class="stat"><b>1,752</b><span>commits since 2026-05-18</span></div><div class="stat"><b>71</b><span>repositories</span></div><div class="stat"><b>575</b><span>test files</span></div><div class="stat"><b>616</b><span>guards passing</span></div></div>
 
@@ -209,9 +216,10 @@ body{margin:0;background:#EFF2F6;color:#0F1720;
         <p>Rule drills and switching simulations, every answer traced back to the rule
         book rather than to memory.</p></div>
       <div><span class="k">Games</span>
-        <h2>Small, finished games</h2>
-        <p>Ten of them, playable in a browser with nothing to install. Each one ships its
-        own attract screen.</p></div>
+        <h2>Ten games that run</h2>
+        <p>Playable in a browser with nothing to install, and each ships its own attract
+        screen. <b>None of them is finished</b> — they are where a mechanic gets tried
+        before it earns anything larger.</p></div>
     </div>
 
     <div class="onward">

@@ -258,10 +258,13 @@ body{margin:0;background:#EFF2F6;color:#0F1720;
     <p class="role">Self-taught. I build read-only trading instruments, rail training
     software, and games.</p>
 
+    <!-- "The games are small and finish" was a false claim and the owner caught it:
+         none of them is finished. Removed rather than softened. The honest line is
+         that they run, which is a different and smaller claim. -->
     <p class="intro">Most of what I build watches something and refuses to guess. The
     trading tools are read-only by design and fail closed. The training software cites the
-    rule it is drilling. The games are small and finish. <b>Everything below runs; nothing
-    here is a mockup.</b></p>
+    rule it is drilling. <b>Everything below runs; nothing here is a mockup.</b> Running is
+    not the same as finished, and the games are where that shows.</p>
 
     <div class="stats">@@stats@@</div>
 
@@ -275,9 +278,10 @@ body{margin:0;background:#EFF2F6;color:#0F1720;
         <p>Rule drills and switching simulations, every answer traced back to the rule
         book rather than to memory.</p></div>
       <div><span class="k">Games</span>
-        <h2>Small, finished games</h2>
-        <p>Ten of them, playable in a browser with nothing to install. Each one ships its
-        own attract screen.</p></div>
+        <h2>Ten games that run</h2>
+        <p>Playable in a browser with nothing to install, and each ships its own attract
+        screen. <b>None of them is finished</b> — they are where a mechanic gets tried
+        before it earns anything larger.</p></div>
     </div>
 
     <div class="onward">
