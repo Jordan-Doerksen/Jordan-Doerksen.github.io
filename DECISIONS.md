@@ -390,12 +390,16 @@ between sections is exactly the case D-A23 was written for.
 
 | Section | Atmosphere | State |
 |---|---|---|
-| 1 · intro | **Stagecraft v2**, light "Drafting Paper" — `#EFF2F6`, drafting blue `#0D4FA0` | **not built** |
-| 2 · the work | Drafting Monolith, dark — the stage and the mesh | built (CR-12, CR-14) |
-| 3 · games | Near-black `#08090C`, hot `#FF6B4A` — the wall of attract screens | built (CR-15) |
+| 1 · intro | **Stagecraft v2**, light "Drafting Paper" — `#EFF2F6`, drafting blue `#0D4FA0` | **BUILT AND LIVE** (2026-09-08, refined 2026-09-09) |
+| 2 · the work | Drafting Monolith, dark `#0B0E13` — the stage and the mesh | built (CR-12, CR-14) |
+| 3 · games | `#2A1E18` / near-black, hot `#FF6B4A` — the wall of attract screens | built (CR-15) |
 
-**Built at `/docs/site/` first, promoted to the root after review** (owner's call). The live
-front door is not touched while tier 1 — which has never been built — takes its passes.
+~~**Built at `/docs/site/` first, promoted to the root after review** (owner's call). The live
+front door is not touched while tier 1 — which has never been built — takes its passes.~~
+
+⚑ **Row and note corrected 2026-09-22.** Tier 1 was promoted to the root on 2026-09-08 and refined
+on 2026-09-09, so both "not built" and "the live front door is not touched" were stale for two
+weeks. `index.html:27-38` carries the `.t1` Drafting Paper block. See **CR-17** below.
 
 **The transition is a section property, not a scroll effect.** Each section paints its own
 ground, so the palette is correct with JavaScript off and under reduced motion; a script only
@@ -423,6 +427,27 @@ not just for tier 3.
 - Should the site's own entry link this DECISIONS.md as a live example? (Nice-to-have.)
 
 ## Change Log
+- 2026-09-22 — **CR-17 (owner ruling): tier 1 on Stagecraft v2 is APPROVED against D-A09, and the
+  rule is narrowed to ambient motion.** The Change Request D-A09's own Change Rule required was
+  never filed. CR-16 promoted the scroll to the root on 2026-09-08 and tier 1 shipped carrying
+  Stagecraft v2's Drafting Paper palette, but D-A09 names `styles/stagecraft.tokens.css` as "the
+  single control panel" and tier 1 declares its palette as raw hex inside a 404-line inline block
+  in `index.html:27-38`. Two days later, on 2026-09-10, six governance files in `AI-Brain` were
+  written to say the monorepo "can NEVER adopt v2" and "the live site keeps Stagecraft v1" —
+  describing a page that had already changed.
+  **Owner ruling, 2026-09-22: the site is right and the law was wrong.** Ratified here rather than
+  reverted.
+  - **What D-A09 actually forbids is a bible non-negotiable, and ambient motion is the one at
+    issue.** v2's Tier 3 is ambient; it is opt-in through `data-ambient="on"` and OFF by default.
+    Tier 1 does not enable it, so it never broke the rule. **Tier 3 stays banned on this repo
+    without a further Change Request.**
+  - **Accepted debt, recorded rather than fixed:** tier 1's palette is inline hex, not tokens, so
+    D-A09's single-control-panel clause is genuinely broken for that section. Fixing it means
+    extracting a `styles/stagecraft-v2.tokens.css`. Not done here; this CR records it so it is a
+    known exception and not a discovery.
+  - Six `AI-Brain` files corrected the same day: `CLAUDE.md`, `AGENTS.md`, `instructions/me.md`,
+    `instructions/design-system.md`, `instructions/web-ui-law.md`, `workflows/coding.md`.
+  - D-A26's state table is corrected above: tier 1 reads BUILT AND LIVE, not "not built."
 - 2026-09-08 — **CR-16 (owner ruling): the three-tier scroll is PROMOTED to the site index.**
   D-A26 built it at `/docs/site/` and said it would move to the root after review. Reviewed,
   approved, moved. `index.html` is now the composed scroll; `docs/site/` stays as the review
