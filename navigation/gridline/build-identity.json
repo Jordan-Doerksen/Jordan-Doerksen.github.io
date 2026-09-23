@@ -1,11 +1,11 @@
 {
   "name": "Gridline",
   "version": "0.3.0-g2",
-  "release": 1,
+  "release": 2,
   "target": "pwa",
-  "gitSha": "668dbacc65973ea3c86dfee118371ae589b89fcd",
+  "gitSha": "ae73acf4d5811ed8b6d1687221685e6f8d765f55",
   "gitDirty": false,
-  "buildDate": "2026-09-23T09:51:40.686Z",
+  "buildDate": "2026-09-23T20:55:18.931Z",
   "configHashes": [
     {
       "path": "data/config/arcade.json",
