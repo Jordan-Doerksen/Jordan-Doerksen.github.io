@@ -19,7 +19,7 @@ Static site, no build step. GitHub Pages from `main`. Local preview: `python -m 
 ├── docs/legacy-front-door.html   the retired atlas front door, preserved as-is — the ONLY
 │                           page still loading the Daybreak files
 ├── atlas/index.html        ONE template page: ?p=<slug> → renders data/projects/<slug>.json + diagram
-├── rail|games|trading|studio|signals|bots|tools/
+├── rail|games|trading|studio|signals|bots|tools|navigation/
 │   ├── index.html          wing shell — stage + typographic index scoped by data-wing
 │   └── <project>/          embedded project apps (UNTOUCHED by the atlas layer)
 ├── data/
@@ -50,7 +50,7 @@ layer is **Stagecraft**. Every page declares three things and no more:
 |---|---|---|
 | identity_navigation | `.chrome .mark` + `.chrome-nav` | who this is, and the route home from any depth |
 | orientation_progress | `.progress` hairline + `.folio` labels | position in a long document |
-| primary_action | `.find` → the overlay finder | 57 systems; finding one IS the task |
+| primary_action | `.find` → the overlay finder | 58 systems; finding one IS the task |
 
 Composition primitives map to `composition_zones/zones.json`: `.stage`→viewport_stage,
 `.chapter`→content_band, `.field`→media_field, `.index`→content_band (typographic),
@@ -71,7 +71,7 @@ the diagram pulses, leaving complete static states.
 {
   "categories": [{ "slug": "", "name": "", "num": "01", "desc": "" }],
   "projects": [{
-    "slug": "", "name": "", "category": "rail|games|trading|studio|signals|bots|tools",
+    "slug": "", "name": "", "category": "rail|games|trading|studio|signals|bots|tools|navigation",
     "blurb": "", "tags": [""],
     "status": "live|built|active|frozen|retired|superseded|shelved|private",
     "tier": "full|entry",
@@ -104,7 +104,7 @@ the diagram pulses, leaving complete static states.
    `index-list.js` (rows, grouping, the filter field and wing chips) and `finder.js` (the
    overlay accelerator). Stage counts are derived from the same payload — no hand-kept number.
 3. A wing restricts the same renderer with `<div class="index" data-wing="rail">`. There is
-   one index implementation, not eight.
+   one index implementation, not nine.
 4. Registry unavailable → the index says so in place, the finder button disables itself, and
    every hard-coded link (selected systems, wings, footer) keeps working.
 

@@ -1,7 +1,7 @@
 # DECISIONS.md — jordan-doerksen.github.io (Architecture Atlas redo)
 
 ## Core Goal
-Rebuild the portfolio monorepo as a **technical architecture atlas**: the front door, 7 category hubs, and a documentation page per project, all driven from `C:\projects\_archive\notes\ARCHITECTURE-REFERENCE.md` (2026-07-06). The site itself is the proof of documentation and systems ability — README-shaped, not a pitch.
+Rebuild the portfolio monorepo as a **technical architecture atlas**: the front door, 8 category hubs (7 until CR-18), and a documentation page per project, all driven from `C:\projects\_archive\notes\ARCHITECTURE-REFERENCE.md` (2026-07-06). The site itself is the proof of documentation and systems ability — README-shaped, not a pitch.
 
 ## Non-Negotiable Constraints
 - **No build tools, no npm, no framework** for the shell/hub/atlas layer. Plain HTML/CSS/vanilla JS + JSON fetched at runtime.
@@ -33,8 +33,8 @@ One committed Daybreak-styled SVG per full-tier project (`assets/diagrams/<slug>
 A single `atlas/index.html?p=<slug>` renders any project JSON + its SVG. Cards link to it; it links out to the live app and repo. Unknown/missing slug renders an explicit "no entry" state, never a blank or fake page.
 **Change Rule:** per-project bespoke pages are a Change Request.
 
-### D-A06 — Category mapping (reference 9 sections → 7 hubs)
-1 Portfolio & Design → **studio** · 2–3 Sentinel/trading → **trading** · 4 Rail → **rail** · 5 Games + 6 Engines → **games** · 7 Discord bots → **bots**, news engines → **signals** · 8 Client pitches → **studio** · 9 Utilities → **tools**.
+### D-A06 — Category mapping (reference 9 sections → 7 hubs; an eighth, navigation, by CR-18)
+1 Portfolio & Design → **studio** · 2–3 Sentinel/trading → **trading** · 4 Rail → **rail** · 5 Games + 6 Engines → **games** · 7 Discord bots → **bots**, news engines → **signals** · 8 Client pitches → **studio** · 9 Utilities → **tools**. Map-skills training (Gridline) → **navigation**, section 08 (CR-18, 2026-09-23).
 **Change Rule:** new hubs need operator sign-off (URL surface).
 
 ### D-A07 — Legacy Observatory becomes an unlinked annex
@@ -427,6 +427,27 @@ not just for tier 3.
 - Should the site's own entry link this DECISIONS.md as a live example? (Nice-to-have.)
 
 ## Change Log
+- 2026-09-23 — **CR-18 (owner ruling, recorded in map-reading-trainer D-061 and D-069): an eighth
+  section, Navigation.** D-A06's Change Rule needs operator sign-off for a new hub; the owner gave
+  it on 2026-09-22 ("New section: Navigation", D-061) and asked for the site fix first ("Fix both,
+  then publish", D-069).
+  - `data/registry.json`: category `navigation`, number 08, "Map reading and navigation
+    training."; project `gridline`, tier `full`, url `/navigation/gridline/`, repo `null` (the
+    code repository is private). Its write-up `data/projects/gridline.json` and diagram
+    `assets/diagrams/gridline.svg` follow the full-tier rule. The registry blurb and the
+    write-up's oneLiner carry the build's own description, "An unofficial trainer for Canadian
+    topographic map skills.", and describe the app only.
+  - `navigation/index.html`: the wing shell with `data-wing="navigation"`. Every section page
+    now counts eight sections, and every section footer (the eight wings, the write-up page and
+    `front-door-stagecraft.html`) lists Navigation. Tools' "next" link leads to it.
+    `docs/legacy-front-door.html` is left as preserved (D-A07).
+  - `.gitattributes`: `navigation/gridline/** -text`. Gridline's service worker checks every
+    file it precaches against a SHA-256 list, so git must store the built files byte for byte.
+  - `rail/cror-signals/sw.js` and `rail/training-assistant/sw.js`: activate now deletes only
+    that app's own caches (`cror-signals-v<n>`, `cror-v<n>`); before, each deleted every cache on
+    the origin, Gridline's included. The same one-line fix is in both standalone repositories.
+  - `navigation/gridline/` holds a copy of Gridline's build (0.3.0-g2), written by that
+    repository's `npm run publish:site`; the source stays private.
 - 2026-09-22 — **CR-17 (owner ruling): tier 1 on Stagecraft v2 is APPROVED against D-A09, and the
   rule is narrowed to ambient motion.** The Change Request D-A09's own Change Rule required was
   never filed. CR-16 promoted the scroll to the root on 2026-09-08 and tier 1 shipped carrying

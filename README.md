@@ -1,6 +1,6 @@
 # jordan-doerksen.github.io
 
-One static monorepo: a front page, seven section pages, a write-up page per
+One static monorepo: a front page, eight section pages, a write-up page per
 documented project, and the project apps themselves — all in the same repo, all
 driven by JSON.
 
@@ -24,8 +24,8 @@ atlas/index.html           ONE template page: /atlas/?p=<slug> renders any proje
                            stack, diagram, data flow, components, and decisions
 rail/ games/ trading/
 studio/ signals/ bots/
-tools/                     seven section pages (thin shells) + the project apps inside
-data/registry.json         the list: 57 projects, card-level fields, tier full|entry
+tools/ navigation/         eight section pages (thin shells) + the project apps inside
+data/registry.json         the list: 58 projects, card-level fields, tier full|entry
 data/projects/<slug>.json  write-up content, one file per documented project
 assets/diagrams/<slug>.svg hand-drawn data-flow diagram per documented project
 js/shell/                  boot · chrome · finder · index-list — shared by front + sections

@@ -1,0 +1,31 @@
+<svg viewBox="0 0 1000 440" role="img" aria-label="Gridline data flow. The source registry feeds the rules that seeded templates use; each template builds an item and its answer before the item is shown in a drill, Scale Sprint or Grid Snap. The learner's answer goes to an exact grader that uses whole-number fractions, not floating point, and the round result is stored in this browser only. The same source records feed the How to read it pages, one tap from play, and the phone Companion's reference and tools. A service worker installs an offline pack, checking every file by SHA-256 and deleting only its own caches." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="grl-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-a"/></marker>
+    <marker id="grl-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="dg-arrow-m"/></marker>
+  </defs>
+
+  <!-- edges -->
+  <g class="dg-edge gold e-src e-tpl"><path d="M215 119 H261" marker-end="url(#grl-a)"/><text x="238" y="84" text-anchor="middle">rules</text></g>
+  <g class="dg-edge gold e-tpl e-drl"><path d="M455 119 H501" marker-end="url(#grl-a)"/><text x="478" y="84" text-anchor="middle">item + answer</text></g>
+  <g class="dg-edge gold e-drl e-grd"><path d="M705 119 H751" marker-end="url(#grl-a)"/><text x="728" y="84" text-anchor="middle">your answer</text></g>
+  <g class="dg-edge gold e-grd e-store"><path d="M865 148 V226" marker-end="url(#grl-a)"/><text x="877" y="191">round result</text></g>
+  <g class="dg-edge e-src e-help"><path d="M120 148 V259 H261" marker-end="url(#grl-m)"/><text x="190" y="251" text-anchor="middle">cites + labels</text></g>
+  <g class="dg-edge dash e-help e-drl"><path d="M455 259 H605 V152" marker-end="url(#grl-m)"/><text x="617" y="210">one tap from play</text></g>
+  <g class="dg-edge e-src e-comp"><path d="M120 148 V195 H40 V336" marker-end="url(#grl-m)"/><text x="48" y="318">same records</text></g>
+  <g class="dg-edge dash e-pack e-drl"><path d="M560 336 V300 H530 V152" marker-end="url(#grl-m)"/><text x="572" y="326">serves offline</text></g>
+
+  <!-- nodes -->
+  <g class="dg-node" data-n="src"><rect x="25" y="90" width="190" height="58" rx="8"/><text class="n" x="120" y="114" text-anchor="middle">SOURCE REGISTRY</text><text class="r" x="120" y="132" text-anchor="middle">classes · dates · licences</text></g>
+  <g class="dg-node" data-n="tpl"><rect x="265" y="90" width="190" height="58" rx="8"/><text class="n" x="360" y="114" text-anchor="middle">TEMPLATES</text><text class="r" x="360" y="132" text-anchor="middle">seeded · answer built first</text></g>
+  <g class="dg-node" data-n="drl"><rect x="505" y="90" width="200" height="58" rx="8"/><text class="n" x="605" y="114" text-anchor="middle">DRILLS</text><text class="r" x="605" y="132" text-anchor="middle">Scale Sprint · Grid Snap</text></g>
+  <g class="dg-node" data-n="grd"><rect x="755" y="90" width="220" height="58" rx="8"/><text class="n" x="865" y="114" text-anchor="middle">EXACT GRADER</text><text class="r" x="865" y="132" text-anchor="middle">whole-number fractions</text></g>
+  <g class="dg-node" data-n="store"><rect x="755" y="230" width="220" height="58" rx="8"/><text class="n" x="865" y="254" text-anchor="middle">THIS BROWSER</text><text class="r" x="865" y="272" text-anchor="middle">rounds · settings · no server</text></g>
+  <g class="dg-node" data-n="help"><rect x="265" y="230" width="190" height="58" rx="8"/><text class="n" x="360" y="254" text-anchor="middle">HOW TO READ IT</text><text class="r" x="360" y="272" text-anchor="middle">sources and labels per rule</text></g>
+  <g class="dg-node" data-n="comp"><rect x="25" y="340" width="190" height="58" rx="8"/><text class="n" x="120" y="364" text-anchor="middle">COMPANION</text><text class="r" x="120" y="382" text-anchor="middle">reference · tools · phone</text></g>
+  <g class="dg-node" data-n="pack"><rect x="460" y="340" width="200" height="58" rx="8"/><text class="n" x="560" y="364" text-anchor="middle">OFFLINE PACK</text><text class="r" x="560" y="382" text-anchor="middle">SHA-256 per file · own caches</text></g>
+
+  <!-- callouts -->
+  <text class="dg-callout" x="700" y="340">[ TWO SOURCES OR IT IS NOT MARKED ]</text>
+  <text class="dg-callout-sub" x="700" y="358">one source or unchecked: taught with its label</text>
+  <text class="dg-callout-sub" x="700" y="373">drill scores count toward no skill yet</text>
+</svg>

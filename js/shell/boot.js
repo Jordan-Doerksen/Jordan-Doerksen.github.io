@@ -1,4 +1,4 @@
-/* boot.js — shell entry point for the front page and the seven sections.
+/* boot.js — shell entry point for the front page and the eight sections.
    ---------------------------------------------------------------------------
    One fetch (data/registry.json) feeds the list and the finder. Depth is read
    from <html data-root>, so the same module runs at "/" and at "/rail/".

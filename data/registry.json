@@ -41,6 +41,12 @@
    "name": "Tools",
    "num": "07",
    "desc": "Small tools for small annoyances"
+  },
+  {
+   "slug": "navigation",
+   "name": "Navigation",
+   "num": "08",
+   "desc": "Map reading and navigation training."
   }
  ],
  "projects": [
@@ -986,6 +992,23 @@
    "repo": null,
    "featured": false,
    "spec": "5 DEMOS · NO BACKEND"
+  },
+  {
+   "slug": "gridline",
+   "name": "Gridline",
+   "category": "navigation",
+   "blurb": "An unofficial trainer for Canadian topographic map skills. Two timed drills and a phone reference, offline in the browser.",
+   "tags": [
+    "Navigation",
+    "Drills",
+    "PWA"
+   ],
+   "status": "live",
+   "tier": "full",
+   "url": "/navigation/gridline/",
+   "repo": null,
+   "featured": false,
+   "spec": "TWO DRILLS · OFFLINE · UNOFFICIAL"
   }
  ]
 }

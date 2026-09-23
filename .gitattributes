@@ -7,3 +7,8 @@ games/**/*.js   text eol=lf
 games/**/*.css  text eol=lf
 games/**/*.json text eol=lf
 data/*.json     text eol=lf
+
+# Gridline (navigation/gridline/, CR-18): its service worker checks each precached file
+# against the SHA-256 list the build wrote, so these bytes must reach Pages unchanged.
+# -text stores them as they are: no line-ending conversion on commit or checkout.
+navigation/gridline/** -text

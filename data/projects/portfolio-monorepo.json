@@ -12,7 +12,7 @@
   ],
   "components": [
     { "name": "Root portfolio", "desc": "index.html — document-shaped front door: TOC, numbered principles, three flagship case studies, full project index." },
-    { "name": "7 category hubs", "desc": "rail/, games/, trading/, studio/, signals/, bots/, tools/ — thin shells that fetch the registry and render cards client-side." },
+    { "name": "8 category hubs", "desc": "rail/, games/, trading/, studio/, signals/, bots/, tools/, navigation/ — thin shells that fetch the registry and render cards client-side." },
     { "name": "Project pages", "desc": "Every project's page lives inside its category folder in this same repo." },
     { "name": "data/registry.json", "desc": "Single source of truth for categories and project cards." },
     { "name": "styles/", "desc": "Copied Daybreak Editorial snapshot: tokens.css, style.css, effects.js." },
