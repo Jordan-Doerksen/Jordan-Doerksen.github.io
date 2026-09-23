@@ -1,0 +1,53 @@
+{
+  "id": "./",
+  "name": "Gridline",
+  "short_name": "Gridline",
+  "lang": "en-CA",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#14171a",
+  "background_color": "#14171a",
+  "categories": [
+    "education",
+    "reference",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Drills",
+      "short_name": "Drills",
+      "description": "Timed map-reading drills.",
+      "url": "./#/course"
+    },
+    {
+      "name": "Companion",
+      "short_name": "Companion",
+      "url": "./#/companion",
+      "description": "Reference and tools only. Drills and progress are on the laptop version."
+    }
+  ],
+  "description": "An unofficial trainer for Canadian topographic map skills. Independent personal training aid; not affiliated with or endorsed by DND/CAF or the Government of Canada."
+}

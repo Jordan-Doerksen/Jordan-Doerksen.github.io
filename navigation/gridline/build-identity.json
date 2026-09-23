@@ -1,0 +1,68 @@
+{
+  "name": "Gridline",
+  "version": "0.3.0-g2",
+  "release": 1,
+  "target": "pwa",
+  "gitSha": "668dbacc65973ea3c86dfee118371ae589b89fcd",
+  "gitDirty": false,
+  "buildDate": "2026-09-23T09:51:40.686Z",
+  "configHashes": [
+    {
+      "path": "data/config/arcade.json",
+      "sha256": "b7d7a01c37807462044c3482d8e1603cd4199b24dbbf501135463e58ab80d645"
+    },
+    {
+      "path": "data/config/difficulty.json",
+      "sha256": "b7ef1c18aef14a1c7c77e90f9c84d31eb975a3db8e0c5b7684e5fbf958419456"
+    },
+    {
+      "path": "data/config/mastery.json",
+      "sha256": "1a0b2d9f1ce2f214112d5ac156a3bf2c6ca9d515956f0ee626c4d78fb42a746b"
+    },
+    {
+      "path": "data/config/sampling.json",
+      "sha256": "ed29bd4fd30d9c9eb5e609f7178667afaec782d05f78ce0af34fa873f93660f8"
+    },
+    {
+      "path": "data/config/tolerances.json",
+      "sha256": "6938d29fc4526d31b6235f32605256fe84c160733efd63af5549c24baf6f7655"
+    },
+    {
+      "path": "data/exercises/use-levels.json",
+      "sha256": "398e5c46e31dd7242e3a4a1f8e853ee1f5dab1d59adcb3822d1b51dd323415ed"
+    },
+    {
+      "path": "data/lessons/grid-reference/grid-help.json",
+      "sha256": "03ea59e70ea775bb944ee5751f4f6f333ff1bbc3ce55d9c1de83e13316200a49"
+    },
+    {
+      "path": "data/lessons/scale-distance/lessons.json",
+      "sha256": "e515ed01e6cea6bb5703355d36c35f5ace645d20b31fc2c5d506574d9cfc49f5"
+    },
+    {
+      "path": "data/lessons/scale-distance/sprint-help.json",
+      "sha256": "bb6329d3949c7f47ecceacf2b9b30538f7c16b1f04b86e605d47a9458837807c"
+    },
+    {
+      "path": "data/maps/asset-provenance.json",
+      "sha256": "a1bedafb4e3627bf54b259c0872aa46fe1d836804a7cc0865b9a701f5a946d4b"
+    },
+    {
+      "path": "data/skills/prerequisites.json",
+      "sha256": "6b5a446bddc1fbc79f48fadacc9bd4f005e6ec1e50215af99d058ea10b48f52c"
+    },
+    {
+      "path": "data/skills/skills.json",
+      "sha256": "3ed8d9cebfca30bb4d20662b6bcccb245cf77285e988b95f7d2243171609f01d"
+    },
+    {
+      "path": "data/sources/sources.json",
+      "sha256": "68cdad0acac7a94b5e6568a0f7cf98a412ad99b0bab8fd49120bc54244bfcb23"
+    },
+    {
+      "path": "data/text/audit-classes.json",
+      "sha256": "481f21b3b745e0217568080c6233f62db0206da2f437abf84b4cf455f75f647f"
+    }
+  ],
+  "configSetHash": "06a20dbc1584d866e403f6a4b999d868e876afcaf5a2909731dfd00b2a367fde"
+}
