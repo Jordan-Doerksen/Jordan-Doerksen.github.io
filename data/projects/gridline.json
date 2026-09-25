@@ -3,27 +3,31 @@
   "name": "Gridline",
   "category": "navigation",
   "status": "live",
-  "statusNote": "Version 0.3.0-g2, the first public build: two timed drills on the laptop and a reference-and-tools Companion on the phone. Drill scores count toward no skill yet.",
+  "statusNote": "Version 0.3.0-g4: two lessons and two timed drills on the laptop, and a reference-and-tools Companion on the phone. Mastery checks are not in this build.",
   "oneLiner": "An unofficial trainer for Canadian topographic map skills. It runs in the browser, keeps each visitor's progress in that browser, and works offline once its pack is installed.",
   "stack": [
     "Vite, React and TypeScript, built to static files and served from a subfolder",
     "A hand-written service worker: every precached file is checked by SHA-256 at install, and it deletes only its own caches",
-    "Exact rational arithmetic (BigInt) for every marked answer; no floating point decides a mark",
+    "Exact rational arithmetic (BigInt) for every generated item's mark; no floating point decides a mark",
     "node --test and Playwright gates in one chain; the only runtime libraries are React and React DOM"
   ],
   "components": [
+    { "name": "Course", "desc": "The laptop's home: eleven units in path order. Units 2 and 3 each have one lesson, a single page in seven parts from objectives to sources." },
+    { "name": "End check", "desc": "Six generated items, untimed, two attempts each; it passes with at most one item missed on the first attempt. Pass or fail, the lesson then offers its drill's untimed warm-up." },
     { "name": "Drills", "desc": "Scale Sprint (map distance to ground distance and back) and Grid Snap (four- and six-figure grid references on a drawn grid), each a 90-second round." },
     { "name": "Warm-up", "desc": "The same items with no clock and no score; the full worked correction stays on screen after every answer." },
-    { "name": "How to read it", "desc": "One page per drill. Each rule shows its source ids; a rule with one source, or not yet checked, also shows its label and the reason." },
+    { "name": "How to read it", "desc": "One page per drill. Each rule shows its sources as short labels, each a link to its record under Reference; a rule labelled One source or Unverified also shows the label and the reason." },
     { "name": "Companion", "desc": "The phone surface: a searchable reference, a scale calculator, a grid scratchpad and the source panels. It records no progress." },
     { "name": "Source registry", "desc": "Every source record the build carries, with its class, dates, licence and how it is used. Crown-copyright guides are linked, never copied." },
     { "name": "Offline pack", "desc": "Precache lists per surface, a cache name taken from the content of the build, and an install that fails rather than cache a wrong file." }
   ],
   "dataFlow": [
-    "A seeded generator builds each item and its answer before the item is shown.",
+    "A seeded generator builds each drill item and its answer before the item is shown.",
+    "The lessons' generated checks and end checks draw from the same templates as the drills.",
     "The learner answers, and an exact grader marks the answer.",
     "A timed round keeps score and combo; the warm-up shows the worked correction and records nothing.",
-    "Round results stay in this browser. In this version, drill scores count toward no skill.",
+    "Round results stay in this browser. Each answer in a lesson check, an end check or a timed round is recorded there against its skill, which then counts as practising.",
+    "Settings → Data exports the progress to a file and can import one back, replacing the progress in this browser.",
     "The service worker checks every file of the offline pack by SHA-256 before it serves a single one offline."
   ],
   "integrations": [
@@ -31,7 +35,8 @@
     "Rules cite NRCan pages and DND cadet guides by id; the text is paraphrased and the publications are linked, not bundled"
   ],
   "decisions": [
-    "A rule is marked only when two independent sources agree; a point with one source, or not yet checked, is taught with its label and never marked.",
+    "Lesson first, then warm-up, then timed drill: until a lesson's end check is submitted, the Drills board and the drill's pre-round point to the lesson. Nothing is locked.",
+    "A rule is marked only when two independent sources agree; a point labelled One source or Unverified is taught with that label and never marked.",
     "Every public string describes the build that shows it, not the plan.",
     "Screen practice is not field practice. The app claims results on a screen and nothing more.",
     "No accounts, no backend, no telemetry: each visitor's progress stays in that visitor's browser.",

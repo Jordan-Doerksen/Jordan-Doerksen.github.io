@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 348">
+  <!-- Lesson "Map distance to ground distance", the worked example (43 mm at 1:50,000).
+       Shown through <img>, so it carries its own ground and Field palette values, light by
+       default and dark under prefers-color-scheme (BACKLOG R-02; mockups/field-palette.css,
+       D-068). The map box uses the recessed ground, as the map strip does in scale-1-50000.svg;
+       the three ground boxes use the sheet; the answer box has the olive rule. -->
+  <style>
+    .bg { fill: #FCFCF8; }
+    .mapbox { fill: #E4E7DB; stroke: #7B816D; stroke-width: 1; }
+    .box { fill: #FCFCF8; stroke: #818673; stroke-width: 1; }
+    .answer { stroke: #404B18; stroke-width: 2; }
+    .arrow { fill: none; stroke: #404B18; stroke-width: 2; }
+    .head { fill: #404B18; }
+    .t { font-family: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 12px; fill: #151A12; }
+    .v { font-size: 15px; font-weight: 600; }
+    .m { fill: #5E5952; }
+    .s { fill: #404B18; font-weight: 600; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1D2119; }
+      .mapbox { fill: #0E100B; stroke: #747965; }
+      .box { fill: #1D2119; stroke: #6A6F5D; }
+      .answer { stroke: #B0BC75; }
+      .arrow { stroke: #B0BC75; }
+      .head { fill: #B0BC75; }
+      .t { fill: #E3E6DA; }
+      .m { fill: #A8A29A; }
+      .s { fill: #B0BC75; }
+    }
+  </style>
+  <rect class="bg" width="320" height="348"/>
+
+  <rect class="mapbox" x="20" y="16" width="150" height="52" rx="2"/>
+  <text class="t v" x="32" y="39">43 mm</text>
+  <text class="t m" x="32" y="58">on the map</text>
+
+  <path class="arrow" d="M95 70V96"/>
+  <path class="head" d="M89 94L95 104L101 94Z"/>
+  <text class="t s" x="112" y="90">× 50,000</text>
+  <text class="t m" x="184" y="90">scale number</text>
+
+  <rect class="box" x="20" y="104" width="150" height="52" rx="2"/>
+  <text class="t v" x="32" y="127">2,150,000 mm</text>
+  <text class="t m" x="32" y="146">on the ground</text>
+
+  <path class="arrow" d="M95 158V184"/>
+  <path class="head" d="M89 182L95 192L101 182Z"/>
+  <text class="t s" x="112" y="178">÷ 1,000</text>
+  <text class="t m" x="184" y="178">mm to m</text>
+
+  <rect class="box" x="20" y="192" width="150" height="52" rx="2"/>
+  <text class="t v" x="32" y="215">2,150 m</text>
+  <text class="t m" x="32" y="234">on the ground</text>
+
+  <path class="arrow" d="M95 246V272"/>
+  <path class="head" d="M89 270L95 280L101 270Z"/>
+  <text class="t s" x="112" y="266">÷ 1,000</text>
+  <text class="t m" x="184" y="266">m to km</text>
+
+  <rect class="box answer" x="20" y="280" width="150" height="52" rx="2"/>
+  <text class="t v" x="32" y="303">2.15 km</text>
+  <text class="t m" x="32" y="322">on the ground</text>
+</svg>

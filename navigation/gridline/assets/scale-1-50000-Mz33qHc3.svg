@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 196">
+  <!-- Lesson "Map distance to ground distance", teaching point "What 1:50,000 means".
+       The lesson player shows this file through <img>, where page CSS variables and
+       currentColor do not reach (BACKLOG R-02). So the drawing carries its own ground and
+       its own Field palette values (mockups/field-palette.css, D-068), light by default and
+       dark under prefers-color-scheme, and every ink sits on a ground drawn here.
+       The ground labels give centimetres first: "× 50,000" keeps the map's unit, and the change
+       to metres or kilometres is drawn as an equality (scale lesson review, finding 4). The labels
+       sit below the ground line, clear of the two dashed links. -->
+  <style>
+    .bg { fill: #FCFCF8; }
+    .strip { fill: #E4E7DB; stroke: #7B816D; stroke-width: 1; }
+    .map { fill: none; stroke: #404B18; stroke-width: 3; }
+    .ground { fill: none; stroke: #151A12; stroke-width: 3; }
+    .tick { stroke-width: 2; }
+    .link { fill: none; stroke: #5E5952; stroke-width: 1; stroke-dasharray: 4 3; }
+    .t { font-family: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 12px; fill: #151A12; }
+    .m { fill: #5E5952; }
+    .s { fill: #404B18; font-weight: 600; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1D2119; }
+      .strip { fill: #0E100B; stroke: #747965; }
+      .map { stroke: #B0BC75; }
+      .ground { stroke: #E3E6DA; }
+      .link { stroke: #A8A29A; }
+      .t { fill: #E3E6DA; }
+      .m { fill: #A8A29A; }
+      .s { fill: #B0BC75; }
+    }
+  </style>
+  <rect class="bg" width="340" height="196"/>
+  <rect class="strip" x="20" y="16" width="300" height="56" rx="2"/>
+  <path class="link" d="M110 57L20 132M190 57L320 132"/>
+  <path class="map" d="M110 50H190"/>
+  <path class="map tick" d="M110 43V57M150 45V55M190 43V57"/>
+  <text class="t" x="130" y="38" text-anchor="middle">1 cm</text>
+  <text class="t" x="170" y="38" text-anchor="middle">1 cm</text>
+  <text class="t" x="198" y="54">2 cm on the map</text>
+  <text class="t s" x="165" y="100" text-anchor="middle">× 50,000</text>
+  <text class="t" x="95" y="162" text-anchor="middle">50,000 cm = 500 m</text>
+  <text class="t" x="245" y="162" text-anchor="middle">50,000 cm = 500 m</text>
+  <path class="ground" d="M20 138H320"/>
+  <path class="ground tick" d="M20 130V146M170 132V144M320 130V146"/>
+  <text class="t" x="170" y="184" text-anchor="middle">100,000 cm = 1 km on the ground</text>
+</svg>

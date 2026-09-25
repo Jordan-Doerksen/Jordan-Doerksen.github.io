@@ -1,23 +1,31 @@
 {
   "name": "Gridline",
-  "version": "0.3.0-g2",
-  "release": 2,
+  "version": "0.3.0-g4",
+  "release": 3,
   "target": "pwa",
-  "gitSha": "ae73acf4d5811ed8b6d1687221685e6f8d765f55",
+  "gitSha": "b185db9ac0bca16c984fb1f5ee2c9fe3bf4b1298",
   "gitDirty": false,
-  "buildDate": "2026-09-23T20:55:18.931Z",
+  "buildDate": "2026-09-25T13:45:46.001Z",
   "configHashes": [
     {
       "path": "data/config/arcade.json",
-      "sha256": "b7d7a01c37807462044c3482d8e1603cd4199b24dbbf501135463e58ab80d645"
+      "sha256": "e1c48c0e0d7d1de224a1f71cadaa39e4179810db4f726fbbaa8e66cfa52448de"
     },
     {
       "path": "data/config/difficulty.json",
-      "sha256": "b7ef1c18aef14a1c7c77e90f9c84d31eb975a3db8e0c5b7684e5fbf958419456"
+      "sha256": "65890a34546c2b571f88381b23be84e578d449b1fdebd5686037116cb6340b34"
+    },
+    {
+      "path": "data/config/lessons.json",
+      "sha256": "35db85737970ff5e5a64564828f06bfeb3d7c7096791a2a4df10c523f154ef7f"
     },
     {
       "path": "data/config/mastery.json",
       "sha256": "1a0b2d9f1ce2f214112d5ac156a3bf2c6ca9d515956f0ee626c4d78fb42a746b"
+    },
+    {
+      "path": "data/config/review.json",
+      "sha256": "1a5a504fba2cabaaeefc2ea622d48845860cdc1719174dbc5e36d817dde97005"
     },
     {
       "path": "data/config/sampling.json",
@@ -25,19 +33,67 @@
     },
     {
       "path": "data/config/tolerances.json",
-      "sha256": "6938d29fc4526d31b6235f32605256fe84c160733efd63af5549c24baf6f7655"
+      "sha256": "25585ffe252656d703d4007b3864e0beb0184be045cad81aa4f015826bd85bc4"
+    },
+    {
+      "path": "data/curriculum/units.json",
+      "sha256": "a2b48b8ea783b39530ad0d0da3098d1af8ab61e4e58b26d44d8302e5418c20c3"
+    },
+    {
+      "path": "data/exercises/GR-POINT-TO-REF-V1.json",
+      "sha256": "21c36f01ab5a2bd3225d6381bea134fd2b12b2d2b99b4fb8f4d1b1734ed65755"
+    },
+    {
+      "path": "data/exercises/GR-REF-TO-POINT-V1.json",
+      "sha256": "7adb4185664444123d92a993e07374df714adc7b4382d6f40bf42c8005d30ca8"
+    },
+    {
+      "path": "data/exercises/SD-AUTHENTIC-MEASURE-V1.json",
+      "sha256": "6470e00d2944e397ae9e9a78d2fa435d6e51880f7ef210130ccdfd9326e333b9"
+    },
+    {
+      "path": "data/exercises/SD-GROUND-TO-MAP-V1.json",
+      "sha256": "fc7da275477418f66f55e803887ba5316a3ea2bce549d1aa03c238a0c92c7bfc"
+    },
+    {
+      "path": "data/exercises/SD-MAP-TO-GROUND-V1.json",
+      "sha256": "52b0d35c06138f4cf3705e54a6fcafc6bd04b2889157e9398f7e29d3152dde49"
+    },
+    {
+      "path": "data/exercises/SD-REASONABLENESS-V1.json",
+      "sha256": "da1cf2ac8cd0cad67f208eda95c95fe3e2691e41bfdab657f4760a0d56a121fc"
+    },
+    {
+      "path": "data/exercises/SD-RF-MEANING-V1.json",
+      "sha256": "18ce895f5efc6162df4063dc7a4914bf73592da32e5a5686cc3a77a755290821"
+    },
+    {
+      "path": "data/exercises/SD-ROUTE-STRING-V1.json",
+      "sha256": "780ab771a0312f13b4ff3b3e963f100ec7b0a92c504a8001bc8ac4d27158493c"
+    },
+    {
+      "path": "data/exercises/SD-STRAIGHT-RULER-V1.json",
+      "sha256": "b234dc29f82450d6e6aa867dc993e79093b1d792c63c7772c5fee32348733b29"
     },
     {
       "path": "data/exercises/use-levels.json",
-      "sha256": "398e5c46e31dd7242e3a4a1f8e853ee1f5dab1d59adcb3822d1b51dd323415ed"
+      "sha256": "08cbd4ec5bb6721feb978527cdf113caaa6e7d1f195296fbf760ab9f086ffd5e"
     },
     {
       "path": "data/lessons/grid-reference/grid-help.json",
-      "sha256": "03ea59e70ea775bb944ee5751f4f6f333ff1bbc3ce55d9c1de83e13316200a49"
+      "sha256": "5eebe746da3c07a9f284889f5f58f927bfde054f4ca08f5899a69c410a58b135"
+    },
+    {
+      "path": "data/lessons/grid-reference/six-figure-grid-references.json",
+      "sha256": "2ba666ba0f2da79711f9330679f21926b0332949330a6cf97c8a9a6bd7085d02"
     },
     {
       "path": "data/lessons/scale-distance/lessons.json",
       "sha256": "e515ed01e6cea6bb5703355d36c35f5ace645d20b31fc2c5d506574d9cfc49f5"
+    },
+    {
+      "path": "data/lessons/scale-distance/map-distance-to-ground-distance.json",
+      "sha256": "48af8446ae143ef350d99a5f6f9c15f6f3c01033221a490da7b661e5eb3eb1b7"
     },
     {
       "path": "data/lessons/scale-distance/sprint-help.json",
@@ -45,24 +101,36 @@
     },
     {
       "path": "data/maps/asset-provenance.json",
-      "sha256": "a1bedafb4e3627bf54b259c0872aa46fe1d836804a7cc0865b9a701f5a946d4b"
+      "sha256": "00a600919549b21086b572e79b1d9d89abf410efbf61b102fafc8d663c294ee1"
+    },
+    {
+      "path": "data/rules/grid-reference.json",
+      "sha256": "c91ab31811b077a64a9b0a8ee79b33ba540252301e793ddbd5e48bb33e0ae0e5"
+    },
+    {
+      "path": "data/rules/scale-distance.json",
+      "sha256": "55907af0726f01fd9aa1f8640780de18599b9c805895791bd1e06428a7fbfce9"
     },
     {
       "path": "data/skills/prerequisites.json",
-      "sha256": "6b5a446bddc1fbc79f48fadacc9bd4f005e6ec1e50215af99d058ea10b48f52c"
+      "sha256": "7f335ef064e2bfe16aab4d9ef9750d041e9d256e7d3a28b0ce2d47672e7f1ed0"
     },
     {
       "path": "data/skills/skills.json",
-      "sha256": "3ed8d9cebfca30bb4d20662b6bcccb245cf77285e988b95f7d2243171609f01d"
+      "sha256": "a574e7aef8083846304888dc45d9db63b41769179c3787a76c56690c99efd44d"
     },
     {
       "path": "data/sources/sources.json",
-      "sha256": "68cdad0acac7a94b5e6568a0f7cf98a412ad99b0bab8fd49120bc54244bfcb23"
+      "sha256": "99002bf1844c36d196326e8209b6664ee770d08e62038ff0af7ba3284074a015"
     },
     {
       "path": "data/text/audit-classes.json",
-      "sha256": "481f21b3b745e0217568080c6233f62db0206da2f437abf84b4cf455f75f647f"
+      "sha256": "b1175f4d215ca7e59f5d2d4bdf1ea7e08d9f40d3a90c6c32dea2433cf1d6b397"
+    },
+    {
+      "path": "data/text/grid.json",
+      "sha256": "a9de1e1d8cbd9ae99a5b2afa69e574118579165dd208832d2d1caaeed04defd4"
     }
   ],
-  "configSetHash": "06a20dbc1584d866e403f6a4b999d868e876afcaf5a2909731dfd00b2a367fde"
+  "configSetHash": "cf3cfec3615b75745c1852d32aec9065f68053a62fec37e609907d5ea7641c79"
 }

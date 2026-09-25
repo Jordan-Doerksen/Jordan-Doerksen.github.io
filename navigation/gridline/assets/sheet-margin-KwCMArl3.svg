@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200">
+  <!-- Lesson "Map distance to ground distance", teaching point "Before you start: the scale on the
+       map". It shows where on a sheet the scale sits, for a learner who has never held one (scale
+       lesson review, finding 22). Shown through <img>, so it carries its own ground and Field
+       palette values, light by default and dark under prefers-color-scheme (BACKLOG R-02;
+       mockups/field-palette.css, D-068), with the same inks as scale-1-50000.svg. The map area uses
+       the recessed ground; the margin is the sheet around it. -->
+  <style>
+    .bg { fill: #FCFCF8; }
+    .sheet { fill: #FCFCF8; stroke: #7B816D; stroke-width: 1; }
+    .maparea { fill: #E4E7DB; stroke: #7B816D; stroke-width: 1; }
+    .t { font-family: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 12px; fill: #151A12; }
+    .m { fill: #5E5952; }
+    .s { fill: #404B18; font-weight: 600; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1D2119; }
+      .sheet { fill: #1D2119; stroke: #747965; }
+      .maparea { fill: #0E100B; stroke: #747965; }
+      .t { fill: #E3E6DA; }
+      .m { fill: #A8A29A; }
+      .s { fill: #B0BC75; }
+    }
+  </style>
+  <rect class="bg" width="320" height="200"/>
+  <rect class="sheet" x="16" y="12" width="288" height="176" rx="2"/>
+  <rect class="maparea" x="44" y="40" width="232" height="116"/>
+  <text class="t m" x="160" y="30" text-anchor="middle">margin</text>
+  <text class="t" x="160" y="102" text-anchor="middle">map</text>
+  <text class="t s" x="160" y="176" text-anchor="middle">Scale 1:50,000</text>
+</svg>

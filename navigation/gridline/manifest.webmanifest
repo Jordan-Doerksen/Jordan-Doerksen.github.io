@@ -37,16 +37,16 @@
   ],
   "shortcuts": [
     {
-      "name": "Drills",
-      "short_name": "Drills",
-      "description": "Timed map-reading drills.",
+      "name": "Course",
+      "short_name": "Course",
+      "description": "Map-reading lessons, then warm-ups and timed drills.",
       "url": "./#/course"
     },
     {
       "name": "Companion",
       "short_name": "Companion",
       "url": "./#/companion",
-      "description": "Reference and tools only. Drills and progress are on the laptop version."
+      "description": "Reference and tools only. Lessons, drills and progress are on the laptop version."
     }
   ],
   "description": "An unofficial trainer for Canadian topographic map skills. Independent personal training aid; not affiliated with or endorsed by DND/CAF or the Government of Canada."

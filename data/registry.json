@@ -997,9 +997,10 @@
    "slug": "gridline",
    "name": "Gridline",
    "category": "navigation",
-   "blurb": "An unofficial trainer for Canadian topographic map skills. Two timed drills and a phone reference, offline in the browser.",
+   "blurb": "An unofficial trainer for Canadian topographic map skills. Two lessons, two timed drills and a phone reference, offline in the browser.",
    "tags": [
     "Navigation",
+    "Lessons",
     "Drills",
     "PWA"
    ],
@@ -1008,7 +1009,7 @@
    "url": "/navigation/gridline/",
    "repo": null,
    "featured": false,
-   "spec": "TWO DRILLS · OFFLINE · UNOFFICIAL"
+   "spec": "TWO LESSONS · TWO DRILLS · OFFLINE · UNOFFICIAL"
   }
  ]
 }

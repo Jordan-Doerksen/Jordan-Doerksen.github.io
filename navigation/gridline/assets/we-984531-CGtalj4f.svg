@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 306">
+  <!-- Lesson "Six-figure grid references", worked example 984531 (the NRCan worked example of
+       Topographic Maps: The Basics p.4, reused with its numbers only, D-060). Gridline's own
+       drawing, from the approved G1 figure (mockups/G1-gridline-field.html): two by two squares,
+       square 9853 shaded, the cabin 4 tenths east of line 98 and 1 tenth north of line 53
+       (the subject of the worked example; the NRCan example names none). The lesson also shows it in
+       its teaching point "Name the square", before the first generated check.
+       Shown through <img>, so it carries its own ground and Field palette values, light by default
+       and dark under prefers-color-scheme (BACKLOG R-02; mockups/field-palette.css, D-068). Every
+       line, mark and label is a functional graphic (D-079): grid lines are the survey-blue token,
+       the shade is the signal-tint token, labels are the ink or muted token;
+       tests/grid-lesson-layout.test.ts measures each one on the ground it touches, in both themes.
+       No double hyphen may stand in this comment: an SVG shown through <img> must be well-formed
+       XML, and XML forbids one inside a comment (tests/lesson-files.test.ts). -->
+  <style>
+    .bg { fill: #FCFCF8; }
+    .target { fill: #E3E9C2; }
+    .grid { fill: none; stroke: #1F8599; stroke-width: 1.5; }
+    .tick { fill: none; stroke: #5E5952; stroke-width: 1; }
+    .guide { fill: none; stroke: #404B18; stroke-width: 2; stroke-dasharray: 4 3; }
+    .dim { fill: none; stroke: #151A12; stroke-width: 1; }
+    .ring { fill: none; stroke: #404B18; stroke-width: 2; }
+    .point { fill: #151A12; }
+    .t { font-family: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 12px; fill: #151A12; }
+    .m { font-family: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 12px; fill: #5E5952; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1D2119; }
+      .target { fill: #2B2E1C; }
+      .grid { stroke: #2090A6; }
+      .tick { stroke: #A8A29A; }
+      .guide { stroke: #B0BC75; }
+      .dim { stroke: #E3E6DA; }
+      .ring { stroke: #B0BC75; }
+      .point { fill: #E3E6DA; }
+      .t { fill: #E3E6DA; }
+      .m { fill: #A8A29A; }
+    }
+  </style>
+  <rect class="bg" width="330" height="306"/>
+  <rect class="target" x="179" y="10" width="135" height="135"/>
+  <path class="grid" d="M44 10V280M179 10V280M314 10V280M44 10H314M44 145H314M44 280H314"/>
+  <path class="tick" d="M192.5 145V139M206 145V139M219.5 145V139M233 145V137M246.5 145V139M260 145V139M273.5 145V139M287 145V139M300.5 145V139M179 131.5H185M179 118H185M179 104.5H185M179 91H185M179 77.5H185M179 64H185M179 50.5H185M179 37H185M179 23.5H185"/>
+  <path class="guide" d="M179 131.5H233M233 145V131.5"/>
+  <path class="dim" d="M179 156H233M179 152V160M233 152V160M170 145V131.5M166 145H174M166 131.5H174"/>
+  <path class="ring" d="M233 121.5L243 131.5L233 141.5L223 131.5Z"/>
+  <path class="point" d="M233 127.5L237 131.5L233 135.5L229 131.5Z"/>
+  <text class="t" x="248" y="120">Cabin</text>
+  <text class="m" x="210" y="174" text-anchor="middle">4 tenths</text>
+  <text class="m" x="162" y="142" text-anchor="end">1 tenth</text>
+  <text class="t" x="44" y="298" text-anchor="middle">97</text>
+  <text class="t" x="179" y="298" text-anchor="middle">98</text>
+  <text class="t" x="314" y="298" text-anchor="middle">99</text>
+  <text class="t" x="36" y="14" text-anchor="end">54</text>
+  <text class="t" x="36" y="149" text-anchor="end">53</text>
+  <text class="t" x="36" y="284" text-anchor="end">52</text>
+</svg>
