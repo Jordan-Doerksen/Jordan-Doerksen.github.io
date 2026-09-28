@@ -207,6 +207,12 @@ thumbnails. Cards survive in exactly one place — a side-by-side guard comparis
 items are true peers being scanned at once, which is the one case the pattern explicitly
 protects.
 
+**Amended by CR-19 (2026-09-27).** That comparison now has a named occupant: the desk toy's
+alert card beside its zero-filled ghost — the same alert with the desk's absent-is-not-zero
+guard and without it. With JavaScript off the toy degrades to its written-out cases. Both
+sentences are mirrored in `docs/tier-2.contract.json` (`card_policy`,
+`failure_behaviour.no_javascript`).
+
 **Failure behaviour is specified, not assumed.** With JavaScript off, every guard, its code and
 its sabotage case are real markup: the tier degrades to a long document, never a blank stage.
 No canvas or WebGL appears in this tier at all — that is quarantined to tier 3. If the data
@@ -427,6 +433,116 @@ not just for tier 3.
 - Should the site's own entry link this DECISIONS.md as a live example? (Nice-to-have.)
 
 ## Change Log
+- 2026-09-27 — **CR-19 (owner ruling): "Absent is not zero", a playable desk toy in tier 2 — a
+  second JavaScript dependency under D-A25's Change Rule, and the Change Request D-A21's rule
+  requires for figures with no source in `evidence_sources.json`.**
+  **Trigger.** The owner asked for the flair of a friend's site's playable "Privacy Lane" demo on
+  his own page. Interviewed down: a playable demo → the trading desk → "absent is not zero" →
+  tier 2, with a Change Request. He approved the mockup
+  (`Downloads\desk-toy-mockup\absent-is-not-zero.html`) and this CR on 2026-09-27, with five
+  changes: the written-out examples stay visible with scripting on; no timer under reduced motion,
+  and an "Advance 10 s" button shown to everyone; the timer stops offscreen and in a hidden tab;
+  the ghost card is de-emphasised by colour, never opacity; and the build reads the desk's limits
+  and strings, prints the check, and fails if any has gone.
+  **The design.** A `<figure class="az">` between the mesh and the bench. A synthetic ES feed with
+  three native radio switches (order book full / top / off; trade prints on / none on this feed;
+  options chain live / frozen / no 0DTE chain), a table of what the desk sees, a 60 s SVG
+  sparkline of the mid where a missing book is a gap, and a button that renders the reversal alert
+  the desk would post, shaped like its Discord embed (title, read, one code line per part). Beside
+  it, a dashed "If gaps were filled with zero" card: the real alert and its zero-filled ghost are
+  the side-by-side comparison D-A20's card policy permits, and D-A20 and the contract now name it.
+  Under the toy, "Every case, written out": six cases as plain markup, always visible. Square
+  corners and mono uppercase buttons to match tier 2's component grammar (D-A23); the mockup's
+  rounded corners were not carried over. No canvas, no keyframes, no transitions. Markup, CSS and
+  check: `scripts/tier2_desk_toy.py`; behaviour: `docs/tier-2-case/desk-toy.js`, the fourth script
+  `site_compose.py` loads (SCRIPTS list, TEMPLATE tag, root-mode rewrite to `js/site/`).
+  **What a visitor loses with scripting off — nothing of the content.** Every case the toy can
+  produce is written out beneath it in the desk's own format, with a zero-filled comparison, and
+  the script never hides that record: it only reveals the live part by setting `data-js="on"`
+  after boot, and a throw at boot or in any later handler removes the flag and clears the timer.
+  Without scripting a visitor loses the switches, the running feed and its sparkline, and firing
+  at a moment of their choosing. Under `prefers-reduced-motion` no timer is ever created and
+  "Advance 10 s" is the clock. The 1 s timer runs only while the toy is on screen
+  (IntersectionObserver), the tab is visible and the visitor has not paused it (WCAG 2.2.2).
+  **Desk facts, verified** (read-only, desk commit `124f9a1`, paths under `server/sentinel/`):
+  - No book: `mid` is None and `update()` returns before any signal check
+    (`alerting/detectors.py:417-420`). No alert. Confirmed.
+  - Top of book only: OBI is None unless the source is depth (`alerting/detectors.py:566-567`,
+    `core/models.py:101`), printed `OBI n/a` (`alerting/discord.py:175`). Confirmed.
+  - No trade prints: VWAP None (`core/bars.py:75-76`; the live VWAP is that accumulator,
+    `engine/runner.py:107-110`) and CVD None (`alerting/detectors.py:584-585`), printed `VWAP n/a`
+    and `CVD n/a` (`alerting/discord.py:176-178`). **A reversal still fires**: `_reversal` reads
+    only the mid (`alerting/detectors.py:669-695`) and the pump has no feed-health gate
+    (`alerting/pump.py:57-73`). The toy fires.
+  - Iceberg on a reversal with no prints: `iceberg: not checked (no trade prints on this feed)`
+    (`alerting/iceberg_watch.py:138-139, 321-333`; `alerting/discord.py:296-299`); reversals are in
+    the configured kinds (`config/iceberg-at-break.json:26`). Prints on and nothing found: no line
+    (`alerting/discord.py:300-301`). Confirmed.
+  - Skew prints a number only while its age is not over `SKEW_STALE_AFTER_S` (a strict `>`,
+    `alerting/discord.py:221`), which is the engine's own `stale_after_s` (`alerting/discord.py:62`);
+    past it, `skew n/a (stale Ns)`. A suspect skew prints its reason (`alerting/discord.py:224-225`).
+    "Frozen" matches the mockup: refreshes stop, the connector keeps serving its last good block,
+    and the number prints until it is 30 s old (`alerting/discord.py:53-61`).
+  - **Corrected: the regime word.** A current skew reads `skew +0.103 fear`, not `skew +0.045`:
+    the part appends the regime (`alerting/discord.py:223`), the smoother sets it on every good
+    compute (`skew/engine.py:233`), and the live path always smooths (`capture/live_tws.py:519-520`).
+  - **Corrected: the hold.** An empty chain is not named at once. Within 30 s of the last good
+    compute the smoother returns the held block as not data_ok, reason
+    `holding last (Ns): no 0DTE chain` (`skew/engine.py:208-217`), and the alert never prints a
+    not-data_ok skew as a number (`alerting/detectors.py:574-577`). So it reads
+    `skew n/a (holding last (15.0s): no 0DTE chain)`, then `(30.0s)`, then
+    `skew n/a (no 0DTE chain)`. The mockup printed the plain reason at once; the toy now runs the
+    hold on the refresh grid.
+  - **Corrected: CVD is a whole number.** The desk's CVD is an int (`core/models.py:164`,
+    `core/trackers.py:67-69`), so the line reads `CVD +312.00`, never `+312.40`.
+  - **Corrected: "prints off" means a feed that never had one.** VWAP and CVD read n/a only until
+    the first print: `tick_count` is cumulative (`core/trackers.py:73`) and the VWAP accumulator is
+    never reset (`core/bars.py:78-91`). The switch reads "none on this feed" and restarts the demo
+    feed's prints instead of pausing them.
+  - **Found, not fixed (the desk is read-only to this repo):** if prints stop partway through a
+    session, VWAP keeps its last value and, once the 60 s window (`alerting/detectors.py:413`)
+    passes with no print, CVD prints `+0.00` — a flat reading standing in for a missing feed. Not
+    in the desk's docs. The lede is scoped to "every case shown" rather than claiming the desk
+    never prints a zero. For the owner to rule on, on the desk side.
+  - Formats `OBI {obi:+.3f}`, `px {px:.2f} vs VWAP {vwap:.2f}`, `CVD {cvd:+.2f}`,
+    `skew {skew:+.3f}`, joined by `"  ·  "` (`alerting/discord.py:175-182`). Titles and reads:
+    `alerting/detectors.py:679-681, 689-691`. Live skew cadence: every `iv_every` = 15 cycles
+    (`core/config.py:58`) at the live 1 s cycle (`core/config.py:139`), scheduled at
+    `live_session.py:651-653` — the 15 s of `refresh_secs` that the toy draws.
+  **Config.** `scripts/tier2_desk_toy.config.json` names every desk fact the toy uses: 3 limits
+  (`SkewConfig.refresh_secs` and `stale_after_s` read with `ast`, the CVD window by regex),
+  12 strings, 7 format strings and 17 behaviour lines, each a file and the literal that must be in
+  it. The format strings are the templates: the build fills them with Python's own `format()` for
+  the written-out cases, and desk-toy.js fills the same literals from the figure's `data-desk`
+  attribute, so the drawing and the check read the same values (display-case law §8).
+  `build_tier2_case.py` runs the check before anything else; on any miss it names each one and
+  exits 1 without writing the page.
+  **Why not D-A21's route.** The snapshot is a point-in-time measurement, and this claim must be
+  re-checked on every page build or it can go stale between the two; running
+  `build_evidence_snapshot.py` rewrites every other figure on the front page (commit and test
+  counts, and without `--run` it drops the executed-suite figure), so two constants would drag an
+  unrelated refresh along; and these are constants and strings read from source, which the
+  snapshot's executed / counted / unavailable vocabulary has no word for. The smallest honest
+  alternative is the one above: a declared config, read at build time, checked, and printed.
+  **Verified:** before any edit the three generators reproduced the committed outputs with no diff.
+  After: all three ran, and the tier-2 build printed `skew limits 15 s / 30 s; CVD window 60 s`,
+  `desk strings: 12/12`, `desk formats: 7/7`, `desk rules: 17/17`. Three broken configs (a
+  reworded string, a renamed limit, a missing desk repo) each exited 1 naming the miss, with the
+  page untouched. `node --check` passes. A 41-check smoke test against a hand-built DOM stub (no
+  jsdom on this machine): boot, pause, hidden tab, offscreen and reduced motion (zero
+  `setInterval` and `setTimeout` calls; Advance moves the clock 10 s); every alert case, including
+  frozen at 30 s (number) and 40 s (`stale 40s`) and the hold at 15.0 s, 30.0 s, then the plain
+  reason; a missing `data-desk` leaves `data-js` unset. Composed index: the toy once, inside `.t2`,
+  between the mesh and the bench; all six cases present; four script tags, all resolving at the
+  root; zero `../`; `docs/site/` equals the root after the depth rewrite; all 65 toy selectors
+  scoped under `.t2`. Served from `127.0.0.1:8741`: the index and all four scripts 200, then the
+  server was stopped. Contrast of every text pair the toy uses, lowest first: warn on sheet
+  7.93:1, live on sheet 8.24, warn on deep 8.31, ink-2 on sheet
+  8.57, live on deep 8.64, warn on paper 8.68, ink-2 on deep 8.98, ink-2 on paper 9.38, the Fire
+  button's #04060B on live 9.47, ink on the selected switch 13.22, ink on sheet 15.38, deep 16.12,
+  paper 16.85. **Not verified:** rendering in a browser or at 375 px (no browser tools on this
+  machine, by rule). From the CSS: no fixed widths, every row flex-wraps, alert lines are
+  `pre-wrap` with `overflow-wrap:anywhere`, and there is no inner scroll box.
 - 2026-09-23 — **CR-18 (owner ruling, recorded in map-reading-trainer D-061 and D-069): an eighth
   section, Navigation.** D-A06's Change Rule needs operator sign-off for a new hub; the owner gave
   it on 2026-09-22 ("New section: Navigation", D-061) and asked for the site fix first ("Fix both,

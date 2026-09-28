@@ -22,6 +22,11 @@ card visible and no timer is created.
 Config lives in scripts/tier2_stage.config.json and is emitted as data
 attributes, so the page performs no runtime fetch.
 
+THE DESK TOY (CR-19). "Absent is not zero" sits between the mesh and the bench.
+Its markup, CSS and check live in scripts/tier2_desk_toy.py; it reads the desk's
+own code for every string and limit it shows, and if any of them is gone this
+build stops WITHOUT writing the page. desk-toy.js is its behaviour.
+
 Usage:
     python scripts/build_tier2_case.py
 """
@@ -30,6 +35,12 @@ import html
 import json
 import sys
 from pathlib import Path
+
+# The desk toy lives in its own module next to this one. Importing it would leave a
+# scripts/__pycache__/ in the working tree after every build; this repo keeps no
+# bytecode, so none is written.
+sys.dont_write_bytecode = True
+import tier2_desk_toy  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 GRAPH = Path("C:/projects/trading/desk-network-map/data/graph-runtime.json")
@@ -51,6 +62,18 @@ def node_state(node, guard_files, finding_paths):
 
 
 def main():
+    # The desk toy's claims are checked FIRST, before anything is written: a desk
+    # string or limit that has gone means this page must not be rebuilt claiming it.
+    try:
+        toy_html, toy_css, toy_report = tier2_desk_toy.build()
+    except tier2_desk_toy.DeskFactsError as e:
+        print("ERROR: the desk toy (CR-19) no longer matches the desk:")
+        for miss in e.misses:
+            print("  MISSING  %s" % miss)
+        print("  %s NOT written. The previous build is unchanged - do not compose until "
+              "this is fixed." % OUT_PATH)
+        return 1
+
     g = json.loads(GRAPH.read_text(encoding="utf-8"))
     G = json.loads((REPO_ROOT / "data" / "guards.json").read_text(encoding="utf-8"))
     F = json.loads((REPO_ROOT / "data" / "findings.json").read_text(encoding="utf-8"))
@@ -349,6 +372,8 @@ def main():
         "enter": str(cfg["cardEnterMs"]),
         "draw": str(cfg["lineDrawMs"]),
         "filedown": str(cfg["filedownMs"]),
+        "desktoy": toy_html,
+        "desktoycss": toy_css,
     }.items():
         page = page.replace("@@%s@@" % key, value)
 
@@ -368,6 +393,9 @@ def main():
           % (corners, len(ordered), corners / float(len(ordered) or 1),
              sum(1 for a, b, _e in ordered if len(route(a, b)) == 2)))
     print("  stage.js present: %s" % (OUT_DIR / "stage.js").is_file())
+    for line in toy_report:
+        print(line)
+    print("  desk-toy.js present: %s" % (OUT_DIR / "desk-toy.js").is_file())
     return 0
 
 
@@ -526,6 +554,7 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
   animation:rise .6s ease both}
 .finale h2{margin:0 0 8px;font:800 clamp(20px,2.4vw,28px)/1.15 var(--display);letter-spacing:-.03em}
 .finale p{margin:0 0 16px;max-width:60ch;color:var(--ink-2);font-size:15px}
+@@desktoycss@@
 /* ---- the workbench ------------------------------------------------------ */
 .bench{margin:52px 0 0;padding-top:26px;border-top:2px solid var(--ink)}
 .bench h2{margin:0 0 8px;font:800 clamp(20px,2.4vw,28px)/1.15 var(--display);letter-spacing:-.03em}
@@ -596,7 +625,7 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
     path; those are the joints.</figcaption>
     @@mesh@@
   </figure>
-
+@@desktoy@@
   <!-- The workbench. The desk is one program; these are the others, and the two
        rail demos are the only place on the site where the training software is
        shown rather than described. Each panel reuses tier 3's wall budget
@@ -650,6 +679,7 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
   </p>
 </div>
 <script src="stage.js"></script>
+<script src="desk-toy.js"></script>
 </body>
 </html>
 """

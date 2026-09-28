@@ -27,7 +27,7 @@
     { "zone": "footer_resolution", "relationship": "sequential", "carries": "the typographic project index" }
   ],
 
-  "card_policy": "No cards for projects. The existing typographic index stands (D-A10) because titles are more useful than thumbnails here. Cards are permitted in exactly one place: a side-by-side guard comparison, where the items are genuine peers being scanned simultaneously.",
+  "card_policy": "No cards for projects. The existing typographic index stands (D-A10) because titles are more useful than thumbnails here. Cards are permitted in exactly one place: a side-by-side guard comparison, where the items are genuine peers being scanned simultaneously. Since CR-19 (2026-09-27) that comparison is the desk toy's: the alert card the desk posts beside the same alert with its gaps filled with zero - the absent-is-not-zero guard, and the output it prevents.",
 
   "data_contract": {
     "source": "a stamped JSON snapshot generated from a real run",
@@ -52,7 +52,7 @@
   "reduced_motion_equivalent": "Static keyframes in the same narrative order. The explainer becomes an expanded static list: every guard rendered with its code and sabotage case inline, nothing hidden behind a transition.",
 
   "failure_behaviour": {
-    "no_javascript": "The premise, the readable explanation, every guard with its code and sabotage case, and the full project index are all present as real markup. The explainer degrades to a long document, not a blank stage.",
+    "no_javascript": "The premise, the readable explanation, every guard with its code and sabotage case, and the full project index are all present as real markup. The explainer degrades to a long document, not a blank stage. The desk toy (CR-19) degrades to its written-out cases, which are shown with JavaScript on as well.",
     "no_canvas_or_webgl": "Not used in this tier at all. The spatial canvas is quarantined to tier 3 (D-A17, D-A19).",
     "snapshot_missing": "Render the explanation without figures and say the snapshot is missing. Never substitute an estimate."
   },

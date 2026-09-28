@@ -23,8 +23,12 @@ Usage:
 
 PROMOTION rewrites depth. docs/site/ sits two levels down, so the tier markup it
 reuses carries `../../games/`, `../../demos/`, `../../assets/`. At the root those
-prefixes are wrong, and the three scripts move to js/site/ so the index does not
+prefixes are wrong, and the scripts move to js/site/ so the index does not
 reach up into docs/ for its behaviour.
+
+A NEW SCRIPT GOES IN THREE PLACES, because tier_parts() strips every <script> from
+a tier's body: the SCRIPTS list below, a <script> tag in TEMPLATE, and the root-mode
+src rewrite in main(). desk-toy.js (CR-19) was the fourth.
 """
 
 import json
@@ -36,10 +40,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = REPO_ROOT / "docs" / "site"
 OUT_PATH = OUT_DIR / "index.html"
 
-# The three behaviours the composed page loads. In root mode they are copied to
+# The behaviours the composed page loads. In root mode they are copied to
 # js/site/ so the site index does not reach into docs/ for how it works.
 SCRIPTS = [
     ("stage.js", REPO_ROOT / "docs" / "tier-2-case" / "stage.js"),
+    ("desk-toy.js", REPO_ROOT / "docs" / "tier-2-case" / "desk-toy.js"),
     ("wall.js", REPO_ROOT / "docs" / "tier-3" / "wall.js"),
     ("atmos.js", REPO_ROOT / "docs" / "site" / "atmos.js"),
 ]
@@ -181,6 +186,7 @@ def main():
         page = page.replace('href="../../"', 'href="/"')
         page = page.replace("../../", "")
         page = page.replace('src="../tier-2-case/stage.js"', 'src="js/site/stage.js"')
+        page = page.replace('src="../tier-2-case/desk-toy.js"', 'src="js/site/desk-toy.js"')
         page = page.replace('src="../tier-3/wall.js"', 'src="js/site/wall.js"')
         page = page.replace('src="atmos.js"', 'src="js/site/atmos.js"')
 
@@ -346,6 +352,7 @@ body{margin:0;background:#EFF2F6;color:#0F1720;
 @@sections@@
 
 <script src="../tier-2-case/stage.js"></script>
+<script src="../tier-2-case/desk-toy.js"></script>
 <script src="../tier-3/wall.js"></script>
 <script src="atmos.js"></script>
 </body>

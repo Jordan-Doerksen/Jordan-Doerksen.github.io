@@ -1,0 +1,60 @@
+{
+  "_": "The tier-2 desk toy, 'Absent is not zero' (DECISIONS.md CR-19). Every desk string the toy prints, every number format it copies and every desk limit it draws with is READ from the desk's own code at build time by scripts/tier2_desk_toy.py. A value that cannot be found fails the tier-2 build, so the page cannot ship a claim the desk no longer makes. Paths are relative to deskRoot. If a desk line moves or is reworded, edit `find` here after checking the new wording still says the same thing - never the script, and never the page.",
+
+  "deskRoot": "C:/projects/trading/trading-desk",
+
+  "_limits": "Numbers the toy draws with. `ast` reads a class field's default; `regex` reads the first capture group. Emitted as data attributes on the toy, so the drawing and the printed check use the same value.",
+  "limits": {
+    "refresh": { "file": "server/sentinel/skew/engine.py", "ast": ["SkewConfig", "refresh_secs"], "unit": "s", "what": "skew refresh" },
+    "stale":   { "file": "server/sentinel/skew/engine.py", "ast": ["SkewConfig", "stale_after_s"], "unit": "s", "what": "skew stale limit" },
+    "cvdWindow": { "file": "server/sentinel/alerting/detectors.py", "regex": "self\\.cvd_hist\\[0\\]\\[0\\] < t - (\\d+):", "unit": "s", "what": "CVD trailing window" }
+  },
+
+  "_text": "Words the toy prints exactly as `show`. `find` is the literal that must exist in `file`, and `show` must be part of `find`, so what is shown is provably the desk's own wording.",
+  "text": {
+    "sep":       { "file": "server/sentinel/alerting/discord.py", "find": "return \"`\" + \"  ·  \".join(parts) + \"`\"", "show": "  ·  " },
+    "obiNa":     { "file": "server/sentinel/alerting/discord.py", "find": "f\"OBI n/a{mark('OBI')}\"", "show": "OBI n/a" },
+    "vwapNa":    { "file": "server/sentinel/alerting/discord.py", "find": "f\"VWAP n/a{mark('VWAP')}\"", "show": "VWAP n/a" },
+    "cvdNa":     { "file": "server/sentinel/alerting/discord.py", "find": "f\"CVD n/a{mark('CVD')}\"", "show": "CVD n/a" },
+    "skewNa":    { "file": "server/sentinel/alerting/discord.py", "find": "return \"skew n/a (\" + str(reason)", "show": "skew n/a" },
+    "noPrints":  { "file": "server/sentinel/alerting/iceberg_watch.py", "find": "return \"no trade prints on this feed\"", "show": "no trade prints on this feed" },
+    "noChain":   { "file": "server/sentinel/skew/engine.py", "find": "suspect_reason=\"no 0DTE chain\"", "show": "no 0DTE chain" },
+    "regime":    { "file": "server/sentinel/skew/engine.py", "find": "regime = \"fear\" if self._sign > 0", "show": "fear" },
+    "titleUp":   { "file": "server/sentinel/alerting/detectors.py", "find": "\"Reversal — momentum turned up\"", "show": "Reversal — momentum turned up" },
+    "readUp":    { "file": "server/sentinel/alerting/detectors.py", "find": "read=\"Momentum flipped up after an extended slide lower.\"", "show": "Momentum flipped up after an extended slide lower." },
+    "titleDown": { "file": "server/sentinel/alerting/detectors.py", "find": "\"Reversal — momentum turned down\"", "show": "Reversal — momentum turned down" },
+    "readDown":  { "file": "server/sentinel/alerting/detectors.py", "find": "read=\"Momentum flipped down after an extended push higher.\"", "show": "Momentum flipped down after an extended push higher." }
+  },
+
+  "_formats": "The desk's own format strings. `find` must exist in `file`, and it is also the template the toy fills: {name:+.3f} means a sign and three decimals, exactly as Python formats it; {name} with no spec is a Python float as str() prints it.",
+  "formats": {
+    "obi":   { "file": "server/sentinel/alerting/discord.py", "find": "OBI {obi:+.3f}" },
+    "px":    { "file": "server/sentinel/alerting/discord.py", "find": "px {px:.2f} vs VWAP {vwap:.2f}" },
+    "cvd":   { "file": "server/sentinel/alerting/discord.py", "find": "CVD {cvd:+.2f}" },
+    "skew":  { "file": "server/sentinel/alerting/discord.py", "find": "skew {skew:+.3f}" },
+    "stale": { "file": "server/sentinel/alerting/discord.py", "find": "skew n/a (stale {age_s:.0f}s)" },
+    "ice":   { "file": "server/sentinel/alerting/discord.py", "find": "iceberg: not checked ({why})" },
+    "hold":  { "file": "server/sentinel/skew/engine.py", "find": "holding last ({age}s): {block.suspect_reason}" }
+  },
+
+  "_rules": "Lines that back a claim the toy makes about the desk's behaviour. Nothing here is printed on the page; each is a tripwire, and a miss fails the build like any other. `claim` is what the line proves.",
+  "rules": {
+    "noBookNoAlert":   { "file": "server/sentinel/alerting/detectors.py", "find": "mid = m.dom.mid\n        if mid is None:\n            self.last_t = t\n            return alerts", "claim": "no book, no mid: update() returns before any signal check, so no reversal fires" },
+    "obiNeedsDepth":   { "file": "server/sentinel/alerting/detectors.py", "find": "if (m.dom.source == \"depth\" and m.dom.bids and m.dom.asks) else None", "claim": "OBI is None without depth levels (top of book only)" },
+    "cvdNeedsPrints":  { "file": "server/sentinel/alerting/detectors.py", "find": "cvd_ok = (getattr(m.tape, \"tick_count\", 0) or 0) > 0 and len(self.cvd_hist) >= 2", "claim": "CVD is None on a feed that has never had a print" },
+    "vwapNeedsPrints": { "file": "server/sentinel/core/bars.py", "find": "return (self._vnum / self._vden) if self._vden > 0 else None", "claim": "the session VWAP is None until the first print with size" },
+    "pxNeedsVwap":     { "file": "server/sentinel/alerting/discord.py", "find": "if (px is not None and vwap is not None) else f\"VWAP n/a", "claim": "the px-vs-VWAP part needs both numbers" },
+    "skewOnlyIfOk":    { "file": "server/sentinel/alerting/detectors.py", "find": "skew_now = (sk.skew_norm if (sk is not None and sk.data_ok and sk.skew_norm is not None) else None)", "claim": "a held or suspect skew is never printed as a number" },
+    "alertLimitIsEngine": { "file": "server/sentinel/alerting/discord.py", "find": "SKEW_STALE_AFTER_S = SkewConfig().stale_after_s", "claim": "the alert's stale limit is the skew engine's own" },
+    "staleIsStrict":   { "file": "server/sentinel/alerting/discord.py", "find": "if age_s > SKEW_STALE_AFTER_S:", "claim": "an age equal to the limit still prints the number" },
+    "holdWindow":      { "file": "server/sentinel/skew/engine.py", "find": "now - self._last_valid_t <= self.cfg.stale_after_s", "claim": "the smoother holds for up to stale_after_s after the last good compute" },
+    "holdAge":         { "file": "server/sentinel/skew/engine.py", "find": "age = round(now - self._last_valid_t, 1)", "claim": "the held age is printed to a tenth of a second" },
+    "liveSmooths":     { "file": "server/sentinel/capture/live_tws.py", "find": "self._skew_cache = self._skew_smoother.update(blk, stamp)", "claim": "the live skew passes through the smoother, so the hold is real on the live path" },
+    "liveCadence":     { "file": "server/sentinel/core/config.py", "find": "iv_every: int = 15", "claim": "live skew refresh every 15 cycles, which at the live 1 s cycle is the 15 s the toy draws" },
+    "liveCycle":       { "file": "server/sentinel/core/config.py", "find": "os.environ.get(\"SENTINEL_CYCLE_SECONDS\", 1)", "claim": "the live cycle defaults to 1 s" },
+    "quietKinds":      { "file": "server/sentinel/alerting/iceberg_at_break_config.py", "find": "NO_FOLLOWUP_KINDS = (\"sentiment\", \"reversal\")", "claim": "on a reversal, silence means looked and found none" },
+    "foundNoneSilent": { "file": "server/sentinel/alerting/discord.py", "find": "return None                   # looked, found none: \"(if there is one)\"", "claim": "a reversal that looked and found none carries no iceberg line" },
+    "reversalJoined":  { "file": "config/iceberg-at-break.json", "find": "\"kinds\": [\"break\", \"sentiment\", \"reversal\"]", "claim": "the iceberg check runs on reversals" },
+    "icebergOn":       { "file": "config/iceberg-at-break.json", "find": "\"enabled\": true", "claim": "the iceberg check is switched on" }
+  }
+}
