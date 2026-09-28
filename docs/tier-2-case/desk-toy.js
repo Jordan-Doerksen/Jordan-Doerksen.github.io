@@ -401,6 +401,7 @@
     els.pause.addEventListener("click", guard(function () {
       paused = !paused;
       els.pause.textContent = paused ? "Resume demo" : "Pause demo";
+      els.pause.setAttribute("aria-pressed", String(paused));
       els.said.textContent = paused ? "Demo paused at T+" + t + " s." : "Demo running.";
       sync();
     }));
