@@ -1,0 +1,108 @@
+/* 06 skew: the 0DTE sky. Own elements only (#ah-skew .ah-skew-*). Colours are the page's
+   section-6 tokens with their exact hex as fallback; the chip proportions are the cockpit's skew
+   card. No text-transform anywhere: a desk word is printed as the script received it. Every
+   animation and transition lives under [data-ah="on"], moves text-shadow, box-shadow, filter or
+   a bar width only, and the reduced-motion block at the end kills them again on this card. */
+
+#ah-skew .ah-skew-lede { max-width: 66ch; margin: 0; color: var(--ink-2, #A9B6C6); }
+
+#ah-skew .ah-skew-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(14px, 2.5vw, 24px);
+  margin-top: clamp(14px, 2.5vw, 22px);
+}
+@media (min-width: 640px) {
+  #ah-skew .ah-skew-grid { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; }
+}
+
+/* the sky: a well inside the card */
+#ah-skew .ah-skew-sky {
+  margin: 0; min-width: 0;
+  padding: 12px 12px 10px;
+  background: var(--deep, #0E141C);
+  border: 1px solid var(--hair, #24303E);
+  border-radius: 8px;
+}
+/* the chart box: the svg draws the line; the layer over it holds one shaded band per run of seconds
+   with no read (core.css .ah-gapband), placed by the script in % of the box and slid with the plot */
+#ah-skew .ah-skew-box { position: relative; overflow: hidden; }
+#ah-skew .ah-skew-spark { display: block; width: 100%; height: clamp(120px, 22vw, 190px); overflow: hidden; }
+#ah-skew .ah-skew-gaps { position: absolute; inset: 0 0 1px; pointer-events: none; }
+#ah-skew .ah-skew-gaps .ah-gapband > span { top: 14px; transform: translate(-50%, 0); }   /* the tag sits high, clear of the line's usual band */
+#ah-skew .ah-skew-base { stroke: var(--hair-fn, #6C7A8C); stroke-width: 1; vector-effect: non-scaling-stroke; }
+#ah-skew .ah-skew-zero { stroke: var(--hair-fn, #6C7A8C); stroke-width: 1; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
+#ah-skew .ah-skew-line {
+  fill: none; stroke: var(--teal, #4FD1CF); stroke-width: 1.6;
+  stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke;
+}
+#ah-skew .ah-skew-now { stroke: var(--live, #39BDF8); stroke-width: 1; vector-effect: non-scaling-stroke; }
+
+#ah-skew .ah-skew-axis {
+  display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px 12px;
+  margin: 8px 0 0;
+  font: 400 12px/1.5 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace);
+  color: var(--ink-2, #A9B6C6);
+}
+#ah-skew .ah-skew-cap { order: 3; flex-basis: 100%; }
+@media (min-width: 480px) { #ah-skew .ah-skew-cap { order: 0; flex-basis: auto; } }
+
+/* the readout: glyph · value · regime word, as the cockpit's skew card lays them out */
+#ah-skew .ah-skew-read { min-width: 0; font-family: var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); }
+#ah-skew .ah-skew-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin: 0; }
+#ah-skew .ah-skew-glyph { font-size: 18px; color: var(--ink-2, #A9B6C6); }
+#ah-skew .ah-skew-glyph[data-state="live"] { color: var(--teal, #4FD1CF); }
+#ah-skew .ah-skew-glyph[data-state="held"] { color: var(--gold, #E0AC4E); }
+#ah-skew .ah-skew-value { font-size: 24px; font-weight: 700; color: var(--ink-2, #A9B6C6); }
+#ah-skew .ah-skew-value[data-state="live"] { color: var(--teal, #4FD1CF); }
+#ah-skew .ah-skew-word {
+  font-size: 11.5px; font-weight: 700; letter-spacing: .06em;
+  padding: 3px 9px; border-radius: 6px;
+  color: var(--ink-2, #A9B6C6); background: rgba(169, 182, 198, .11);
+}
+#ah-skew .ah-skew-word[data-regime="fear"] { color: var(--gold, #E0AC4E); background: rgba(224, 172, 78, .11); }
+#ah-skew .ah-skew-word[data-regime="inverted"] { color: var(--down, #F47265); background: rgba(244, 114, 101, .11); }
+#ah-skew .ah-skew-state { margin: 8px 0 0; font-size: 13px; color: var(--ink-2, #A9B6C6); overflow-wrap: anywhere; }
+
+/* the stale bar: fills toward the desk's stale limit; the state is also in the words beside it */
+#ah-skew .ah-skew-age { position: relative; height: 6px; margin: 12px 0 0; overflow: hidden; border-radius: 3px; background: var(--hair, #24303E); }
+#ah-skew .ah-skew-age i { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--live, #39BDF8); }
+#ah-skew .ah-skew-age[data-state="held"] i { background: var(--gold, #E0AC4E); }
+#ah-skew .ah-skew-age[data-state="over"] i { background: var(--down, #F47265); }
+#ah-skew .ah-skew-ageline { margin: 6px 0 0; font-size: 12px; color: var(--ink-2, #A9B6C6); }
+#ah-skew .ah-skew-ageline b { font-weight: 700; color: var(--ink, #EAF0F7); }
+
+#ah-skew .ah-skew-legend { margin: 16px 0 0; padding-top: 12px; border-top: 1px solid var(--hair, #24303E); font-size: 12.5px; line-height: 1.5; }
+#ah-skew .ah-skew-legend div { display: flex; flex-wrap: wrap; gap: 2px 10px; padding: 3px 0; }
+#ah-skew .ah-skew-legend dt { flex: 0 0 6.5em; font-weight: 700; color: var(--ink-2, #A9B6C6); }
+#ah-skew .ah-skew-legend dt[data-regime="fear"] { color: var(--gold, #E0AC4E); }
+#ah-skew .ah-skew-legend dt[data-regime="inverted"] { color: var(--down, #F47265); }
+#ah-skew .ah-skew-legend dd { flex: 1 1 12em; min-width: 0; margin: 0; color: var(--ink-2, #A9B6C6); }
+#ah-skew .ah-skew-note { margin: 8px 0 0; font-size: 12px; color: var(--ink-3, #8E9BAD); }
+
+/* live enhancements: only while core says this piece is on. The glow is the cockpit's tick glow
+   (text-shadow, 500 ms); the flip is its flash length (550 ms) as a box-shadow ring on the chip. */
+@keyframes ahSkewGlow {
+  0% { text-shadow: 0 0 0 rgba(79, 209, 207, 0); }
+  30% { text-shadow: 0 0 12px rgba(79, 209, 207, .85); }
+  100% { text-shadow: 0 0 0 rgba(79, 209, 207, 0); }
+}
+@keyframes ahSkewFlip {
+  0% { box-shadow: 0 0 0 0 currentColor; }
+  40% { box-shadow: 0 0 0 3px currentColor; }
+  100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+}
+@keyframes ahSkewPing {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(57, 189, 248, 0)); }
+  50% { filter: drop-shadow(0 0 4px rgba(57, 189, 248, .9)); }
+}
+#ah-skew[data-ah="on"] .ah-skew-value.is-tick { animation: ahSkewGlow var(--t-tick, 500ms) var(--ease, cubic-bezier(.2, .7, .2, 1)); }
+#ah-skew[data-ah="on"] .ah-skew-word.is-flip { animation: ahSkewFlip var(--t-flash, 550ms) var(--ease, cubic-bezier(.2, .7, .2, 1)); }
+#ah-skew[data-ah="on"] .ah-skew-now { animation: ahSkewPing 1.2s ease-in-out infinite; }
+#ah-skew[data-ah="on"] .ah-skew-age i { transition: width .5s linear, background-color .3s linear; }
+
+@media (prefers-reduced-motion: reduce) {
+  #ah-skew .ah-skew-value, #ah-skew .ah-skew-word, #ah-skew .ah-skew-now, #ah-skew .ah-skew-age i {
+    animation: none; transition: none;
+  }
+}

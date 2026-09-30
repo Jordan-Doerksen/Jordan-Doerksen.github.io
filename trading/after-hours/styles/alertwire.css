@@ -1,0 +1,98 @@
+/* 03 alertwire: the alert types itself. Colour tokens come from core.css (section 6 of the
+   design contract). Every animation sits under [data-ah="on"], so the still and the reduced
+   page carry none; nothing here animates opacity or hides content. */
+
+#ah-alertwire { min-width: 0; }
+
+/* header: heading, the synthetic label, one dry sentence */
+.ah-aw-head { display: grid; gap: 8px; margin: 0 0 18px; }
+.ah-aw-head h2 { margin: 0; }
+.ah-aw-cap {
+  margin: 0; max-width: 72ch;
+  font-size: 14.5px; line-height: 1.55; color: var(--ink-2);
+}
+
+/* the two channel cards: what the desk posted, and the same break on a feed with no prints */
+.ah-aw-cards {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(12px, 2vw, 20px);
+}
+@media (max-width: 639px) { .ah-aw-cards { grid-template-columns: minmax(0, 1fr); } }
+
+.ah-alert {
+  min-width: 0; padding: 12px 14px;
+  border: 1px solid var(--hair); border-left: 3px solid var(--live); border-radius: 8px;
+  background: var(--deep);
+}
+.ah-alert[data-case="gap"] { border-left-color: var(--gold); }
+.ah-alert-title {
+  margin: 0 0 4px;
+  font: 600 15px/1.35 var(--sans); color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.ah-alert-read { margin: 0 0 6px; font-size: 14px; line-height: 1.5; color: var(--ink-2); overflow-wrap: anywhere; }
+.ah-alert-line, .ah-alert-foot, .ah-aw-now dd, .ah-aw-posts li {
+  font-family: var(--mono);
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.ah-alert-line {
+  display: block; margin: 6px 0 0; padding: 6px 8px;
+  border: 1px solid var(--hair); border-radius: 4px; background: var(--card);
+  font-size: 12.5px; line-height: 1.6; color: var(--ink);
+}
+.ah-alert-foot { margin: 8px 0 0; font-size: 12px; line-height: 1.6; color: var(--ink-2); }
+
+/* a named gap, a fabricated zero, a vote: each carries a glyph or a word, never colour alone */
+.ah-alert .ah-na, .ah-aw-now dd.ah-aw-na { color: var(--ink-2); text-decoration: underline dotted var(--gold); text-underline-offset: 3px; }
+.ah-z { color: var(--gold); }
+.ah-aw-ok { color: var(--up); }
+.ah-aw-bad { color: var(--down); }
+
+/* the ghost line: what a desk that filled its gaps with zero would have posted.
+   Dashed edge and ink-2 text, never group opacity; its label is drawn here so the
+   generator's line and the script's line carry the same one. */
+.ah-alert-line.ah-ghost { margin-top: 10px; border-style: dashed; border-color: var(--hair-fn); color: var(--ink-2); }
+.ah-alert-line.ah-ghost::before {
+  content: "if gaps were zero";
+  display: block; margin: 0 0 4px;
+  font-size: 11px; line-height: 1.5; letter-spacing: .08em; text-transform: uppercase; color: var(--gold);
+}
+
+/* the wire strip: what the detector reads this second, then the other posts */
+.ah-aw-wire { margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--hair); }
+.ah-aw-now {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: 10px 16px; margin: 0;
+}
+.ah-aw-now div { min-width: 0; }
+.ah-aw-now dt {
+  margin: 0;
+  font: 500 11px/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+.ah-aw-now dd { margin: 2px 0 0; padding: 2px 4px; border-radius: 3px; font-size: 13px; line-height: 1.5; color: var(--ink); }
+
+.ah-aw-posts { margin: 14px 0 0; padding: 0; list-style: none; font-size: 12.5px; line-height: 1.6; color: var(--ink-2); }
+.ah-aw-posts li { padding: 5px 0; border-top: 1px solid var(--hair); }
+.ah-aw-posts li.ah-aw-post { color: var(--ink); }
+.ah-aw-posts time { margin-right: 10px; color: var(--ink-3); }
+.ah-aw-feedcap { margin: 10px 0 0; font: 400 11.5px/1.6 var(--mono); color: var(--ink-3); }
+
+/* the caret exists only while a line is being typed (script-made) */
+.ah-aw-caret { display: inline-block; width: 2px; height: 1em; margin-left: 1px; vertical-align: -2px; background: var(--live); }
+
+/* live enhancements: only while the scheduler has this piece on. Durations are the cockpit's
+   (core.css tokens): flash 550, event entrance 450 as translateY only, factor flip 700, tick glow 500. */
+[data-ah="on"] .ah-aw-caret { animation: ah-aw-blink 1s steps(1, end) infinite; }
+[data-ah="on"] .ah-alert.ah-aw-land { animation: ah-aw-land var(--t-flash) var(--ease); }
+[data-ah="on"] .ah-aw-posts li.ah-aw-in { animation: ah-aw-in var(--t-enter) var(--ease); }
+[data-ah="on"] .ah-aw-now dd.ah-aw-flip { animation: ah-aw-flip var(--t-flip) var(--ease); }
+[data-ah="on"] .ah-aw-now dd.ah-aw-up { animation: ah-aw-glow-up var(--t-tick); }
+[data-ah="on"] .ah-aw-now dd.ah-aw-down { animation: ah-aw-glow-down var(--t-tick); }
+
+@keyframes ah-aw-blink { 0%, 100% { background-color: var(--live); } 50% { background-color: transparent; } }
+@keyframes ah-aw-land { 0% { box-shadow: 0 0 0 0 rgba(57, 189, 248, .55); } 100% { box-shadow: 0 0 0 10px rgba(57, 189, 248, 0); } }
+@keyframes ah-aw-in { 0% { transform: translateY(8px); } 100% { transform: translateY(0); } }
+@keyframes ah-aw-flip { 0% { background-color: rgba(57, 189, 248, .22); } 100% { background-color: transparent; } }
+@keyframes ah-aw-glow-up { 0% { text-shadow: 0 0 8px var(--up); } 100% { text-shadow: none; } }
+@keyframes ah-aw-glow-down { 0% { text-shadow: 0 0 8px var(--down); } 100% { text-shadow: none; } }

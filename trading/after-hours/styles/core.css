@@ -1,0 +1,280 @@
+/* After Hours — core sheet.
+ * Tokens, ground, cards, type, layout, and the reduced-motion kill (last rule in the file).
+ * Every content card is opaque on --card; canvases sit behind (z 0) or above (z 9) the cards
+ * and carry no text that matters. Colour is never the only carrier: every state has a glyph or
+ * a word beside it. Contrast on --card (#131922) is noted per token; ground and deep score higher.
+ */
+
+:root {
+  /* ground */
+  --ground: #0B0E13;      /* the page */
+  --card: #131922;        /* every content card, opaque */
+  --deep: #0E141C;        /* wells inside cards: ladder, terminal, axis */
+  --hair: #24303E;        /* 1.32 — decorative hairline only */
+  --hair-fn: #6C7A8C;     /* 4.03 — functional borders, >= 3:1 */
+  /* ink */
+  --ink: #EAF0F7;         /* 15.38 — body, headings, readouts */
+  --ink-2: #A9B6C6;       /* 8.57 — secondary AND inactive text (>= 8:1) */
+  --ink-3: #8E9BAD;       /* 6.25 — captions, labels; never an inactive state */
+  /* state (the desk's dark set) */
+  --up: #46C98A;          /* 8.39 — bull, HEALTHY, the check glyph */
+  --down: #F47265;        /* 6.25 — bear, DOWN, the cross glyph */
+  --gold: #E0AC4E;        /* 8.56 — BUILDING, FEAR, the band */
+  --live: #39BDF8;        /* 8.24 — the page's accent, wires, pips */
+  --teal: #4FD1CF;        /* 9.54 — ice, absorption glow */
+  --band-ink: #0B0E13;    /* 9.37 on --gold */
+  /* type */
+  --sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, "Courier New", monospace;
+  /* layout */
+  --gutter: clamp(16px, 4vw, 32px);
+  --pad: clamp(16px, 3vw, 28px);
+  --gap: clamp(24px, 4vw, 48px);
+  --radius: 10px;
+  /* motion, lifted from the cockpit sheet; pieces copy their keyframes and read these */
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --t-tick: 500ms;
+  --t-flash: 550ms;
+  --t-flip: 700ms;
+  --t-pulse: 1050ms;
+  --t-enter: 450ms;
+  --t-absorb: 2200ms;
+  --t-frost: 2600ms;
+  --t-radar: 14s;
+  --t-scan: 26s;
+  --t-type: 18ms;
+  color-scheme: dark;
+}
+
+/* ---- ground ---------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { overflow-x: clip; background: var(--ground); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 15.5px/1.6 var(--sans);
+  overflow-wrap: anywhere;
+}
+img, svg, canvas, video { max-width: 100%; }
+a { color: var(--live); text-underline-offset: .15em; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--live); outline-offset: 3px; }
+b, strong { font-weight: 600; }
+code, kbd, pre, .ah-mono { font-family: var(--mono); }
+code, kbd { font-size: .93em; }
+pre { margin: 0; white-space: pre-wrap; }
+table { width: 100%; border-collapse: collapse; }
+td, th { text-align: left; vertical-align: top; padding: 4px 8px 4px 0; }
+
+/* ---- the band: in normal flow, above cards and canvases --------------------
+ * Two blocks. The strip (.ah-band) carries SYNTHETIC — NO LIVE DATA on one line and is sticky at
+ * every width, so a moving card is never on screen without the label, even mid-card on a phone.
+ * The sentence (.ah-band-note) sits under it in the same gold and scrolls away: pinned, its three
+ * or four lines at 320 px would hold a fifth of a phone screen for the whole read. */
+.ah-band {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 16px var(--gutter) 12px;   /* 16 on top, not less: the text keeps the page gutter to the top edge */
+  background: var(--gold);
+  color: var(--band-ink);
+}
+.ah-band b { display: block; font: 600 12px/1.6 var(--mono); letter-spacing: .12em; }
+.ah-band-note {
+  position: relative;   /* z 1, as the head: the fixed ambient canvas (z 0) paints behind it */
+  z-index: 1;
+  margin: 0;
+  padding: 0 var(--gutter) 14px;
+  background: var(--gold);
+  color: var(--band-ink);
+  font: 400 13px/1.55 var(--sans);
+}
+
+/* ---- head, stage, foot ------------------------------------------------------
+ * The blocks that hold text are positioned at z 1 so the ambient canvas (fixed, z 0, inserted
+ * inside .ah-stage) paints behind them and the scanner canvas (z 9) above. .ah-stage itself is
+ * NOT positioned: a stacking context on main would lift that canvas over the header's text. */
+.ah-head {
+  position: relative;
+  z-index: 1;
+  padding: clamp(28px, 6vw, 72px) var(--gutter) 0;
+}
+.ah-head h1 {
+  margin: 0 0 .35em;
+  max-width: 18ch;
+  font: 700 clamp(2rem, 5vw, 4.2rem)/1.02 var(--sans);
+  letter-spacing: -.03em;
+}
+.ah-prose {
+  margin: 0;
+  max-width: 64ch;
+  color: var(--ink-2);
+  font-size: clamp(15.5px, 1.35vw, 18px);
+}
+.ah-prose b { color: var(--ink); }
+
+.ah-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gap);
+  padding: var(--gap) var(--gutter);
+}
+
+.ah-foot {
+  position: relative;
+  z-index: 1;
+  padding: 0 var(--gutter) clamp(40px, 6vw, 80px);
+  color: var(--ink-2);
+}
+
+/* ---- cards ---------------------------------------------------------------- */
+.ah-piece {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius);
+  padding: var(--pad);
+  color: var(--ink);
+}
+.ah-piece-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 18px;
+  margin: 0 0 clamp(14px, 2vw, 22px);
+}
+.ah-piece h2 {
+  margin: 0;
+  font: 600 clamp(1.25rem, 2.2vw, 1.75rem)/1.15 var(--sans);
+  letter-spacing: -.02em;
+}
+.ah-syn { font: 500 11px/1.6 var(--mono); letter-spacing: .1em; color: var(--ink-2); }
+.ah-cap { margin: 12px 0 0; font: 400 12px/1.5 var(--mono); color: var(--ink-3); }
+.ah-well {
+  min-width: 0;
+  background: var(--deep);
+  border: 1px solid var(--hair);
+  border-radius: 8px;
+  padding: clamp(10px, 2vw, 16px);
+}
+.ah-na { color: var(--ink-2); }                 /* a gap: "—" plus its reason, never 0 */
+.ah-up { color: var(--up); }
+.ah-down { color: var(--down); }
+.ah-gold { color: var(--gold); }
+.ah-live { color: var(--live); }
+.ah-teal { color: var(--teal); }
+.ah-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; }
+.ah-grid > * { min-width: 0; }
+
+/* tables reflow below 640 px (opt-in: put data-th on each cell) */
+@media (max-width: 639px) {
+  .ah-table thead { display: none; }
+  .ah-table tr { display: block; margin: 0 0 10px; }
+  .ah-table td { display: block; padding: 2px 0; }
+  .ah-table td[data-th]::before { content: attr(data-th) " "; color: var(--ink-3); }
+}
+
+/* ---- the foot's strip ------------------------------------------------------- */
+.ah-numbers {
+  list-style: none;
+  margin: 0 0 clamp(20px, 3vw, 32px);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 12px;
+}
+.ah-numbers li {
+  min-width: 0;
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  color: var(--ink-2);
+}
+.ah-numbers b { font: 600 clamp(1.4rem, 2.4vw, 2rem)/1.15 var(--mono); color: var(--ink); }
+.ah-numbers small { display: block; margin-top: 6px; font: 400 11px/1.5 var(--mono); color: var(--ink-3); }
+.ah-foot-line { margin: 0 0 .6em; max-width: 72ch; }
+.ah-stamp { margin: clamp(16px, 2vw, 24px) 0 0; font-size: 12px; color: var(--ink-3); }
+.ah-notice {
+  margin: 16px 0 0;
+  max-width: 72ch;
+  padding: 10px 14px;
+  border: 1px solid var(--hair-fn);
+  border-left: 3px solid var(--gold);
+  border-radius: 8px;
+  color: var(--ink);
+}
+.ah-back { margin-top: clamp(20px, 3vw, 32px); }
+
+/* ---- a gap in a line ----------------------------------------------------------
+ * One element per run of seconds with no data (01's sparklines, 06's sky): a soft shade a
+ * little lighter than its ground, dashed at both ends, laid over the chart by the piece's script
+ * at % positions. The line stops at the left edge and resumes at the right; nothing is drawn as
+ * a value inside it. The fill is ink-2 at 6 %: 1.10:1 over --deep and --card, so it reads as a
+ * shade, not a slab; the dashed ends are --hair-fn (3.65:1 on the shade, a functional border).
+ * An optional tag names the gap (--ink, 13.9:1 on the shade, so it clears the 8:1 inactive rule);
+ * an optional cut marks where the reason changes inside one run. .ah-gapkey is the one-line key
+ * under each chart, with a swatch of the same shade. */
+.ah-gapband {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  min-width: 1px;
+  overflow: hidden;
+  background: rgba(169, 182, 198, .06);
+  border-left: 1px dashed var(--hair-fn);
+  border-right: 1px dashed var(--hair-fn);
+  pointer-events: none;
+}
+.ah-gapband > span {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font: 500 10px/1 var(--mono);
+  letter-spacing: .02em;
+  white-space: nowrap;
+  color: var(--ink);
+}
+.ah-gapband > i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px dotted var(--hair-fn);
+}
+.ah-gapkey {
+  margin: 8px 0 0;
+  font: 400 11px/1.5 var(--mono);
+  color: var(--ink-2);
+}
+.ah-gapkey > i {
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  margin-right: 8px;
+  vertical-align: -1px;
+  background: rgba(169, 182, 198, .06);
+  border-left: 1px dashed var(--hair-fn);
+  border-right: 1px dashed var(--hair-fn);
+}
+
+/* ---- the two gates ----------------------------------------------------------- */
+/* Script-only controls and the two canvases: shown once boot added html.ah-js. Content never wears it. */
+html:not(.ah-js) .ah-live-only { display: none !important; }
+/* The one sentence that is only true under reduced motion. */
+.ah-reduced-only { display: none; }
+html.ah-reduced .ah-reduced-only { display: block; }
+
+/* ---- reduced motion: the page is a complete still --------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .ah-reduced-only { display: block; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

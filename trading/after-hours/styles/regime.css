@@ -1,0 +1,107 @@
+/* 05 regime — the grade dial. Tokens come from core.css; the fallbacks are the same hexes (design section 6).
+   Colour is never the only carrier: the lit band also gets the ◆ marker in the list and the letter grows.
+   The two keyframes at the end run only while the scheduler has this piece live ([data-ah="on"]) and move
+   background-color and filter only, never opacity, never a content element's position. */
+
+.ah-regime-lede { margin: 0 0 22px; max-width: 68ch; color: var(--ink-2, #A9B6C6); }
+
+.ah-regime-grid {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px 32px; align-items: start;
+}
+@media (min-width: 760px) {
+  .ah-regime-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+}
+
+/* ---- the dial ---------------------------------------------------------------------------- */
+.ah-regime-dial { margin: 0; min-width: 0; }
+.ah-regime-svg { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; }
+
+.ah-regime-ring path { fill: none; stroke-linecap: butt; }
+.ah-regime-ring-regime path { stroke: var(--hair-fn, #6C7A8C); stroke-width: 10; }
+.ah-regime-ring-regime path[data-ah-active] { stroke: var(--live, #39BDF8); stroke-width: 14; }
+.ah-regime-cuts line { stroke: var(--ink-3, #8E9BAD); stroke-width: 2; }
+.ah-regime-cuts line[data-ah-active] { stroke: var(--live, #39BDF8); stroke-width: 3; }
+
+/* one colour per grade, shared by the arc, the letter and the grade line's rule; decorative arcs are thinner
+   when not lit, never dimmer */
+.ah-regime-ring-grade path[data-grade="A"], .ah-regime-letters text[data-grade="A"], .ah-regime-gradeline[data-grade="A"] { --g: var(--up, #46C98A); }
+.ah-regime-ring-grade path[data-grade="B"], .ah-regime-letters text[data-grade="B"], .ah-regime-gradeline[data-grade="B"] { --g: var(--teal, #4FD1CF); }
+.ah-regime-ring-grade path[data-grade="C"], .ah-regime-letters text[data-grade="C"], .ah-regime-gradeline[data-grade="C"] { --g: var(--live, #39BDF8); }
+.ah-regime-ring-grade path[data-grade="D"], .ah-regime-letters text[data-grade="D"], .ah-regime-gradeline[data-grade="D"] { --g: var(--gold, #E0AC4E); }
+.ah-regime-ring-grade path[data-grade="F"], .ah-regime-letters text[data-grade="F"], .ah-regime-gradeline[data-grade="F"] { --g: var(--down, #F47265); }
+.ah-regime-ring-grade path { stroke: var(--g, var(--hair-fn, #6C7A8C)); stroke-width: 14; }
+.ah-regime-ring-grade path[data-ah-active] { stroke-width: 22; }
+
+.ah-regime-svg text {
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace);
+  text-anchor: middle; dominant-baseline: central;
+}
+.ah-regime-letters text { fill: var(--ink, #EAF0F7); font-size: 20px; font-weight: 700; }
+.ah-regime-letters text[data-ah-active] { fill: var(--g, var(--ink, #EAF0F7)); font-size: 26px; }
+.ah-regime-mins text { fill: var(--ink-3, #8E9BAD); font-size: 12px; }
+/* the cut numbers are user units of a 420-unit viewBox: at phone widths (dial 256-311 px) and in the 760-899 px band,
+   where the dial shares its row with the readout, 12 units render under 10 px; these steps keep them at 10.3 px and up
+   (17 units: 10.3 px at 320, 12.5 at 375; 16 units: 12.6 px at 760, 15.2 at 899) while the letters stay the larger face */
+@media (max-width: 479px) { .ah-regime-mins text { font-size: 17px; } }
+@media (min-width: 760px) and (max-width: 899px) { .ah-regime-mins text { font-size: 16px; } }
+.ah-regime-rest { stroke: var(--ink-2, #A9B6C6); stroke-width: 2; stroke-linecap: round; }
+
+.ah-regime-needle-arm { stroke: var(--ink, #EAF0F7); stroke-width: 3; stroke-linecap: round; }
+.ah-regime-hub { fill: var(--card, #131922); stroke: var(--ink, #EAF0F7); stroke-width: 3; }
+.ah-regime-needle[data-ah-parked] .ah-regime-needle-arm { stroke: var(--ink-2, #A9B6C6); stroke-dasharray: 6 5; }
+.ah-regime-needle[data-ah-parked] .ah-regime-hub { stroke: var(--ink-2, #A9B6C6); }
+
+.ah-regime-cap { text-align: center; }
+
+/* ---- the readout ------------------------------------------------------------------------- */
+.ah-regime-read { min-width: 0; }
+.ah-regime-now { margin: 0; display: grid; gap: 14px; }
+.ah-regime-row { min-width: 0; }
+.ah-regime-row dt {
+  margin: 0 0 4px; font: 500 11px/1.6 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace);
+  letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3, #8E9BAD);
+}
+.ah-regime-row dd { margin: 0; min-width: 0; overflow-wrap: anywhere; color: var(--ink, #EAF0F7); }
+.ah-regime-gradeline {
+  font: 600 clamp(1.15rem, 2vw, 1.45rem)/1.25 var(--sans, "Space Grotesk", system-ui, sans-serif);
+  padding: 2px 0 2px 12px; border-left: 3px solid var(--g, var(--hair-fn, #6C7A8C)); border-radius: 2px;
+}
+.ah-regime-score {
+  font: 400 2.1rem/1.1 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace);
+  font-variant-numeric: tabular-nums;
+}
+.ah-regime-note {
+  margin: 12px 0 0; font: 400 12px/1.5 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace);
+  color: var(--ink-2, #A9B6C6);
+}
+
+/* ---- the two ladders the generator writes (ol.ah-bands, ul.ah-regimes) ------------------ */
+.ah-regime-ladders { margin-top: 18px; min-width: 0; }
+.ah-regime-ladders ol, .ah-regime-ladders ul { list-style: none; margin: 0; padding: 0; }
+.ah-regime-ladders li {
+  min-width: 0; overflow-wrap: anywhere;
+  font: 400 12px/1.5 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace);
+  color: var(--ink-2, #A9B6C6);
+}
+.ah-regime-ladders .ah-bands { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.ah-regime-ladders .ah-bands li { padding: 3px 9px; border: 1px solid var(--hair-fn, #6C7A8C); border-radius: 6px; }
+.ah-regime-ladders .ah-bands li[data-ah-active] { border-color: var(--live, #39BDF8); color: var(--ink, #EAF0F7); }
+.ah-regime-ladders .ah-bands li[data-ah-active]::before { content: "◆ "; color: var(--live, #39BDF8); }
+.ah-regime-ladders .ah-regimes {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 3px 14px;
+}
+.ah-regime-ladders .ah-regimes li::before { content: "○ "; color: var(--ink-2, #A9B6C6); }
+.ah-regime-ladders .ah-regimes li[data-ah-active] { color: var(--ink, #EAF0F7); }
+.ah-regime-ladders .ah-regimes li[data-ah-active]::before { content: "◆ "; color: var(--live, #39BDF8); }
+
+/* ---- live only: the cockpit's number-change flash (background only) and a glow on the lit arcs ---- */
+#ah-regime[data-ah="on"] .ah-regime-flash { animation: ahRegimeFlash var(--t-flash, 550ms) ease-out; }
+#ah-regime[data-ah="on"] .ah-regime-ring path[data-ah-active] { animation: ahRegimeGlow 2.2s var(--ease, ease-in-out) infinite; }
+@keyframes ahRegimeFlash {
+  from { background-color: rgba(79, 209, 207, .14); }
+  to { background-color: transparent; }
+}
+@keyframes ahRegimeGlow {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(57, 189, 248, 0)); }
+  50% { filter: drop-shadow(0 0 7px rgba(57, 189, 248, .85)); }
+}

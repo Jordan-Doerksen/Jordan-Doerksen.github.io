@@ -1,0 +1,84 @@
+<!-- 05 regime — the grade dial. Stands for the weekday regime grader.
+     The generator fills data-ah-desk (text, bands, precedence as JSON), the "Grade now" text token on the
+     readout's first term and the bands token that becomes the two ladders (design contract 2.4).
+     The dial face below is typed from the grader's rules file at the commit the design names: the five grade
+     arcs cut at 80 · 65 · 45 · 30 · 0 and the eight regime arcs and ticks cut at 85 · 75 · 65 · 55 · 45 · 35 ·
+     25 · 0, as arc geometry, with the letters on the inner ring. The script redraws both rings from the data
+     attribute with the same formulas (a changed cut moves the arc, never the typed face) and only then writes
+     the cut values into the empty number slots: a number appears only when the desk's data wrote it. -->
+<section class="ah-piece ah-regime" id="ah-regime" data-ah-desk="%AH_DESK%" aria-labelledby="ah-regime-h">
+  <header class="ah-piece-head">
+    <h2 id="ah-regime-h">The grade dial</h2>
+    <span class="ah-syn">REAL BANDS · SYNTHETIC SCORE</span>
+  </header>
+  <p class="ah-regime-lede">Stands for the weekday regime grader. One composite score is read against two ladders at once, the grade bands and the regime bands, each with its own cuts, so one score carries a letter and a label. The bands here are the grader's own. The score is invented and re-read on a cycle; some reads come back with no data, and then the needle parks below the scale.</p>
+
+  <div class="ah-regime-grid">
+    <figure class="ah-regime-dial">
+      <svg class="ah-regime-svg" viewBox="0 0 420 280" aria-hidden="true" focusable="false">
+        <g class="ah-regime-ring ah-regime-ring-regime">
+          <path data-label="STRONG_RISK_ON" d="M 373.9 136.5 A 184 184 0 0 1 394.0 220.0"/>
+          <path data-label="RISK_ON" d="M 340.1 89.9 A 184 184 0 0 1 373.9 136.5"/>
+          <path data-label="MODERATELY_RISK_ON" d="M 293.5 56.1 A 184 184 0 0 1 340.1 89.9"/>
+          <path data-label="SELECTIVE_RISK_ON" d="M 238.8 38.3 A 184 184 0 0 1 293.5 56.1"/>
+          <path data-label="NEUTRAL_ROTATIONAL" d="M 181.2 38.3 A 184 184 0 0 1 238.8 38.3"/>
+          <path data-label="DEFENSIVE_LEAN" d="M 126.5 56.1 A 184 184 0 0 1 181.2 38.3"/>
+          <path data-label="RISK_OFF_LEAN" d="M 79.9 89.9 A 184 184 0 0 1 126.5 56.1"/>
+          <path data-label="RISK_OFF_STRESS" d="M 26.0 220.0 A 184 184 0 0 1 79.9 89.9"/>
+        </g>
+        <g class="ah-regime-cuts">
+          <line data-label="STRONG_RISK_ON" x1="366.8" y1="140.1" x2="382.9" y2="131.9"/>
+          <line data-label="RISK_ON" x1="334.5" y1="95.5" x2="347.2" y2="82.8"/>
+          <line data-label="MODERATELY_RISK_ON" x1="289.9" y1="63.2" x2="298.1" y2="47.1"/>
+          <line data-label="SELECTIVE_RISK_ON" x1="237.5" y1="46.2" x2="240.3" y2="28.4"/>
+          <line data-label="NEUTRAL_ROTATIONAL" x1="182.5" y1="46.2" x2="179.7" y2="28.4"/>
+          <line data-label="DEFENSIVE_LEAN" x1="130.1" y1="63.2" x2="121.9" y2="47.1"/>
+          <line data-label="RISK_OFF_LEAN" x1="85.5" y1="95.5" x2="72.8" y2="82.8"/>
+          <line data-label="RISK_OFF_STRESS" x1="34.0" y1="220.0" x2="16.0" y2="220.0"/>
+        </g>
+        <g class="ah-regime-ring ah-regime-ring-grade">
+          <path data-grade="A" d="M 339.4 126.0 A 160 160 0 0 1 370.0 220.0"/>
+          <path data-grade="B" d="M 282.6 77.4 A 160 160 0 0 1 339.4 126.0"/>
+          <path data-grade="C" d="M 185.0 62.0 A 160 160 0 0 1 282.6 77.4"/>
+          <path data-grade="D" d="M 116.0 90.6 A 160 160 0 0 1 185.0 62.0"/>
+          <path data-grade="F" d="M 50.0 220.0 A 160 160 0 0 1 116.0 90.6"/>
+        </g>
+        <g class="ah-regime-letters">
+          <text data-grade="A" x="331.7" y="180.4">A</text>
+          <text data-grade="B" x="293.1" y="122.7">B</text>
+          <text data-grade="C" x="230.0" y="93.6">C</text>
+          <text data-grade="D" x="161.0" y="101.7">D</text>
+          <text data-grade="F" x="96.0" y="161.9">F</text>
+        </g>
+        <g class="ah-regime-mins">
+          <text data-grade="A" x="328.1" y="134.2"></text>
+          <text data-grade="B" x="276.3" y="89.9"></text>
+          <text data-grade="C" x="187.2" y="75.8"></text>
+          <text data-grade="D" x="124.2" y="101.9"></text>
+          <text data-grade="F" x="64.0" y="220.0"></text>
+        </g>
+        <line class="ah-regime-rest" x1="64.5" y1="256.3" x2="48.9" y2="260.2"/>
+        <g class="ah-regime-needle" data-ah-needle data-ah-parked transform="rotate(-14 210 220)">
+          <path class="ah-regime-needle-arm" d="M 210 220 L 54 220"/>
+          <circle class="ah-regime-hub" cx="210" cy="220" r="7"/>
+        </g>
+      </svg>
+      <figcaption class="ah-cap ah-regime-cap">synthetic score · not a graded week · the rings and their cuts are the grader's own</figcaption>
+    </figure>
+
+    <div class="ah-regime-read">
+      <dl class="ah-regime-now">
+        <div class="ah-regime-row">
+          <dt data-ah-gradenow>%AH_TEXT:gradeNow%</dt>
+          <dd class="ah-regime-gradeline" data-ah-gradeline>—</dd>
+        </div>
+        <div class="ah-regime-row">
+          <dt>Score</dt>
+          <dd class="ah-regime-score" data-ah-score>—</dd>
+        </div>
+      </dl>
+      <p class="ah-regime-note" data-ah-note>◌ no read yet · needle at rest</p>
+      <div class="ah-regime-ladders">%AH_BANDS%</div>
+    </div>
+  </div>
+</section>

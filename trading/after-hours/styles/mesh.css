@@ -1,0 +1,97 @@
+/* 04 mesh: the system tour.
+   The node, wire and label rules and the pop keyframe are lifted from the tier-2 case's mesh
+   and re-skinned on the dark tokens of core.css. Its wire keyframe is not lifted: the wire is
+   drawn per frame by the script so it stays under the pip, at the wire timing the root carries.
+   Unlit means de-emphasised, never dim: the two states are carried by fill and by the glyph
+   before each legend item, and unlit text never drops below --ink-2. Motion lives under
+   [data-ah="on"] only; nothing animates opacity on a content element. */
+
+.ahm-lede{margin:0;max-width:64ch;color:var(--ink-2)}
+
+/* ---------- the two columns: map, then the words ------------------------ */
+.ahm-body{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(16px,3vw,32px);margin-top:clamp(14px,2vw,22px)}
+/* 1024, not 900: in the 900-1023 band a 7/12 map dropped the node names to 13.8 px and the wire words to 9.7 px */
+@media (min-width:1024px){
+  .ahm-body{grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:start}
+}
+.ahm-fig{margin:0;max-width:640px}
+.ahm-svg{width:100%;height:auto;display:block;overflow:visible}
+
+/* ---------- the map, lifted ------------------------------------------------ */
+.ahm-node circle,.ahm-node rect{fill:var(--deep);stroke:var(--hair-fn);stroke-width:1.5}
+/* A wire must never make a name hard to read: the label is painted stroke-first in the well's
+   own colour, which knocks a halo out of anything passing behind the glyphs. */
+.ahm-node text{font:500 17px/1 var(--mono);fill:var(--ink-2);
+  paint-order:stroke fill;stroke:var(--deep);stroke-width:4px;stroke-linejoin:round;stroke-linecap:round}
+.ahm-node.joint circle{stroke-dasharray:2 2}
+.ahm-wire{fill:none;stroke:var(--hair-fn);stroke-width:1.5}
+.ahm-wlabels text{font:400 12px/1 var(--mono);fill:var(--ink-3);
+  paint-order:stroke fill;stroke:var(--deep);stroke-width:3px;stroke-linejoin:round}
+.ahm-fence-rect{fill:none;stroke:var(--hair-fn);stroke-width:1.5;stroke-dasharray:6 4}
+.ahm-fence-tag{font:500 11px/1 var(--mono);letter-spacing:.1em;fill:var(--ink-2)}/* unlit tag is inactive text: 8:1 floor, ink-3 read 6.55 */
+/* phones: the text is sized in user units of a 500-wide viewBox, so at 320-599 px it rendered at 5-8 px. The wire
+   words leave the map (each wire keeps its <title>, the tour speaks them in the now-readout, the legend prints them
+   below, see .ahm-path li[data-wire]); node names and the fence tag scale up in user units (25: 11.6 px at 320, 14.4 at
+   375; 19: 8.8 and 10.9). The wire words are not scaled instead: past about 14 units "cycle input" hits "no answer"
+   and "server back" hits "restart the server". */
+@media (max-width:599px){
+  .ahm-wlabels{display:none}
+  .ahm-node text{font-size:25px}
+  .ahm-fence-tag{font-size:19px}
+}
+
+/* lit: the same rules in both modes, so the reduced still and the tour agree */
+.ahm-node.on circle,.ahm-node.on rect{fill:var(--live);stroke:var(--live)}
+.ahm-node.on text{fill:var(--ink)}
+.ahm-node.bot.on rect{fill:var(--gold);stroke:var(--gold)}
+.ahm-wire.on{stroke:var(--live)}
+.ahm-fence-rect.on{stroke:var(--gold)}
+.ahm-fence-tag.on{fill:var(--gold)}
+
+/* pips: decorative, script-made, never present in the still */
+.ahm-pip-halo{fill:var(--live);fill-opacity:.16}
+.ahm-pip-dot{fill:var(--live)}
+.ahm-pip.bot .ahm-pip-halo,.ahm-pip.bot .ahm-pip-dot{fill:var(--gold)}
+
+/* motion, live set only. The pop runs for the enter timing the script sets on the root. */
+[data-ah="on"] .ahm-node circle,[data-ah="on"] .ahm-node rect{transition:fill var(--t-tick) var(--ease),stroke var(--t-tick) var(--ease)}
+[data-ah="on"] .ahm-node text{transition:fill var(--t-tick) var(--ease)}
+[data-ah="on"] .ahm-wire{transition:stroke var(--t-tick) var(--ease)}
+[data-ah="on"] .ahm-fence-rect,[data-ah="on"] .ahm-fence-tag{transition:stroke var(--t-tick) var(--ease),fill var(--t-tick) var(--ease)}
+[data-ah="on"] .ahm-node.on circle,[data-ah="on"] .ahm-node.on rect{
+  transform-box:fill-box;transform-origin:center;
+  animation:ahm-pop var(--ahm-enter) var(--ease) both}
+@keyframes ahm-pop{from{transform:scale(.2)}to{transform:none}}
+
+/* ---------- the legend: the same names as text, readable at any width ---- */
+.ahm-legend{min-width:0}
+.ahm-path{min-width:0;margin:0 0 14px}
+.ahm-path h3{margin:0 0 6px;font:500 12px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.ahm-path h3[data-state="running"]{color:var(--live)}
+.ahm-path h3[data-state="done"]{color:var(--up)}
+.ahm-glyph{display:inline-block;min-width:1em}
+.ahm-branch{margin:0 0 6px}
+.ahm-branch-k{display:block;font:400 11px/1.5 var(--mono);letter-spacing:.06em;color:var(--ink-3)}
+.ahm-path ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:2px 0;
+  font:400 14px/1.6 var(--mono);color:var(--ink-2)}
+.ahm-path li{min-width:0}
+.ahm-path li::before{content:"○ ";color:var(--ink-2)}
+.ahm-path li.on{color:var(--ink)}
+.ahm-path li.on::before{content:"● ";color:var(--live)}
+.ahm-path li:not(:last-child)::after{content:" → ";white-space:pre;color:var(--ink-3)}
+/* below 600 px the wire words are off the map, so each step prints its wire before the arrow; normal white-space so
+   the run can wrap and nothing scrolls sideways (the closing space is a no-break one, since a plain trailing space is
+   dropped at a line end and the arrow would touch the next bullet). The two branch keys (no answer, pause marker)
+   already head their lists. */
+@media (max-width:599px){
+  .ahm-path li[data-wire]:not(:last-child)::after{content:" — " attr(data-wire) " →\00a0";white-space:normal;color:var(--ink-2)}
+}
+.ahm-path-bot li.on::before{color:var(--gold)}
+.ahm-fence-line{margin:10px 0 0;padding:10px 12px;border:1px dashed var(--hair-fn);border-radius:6px;
+  font-size:14px;line-height:1.55;color:var(--ink)}
+
+/* the readout: the demo clock and what the pip is doing, in words */
+.ahm-now{margin:6px 0 0;font:400 12.5px/1.6 var(--mono);color:var(--ink-2)}
+.ahm-now-k{letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-right:.6em}
+.ahm-now-t{color:var(--ink-2);margin-right:.6em}
+.ahm-now-v{color:var(--ink)}

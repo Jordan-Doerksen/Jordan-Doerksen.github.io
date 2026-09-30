@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<title>After hours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/core.css">
+<!-- AH:STYLES -->
+</head>
+<body data-ah-refresh="%AH_LIM:refresh%" data-ah-stale="%AH_LIM:stale%" data-ah-cvdwin="%AH_LIM:cvdWindow%" data-ah-max="%AH_CFG:max%" data-ah-seed="%AH_CFG:seed%">
+
+<div class="ah-band" role="note" aria-describedby="ah-band-note"><b>SYNTHETIC — NO LIVE DATA</b></div>
+<p class="ah-band-note" id="ah-band-note">Every figure that moves on this page is invented; the words, formats and limits are the desk's own, read from its code when the page was built.</p>
+
+<header class="ah-head">
+  <h1>After hours</h1>
+  <p class="ah-prose">Parts of the trading-desk system in motion. The feed is synthetic. The words, formats and limits are the desk's own, read from its code at build and checked against it. Nothing here reads a market, and nothing here can place an order.</p>
+</header>
+
+<main class="ah-stage" id="ah-stage">
+<!-- AH:PIECES -->
+</main>
+
+<footer class="ah-foot">
+  <ul class="ah-numbers" aria-label="Generated counts">
+    <li data-ah-num="desk.tests.files">
+      <b>%AH_NUM:desk.tests.files%</b> test files in the desk
+      <small>counted %AH_NUM:evidence.generated% at desk commit %AH_NUM:desk.commit%</small>
+    </li>
+    <li data-ah-num="desk.suite.passed" data-result="%AH_NUM:desk.suite.result%">
+      <b>%AH_NUM:desk.suite.passed%</b> passed<span data-ah-num="desk.suite.failed">, <b>%AH_NUM:desk.suite.failed%</b> failed</span><span data-ah-num="desk.suite.skipped">, <b>%AH_NUM:desk.suite.skipped%</b> skipped</span> in the last full run, which %AH_NUM:desk.suite.result%
+      <small>counted %AH_NUM:evidence.generated% at desk commit %AH_NUM:desk.commit%</small>
+    </li>
+    <li data-ah-num="guards.published">
+      <b>%AH_NUM:guards.published%</b> sabotage guards published
+      <small>counted %AH_NUM:guards.generated% at desk commit %AH_NUM:desk.commit%</small>
+    </li>
+  </ul>
+  <p class="ah-foot-line">Every working rule behind this system carries an enforcement grade, which says what stands behind it when it is broken: a hook, a gate, an owner's call, or prose alone.</p>
+  <p class="ah-foot-line">Work runs off a private board, one post per item; a question tag stops the item until it is answered.</p>
+  <p class="ah-stamp ah-mono">%AH_STAMP%</p>
+  <p class="ah-notice ah-reduced-only" role="status">Motion is off because your system asked for it. Nothing is missing.</p>
+  <nav class="ah-back" aria-label="Back"><a href="/">Home</a></nav>
+</footer>
+
+<script src="js/core.js"></script>
+<!-- AH:SCRIPTS -->
+</body>
+</html>

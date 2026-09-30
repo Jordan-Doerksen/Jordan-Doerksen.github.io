@@ -1,0 +1,44 @@
+<!-- 08 guards: the sabotage terminal, as a category wall and one live case. The family tiles and their
+     counts, the still's example cases, the staged pass (one attribute) and the premise are generator-written
+     (the tokens). Each comment-fenced stand-in region below holds the same shape typed by hand, with "—" for
+     every number, so this part reads complete before the generator runs; the generator strips every region,
+     fence to fence, when it fills the tokens. No path; no number typed. -->
+<section class="ah-piece" id="ah-guards" data-ah-desk="%AH_DESK%" aria-labelledby="ah-guards-title">
+  <header class="ah-piece-head ah-g-head">
+    <span class="ah-syn">GENERATED FROM THE TEST HARNESS · PASS STAGED FROM THE PUBLISHED LIST, NOT A LIVE RUN</span>
+    <h2 id="ah-guards-title" class="ah-piece-title">The sabotage terminal</h2>
+    <p class="ah-g-premise">%AH_GUARD_PREMISE%</p>
+    <!-- AH:FALLBACK -->
+    <p class="ah-g-premise" data-ah-fallback>A test that has never failed is not a guard - it is a green light of unknown wiring. Each case below is driven into the failure it exists to catch, then the tree is restored and the restore is proven by SHA256.</p>
+    <!-- /AH:FALLBACK -->
+    <p class="ah-g-count" data-ah-num="guards.published"><b class="ah-g-n">%AH_NUM:guards.published%</b> guards published<span data-ah-num="guards.stale">, <b class="ah-g-n">%AH_NUM:guards.stale%</b> excluded as stale</span>. <span class="ah-g-counted">counted <span data-ah-num="guards.generated">%AH_NUM:guards.generated%</span> at desk commit <span data-ah-num="desk.commit">%AH_NUM:desk.commit%</span></span></p>
+    <!-- AH:FALLBACK -->
+    <p class="ah-g-count" data-ah-fallback><b class="ah-g-n">—</b> guards published. <span class="ah-g-counted">counted — at desk commit —</span></p>
+    <!-- /AH:FALLBACK -->
+  </header>
+
+  <p class="ah-g-wall-label">By family: the part of the desk each guard protects</p>
+  <div class="ah-g-wall">
+    <ol class="ah-g-fams" role="list" aria-label="Guards by family">
+      %AH_GUARD_FAMILIES%
+      <!-- AH:FALLBACK -->
+      <li class="ah-g-fam" data-family="running" data-ah-fallback><p class="ah-g-fam-label">keeping it running</p><p class="ah-g-fam-n"><b class="ah-g-n">—</b> guards</p><p class="ah-g-fam-roles">the doctor and its probes<span class="ah-g-dot"> · </span>the watchdog<span class="ah-g-dot"> · </span>the stop button</p></li>
+      <li class="ah-g-fam" data-family="pages" data-ah-fallback><p class="ah-g-fam-label">the pages you look at</p><p class="ah-g-fam-n"><b class="ah-g-n">—</b> guards</p><p class="ah-g-fam-roles">the review page<span class="ah-g-dot"> · </span>the live cockpit</p></li>
+      <!-- /AH:FALLBACK -->
+    </ol>
+
+    <div class="ah-g-card">
+      <p class="ah-g-bar"><span class="ah-g-bar-name">sabotage pass</span><span class="ah-g-bar-note">from the published list</span><span class="ah-g-status" data-state="still">examples</span></p>
+      <div class="ah-g-stage" data-ah-pass="%AH_GUARD_PASS%">
+        %AH_GUARD_EXAMPLES%
+        <!-- AH:FALLBACK -->
+        <article class="ah-g-case" data-family="running" data-ah-fallback><p class="ah-g-case-fam">keeping it running</p><p class="ah-g-row ah-g-broke"><span class="ah-g-k"><span class="ah-g-x" aria-hidden="true">✗</span> broken</span><span class="ah-g-v"><b class="ah-g-where">the stop button</b> <span class="ah-g-mut">Converts the file's Windows line endings to Unix ones, which the guard exists to reject.</span></span></p><p class="ah-g-row ah-g-by"><span class="ah-g-k">caught by</span><code class="ah-g-v ah-g-test">test_every_bat_is_crlf_on_disk</code></p><p class="ah-g-row ah-g-verdict"><span class="ah-g-k"></span><span class="ah-g-v"><span class="ah-g-stamp" data-state="caught"><span class="ah-g-ok" aria-hidden="true">✓</span> CAUGHT</span></span></p></article>
+        <!-- /AH:FALLBACK -->
+      </div>
+      <p class="ah-g-tally ah-live-only" data-ah-num="guards.cases">caught <b class="ah-g-n" data-ah-g-caught>0</b> of <b class="ah-g-n">%AH_NUM:guards.cases%</b> staged cases this pass</p>
+      <p class="ah-g-end">After each case the harness restores the tree and proves the restore by hash. Nothing is run for this page.</p>
+    </div>
+  </div>
+
+  <p class="ah-caption ah-g-caption">Stands for the adversarial pass over the desk's test suite. Each case is one mutation and the one test that must fail when it lands: the harness applies the mutation, watches that test fail, restores the tree and proves the restore. The families, their counts and the cases are generated from the harness, and the card takes cases from that published list one at a time. A CAUGHT stamp shows what the harness requires of the case, not the result of a run.</p>
+</section>

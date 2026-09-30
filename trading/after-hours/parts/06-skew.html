@@ -1,0 +1,54 @@
+<!-- 06 skew: the 0DTE sky. Every desk word below is typed from the worktree the design names (the
+     skew engine's three regime words; the cockpit's chip words, which are those words upper-cased,
+     and its SUSPECT), so this still is complete before the generator runs. The generator fills
+     data-ah-desk and every data-ah-word attribute; the script reads data-ah-desk only and never the
+     typed text. Every number on this card is "—" until the script writes one from the synthetic tape. -->
+<section class="ah-piece ah-skew" id="ah-skew" data-ah-desk="%AH_DESK%" aria-labelledby="ah-skew-h">
+  <header class="ah-piece-head ah-skew-head">
+    <h2 id="ah-skew-h">The 0DTE sky</h2>
+    <span class="ah-syn">SYNTHETIC · a synthetic feed and staged outages; nothing on this card is generated</span>
+  </header>
+  <p class="ah-skew-lede">Stands for the options skew engine. It reads the chain once per refresh interval and publishes one word with the number. When the chain goes away it holds the last good read up to the stale limit, marks it suspect and prints no number; past the limit it prints n/a and says why. A second with no read is a shaded gap in the line, never a zero.</p>
+
+  <div class="ah-skew-grid">
+    <figure class="ah-skew-sky">
+      <div class="ah-skew-box">
+        <svg class="ah-skew-spark" viewBox="0 0 60 64" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <line class="ah-skew-base" x1="0" y1="63.5" x2="60" y2="63.5"></line>
+          <line class="ah-skew-zero" x1="0" y1="32" x2="60" y2="32" visibility="hidden"></line>
+          <g class="ah-skew-plot">
+            <path class="ah-skew-line" d=""></path>
+            <line class="ah-skew-now" x1="59.5" y1="0" x2="59.5" y2="64" visibility="hidden"></line>
+          </g>
+        </svg>
+        <div class="ah-skew-gaps" aria-hidden="true"></div>
+      </div>
+      <figcaption>
+        <div class="ah-skew-axis">
+          <span class="ah-skew-tick">60 s ago</span>
+          <span class="ah-skew-cap">synthetic feed · not market data</span>
+          <span class="ah-skew-tick">now</span>
+        </div>
+        <p class="ah-gapkey ah-skew-key"><i aria-hidden="true"></i>shaded = no read that second, never drawn as zero; the tag inside says why</p>
+      </figcaption>
+    </figure>
+
+    <div class="ah-skew-read">
+      <p class="ah-skew-row">
+        <span class="ah-skew-glyph" data-sk="glyph" data-state="na" aria-hidden="true">—</span>
+        <b class="ah-skew-value" data-sk="value" data-state="na">—</b>
+        <span class="ah-skew-word" data-sk="word" data-regime="suspect" data-ah-key="SUSPECT" data-ah-word="%AH_TEXT:SUSPECT%">SUSPECT</span>
+      </p>
+      <p class="ah-skew-state" data-sk="state">n/a</p>
+      <div class="ah-skew-age" data-sk="bar" data-state="none" aria-hidden="true"><i></i></div>
+      <p class="ah-skew-ageline">age <b data-sk="age">—</b> s of <b data-sk="stale">—</b> s before the read is dropped</p>
+      <dl class="ah-skew-legend">
+        <div><dt data-regime="fear" data-ah-key="fear" data-ah-word="%AH_TEXT:fear%">fear</dt><dd>the usual shape · gold</dd></div>
+        <div><dt data-regime="inverted" data-ah-key="inverted" data-ah-word="%AH_TEXT:inverted%">inverted</dt><dd>the alert · red</dd></div>
+        <div><dt data-regime="neutral" data-ah-key="neutral" data-ah-word="%AH_TEXT:neutral%">neutral</dt><dd>no lean either way</dd></div>
+        <div><dt data-regime="suspect" data-ah-key="SUSPECT" data-ah-word="%AH_TEXT:SUSPECT%">SUSPECT</dt><dd>no confident read · grey, no number</dd></div>
+      </dl>
+      <p class="ah-skew-note">The engine's words. The chip prints them in capitals, as the cockpit does.</p>
+    </div>
+  </div>
+</section>

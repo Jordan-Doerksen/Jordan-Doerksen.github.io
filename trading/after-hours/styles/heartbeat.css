@@ -1,0 +1,87 @@
+/* 07 heartbeat: the operator's ring. Scoped to #ah-heartbeat. Colour tokens come from core.css;
+   the fallbacks are the same hexes, so the part renders alone. Live enhancements key on
+   [data-ah="on"] only; nothing here hides content. */
+#ah-heartbeat {
+  --hb-up: var(--up, #46C98A); --hb-down: var(--down, #F47265); --hb-warn: var(--gold, #E0AC4E);
+  --hb-hold: var(--live, #39BDF8); --hb-ink: var(--ink, #EAF0F7); --hb-ink2: var(--ink-2, #A9B6C6);
+  --hb-ink3: var(--ink-3, #8E9BAD); --hb-hair: var(--hair, #24303E); --hb-hairfn: var(--hair-fn, #6C7A8C);
+  --hb-deep: var(--deep, #0E141C); --hb-card: var(--card, #131922);
+  --hb-mono: "JetBrains Mono", ui-monospace, Menlo, monospace; --hb-ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+/* header */
+.ah-hb-kicker { margin: 0 0 6px; font: 500 11px/1 var(--hb-mono); letter-spacing: .18em; text-transform: uppercase; color: var(--hb-hold); }
+.ah-hb-title { margin: 0 0 10px; font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.1; letter-spacing: -.02em; color: var(--hb-ink); }
+.ah-hb-lede { max-width: 64ch; margin: 12px 0 0; color: var(--hb-ink2); }
+
+/* body: ring beside legend, stacked when narrow */
+.ah-hb-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(16px, 3vw, 28px); align-items: start; margin-top: clamp(16px, 3vw, 24px); }
+@media (min-width: 720px) { .ah-hb-body { grid-template-columns: minmax(220px, 320px) minmax(0, 1fr); } }
+
+/* the ring */
+.ah-hb-ring { position: relative; width: 100%; max-width: 320px; margin: 0 auto; aspect-ratio: 1; }
+.ah-hb-svg { display: block; width: 100%; height: 100%; }
+.ah-hb-track { fill: none; stroke: var(--hb-hair); stroke-width: 16; }
+.ah-hb-arc { fill: none; stroke: var(--hb-hairfn); stroke-width: 16; }
+.ah-hb-arc[data-tone="up"] { stroke: var(--hb-up); }
+.ah-hb-arc[data-tone="hold"] { stroke: var(--hb-hold); }
+.ah-hb-arc[data-tone="warn"] { stroke: var(--hb-warn); }
+.ah-hb-arc[data-tone="down"] { stroke: var(--hb-down); }
+.ah-hb-progress { fill: none; stroke: var(--hb-hold); stroke-width: 2; }
+.ah-hb-core { fill: var(--hb-deep); stroke: var(--hb-hair); stroke-width: 1; }
+.ah-hb-hand line { stroke: var(--hb-ink); stroke-width: 2; stroke-linecap: round; }
+.ah-hb-hand circle { fill: var(--hb-hold); transform-box: fill-box; transform-origin: center; }
+
+/* the verdict sits in the core as text, so it wraps and reads without the drawing */
+.ah-hb-verdict { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 6px; padding: 0 24%; pointer-events: none; text-align: center; }
+.ah-hb-vlabel { font: 500 10px/1 var(--hb-mono); letter-spacing: .2em; text-transform: uppercase; color: var(--hb-ink2); }
+.ah-hb-vword { display: inline-block; font: 700 22px/1.1 var(--hb-mono); letter-spacing: .04em; color: var(--hb-ink); border-radius: 6px; padding: 2px 6px; overflow-wrap: anywhere; }
+.ah-hb-verdict[data-tone="up"] .ah-hb-vword { color: var(--hb-up); --flip-col: var(--hb-up); }
+.ah-hb-verdict[data-tone="warn"] .ah-hb-vword { color: var(--hb-warn); --flip-col: var(--hb-warn); }
+.ah-hb-verdict[data-tone="down"] .ah-hb-vword { color: var(--hb-down); --flip-col: var(--hb-down); }
+
+/* the legend: one row per segment, every word it can light already printed */
+.ah-hb-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; min-width: 0; }
+.ah-hb-seg { min-width: 0; background: var(--hb-deep); border: 1px solid var(--hb-hair); border-left: 3px solid var(--hb-hairfn); border-radius: 8px; padding: 10px 12px; }
+.ah-hb-seg[data-tone="up"] { border-left-color: var(--hb-up); }
+.ah-hb-seg[data-tone="hold"] { border-left-color: var(--hb-hold); }
+.ah-hb-seg[data-tone="warn"] { border-left-color: var(--hb-warn); }
+.ah-hb-seg[data-tone="down"] { border-left-color: var(--hb-down); }
+.ah-hb-seghead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; border-radius: 4px; }
+.ah-hb-glyph { font: 700 13px/1 var(--hb-mono); min-width: 1.2em; color: var(--hb-ink2); }
+.ah-hb-seg[data-tone="up"] .ah-hb-glyph { color: var(--hb-up); }
+.ah-hb-seg[data-tone="hold"] .ah-hb-glyph { color: var(--hb-hold); }
+.ah-hb-seg[data-tone="warn"] .ah-hb-glyph { color: var(--hb-warn); }
+.ah-hb-seg[data-tone="down"] .ah-hb-glyph { color: var(--hb-down); }
+.ah-hb-name { font: 600 12px/1.3 var(--hb-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--hb-ink); overflow-wrap: anywhere; }
+.ah-hb-role { font-size: 12.5px; line-height: 1.4; color: var(--hb-ink3); }
+.ah-hb-words { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.ah-hb-word { min-width: 0; font: 500 11.5px/1.3 var(--hb-mono); letter-spacing: .06em; color: var(--hb-ink2); border: 1px solid var(--hb-hairfn); border-radius: 4px; padding: 3px 7px; overflow-wrap: anywhere; }
+.ah-hb-word.is-lit { color: var(--hb-ink); border-color: currentColor; font-weight: 700; }
+.ah-hb-word.is-lit[data-tone="up"] { color: var(--hb-up); }
+.ah-hb-word.is-lit[data-tone="hold"] { color: var(--hb-hold); }
+.ah-hb-word.is-lit[data-tone="warn"] { color: var(--hb-warn); }
+.ah-hb-word.is-lit[data-tone="down"] { color: var(--hb-down); }
+
+/* caption */
+.ah-hb-cap { margin: clamp(14px, 2.5vw, 20px) 0 0; font: 400 12.5px/1.6 var(--hb-mono); color: var(--hb-ink3); }
+.ah-hb-cap [data-ah-text] { color: var(--hb-ink2); }
+
+/* motion, live only. Keyframes lifted from the cockpit stylesheet (flash, tickUp, tickDown, vpulse),
+   renamed so ten piece sheets cannot collide; they move background-color, text-shadow and box-shadow only. */
+#ah-heartbeat[data-ah="on"] .ah-hb-arc { transition: stroke .5s var(--hb-ease); }
+#ah-heartbeat[data-ah="on"] .ah-hb-seg { transition: border-left-color .5s var(--hb-ease); }
+#ah-heartbeat[data-ah="on"] .ah-hb-word { transition: color .3s var(--hb-ease), border-color .3s var(--hb-ease); }
+#ah-heartbeat[data-ah="on"] .ah-hb-vword { transition: color .3s var(--hb-ease); }
+#ah-heartbeat[data-ah="on"] .ah-hb-seghead.is-flash { animation: ahHbFlash .55s ease-out; }
+#ah-heartbeat[data-ah="on"] .ah-hb-vword.is-up { animation: ahHbTickUp .5s ease-out; }
+#ah-heartbeat[data-ah="on"] .ah-hb-vword.is-down { animation: ahHbTickDown .5s ease-out; }
+#ah-heartbeat[data-ah="on"] .ah-hb-verdict.is-pulse .ah-hb-vword { animation: ahHbPulse 1.05s ease-out; }
+#ah-heartbeat[data-ah="on"] .ah-hb-hand.is-beat-a circle { animation: ahHbBeat .5s var(--hb-ease); }
+#ah-heartbeat[data-ah="on"] .ah-hb-hand.is-beat-b circle { animation: ahHbBeatB .5s var(--hb-ease); }
+@keyframes ahHbFlash { from { background-color: color-mix(in srgb, var(--hb-hold) 12%, transparent); } to { background-color: transparent; } }
+@keyframes ahHbTickUp { 0% { text-shadow: 0 0 14px var(--hb-up); } 100% { text-shadow: none; } }
+@keyframes ahHbTickDown { 0% { text-shadow: 0 0 14px var(--hb-down); } 100% { text-shadow: none; } }
+@keyframes ahHbPulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--flip-col, var(--hb-up)) 66%, transparent); } 100% { box-shadow: 0 0 0 12px transparent; } }
+@keyframes ahHbBeat { 0% { transform: scale(1); } 40% { transform: scale(1.9); } 100% { transform: scale(1); } }
+@keyframes ahHbBeatB { 0% { transform: scale(1); } 40% { transform: scale(1.9); } 100% { transform: scale(1); } }

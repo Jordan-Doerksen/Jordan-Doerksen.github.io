@@ -1,0 +1,85 @@
+<!-- 01 board — the cockpit wakes. Stands for the live cockpit page of the desk.
+     Every desk word reaches the script through data-ah-desk (the generator's JSON). The same words
+     also sit in the markup: each [data-ah-key] element carries the generator token in data-ah-word
+     and, as its text, the word read from the desk source at the commit the design names, so the page
+     is complete with script off and before the generator has run. Every readout is "—" until the
+     synthetic tape speaks; a missing value stays "—", never 0. -->
+<section class="ah-piece bd" id="ah-board" data-ah-desk="%AH_DESK%" aria-labelledby="ah-board-h">
+  <header class="ah-piece-head bd-head">
+    <h2 class="bd-h2" id="ah-board-h">The cockpit wakes</h2>
+    <span class="ah-syn">SYNTHETIC · a made-up tape drives every readout and every flash</span>
+  </header>
+  <p class="bd-cap">The live cockpit: last price, tape rate, the three order-flow factors and the confluence
+    they vote. On the desk this page polls its server once a second; here a synthetic feed steps once a
+    demo second and the same glows, flips and flashes answer it.</p>
+
+  <div class="bd-shell">
+    <div class="bd-topbar bd-part" style="--i:0">
+      <span class="bd-sym"><span class="bd-lbl">SYM</span><b data-bd="sym">ES</b></span>
+      <span class="bd-pill"><span class="bd-dot" aria-hidden="true"></span><span class="bd-k">SYNTHETIC</span></span>
+      <span class="bd-tps"><b data-bd="rate">—</b><span data-ah-key="tps" data-ah-word="%AH_TEXT:tps%"> t/s</span></span>
+      <span class="bd-tally"><span class="bd-lbl">ABS</span><b class="bd-tally-n" data-bd="abs">—</b>
+        <span class="bd-chip bd-bull"><span class="bd-chip-dot" aria-hidden="true"></span>BID <b data-bd="absBid">—</b></span>
+        <span class="bd-chip bd-bear"><span class="bd-chip-dot" aria-hidden="true"></span>ASK <b data-bd="absAsk">—</b></span>
+      </span>
+      <span class="bd-clock"><b data-bd="clock">—</b> ET</span>
+    </div>
+
+    <div class="bd-rail">
+      <div class="bd-card bd-lead bd-part" style="--i:1">
+        <div class="bd-ttl">LAST · <span data-bd="sym2">ES</span></div>
+        <div class="bd-price" data-bd="price">—</div>
+        <div class="bd-quote">
+          <span>bid <b data-bd="bid">—</b></span>
+          <span>ask <b data-bd="ask">—</b></span>
+          <span>spr <b data-bd="spr">—</b></span>
+        </div>
+        <div class="bd-verdict">
+          <div class="bd-vlab">Confluence</div>
+          <div class="bd-vbadge" data-bd="vbadge" data-conv="mixed"><span class="bd-vs" aria-hidden="true"></span><span data-bd="vtxt" data-ah-key="mixed" data-ah-word="%AH_TEXT:mixed%">MIXED</span></div>
+          <div class="bd-vsub" data-bd="vsub" data-ah-key="noConsensus" data-ah-word="%AH_TEXT:noConsensus%">no consensus</div>
+          <div class="bd-conv"><span class="bd-lbl">CONVICTION</span><b data-bd="conv">—</b></div>
+        </div>
+      </div>
+
+      <div class="bd-card bd-flow bd-part" style="--i:2">
+        <div class="bd-ttl">ORDER FLOW</div>
+        <ul class="bd-factors">
+          <li class="bd-factor" data-bd="fObi">
+            <div class="bd-fid"><span class="bd-fname">OBI</span><span class="bd-fsub">order-book imbalance</span></div>
+            <div class="bd-fmid"><span class="bd-fnum" data-bd="obiN">—</span><span class="bd-fvote" data-bd="obiV">—</span></div>
+            <span class="bd-sparkbox">
+              <svg class="bd-spark" data-bd="spkObi" viewBox="0 0 60 24" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <span class="bd-gaps" data-bd="gapObi" aria-hidden="true"></span>
+            </span>
+          </li>
+          <li class="bd-factor" data-bd="fVwap">
+            <div class="bd-fid"><span class="bd-fname">VWAP</span><span class="bd-fsub">distance · session</span></div>
+            <div class="bd-fmid"><span class="bd-fnum" data-bd="vwapN">—</span><span class="bd-fvote" data-bd="vwapV">—</span></div>
+            <span class="bd-sparkbox">
+              <svg class="bd-spark" data-bd="spkVwap" viewBox="0 0 60 24" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <span class="bd-gaps" data-bd="gapVwap" aria-hidden="true"></span>
+            </span>
+          </li>
+          <li class="bd-factor" data-bd="fCvd">
+            <div class="bd-fid"><span class="bd-fname">CVD</span><span class="bd-fsub">cumulative delta</span></div>
+            <div class="bd-fmid"><span class="bd-fnum" data-bd="cvdN">—</span><span class="bd-fvote" data-bd="cvdV">—</span></div>
+            <span class="bd-sparkbox">
+              <svg class="bd-spark" data-bd="spkCvd" viewBox="0 0 60 24" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <span class="bd-gaps" data-bd="gapCvd" aria-hidden="true"></span>
+            </span>
+          </li>
+        </ul>
+        <p class="ah-gapkey bd-gapkey"><i aria-hidden="true"></i>shaded = no data that second, never drawn as zero</p>
+      </div>
+    </div>
+
+    <div class="bd-foot bd-part" style="--i:3">
+      <span class="bd-ro"><span class="bd-ro-dot" aria-hidden="true"></span><span data-ah-key="ro" data-ah-word="%AH_TEXT:ro%">READ-ONLY</span></span>
+      <span class="bd-sep" aria-hidden="true">·</span>
+      <span class="bd-ro-note" data-ah-key="roNote" data-ah-word="%AH_TEXT:roNote%">observes &amp; displays only — never places an order</span>
+    </div>
+  </div>
+
+  <p class="bd-feedcap">synthetic feed · not market data</p>
+</section>

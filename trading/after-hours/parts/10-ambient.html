@@ -1,0 +1,9 @@
+<!-- 10 ambient: the quant sky. A fixed full-viewport canvas behind every card (z 0,
+     pointer-events none) that the lifted quant renderer draws on while this piece is live: a
+     blueprint grid, a scanning sweep, a streaming candle tape, glyph columns and a node net,
+     every alpha under 0.12. Decorative only: the glyphs are the renderer's own alphabet, not
+     desk words, and its tape is not the shared feed, so it carries no desk attribute and no
+     placeholder. With script off it is display:none (core's .ah-live-only gate); under reduced
+     motion the gate stays shut and nothing is ever drawn. Core runs it as an always piece while
+     the tab is visible; static() draws nothing. -->
+<canvas class="ah-ambient ah-live-only" id="ah-ambient" aria-hidden="true" width="1" height="1"></canvas>

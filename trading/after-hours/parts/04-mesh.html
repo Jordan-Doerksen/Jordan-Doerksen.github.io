@@ -1,0 +1,104 @@
+<!-- 04 mesh: the system tour. One inline SVG map; a pip walks three paths in turn.
+     Owned with styles/mesh.css and js/mesh.js. The generator fills the two placeholder
+     attributes on the root (an empty desk triple and the stage timings); every word below is
+     the still, complete with script off. Node words are module roles, never files. -->
+<section class="ah-piece ahm" id="ah-mesh" aria-labelledby="ahm-title" data-ah-desk="%AH_DESK%" data-ah-timings="%AH_CFG:timings%">
+  <header class="ah-piece-head">
+    <h2 id="ahm-title">The system tour</h2>
+    <span class="ah-syn">REAL MAP · SYNTHETIC PIPS</span>
+  </header>
+  <p class="ahm-lede">One map, three paths. A pip walks each path in turn: a part lights when the pip reaches it, a wire once both of its ends are lit. Parts are module roles, not files. The bot hangs off the fan-out behind a fence, one wire in and no wire out on this map. The watchdog also starts the 0DTE engine when none runs; that step is not drawn.</p>
+
+  <div class="ahm-body">
+    <figure class="ahm-fig ah-well">
+      <svg class="ahm-svg" viewBox="0 0 500 560" role="img" aria-labelledby="ahm-svg-title" aria-describedby="ahm-svg-desc">
+        <title id="ahm-svg-title">The desk as a map</title>
+        <desc id="ahm-svg-desc">The market path runs down the left, the watchdog path down the right, and the fenced bot hangs from the fan-out. The list beside the map names every part and wire.</desc>
+        <g class="ahm-wires">
+          <path class="ahm-wire" data-a="book" data-b="capture" d="M160 64 L160 138"><title>book and prints</title></path>
+          <path class="ahm-wire" data-a="capture" data-b="engine" d="M160 154 L160 228"><title>cycle input</title></path>
+          <path class="ahm-wire" data-a="engine" data-b="detectors" d="M160 244 L160 318"><title>market state</title></path>
+          <path class="ahm-wire" data-a="detectors" data-b="fanout" d="M160 334 L160 408"><title>the break</title></path>
+          <path class="ahm-wire" data-a="fanout" data-b="live" d="M160 424 L160 498"><title>state</title></path>
+          <path class="ahm-wire" data-a="fanout" data-b="bot" d="M168 416 L466 416"><title>signal feed</title></path>
+          <path class="ahm-wire" data-a="watchdog" data-b="health" d="M476 64 L476 138"><title>asks</title></path>
+          <path class="ahm-wire" data-a="health" data-b="restart" d="M476 154 L476 183 Q476 190 469 190 L269 190 Q262 190 262 197 L262 228"><title>no answer</title></path>
+          <path class="ahm-wire" data-a="restart" data-b="engine" d="M254 236 L168 236"><title>server back</title></path>
+          <path class="ahm-wire" data-a="health" data-b="stand" d="M476 154 L476 318"><title>pause marker</title></path>
+        </g>
+        <g class="ahm-wlabels" aria-hidden="true">
+          <text x="176" y="105">book and prints</text>
+          <text x="176" y="195">cycle input</text>
+          <text x="176" y="285">market state</text>
+          <text x="176" y="375">the break</text>
+          <text x="176" y="465">state</text>
+          <text x="176" y="408">signal feed</text>
+          <text x="468" y="105" text-anchor="end">asks</text>
+          <text x="270" y="184">no answer</text>
+          <text x="176" y="228">server back</text>
+          <text x="468" y="300" text-anchor="end">pause marker</text>
+        </g>
+        <rect class="ahm-fence-rect" x="306" y="384" width="190" height="64" rx="6"/>
+        <text class="ahm-fence-tag" x="314" y="400">FENCED</text>
+        <g class="ahm-nodes">
+          <g class="ahm-node" data-node="book"><circle cx="160" cy="56" r="8"/><text x="140" y="62" text-anchor="end">book</text><title>book · the order book and the trade prints, read only</title></g>
+          <g class="ahm-node" data-node="capture"><circle cx="160" cy="146" r="8"/><text x="140" y="152" text-anchor="end">capture</text><title>capture · turns the feed into cycle input; a replay comes in the same door</title></g>
+          <g class="ahm-node joint" data-node="engine"><circle cx="160" cy="236" r="8"/><text x="140" y="242" text-anchor="end">engine</text><title>engine · the cycle: one state for every detector</title></g>
+          <g class="ahm-node" data-node="detectors"><circle cx="160" cy="326" r="8"/><text x="140" y="332" text-anchor="end">detectors</text><title>detectors · breaks, absorption, skew, sentiment</title></g>
+          <g class="ahm-node joint" data-node="fanout"><circle cx="160" cy="416" r="8"/><text x="140" y="422" text-anchor="end">fan-out</text><title>fan-out · the live page, a private channel, the signal feed, the recorder</title></g>
+          <g class="ahm-node" data-node="live"><circle cx="160" cy="506" r="8"/><text x="140" y="512" text-anchor="end">live page</text><title>live page · the cockpit</title></g>
+          <g class="ahm-node" data-node="watchdog"><circle cx="476" cy="56" r="8"/><text x="456" y="62" text-anchor="end">watchdog loop</text><title>watchdog loop · asks the desk on a fixed cycle</title></g>
+          <g class="ahm-node joint" data-node="health"><circle cx="476" cy="146" r="8"/><text x="456" y="152" text-anchor="end">health answer</text><title>health answer · quiet when the desk answers</title></g>
+          <g class="ahm-node" data-node="restart"><circle cx="262" cy="236" r="8"/><text x="282" y="232"><tspan x="282">restart </tspan><tspan x="282" dy="1.15em">the server</tspan></text><title>restart the server · when the desk stops answering; it says why</title></g>
+          <g class="ahm-node" data-node="stand"><circle cx="476" cy="326" r="8"/><text x="456" y="332" text-anchor="end">standing down</text><title>standing down · a deliberate stop stays stopped</title></g>
+          <g class="ahm-node bot" data-node="bot"><rect x="468" y="408" width="16" height="16" rx="2"/><text x="456" y="422" text-anchor="end">bot</text><title>bot · fenced; no wire out</title></g>
+        </g>
+        <g class="ahm-pips" aria-hidden="true"></g>
+      </svg>
+      <figcaption class="ah-cap">synthetic pips on a staged cadence · the map is the shape of the real system · nothing here carries market data</figcaption>
+    </figure>
+
+    <div class="ahm-legend">
+      <section class="ahm-path" data-path="market" aria-labelledby="ahm-p-market">
+        <h3 id="ahm-p-market"><span class="ahm-glyph" aria-hidden="true">◌</span> market</h3>
+        <ol>
+          <li data-node="book" data-wire="book and prints">book</li>
+          <li data-node="capture" data-wire="cycle input">capture</li>
+          <li data-node="engine" data-wire="market state">engine</li>
+          <li data-node="detectors" data-wire="the break">detectors</li>
+          <li data-node="fanout" data-wire="state">fan-out</li>
+          <li data-node="live">live page</li>
+        </ol>
+      </section>
+      <section class="ahm-path" data-path="watchdog" aria-labelledby="ahm-p-watchdog">
+        <h3 id="ahm-p-watchdog"><span class="ahm-glyph" aria-hidden="true">◌</span> watchdog</h3>
+        <div class="ahm-branch">
+          <span class="ahm-branch-k">no answer</span>
+          <ol>
+            <li data-node="watchdog" data-wire="asks">watchdog loop</li>
+            <li data-node="health">health answer</li>
+            <li data-node="restart" data-wire="server back">restart the server</li>
+            <li data-node="engine">engine</li>
+          </ol>
+        </div>
+        <div class="ahm-branch">
+          <span class="ahm-branch-k">pause marker</span>
+          <ol>
+            <li data-node="watchdog" data-wire="asks">watchdog loop</li>
+            <li data-node="health">health answer</li>
+            <li data-node="stand">standing down</li>
+          </ol>
+        </div>
+      </section>
+      <section class="ahm-path ahm-path-bot" data-path="bot" aria-labelledby="ahm-p-bot">
+        <h3 id="ahm-p-bot"><span class="ahm-glyph" aria-hidden="true">◌</span> bot</h3>
+        <ol>
+          <li data-node="fanout" data-wire="signal feed">fan-out</li>
+          <li data-node="bot">bot</li>
+        </ol>
+        <p class="ahm-fence-line">A separate program has order authority on sim/eval accounts only. It is fail-closed. Its design is not yet cleared, and it has sent no order.</p>
+      </section>
+      <p class="ahm-now"><span class="ahm-now-k">now</span> <span class="ahm-now-t">—</span> <span class="ahm-now-v">—</span></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,54 @@
+<!-- 03 alertwire: the alert types itself. Stands for the alerting module.
+     Every desk word in this piece reaches the page through the generator: the two cards come from
+     the alert-case token below, the legend words from the text tokens carried in data-ah-word
+     beside each typed word, and the script reads data-ah-desk only. The stand-in region below (comment
+     to comment) holds the same two cards typed by hand from the desk source at the commit the design
+     names, so this part is complete on its own; the generator strips that region before it fills the
+     tokens, so nothing typed by hand reaches the page. With script off, or under reduced motion, the
+     markup is the complete still. -->
+<section class="ah-piece ah-aw" id="ah-alertwire" data-ah-desk="%AH_DESK%" aria-labelledby="ah-aw-title">
+  <header class="ah-aw-head">
+    <h2 id="ah-aw-title">The alert types itself</h2>
+    <span class="ah-syn">SYNTHETIC — staged break, synthetic feed, demo clock · wording and number formats read from the desk</span>
+    <p class="ah-aw-cap">Stands for the alerting module. When the synthetic tape breaks a level, the post the desk would send to a private channel types itself on the left. On the right, the same break on a feed with no trade prints: every gap prints its named n/a, and under it, what a desk that filled its gaps with zero would have posted instead.</p>
+  </header>
+
+  <div class="ah-aw-cards">
+    <!-- AH:FALLBACK -->
+    <div class="ah-alert" data-case="break">
+      <p class="ah-alert-title">Long setup — high-of-day break</p>
+      <p class="ah-alert-read">Buyers broke the high-of-day with the whole tape behind them.</p>
+      <code class="ah-alert-line">entry 5412.25  ·  broke HOD 5410.00  ·  2.25 above</code>
+      <code class="ah-alert-line">OBI +0.340 <span class="ah-aw-ok">✓</span>  ·  px 5412.25 vs VWAP 5410.75 <span class="ah-aw-ok">✓</span>  ·  CVD +312.00 <span class="ah-aw-ok">✓</span>  ·  skew +0.103 fear</code>
+      <p class="ah-alert-foot">Conviction: High  ·  ES  ·  09:47:12 ET</p>
+    </div>
+    <div class="ah-alert" data-case="gap">
+      <p class="ah-alert-title">Long setup — high-of-day break</p>
+      <p class="ah-alert-read">Buyers broke the high-of-day but order flow isn't behind it yet.</p>
+      <code class="ah-alert-line">entry 5412.25  ·  broke HOD 5410.00  ·  2.25 above</code>
+      <code class="ah-alert-line">OBI +0.340 <span class="ah-aw-ok">✓</span>  ·  <span class="ah-na">VWAP n/a</span> <span class="ah-aw-bad">✗</span>  ·  <span class="ah-na">CVD n/a</span> <span class="ah-aw-bad">✗</span>  ·  skew +0.103 fear</code>
+      <code class="ah-alert-line"><span class="ah-na">iceberg: not checked (no trade prints on this feed)</span></code>
+      <p class="ah-alert-foot">Conviction: Standard  ·  ES  ·  09:47:12 ET</p>
+      <code class="ah-alert-line ah-ghost">OBI +0.340 <span class="ah-aw-ok">✓</span>  ·  px 5412.25 vs VWAP <span class="ah-z">0.00</span> <span class="ah-aw-ok">✓</span>  ·  CVD <span class="ah-z">+0.00</span> <span class="ah-aw-bad">✗</span>  ·  skew +0.103 fear</code>
+    </div>
+    <!-- /AH:FALLBACK -->
+    %AH_ALERT_CASE%
+  </div>
+
+  <div class="ah-aw-wire">
+    <dl class="ah-aw-now" aria-label="what the detector reads this second">
+      <div><dt>OBI</dt><dd data-ah-now="obi">—</dd></div>
+      <div><dt>px vs VWAP</dt><dd data-ah-now="px">—</dd></div>
+      <div><dt>CVD</dt><dd data-ah-now="cvd">—</dd></div>
+      <div><dt>skew</dt><dd data-ah-now="skew">—</dd></div>
+      <div><dt>levels</dt><dd data-ah-now="lvl">—</dd></div>
+    </dl>
+    <ol class="ah-aw-posts" aria-label="the other posts on the wire">
+      <li data-ah-legend><span data-ah-key="leanLong" data-ah-word="%AH_TEXT:leanLong%">Buyers taking control</span>  ·  <span data-ah-key="leanShort" data-ah-word="%AH_TEXT:leanShort%">Sellers taking control</span>  ·  <span data-ah-key="leanBal" data-ah-word="%AH_TEXT:leanBal%">Flow turning two-sided</span></li>
+      <li data-ah-legend><span data-ah-key="glyphWin" data-ah-word="%AH_TEXT:glyphWin%">✅</span> <span data-ah-key="outWin" data-ah-word="%AH_TEXT:outWin%">Target hit</span>  ·  <span data-ah-key="glyphLoss" data-ah-word="%AH_TEXT:glyphLoss%">🛑</span> <span data-ah-key="outLoss" data-ah-word="%AH_TEXT:outLoss%">Stopped out</span></li>
+      <li data-ah-legend><span data-ah-key="glyphTime" data-ah-word="%AH_TEXT:glyphTime%">⏱️</span> <span data-ah-key="outTime" data-ah-word="%AH_TEXT:outTime%">Timed out</span>  ·  <span data-ah-key="glyphOpen" data-ah-word="%AH_TEXT:glyphOpen%">◌</span> <span data-ah-key="outOpen" data-ah-word="%AH_TEXT:outOpen%">Unresolved at session end</span></li>
+      <li data-ah-legend><span data-ah-key="iceUpdate" data-ah-word="%AH_TEXT:iceUpdate%">Iceberg update — </span><span data-ah-key="dirLong" data-ah-word="%AH_TEXT:dirLong%">long</span> <span data-ah-key="trigCodeHod" data-ah-word="%AH_TEXT:trigCodeHod%">HOD</span> break</li>
+    </ol>
+    <p class="ah-aw-feedcap">synthetic feed · not market data</p>
+  </div>
+</section>

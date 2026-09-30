@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<title>After hours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/core.css">
+<link rel="stylesheet" href="styles/ambient.css">
+  <link rel="stylesheet" href="styles/board.css">
+  <link rel="stylesheet" href="styles/iceberg.css">
+  <link rel="stylesheet" href="styles/alertwire.css">
+  <link rel="stylesheet" href="styles/mesh.css">
+  <link rel="stylesheet" href="styles/regime.css">
+  <link rel="stylesheet" href="styles/skew.css">
+  <link rel="stylesheet" href="styles/heartbeat.css">
+  <link rel="stylesheet" href="styles/guards.css">
+  <link rel="stylesheet" href="styles/scanner.css">
+</head>
+<body data-ah-refresh="15" data-ah-stale="30" data-ah-cvdwin="60" data-ah-max="3" data-ah-seed="20260928">
+
+<div class="ah-band" role="note" aria-describedby="ah-band-note"><b>SYNTHETIC — NO LIVE DATA</b></div>
+<p class="ah-band-note" id="ah-band-note">Every figure that moves on this page is invented; the words, formats and limits are the desk's own, read from its code when the page was built.</p>
+
+<header class="ah-head">
+  <h1>After hours</h1>
+  <p class="ah-prose">Parts of the trading-desk system in motion. The feed is synthetic. The words, formats and limits are the desk's own, read from its code at build and checked against it. Nothing here reads a market, and nothing here can place an order.</p>
+</header>
+
+<main class="ah-stage" id="ah-stage">
+<!-- 10 ambient: the quant sky. A fixed full-viewport canvas behind every card (z 0,
+     pointer-events none) that the lifted quant renderer draws on while this piece is live: a
+     blueprint grid, a scanning sweep, a streaming candle tape, glyph columns and a node net,
+     every alpha under 0.12. Decorative only: the glyphs are the renderer's own alphabet, not
+     desk words, and its tape is not the shared feed, so it carries no desk attribute and no
+     placeholder. With script off it is display:none (core's .ah-live-only gate); under reduced
+     motion the gate stays shut and nothing is ever drawn. Core runs it as an always piece while
+     the tab is visible; static() draws nothing. -->
+<canvas class="ah-ambient ah-live-only" id="ah-ambient" aria-hidden="true" width="1" height="1"></canvas>
+
+<!-- 01 board — the cockpit wakes. Stands for the live cockpit page of the desk.
+     Every desk word reaches the script through data-ah-desk (the generator's JSON). The same words
+     also sit in the markup: each [data-ah-key] element carries the generator token in data-ah-word
+     and, as its text, the word read from the desk source at the commit the design names, so the page
+     is complete with script off and before the generator has run. Every readout is "—" until the
+     synthetic tape speaks; a missing value stays "—", never 0. -->
+<section class="ah-piece bd" id="ah-board" data-ah-desk="{&quot;text&quot;:{&quot;highBull&quot;:&quot;HIGH BULL&quot;,&quot;highBear&quot;:&quot;HIGH BEAR&quot;,&quot;building&quot;:&quot;BUILDING&quot;,&quot;mixed&quot;:&quot;MIXED&quot;,&quot;agree&quot;:&quot;of 3 agree&quot;,&quot;noConsensus&quot;:&quot;no consensus&quot;,&quot;aligned&quot;:&quot;all three aligned&quot;,&quot;tps&quot;:&quot; t/s&quot;,&quot;ro&quot;:&quot;READ-ONLY&quot;,&quot;roNote&quot;:&quot;observes &amp; displays only — never places an order&quot;,&quot;convHigh&quot;:&quot;High&quot;,&quot;convBuilding&quot;:&quot;Building&quot;,&quot;convStandard&quot;:&quot;Standard&quot;,&quot;sep&quot;:&quot;  ·  &quot;},&quot;fmt&quot;:{},&quot;lim&quot;:{&quot;obiVote&quot;:0.3,&quot;vwapTicks&quot;:1}}" aria-labelledby="ah-board-h">
+  <header class="ah-piece-head bd-head">
+    <h2 class="bd-h2" id="ah-board-h">The cockpit wakes</h2>
+    <span class="ah-syn">SYNTHETIC · a made-up tape drives every readout and every flash</span>
+  </header>
+  <p class="bd-cap">The live cockpit: last price, tape rate, the three order-flow factors and the confluence
+    they vote. On the desk this page polls its server once a second; here a synthetic feed steps once a
+    demo second and the same glows, flips and flashes answer it.</p>
+
+  <div class="bd-shell">
+    <div class="bd-topbar bd-part" style="--i:0">
+      <span class="bd-sym"><span class="bd-lbl">SYM</span><b data-bd="sym">ES</b></span>
+      <span class="bd-pill"><span class="bd-dot" aria-hidden="true"></span><span class="bd-k">SYNTHETIC</span></span>
+      <span class="bd-tps"><b data-bd="rate">—</b><span data-ah-key="tps" data-ah-word=" t/s"> t/s</span></span>
+      <span class="bd-tally"><span class="bd-lbl">ABS</span><b class="bd-tally-n" data-bd="abs">—</b>
+        <span class="bd-chip bd-bull"><span class="bd-chip-dot" aria-hidden="true"></span>BID <b data-bd="absBid">—</b></span>
+        <span class="bd-chip bd-bear"><span class="bd-chip-dot" aria-hidden="true"></span>ASK <b data-bd="absAsk">—</b></span>
+      </span>
+      <span class="bd-clock"><b data-bd="clock">—</b> ET</span>
+    </div>
+
+    <div class="bd-rail">
+      <div class="bd-card bd-lead bd-part" style="--i:1">
+        <div class="bd-ttl">LAST · <span data-bd="sym2">ES</span></div>
+        <div class="bd-price" data-bd="price">—</div>
+        <div class="bd-quote">
+          <span>bid <b data-bd="bid">—</b></span>
+          <span>ask <b data-bd="ask">—</b></span>
+          <span>spr <b data-bd="spr">—</b></span>
+        </div>
+        <div class="bd-verdict">
+          <div class="bd-vlab">Confluence</div>
+          <div class="bd-vbadge" data-bd="vbadge" data-conv="mixed"><span class="bd-vs" aria-hidden="true"></span><span data-bd="vtxt" data-ah-key="mixed" data-ah-word="MIXED">MIXED</span></div>
+          <div class="bd-vsub" data-bd="vsub" data-ah-key="noConsensus" data-ah-word="no consensus">no consensus</div>
+          <div class="bd-conv"><span class="bd-lbl">CONVICTION</span><b data-bd="conv">—</b></div>
+        </div>
+      </div>
+
+      <div class="bd-card bd-flow bd-part" style="--i:2">
+        <div class="bd-ttl">ORDER FLOW</div>
+        <ul class="bd-factors">
+          <li class="bd-factor" data-bd="fObi">
+            <div class="bd-fid"><span class="bd-fname">OBI</span><span class="bd-fsub">order-book imbalance</span></div>
+            <div class="bd-fmid"><span class="bd-fnum" data-bd="obiN">—</span><span class="bd-fvote" data-bd="obiV">—</span></div>
+            <span class="bd-sparkbox">
+              <svg class="bd-spark" data-bd="spkObi" viewBox="0 0 60 24" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <span class="bd-gaps" data-bd="gapObi" aria-hidden="true"></span>
+            </span>
+          </li>
+          <li class="bd-factor" data-bd="fVwap">
+            <div class="bd-fid"><span class="bd-fname">VWAP</span><span class="bd-fsub">distance · session</span></div>
+            <div class="bd-fmid"><span class="bd-fnum" data-bd="vwapN">—</span><span class="bd-fvote" data-bd="vwapV">—</span></div>
+            <span class="bd-sparkbox">
+              <svg class="bd-spark" data-bd="spkVwap" viewBox="0 0 60 24" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <span class="bd-gaps" data-bd="gapVwap" aria-hidden="true"></span>
+            </span>
+          </li>
+          <li class="bd-factor" data-bd="fCvd">
+            <div class="bd-fid"><span class="bd-fname">CVD</span><span class="bd-fsub">cumulative delta</span></div>
+            <div class="bd-fmid"><span class="bd-fnum" data-bd="cvdN">—</span><span class="bd-fvote" data-bd="cvdV">—</span></div>
+            <span class="bd-sparkbox">
+              <svg class="bd-spark" data-bd="spkCvd" viewBox="0 0 60 24" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <span class="bd-gaps" data-bd="gapCvd" aria-hidden="true"></span>
+            </span>
+          </li>
+        </ul>
+        <p class="ah-gapkey bd-gapkey"><i aria-hidden="true"></i>shaded = no data that second, never drawn as zero</p>
+      </div>
+    </div>
+
+    <div class="bd-foot bd-part" style="--i:3">
+      <span class="bd-ro"><span class="bd-ro-dot" aria-hidden="true"></span><span data-ah-key="ro" data-ah-word="READ-ONLY">READ-ONLY</span></span>
+      <span class="bd-sep" aria-hidden="true">·</span>
+      <span class="bd-ro-note" data-ah-key="roNote" data-ah-word="observes &amp; displays only — never places an order">observes &amp; displays only — never places an order</span>
+    </div>
+  </div>
+
+  <p class="bd-feedcap">synthetic feed · not market data</p>
+</section>
+
+<!-- 02 iceberg — the absorption ladder. Stands for the absorption detector and the iceberg join.
+     Desk words reach the script through data-ah-desk (the generator's JSON: text bidAbs askAbs noAbs
+     sell buy into shown held vConfirmed vRejected vMixed sep; lim joinWindow joinTicks). Every word in
+     the markup sits on a [data-ah-key] element: the generator token in data-ah-word and, as its text,
+     the word typed from the desk source at the commit the design names, so the still is complete with
+     script off and before the generator has run. The two gate limits are numbers, so they reach the
+     still only through their placeholders. Every other number is "—" until the synthetic tape speaks;
+     a gap stays "—", never 0. The script adds classes and text only; nothing here is ever hidden. -->
+<section class="ah-piece ice" id="ah-iceberg" data-ah-desk="{&quot;text&quot;:{&quot;bidAbs&quot;:&quot;BID ABSORPTION · BULL&quot;,&quot;askAbs&quot;:&quot;ASK ABSORPTION · BEAR&quot;,&quot;noAbs&quot;:&quot;NO LIVE ABSORPTION&quot;,&quot;sell&quot;:&quot;SELL ABSORPTION&quot;,&quot;buy&quot;:&quot;BUY ABSORPTION&quot;,&quot;into&quot;:&quot;absorbed into&quot;,&quot;shown&quot;:&quot;shown&quot;,&quot;held&quot;:&quot;❄ held&quot;,&quot;vConfirmed&quot;:&quot;confirmed&quot;,&quot;vRejected&quot;:&quot;rejected&quot;,&quot;vMixed&quot;:&quot;mixed&quot;,&quot;sep&quot;:&quot;  ·  &quot;},&quot;fmt&quot;:{},&quot;lim&quot;:{&quot;joinWindow&quot;:60,&quot;joinTicks&quot;:8}}" aria-labelledby="ah-iceberg-h">
+  <header class="ah-piece-head">
+    <h2 id="ah-iceberg-h">The absorption ladder</h2>
+    <span class="ah-syn">SYNTHETIC · a synthetic feed drives every rung and every event; nothing on this card is generated</span>
+  </header>
+  <p class="ice-lede">Stands for the absorption detector and the iceberg join. Twenty price levels around the inside: the size shown on the book against the size that traded into it. A level that keeps absorbing lights and holds. The gate beside the ladder is the join; an absorption event counts toward a break only inside it.</p>
+
+  <div class="ice-grid">
+    <div class="ah-well ice-well">
+      <div class="ice-focus" data-side="none" data-ice="focus">
+        <span class="ice-snow" aria-hidden="true">❄</span>
+        <div class="ice-focus-body">
+          <p class="ice-focus-lab" data-ice="flab" data-ah-key="noAbs" data-ah-word="NO LIVE ABSORPTION">NO LIVE ABSORPTION</p>
+          <p class="ice-focus-px" data-ice="fpx">—</p>
+          <p class="ice-focus-sub" data-ice="fsub">—</p>
+        </div>
+        <p class="ice-focus-ratio"><b data-ice="fratio">—</b><span>ratio</span></p>
+      </div>
+
+      <div class="ice-key" aria-hidden="true"><span>price</span><span data-ah-key="shown" data-ah-word="shown">shown</span><span>shown vs traded</span><span>traded</span></div>
+      <ol class="ice-ladder" data-ice="ladder" aria-label="absorption ladder, twenty levels">
+        <li class="ice-row" data-side="ask"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="ask"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="ask"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="ask"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="ask"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="ask"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="ask"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="ask"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="ask"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="ask"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-mid" role="separator" aria-label="the inside"><span class="ice-mid-mark">◆ inside</span><span class="ice-mid-px" data-ice="mid">—</span></li>
+        <li class="ice-row" data-side="bid"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="bid"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="bid"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="bid"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="bid"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="bid"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="bid"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="bid"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="bid"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+        <li class="ice-row" data-side="bid"><span class="ice-px"><i class="ice-mark"></i><span data-ice="px">—</span></span><span class="ice-n" data-ice="shown">—</span><span class="ice-bars" aria-hidden="true"><span class="ice-bar ice-bar-shown"><i></i></span><span class="ice-bar ice-bar-traded"><i></i></span><b class="ice-x"></b></span><span class="ice-n" data-ice="traded">—</span></li>
+      </ol>
+      <p class="ice-gate">join gate: ± <b data-ah-lim="joinTicks">8</b> ticks of the break and ± <b data-ah-lim="joinWindow">60</b> s either side of it; the rail marks the rungs inside it now. Inside the gate the join answers <span class="ice-v" data-ah-key="vConfirmed" data-ah-word="confirmed">confirmed</span>, <span class="ice-v" data-ah-key="vRejected" data-ah-word="rejected">rejected</span> or <span class="ice-v" data-ah-key="vMixed" data-ah-word="mixed">mixed</span>. Nothing in range is a different fact from mixed, and it is never folded into it.</p>
+    </div>
+
+    <div class="ah-well ice-well ice-feed-well">
+      <h3 class="ice-feed-title">Absorption events</h3>
+      <div class="ice-win" aria-hidden="true"><span class="ice-win-lab">− <b data-ah-lim="joinWindow">60</b> s</span><span class="ice-win-track" data-ice="track"></span><span class="ice-win-lab">now</span></div>
+      <ol class="ice-feed" data-ice="feed" aria-label="absorption event feed, newest first"></ol>
+      <p class="ice-feed-empty" data-ice="empty">—</p>
+      <p class="ah-cap">synthetic feed · not market data</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 alertwire: the alert types itself. Stands for the alerting module.
+     Every desk word in this piece reaches the page through the generator: the two cards come from
+     the alert-case token below, the legend words from the text tokens carried in data-ah-word
+     beside each typed word, and the script reads data-ah-desk only. The stand-in region below (comment
+     to comment) holds the same two cards typed by hand from the desk source at the commit the design
+     names, so this part is complete on its own; the generator strips that region before it fills the
+     tokens, so nothing typed by hand reaches the page. With script off, or under reduced motion, the
+     markup is the complete still. -->
+<section class="ah-piece ah-aw" id="ah-alertwire" data-ah-desk="{&quot;text&quot;:{&quot;sep&quot;:&quot;  ·  &quot;,&quot;obiNa&quot;:&quot;OBI n/a&quot;,&quot;vwapNa&quot;:&quot;VWAP n/a&quot;,&quot;cvdNa&quot;:&quot;CVD n/a&quot;,&quot;skewNa&quot;:&quot;skew n/a&quot;,&quot;noPrints&quot;:&quot;no trade prints on this feed&quot;,&quot;noChain&quot;:&quot;no 0DTE chain&quot;,&quot;regime&quot;:&quot;fear&quot;,&quot;fear&quot;:&quot;fear&quot;,&quot;inverted&quot;:&quot;inverted&quot;,&quot;neutral&quot;:&quot;neutral&quot;,&quot;titleUp&quot;:&quot;Reversal — momentum turned up&quot;,&quot;readUp&quot;:&quot;Momentum flipped up after an extended slide lower.&quot;,&quot;titleDown&quot;:&quot;Reversal — momentum turned down&quot;,&quot;readDown&quot;:&quot;Momentum flipped down after an extended push higher.&quot;,&quot;flowHigh&quot;:&quot;with the whole tape behind them.&quot;,&quot;flowBuilding&quot;:&quot;and order flow is starting to line up.&quot;,&quot;flowStandard&quot;:&quot;but order flow isn&#x27;t behind it yet.&quot;,&quot;trigHod&quot;:&quot;high-of-day&quot;,&quot;trigLod&quot;:&quot;low-of-day&quot;,&quot;trigOr&quot;:&quot;opening-range&quot;,&quot;trigCodeHod&quot;:&quot;HOD&quot;,&quot;trigCodeLod&quot;:&quot;LOD&quot;,&quot;trigCodeOrHi&quot;:&quot;OR-hi&quot;,&quot;trigCodeOrLo&quot;:&quot;OR-lo&quot;,&quot;sideBuy&quot;:&quot;Buyers&quot;,&quot;sideSell&quot;:&quot;Sellers&quot;,&quot;dirLong&quot;:&quot;long&quot;,&quot;dirShort&quot;:&quot;short&quot;,&quot;iceNone&quot;:&quot;iceberg: none in range&quot;,&quot;iceUpdate&quot;:&quot;Iceberg update — &quot;,&quot;leanLong&quot;:&quot;Buyers taking control&quot;,&quot;leanShort&quot;:&quot;Sellers taking control&quot;,&quot;leanBal&quot;:&quot;Flow turning two-sided&quot;,&quot;outWin&quot;:&quot;Target hit&quot;,&quot;outLoss&quot;:&quot;Stopped out&quot;,&quot;outTime&quot;:&quot;Timed out&quot;,&quot;outOpen&quot;:&quot;Unresolved at session end&quot;,&quot;glyphWin&quot;:&quot;✅&quot;,&quot;glyphLoss&quot;:&quot;🛑&quot;,&quot;glyphTime&quot;:&quot;⏱️&quot;,&quot;glyphOpen&quot;:&quot;◌&quot;,&quot;convHigh&quot;:&quot;High&quot;,&quot;convBuilding&quot;:&quot;Building&quot;,&quot;convStandard&quot;:&quot;Standard&quot;,&quot;zone&quot;:&quot;ET&quot;,&quot;whereAbove&quot;:&quot;above&quot;,&quot;whereBelow&quot;:&quot;below&quot;,&quot;whereAt&quot;:&quot;at&quot;},&quot;fmt&quot;:{&quot;obi&quot;:&quot;OBI {obi:+.3f}&quot;,&quot;px&quot;:&quot;px {px:.2f} vs VWAP {vwap:.2f}&quot;,&quot;cvd&quot;:&quot;CVD {cvd:+.2f}&quot;,&quot;skew&quot;:&quot;skew {skew:+.3f}&quot;,&quot;stale&quot;:&quot;skew n/a (stale {age_s:.0f}s)&quot;,&quot;ice&quot;:&quot;iceberg: not checked ({why})&quot;,&quot;hold&quot;:&quot;holding last ({age}s): {block.suspect_reason}&quot;,&quot;title&quot;:&quot; setup — {trig_name} break&quot;,&quot;read&quot;:&quot;{side} broke the {trig_name}&quot;,&quot;foot&quot;:&quot;Conviction: {a.conviction}&quot;,&quot;entry&quot;:&quot;entry {px:.2f}  ·  broke {trig} {lvl:.2f}  ·  {span}{where}&quot;},&quot;lim&quot;:{&quot;refresh&quot;:15,&quot;stale&quot;:30,&quot;cvdWindow&quot;:60,&quot;obiVote&quot;:0.3,&quot;vwapTicks&quot;:1,&quot;tick&quot;:0.25}}" aria-labelledby="ah-aw-title">
+  <header class="ah-aw-head">
+    <h2 id="ah-aw-title">The alert types itself</h2>
+    <span class="ah-syn">SYNTHETIC — staged break, synthetic feed, demo clock · wording and number formats read from the desk</span>
+    <p class="ah-aw-cap">Stands for the alerting module. When the synthetic tape breaks a level, the post the desk would send to a private channel types itself on the left. On the right, the same break on a feed with no trade prints: every gap prints its named n/a, and under it, what a desk that filled its gaps with zero would have posted instead.</p>
+  </header>
+
+  <div class="ah-aw-cards">
+    <div class="ah-alert" data-case="break"><p class="ah-alert-title">Long setup — high-of-day break</p><p class="ah-alert-read">Buyers broke the high-of-day with the whole tape behind them.</p><code class="ah-alert-line">entry 5412.25  ·  broke HOD 5410.00  ·  2.25 above</code><code class="ah-alert-line">OBI +0.340 <span class="ah-aw-ok">✓</span>  ·  px 5412.25 vs VWAP 5410.75 <span class="ah-aw-ok">✓</span>  ·  CVD +312.00 <span class="ah-aw-ok">✓</span>  ·  skew +0.103 fear</code><p class="ah-alert-foot">Conviction: High  ·  ES  ·  09:47:12 ET</p></div><div class="ah-alert" data-case="gap"><p class="ah-alert-title">Long setup — high-of-day break</p><p class="ah-alert-read">Buyers broke the high-of-day but order flow isn't behind it yet.</p><code class="ah-alert-line">entry 5412.25  ·  broke HOD 5410.00  ·  2.25 above</code><code class="ah-alert-line">OBI +0.340 <span class="ah-aw-ok">✓</span>  ·  <span class="ah-na">VWAP n/a</span> <span class="ah-aw-bad">✗</span>  ·  <span class="ah-na">CVD n/a</span> <span class="ah-aw-bad">✗</span>  ·  skew +0.103 fear</code><code class="ah-alert-line"><span class="ah-na">iceberg: not checked (no trade prints on this feed)</span></code><p class="ah-alert-foot">Conviction: Standard  ·  ES  ·  09:47:12 ET</p><code class="ah-alert-line ah-ghost">OBI +0.340 <span class="ah-aw-ok">✓</span>  ·  px 5412.25 vs VWAP <span class="ah-z">0.00</span> <span class="ah-aw-ok">✓</span>  ·  CVD <span class="ah-z">+0.00</span> <span class="ah-aw-bad">✗</span>  ·  skew +0.103 fear</code></div>
+  </div>
+
+  <div class="ah-aw-wire">
+    <dl class="ah-aw-now" aria-label="what the detector reads this second">
+      <div><dt>OBI</dt><dd data-ah-now="obi">—</dd></div>
+      <div><dt>px vs VWAP</dt><dd data-ah-now="px">—</dd></div>
+      <div><dt>CVD</dt><dd data-ah-now="cvd">—</dd></div>
+      <div><dt>skew</dt><dd data-ah-now="skew">—</dd></div>
+      <div><dt>levels</dt><dd data-ah-now="lvl">—</dd></div>
+    </dl>
+    <ol class="ah-aw-posts" aria-label="the other posts on the wire">
+      <li data-ah-legend><span data-ah-key="leanLong" data-ah-word="Buyers taking control">Buyers taking control</span>  ·  <span data-ah-key="leanShort" data-ah-word="Sellers taking control">Sellers taking control</span>  ·  <span data-ah-key="leanBal" data-ah-word="Flow turning two-sided">Flow turning two-sided</span></li>
+      <li data-ah-legend><span data-ah-key="glyphWin" data-ah-word="✅">✅</span> <span data-ah-key="outWin" data-ah-word="Target hit">Target hit</span>  ·  <span data-ah-key="glyphLoss" data-ah-word="🛑">🛑</span> <span data-ah-key="outLoss" data-ah-word="Stopped out">Stopped out</span></li>
+      <li data-ah-legend><span data-ah-key="glyphTime" data-ah-word="⏱️">⏱️</span> <span data-ah-key="outTime" data-ah-word="Timed out">Timed out</span>  ·  <span data-ah-key="glyphOpen" data-ah-word="◌">◌</span> <span data-ah-key="outOpen" data-ah-word="Unresolved at session end">Unresolved at session end</span></li>
+      <li data-ah-legend><span data-ah-key="iceUpdate" data-ah-word="Iceberg update — ">Iceberg update — </span><span data-ah-key="dirLong" data-ah-word="long">long</span> <span data-ah-key="trigCodeHod" data-ah-word="HOD">HOD</span> break</li>
+    </ol>
+    <p class="ah-aw-feedcap">synthetic feed · not market data</p>
+  </div>
+</section>
+
+<!-- 04 mesh: the system tour. One inline SVG map; a pip walks three paths in turn.
+     Owned with styles/mesh.css and js/mesh.js. The generator fills the two placeholder
+     attributes on the root (an empty desk triple and the stage timings); every word below is
+     the still, complete with script off. Node words are module roles, never files. -->
+<section class="ah-piece ahm" id="ah-mesh" aria-labelledby="ahm-title" data-ah-desk="{&quot;text&quot;:{},&quot;fmt&quot;:{},&quot;lim&quot;:{}}" data-ah-timings="{&quot;enter&quot;:620,&quot;wire&quot;:480,&quot;hold&quot;:2200,&quot;fileDown&quot;:700}">
+  <header class="ah-piece-head">
+    <h2 id="ahm-title">The system tour</h2>
+    <span class="ah-syn">REAL MAP · SYNTHETIC PIPS</span>
+  </header>
+  <p class="ahm-lede">One map, three paths. A pip walks each path in turn: a part lights when the pip reaches it, a wire once both of its ends are lit. Parts are module roles, not files. The bot hangs off the fan-out behind a fence, one wire in and no wire out on this map. The watchdog also starts the 0DTE engine when none runs; that step is not drawn.</p>
+
+  <div class="ahm-body">
+    <figure class="ahm-fig ah-well">
+      <svg class="ahm-svg" viewBox="0 0 500 560" role="img" aria-labelledby="ahm-svg-title" aria-describedby="ahm-svg-desc">
+        <title id="ahm-svg-title">The desk as a map</title>
+        <desc id="ahm-svg-desc">The market path runs down the left, the watchdog path down the right, and the fenced bot hangs from the fan-out. The list beside the map names every part and wire.</desc>
+        <g class="ahm-wires">
+          <path class="ahm-wire" data-a="book" data-b="capture" d="M160 64 L160 138"><title>book and prints</title></path>
+          <path class="ahm-wire" data-a="capture" data-b="engine" d="M160 154 L160 228"><title>cycle input</title></path>
+          <path class="ahm-wire" data-a="engine" data-b="detectors" d="M160 244 L160 318"><title>market state</title></path>
+          <path class="ahm-wire" data-a="detectors" data-b="fanout" d="M160 334 L160 408"><title>the break</title></path>
+          <path class="ahm-wire" data-a="fanout" data-b="live" d="M160 424 L160 498"><title>state</title></path>
+          <path class="ahm-wire" data-a="fanout" data-b="bot" d="M168 416 L466 416"><title>signal feed</title></path>
+          <path class="ahm-wire" data-a="watchdog" data-b="health" d="M476 64 L476 138"><title>asks</title></path>
+          <path class="ahm-wire" data-a="health" data-b="restart" d="M476 154 L476 183 Q476 190 469 190 L269 190 Q262 190 262 197 L262 228"><title>no answer</title></path>
+          <path class="ahm-wire" data-a="restart" data-b="engine" d="M254 236 L168 236"><title>server back</title></path>
+          <path class="ahm-wire" data-a="health" data-b="stand" d="M476 154 L476 318"><title>pause marker</title></path>
+        </g>
+        <g class="ahm-wlabels" aria-hidden="true">
+          <text x="176" y="105">book and prints</text>
+          <text x="176" y="195">cycle input</text>
+          <text x="176" y="285">market state</text>
+          <text x="176" y="375">the break</text>
+          <text x="176" y="465">state</text>
+          <text x="176" y="408">signal feed</text>
+          <text x="468" y="105" text-anchor="end">asks</text>
+          <text x="270" y="184">no answer</text>
+          <text x="176" y="228">server back</text>
+          <text x="468" y="300" text-anchor="end">pause marker</text>
+        </g>
+        <rect class="ahm-fence-rect" x="306" y="384" width="190" height="64" rx="6"/>
+        <text class="ahm-fence-tag" x="314" y="400">FENCED</text>
+        <g class="ahm-nodes">
+          <g class="ahm-node" data-node="book"><circle cx="160" cy="56" r="8"/><text x="140" y="62" text-anchor="end">book</text><title>book · the order book and the trade prints, read only</title></g>
+          <g class="ahm-node" data-node="capture"><circle cx="160" cy="146" r="8"/><text x="140" y="152" text-anchor="end">capture</text><title>capture · turns the feed into cycle input; a replay comes in the same door</title></g>
+          <g class="ahm-node joint" data-node="engine"><circle cx="160" cy="236" r="8"/><text x="140" y="242" text-anchor="end">engine</text><title>engine · the cycle: one state for every detector</title></g>
+          <g class="ahm-node" data-node="detectors"><circle cx="160" cy="326" r="8"/><text x="140" y="332" text-anchor="end">detectors</text><title>detectors · breaks, absorption, skew, sentiment</title></g>
+          <g class="ahm-node joint" data-node="fanout"><circle cx="160" cy="416" r="8"/><text x="140" y="422" text-anchor="end">fan-out</text><title>fan-out · the live page, a private channel, the signal feed, the recorder</title></g>
+          <g class="ahm-node" data-node="live"><circle cx="160" cy="506" r="8"/><text x="140" y="512" text-anchor="end">live page</text><title>live page · the cockpit</title></g>
+          <g class="ahm-node" data-node="watchdog"><circle cx="476" cy="56" r="8"/><text x="456" y="62" text-anchor="end">watchdog loop</text><title>watchdog loop · asks the desk on a fixed cycle</title></g>
+          <g class="ahm-node joint" data-node="health"><circle cx="476" cy="146" r="8"/><text x="456" y="152" text-anchor="end">health answer</text><title>health answer · quiet when the desk answers</title></g>
+          <g class="ahm-node" data-node="restart"><circle cx="262" cy="236" r="8"/><text x="282" y="232"><tspan x="282">restart </tspan><tspan x="282" dy="1.15em">the server</tspan></text><title>restart the server · when the desk stops answering; it says why</title></g>
+          <g class="ahm-node" data-node="stand"><circle cx="476" cy="326" r="8"/><text x="456" y="332" text-anchor="end">standing down</text><title>standing down · a deliberate stop stays stopped</title></g>
+          <g class="ahm-node bot" data-node="bot"><rect x="468" y="408" width="16" height="16" rx="2"/><text x="456" y="422" text-anchor="end">bot</text><title>bot · fenced; no wire out</title></g>
+        </g>
+        <g class="ahm-pips" aria-hidden="true"></g>
+      </svg>
+      <figcaption class="ah-cap">synthetic pips on a staged cadence · the map is the shape of the real system · nothing here carries market data</figcaption>
+    </figure>
+
+    <div class="ahm-legend">
+      <section class="ahm-path" data-path="market" aria-labelledby="ahm-p-market">
+        <h3 id="ahm-p-market"><span class="ahm-glyph" aria-hidden="true">◌</span> market</h3>
+        <ol>
+          <li data-node="book" data-wire="book and prints">book</li>
+          <li data-node="capture" data-wire="cycle input">capture</li>
+          <li data-node="engine" data-wire="market state">engine</li>
+          <li data-node="detectors" data-wire="the break">detectors</li>
+          <li data-node="fanout" data-wire="state">fan-out</li>
+          <li data-node="live">live page</li>
+        </ol>
+      </section>
+      <section class="ahm-path" data-path="watchdog" aria-labelledby="ahm-p-watchdog">
+        <h3 id="ahm-p-watchdog"><span class="ahm-glyph" aria-hidden="true">◌</span> watchdog</h3>
+        <div class="ahm-branch">
+          <span class="ahm-branch-k">no answer</span>
+          <ol>
+            <li data-node="watchdog" data-wire="asks">watchdog loop</li>
+            <li data-node="health">health answer</li>
+            <li data-node="restart" data-wire="server back">restart the server</li>
+            <li data-node="engine">engine</li>
+          </ol>
+        </div>
+        <div class="ahm-branch">
+          <span class="ahm-branch-k">pause marker</span>
+          <ol>
+            <li data-node="watchdog" data-wire="asks">watchdog loop</li>
+            <li data-node="health">health answer</li>
+            <li data-node="stand">standing down</li>
+          </ol>
+        </div>
+      </section>
+      <section class="ahm-path ahm-path-bot" data-path="bot" aria-labelledby="ahm-p-bot">
+        <h3 id="ahm-p-bot"><span class="ahm-glyph" aria-hidden="true">◌</span> bot</h3>
+        <ol>
+          <li data-node="fanout" data-wire="signal feed">fan-out</li>
+          <li data-node="bot">bot</li>
+        </ol>
+        <p class="ahm-fence-line">A separate program has order authority on sim/eval accounts only. It is fail-closed. Its design is not yet cleared, and it has sent no order.</p>
+      </section>
+      <p class="ahm-now"><span class="ahm-now-k">now</span> <span class="ahm-now-t">—</span> <span class="ahm-now-v">—</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 regime — the grade dial. Stands for the weekday regime grader.
+     The generator fills data-ah-desk (text, bands, precedence as JSON), the "Grade now" text token on the
+     readout's first term and the bands token that becomes the two ladders (design contract 2.4).
+     The dial face below is typed from the grader's rules file at the commit the design names: the five grade
+     arcs cut at 80 · 65 · 45 · 30 · 0 and the eight regime arcs and ticks cut at 85 · 75 · 65 · 55 · 45 · 35 ·
+     25 · 0, as arc geometry, with the letters on the inner ring. The script redraws both rings from the data
+     attribute with the same formulas (a changed cut moves the arc, never the typed face) and only then writes
+     the cut values into the empty number slots: a number appears only when the desk's data wrote it. -->
+<section class="ah-piece ah-regime" id="ah-regime" data-ah-desk="{&quot;text&quot;:{&quot;gradeNow&quot;:&quot;Grade now&quot;,&quot;gradeJoin&quot;:&quot; · &quot;},&quot;fmt&quot;:{},&quot;lim&quot;:{},&quot;bands&quot;:{&quot;grade_bands&quot;:[{&quot;grade&quot;:&quot;A&quot;,&quot;min&quot;:80.0},{&quot;grade&quot;:&quot;B&quot;,&quot;min&quot;:65.0},{&quot;grade&quot;:&quot;C&quot;,&quot;min&quot;:45.0},{&quot;grade&quot;:&quot;D&quot;,&quot;min&quot;:30.0},{&quot;grade&quot;:&quot;F&quot;,&quot;min&quot;:0.0}],&quot;regime_bands&quot;:[{&quot;label&quot;:&quot;STRONG_RISK_ON&quot;,&quot;min&quot;:85.0},{&quot;label&quot;:&quot;RISK_ON&quot;,&quot;min&quot;:75.0},{&quot;label&quot;:&quot;MODERATELY_RISK_ON&quot;,&quot;min&quot;:65.0},{&quot;label&quot;:&quot;SELECTIVE_RISK_ON&quot;,&quot;min&quot;:55.0},{&quot;label&quot;:&quot;NEUTRAL_ROTATIONAL&quot;,&quot;min&quot;:45.0},{&quot;label&quot;:&quot;DEFENSIVE_LEAN&quot;,&quot;min&quot;:35.0},{&quot;label&quot;:&quot;RISK_OFF_LEAN&quot;,&quot;min&quot;:25.0},{&quot;label&quot;:&quot;RISK_OFF_STRESS&quot;,&quot;min&quot;:0.0}]},&quot;precedence&quot;:[&quot;INSUFFICIENT_DATA&quot;,&quot;CONFLICTED&quot;,&quot;NARROW_RISK_ON&quot;,&quot;BAND&quot;]}" aria-labelledby="ah-regime-h">
+  <header class="ah-piece-head">
+    <h2 id="ah-regime-h">The grade dial</h2>
+    <span class="ah-syn">REAL BANDS · SYNTHETIC SCORE</span>
+  </header>
+  <p class="ah-regime-lede">Stands for the weekday regime grader. One composite score is read against two ladders at once, the grade bands and the regime bands, each with its own cuts, so one score carries a letter and a label. The bands here are the grader's own. The score is invented and re-read on a cycle; some reads come back with no data, and then the needle parks below the scale.</p>
+
+  <div class="ah-regime-grid">
+    <figure class="ah-regime-dial">
+      <svg class="ah-regime-svg" viewBox="0 0 420 280" aria-hidden="true" focusable="false">
+        <g class="ah-regime-ring ah-regime-ring-regime">
+          <path data-label="STRONG_RISK_ON" d="M 373.9 136.5 A 184 184 0 0 1 394.0 220.0"/>
+          <path data-label="RISK_ON" d="M 340.1 89.9 A 184 184 0 0 1 373.9 136.5"/>
+          <path data-label="MODERATELY_RISK_ON" d="M 293.5 56.1 A 184 184 0 0 1 340.1 89.9"/>
+          <path data-label="SELECTIVE_RISK_ON" d="M 238.8 38.3 A 184 184 0 0 1 293.5 56.1"/>
+          <path data-label="NEUTRAL_ROTATIONAL" d="M 181.2 38.3 A 184 184 0 0 1 238.8 38.3"/>
+          <path data-label="DEFENSIVE_LEAN" d="M 126.5 56.1 A 184 184 0 0 1 181.2 38.3"/>
+          <path data-label="RISK_OFF_LEAN" d="M 79.9 89.9 A 184 184 0 0 1 126.5 56.1"/>
+          <path data-label="RISK_OFF_STRESS" d="M 26.0 220.0 A 184 184 0 0 1 79.9 89.9"/>
+        </g>
+        <g class="ah-regime-cuts">
+          <line data-label="STRONG_RISK_ON" x1="366.8" y1="140.1" x2="382.9" y2="131.9"/>
+          <line data-label="RISK_ON" x1="334.5" y1="95.5" x2="347.2" y2="82.8"/>
+          <line data-label="MODERATELY_RISK_ON" x1="289.9" y1="63.2" x2="298.1" y2="47.1"/>
+          <line data-label="SELECTIVE_RISK_ON" x1="237.5" y1="46.2" x2="240.3" y2="28.4"/>
+          <line data-label="NEUTRAL_ROTATIONAL" x1="182.5" y1="46.2" x2="179.7" y2="28.4"/>
+          <line data-label="DEFENSIVE_LEAN" x1="130.1" y1="63.2" x2="121.9" y2="47.1"/>
+          <line data-label="RISK_OFF_LEAN" x1="85.5" y1="95.5" x2="72.8" y2="82.8"/>
+          <line data-label="RISK_OFF_STRESS" x1="34.0" y1="220.0" x2="16.0" y2="220.0"/>
+        </g>
+        <g class="ah-regime-ring ah-regime-ring-grade">
+          <path data-grade="A" d="M 339.4 126.0 A 160 160 0 0 1 370.0 220.0"/>
+          <path data-grade="B" d="M 282.6 77.4 A 160 160 0 0 1 339.4 126.0"/>
+          <path data-grade="C" d="M 185.0 62.0 A 160 160 0 0 1 282.6 77.4"/>
+          <path data-grade="D" d="M 116.0 90.6 A 160 160 0 0 1 185.0 62.0"/>
+          <path data-grade="F" d="M 50.0 220.0 A 160 160 0 0 1 116.0 90.6"/>
+        </g>
+        <g class="ah-regime-letters">
+          <text data-grade="A" x="331.7" y="180.4">A</text>
+          <text data-grade="B" x="293.1" y="122.7">B</text>
+          <text data-grade="C" x="230.0" y="93.6">C</text>
+          <text data-grade="D" x="161.0" y="101.7">D</text>
+          <text data-grade="F" x="96.0" y="161.9">F</text>
+        </g>
+        <g class="ah-regime-mins">
+          <text data-grade="A" x="328.1" y="134.2"></text>
+          <text data-grade="B" x="276.3" y="89.9"></text>
+          <text data-grade="C" x="187.2" y="75.8"></text>
+          <text data-grade="D" x="124.2" y="101.9"></text>
+          <text data-grade="F" x="64.0" y="220.0"></text>
+        </g>
+        <line class="ah-regime-rest" x1="64.5" y1="256.3" x2="48.9" y2="260.2"/>
+        <g class="ah-regime-needle" data-ah-needle data-ah-parked transform="rotate(-14 210 220)">
+          <path class="ah-regime-needle-arm" d="M 210 220 L 54 220"/>
+          <circle class="ah-regime-hub" cx="210" cy="220" r="7"/>
+        </g>
+      </svg>
+      <figcaption class="ah-cap ah-regime-cap">synthetic score · not a graded week · the rings and their cuts are the grader's own</figcaption>
+    </figure>
+
+    <div class="ah-regime-read">
+      <dl class="ah-regime-now">
+        <div class="ah-regime-row">
+          <dt data-ah-gradenow>Grade now</dt>
+          <dd class="ah-regime-gradeline" data-ah-gradeline>—</dd>
+        </div>
+        <div class="ah-regime-row">
+          <dt>Score</dt>
+          <dd class="ah-regime-score" data-ah-score>—</dd>
+        </div>
+      </dl>
+      <p class="ah-regime-note" data-ah-note>◌ no read yet · needle at rest</p>
+      <div class="ah-regime-ladders"><ol class="ah-bands"><li data-grade="A" data-min="80">A · 80</li><li data-grade="B" data-min="65">B · 65</li><li data-grade="C" data-min="45">C · 45</li><li data-grade="D" data-min="30">D · 30</li><li data-grade="F" data-min="0">F · 0</li></ol><ul class="ah-regimes"><li data-label="STRONG_RISK_ON" data-min="85">STRONG_RISK_ON · 85</li><li data-label="RISK_ON" data-min="75">RISK_ON · 75</li><li data-label="MODERATELY_RISK_ON" data-min="65">MODERATELY_RISK_ON · 65</li><li data-label="SELECTIVE_RISK_ON" data-min="55">SELECTIVE_RISK_ON · 55</li><li data-label="NEUTRAL_ROTATIONAL" data-min="45">NEUTRAL_ROTATIONAL · 45</li><li data-label="DEFENSIVE_LEAN" data-min="35">DEFENSIVE_LEAN · 35</li><li data-label="RISK_OFF_LEAN" data-min="25">RISK_OFF_LEAN · 25</li><li data-label="RISK_OFF_STRESS" data-min="0">RISK_OFF_STRESS · 0</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 skew: the 0DTE sky. Every desk word below is typed from the worktree the design names (the
+     skew engine's three regime words; the cockpit's chip words, which are those words upper-cased,
+     and its SUSPECT), so this still is complete before the generator runs. The generator fills
+     data-ah-desk and every data-ah-word attribute; the script reads data-ah-desk only and never the
+     typed text. Every number on this card is "—" until the script writes one from the synthetic tape. -->
+<section class="ah-piece ah-skew" id="ah-skew" data-ah-desk="{&quot;text&quot;:{&quot;fear&quot;:&quot;fear&quot;,&quot;inverted&quot;:&quot;inverted&quot;,&quot;neutral&quot;:&quot;neutral&quot;,&quot;FEAR&quot;:&quot;FEAR&quot;,&quot;INVERTED&quot;:&quot;INVERTED&quot;,&quot;SUSPECT&quot;:&quot;SUSPECT&quot;},&quot;fmt&quot;:{},&quot;lim&quot;:{&quot;refresh&quot;:15,&quot;stale&quot;:30}}" aria-labelledby="ah-skew-h">
+  <header class="ah-piece-head ah-skew-head">
+    <h2 id="ah-skew-h">The 0DTE sky</h2>
+    <span class="ah-syn">SYNTHETIC · a synthetic feed and staged outages; nothing on this card is generated</span>
+  </header>
+  <p class="ah-skew-lede">Stands for the options skew engine. It reads the chain once per refresh interval and publishes one word with the number. When the chain goes away it holds the last good read up to the stale limit, marks it suspect and prints no number; past the limit it prints n/a and says why. A second with no read is a shaded gap in the line, never a zero.</p>
+
+  <div class="ah-skew-grid">
+    <figure class="ah-skew-sky">
+      <div class="ah-skew-box">
+        <svg class="ah-skew-spark" viewBox="0 0 60 64" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <line class="ah-skew-base" x1="0" y1="63.5" x2="60" y2="63.5"></line>
+          <line class="ah-skew-zero" x1="0" y1="32" x2="60" y2="32" visibility="hidden"></line>
+          <g class="ah-skew-plot">
+            <path class="ah-skew-line" d=""></path>
+            <line class="ah-skew-now" x1="59.5" y1="0" x2="59.5" y2="64" visibility="hidden"></line>
+          </g>
+        </svg>
+        <div class="ah-skew-gaps" aria-hidden="true"></div>
+      </div>
+      <figcaption>
+        <div class="ah-skew-axis">
+          <span class="ah-skew-tick">60 s ago</span>
+          <span class="ah-skew-cap">synthetic feed · not market data</span>
+          <span class="ah-skew-tick">now</span>
+        </div>
+        <p class="ah-gapkey ah-skew-key"><i aria-hidden="true"></i>shaded = no read that second, never drawn as zero; the tag inside says why</p>
+      </figcaption>
+    </figure>
+
+    <div class="ah-skew-read">
+      <p class="ah-skew-row">
+        <span class="ah-skew-glyph" data-sk="glyph" data-state="na" aria-hidden="true">—</span>
+        <b class="ah-skew-value" data-sk="value" data-state="na">—</b>
+        <span class="ah-skew-word" data-sk="word" data-regime="suspect" data-ah-key="SUSPECT" data-ah-word="SUSPECT">SUSPECT</span>
+      </p>
+      <p class="ah-skew-state" data-sk="state">n/a</p>
+      <div class="ah-skew-age" data-sk="bar" data-state="none" aria-hidden="true"><i></i></div>
+      <p class="ah-skew-ageline">age <b data-sk="age">—</b> s of <b data-sk="stale">—</b> s before the read is dropped</p>
+      <dl class="ah-skew-legend">
+        <div><dt data-regime="fear" data-ah-key="fear" data-ah-word="fear">fear</dt><dd>the usual shape · gold</dd></div>
+        <div><dt data-regime="inverted" data-ah-key="inverted" data-ah-word="inverted">inverted</dt><dd>the alert · red</dd></div>
+        <div><dt data-regime="neutral" data-ah-key="neutral" data-ah-word="neutral">neutral</dt><dd>no lean either way</dd></div>
+        <div><dt data-regime="suspect" data-ah-key="SUSPECT" data-ah-word="SUSPECT">SUSPECT</dt><dd>no confident read · grey, no number</dd></div>
+      </dl>
+      <p class="ah-skew-note">The engine's words. The chip prints them in capitals, as the cockpit does.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 heartbeat: the operator's ring. Every desk word below is typed from the desk's own scripts and
+     carries its key in data-ah-text; the build fills data-ah-desk and the script repaints from it, so
+     the still is complete before the build and the desk's words win after it. The update segment
+     (arc, legend row, one lede sentence) is conditional on the launcher repo; its name is the
+     launcher's own literal label, since no doctor row names it. Words only, never a count. -->
+<section class="ah-piece ah-hb" id="ah-heartbeat" data-ah-desk="{&quot;text&quot;:{&quot;vOk&quot;:&quot;OK&quot;,&quot;vDegraded&quot;:&quot;DEGRADED&quot;,&quot;vDown&quot;:&quot;DOWN&quot;,&quot;rowServer&quot;:&quot;DESK SERVER&quot;,&quot;rowEngine&quot;:&quot;0DTE ENGINE&quot;,&quot;rowWatchdog&quot;:&quot;WATCHDOG&quot;,&quot;rowBackup&quot;:&quot;TAPE BACKUP&quot;,&quot;rowJob&quot;:&quot;SCHEDULED JOB&quot;,&quot;stHealthy&quot;:&quot;HEALTHY&quot;,&quot;stStopped&quot;:&quot;STOPPED-ON-PURPOSE&quot;,&quot;stFresh&quot;:&quot;FRESH&quot;,&quot;stUnpushed&quot;:&quot;TAPES-UNPUSHED&quot;,&quot;stStale&quot;:&quot;STALE&quot;,&quot;standingDown&quot;:&quot;STANDING DOWN&quot;,&quot;notAnswering&quot;:&quot;DESK NOT ANSWERING&quot;,&quot;regression&quot;:&quot;TAPE REGRESSION&quot;,&quot;upToDate&quot;:&quot;UP_TO_DATE&quot;,&quot;updateAvailable&quot;:&quot;UPDATE_AVAILABLE&quot;,&quot;localAhead&quot;:&quot;LOCAL_AHEAD&quot;,&quot;diverged&quot;:&quot;DIVERGED&quot;,&quot;dirty&quot;:&quot;DIRTY&quot;,&quot;noUpstream&quot;:&quot;NO_UPSTREAM&quot;,&quot;unknown&quot;:&quot;UNKNOWN&quot;},&quot;fmt&quot;:{},&quot;lim&quot;:{&quot;watchdog&quot;:30}}" aria-labelledby="ah-hb-title">
+  <header class="ah-hb-head">
+    <p class="ah-hb-kicker">Heartbeat</p>
+    <h2 class="ah-hb-title" id="ah-hb-title">The operator's ring</h2>
+    <span class="ah-syn">SYNTHETIC · the cycles are staged; the words are the desk's own; no figure on this card is generated</span>
+    <p class="ah-hb-lede">Small programs mind the desk and each says what it did. The doctor grades it. The
+      watchdog restarts it, or stands down when the stop was deliberate. The tape backup moves recordings off
+      the machine and refuses when a tape would shrink. <span data-ah-if="monad">The launcher's update pulls new
+      code and proves it before keeping it.</span> One pass of each is staged here, in the desk's own words.</p>
+  </header>
+
+  <div class="ah-hb-body">
+    <div class="ah-hb-ring">
+      <svg class="ah-hb-svg" viewBox="0 0 260 260" aria-hidden="true" focusable="false">
+        <circle class="ah-hb-track" cx="130" cy="130" r="100"/>
+        <g class="ah-hb-arcs" transform="rotate(-90 130 130)">
+          <circle class="ah-hb-arc" data-seg="server" cx="130" cy="130" r="100" pathLength="360" stroke-dasharray="84 276" stroke-dashoffset="-3"/>
+          <circle class="ah-hb-arc" data-seg="watchdog" cx="130" cy="130" r="100" pathLength="360" stroke-dasharray="84 276" stroke-dashoffset="-93"/>
+          <circle class="ah-hb-arc" data-seg="backup" cx="130" cy="130" r="100" pathLength="360" stroke-dasharray="84 276" stroke-dashoffset="-183"/>
+          <circle class="ah-hb-arc" data-seg="update" data-ah-if="monad" cx="130" cy="130" r="100" pathLength="360" stroke-dasharray="84 276" stroke-dashoffset="-273"/>
+        </g>
+        <circle class="ah-hb-progress" cx="130" cy="130" r="116" pathLength="360" stroke-dasharray="0 360" transform="rotate(-90 130 130)"/>
+        <circle class="ah-hb-core" cx="130" cy="130" r="78"/>
+        <g class="ah-hb-hand" transform="rotate(0 130 130)">
+          <line x1="130" y1="46" x2="130" y2="14"/>
+          <circle cx="130" cy="14" r="4"/>
+        </g>
+      </svg>
+      <div class="ah-hb-verdict" data-tone="none">
+        <span class="ah-hb-vlabel">Verdict</span>
+        <b class="ah-hb-vword">—</b>
+      </div>
+    </div>
+
+    <ol class="ah-hb-legend">
+      <li class="ah-hb-seg" data-seg="server" data-tone="none">
+        <div class="ah-hb-seghead"><span class="ah-hb-glyph" aria-hidden="true">—</span>
+          <b class="ah-hb-name" data-ah-text="rowServer">DESK SERVER</b><span class="ah-hb-role">the doctor's row</span></div>
+        <ul class="ah-hb-words">
+          <li class="ah-hb-word" data-word="stHealthy" data-tone="up"><span data-ah-text="stHealthy">HEALTHY</span></li>
+          <li class="ah-hb-word" data-word="stStopped" data-tone="hold"><span data-ah-text="stStopped">STOPPED-ON-PURPOSE</span></li>
+          <li class="ah-hb-word" data-word="vDown" data-tone="down"><span data-ah-text="vDown">DOWN</span></li>
+        </ul>
+      </li>
+      <li class="ah-hb-seg" data-seg="watchdog" data-tone="none">
+        <div class="ah-hb-seghead"><span class="ah-hb-glyph" aria-hidden="true">—</span>
+          <b class="ah-hb-name" data-ah-text="rowWatchdog">WATCHDOG</b><span class="ah-hb-role">its own log line; a quiet pass writes none</span></div>
+        <ul class="ah-hb-words">
+          <li class="ah-hb-word" data-word="standingDown" data-tone="hold"><span data-ah-text="standingDown">STANDING DOWN</span></li>
+          <li class="ah-hb-word" data-word="notAnswering" data-tone="down"><span data-ah-text="notAnswering">DESK NOT ANSWERING</span></li>
+        </ul>
+      </li>
+      <li class="ah-hb-seg" data-seg="backup" data-tone="none">
+        <div class="ah-hb-seghead"><span class="ah-hb-glyph" aria-hidden="true">—</span>
+          <b class="ah-hb-name" data-ah-text="rowBackup">TAPE BACKUP</b><span class="ah-hb-role">the doctor's row, then the backup's refusal</span></div>
+        <ul class="ah-hb-words">
+          <li class="ah-hb-word" data-word="stFresh" data-tone="up"><span data-ah-text="stFresh">FRESH</span></li>
+          <li class="ah-hb-word" data-word="stUnpushed" data-tone="warn"><span data-ah-text="stUnpushed">TAPES-UNPUSHED</span></li>
+          <li class="ah-hb-word" data-word="stStale" data-tone="warn"><span data-ah-text="stStale">STALE</span></li>
+          <li class="ah-hb-word" data-word="regression" data-tone="down"><span data-ah-text="regression">TAPE REGRESSION</span></li>
+        </ul>
+      </li>
+      <li class="ah-hb-seg" data-seg="update" data-tone="none" data-ah-if="monad">
+        <div class="ah-hb-seghead"><span class="ah-hb-glyph" aria-hidden="true">—</span>
+          <b class="ah-hb-name">Update</b><span class="ah-hb-role">the launcher's verdict</span></div>
+        <ul class="ah-hb-words">
+          <li class="ah-hb-word" data-word="upToDate" data-tone="up"><span data-ah-text="upToDate">UP_TO_DATE</span></li>
+          <li class="ah-hb-word" data-word="updateAvailable" data-tone="warn"><span data-ah-text="updateAvailable">UPDATE_AVAILABLE</span></li>
+          <li class="ah-hb-word" data-word="localAhead" data-tone="warn"><span data-ah-text="localAhead">LOCAL_AHEAD</span></li>
+          <li class="ah-hb-word" data-word="diverged" data-tone="down"><span data-ah-text="diverged">DIVERGED</span></li>
+          <li class="ah-hb-word" data-word="dirty" data-tone="warn"><span data-ah-text="dirty">DIRTY</span></li>
+          <li class="ah-hb-word" data-word="noUpstream" data-tone="warn"><span data-ah-text="noUpstream">NO_UPSTREAM</span></li>
+          <li class="ah-hb-word" data-word="unknown" data-tone="warn"><span data-ah-text="unknown">UNKNOWN</span></li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <p class="ah-hb-cap">Synthetic cycles · not a running desk. The doctor's report rows are
+    <span data-ah-text="rowServer">DESK SERVER</span> · <span data-ah-text="rowEngine">0DTE ENGINE</span> ·
+    <span data-ah-text="rowWatchdog">WATCHDOG</span> · <span data-ah-text="rowBackup">TAPE BACKUP</span> ·
+    <span data-ah-text="rowJob">SCHEDULED JOB</span>; its verdict is one of <span data-ah-text="vOk">OK</span> ·
+    <span data-ah-text="vDegraded">DEGRADED</span> · <span data-ah-text="vDown">DOWN</span>. The ring stages the rows
+    that have a program of their own. The verdict keeps the doctor's order: a deliberate stop is not a fault; a tape
+    that has not left the machine is.</p>
+</section>
+
+<!-- 08 guards: the sabotage terminal, as a category wall and one live case. The family tiles and their
+     counts, the still's example cases, the staged pass (one attribute) and the premise are generator-written
+     (the tokens). Each comment-fenced stand-in region below holds the same shape typed by hand, with "—" for
+     every number, so this part reads complete before the generator runs; the generator strips every region,
+     fence to fence, when it fills the tokens. No path; no number typed. -->
+<section class="ah-piece" id="ah-guards" data-ah-desk="{&quot;text&quot;:{},&quot;fmt&quot;:{},&quot;lim&quot;:{}}" aria-labelledby="ah-guards-title">
+  <header class="ah-piece-head ah-g-head">
+    <span class="ah-syn">GENERATED FROM THE TEST HARNESS · PASS STAGED FROM THE PUBLISHED LIST, NOT A LIVE RUN</span>
+    <h2 id="ah-guards-title" class="ah-piece-title">The sabotage terminal</h2>
+    <p class="ah-g-premise">A test that has never failed is not a guard - it is a green light of unknown wiring. Each case below is driven into the failure it exists to catch, then the tree is restored and the restore is proven by SHA256.</p>
+    <p class="ah-g-count" data-ah-num="guards.published"><b class="ah-g-n">728</b> guards published<span data-ah-num="guards.stale">, <b class="ah-g-n">0</b> excluded as stale</span>. <span class="ah-g-counted">counted <span data-ah-num="guards.generated">2026-09-30</span> at desk commit <span data-ah-num="desk.commit">c7310dd</span></span></p>
+    </header>
+
+  <p class="ah-g-wall-label">By family: the part of the desk each guard protects</p>
+  <div class="ah-g-wall">
+    <ol class="ah-g-fams" role="list" aria-label="Guards by family">
+      <li class="ah-g-fam" data-family="server" data-count="194" data-generated="2026-09-30"><p class="ah-g-fam-label">the server</p><p class="ah-g-fam-n"><b class="ah-g-n">194</b> guards</p><p class="ah-g-fam-roles">the desk server<span class="ah-g-dot"> · </span>the desk's routes<span class="ah-g-dot"> · </span>the desk's configuration</p><p class="ah-g-fam-pass ah-live-only"><span class="ah-g-ok" aria-hidden="true">✓</span> <b data-ah-g-pass>0</b> shown this pass</p></li>
+        <li class="ah-g-fam" data-family="running" data-count="150" data-generated="2026-09-30"><p class="ah-g-fam-label">keeping it running</p><p class="ah-g-fam-n"><b class="ah-g-n">150</b> guards</p><p class="ah-g-fam-roles">the doctor and its probes<span class="ah-g-dot"> · </span>the watchdog<span class="ah-g-dot"> · </span>the update button<span class="ah-g-dot"> · </span>the stop button<span class="ah-g-dot"> · </span>the tape backup<span class="ah-g-dot"> · </span>the start button<span class="ah-g-dot"> · </span>the regime update button<span class="ah-g-dot"> · </span>the tick-capture check<span class="ah-g-dot"> · </span>the tape import<span class="ah-g-dot"> · </span>the doctor button<span class="ah-g-dot"> · </span>the bundled runtime<span class="ah-g-dot"> · </span>the cutover note</p><p class="ah-g-fam-pass ah-live-only"><span class="ah-g-ok" aria-hidden="true">✓</span> <b data-ah-g-pass>0</b> shown this pass</p></li>
+        <li class="ah-g-fam" data-family="pages" data-count="127" data-generated="2026-09-30"><p class="ah-g-fam-label">the pages you look at</p><p class="ah-g-fam-n"><b class="ah-g-n">127</b> guards</p><p class="ah-g-fam-roles">the review page<span class="ah-g-dot"> · </span>the live cockpit<span class="ah-g-dot"> · </span>the sky page<span class="ah-g-dot"> · </span>the 0DTE page<span class="ah-g-dot"> · </span>the desk's styles<span class="ah-g-dot"> · </span>the portfolio page<span class="ah-g-dot"> · </span>the recorder page<span class="ah-g-dot"> · </span>the desk's pages</p><p class="ah-g-fam-pass ah-live-only"><span class="ah-g-ok" aria-hidden="true">✓</span> <b data-ah-g-pass>0</b> shown this pass</p></li>
+        <li class="ah-g-fam" data-family="signals" data-count="119" data-generated="2026-09-30"><p class="ah-g-fam-label">the signals and alerts</p><p class="ah-g-fam-n"><b class="ah-g-n">119</b> guards</p><p class="ah-g-fam-roles">the alerting module<span class="ah-g-dot"> · </span>the capture layer<span class="ah-g-dot"> · </span>the iceberg join<span class="ah-g-dot"> · </span>the research module<span class="ah-g-dot"> · </span>the detectors<span class="ah-g-dot"> · </span>the detector engine<span class="ah-g-dot"> · </span>the core models</p><p class="ah-g-fam-pass ah-live-only"><span class="ah-g-ok" aria-hidden="true">✓</span> <b data-ah-g-pass>0</b> shown this pass</p></li>
+        <li class="ah-g-fam" data-family="engines" data-count="84" data-generated="2026-09-30"><p class="ah-g-fam-label">the grader, the almanac and the options engine</p><p class="ah-g-fam-n"><b class="ah-g-n">84</b> guards</p><p class="ah-g-fam-roles">the sky almanac<span class="ah-g-dot"> · </span>the regime grader's macro layer<span class="ah-g-dot"> · </span>the regime grader's reports<span class="ah-g-dot"> · </span>the 0DTE engine's seeds<span class="ah-g-dot"> · </span>the regime grader's composite<span class="ah-g-dot"> · </span>the regime grader's rules<span class="ah-g-dot"> · </span>the regime grader's scheduler<span class="ah-g-dot"> · </span>the 0DTE engine</p><p class="ah-g-fam-pass ah-live-only"><span class="ah-g-ok" aria-hidden="true">✓</span> <b data-ah-g-pass>0</b> shown this pass</p></li>
+        <li class="ah-g-fam" data-family="repo" data-count="52" data-generated="2026-09-30"><p class="ah-g-fam-label">the tests and the repo</p><p class="ah-g-fam-n"><b class="ah-g-n">52</b> guards</p><p class="ah-g-fam-roles">the CI workflow<span class="ah-g-dot"> · </span>the test harness itself<span class="ah-g-dot"> · </span>the ignore list<span class="ah-g-dot"> · </span>the desk's documents</p><p class="ah-g-fam-pass ah-live-only"><span class="ah-g-ok" aria-hidden="true">✓</span> <b data-ah-g-pass>0</b> shown this pass</p></li>
+      </ol>
+
+    <div class="ah-g-card">
+      <p class="ah-g-bar"><span class="ah-g-bar-name">sabotage pass</span><span class="ah-g-bar-note">from the published list</span><span class="ah-g-status" data-state="still">examples</span></p>
+      <div class="ah-g-stage" data-ah-pass="{&quot;sec&quot;:4.8,&quot;reveal&quot;:1.0,&quot;stamp&quot;:1.8,&quot;hold&quot;:6.0,&quot;cases&quot;:[{&quot;f&quot;:&quot;server&quot;,&quot;w&quot;:&quot;the desk server&quot;,&quot;t&quot;:&quot;test_the_autostart_guard_defaults_to_enabled&quot;,&quot;m&quot;:&quot;Changes a number in the protected text.&quot;},{&quot;f&quot;:&quot;running&quot;,&quot;w&quot;:&quot;the stop button&quot;,&quot;t&quot;:&quot;test_every_bat_is_crlf_on_disk&quot;,&quot;m&quot;:&quot;Converts the file&#x27;s Windows line endings to Unix ones, which the guard exists to reject.&quot;},{&quot;f&quot;:&quot;pages&quot;,&quot;w&quot;:&quot;the desk&#x27;s styles&quot;,&quot;t&quot;:&quot;test_every_css_variable_the_pages_use_is_declared&quot;,&quot;m&quot;:&quot;Deletes the protected text entirely.&quot;},{&quot;f&quot;:&quot;signals&quot;,&quot;w&quot;:&quot;the alerting module&quot;,&quot;t&quot;:&quot;test_a_sentiment_alert_carries_the_snapshot_of_its_fire_cycle&quot;,&quot;m&quot;:&quot;Removes part of the protected text.&quot;},{&quot;f&quot;:&quot;engines&quot;,&quot;w&quot;:&quot;the sky almanac&quot;,&quot;t&quot;:&quot;test_a_report_with_no_tape_is_in_the_population_and_excluded_by_name&quot;,&quot;m&quot;:&quot;Forces a condition to always be true.&quot;},{&quot;f&quot;:&quot;repo&quot;,&quot;w&quot;:&quot;the test harness itself&quot;,&quot;t&quot;:&quot;test_the_two_sabotage_case_lists_are_the_same_cases&quot;,&quot;m&quot;:&quot;Changes a number in the protected text.&quot;},{&quot;f&quot;:&quot;server&quot;,&quot;w&quot;:&quot;the desk&#x27;s routes&quot;,&quot;t&quot;:&quot;test_the_offline_state_is_named_and_never_raised&quot;,&quot;m&quot;:&quot;Appends a line the guard must refuse to accept.&quot;},{&quot;f&quot;:&quot;running&quot;,&quot;w&quot;:&quot;the update button&quot;,&quot;t&quot;:&quot;test_the_operator_argument_survives_the_temp_re_exec&quot;,&quot;m&quot;:&quot;Switches off the protected line by commenting it out.&quot;},{&quot;f&quot;:&quot;pages&quot;,&quot;w&quot;:&quot;the review page&quot;,&quot;t&quot;:&quot;test_no_page_references_a_file_that_is_not_there&quot;,&quot;m&quot;:&quot;Keeps the protected text and adds to it.&quot;},{&quot;f&quot;:&quot;signals&quot;,&quot;w&quot;:&quot;the alerting module&quot;,&quot;t&quot;:&quot;test_a_live_feed_with_no_absorption_prints_no_line_and_a_real_one_is_shown&quot;,&quot;m&quot;:&quot;Changes a number in the protected text.&quot;},{&quot;f&quot;:&quot;engines&quot;,&quot;w&quot;:&quot;the sky almanac&quot;,&quot;t&quot;:&quot;test_calendar_rules&quot;,&quot;m&quot;:&quot;Forces a condition to always be true.&quot;},{&quot;f&quot;:&quot;repo&quot;,&quot;w&quot;:&quot;the test harness itself&quot;,&quot;t&quot;:&quot;test_a_shard_proves_only_its_own_cases_and_restores_every_byte&quot;,&quot;m&quot;:&quot;Keeps the protected text and adds to it.&quot;},{&quot;f&quot;:&quot;server&quot;,&quot;w&quot;:&quot;the desk server&quot;,&quot;t&quot;:&quot;test_the_desk_never_imports_the_bot&quot;,&quot;m&quot;:&quot;Appends a line the guard must refuse to accept.&quot;},{&quot;f&quot;:&quot;running&quot;,&quot;w&quot;:&quot;the regime update button&quot;,&quot;t&quot;:&quot;test_the_session_boundary_is_proven_by_running_it&quot;,&quot;m&quot;:&quot;Changes a number in the protected text.&quot;},{&quot;f&quot;:&quot;pages&quot;,&quot;w&quot;:&quot;the desk&#x27;s pages&quot;,&quot;t&quot;:&quot;test_the_regenerate_control_is_offline_only&quot;,&quot;m&quot;:&quot;Appends a line the guard must refuse to accept.&quot;},{&quot;f&quot;:&quot;signals&quot;,&quot;w&quot;:&quot;the alerting module&quot;,&quot;t&quot;:&quot;test_a_reversal_alert_carries_the_snapshot_of_its_fire_cycle&quot;,&quot;m&quot;:&quot;Keeps the protected text and adds to it.&quot;},{&quot;f&quot;:&quot;engines&quot;,&quot;w&quot;:&quot;the sky almanac&quot;,&quot;t&quot;:&quot;test_a_key_the_file_did_not_supply_is_a_fallback_whatever_its_value&quot;,&quot;m&quot;:&quot;Forces a condition to always be true.&quot;},{&quot;f&quot;:&quot;repo&quot;,&quot;w&quot;:&quot;the CI workflow&quot;,&quot;t&quot;:&quot;test_no_shard_job_skips_its_restore_check&quot;,&quot;m&quot;:&quot;Keeps the protected text and adds to it.&quot;},{&quot;f&quot;:&quot;server&quot;,&quot;w&quot;:&quot;the desk&#x27;s routes&quot;,&quot;t&quot;:&quot;test_the_signal_wiring_check_compares_real_resolved_paths&quot;,&quot;m&quot;:&quot;Forces a condition to always be true.&quot;},{&quot;f&quot;:&quot;running&quot;,&quot;w&quot;:&quot;the stop button&quot;,&quot;t&quot;:&quot;test_process_kills_match_on_command_line_not_image_name&quot;,&quot;m&quot;:&quot;Appends a line the guard must refuse to accept.&quot;},{&quot;f&quot;:&quot;pages&quot;,&quot;w&quot;:&quot;the 0DTE page&quot;,&quot;t&quot;:&quot;test_every_page_links_to_every_other_page&quot;,&quot;m&quot;:&quot;Deletes the protected text entirely.&quot;},{&quot;f&quot;:&quot;signals&quot;,&quot;w&quot;:&quot;the alerting module&quot;,&quot;t&quot;:&quot;test_a_turn_less_than_a_window_before_the_fire_reads_so_far_and_counts_from_the_turn&quot;,&quot;m&quot;:&quot;Forces a condition to always be true.&quot;},{&quot;f&quot;:&quot;engines&quot;,&quot;w&quot;:&quot;the sky almanac&quot;,&quot;t&quot;:&quot;test_metric_is_duration_invariant&quot;,&quot;m&quot;:&quot;Keeps the protected text and adds to it.&quot;},{&quot;f&quot;:&quot;repo&quot;,&quot;w&quot;:&quot;the CI workflow&quot;,&quot;t&quot;:&quot;test_every_job_that_tests_runs_on_windows_and_3_14&quot;,&quot;m&quot;:&quot;Removes part of the protected text.&quot;},{&quot;f&quot;:&quot;server&quot;,&quot;w&quot;:&quot;the desk server&quot;,&quot;t&quot;:&quot;test_the_feed_block_carries_a_server_worded_note_when_the_feed_has_no_depth&quot;,&quot;m&quot;:&quot;Forces a condition to always be true.&quot;},{&quot;f&quot;:&quot;running&quot;,&quot;w&quot;:&quot;the watchdog&quot;,&quot;t&quot;:&quot;test_watchdog_stands_down_on_the_pause_flag&quot;,&quot;m&quot;:&quot;Switches off the protected line by commenting it out.&quot;},{&quot;f&quot;:&quot;pages&quot;,&quot;w&quot;:&quot;the portfolio page&quot;,&quot;t&quot;:&quot;test_every_browser_module_imports_as_an_es_module&quot;,&quot;m&quot;:&quot;Appends a line the guard must refuse to accept.&quot;},{&quot;f&quot;:&quot;signals&quot;,&quot;w&quot;:&quot;the alerting module&quot;,&quot;t&quot;:&quot;test_the_detector_records_the_turn_on_every_reversal_and_on_nothing_else&quot;,&quot;m&quot;:&quot;Deletes the protected text entirely.&quot;},{&quot;f&quot;:&quot;engines&quot;,&quot;w&quot;:&quot;the sky almanac&quot;,&quot;t&quot;:&quot;test_block_usability&quot;,&quot;m&quot;:&quot;Forces a condition to always be true.&quot;},{&quot;f&quot;:&quot;repo&quot;,&quot;w&quot;:&quot;the CI workflow&quot;,&quot;t&quot;:&quot;test_the_heavy_jobs_skip_only_on_a_push_the_lookup_proved&quot;,&quot;m&quot;:&quot;Deletes the protected text entirely.&quot;},{&quot;f&quot;:&quot;server&quot;,&quot;w&quot;:&quot;the desk server&quot;,&quot;t&quot;:&quot;test_the_documented_page_routes_are_declared_before_the_static_mount&quot;,&quot;m&quot;:&quot;Removes part of the protected text.&quot;},{&quot;f&quot;:&quot;running&quot;,&quot;w&quot;:&quot;the watchdog&quot;,&quot;t&quot;:&quot;test_watchdog_never_builds_or_pulls&quot;,&quot;m&quot;:&quot;Appends a line the guard must refuse to accept.&quot;},{&quot;f&quot;:&quot;pages&quot;,&quot;w&quot;:&quot;the sky page&quot;,&quot;t&quot;:&quot;test_the_moon_plate_draws_the_true_illumination&quot;,&quot;m&quot;:&quot;Changes a number in the protected text.&quot;},{&quot;f&quot;:&quot;signals&quot;,&quot;w&quot;:&quot;the alerting module&quot;,&quot;t&quot;:&quot;test_held_counts_what_would_have_gone_out&quot;,&quot;m&quot;:&quot;Keeps the protected text and adds to it.&quot;},{&quot;f&quot;:&quot;engines&quot;,&quot;w&quot;:&quot;the sky almanac&quot;,&quot;t&quot;:&quot;test_kruskal_wallis_matches_a_worked_example&quot;,&quot;m&quot;:&quot;Removes part of the protected text.&quot;},{&quot;f&quot;:&quot;repo&quot;,&quot;w&quot;:&quot;the CI workflow&quot;,&quot;t&quot;:&quot;test_the_verdict_is_green_only_when_proven_here_or_by_a_named_run&quot;,&quot;m&quot;:&quot;Deletes the protected text entirely.&quot;}]}">
+        <article class="ah-g-case" data-family="server"><p class="ah-g-case-fam">the server</p><p class="ah-g-row ah-g-broke"><span class="ah-g-k"><span class="ah-g-x" aria-hidden="true">✗</span> broken</span><span class="ah-g-v"><b class="ah-g-where">the desk server</b> <span class="ah-g-mut">Changes a number in the protected text.</span></span></p><p class="ah-g-row ah-g-by"><span class="ah-g-k">caught by</span><code class="ah-g-v ah-g-test">test_<wbr>the_<wbr>autostart_<wbr>guard_<wbr>defaults_<wbr>to_<wbr>enabled</code></p><p class="ah-g-row ah-g-verdict"><span class="ah-g-k"></span><span class="ah-g-v"><span class="ah-g-stamp" data-state="caught"><span class="ah-g-ok" aria-hidden="true">✓</span> CAUGHT</span></span></p></article>
+          <article class="ah-g-case" data-family="running"><p class="ah-g-case-fam">keeping it running</p><p class="ah-g-row ah-g-broke"><span class="ah-g-k"><span class="ah-g-x" aria-hidden="true">✗</span> broken</span><span class="ah-g-v"><b class="ah-g-where">the stop button</b> <span class="ah-g-mut">Converts the file's Windows line endings to Unix ones, which the guard exists to reject.</span></span></p><p class="ah-g-row ah-g-by"><span class="ah-g-k">caught by</span><code class="ah-g-v ah-g-test">test_<wbr>every_<wbr>bat_<wbr>is_<wbr>crlf_<wbr>on_<wbr>disk</code></p><p class="ah-g-row ah-g-verdict"><span class="ah-g-k"></span><span class="ah-g-v"><span class="ah-g-stamp" data-state="caught"><span class="ah-g-ok" aria-hidden="true">✓</span> CAUGHT</span></span></p></article>
+          <article class="ah-g-case" data-family="pages"><p class="ah-g-case-fam">the pages you look at</p><p class="ah-g-row ah-g-broke"><span class="ah-g-k"><span class="ah-g-x" aria-hidden="true">✗</span> broken</span><span class="ah-g-v"><b class="ah-g-where">the desk's styles</b> <span class="ah-g-mut">Deletes the protected text entirely.</span></span></p><p class="ah-g-row ah-g-by"><span class="ah-g-k">caught by</span><code class="ah-g-v ah-g-test">test_<wbr>every_<wbr>css_<wbr>variable_<wbr>the_<wbr>pages_<wbr>use_<wbr>is_<wbr>declared</code></p><p class="ah-g-row ah-g-verdict"><span class="ah-g-k"></span><span class="ah-g-v"><span class="ah-g-stamp" data-state="caught"><span class="ah-g-ok" aria-hidden="true">✓</span> CAUGHT</span></span></p></article>
+        </div>
+      <p class="ah-g-tally ah-live-only" data-ah-num="guards.cases">caught <b class="ah-g-n" data-ah-g-caught>0</b> of <b class="ah-g-n">36</b> staged cases this pass</p>
+      <p class="ah-g-end">After each case the harness restores the tree and proves the restore by hash. Nothing is run for this page.</p>
+    </div>
+  </div>
+
+  <p class="ah-caption ah-g-caption">Stands for the adversarial pass over the desk's test suite. Each case is one mutation and the one test that must fail when it lands: the harness applies the mutation, watches that test fail, restores the tree and proves the restore. The families, their counts and the cases are generated from the harness, and the card takes cases from that published list one at a time. A CAUGHT stamp shows what the harness requires of the case, not the result of a run.</p>
+</section>
+
+<!-- 09 scanner: the reticle cursor. A fixed full-viewport canvas above the cards (z 9,
+     pointer-events none) that the scanner effect draws on while this piece is live. Decorative
+     only: no text, no desk words, no numbers, so it carries no desk attribute and no placeholder.
+     With script off it is display:none (core's .ah-live-only gate); under reduced motion the
+     gate stays shut and nothing is ever drawn. Core starts it only on a fine pointer; static()
+     draws nothing. -->
+<canvas class="ah-scanner ah-live-only" id="ah-scanner" aria-hidden="true" width="1" height="1"></canvas>
+
+</main>
+
+<footer class="ah-foot">
+  <ul class="ah-numbers" aria-label="Generated counts">
+    <li data-ah-num="desk.tests.files">
+      <b>165</b> test files in the desk
+      <small>counted 2026-09-30 at desk commit c7310dd</small>
+    </li>
+    <li data-ah-num="desk.suite.passed" data-result="passed">
+      <b>1244</b> passed<span data-ah-num="desk.suite.skipped">, <b>5</b> skipped</span> in the last full run, which passed
+      <small>counted 2026-09-30 at desk commit c7310dd</small>
+    </li>
+    <li data-ah-num="guards.published">
+      <b>728</b> sabotage guards published
+      <small>counted 2026-09-30 at desk commit c7310dd</small>
+    </li>
+  </ul>
+  <p class="ah-foot-line">Every working rule behind this system carries an enforcement grade, which says what stands behind it when it is broken: a hook, a gate, an owner's call, or prose alone.</p>
+  <p class="ah-foot-line">Work runs off a private board, one post per item; a question tag stops the item until it is answered.</p>
+  <p class="ah-stamp ah-mono">desk commit c7310dd, read 2026-09-30</p>
+  <p class="ah-notice ah-reduced-only" role="status">Motion is off because your system asked for it. Nothing is missing.</p>
+  <nav class="ah-back" aria-label="Back"><a href="/">Home</a></nav>
+</footer>
+
+<script src="js/core.js"></script>
+<script src="js/ambient.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/iceberg.js"></script>
+  <script src="js/alertwire.js"></script>
+  <script src="js/mesh.js"></script>
+  <script src="js/regime.js"></script>
+  <script src="js/skew.js"></script>
+  <script src="js/heartbeat.js"></script>
+  <script src="js/guards.js"></script>
+  <script src="js/scanner.js"></script>
+</body>
+</html>

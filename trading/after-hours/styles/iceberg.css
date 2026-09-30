@@ -1,0 +1,152 @@
+/* 02 iceberg — the absorption ladder. Scoped to #ah-iceberg. Tokens come from core.css; the
+   section-6 hexes ride along as fallbacks so the card reads even if the core sheet is late.
+   Keyframes are copied from the cockpit sheet (absorbPulse, frostShimmer, bidInset, askInset, the
+   focus flash; evIn lifted as translateY only, its opacity stop dropped) under unique names, and
+   run under [data-ah="on"] only. Nothing here hides content; the core sheet's reduced-motion rule
+   kills every animation and transition below. Every track is minmax(0, …): nothing scrolls sideways. */
+#ah-iceberg {
+  --ice-teal: var(--teal, #4FD1CF);
+  --ice-glow: rgba(79, 209, 207, .32);
+  --ice-up: var(--up, #46C98A);
+  --ice-down: var(--down, #F47265);
+  --ice-live: var(--live, #39BDF8);
+  --ice-gold: var(--gold, #E0AC4E);
+  --ice-ink: var(--ink, #EAF0F7);
+  --ice-ink-2: var(--ink-2, #A9B6C6);
+  --ice-ink-3: var(--ink-3, #8E9BAD);
+  --ice-hair: var(--hair, #24303E);
+  --ice-hair-fn: var(--hair-fn, #6C7A8C);
+  --ice-deep: var(--deep, #0E141C);
+  --ice-card: var(--card, #131922);
+  --ice-mono: var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace);
+  --ice-ease: var(--ease, cubic-bezier(.2, .7, .2, 1));
+  --ice-cols: minmax(0, 7.2em) minmax(0, 3.2em) minmax(0, 1fr) minmax(0, 4em);   /* price holds "❄ 5,427.00 ●" on one line.
+     The tracks are em-based on purpose and the em resolves in each element that uses them, so the key must share the
+     rows' font-size (it sets none of its own) or its columns drift off the rungs' and its words break mid-word. */
+  min-width: 0;
+}
+
+/* ── lede, wells, the two-column grid ── */
+#ah-iceberg .ice-lede { margin: 0 0 clamp(14px, 2vw, 20px); max-width: 68ch; color: var(--ice-ink-2); }
+#ah-iceberg .ice-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(12px, 2vw, 18px); }
+@media (min-width: 960px) { #ah-iceberg .ice-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; } }
+#ah-iceberg .ice-well { min-width: 0; }
+
+/* ── the focus readout: the level absorbing now, or the rest state ── */
+#ah-iceberg .ice-focus {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px 12px; align-items: center;
+  padding: 10px 12px; border: 1px solid var(--ice-hair-fn); border-radius: 8px; background: var(--ice-card);
+}
+#ah-iceberg .ice-snow { font-size: 20px; line-height: 1; color: var(--ice-ink-2); }   /* unlit glyph is inactive text: 8:1 floor, ink-3 read 6.25 */
+#ah-iceberg .ice-focus-body { min-width: 0; }
+#ah-iceberg .ice-focus p { margin: 0; overflow-wrap: anywhere; }
+#ah-iceberg .ice-focus-lab { font: 700 12px/1.4 var(--ice-mono); letter-spacing: .06em; color: var(--ice-ink-2); }
+#ah-iceberg .ice-focus-px { font: 600 clamp(18px, 2.4vw, 24px)/1.2 var(--ice-mono); color: var(--ice-ink); }
+#ah-iceberg .ice-focus-sub { font: 400 11px/1.5 var(--ice-mono); color: var(--ice-ink-2); white-space: pre-wrap; }
+#ah-iceberg .ice-focus-ratio { display: flex; flex-direction: column; align-items: flex-end; }
+#ah-iceberg .ice-focus-ratio b { font: 600 clamp(16px, 2vw, 22px)/1.2 var(--ice-mono); color: var(--ice-ink); }
+#ah-iceberg .ice-focus-ratio span { font: 500 10px/1.4 var(--ice-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ice-ink-3); }
+#ah-iceberg .ice-focus[data-side="bid"] .ice-focus-lab { color: var(--ice-up); }
+#ah-iceberg .ice-focus[data-side="ask"] .ice-focus-lab { color: var(--ice-down); }
+#ah-iceberg .ice-focus[data-side="bid"], #ah-iceberg .ice-focus[data-side="ask"] { border-color: color-mix(in srgb, var(--ice-teal) 45%, var(--ice-hair-fn)); }
+#ah-iceberg .ice-focus[data-side="bid"] .ice-snow, #ah-iceberg .ice-focus[data-side="ask"] .ice-snow { color: var(--ice-teal); text-shadow: 0 0 12px var(--ice-glow); }
+#ah-iceberg .ice-focus[data-side="bid"] .ice-focus-ratio b, #ah-iceberg .ice-focus[data-side="ask"] .ice-focus-ratio b { color: var(--ice-teal); }
+
+/* ── the ladder: asks above, the inside, bids below; the key and every rung share one grid ── */
+#ah-iceberg .ice-key, #ah-iceberg .ice-row {
+  display: grid; grid-template-columns: var(--ice-cols); gap: 8px; align-items: center;
+  font: 500 11.5px/1.5 var(--ice-mono);
+}
+@media (max-width: 419px) { #ah-iceberg .ice-key, #ah-iceberg .ice-row { gap: 4px; font-size: 10.5px; } }   /* 4px, not 6: at 320 the middle track needs the room for TRADED */
+/* the key: the rows' font-size (see --ice-cols), no tracking (.08em re-breaks TRADED at 320), and its padding matches
+   the rows' 1 px border + padding so the two content boxes share one left edge */
+#ah-iceberg .ice-key { margin: 14px 0 4px; padding: 0 9px 4px 17px; border-bottom: 1px solid var(--ice-hair); letter-spacing: 0; text-transform: uppercase; color: var(--ice-ink-3); }
+#ah-iceberg .ice-key span:nth-child(2), #ah-iceberg .ice-key span:nth-child(4), #ah-iceberg .ice-n { text-align: right; }
+#ah-iceberg .ice-ladder { list-style: none; margin: 0; padding: 0 0 0 8px; display: flex; flex-direction: column; gap: 2px; }
+#ah-iceberg .ice-row { position: relative; padding: 3px 8px; border: 1px solid transparent; border-radius: 6px; color: var(--ice-ink-2); }
+#ah-iceberg .ice-row > span { min-width: 0; }
+#ah-iceberg .ice-px { display: flex; align-items: center; }
+#ah-iceberg .ice-row[data-side="ask"] .ice-px { color: var(--ice-down); }
+#ah-iceberg .ice-row[data-side="bid"] .ice-px { color: var(--ice-up); }
+/* the ice mark: an empty inline box is 0 wide; nothing here is ever display:none */
+#ah-iceberg .ice-mark { font-style: normal; font-size: 10px; font-weight: 700; color: var(--ice-teal); }
+#ah-iceberg .ice-mark:not(:empty) { margin-right: 4px; }
+/* the inside (best bid, best ask): a small gold tick after the price, as the cockpit marks it */
+#ah-iceberg .ice-row.inside .ice-px::after { content: "●"; margin-left: 4px; font-size: 6px; color: var(--ice-gold); }
+/* shown vs traded: two bars on one scale; the traded bar of the firing rung is the heat */
+#ah-iceberg .ice-bars { position: relative; display: flex; flex-direction: column; gap: 2px; padding: 1px 0; }
+#ah-iceberg .ice-bar { display: block; height: 5px; border-radius: 3px; background: rgba(255, 255, 255, .05); overflow: hidden; }
+#ah-iceberg .ice-bar i { display: block; height: 100%; width: 0; border-radius: 3px; }
+#ah-iceberg .ice-bar-shown i { background: var(--ice-hair-fn); }
+#ah-iceberg .ice-bar-traded i { background: rgba(79, 209, 207, .55); }
+#ah-iceberg .ice-x { position: absolute; right: 0; top: 50%; transform: translateY(-50%); padding: 0 4px; border-radius: 3px; background: var(--ice-deep); font: 700 10px/1.4 var(--ice-mono); letter-spacing: .02em; color: var(--ice-teal); }
+#ah-iceberg .ice-x:empty { padding: 0; }
+#ah-iceberg .ice-mid { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; margin: 5px 0; padding: 5px 9px; border-top: 1px solid var(--ice-hair); border-bottom: 1px solid var(--ice-hair); font: 500 11px/1.5 var(--ice-mono); letter-spacing: .04em; color: var(--ice-ink-2); }
+#ah-iceberg .ice-mid-mark { color: var(--ice-gold); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+#ah-iceberg .ice-mid-px { color: var(--ice-ink); font-weight: 600; white-space: pre-wrap; }
+/* the join gate: every rung inside it carries a rail to the left of the ladder */
+#ah-iceberg .ice-row[data-join="in"]::before { content: ""; position: absolute; left: -8px; top: -2px; bottom: -2px; width: 2px; background: var(--ice-live); }
+#ah-iceberg .ice-gate { position: relative; margin: 12px 0 0; padding-left: 14px; font: 400 11px/1.6 var(--ice-mono); letter-spacing: .02em; color: var(--ice-ink-2); overflow-wrap: anywhere; }
+#ah-iceberg .ice-gate::before { content: ""; position: absolute; left: 0; top: .4em; width: 2px; height: 1em; background: var(--ice-live); }
+#ah-iceberg .ice-gate b { color: var(--ice-ink); font-weight: 600; }
+#ah-iceberg .ice-v { color: var(--ice-ink); font-style: italic; }
+
+/* ── ABSORBING: teal ice glow, ❄, an inset in the firing side's own colour (the cockpit sheet) ── */
+#ah-iceberg .ice-row.absorbing { color: var(--ice-ink); border-color: color-mix(in srgb, var(--ice-teal) 40%, var(--ice-hair)); background: color-mix(in srgb, var(--ice-teal) 8%, var(--ice-deep)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--ice-teal) 20%, transparent), 0 0 22px var(--ice-glow); }
+#ah-iceberg .ice-row.absorbing [data-ice="traded"] { color: var(--ice-teal); text-shadow: 0 0 10px var(--ice-glow); }
+#ah-iceberg .ice-row.absorbing .ice-bar-traded i { background: linear-gradient(90deg, color-mix(in srgb, var(--ice-teal) 45%, transparent), var(--ice-teal)); box-shadow: 0 0 14px var(--ice-glow); }
+#ah-iceberg .ice-row.absorbing { border-left: 3px solid var(--ice-teal); border-radius: 0 7px 7px 0; padding-left: 6px; }
+#ah-iceberg .ice-row.absorbing[data-fire="bid"] { border-left-color: var(--ice-up); }
+#ah-iceberg .ice-row.absorbing[data-fire="ask"] { border-left-color: var(--ice-down); }
+
+/* ── the join window: the last joinWindow seconds, one pip per landed event ── */
+#ah-iceberg .ice-feed-title { margin: 0 0 8px; font: 500 11px/1.4 var(--ice-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ice-ink-3); }
+#ah-iceberg .ice-win { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center; margin: 0 0 10px; font: 400 10px/1.4 var(--ice-mono); letter-spacing: .04em; color: var(--ice-ink-3); }
+#ah-iceberg .ice-win b { color: var(--ice-ink-2); font-weight: 500; }
+#ah-iceberg .ice-win-track { position: relative; display: block; height: 10px; border-radius: 5px; background: rgba(255, 255, 255, .05); border: 1px solid var(--ice-hair); overflow: hidden; }
+#ah-iceberg .ice-pip { position: absolute; top: 1px; bottom: 1px; width: 6px; margin-left: -3px; border-radius: 3px; background: var(--ice-ink-3); }
+#ah-iceberg .ice-pip[data-side="bid"] { background: var(--ice-up); }
+#ah-iceberg .ice-pip[data-side="ask"] { background: var(--ice-down); }
+
+/* ── the event feed: newest first, six rows ── */
+#ah-iceberg .ice-feed { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+/* "—" while the feed is empty; the script turns it into the feed's footer line, never hides it */
+#ah-iceberg .ice-feed-empty { margin: 0; font: 400 11px/1.5 var(--ice-mono); color: var(--ice-ink-2); }
+#ah-iceberg .ice-feed:not(:empty) + .ice-feed-empty { margin-top: 8px; font-size: 10px; letter-spacing: .06em; color: var(--ice-ink-3); }
+#ah-iceberg .ice-ev { position: relative; padding: 8px 10px 8px 14px; border: 1px solid var(--ice-hair); border-radius: 6px; background: var(--ice-card); overflow: hidden; }
+#ah-iceberg .ice-ev::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--ice-ink-3); }
+#ah-iceberg .ice-ev.bull::before { background: var(--ice-up); box-shadow: 0 0 12px color-mix(in srgb, var(--ice-up) 50%, transparent); }
+#ah-iceberg .ice-ev.bear::before { background: var(--ice-down); box-shadow: 0 0 12px color-mix(in srgb, var(--ice-down) 50%, transparent); }
+#ah-iceberg .ice-ev-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+#ah-iceberg .ice-ev-title { font: 700 12px/1.4 var(--ice-mono); letter-spacing: .02em; overflow-wrap: anywhere; }
+#ah-iceberg .ice-ev.bull .ice-ev-title { color: var(--ice-up); }
+#ah-iceberg .ice-ev.bear .ice-ev-title { color: var(--ice-down); }
+#ah-iceberg .ice-ev-t { margin-left: auto; font: 400 10px/1.4 var(--ice-mono); letter-spacing: .04em; color: var(--ice-ink-3); }
+#ah-iceberg .ice-ev-evid { margin: 4px 0 0; font: 400 11px/1.6 var(--ice-mono); color: var(--ice-ink-2); white-space: pre-wrap; overflow-wrap: anywhere; }
+#ah-iceberg .ice-ev-evid b { color: var(--ice-ink); font-weight: 600; }
+#ah-iceberg .ice-ev-ice { color: var(--ice-teal); }
+#ah-iceberg .ice-ev-gate { display: block; margin-top: 3px; font: 500 10px/1.4 var(--ice-mono); letter-spacing: .06em; color: var(--ice-ink-2); }
+#ah-iceberg .ice-ev-gate[data-in="yes"] { color: var(--ice-live); }
+#ah-iceberg .ah-cap { margin-top: 12px; }
+
+/* ── motion: live only. Nothing below runs unless the core has set data-ah="on". ── */
+#ah-iceberg[data-ah="on"] .ice-bar i { transition: width .5s var(--ice-ease); }
+#ah-iceberg[data-ah="on"] .ice-pip { transition: left 1s linear; }
+#ah-iceberg[data-ah="on"] .ice-focus { transition: border-color .3s var(--ice-ease); }
+#ah-iceberg[data-ah="on"] .ice-focus-lab, #ah-iceberg[data-ah="on"] .ice-snow { transition: color .3s var(--ice-ease), text-shadow .3s var(--ice-ease); }
+#ah-iceberg[data-ah="on"] .ice-row { transition: background-color .25s ease, border-color .25s ease, box-shadow .35s ease; }
+#ah-iceberg[data-ah="on"] .ice-row.absorbing { animation: iceAbsorbPulse 2.2s ease-in-out infinite; }
+#ah-iceberg[data-ah="on"] .ice-row.absorbing .ice-bar-traded i { animation: iceFrostShimmer 2.6s linear infinite; }
+#ah-iceberg[data-ah="on"] .ice-row.absorbing[data-fire="bid"] { animation: iceBidInset 2.2s ease-in-out infinite; }
+#ah-iceberg[data-ah="on"] .ice-row.absorbing[data-fire="ask"] { animation: iceAskInset 2.2s ease-in-out infinite; }
+#ah-iceberg[data-ah="on"] .ice-focus.flash { animation: iceFlash .55s ease-out; }
+#ah-iceberg[data-ah="on"] .ice-ev.enter { animation: iceEvIn .45s cubic-bezier(.2, .7, .3, 1); }
+@keyframes iceAbsorbPulse {
+  0%, 100% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--ice-teal) 18%, transparent), 0 0 16px var(--ice-glow); }
+  50% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--ice-teal) 34%, transparent), 0 0 30px var(--ice-glow); }
+}
+@keyframes iceFrostShimmer { 0% { filter: brightness(1); } 50% { filter: brightness(1.22); } 100% { filter: brightness(1); } }
+@keyframes iceBidInset { 0%, 100% { box-shadow: inset 0 0 0 0 color-mix(in srgb, var(--ice-up) 0%, transparent), 0 0 18px var(--ice-glow); } 50% { box-shadow: inset 0 0 22px -6px color-mix(in srgb, var(--ice-up) 60%, transparent), 0 0 26px var(--ice-glow); } }
+@keyframes iceAskInset { 0%, 100% { box-shadow: inset 0 0 0 0 color-mix(in srgb, var(--ice-down) 0%, transparent), 0 0 18px var(--ice-glow); } 50% { box-shadow: inset 0 0 22px -6px color-mix(in srgb, var(--ice-down) 60%, transparent), 0 0 26px var(--ice-glow); } }
+@keyframes iceFlash { from { background-color: color-mix(in srgb, var(--ice-teal) 12%, var(--ice-card)); } to { background-color: var(--ice-card); } }
+@keyframes iceEvIn { from { transform: translateY(-8px); } to { transform: translateY(0); } }

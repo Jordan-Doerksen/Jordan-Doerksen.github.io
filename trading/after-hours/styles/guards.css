@@ -1,0 +1,119 @@
+/* 08 guards - the sabotage terminal: a category wall and one live case. Tokens come from core.css; the
+   hex fallbacks are the same values. Live enhancements key on #ah-guards[data-ah="on"] only. Nothing here
+   hides content: the per-pass tallies wear core's .ah-live-only, the one class allowed to. */
+
+#ah-guards .ah-g-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+#ah-guards .ah-g-premise { margin: 0; max-width: 62ch; color: var(--ink-2, #A9B6C6); }
+#ah-guards .ah-g-count { margin: 0; color: var(--ink, #EAF0F7); }
+#ah-guards .ah-g-n { font-family: var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); font-weight: 600; color: var(--live, #39BDF8); }
+#ah-guards .ah-g-counted { display: inline-block; font-family: var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); font-size: 12px; color: var(--ink-3, #8E9BAD); }
+#ah-guards .ah-g-wall-label { margin: 0 0 10px; font: 500 11px/1.5 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3, #8E9BAD); }
+
+/* ---- the wall: tiles around one card ------------------------------------------------------------
+   Phone: the card, then one tile a row. From 560 px: the card across the top, tiles two a row. From
+   1080 px: three tiles down each side, the card in the middle. The list is display:contents so its
+   items sit in the wall's grid; role="list" in the markup keeps the list semantics. */
+#ah-guards .ah-g-wall { display: grid; grid-template-columns: minmax(0, 1fr); grid-auto-flow: row dense; gap: 12px; }
+#ah-guards .ah-g-fams { display: contents; }
+#ah-guards .ah-g-card { order: -1; }
+@media (min-width: 560px) {
+  #ah-guards .ah-g-wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #ah-guards .ah-g-card { grid-column: 1 / -1; }
+}
+@media (min-width: 1080px) {
+  #ah-guards .ah-g-wall { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr); gap: 14px; }
+  #ah-guards .ah-g-card { order: 0; grid-column: 2; grid-row: 1 / span 3; }
+  #ah-guards .ah-g-fam:nth-child(-n+3) { grid-column: 1; }
+  #ah-guards .ah-g-fam:nth-child(n+4) { grid-column: 3; }
+}
+
+/* ---- a family tile ------------------------------------------------------------------------------ */
+#ah-guards .ah-g-fam { display: flex; flex-direction: column; gap: 6px; min-width: 0; margin: 0; padding: 14px 16px 12px; background: var(--deep, #0E141C); border: 1px solid var(--hair, #24303E); border-radius: 8px; }
+#ah-guards .ah-g-fam p { margin: 0; }
+#ah-guards .ah-g-fam-label { font: 600 15px/1.3 var(--sans, "Space Grotesk", system-ui, sans-serif); color: var(--ink, #EAF0F7); }
+#ah-guards .ah-g-fam-n { font: 400 13px/1.2 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); color: var(--ink-2, #A9B6C6); }
+#ah-guards .ah-g-fam-n .ah-g-n { margin-right: 2px; font-size: clamp(26px, 2.4vw, 34px); line-height: 1.05; letter-spacing: -.02em; }
+#ah-guards .ah-g-fam-roles { font: 400 12.5px/1.5 var(--sans, "Space Grotesk", system-ui, sans-serif); color: var(--ink-2, #A9B6C6); }
+#ah-guards .ah-g-dot { color: var(--ink-3, #8E9BAD); }
+#ah-guards .ah-g-fam-pass { margin-top: auto; padding-top: 7px; border-top: 1px solid var(--hair, #24303E); font: 400 11.5px/1.4 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); color: var(--ink-2, #A9B6C6); }
+#ah-guards .ah-g-fam-pass b { color: var(--ink, #EAF0F7); font-weight: 600; }
+#ah-guards .ah-g-ok { color: var(--up, #46C98A); }
+
+/* ---- the card ------------------------------------------------------------------------------------ */
+#ah-guards .ah-g-card { display: flex; flex-direction: column; min-width: 0; background: var(--deep, #0E141C); border: 1px solid var(--hair-fn, #6C7A8C); border-radius: 10px; }
+#ah-guards .ah-g-bar { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 0; padding: 9px 14px; border-bottom: 1px solid var(--hair, #24303E); font: 500 11px/1.5 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3, #8E9BAD); }
+#ah-guards .ah-g-bar-name { color: var(--ink-2, #A9B6C6); }
+#ah-guards .ah-g-status { margin-left: auto; color: var(--ink-2, #A9B6C6); }
+#ah-guards .ah-g-status[data-state="playing"] { color: var(--live, #39BDF8); }
+#ah-guards .ah-g-status[data-state="ended"] { color: var(--up, #46C98A); }
+
+#ah-guards .ah-g-stage { display: grid; align-content: center; gap: 14px; flex: 1 1 auto; min-width: 0; padding: 16px; }
+#ah-guards .ah-g-case { display: grid; align-content: start; gap: 8px; min-width: 0; }
+#ah-guards .ah-g-case + .ah-g-case { padding-top: 14px; border-top: 1px dashed var(--hair-fn, #6C7A8C); }
+#ah-guards .ah-g-case p { margin: 0; }
+#ah-guards .ah-g-case-fam { font: 500 11px/1.5 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); letter-spacing: .08em; text-transform: uppercase; color: var(--live, #39BDF8); }
+#ah-guards .ah-g-row { display: grid; grid-template-columns: 7.2em minmax(0, 1fr); gap: 2px 12px; align-items: baseline; margin: 0 -6px; padding: 4px 6px; border-radius: 6px; }
+#ah-guards .ah-g-k { font: 500 11px/1.6 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3, #8E9BAD); }
+#ah-guards .ah-g-x { color: var(--down, #F47265); }
+#ah-guards .ah-g-v { min-width: 0; }
+#ah-guards .ah-g-broke .ah-g-v { font-size: 16px; line-height: 1.5; color: var(--ink, #EAF0F7); }
+#ah-guards .ah-g-where { display: block; font-weight: 600; }
+#ah-guards .ah-g-test { font: 500 13.5px/1.5 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); color: var(--live, #39BDF8); overflow-wrap: anywhere; word-break: break-word; }
+#ah-guards .ah-g-test[data-state="waiting"] { color: var(--ink-2, #A9B6C6); }
+#ah-guards .ah-g-stamp { display: inline-flex; align-items: center; gap: 6px; padding: 3px 12px; border: 2px solid var(--up, #46C98A); border-radius: 4px; font: 700 13px/1.4 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); letter-spacing: .16em; color: var(--up, #46C98A); transform: rotate(-2deg); }
+#ah-guards .ah-g-stamp[data-state="waiting"] { border-color: var(--hair-fn, #6C7A8C); font-weight: 500; letter-spacing: .08em; color: var(--ink-2, #A9B6C6); transform: none; }
+#ah-guards .ah-g-wait { color: var(--ink-2, #A9B6C6); }
+
+#ah-guards .ah-g-tally { margin: 0; padding: 10px 14px; border-top: 1px solid var(--hair, #24303E); font: 400 12.5px/1.5 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); color: var(--ink-2, #A9B6C6); }
+#ah-guards .ah-g-tally [data-ah-g-caught] { color: var(--up, #46C98A); }
+#ah-guards .ah-g-end { margin: 0; padding: 10px 14px 12px; border-top: 1px solid var(--hair, #24303E); font: 400 12px/1.5 var(--mono, "JetBrains Mono", ui-monospace, Consolas, monospace); color: var(--ink-2, #A9B6C6); }
+
+#ah-guards .ah-caption { margin: 16px 0 0; max-width: 78ch; font-size: 13.5px; line-height: 1.55; color: var(--ink-3, #8E9BAD); }
+
+/* Wide: the card holds the middle of the wall, so its one case reads larger. */
+@media (min-width: 1080px) {
+  #ah-guards .ah-g-stage { padding: 20px 22px; }
+  #ah-guards .ah-g-case { gap: 12px; }
+  #ah-guards .ah-g-case-fam { font-size: 12px; }
+  #ah-guards .ah-g-broke .ah-g-v { font-size: 19px; line-height: 1.45; }
+  #ah-guards .ah-g-test { font-size: 15px; }
+  #ah-guards .ah-g-stamp { font-size: 15px; padding: 4px 14px; }
+}
+
+/* Narrow: each row's label sits above its value. */
+@media (max-width: 519px) {
+  #ah-guards .ah-g-row { grid-template-columns: minmax(0, 1fr); }
+  #ah-guards .ah-g-stage { padding: 14px; }
+  #ah-guards .ah-g-broke .ah-g-v { font-size: 15px; }
+  #ah-guards .ah-g-test { font-size: 12.5px; }
+}
+
+/* ---- live only: one case at a time --------------------------------------------------------------
+   Keyframes move background-color, box-shadow, text-shadow or transform only; nothing animates opacity.
+   The flash tints are capped so every text on them keeps its floor at the peak (ink-2 8.2:1 on the tile
+   flash, ink-3 5.5:1 on the row flashes, measured on --deep). */
+#ah-guards[data-ah="on"] .ah-g-fam { transition: border-color 450ms var(--ease, cubic-bezier(.2, .7, .2, 1)); }
+#ah-guards[data-ah="on"] .ah-g-fam[data-ah-g-on] { border-color: var(--live, #39BDF8); }
+#ah-guards[data-ah="on"] .ah-g-fam[data-ah-g="hit"] { animation: ah-g-hit 900ms var(--ease, cubic-bezier(.2, .7, .2, 1)) 1; }
+#ah-guards[data-ah="on"] .ah-g-fam[data-ah-g="hit"] [data-ah-g-pass] { animation: ah-g-num 900ms var(--ease, cubic-bezier(.2, .7, .2, 1)) 1; }
+#ah-guards[data-ah="on"] .ah-g-case[data-phase="broke"] .ah-g-broke { animation: ah-g-broke 700ms var(--ease, cubic-bezier(.2, .7, .2, 1)) 1; }
+#ah-guards[data-ah="on"] .ah-g-case[data-phase="by"] .ah-g-by { animation: ah-g-by 700ms var(--ease, cubic-bezier(.2, .7, .2, 1)) 1; }
+#ah-guards[data-ah="on"] .ah-g-case[data-phase="caught"] .ah-g-stamp { animation: ah-g-stamp 600ms cubic-bezier(.2, .7, .2, 1) 1; }
+
+@keyframes ah-g-broke { 0% { background-color: rgba(244, 114, 101, .14); } 100% { background-color: rgba(244, 114, 101, 0); } }
+@keyframes ah-g-by { 0% { background-color: rgba(57, 189, 248, .12); } 100% { background-color: rgba(57, 189, 248, 0); } }
+@keyframes ah-g-stamp {
+  0% { transform: scale(1.35) rotate(-7deg); box-shadow: 0 0 0 rgba(70, 201, 138, 0); }
+  55% { transform: scale(.97) rotate(-1.5deg); box-shadow: 0 0 18px rgba(70, 201, 138, .55); }
+  100% { transform: scale(1) rotate(-2deg); box-shadow: 0 0 0 rgba(70, 201, 138, 0); }
+}
+@keyframes ah-g-hit {
+  0% { background-color: rgba(70, 201, 138, .06); box-shadow: 0 0 0 1px rgba(70, 201, 138, .9), 0 0 22px rgba(70, 201, 138, .3); }
+  100% { background-color: var(--deep, #0E141C); box-shadow: 0 0 0 1px rgba(70, 201, 138, 0), 0 0 0 rgba(70, 201, 138, 0); }
+}
+@keyframes ah-g-num { 0% { text-shadow: 0 0 10px rgba(70, 201, 138, .95), 0 0 2px rgba(70, 201, 138, .9); } 100% { text-shadow: 0 0 0 rgba(70, 201, 138, 0); } }
+
+/* Reduced motion: core.css kills every animation and transition; this repeats it for this piece alone. */
+@media (prefers-reduced-motion: reduce) {
+  #ah-guards, #ah-guards * { animation: none !important; transition: none !important; }
+}

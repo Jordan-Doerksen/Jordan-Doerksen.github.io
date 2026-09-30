@@ -1,0 +1,19 @@
+/* After Hours — 10 ambient: the quant sky.
+ * One fixed canvas behind every card, pointer-events none, at z 0: core.css positions the head,
+ * the cards and the foot at z 1, the band at z 5 and the scanner canvas at z 9, so this lane
+ * shows only in the gutters and the gaps between opaque cards. No keyframes here: the drawing is
+ * script, the sheet is placement (the site's own sky canvas rule, re-homed at z 0 because the
+ * page's ground is on <body>, not behind it). Nothing hides it but core's .ah-live-only gate;
+ * with nothing drawn it is transparent and the ground shows through. */
+.ah-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  pointer-events: none;
+}

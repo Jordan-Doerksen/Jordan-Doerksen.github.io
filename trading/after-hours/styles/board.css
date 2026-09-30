@@ -1,0 +1,178 @@
+/* 01 board — the cockpit wakes.
+   Colours are the page tokens from core.css with the same hex as a fallback, so the sheet also stands alone.
+   The five keyframes at the foot are copied from the desk's cockpit sheet (web/live/styles.css: flash :1092,
+   tickUp/tickDown :1095-1096, factorFlip :1147, vpulse :1152) with the page tokens in place of the desk's and a
+   bd prefix so no other piece's copy collides. None of them, and nothing else here, animates opacity on content.
+   Every animation is scoped under #ah-board[data-ah="on"], which the core sets only while the piece is live
+   and never under reduced motion. Nothing here is ever display:none or overflow:hidden with nowrap. */
+
+.bd{ min-width:0; }
+
+/* ── header: core's .ah-piece-head pattern, repeated here so the sheet stands alone. The label drops to its own
+   line when it does not fit and the h2 is never squeezed (a grid with an auto column starved the h2 to one letter
+   a line between 561 and 750 px). The caption sits AFTER the header, as 02's lede does: inside a flex header its
+   max-width clamps its flex basis and it climbs onto the label's row from about 1520 px up. ── */
+.bd-head{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px 16px; }
+.bd-h2{ margin:0; color:var(--ink,#EAF0F7); }   /* size and weight come from core's .ah-piece h2 */
+.bd-cap{ margin:0; max-width:66ch; font-size:15px; line-height:1.55; color:var(--ink-2,#A9B6C6); }   /* the gap above it is the header's core margin */
+
+/* ── the shell: a dark well the deskbar, rail and footbar assemble inside ── */
+.bd-shell{
+  margin-top:18px; min-width:0; display:flex; flex-direction:column; gap:12px;
+  padding:clamp(10px, 2vw, 16px); border-radius:8px;
+  background:var(--deep,#0E141C); border:1px solid var(--hair-fn,#6C7A8C);
+}
+.bd-part{ min-width:0; }
+
+/* deskbar */
+.bd-topbar{
+  display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px;
+  font-family:"JetBrains Mono", ui-monospace, Consolas, monospace; font-size:11.5px; letter-spacing:.06em;
+  color:var(--ink-2,#A9B6C6);
+}
+.bd-sym, .bd-pill{
+  display:inline-flex; align-items:center; gap:8px; padding:5px 11px; border-radius:999px;
+  background:var(--card,#131922); border:1px solid var(--hair-fn,#6C7A8C);
+}
+.bd-lbl{ font-size:10px; letter-spacing:.14em; color:var(--ink-3,#8E9BAD); }
+.bd-sym b{ color:var(--ink,#EAF0F7); font-weight:700; }
+.bd-pill{ color:var(--gold,#E0AC4E); }
+.bd-pill .bd-k{ font-weight:600; }
+.bd-dot{ width:7px; height:7px; border-radius:50%; background:currentColor; box-shadow:0 0 9px currentColor; flex:none; }
+.bd-tps{ color:var(--teal,#4FD1CF); font-size:12px; font-variant-numeric:tabular-nums; }
+.bd-tps b{ font-weight:600; }
+.bd-tally{ display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.bd-tally-n{ font-size:14px; font-weight:700; color:var(--ink,#EAF0F7); }
+.bd-chip{
+  display:inline-flex; align-items:center; gap:6px; font-size:10.5px; font-weight:700; letter-spacing:.05em;
+  padding:3px 9px 3px 8px; border-radius:999px; border:1px solid var(--hair-fn,#6C7A8C); background:var(--card,#131922);
+}
+.bd-chip-dot{ width:7px; height:7px; border-radius:50%; background:currentColor; box-shadow:0 0 7px currentColor; flex:none; }
+.bd-bull{ color:var(--up,#46C98A); }
+.bd-bear{ color:var(--down,#F47265); }
+.bd-clock{ margin-left:auto; font-size:12px; color:var(--ink-2,#A9B6C6); font-variant-numeric:tabular-nums; }
+.bd-clock b{ font-weight:600; color:var(--ink,#EAF0F7); }
+
+/* instrument rail: lead card + order-flow card; one column below 720 px */
+.bd-rail{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.35fr); gap:12px; min-width:0; }
+@media (max-width:719px){ .bd-rail{ grid-template-columns:minmax(0,1fr); } }
+.bd-card{
+  min-width:0; padding:14px; border-radius:8px;
+  background:var(--card,#131922); border:1px solid var(--hair,#24303E);
+}
+.bd-ttl{
+  font-family:"JetBrains Mono", ui-monospace, Consolas, monospace; font-size:10px; letter-spacing:.16em;
+  text-transform:uppercase; font-weight:600; color:var(--ink-3,#8E9BAD);
+}
+
+/* price lead */
+.bd-price{
+  margin-top:10px; font-family:"JetBrains Mono", ui-monospace, Consolas, monospace;
+  font-size:clamp(30px, 4.5vw, 40px); line-height:1; font-weight:600; letter-spacing:-.012em;
+  color:var(--ink,#EAF0F7); font-variant-numeric:tabular-nums; border-radius:4px;
+}
+.bd-quote{
+  display:flex; flex-wrap:wrap; gap:4px 14px; margin-top:8px;
+  font-family:"JetBrains Mono", ui-monospace, Consolas, monospace; font-size:11px; letter-spacing:.02em;
+  color:var(--ink-3,#8E9BAD); font-variant-numeric:tabular-nums;
+}
+.bd-quote b{ font-weight:500; color:var(--ink-2,#A9B6C6); }
+
+/* confluence verdict: the chip's colour follows data-conv; the word is always the carrier */
+.bd-verdict{ margin-top:12px; padding-top:11px; border-top:1px solid var(--hair,#24303E); }
+.bd-vlab{ font-size:10px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; color:var(--ink-3,#8E9BAD); }
+.bd-vbadge{
+  --vcol:var(--ink-2,#A9B6C6);
+  display:inline-flex; align-items:center; gap:9px; margin-top:6px; padding:6px 13px; border-radius:10px;
+  font-family:"JetBrains Mono", ui-monospace, Consolas, monospace; font-size:17px; font-weight:700; letter-spacing:.02em;
+  color:var(--vcol); border:1px solid color-mix(in srgb, var(--vcol) 40%, transparent);
+  background:color-mix(in srgb, var(--vcol) 8%, transparent);
+}
+.bd-vbadge[data-conv="high-bull"]{ --vcol:var(--up,#46C98A); }
+.bd-vbadge[data-conv="high-bear"]{ --vcol:var(--down,#F47265); }
+.bd-vbadge[data-conv="building"]{ --vcol:var(--gold,#E0AC4E); }
+.bd-vs{ width:8px; height:8px; border-radius:50%; background:var(--vcol); flex:none; }
+.bd-vsub{
+  margin-top:6px; font-family:"JetBrains Mono", ui-monospace, Consolas, monospace; font-size:10.5px;
+  letter-spacing:.03em; color:var(--ink-2,#A9B6C6);
+}
+.bd-conv{
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:8px; margin-top:8px;
+  font-family:"JetBrains Mono", ui-monospace, Consolas, monospace; font-size:11.5px; color:var(--ink,#EAF0F7);
+}
+.bd-conv b{ font-weight:600; }
+
+/* the three factor rows: id · value + vote · sparkline */
+.bd-factors{ list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; }
+.bd-factor{
+  display:grid; grid-template-columns:minmax(0,1fr) auto 64px; align-items:center; gap:12px;
+  padding:9px 4px; border-top:1px solid var(--hair,#24303E); border-radius:4px;
+}
+.bd-factor:first-child{ border-top:0; }
+.bd-fid{ display:flex; flex-direction:column; gap:3px; min-width:0; }
+.bd-fname{ font-family:"JetBrains Mono", ui-monospace, Consolas, monospace; font-size:15px; font-weight:700; letter-spacing:.08em; color:var(--ink,#EAF0F7); }
+.bd-fsub{ font-size:9.5px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-3,#8E9BAD); }
+.bd-fmid{ display:flex; flex-direction:column; gap:2px; align-items:flex-end; }
+.bd-fnum{
+  font-family:"JetBrains Mono", ui-monospace, Consolas, monospace; font-size:20px; line-height:1; font-weight:600;
+  color:var(--ink,#EAF0F7); font-variant-numeric:tabular-nums;
+}
+.bd-fvote{ font-family:"JetBrains Mono", ui-monospace, Consolas, monospace; font-size:10.5px; font-weight:700; letter-spacing:.05em; color:var(--ink-2,#A9B6C6); }
+.bd-fvote[data-vote="bull"]{ color:var(--up,#46C98A); }
+.bd-fvote[data-vote="bear"]{ color:var(--down,#F47265); }
+/* the sparkline box: the svg draws the line; the layer over it holds one shaded band per run of
+   missing seconds (core.css .ah-gapband), placed by the script in % of the box */
+.bd-sparkbox{ position:relative; display:block; min-width:0; }
+.bd-gaps{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+.bd-spark{ width:100%; height:34px; display:block; }
+.bd-spark path{ fill:none; stroke:var(--ink-2,#A9B6C6); stroke-width:1.7; vector-effect:non-scaling-stroke; stroke-linejoin:round; stroke-linecap:round; }
+.bd-spark[data-vote="bull"] path{ stroke:var(--up,#46C98A); }
+.bd-spark[data-vote="bear"] path{ stroke:var(--down,#F47265); }
+.bd-gapkey{ margin:10px 0 0; padding:0 4px; }   /* the key under the three lines; its look is core's .ah-gapkey */
+@media (max-width:379px){
+  .bd-factor{ grid-template-columns:minmax(0,1fr) auto 44px; gap:8px; }
+  .bd-fnum{ font-size:17px; }
+}
+
+/* footbar: the read-only words, exactly as the cockpit prints them */
+.bd-foot{
+  display:flex; flex-wrap:wrap; align-items:center; gap:9px; padding-top:9px; border-top:1px solid var(--hair,#24303E);
+  font-family:"JetBrains Mono", ui-monospace, Consolas, monospace; font-size:11px; letter-spacing:.04em; color:var(--ink-2,#A9B6C6);
+}
+.bd-ro{ display:inline-flex; align-items:center; gap:6px; color:var(--gold,#E0AC4E); font-weight:600; }
+.bd-ro-dot{ width:6px; height:6px; border-radius:50%; background:var(--gold,#E0AC4E); box-shadow:0 0 8px var(--gold,#E0AC4E); flex:none; }
+.bd-sep{ color:var(--ink-3,#8E9BAD); }   /* text, so >= 4.5:1: --hair-fn read 4.23 on the deep well */
+.bd-feedcap{ margin:10px 0 0; font-family:"JetBrains Mono", ui-monospace, Consolas, monospace; font-size:11px; color:var(--ink-2,#A9B6C6); }
+
+/* ── motion: only while the core has the piece live ── */
+/* the deskbar, both cards and the footbar assemble — transform only, staggered by --i */
+#ah-board[data-ah="on"].bd-wake .bd-part{
+  animation:bdAssemble .62s cubic-bezier(.2,.7,.2,1) both;
+  animation-delay:calc(var(--i, 0) * 110ms);
+}
+@keyframes bdAssemble{ from{ transform:translateY(14px) scale(.985); } to{ transform:none; } }
+
+/* copied from web/live/styles.css :1091-1096 — a background tint on a value change, a directional text glow */
+#ah-board[data-ah="on"] .flash{ animation:bdFlash .55s ease-out; }
+@keyframes bdFlash{ from{ background-color:color-mix(in srgb, var(--teal,#4FD1CF) 12%, transparent); } to{ background-color:transparent; } }
+#ah-board[data-ah="on"] .tick-up{ animation:bdTickUp .5s ease-out; }
+#ah-board[data-ah="on"] .tick-down{ animation:bdTickDown .5s ease-out; }
+@keyframes bdTickUp{ 0%{ text-shadow:0 0 14px var(--up,#46C98A); } 100%{ text-shadow:none; } }
+@keyframes bdTickDown{ 0%{ text-shadow:0 0 14px var(--down,#F47265); } 100%{ text-shadow:none; } }
+
+/* copied from web/live/styles.css :1146-1155 — a factor row flips on a vote change, the chip rings on high conviction */
+#ah-board[data-ah="on"] .bd-factor.flip{ animation:bdFactorFlip .7s ease-out; }
+@keyframes bdFactorFlip{
+  0%{ background-color:color-mix(in srgb, var(--flip-col, var(--teal,#4FD1CF)) 15%, transparent); }
+  100%{ background-color:transparent; }
+}
+#ah-board[data-ah="on"] .bd-vbadge.conv-high{ animation:bdVpulse 1.05s ease-out; }
+@keyframes bdVpulse{
+  0%{ box-shadow:0 0 0 0 color-mix(in srgb, var(--flip-col, var(--up,#46C98A)) 66%, transparent); }
+  100%{ box-shadow:0 0 0 12px transparent; }
+}
+
+/* belt and braces: core.css kills every animation under reduced motion; this sheet does too */
+@media (prefers-reduced-motion: reduce){
+  .bd, .bd *{ animation:none !important; transition:none !important; }
+}

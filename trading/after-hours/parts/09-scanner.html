@@ -1,0 +1,7 @@
+<!-- 09 scanner: the reticle cursor. A fixed full-viewport canvas above the cards (z 9,
+     pointer-events none) that the scanner effect draws on while this piece is live. Decorative
+     only: no text, no desk words, no numbers, so it carries no desk attribute and no placeholder.
+     With script off it is display:none (core's .ah-live-only gate); under reduced motion the
+     gate stays shut and nothing is ever drawn. Core starts it only on a fine pointer; static()
+     draws nothing. -->
+<canvas class="ah-scanner ah-live-only" id="ah-scanner" aria-hidden="true" width="1" height="1"></canvas>

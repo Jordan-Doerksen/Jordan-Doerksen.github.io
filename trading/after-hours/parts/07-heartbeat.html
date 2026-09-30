@@ -1,0 +1,91 @@
+<!-- 07 heartbeat: the operator's ring. Every desk word below is typed from the desk's own scripts and
+     carries its key in data-ah-text; the build fills data-ah-desk and the script repaints from it, so
+     the still is complete before the build and the desk's words win after it. The update segment
+     (arc, legend row, one lede sentence) is conditional on the launcher repo; its name is the
+     launcher's own literal label, since no doctor row names it. Words only, never a count. -->
+<section class="ah-piece ah-hb" id="ah-heartbeat" data-ah-desk="%AH_DESK%" aria-labelledby="ah-hb-title">
+  <header class="ah-hb-head">
+    <p class="ah-hb-kicker">Heartbeat</p>
+    <h2 class="ah-hb-title" id="ah-hb-title">The operator's ring</h2>
+    <span class="ah-syn">SYNTHETIC · the cycles are staged; the words are the desk's own; no figure on this card is generated</span>
+    <p class="ah-hb-lede">Small programs mind the desk and each says what it did. The doctor grades it. The
+      watchdog restarts it, or stands down when the stop was deliberate. The tape backup moves recordings off
+      the machine and refuses when a tape would shrink. <span data-ah-if="monad">The launcher's update pulls new
+      code and proves it before keeping it.</span> One pass of each is staged here, in the desk's own words.</p>
+  </header>
+
+  <div class="ah-hb-body">
+    <div class="ah-hb-ring">
+      <svg class="ah-hb-svg" viewBox="0 0 260 260" aria-hidden="true" focusable="false">
+        <circle class="ah-hb-track" cx="130" cy="130" r="100"/>
+        <g class="ah-hb-arcs" transform="rotate(-90 130 130)">
+          <circle class="ah-hb-arc" data-seg="server" cx="130" cy="130" r="100" pathLength="360" stroke-dasharray="84 276" stroke-dashoffset="-3"/>
+          <circle class="ah-hb-arc" data-seg="watchdog" cx="130" cy="130" r="100" pathLength="360" stroke-dasharray="84 276" stroke-dashoffset="-93"/>
+          <circle class="ah-hb-arc" data-seg="backup" cx="130" cy="130" r="100" pathLength="360" stroke-dasharray="84 276" stroke-dashoffset="-183"/>
+          <circle class="ah-hb-arc" data-seg="update" data-ah-if="monad" cx="130" cy="130" r="100" pathLength="360" stroke-dasharray="84 276" stroke-dashoffset="-273"/>
+        </g>
+        <circle class="ah-hb-progress" cx="130" cy="130" r="116" pathLength="360" stroke-dasharray="0 360" transform="rotate(-90 130 130)"/>
+        <circle class="ah-hb-core" cx="130" cy="130" r="78"/>
+        <g class="ah-hb-hand" transform="rotate(0 130 130)">
+          <line x1="130" y1="46" x2="130" y2="14"/>
+          <circle cx="130" cy="14" r="4"/>
+        </g>
+      </svg>
+      <div class="ah-hb-verdict" data-tone="none">
+        <span class="ah-hb-vlabel">Verdict</span>
+        <b class="ah-hb-vword">—</b>
+      </div>
+    </div>
+
+    <ol class="ah-hb-legend">
+      <li class="ah-hb-seg" data-seg="server" data-tone="none">
+        <div class="ah-hb-seghead"><span class="ah-hb-glyph" aria-hidden="true">—</span>
+          <b class="ah-hb-name" data-ah-text="rowServer">DESK SERVER</b><span class="ah-hb-role">the doctor's row</span></div>
+        <ul class="ah-hb-words">
+          <li class="ah-hb-word" data-word="stHealthy" data-tone="up"><span data-ah-text="stHealthy">HEALTHY</span></li>
+          <li class="ah-hb-word" data-word="stStopped" data-tone="hold"><span data-ah-text="stStopped">STOPPED-ON-PURPOSE</span></li>
+          <li class="ah-hb-word" data-word="vDown" data-tone="down"><span data-ah-text="vDown">DOWN</span></li>
+        </ul>
+      </li>
+      <li class="ah-hb-seg" data-seg="watchdog" data-tone="none">
+        <div class="ah-hb-seghead"><span class="ah-hb-glyph" aria-hidden="true">—</span>
+          <b class="ah-hb-name" data-ah-text="rowWatchdog">WATCHDOG</b><span class="ah-hb-role">its own log line; a quiet pass writes none</span></div>
+        <ul class="ah-hb-words">
+          <li class="ah-hb-word" data-word="standingDown" data-tone="hold"><span data-ah-text="standingDown">STANDING DOWN</span></li>
+          <li class="ah-hb-word" data-word="notAnswering" data-tone="down"><span data-ah-text="notAnswering">DESK NOT ANSWERING</span></li>
+        </ul>
+      </li>
+      <li class="ah-hb-seg" data-seg="backup" data-tone="none">
+        <div class="ah-hb-seghead"><span class="ah-hb-glyph" aria-hidden="true">—</span>
+          <b class="ah-hb-name" data-ah-text="rowBackup">TAPE BACKUP</b><span class="ah-hb-role">the doctor's row, then the backup's refusal</span></div>
+        <ul class="ah-hb-words">
+          <li class="ah-hb-word" data-word="stFresh" data-tone="up"><span data-ah-text="stFresh">FRESH</span></li>
+          <li class="ah-hb-word" data-word="stUnpushed" data-tone="warn"><span data-ah-text="stUnpushed">TAPES-UNPUSHED</span></li>
+          <li class="ah-hb-word" data-word="stStale" data-tone="warn"><span data-ah-text="stStale">STALE</span></li>
+          <li class="ah-hb-word" data-word="regression" data-tone="down"><span data-ah-text="regression">TAPE REGRESSION</span></li>
+        </ul>
+      </li>
+      <li class="ah-hb-seg" data-seg="update" data-tone="none" data-ah-if="monad">
+        <div class="ah-hb-seghead"><span class="ah-hb-glyph" aria-hidden="true">—</span>
+          <b class="ah-hb-name">Update</b><span class="ah-hb-role">the launcher's verdict</span></div>
+        <ul class="ah-hb-words">
+          <li class="ah-hb-word" data-word="upToDate" data-tone="up"><span data-ah-text="upToDate">UP_TO_DATE</span></li>
+          <li class="ah-hb-word" data-word="updateAvailable" data-tone="warn"><span data-ah-text="updateAvailable">UPDATE_AVAILABLE</span></li>
+          <li class="ah-hb-word" data-word="localAhead" data-tone="warn"><span data-ah-text="localAhead">LOCAL_AHEAD</span></li>
+          <li class="ah-hb-word" data-word="diverged" data-tone="down"><span data-ah-text="diverged">DIVERGED</span></li>
+          <li class="ah-hb-word" data-word="dirty" data-tone="warn"><span data-ah-text="dirty">DIRTY</span></li>
+          <li class="ah-hb-word" data-word="noUpstream" data-tone="warn"><span data-ah-text="noUpstream">NO_UPSTREAM</span></li>
+          <li class="ah-hb-word" data-word="unknown" data-tone="warn"><span data-ah-text="unknown">UNKNOWN</span></li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <p class="ah-hb-cap">Synthetic cycles · not a running desk. The doctor's report rows are
+    <span data-ah-text="rowServer">DESK SERVER</span> · <span data-ah-text="rowEngine">0DTE ENGINE</span> ·
+    <span data-ah-text="rowWatchdog">WATCHDOG</span> · <span data-ah-text="rowBackup">TAPE BACKUP</span> ·
+    <span data-ah-text="rowJob">SCHEDULED JOB</span>; its verdict is one of <span data-ah-text="vOk">OK</span> ·
+    <span data-ah-text="vDegraded">DEGRADED</span> · <span data-ah-text="vDown">DOWN</span>. The ring stages the rows
+    that have a program of their own. The verdict keeps the doctor's order: a deliberate stop is not a fault; a tape
+    that has not left the machine is.</p>
+</section>
