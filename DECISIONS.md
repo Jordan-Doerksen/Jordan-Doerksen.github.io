@@ -433,6 +433,38 @@ not just for tier 3.
 - Should the site's own entry link this DECISIONS.md as a live example? (Nice-to-have.)
 
 ## Change Log
+- 2026-09-28 — **CR-20 (owner ruling, five interview answers): a hidden showcase page of the
+  trading-desk system, dark and motion-heavy, with the Stagecraft skin rules and the
+  ambient-motion ban waived for that one page.** The owner asked for a flashy, live-feeling page
+  showing the desk system and all its functions, reachable only by its link, with permission to
+  break every Stagecraft rule needed; interviewed down to five verdicts before building.
+  **The verdicts.** (1) A synthetic feed drives every moving part; the words, formats and limits
+  it prints are the desk's own, read from the desk's source at build and checked against it, a
+  miss failing the build. No screenshots, no desk start, no replay. (2) The Stagecraft skin rules
+  (tokens-only colour, the `sc-` namespace) and D-A09's idle-motion ban are waived for this page
+  only. The bible's bones stay: content on opaque cards, one director per viewport, at most three
+  clusters, contrast, content in markup, no sideways scroll, `prefers-reduced-motion` a complete
+  still with no timer. (3) Scope: the desk and its satellites — cockpit, absorption ladder, alert
+  wire, system mesh, regime dial, 0DTE skew, doctor/watchdog/backup ring, sabotage terminal, a
+  reticle cursor and an ambient canvas; the trading bot is exactly one fenced sentence; the rule
+  manual is one sentence on enforcement grades, no identifiers. (4) A hidden page: `noindex,
+  nofollow` and `no-referrer`, zero inbound links, in no registry, data file, template, footer or
+  docs page; this entry names no path on purpose. Hidden means unlinked, not private. (5) Numbers
+  generated only, under D-A21: `data/evidence.json` and `data/guards.json` regenerated against the
+  desk at its current commit and printed with their stamps; anything ungenerated is omitted.
+  **Labels and gates.** Every moving or synthetic element carries a visible SYNTHETIC label and a
+  sticky band says so for the page; absent data draws as a gap, never as zero; no third-party
+  script, Google Fonts only. The page has its own composer under `scripts/`, which injects the desk
+  strings and runs a forbidden-strings check over every file it touches and the two data files,
+  refusing the build on a hit; its design contract sits under `docs/`.
+  **Side effects on the site's data.** `scripts/evidence_sources.json` now points the desk source
+  at the worktree on the desk's main line and excludes the other worktree folders from the commit
+  scan (the desk history was otherwise counted once per worktree). `scripts/build_guards.py` reads
+  the split case list (`tests/sabotage.cases.ps1`) and publishes each guard as test, file,
+  mutation and exists only, dropping the raw find/replace text: no live page reads it, and the two
+  superseded tier-2 drafts that did are left on disk as before. Both data files are regenerated;
+  the front page's figures change when `site_compose.py` next runs.
+  Everything else in force. The owner eyeballs the motion from disk before any push.
 - 2026-09-27 — **CR-19 (owner ruling): "Absent is not zero", a playable desk toy in tier 2 — a
   second JavaScript dependency under D-A25's Change Rule, and the Change Request D-A21's rule
   requires for figures with no source in `evidence_sources.json`.**
