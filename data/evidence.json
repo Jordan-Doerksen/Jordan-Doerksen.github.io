@@ -1,20 +1,20 @@
 {
   "schema": 1,
   "_": "GENERATED - do not hand-edit. Rebuild with scripts/build_evidence_snapshot.py. Every figure carries a `method`; 'unavailable' means we could not look, never zero.",
-  "generated": "2026-09-08T04:01:04+00:00",
+  "generated": "2026-09-30T00:29:05+00:00",
   "generatedBy": "scripts/build_evidence_snapshot.py",
-  "siteCommit": "42d3a3c",
+  "siteCommit": "1bd7362",
   "suitesExecuted": true,
   "commitActivity": {
     "method": "counted",
     "since": "2025-09-07",
-    "repos": 71,
-    "commits": 1752,
+    "repos": 87,
+    "commits": 2204,
     "earliest": "2026-05-18"
   },
   "totals": {
     "method": "counted",
-    "ownTestFiles": 575,
+    "ownTestFiles": 382,
     "ownSourcesCounted": 6,
     "excludedAsInherited": [
       "warden"
@@ -27,21 +27,21 @@
       "id": "trading-desk",
       "label": "Trading desk",
       "own": true,
-      "path": "trading/trading-desk",
+      "path": "trading/td-wt-queue-0927",
       "note": "Guard suite. The sabotage harness in tests/sabotage.ps1 proves the guards bite.",
-      "commit": "4780e3a",
+      "commit": "c7310dd",
       "tests": {
         "method": "counted",
-        "files": 282
+        "files": 165
       },
       "suite": {
         "method": "executed",
         "exit_code": 0,
         "green": true,
-        "passed": 616,
+        "passed": 1244,
         "failed": 0,
-        "skipped": 2,
-        "summary_line": "616 passed, 2 skipped in 71.49s (0:01:11)"
+        "skipped": 5,
+        "summary_line": "1244 passed, 5 skipped, 1 warning in 297.60s (0:04:57)"
       }
     },
     {
@@ -52,7 +52,7 @@
       "commit": "7937c75",
       "tests": {
         "method": "counted",
-        "files": 215
+        "files": 35
       }
     },
     {
@@ -71,7 +71,7 @@
       "label": "Sentinel Pro v3",
       "own": true,
       "path": "trading/sentinel-pro-v3",
-      "commit": "22012e7",
+      "commit": "bdfd533",
       "tests": {
         "method": "counted",
         "files": 25
@@ -82,10 +82,10 @@
       "label": "Map Reading Trainer",
       "own": true,
       "path": "map-reading-trainer",
-      "commit": "9fe9256",
+      "commit": "b185db9",
       "tests": {
         "method": "counted",
-        "files": 24
+        "files": 128
       }
     },
     {
@@ -93,7 +93,7 @@
       "label": "Underwriter",
       "own": true,
       "path": "trading/underwriter",
-      "commit": "41eac43",
+      "commit": "21f2cd0",
       "tests": {
         "method": "counted",
         "files": 3
@@ -108,7 +108,7 @@
       "commit": "2ee554c",
       "tests": {
         "method": "counted",
-        "files": 1345
+        "files": 731
       }
     }
   ]

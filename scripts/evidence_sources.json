@@ -7,16 +7,22 @@
 
   "commitWindow": {
     "since": "2025-09-07",
-    "_": "Counted across every git repo found under projectsRoot, excluding the paths below. The snapshot reports the EARLIEST commit found in the window too, so the page can say 'four months', not 'a year', without anyone doing the arithmetic by hand."
+    "authors": ["Jordan Doerksen", "Jordan-Doerksen"],
+    "_": "Counted across every git repo found under projectsRoot, excluding the paths below, and only commits whose author matches one of `authors` (git --author patterns, ORed): a forked repo carries its upstream author's history, which is not his work. The snapshot reports the EARLIEST commit found in the window too, so the page can say 'four months', not 'a year', without anyone doing the arithmetic by hand."
   },
 
-  "scanExclude": ["_archive", "_backups", "_to_delete", "node_modules", "target", ".git"],
+  "_scanExclude": "A repo checked out in more than one worktree is counted once. The commit scan globs every */.git and */*/.git and a linked worktree's .git file matches, so every linked-worktree folder is excluded here EXCEPT the one `sources[trading-desk].path` names (the desk's own folder is never in this list, or its tests would count zero); the lagging main desk checkout (trading-desk) is excluded for the same reason, and st-wt-v4 is a second worktree of the bot repo. Test counts also skip vendored third-party code and copies: runtime (an embedded Python's bundled packages and their test files), .venv, and worktrees (agent worktree copies of the same repo). A new linked worktree must be added here, or its history counts twice.",
+  "scanExclude": ["_archive", "_backups", "_to_delete", "node_modules", "target", ".git",
+                  "runtime", ".venv", "worktrees",
+                  "trading-desk", "td-wt-backtest", "td-wt-bellwether", "td-wt-ci", "td-wt-dst", "td-wt-engine",
+                  "td-wt-nqrty", "td-wt-q-asia", "td-wt-q-cal", "td-wt-q-tables", "td-wt-signals",
+                  "st-wt-v4"],
 
   "sources": [
     {
       "id": "trading-desk",
       "label": "Trading desk",
-      "path": "trading/trading-desk",
+      "path": "trading/td-wt-queue-0927",
       "own": true,
       "testPatterns": ["test_*.py", "*_test.py"],
       "suite": { "cmd": ["python", "-m", "pytest", "tests", "-q"], "parser": "pytest" },

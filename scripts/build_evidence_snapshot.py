@@ -194,8 +194,15 @@ def measure_source(src, projects_root, exclude, run_suites, log):
     return entry
 
 
-def scan_commits(projects_root, since, exclude, log):
-    """Count commits since `since` across every git repo under projects_root."""
+def scan_commits(projects_root, since, exclude, log, authors=()):
+    """Count commits since `since` across every git repo under projects_root.
+
+    `authors` (commitWindow.authors) limits the count to the owner's own commits. Without it a
+    forked repo counted its upstream author's history as his: on 2026-09-29 two game forks put
+    10 commits by the original author into the total and moved `earliest` from 2026-05-18 back
+    to 2025-12-13, a date that was not his work. git ORs repeated --author patterns.
+    """
+    who = ["--author=%s" % a for a in authors]
     repos = 0
     commits = 0
     earliest = None
@@ -204,12 +211,12 @@ def scan_commits(projects_root, since, exclude, log):
         repo = gitdir.parent
         if any(part in exclude for part in repo.parts):
             continue
-        count = git(repo, "rev-list", "--count", "--since=%s" % since, "HEAD")
+        count = git(repo, "rev-list", "--count", "--since=%s" % since, *who, "HEAD")
         if count is None or not count.isdigit() or int(count) == 0:
             continue
         repos += 1
         commits += int(count)
-        first = git(repo, "log", "--reverse", "--format=%ad", "--date=short", "--since=%s" % since)
+        first = git(repo, "log", "--reverse", "--format=%ad", "--date=short", "--since=%s" % since, *who)
         if first:
             first = first.splitlines()[0]
             if earliest is None or first < earliest:
@@ -269,7 +276,8 @@ def main():
         "generatedBy": "scripts/build_evidence_snapshot.py",
         "siteCommit": git(REPO_ROOT, "rev-parse", "--short", "HEAD"),
         "suitesExecuted": run_suites,
-        "commitActivity": scan_commits(projects_root, config["commitWindow"]["since"], exclude, log),
+        "commitActivity": scan_commits(projects_root, config["commitWindow"]["since"], exclude, log,
+                                       config["commitWindow"].get("authors", [])),
         "totals": {
             "method": "counted",
             "ownTestFiles": sum(s["tests"]["files"] for s in own),

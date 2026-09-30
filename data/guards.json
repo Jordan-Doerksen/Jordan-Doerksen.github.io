@@ -1,15 +1,15 @@
 {
   "schema": 1,
   "_": "GENERATED - do not hand-edit. Rebuild with scripts/build_guards.py. A guard whose test no longer exists is EXCLUDED, never shown, and counted in `stale`.",
-  "generated": "2026-09-08T04:44:46+00:00",
+  "generated": "2026-09-30T02:51:40+00:00",
   "source": {
     "repo": "trading-desk",
-    "file": "tests/sabotage.ps1",
-    "commit": "4780e3a"
+    "file": "tests/sabotage.cases.ps1",
+    "commit": "c7310dd"
   },
   "premise": "A test that has never failed is not a guard - it is a green light of unknown wiring. Each case below is driven into the failure it exists to catch, then the tree is restored and the restore is proven by SHA256.",
   "counts": {
-    "published": 90,
+    "published": 728,
     "staleExcluded": 0,
     "staleTests": []
   },
@@ -17,902 +17,4370 @@
     {
       "test": "test_every_bat_is_crlf_on_disk",
       "file": "stop-desk.bat",
-      "find": null,
-      "replace": null,
-      "append": null,
-      "mode": "ToLF",
       "exists": true,
-      "mutation": "Rewrites the file's line endings (ToLF), which is the exact condition the guard exists to reject."
+      "mutation": "Converts the file's Windows line endings to Unix ones, which the guard exists to reject."
     },
     {
       "test": "test_every_operator_script_writes_a_log",
       "file": "start-desk.bat",
-      "find": "logs\\ops",
-      "replace": "logs\\nope",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_every_operator_script_pauses",
       "file": "stop-desk.bat",
-      "find": "`r`npause`r`n",
-      "replace": "`r`nrem no pause`r`n",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_stop_sets_the_pause_flag_before_it_kills_anything",
       "file": "stop-desk.bat",
-      "find": "type nul > \"%ROOT%.pause\" 2>nul",
-      "replace": "rem sabotage: flag not set",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_stop_kills_the_watchdog_and_not_merely_the_server",
       "file": "stop-desk.bat",
-      "find": "match 'desk-watchdog'",
-      "replace": "match 'nothing-at-all'",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_process_kills_match_on_command_line_not_image_name",
       "file": "stop-desk.bat",
-      "find": null,
-      "replace": null,
-      "append": "taskkill /IM python.exe /F",
-      "mode": null,
       "exists": true,
       "mutation": "Appends a line the guard must refuse to accept."
     },
     {
       "test": "test_update_verifies_its_own_temp_copy",
       "file": "update-desk.bat",
-      "find": "if not exist \"%TEMP%\\_desk_update.bat\" (",
-      "replace": "if 1==2 (",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_update_can_actually_roll_back",
       "file": "update-desk.bat",
-      "find": "git reset --hard !BACKTO!",
-      "replace": "rem sabotage: no rollback",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_operator_argument_survives_the_temp_re_exec",
       "file": "update-desk.bat",
-      "find": "if /i \"%~3\"==\"rollback\" goto rollback_only",
-      "replace": "rem if /i \"%~3\"==\"rollback\" goto rollback_only",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Switches off the protected line by commenting it out."
     },
     {
       "test": "test_the_rollback_refuses_to_discard_uncommitted_work",
       "file": "update-desk.bat",
-      "find": "for /f \"delims=\" %%D in ('git status --porcelain 2^>nul') do set \"DIRTY=1\"",
-      "replace": "rem sabotage: nothing asks whether the tree is dirty",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_update_records_last_good_only_after_a_health_check",
       "file": "update-desk.bat",
-      "find": "git tag -f last-good",
-      "replace": "rem sabotage: never tagged",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_no_launcher_treats_a_health_timeout_as_success",
       "file": "update-desk.bat",
-      "find": "if !tries! geq 20 goto desk_failed",
-      "replace": "if !tries! geq 20 goto desk_ok",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_read_back_refuses_a_self_resolving_startup_file",
       "file": "probe/install-autostart.ps1",
-      "find": "if ($written -match 'GetParentFolderName') {",
-      "replace": "if ($false) {",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_update_refreshes_the_autostart_entry",
       "file": "update-desk.bat",
-      "find": "  powershell -NoProfile -ExecutionPolicy Bypass -File \"%ROOT%probe\\install-autostart.ps1\" >>\"%LOG%\" 2>&1",
-      "replace": "  rem sabotage: the Startup entry is never refreshed",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_start_installs_autostart_through_the_generator",
       "file": "start-desk.bat",
-      "find": "  powershell -NoProfile -ExecutionPolicy Bypass -File \"%ROOT%probe\\install-autostart.ps1\" >>\"%LOG%\" 2>&1",
-      "replace": "  rem sabotage: autostart is never installed",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_update_desk_also_refreshes_the_regime_page",
       "file": "update-desk.bat",
-      "find": "  start \"\" wscript.exe \"%ROOT%regime-hidden.vbs\"",
-      "replace": "  rem sabotage: the Regime page is never refreshed",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_session_boundary_is_proven_by_running_it",
       "file": "update-regime.bat",
-      "find": "[TimeSpan]'16:15:00'",
-      "replace": "[TimeSpan]'09:15:00'",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Changes a number in the protected text."
     },
     {
       "test": "test_the_auto_grade_marker_keys_on_the_session_not_the_run_date",
       "file": "update-regime.bat",
-      "find": "ConvertTimeBySystemTimeZoneId(",
-      "replace": "ConvertTimeBySystemTimeZoneIdBROKEN(",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_regime_launcher_checks_the_desk_is_up_first",
       "file": "update-regime.bat",
-      "find": "curl -fs -o NUL --max-time 5 \"%HEALTH%\" >nul 2>&1",
-      "replace": "rem sabotage: the desk is never probed",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_watchdog_stands_down_on_the_pause_flag",
       "file": "desk-watchdog.bat",
-      "find": "if exist \"%ROOT%.pause\" (",
-      "replace": "if 1==2 (",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_watchdog_stands_down_on_the_pause_flag",
       "file": "desk-watchdog.bat",
-      "find": "if exist \"%ROOT%.pause\" (",
-      "replace": "rem if exist \"%ROOT%.pause\" (",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Switches off the protected line by commenting it out."
     },
     {
       "test": "test_watchdog_treats_an_error_page_as_a_failure",
       "file": "desk-watchdog.bat",
-      "find": "curl -fs -o NUL",
-      "replace": "curl -s -o NUL",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_watchdog_never_builds_or_pulls",
       "file": "desk-watchdog.bat",
-      "find": null,
-      "replace": null,
-      "append": "git pull --ff-only",
-      "mode": null,
       "exists": true,
       "mutation": "Appends a line the guard must refuse to accept."
     },
     {
       "test": "test_no_operator_script_deletes_the_way_back",
       "file": "stop-desk.bat",
-      "find": null,
-      "replace": null,
-      "append": "git tag -d last-good",
-      "mode": null,
       "exists": true,
       "mutation": "Appends a line the guard must refuse to accept."
     },
     {
       "test": "test_doctor_changes_nothing",
       "file": "doctor.bat",
-      "find": null,
-      "replace": null,
-      "append": "taskkill /IM python.exe /F",
-      "mode": null,
       "exists": true,
       "mutation": "Appends a line the guard must refuse to accept."
     },
     {
       "test": "test_the_inventory_changes_nothing_and_leaks_nothing",
       "file": "probe/inventory.ps1",
-      "find": null,
-      "replace": null,
-      "append": "Stop-Process -Name python -Force",
-      "mode": null,
       "exists": true,
       "mutation": "Appends a line the guard must refuse to accept."
     },
     {
       "test": "test_powershell_scripts_with_non_ascii_carry_a_utf8_bom",
       "file": "probe/doctor.ps1",
-      "find": null,
-      "replace": null,
-      "append": null,
-      "mode": "StripBom",
       "exists": true,
-      "mutation": "Rewrites the file's line endings (StripBom), which is the exact condition the guard exists to reject."
+      "mutation": "Removes the byte-order mark the file needs, which the guard exists to reject."
     },
     {
       "test": "test_no_bat_counts_files_by_piping_inside_a_for_loop",
       "file": "import-recordings.bat",
-      "find": null,
-      "replace": null,
-      "append": "for /f %%N in ('powershell -NoProfile -Command \"(Get-ChildItem . ^| Measure-Object).Count\"') do set \"X=%%N\"",
-      "mode": null,
       "exists": true,
       "mutation": "Appends a line the guard must refuse to accept."
     },
     {
       "test": "test_backup_syncs_with_the_remote_before_staging_anything",
       "file": "backup-recordings.bat",
-      "find": "git merge --ff-only origin/main >>\"%LOG%\" 2>&1",
-      "replace": "rem sabotage: staged on top of an unknown remote",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_backup_tripwire_is_scoped_to_tapes_not_to_every_deletion",
       "file": "backup-recordings.bat",
-      "find": "else { Write-Output ('adoption housekeeping: D '+$p) }",
-      "replace": "else { $bad += ('sabotage: every deletion aborts ' + $p) }",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_backup_refuses_on_zero_tapes_before_it_mirrors_anything",
       "file": "backup-recordings.bat",
-      "find": "if \"%NTAPES%\"==\"0\" (",
-      "replace": "if \"%NTAPES%\"==\"-1\" (",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_backup_mirror_excludes_the_vendor_dump_and_refreshes_torn_files",
       "file": "backup-recordings.bat",
-      "find": "/E /XO /XF cboe_raw* /R:1 /W:1",
-      "replace": "/E /XO /XN /XF cboe_raw* /R:1 /W:1",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_import_never_copies_the_old_desks_nested_git_state",
       "file": "import-recordings.bat",
-      "find": "/E /XO /XN /XD .git /XF _backup.log /R:1",
-      "replace": "/E /XO /XN /R:1",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_backup_schedule_stays_removed_and_cannot_hang_forever",
       "file": "probe/install-backup-schedule.ps1",
-      "find": "if (Test-Path $Marker) {",
-      "replace": "if ($false) {",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_ops_schedule_stays_removed_and_doctor_can_tell_why",
       "file": "probe/install-ops-schedule.ps1",
-      "find": "if (Test-Path $Marker) {",
-      "replace": "if ($false) {",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_scheduled_backup_can_never_hang_on_a_hidden_credential_prompt",
       "file": "backup-recordings.bat",
-      "find": "set \"GIT_TERMINAL_PROMPT=0\"",
-      "replace": "rem sabotage: prompts stay on",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_no_scheduled_task_launches_a_visible_console",
       "file": "probe/install-ops-schedule.ps1",
-      "find": "New-ScheduledTaskAction -Execute $wscript",
-      "replace": "New-ScheduledTaskAction -Execute $psExe",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_ops_report_surfaces_named_log_failures_to_discord",
       "file": "probe/ops-report.ps1",
-      "find": "|$failHash\"",
-      "replace": "\"",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Removes part of the protected text."
     },
     {
       "test": "test_every_discord_post_sends_utf8_bytes",
       "file": "probe/ops-report.ps1",
-      "find": "    Invoke-RestMethod -Uri $hook -Method Post -ContentType 'application/json; charset=utf-8' -Body ([Text.Encoding]::UTF8.GetBytes($payload)) | Out-Null",
-      "replace": "    # Invoke-RestMethod -Uri $hook -Method Post -ContentType 'application/json; charset=utf-8' -Body ([Text.Encoding]::UTF8.GetBytes($payload)) | Out-Null",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Switches off the protected line by commenting it out."
     },
     {
       "test": "test_no_discord_post_sends_the_webhook_url_as_its_body",
       "file": "probe/ops-report.ps1",
-      "find": "UTF8.GetBytes($payload)",
-      "replace": "UTF8.GetBytes($hook)",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_live_arm_honours_the_autostart_kill_switch",
       "file": "server/routes/live.py",
-      "find": "\"state\": \"LIVE_DISABLED\",",
-      "replace": "\"state\": \"OOPS\",",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_autostart_guard_defaults_to_enabled",
       "file": "server/main.py",
-      "find": "os.getenv(\"DESK_LIVE_AUTOSTART\", \"1\")",
-      "replace": "os.getenv(\"DESK_LIVE_AUTOSTART\", \"0\")",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Changes a number in the protected text."
     },
     {
       "test": "test_the_engine_url_constant_matches_the_variable_it_reads",
       "file": "server/routes/odte.py",
-      "find": "`nODTE_ENGINE_URL = os.getenv",
-      "replace": "`nUNDERWRITER_URL = os.getenv",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_offline_state_is_named_and_never_raised",
       "file": "server/routes/odte.py",
-      "find": null,
-      "replace": null,
-      "append": "# raise HTTPException(status_code=502)",
-      "mode": null,
       "exists": true,
       "mutation": "Appends a line the guard must refuse to accept."
     },
     {
       "test": "test_the_research_bundle_is_published_atomically_and_dated",
       "file": "server/sentinel/research/publish.py",
-      "find": "os.replace(tmp, dest)",
-      "replace": "os.rename(tmp, dest)",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_corpus_counts_and_names_the_torn_tapes_it_read",
       "file": "server/sentinel/alerting/obi_fade_replay.py",
-      "find": "        integ = tape_integrity(p)",
-      "replace": "        integ = {\"torn\": False, \"reason\": None}",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_every_css_variable_the_pages_use_is_declared",
       "file": "web/desk.tokens.css",
-      "find": "  --red:             var(--bad);",
-      "replace": "",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Deletes the protected text entirely."
     },
     {
       "test": "test_no_page_references_a_file_that_is_not_there",
       "file": "web/review.html",
-      "find": "<link rel=\"stylesheet\" href=\"desk.css\" />",
-      "replace": "<link rel=\"stylesheet\" href=\"desk.css\" /><script src=\"ghost.js\"></script>",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Keeps the protected text and adds to it."
     },
     {
       "test": "test_runtime_state_is_ignored_and_the_config_template_is_not",
       "file": ".gitignore",
-      "find": "/.pause",
-      "replace": "#/.pause",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_no_secret_shaped_string_outside_the_documented_exception",
       "file": "docs/CHANGELOG.md",
-      "find": null,
-      "replace": null,
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Mutates the file in the way this guard exists to catch."
     },
     {
       "test": "test_the_cutover_runbook_is_four_steps_and_free_of_jargon",
       "file": "CUTOVER.txt",
-      "find": null,
-      "replace": null,
-      "append": "STEP 3 - REDEPLOY THE CONTAINER`r`nRun the docker rollback.",
-      "mode": null,
       "exists": true,
       "mutation": "Appends a line the guard must refuse to accept."
     },
     {
       "test": "test_the_engine_binaries_match_their_recorded_provenance",
       "file": "0dte-engine/PROVENANCE.json",
-      "find": "\"SHA256\": \"C44A278E",
-      "replace": "\"SHA256\": \"DEADBEEF",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_update_relabels_recorded_sessions_and_survives_a_failure",
       "file": "update-desk.bat",
-      "find": "uw-review.exe data --out data\\reviews --no-open",
-      "replace": "uw-review.exe data --no-open",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_regenerate_control_is_offline_only",
       "file": "web/js/regen.js",
-      "find": null,
-      "replace": null,
-      "append": "// FLATTENEVERYTHING",
-      "mode": null,
       "exists": true,
       "mutation": "Appends a line the guard must refuse to accept."
     },
     {
       "test": "test_the_desk_never_imports_the_bot",
       "file": "server/signal_feed.py",
-      "find": null,
-      "replace": null,
-      "append": "import sentinel_trader",
-      "mode": null,
       "exists": true,
       "mutation": "Appends a line the guard must refuse to accept."
     },
     {
       "test": "test_the_runtime_path_model_reaches_the_nested_bot",
       "file": "runtime/python/python314._pth",
-      "find": "..\\..\\bot",
-      "replace": "",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Deletes the protected text entirely."
+      "mutation": "Removes part of the protected text."
     },
     {
       "test": "test_the_nested_bot_runs_on_the_committed_runtime",
       "file": "bot/sentinel_trader/signals.py",
-      "find": null,
-      "replace": null,
-      "append": "raise SystemExit(\"sabotage\")",
-      "mode": null,
       "exists": true,
       "mutation": "Appends a line the guard must refuse to accept."
     },
     {
       "test": "test_the_feed_and_the_bot_agree_on_the_pair_contract",
       "file": "bot/sentinel_trader/signals.py",
-      "find": "SCHEMA_VERSION = 2",
-      "replace": "SCHEMA_VERSION = 3",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Changes a number in the protected text."
     },
     {
       "test": "test_the_pair_check_fails_closed_when_identity_is_unknown",
       "file": "server/signal_feed.py",
-      "find": "return \"UNKNOWN-DESK\"",
-      "replace": "return \"\"",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_signal_wiring_check_compares_real_resolved_paths",
       "file": "server/routes/live.py",
-      "find": "os.path.isabs(raw)",
-      "replace": "False",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Forces a condition to always be true."
     },
     {
       "test": "test_the_feed_and_journal_use_their_own_date_keys",
       "file": "server/routes/live.py",
-      "find": "_Z(\"UTC\")",
-      "replace": "_Z(\"America/New_York\")",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_regenerate_job_cannot_run_twice_at_once",
       "file": "server/routes/live.py",
-      "find": "if self._state.get(\"state\") == \"RUNNING\":",
-      "replace": "if False:",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_regenerate_subprocess_output_is_captured_and_bounded",
       "file": "server/routes/live.py",
-      "find": "rc = proc.wait(timeout=self.TIMEOUT_S)",
-      "replace": "rc = proc.wait()",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_every_browser_module_imports_as_an_es_module",
       "file": "web/js/portfolio.js",
-      "find": null,
-      "replace": null,
-      "append": "const broken = `unterminated template",
-      "mode": null,
       "exists": true,
       "mutation": "Appends a line the guard must refuse to accept."
     },
     {
       "test": "test_every_page_links_to_every_other_page",
       "file": "web/0dte.html",
-      "find": "<a href=\"/recorder.html\" data-label=\"Recorder\">Recorder</a>",
-      "replace": "",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Deletes the protected text entirely."
     },
     {
       "test": "test_the_0dte_tws_chip_reads_the_engine_not_the_proxy",
       "file": "web/js/odte.js",
-      "find": "if (s === 'CONNECTED') return chip('TWS CONNECTED', 'green');",
-      "replace": "if (s) return chip('TWS CONNECTED', 'green');",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_a_quarter_tape_is_excluded_by_name_with_the_number_and_the_floor",
       "file": "server/sky/rules.py",
-      "find": "    elif coverage < ctx.coverage_floor:",
-      "replace": "    elif coverage < 0:",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_a_full_span_tape_with_no_print_is_excluded_by_name_with_the_count",
       "file": "server/sky/rules.py",
-      "find": "    elif ticks < ctx.min_ticks:",
-      "replace": "    elif ticks < 0:",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_a_report_with_no_tape_is_in_the_population_and_excluded_by_name",
       "file": "server/sky/join.py",
-      "find": "            if name in tape_names:",
-      "replace": "            if True:",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Forces a condition to always be true."
     },
     {
       "test": "test_calendar_rules",
       "file": "server/sky/night.py",
-      "find": "    return open_weekday(night) in _CALENDAR_RULES[calendar_rule]",
-      "replace": "    return True",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Forces a condition to always be true."
     },
     {
       "test": "test_clipped_coverage",
       "file": "server/sky/night.py",
-      "find": "    overlap = max(0.0, min(float(last_t), close_t) - max(float(first_t), open_t))",
-      "replace": "    overlap = min(float(last_t), close_t) - max(float(first_t), open_t)",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_tzdata_unavailable_is_named_and_never_utc",
       "file": "server/sky/night.py",
-      "find": "        raise TzdataUnavailable(\"tzdata is missing from the runtime\") from exc",
-      "replace": "        return None",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_an_unknown_line_is_a_named_failure",
       "file": "server/sky/calendar.py",
-      "find": "            raise CalendarUnreadable(f\"unknown key under `{section}`\", line_no, raw)",
-      "replace": "            continue",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_a_friday_or_saturday_asia_open_is_not_a_calendar_night",
       "file": "server/sky/rules.py",
-      "find": "    elif not _night.is_calendar_night(corpus, night, rule):",
-      "replace": "    elif False:",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_duplicate_window_keeps_the_greatest_coverage_and_names_the_winner",
       "file": "server/sky/rules.py",
-      "find": "        copies = sorted(by_night[night_key], key=lambda r: (-(r[\"coverage\"] or 0.0), r[\"name\"]))",
-      "replace": "        copies = sorted(by_night[night_key], key=lambda r: (r[\"coverage\"] or 0.0, r[\"name\"]))",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_coverage_is_clipped_to_the_stats_window_and_clamped_at_both_ends",
       "file": "server/sky/rules.py",
-      "find": "    elif coverage <= 0.0:",
-      "replace": "    elif False:",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_a_tape_closed_by_the_finalizer_carries_its_trailer_and_a_killed_one_does_not",
       "file": "server/sentinel/capture/recorder.py",
-      "find": "            \"ev\": \"end\", \"t\": end_t, \"ticks\": self.n_ticks, \"quotes\": self.n_quotes,",
-      "replace": "            \"ev\": \"not-an-end\", \"t\": end_t, \"ticks\": self.n_ticks, \"quotes\": self.n_quotes,",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_no_restart_path_can_leave_the_stand_down_flag_set",
       "file": "update-desk.bat",
-      "find": "if exist \"%ROOT%.pause\" del \"%ROOT%.pause\" >nul 2>&1",
-      "replace": "rem sabotage: the flag is not cleared",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_block_usability",
       "file": "server/sky/blocks.py",
-      "find": "    if int(distinct_stamps) < int(min_distinct_stamps):",
-      "replace": "    if False:",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_metric_is_duration_invariant",
       "file": "server/sky/estimator.py",
-      "find": "        score = math.sqrt(PARKINSON_CONSTANT * statistics.mean(terms))",
-      "replace": "        score = math.sqrt(PARKINSON_CONSTANT * statistics.mean(terms)) / len(terms)",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Keeps the protected text and adds to it."
     },
     {
       "test": "test_a_key_the_file_did_not_supply_is_a_fallback_whatever_its_value",
       "file": "server/sky/sections.py",
-      "find": "    return key in record",
-      "replace": "    return True",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Forces a condition to always be true."
     },
     {
       "test": "test_the_delivered_setup_row_carries_the_numeric_join_key",
       "file": "server/session_recorder.py",
-      "find": "        \"t\": s.get(\"t\"),",
-      "replace": "        rem_sabotage = None",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_block_usability",
       "file": "server/sky/blocks.py",
-      "find": "    return float(stamp_span) >= float(min_time_coverage) * float(block_seconds)",
-      "replace": "    return True",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Forces a condition to always be true."
     },
     {
       "test": "test_an_unequally_spaced_table_is_a_fallback",
       "file": "server/sky/sections.py",
-      "find": "            if abs(gap - step) > 1e-6:",
-      "replace": "            if False:",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_text_tokens_clear_aa_on_both_grounds",
       "file": "web/sky.css",
-      "find": "  --sky-faint:#948062;",
-      "replace": "  --sky-faint:#6f5f45;",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_strip_count_is_no_longer_wiped_by_the_note",
       "file": "web/js/sky.js",
-      "find": "  if (note) setProse('skStripNote', note);",
-      "replace": "  setProse('skStripNote', note);",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_moon_plate_draws_the_true_illumination",
       "file": "web/js/sky-plates.js",
-      "find": "  const term = ((kk > 0.5) === !!waxing) ? 1 : 0;",
-      "replace": "  const term = ((kk > 0.5) === !!waxing) ? 0 : 1;",
-      "append": null,
-      "mode": null,
       "exists": true,
-      "mutation": "Replaces the protected text with something plausible but wrong."
+      "mutation": "Changes a number in the protected text."
     },
     {
       "test": "test_the_server_owns_the_live_clock_and_doctor_only_reads_it",
       "file": "server/live_session.py",
-      "find": "                    _clock.touch(status().get(\"status\"))",
-      "replace": "                    pass  # sabotage: the anchor never moves",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_server_owns_the_live_clock_and_doctor_only_reads_it",
       "file": "probe/doctor.ps1",
-      "find": "        # Well: nothing to add, and NOTHING to write - the server owns the anchor [CR-AP].",
-      "replace": "        Set-Content -LiteralPath $liveClock -Value 0",
-      "append": null,
-      "mode": null,
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
     },
     {
       "test": "test_the_documented_page_routes_are_declared_before_the_static_mount",
       "file": "server/main.py",
-      "find": "\"review\", \"0dte\", \"portfolio\", \"recorder\"",
-      "replace": "\"review\", \"0dte\", \"portfolio\"",
-      "append": null,
-      "mode": null,
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_the_bin_reads_the_almanacs_elongation_and_never_recomputes_it",
+      "file": "server/sky/nights.py",
       "exists": true,
       "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_bool_in_the_checkpoints_file_is_refused_where_the_file_is_read",
+      "file": "server/sky/ladder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_selection_rejection_is_strict_at_the_boundary",
+      "file": "server/sky/selection.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_widening_the_float_slack_can_only_be_conservative",
+      "file": "server/sky/statistic.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_kruskal_wallis_matches_a_worked_example",
+      "file": "server/sky/statistic.py",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_kruskal_wallis_skips_empty_bins_and_refuses_an_empty_corpus",
+      "file": "server/sky/statistic.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_shift_is_over_the_calendar",
+      "file": "server/sky/statistic.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_shift_with_an_empty_bin_has_a_statistic",
+      "file": "server/sky/statistic.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_perfectly_separated_corpus_gives_the_smallest_attainable_p",
+      "file": "server/sky/statistic.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_states_are_the_ruling_e10_order",
+      "file": "server/sky/ladder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_severity_helper_returns_the_state_judged_first",
+      "file": "server/sky/ladder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_floors_name_only_the_floor_that_failed",
+      "file": "server/sky/selection.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_floors_name_only_the_floor_that_failed",
+      "file": "server/sky/selection.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_verdict_follows_the_alpha_it_is_given",
+      "file": "server/sky/selection.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_seam_gate_is_read_only_at_checkpoints",
+      "file": "server/sky/ladder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_skewed_build_spends_no_look",
+      "file": "server/sky/ladder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_seam_gate_is_read_only_at_checkpoints",
+      "file": "server/sky/ladder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_new_moon_bin_wraps_both_sides",
+      "file": "server/sky/nights.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_stats_json_is_not_written_when_no_look_ran",
+      "file": "server/sky/inference.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_the_route_asks_for_one_corpus_and_for_a_build_that_writes_nothing",
+      "file": "server/routes/sky_stats.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_look_that_fired_inside_a_page_request_is_never_served",
+      "file": "server/routes/sky_stats.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_operator_message_carries_a_redirect_character",
+      "file": "update-desk.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_files_that_bot_tools_write_are_ignored",
+      "file": ".gitignore",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_names_the_dirty_files",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_signal_wiring_check_compares_real_resolved_paths",
+      "file": "server/routes/live.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_every_sabotage_find_occurs_exactly_its_declared_count",
+      "file": "start-desk.bat",
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_the_two_sabotage_case_lists_are_the_same_cases",
+      "file": "tests/sabotage.cases.json",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_the_secret_case_appends_a_line_the_scanner_catches",
+      "file": "tests/sabotage.cases.json",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_declared_skip_marker_is_ignored_and_untracked",
+      "file": ".gitignore",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_obi_fade_alarm_is_retired_everywhere",
+      "file": "web/live/app.js",
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_live_status_has_no_obi_fade_block",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_kind_in_glyph_has_an_emoji",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_alert_kind_renders_without_raising",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_feed_block_carries_a_server_worded_note_when_the_feed_has_no_depth",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_blind_feed_note_is_rendered_verbatim_by_running_it",
+      "file": "web/live/app.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_blind_feed_sentence_is_never_typed_in_the_browser",
+      "file": "web/live/app.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_feed_block_carries_a_server_worded_note_when_the_feed_has_no_depth",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_the_feed_block_carries_a_server_worded_note_when_the_feed_has_no_depth",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_blind_feed_note_is_rendered_verbatim_by_running_it",
+      "file": "web/live/app.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_break_factors_and_the_bot_line_are_byte_identical_to_the_pre_refactor_detector",
+      "file": "server/sentinel/alerting/detectors.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_golden_actually_covers_the_none_rules",
+      "file": "tests/alert_factor_identity.golden.json",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_obi_expression_exists_once_in_the_detector",
+      "file": "server/sentinel/alerting/detectors.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_factor_snapshot_is_captured_once_per_cycle_in_update",
+      "file": "server/sentinel/alerting/detectors.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_sentiment_alert_carries_the_snapshot_of_its_fire_cycle",
+      "file": "server/sentinel/alerting/detectors.py",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_a_reversal_alert_carries_the_snapshot_of_its_fire_cycle",
+      "file": "server/sentinel/alerting/detectors.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_sentiment_and_reversal_fire_at_any_hour_and_breaks_only_in_a_window",
+      "file": "server/sentinel/alerting/detectors.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_tape_records_the_factor_keys_on_sentiment_and_reversal_alerts",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_report_alerts_array_and_its_staleness_do_not_move",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_factor_line_carries_skew_on_a_break_with_no_mark",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Mutates the file in the way this guard exists to catch."
+    },
+    {
+      "test": "test_a_suspect_or_unknown_skew_is_named_never_zero",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_sentiment_line_has_values_and_no_marks_and_no_entry_line",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Mutates the file in the way this guard exists to catch."
+    },
+    {
+      "test": "test_only_skew_recorded_still_renders_and_nothing_recorded_renders_nothing",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_skew_older_than_the_engines_hold_last_limit_is_named_stale",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_skew_older_than_the_engines_hold_last_limit_is_named_stale",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_skew_whose_age_cannot_be_computed_is_never_a_number",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_skew_whose_age_cannot_be_computed_is_never_a_number",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_stale_limit_is_read_from_the_skew_engine_never_typed",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_factor_line_carries_skew_on_a_break_with_no_mark",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_shipped_config_arms_sentiment_and_reversal_too",
+      "file": "config/iceberg-at-break.json",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watch_enriches_sentiment_and_reversal_and_no_other_kind",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_followup_is_ever_queued_for_sentiment_or_reversal",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_signal_verdict_keys_on_side_never_on_the_kind_string",
+      "file": "server/sentinel/alerting/iceberg_at_break.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_signal_shows_an_iceberg_only_if_there_is_one",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_check_that_could_not_run_is_named_on_a_signal_and_silent_on_a_break",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_config_kinds_absent_means_breaks_only_and_says_so",
+      "file": "server/sentinel/alerting/iceberg_at_break_config.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_config_refuses_an_unknown_or_malformed_kinds_list_by_name",
+      "file": "server/sentinel/alerting/iceberg_at_break_config.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_quiet_kinds_and_the_default_kinds_are_defined_once",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_quiet_kinds_and_the_default_kinds_are_defined_once",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_signal_on_a_feed_the_detector_could_not_see_says_not_checked",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_signal_on_a_feed_the_detector_could_not_see_says_not_checked",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_why_blind_names_each_state_and_the_window_boundary_is_inclusive",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_absorption_that_was_found_is_never_hidden_behind_not_checked",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_live_feed_with_no_absorption_prints_no_line_and_a_real_one_is_shown",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_a_check_that_could_not_run_is_named_on_a_signal_and_silent_on_a_break",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_live_loop_hands_one_feed_to_the_frame_builder_and_the_enricher",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_the_live_loop_hands_one_feed_to_the_frame_builder_and_the_enricher",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_config_whose_kinds_leave_out_break_stops_the_break_join",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_when_the_join_raises_the_log_and_the_post_say_the_same_thing",
+      "file": "server/sentinel/alerting/pump.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_when_the_join_raises_the_log_and_the_post_say_the_same_thing",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_when_the_join_raises_the_log_and_the_post_say_the_same_thing",
+      "file": "server/sentinel/alerting/pump.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_bot_export_is_gated_on_kind_break",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_bot_export_is_gated_on_kind_break",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_bot_export_is_gated_on_kind_break",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_bot_export_is_gated_on_kind_break",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Mutates the file in the way this guard exists to catch."
+    },
+    {
+      "test": "test_the_live_loop_watches_every_fired_alert_and_drives_outcomes_every_cycle",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_a_signal_outside_every_recording_window_still_gets_its_outcome_post",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_untaped_signal_that_resolves_after_a_window_opens_is_never_taped",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_untaped_signal_that_resolves_after_a_window_opens_is_never_taped",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_live_loop_watches_every_fired_alert_and_drives_outcomes_every_cycle",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_live_loop_watches_every_fired_alert_and_drives_outcomes_every_cycle",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_detector_records_the_turn_on_every_reversal_and_on_nothing_else",
+      "file": "server/sentinel/alerting/detectors.py",
+      "exists": true,
+      "mutation": "Deletes the protected text entirely."
+    },
+    {
+      "test": "test_the_detector_records_the_turn_on_every_reversal_and_on_nothing_else",
+      "file": "server/sentinel/alerting/detectors.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_absorption_that_held_the_turn_is_on_the_reversal_and_absorption_at_the_fire_is_not",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_turn_less_than_a_window_before_the_fire_reads_so_far_and_counts_from_the_turn",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_a_turn_less_than_a_window_before_the_fire_reads_so_far_and_counts_from_the_turn",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_turn_the_feed_was_blind_at_is_named_even_when_it_prints_at_the_fire",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_why_blind_around_sees_a_gap_across_the_window_and_names_a_forgotten_one",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_why_blind_around_sees_a_gap_across_the_window_and_names_a_forgotten_one",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_reversal_whose_turn_cannot_be_checked_says_so",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_absorption_that_held_the_turn_is_on_the_reversal_and_absorption_at_the_fire_is_not",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_discord_send_names_a_delivery_failure_instead_of_swallowing_it",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_break_alerts_carry_their_factor_snapshot",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Mutates the file in the way this guard exists to catch."
+    },
+    {
+      "test": "test_live_status_payload_carries_the_discord_keys",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_cockpit_has_no_push_channel",
+      "file": "web/live/app.js",
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_the_dedup_window_actually_suppresses_a_repeat_title",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_data_free_retirement_is_documented_in_the_discord_module",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_replay_default_out_never_lands_beside_the_input",
+      "file": "server/sentinel/alerting/obi_fade_replay.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_replay_default_out_is_cwd_independent",
+      "file": "server/sentinel/alerting/obi_fade_replay.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_discord_holds_a_post_from_a_machine_that_is_not_named",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_held_counts_what_would_have_gone_out",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_the_live_feed_start_calls_the_hold_log",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_feed_start_names_the_hold_once",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_live_status_names_a_held_discord_feed",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_cockpit_shows_a_hold_in_the_servers_words",
+      "file": "web/live/app.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_python_and_powershell_agree_on_the_rule",
+      "file": "probe/post-guard.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_discord_holds_a_post_from_a_machine_that_is_not_named",
+      "file": "server/sentinel/alerting/post_guard.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ops_report_holds_a_computername_set_by_hand",
+      "file": "probe/post-guard.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_computername_set_by_hand_does_not_post",
+      "file": "server/sentinel/alerting/post_guard.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_python_and_powershell_agree_on_the_rule",
+      "file": "probe/post-guard.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_python_and_powershell_agree_on_the_rule",
+      "file": "probe/post-guard.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_shipped_runtime_asks_windows_for_the_name",
+      "file": "server/sentinel/alerting/post_guard.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_python_and_powershell_agree_on_the_rule",
+      "file": "server/sentinel/alerting/post_guard.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_asking_windows_for_the_name_leaves_no_error_behind",
+      "file": "server/sentinel/alerting/post_guard.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_there_is_no_override_for_the_named_machine",
+      "file": "server/sentinel/alerting/post_guard.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_committed_key_names_the_operators_machine",
+      "file": "config/alerts.json",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_python_and_powershell_agree_on_the_rule",
+      "file": "server/sentinel/alerting/post_guard.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_python_and_powershell_agree_on_the_rule",
+      "file": "probe/post-guard.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_relative_root_reads_that_folder",
+      "file": "probe/post-guard.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_feed_start_names_the_hold_once",
+      "file": "server/sentinel/alerting/post_guard.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_python_and_powershell_agree_on_the_rule",
+      "file": "probe/post-guard.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_there_is_no_override_for_the_named_machine",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_there_is_no_override_for_the_named_machine",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_no_verdict_fallback_trims_both_names_as_the_rule_does",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_there_is_no_override_for_the_named_machine",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_there_is_no_override_for_the_named_machine",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ops_report_holds_the_hourly_report_on_the_wrong_machine",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Switches off the protected line by commenting it out."
+    },
+    {
+      "test": "test_ops_report_holds_the_monitor_blind_notice_too",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Switches off the protected line by commenting it out."
+    },
+    {
+      "test": "test_ops_report_holds_the_hourly_report_on_the_wrong_machine",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ops_report_holds_the_hourly_report_on_the_wrong_machine",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_ops_report_holds_when_the_guard_gives_no_verdict",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ops_report_holds_when_the_guard_gives_no_verdict",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ops_report_holds_when_the_guard_gives_no_verdict",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_script_child_gets_the_windows_name_not_the_runners_variable",
+      "file": "tests/post_guard_fixtures.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_names_a_running_desk_that_is_held",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_always_reports_the_machine_and_only_degrades_when_something_would_post",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_doctor_always_reports_the_machine_and_only_degrades_when_something_would_post",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Switches off the protected line by commenting it out."
+    },
+    {
+      "test": "test_doctor_names_a_healthy_desk_that_is_held",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_names_a_registered_ops_task_that_is_held",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_prints_an_unknown_name_as_unknown_and_holds_on_it",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_reads_a_held_ops_run_as_held_not_failed",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_prints_an_unknown_name_as_unknown_and_holds_on_it",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_prints_an_unknown_name_as_unknown_and_holds_on_it",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_prints_an_unknown_name_as_unknown_and_holds_on_it",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_prints_an_unknown_name_as_unknown_and_holds_on_it",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_prints_an_unknown_name_as_unknown_and_holds_on_it",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_prints_an_unknown_name_as_unknown_and_holds_on_it",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_prints_an_unknown_name_as_unknown_and_holds_on_it",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_reads_a_held_ops_run_as_held_not_failed",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_names_a_healthy_desk_that_is_held",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_names_a_registered_ops_task_that_is_held",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_cockpit_shows_a_hold_in_the_servers_words",
+      "file": "web/live/app.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_outbound_client_in_the_server_is_known",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_every_outbound_client_in_the_server_is_known",
+      "file": "server/sentinel/alerting/pump.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_the_outbound_scan_sees_every_client",
+      "file": "tests/test_post_guard_send.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_there_is_no_override_for_the_named_machine",
+      "file": "server/sentinel/alerting/post_guard.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_there_is_no_override_for_the_named_machine",
+      "file": "probe/post-guard.ps1",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_no_override_in_the_scripts_that_obey_the_rule",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_override_in_the_scripts_that_obey_the_rule",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_override_anywhere_in_the_server",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_override_anywhere_in_the_server",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_no_override_anywhere_in_the_server",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_the_override_scans_see_every_spelling",
+      "file": "tests/post_guard_fixtures.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_override_scans_see_every_spelling",
+      "file": "tests/test_post_guard_override.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_names_a_healthy_desk_that_is_held",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_prints_an_unknown_name_as_unknown_and_holds_on_it",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_prints_an_unknown_name_as_unknown_and_holds_on_it",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_boot_writes_nothing_under_the_desk",
+      "file": "server/paths.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_the_two_sky_panels_read_one_ledger",
+      "file": "server/routes/sky_ledger.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_boot_writes_nothing_under_the_desk",
+      "file": "server/routes/sky_ledger.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_two_sky_panels_read_one_ledger",
+      "file": "server/sky/stats_store.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_build_never_spends_a_look",
+      "file": "server/sky/stats_store.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_run_never_spends_a_look",
+      "file": "server/sky/inference.py",
+      "exists": true,
+      "mutation": "Switches off the protected line by commenting it out."
+    },
+    {
+      "test": "test_the_signal_feed_default_moves_when_redirected",
+      "file": "server/paths.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_boot_writes_nothing_under_the_desk",
+      "file": "server/main.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_boot_writes_nothing_under_the_desk",
+      "file": "server/live_clock.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_boot_writes_nothing_under_the_desk",
+      "file": "server/paths.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_boot_writes_nothing_under_the_desk",
+      "file": "server/paths.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_boot_keeps_every_derived_file_under_its_own_root",
+      "file": "server/main.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_boot_keeps_every_derived_file_under_its_own_root",
+      "file": "server/main.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_this_checkout_resolves_todays_paths_byte_for_byte",
+      "file": "server/paths.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_desk_of_record_boot_writes_exactly_todays_paths",
+      "file": "server/paths.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_research_refusal_asks_the_one_folder_question_at_request_time",
+      "file": "server/paths.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_the_research_refusal_asks_the_one_folder_question_at_request_time",
+      "file": "server/routes/research.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_run_refuses_to_regenerate_the_desks_reviews",
+      "file": "server/routes/live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_run_refuses_to_regenerate_the_desks_reviews",
+      "file": "server/routes/live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_run_refuses_to_regenerate_the_desks_reviews",
+      "file": "server/routes/live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_only_the_desks_own_tape_folder_is_the_desk_of_record",
+      "file": "server/paths.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_redirected_run_refuses_an_absolute_derived_path_by_name",
+      "file": "server/paths.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_cockpit_shows_a_hold_in_the_servers_words",
+      "file": "web/live/app.js",
+      "exists": true,
+      "mutation": "Mutates the file in the way this guard exists to catch."
+    },
+    {
+      "test": "test_the_cockpit_shows_a_hold_in_the_servers_words",
+      "file": "web/live/app.js",
+      "exists": true,
+      "mutation": "Mutates the file in the way this guard exists to catch."
+    },
+    {
+      "test": "test_the_blind_feed_note_is_rendered_verbatim_by_running_it",
+      "file": "web/live/app.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_discord_send_names_a_delivery_failure_instead_of_swallowing_it",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_every_print_reaches_the_drain_across_packets",
+      "file": "server/sentinel/capture/live_tws.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_trades_and_quotes_split_by_type",
+      "file": "server/sentinel/capture/tick_capture.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_a_print_on_another_ticker_is_never_captured",
+      "file": "server/sentinel/capture/tick_capture.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_buffer_is_bounded_and_counts_what_it_drops",
+      "file": "server/sentinel/capture/tick_capture.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_capture_slot_fault_is_counted_and_logged",
+      "file": "server/sentinel/capture/tick_capture.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_capture_survives_two_reconnects",
+      "file": "server/sentinel/capture/live_tws.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_the_drain_racing_the_hook_loses_nothing",
+      "file": "server/sentinel/capture/tick_capture.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_each_print_carries_the_quote_its_packet_arrived_on",
+      "file": "server/sentinel/capture/tick_capture.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_prints_split_across_socket_reads_are_captured",
+      "file": "server/sentinel/capture/tick_capture.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_only_the_capture_slot_reads_a_per_packet_list",
+      "file": "server/sentinel/capture/live_tws.py",
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_only_the_capture_slot_reads_a_per_packet_list",
+      "file": "server/sentinel/capture/tick_capture.py",
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_cvd_classifies_each_print_against_its_packet_quote",
+      "file": "server/sentinel/core/trackers.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_cvd_classifies_each_print_against_its_packet_quote",
+      "file": "server/sentinel/engine/runner.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_absorption_is_fed_in_time_order_and_a_cycle_without_quotes_is_unchanged",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_absorption_is_fed_in_time_order_and_a_cycle_without_quotes_is_unchanged",
+      "file": "server/iceberg/absorption.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_live_absorption_equals_the_offline_detector_on_a_full_tape",
+      "file": "server/iceberg/absorption.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_live_absorption_equals_the_offline_detector_on_a_full_tape",
+      "file": "server/iceberg/absorption.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_tape_without_print_quotes_replays_exactly_as_before",
+      "file": "server/iceberg/absorption.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_live_cvd_equals_the_reports_replay_on_a_full_tape",
+      "file": "server/sentinel/capture/replay.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_live_cvd_equals_the_reports_replay_on_a_full_tape",
+      "file": "server/iceberg/replay.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_tape_carries_the_quote_the_marker_the_gap_and_the_capture_counts",
+      "file": "server/sentinel/capture/recorder_v2.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_tape_carries_the_quote_the_marker_the_gap_and_the_capture_counts",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_tape_carries_the_quote_the_marker_the_gap_and_the_capture_counts",
+      "file": "server/sentinel/engine/cycle_input.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_tape_carries_the_quote_the_marker_the_gap_and_the_capture_counts",
+      "file": "server/sentinel/capture/recorder_v2.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_health_answers_while_a_report_is_being_built",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_session_scored_notice_is_posted_from_the_live_loop",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_report_lookups_are_built_once_per_tape",
+      "file": "server/iceberg/indicators.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_report_lookups_are_built_once_per_tape",
+      "file": "server/iceberg/replay.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_report_lookups_are_built_once_per_tape",
+      "file": "server/iceberg/signals.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_report_lookups_give_the_old_answers",
+      "file": "server/iceberg/indicators.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_complete_clean_tape_passes",
+      "file": "server/tick_capture_proof.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_sampled_tape_fails_and_says_by_how_much",
+      "file": "server/tick_capture_proof.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_missed_extremes_fail_even_at_full_volume",
+      "file": "server/tick_capture_proof.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_capture_that_dropped_prints_fails_by_name",
+      "file": "server/tick_capture_proof.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_torn_tape_with_matching_volume_cannot_tell",
+      "file": "server/tick_capture_proof.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_bar_list_that_does_not_match_its_clock_is_never_trusted",
+      "file": "server/tick_capture_proof.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_too_few_bars_cannot_tell",
+      "file": "server/tick_capture_proof.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_band_is_read_from_its_config_file",
+      "file": "config/tick-capture-proof.json",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_the_exit_code_and_the_line_name_the_verdict",
+      "file": "server/tick_capture_proof.py",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_every_bat_is_crlf_on_disk",
+      "file": "check-tick-capture.bat",
+      "exists": true,
+      "mutation": "Converts the file's Windows line endings to Unix ones, which the guard exists to reject."
+    },
+    {
+      "test": "test_every_operator_script_pauses",
+      "file": "check-tick-capture.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_operator_message_carries_a_redirect_character",
+      "file": "check-tick-capture.bat",
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_a_cycle_whose_engine_raises_still_reaches_the_tape",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Mutates the file in the way this guard exists to catch."
+    },
+    {
+      "test": "test_a_full_quote_buffer_is_counted_and_logged_once_per_episode",
+      "file": "server/sentinel/capture/tick_capture.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_tape_carries_the_quote_the_marker_the_gap_and_the_capture_counts",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_the_files_that_bot_tools_write_are_ignored",
+      "file": ".gitignore",
+      "exists": true,
+      "mutation": "Mutates the file in the way this guard exists to catch."
+    },
+    {
+      "test": "test_live_cvd_equals_the_reports_replay_on_a_full_tape",
+      "file": "server/sentinel/core/print_quote.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_print_quote_rule_has_one_definition",
+      "file": "server/sentinel/capture/replay.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_end_row_counts_exactly_the_prints_on_the_tape",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_end_row_counts_exactly_the_prints_on_the_tape",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_fault_before_the_first_drain_is_on_the_first_tape",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_end_row_counts_exactly_the_prints_on_the_tape",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_iceberg_line_names_its_calibration_only_on_a_full_capture_feed",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_iceberg_line_names_its_calibration_only_on_a_full_capture_feed",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_iceberg_line_names_its_calibration_only_on_a_full_capture_feed",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_breaks_follow_up_carries_the_note_too",
+      "file": "server/sentinel/alerting/iceberg_watch.py",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_the_live_loop_hands_the_feeds_capture_era_to_the_watch",
+      "file": "server/live_session.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_iceberg_line_names_its_calibration_only_on_a_full_capture_feed",
+      "file": "server/sentinel/capture/era.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_the_note_is_short_plain_and_fits_the_code_span",
+      "file": "server/sentinel/alerting/discord.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_sampled_tape_is_never_pooled_with_the_full_capture_population",
+      "file": "server/sky/rules.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_sampled_tape_is_never_pooled_with_the_full_capture_population",
+      "file": "server/sky/measure.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_v4_ledger_is_not_a_v5_cache_and_a_row_without_the_era_is_not_a_hit",
+      "file": "server/sky/join.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_v4_ledger_is_not_a_v5_cache_and_a_row_without_the_era_is_not_a_hit",
+      "file": "server/sky/join.py",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_the_codes_in_order_are_the_ones_the_ledger_can_name",
+      "file": "server/sky/rules.py",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_every_reason_code_the_desk_can_write_has_words_on_the_page",
+      "file": "web/js/sky-ledger.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_session_route_labels_a_pre_fix_session_and_only_that",
+      "file": "server/routes/review.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_the_session_route_labels_a_pre_fix_session_and_only_that",
+      "file": "server/routes/review.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_report_carries_its_tapes_capture_era_only_when_the_tape_does",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_page_shows_the_servers_label_on_every_session_tab",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_day_extreme_row_takes_its_own_fire_when_two_fired_together",
+      "file": "server/sentinel/research/live_join.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_research_dataset_inherits_the_identity_of_the_fire_with_its_trigger",
+      "file": "server/sentinel/research/live_join.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_2026_09_21_session",
+      "file": "server/sentinel/research/live_join.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_row_takes_the_nearest_free_alert",
+      "file": "server/sentinel/research/live_join.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_one_alert_marks_one_row_only",
+      "file": "server/sentinel/research/live_join.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_live_column_and_the_research_dataset_share_one_join_rule",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_live_column_and_the_research_dataset_share_one_join_rule",
+      "file": "server/sentinel/research/dataset.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_live_column_and_the_research_dataset_share_one_join_rule",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_the_tolerance_is_the_research_configs",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_tape_from_before_the_desk_taped_its_alerts_marks_no_row",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_report_without_setup_times_marks_no_row",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_row_with_no_such_alert_reads_replay_only",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_session_route_sends_the_live_column",
+      "file": "server/routes/review.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_setups_table_shows_the_servers_live_labels_and_note",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_setups_table_shows_the_servers_live_labels_and_note",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_setups_table_shows_the_servers_live_labels_and_note",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_setups_table_shows_the_servers_live_labels_and_note",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_setups_table_shows_the_servers_live_labels_and_note",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_report_tab_renders_the_setups_card_with_the_servers_live_match",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_research_dataset_inherits_the_identity_of_the_fire_with_its_trigger",
+      "file": "server/sentinel/research/dataset.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_digest_that_leaves_the_page_leads_with_the_servers_label",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_digest_reads_the_servers_label_before_any_number",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_capture_era_key_has_one_definition",
+      "file": "server/tick_capture_proof.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_proof_line_names_the_capture_era_by_the_one_rule",
+      "file": "server/tick_capture_proof.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_session_route_sends_the_discord_note_for_a_full_capture_session_only",
+      "file": "server/routes/review_iceberg.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_a_full_capture_session_shows_the_note_in_all_three_places",
+      "file": "server/routes/review_iceberg.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_note_is_the_one_constant_and_the_era_is_the_one_rule",
+      "file": "server/routes/review_iceberg.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_words_are_written_once_under_server_and_never_in_the_page",
+      "file": "server/routes/review_iceberg.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_note_is_the_one_constant_and_the_era_is_the_one_rule",
+      "file": "server/routes/review_iceberg.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_session_route_sends_the_discord_note_for_a_full_capture_session_only",
+      "file": "server/routes/review.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_full_capture_session_shows_the_note_in_all_three_places",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_a_full_capture_session_shows_the_note_in_all_three_places",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_full_capture_session_shows_the_note_in_all_three_places",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_full_capture_session_shows_the_note_in_all_three_places",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_page_shows_the_servers_words_escaped",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_sampled_session_renders_as_it_did_before_the_note",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_words_are_written_once_under_server_and_never_in_the_page",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_sampled_session_renders_as_it_did_before_the_note",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_shards_partition_the_case_list",
+      "file": "tests/sabotage.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_shards_partition_the_case_list",
+      "file": "tests/sabotage.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_shard_outside_one_to_n_is_refused",
+      "file": "tests/sabotage.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_shard_proves_only_its_own_cases_and_restores_every_byte",
+      "file": "tests/sabotage.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_shard_proves_only_its_own_cases_and_restores_every_byte",
+      "file": "tests/sabotage.ps1",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_a_shard_proves_only_its_own_cases_and_restores_every_byte",
+      "file": "tests/sabotage.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_shard_proves_only_its_own_cases_and_restores_every_byte",
+      "file": "tests/sabotage.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ci_runs_the_adversarial_pass_as_the_shards_the_partition_test_checks",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ci_runs_the_adversarial_pass_as_the_shards_the_partition_test_checks",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_shard_job_skips_its_restore_check",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_no_shard_job_skips_its_restore_check",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_every_other_proof_runs_once_in_the_suite_job",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_job_that_tests_runs_on_windows_and_3_14",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_job_that_tests_runs_on_windows_and_3_14",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_the_lookup_skips_only_a_push_with_a_fully_green_run_of_this_commit",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_lookup_skips_only_a_push_with_a_fully_green_run_of_this_commit",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_lookup_skips_only_a_push_with_a_fully_green_run_of_this_commit",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_lookup_skips_only_a_push_with_a_fully_green_run_of_this_commit",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_lookup_token_reads_actions_and_nothing_else",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_heavy_jobs_skip_only_on_a_push_the_lookup_proved",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Deletes the protected text entirely."
+    },
+    {
+      "test": "test_the_heavy_jobs_skip_only_on_a_push_the_lookup_proved",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_the_verdict_always_runs_and_needs_every_job",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_verdict_is_green_only_when_proven_here_or_by_a_named_run",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Deletes the protected text entirely."
+    },
+    {
+      "test": "test_reading_ci_yml_never_loads_yaml_into_the_test_process",
+      "file": "tests/ci_workflow_fixtures.py",
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_the_lookup_asks_about_this_commit_and_the_jobs_read_its_answer",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_lookup_asks_about_this_commit_and_the_jobs_read_its_answer",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_verdict_is_green_only_when_proven_here_or_by_a_named_run",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_verdict_is_green_only_when_proven_here_or_by_a_named_run",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_the_verdict_always_runs_and_needs_every_job",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_other_proof_runs_once_in_the_suite_job",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_every_other_proof_runs_once_in_the_suite_job",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_every_other_proof_runs_once_in_the_suite_job",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_every_other_proof_runs_once_in_the_suite_job",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_every_other_proof_runs_once_in_the_suite_job",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_ci_runs_on_a_push_to_main_a_pull_request_and_a_dispatch",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Switches off the protected line by commenting it out."
+    },
+    {
+      "test": "test_every_other_proof_runs_once_in_the_suite_job",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_every_other_proof_runs_once_in_the_suite_job",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_every_other_proof_runs_once_in_the_suite_job",
+      "file": ".github/workflows/ci.yml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_restores_the_engine_only_when_no_engine_process_runs",
+      "file": "desk-watchdog.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_decides_an_engine_start_by_process_not_by_port",
+      "file": "probe/engine-restore.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_rechecks_the_pause_flag_before_it_starts_the_engine",
+      "file": "desk-watchdog.bat",
+      "exists": true,
+      "mutation": "Switches off the protected line by commenting it out."
+    },
+    {
+      "test": "test_watchdog_engine_start_writes_to_its_own_log",
+      "file": "desk-watchdog.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_never_kills_the_engine",
+      "file": "desk-watchdog.bat",
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_watchdog_stops_starting_the_engine_after_the_hourly_cap",
+      "file": "probe/engine-restore.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_stops_starting_the_engine_after_the_hourly_cap",
+      "file": "config/odte-engine.json",
+      "exists": true,
+      "mutation": "Deletes the protected text entirely."
+    },
+    {
+      "test": "test_watchdog_does_not_start_an_engine_beside_a_foreign_one",
+      "file": "probe/engine-restore.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_only_one_watchdog_acts_at_a_time",
+      "file": "desk-watchdog.bat",
+      "exists": true,
+      "mutation": "Switches off the protected line by commenting it out."
+    },
+    {
+      "test": "test_only_one_watchdog_acts_at_a_time",
+      "file": "probe/engine-restore.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_restores_the_engine_only_on_the_machine_alerts_json_names",
+      "file": "probe/engine-restore.ps1",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_watchdog_restores_the_engine_only_on_the_machine_alerts_json_names",
+      "file": "desk-watchdog.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_engine_restore_decides_the_machine_only_through_post_guard",
+      "file": "probe/engine-restore.ps1",
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_watchdog_logs_the_engine_restore_state_once_per_start",
+      "file": "desk-watchdog.bat",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_watchdog_log_text_carries_no_cmd_special_character",
+      "file": "desk-watchdog.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_update_and_stop_kill_the_watchdog_before_the_engine",
+      "file": "update-desk.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_update_and_stop_kill_the_watchdog_before_the_engine",
+      "file": "stop-desk.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_update_restart_does_not_launch_a_second_engine",
+      "file": "update-desk.bat",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_update_restore_stops_the_watchdog_before_the_reset",
+      "file": "update-desk.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_odte_recording_no_session_with_the_calendar_absent_is_not_recording",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_odte_recording_a_last_write_older_than_the_limit_is_not_recording",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_odte_recording_tws_down_or_spx_stale_is_not_recording",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_odte_recording_unreadable_is_unknown_never_idle_or_recording",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_odte_recording_reads_the_newest_log_by_write_time",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_adds_a_not_happening_line_when_recording_fails_in_a_window",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ops_fingerprint_moves_only_when_recording_fails_or_recovers",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_ops_fingerprint_moves_only_when_recording_fails_or_recovers",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_stands_aside_while_wardens_engine_loop_runs",
+      "file": "probe/engine-restore.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_stands_aside_while_wardens_engine_loop_runs",
+      "file": "desk-watchdog.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_turns_the_restore_off_when_a_start_cannot_be_counted",
+      "file": "desk-watchdog.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_watchdog_turns_the_restore_off_when_it_cannot_tell_it_is_the_only_one",
+      "file": "desk-watchdog.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_odte_recording_no_record_for_the_open_session_is_not_recording",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_doctor_reads_unknown_when_the_recording_check_fails",
+      "file": "probe/doctor.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_odte_recording_says_why_the_engine_will_not_record_before_the_window",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_odte_recording_says_why_the_engine_will_not_record_before_the_window",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_odte_recording_says_why_the_engine_will_not_record_before_the_window",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_odte_recording_two_engines_running_is_unknown",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_odte_recording_names_a_missing_engine_log_apart_from_a_log_without_the_session",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_odte_recording_names_a_missing_engine_log_apart_from_a_log_without_the_session",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_odte_recording_a_missing_data_row_is_named_as_missing",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_recording_text_fits_the_approved_width",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_recording_text_fits_the_approved_width",
+      "file": "config/odte-recording.json",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_ops_recording_alarm_clears_only_when_recording_is_seen_again",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ops_recording_alarm_clears_only_when_recording_is_seen_again",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ops_recording_alarm_clears_only_when_recording_is_seen_again",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Deletes the protected text entirely."
+    },
+    {
+      "test": "test_ops_recording_alarm_clears_only_when_recording_is_seen_again",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ops_recording_hold_still_posts_a_second_failure",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ops_recording_hold_still_posts_a_second_failure",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_ops_recording_alarm_clears_only_when_recording_is_seen_again",
+      "file": "probe/ops-report.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_recording_text_fits_the_approved_width",
+      "file": "probe/odte-recording.ps1",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_only_sentiment_and_reversal_become_replay_rows_and_a_directed_wrap_is_graded_nowhere",
+      "file": "server/sentinel/score.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_each_replay_row_is_graded_by_score_grade_at_the_setups_horizon_and_target",
+      "file": "server/sentinel/replay_alerts.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_board_is_the_old_board_plus_the_replay_record_only",
+      "file": "server/sentinel/score.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_alert_stats_basis_names_the_replay_kinds_constant",
+      "file": "server/sentinel/score.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_route_and_score_py_keep_the_new_logic_out_of_the_long_files",
+      "file": "server/sentinel/score.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_report_without_the_replay_record_is_stale_even_with_no_setups",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_replay_rows_say_iceberg_not_checked_and_carry_no_primary_or_trigger",
+      "file": "server/sentinel/replay_alerts.py",
+      "exists": true,
+      "mutation": "Deletes the protected text entirely."
+    },
+    {
+      "test": "test_the_report_carries_the_record_its_basis_and_its_note",
+      "file": "server/sentinel/replay_alerts.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_config_labels_are_the_titles_a_real_detector_fires",
+      "file": "config/backtest-tags.json",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_tag_config_whose_kinds_differ_from_the_record_is_refused_by_name",
+      "file": "server/routes/review_tags.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_pooled_setups_are_unchanged_and_tag_rows_carry_their_family",
+      "file": "server/routes/review_tags.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_report_with_no_tape_to_rebuild_from_counts_as_no_tape_never_waiting",
+      "file": "server/routes/review_tags.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_no_route_or_page_file_reads_alert_stats",
+      "file": "server/routes/review_tags.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_followup_rule_numbers_come_from_the_research_config",
+      "file": "server/routes/review_tags.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_replay_rule_is_served_from_the_reports_basis",
+      "file": "server/routes/review_tags.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_gate_holds_a_rebuild_inside_or_near_a_recording_window",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_gate_fails_closed_when_its_rule_cannot_be_read",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_gate_reads_its_windows_from_the_recorder_config",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_inside_a_window_a_stale_report_waits_and_a_missing_one_is_built",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_startup_backfill_waits_for_the_window_to_close_then_rebuilds",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_two_report_builds_never_overlap",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_second_backfill_while_one_waits_builds_the_missing_reports_only",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_stopped_rebuild_resumes_with_only_the_reports_it_did_not_finish",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_manual_backfill_returns_at_once_inside_a_window_with_the_gate_state",
+      "file": "server/routes/live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_doctors_rebuild_counts_are_read_from_disk_on_each_call",
+      "file": "server/routes/review_tags.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_doctor_still_answers_when_a_report_is_not_an_object",
+      "file": "server/routes/review_tags.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_doctor_still_answers_when_a_report_is_not_an_object",
+      "file": "server/routes/review_tags.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_trigger_list_groups_breaks_control_and_reversal",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_trigger_list_groups_breaks_control_and_reversal",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_pages_fallback_titles_are_the_detectors_titles",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_trigger_list_groups_breaks_control_and_reversal",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_refused_tag_list_leaves_the_breaks_as_they_were",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_breaks_render_exactly_as_before_the_tags",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_breaks_render_exactly_as_before_the_tags",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_breaks_render_exactly_as_before_the_tags",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_tag_pools_every_alert_of_its_type_in_the_all_column",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_tag_pools_every_alert_of_its_type_in_the_all_column",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_tag_pools_every_alert_of_its_type_in_the_all_column",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_conviction_and_iceberg_step_aside_for_a_tag",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_conviction_and_iceberg_step_aside_for_a_tag",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_tag_rows_read_not_checked_and_break_rows_still_read_no",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_tag_with_no_recorded_history_never_reads_zero",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_tag_with_no_recorded_history_never_reads_zero",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_tag_the_record_holds_that_never_fired_says_did_not_fire",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_coverage_note_counts_only_the_sessions_that_carry_the_record",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_coverage_note_counts_only_the_sessions_that_carry_the_record",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_coverage_note_counts_only_the_sessions_that_carry_the_record",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_coverage_note_counts_only_the_sessions_that_carry_the_record",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_the_tag_export_carries_the_rule_the_coverage_and_the_family_label",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_tag_export_carries_the_rule_the_coverage_and_the_family_label",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_tag_export_carries_the_rule_the_coverage_and_the_family_label",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_tag_export_carries_the_rule_the_coverage_and_the_family_label",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_reflows_and_never_scrolls_sideways",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_reflows_and_never_scrolls_sideways",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_reflows_and_never_scrolls_sideways",
+      "file": "web/css/panels/review.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_reflows_and_never_scrolls_sideways",
+      "file": "web/css/panels/review.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_reflows_and_never_scrolls_sideways",
+      "file": "web/css/panels/review.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_reflows_and_never_scrolls_sideways",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_tag_with_no_recorded_history_never_reads_zero",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_page_reads_every_key_the_route_serves",
+      "file": "server/routes/review_tags.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_page_reads_every_key_the_route_serves",
+      "file": "server/routes/review_tags.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_tag_pools_every_alert_of_its_type_in_the_all_column",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_tag_export_carries_the_rule_the_coverage_and_the_family_label",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_coverage_note_counts_only_the_sessions_that_carry_the_record",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_coverage_note_counts_only_the_sessions_that_carry_the_record",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_page_reads_every_key_the_route_serves",
+      "file": "server/routes/review_tags.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_failed_says_whether_the_run_stopped_or_finished_with_failed_builds",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_failed_says_whether_the_run_stopped_or_finished_with_failed_builds",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_failed_says_whether_the_run_stopped_or_finished_with_failed_builds",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backfill_loop_lives_in_the_gate_and_the_recorder_only_calls_it",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_the_backtest_table_never_clips_a_value_at_any_width",
+      "file": "web/css/panels/review.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_never_clips_a_value_at_any_width",
+      "file": "web/css/panels/review.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_never_clips_a_value_at_any_width",
+      "file": "web/css/panels/review.css",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_no_recorded_history_names_the_sessions_left_out_and_the_rebuild_state",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_stored_tag_the_refused_tag_list_does_not_offer_shows_the_breaks",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_stored_break_this_corpus_never_fired_is_reset_to_any_break",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_stored_tag_a_served_list_no_longer_names_is_reset",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_stored_value_the_list_still_offers_is_kept",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_a_second_backfill_while_one_waits_builds_the_missing_reports_only",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_a_second_backfill_builds_no_report_twice_and_leaves_the_stale_pass",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_second_backfill_builds_no_report_twice_and_leaves_the_stale_pass",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_never_clips_a_value_at_any_width",
+      "file": "web/css/panels/review.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_never_clips_a_value_at_any_width",
+      "file": "web/css/panels/review.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_nothing_is_exported_before_the_corpus_pool_has_loaded",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_never_clips_a_value_at_any_width",
+      "file": "web/css/panels/review.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_never_clips_a_value_at_any_width",
+      "file": "web/css/panels/review.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_boundary_instant_itself_is_covered",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_ny_hod_or_lod_row_before_the_open_anchor_is_not_covered_and_an_or_row_is_not",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_each_entry_marks_only_its_own_session_kind",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_table_is_the_config_file_and_no_date_is_in_code",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_date_on_the_page_is_the_instant_in_new_york",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_table_that_cannot_be_read_makes_the_session_not_known",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_table_that_cannot_be_read_makes_the_session_not_known",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_table_that_cannot_be_read_makes_the_session_not_known",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_table_that_cannot_be_read_makes_the_session_not_known",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_table_that_cannot_be_read_makes_the_session_not_known",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_table_that_cannot_be_read_makes_the_session_not_known",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_a_table_that_cannot_be_read_makes_the_session_not_known",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_asia_row_before_the_asia_window_reached_the_desk_is_not_covered",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_era_row_the_live_desk_did_alert_reads_live",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_table_that_cannot_be_read_makes_the_session_not_known",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_a_table_that_cannot_be_read_makes_the_session_not_known",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_session_with_no_era_row_is_byte_identical_to_cr_2026_09_23_b",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_asia_note_is_the_sheets_1b_word_for_word",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_new_york_note_is_the_sheets_1a_word_for_word",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_session_with_no_live_break_alert_drops_the_zero_of_zero_sentence",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_two_entries_in_one_session_give_two_sentences_in_the_tables_order",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_session_route_sends_the_era_labels_and_leaves_the_report_alone",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_unreadable_table_leaves_the_states_that_need_no_table",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_asia_row_before_the_asia_window_reached_the_desk_is_not_covered",
+      "file": "config/live-coverage.json",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_an_ny_hod_or_lod_row_before_the_open_anchor_is_not_covered_and_an_or_row_is_not",
+      "file": "config/live-coverage.json",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_new_york_note_is_the_sheets_1a_word_for_word",
+      "file": "config/live-coverage.json",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_page_shows_the_servers_era_label_and_note_and_types_no_word_of_its_own",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_setups_card_has_no_sideways_box_and_labels_every_cell",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_setups_card_has_no_sideways_box_and_labels_every_cell",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_setups_table_never_scrolls_sideways_or_clips_a_value_at_any_width",
+      "file": "web/css/panels/review.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_setups_table_never_scrolls_sideways_or_clips_a_value_at_any_width",
+      "file": "web/css/panels/review.css",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_a_restarted_tapes_unmatched_rows_read_replay_only",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_report_that_does_not_say_where_its_replay_was_anchored_is_not_known",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_each_entry_marks_only_its_own_session_kind",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_report_of_no_known_session_kind_is_not_known_where_an_era_could_hold_a_row",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_ny_era_needs_the_anchor_and_a_flag_that_is_not_true_or_false_is_refused",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_restarted_tapes_unmatched_rows_read_replay_only",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_report_that_does_not_say_where_its_replay_was_anchored_is_not_known",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_report_of_no_known_session_kind_is_not_known_where_an_era_could_hold_a_row",
+      "file": "server/routes/review_live.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_restarted_tapes_unmatched_rows_read_replay_only",
+      "file": "config/live-coverage.json",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_table_entry_whose_instant_has_no_new_york_date_is_refused_by_name",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_table_entry_whose_instant_has_no_new_york_date_is_refused_by_name",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_table_saved_with_a_byte_order_mark_still_loads",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_table_entry_that_is_not_an_object_is_refused_by_name",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_setup_whose_trigger_is_not_a_name_makes_the_session_not_known",
+      "file": "server/routes/live_coverage.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_lookup_skips_only_a_push_with_a_fully_green_run_of_this_commit",
+      "file": "tests/test_ci_no_repeat.py",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_the_asia_window_stays_shut_friday_and_saturday_nights",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_ny_window_stays_shut_on_weekends_and_equity_holidays",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_night_the_recorder_shuts_is_a_night_off_skys_calendar",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Forces a condition to always be true."
+    },
+    {
+      "test": "test_an_unreadable_rule_opens_every_window_as_before",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_unreadable_holiday_file_judges_weekends_and_no_holiday",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_recorder_opens_no_tape_on_a_friday_night_and_says_why",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_recorder_opens_no_tape_on_a_friday_night_and_says_why",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_gate_holds_a_rebuild_inside_or_near_a_recording_window",
+      "file": "server/report_rebuild_gate.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_pools_no_market_closed_session_and_names_each",
+      "file": "server/routes/review.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_sessions_list_and_the_session_route_carry_the_servers_words",
+      "file": "server/routes/review.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_sessions_list_and_the_session_route_carry_the_servers_words",
+      "file": "server/routes/review.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_report_tab_and_digest_show_no_setup_count_for_a_market_closed_session",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_report_tab_and_digest_show_no_setup_count_for_a_market_closed_session",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_page_shows_the_servers_market_words_escaped_on_every_session_tab",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_page_shows_the_servers_market_words_escaped_on_every_session_tab",
+      "file": "web/js/review-market.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_edge_card_and_export_name_the_left_out_sessions",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_the_backtest_edge_card_and_export_name_the_left_out_sessions",
+      "file": "web/js/review-tags.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_edge_card_and_export_name_the_left_out_sessions",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_recorder_page_shows_the_servers_reason_when_a_window_stays_shut",
+      "file": "web/js/recorder.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_no_weekday_rule_or_holiday_list_is_written_outside_sky",
+      "file": "server/session_recorder.py",
+      "exists": true,
+      "mutation": "Appends a line the guard must refuse to accept."
+    },
+    {
+      "test": "test_a_holiday_file_that_is_not_utf8_fails_open_by_name",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_any_failure_while_judging_opens_the_window_and_the_recorder_records",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_market_closed_scoreboard_and_digest_carry_no_setup_statistic",
+      "file": "web/js/review-market.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_market_closed_scoreboard_and_digest_carry_no_setup_statistic",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_market_closed_scoreboard_and_digest_carry_no_setup_statistic",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_analyst_tab_shows_no_setup_statistic_for_a_market_closed_session",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_analyst_tab_shows_no_setup_statistic_for_a_market_closed_session",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_have_no_sideways_box_and_label_every_cell",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_have_no_sideways_box_and_label_every_cell",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_have_no_sideways_box_and_label_every_cell",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_have_no_sideways_box_and_label_every_cell",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_have_no_sideways_box_and_label_every_cell",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_have_no_sideways_box_and_label_every_cell",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_have_no_sideways_box_and_label_every_cell",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_have_no_sideways_box_and_label_every_cell",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_have_no_sideways_box_and_label_every_cell",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_never_scroll_sideways_or_clip_a_value_at_any_width",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_never_scroll_sideways_or_clip_a_value_at_any_width",
+      "file": "web/js/review.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_never_scroll_sideways_or_clip_a_value_at_any_width",
+      "file": "web/css/panels/review-tables.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_never_scroll_sideways_or_clip_a_value_at_any_width",
+      "file": "web/css/panels/review-tables.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_never_scroll_sideways_or_clip_a_value_at_any_width",
+      "file": "web/css/panels/review-tables.css",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_the_review_tables_never_scroll_sideways_or_clip_a_value_at_any_width",
+      "file": "web/css/panels/review-tables.css",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_the_review_tables_never_scroll_sideways_or_clip_a_value_at_any_width",
+      "file": "web/css/panels/review-tables.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_never_scroll_sideways_or_clip_a_value_at_any_width",
+      "file": "web/css/panels/review-tables.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_page_has_two_reflows_and_one_block_form",
+      "file": "web/css/panels/review-tables.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_never_scroll_sideways_or_clip_a_value_at_any_width",
+      "file": "web/desk.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_backtest_table_never_clips_a_value_at_any_width",
+      "file": "web/css/panels/review-tables.css",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_review_tables_have_no_sideways_box_and_label_every_cell",
+      "file": "web/review.html",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_seed_calendar_runs_through_2027_from_its_sources",
+      "file": "0dte-engine/seeds/market-calendar.yaml",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_the_2027_days_read_as_published",
+      "file": "0dte-engine/seeds/market-calendar.yaml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_2027_date_names_its_source_and_the_gaps_are_named",
+      "file": "0dte-engine/seeds/market-calendar.yaml",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_seed_keeps_the_format_both_readers_take",
+      "file": "0dte-engine/seeds/market-calendar.yaml",
+      "exists": true,
+      "mutation": "Switches off the protected line by commenting it out."
+    },
+    {
+      "test": "test_odte_recording_calendar_reader_agrees_with_the_seed",
+      "file": "0dte-engine/seeds/market-calendar.yaml",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_the_calendar_parser_reads_the_committed_file",
+      "file": "0dte-engine/seeds/market-calendar.yaml",
+      "exists": true,
+      "mutation": "Switches off the protected line by commenting it out."
+    },
+    {
+      "test": "test_reseed_extends_an_old_copy_and_keeps_the_old_one",
+      "file": "probe/calendar_reseed.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_reseed_carries_a_date_added_by_hand",
+      "file": "probe/calendar_reseed.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_reseed_leaves_a_current_copy_alone_and_says_nothing",
+      "file": "probe/calendar_reseed.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_reseed_refuses_a_copy_it_cannot_merge_and_says_why",
+      "file": "probe/calendar_reseed.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_reseed_follows_the_engine_data_root",
+      "file": "probe/calendar_reseed.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_reseed_plants_a_missing_copy_and_twice_is_once",
+      "file": "probe/calendar_reseed.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_launchers_extend_the_calendar_before_the_engine_starts",
+      "file": "start-desk.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_launchers_extend_the_calendar_before_the_engine_starts",
+      "file": "update-desk.bat",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_reseed_says_a_reason_it_cannot_encode_and_still_exits_0",
+      "file": "probe/calendar_reseed.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_any_failure_while_judging_opens_the_window_and_the_recorder_records",
+      "file": "tests/market_closed_fixtures.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_ny_window_stays_shut_on_weekends_and_equity_holidays",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_equity_holiday_row_is_tagged_equity_holiday_and_not_market_closed",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_equity_holiday_row_is_tagged_equity_holiday_and_not_market_closed",
+      "file": "server/routes/review.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_equity_holiday_row_is_tagged_equity_holiday_and_not_market_closed",
+      "file": "web/js/review-market.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_page_shows_the_servers_market_words_escaped_on_every_session_tab",
+      "file": "web/js/review-market.js",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_closure_added_by_hand_to_the_engines_copy_shuts_the_ny_window",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_the_engines_copy_is_found_by_the_engines_own_data_root_rule",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_an_unreadable_engine_copy_leaves_the_seed_to_judge_by_name",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_copy_that_ends_before_the_seed_leaves_the_later_dates_to_the_seed",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_a_seed_holiday_taken_out_of_the_copy_opens_the_window_as_the_engine_does",
+      "file": "server/market_hours.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_every_2027_date_names_its_source_and_the_gaps_are_named",
+      "file": "0dte-engine/seeds/market-calendar.yaml",
+      "exists": true,
+      "mutation": "Keeps the protected text and adds to it."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/analyzers/macro/freshness.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/analyzers/macro/freshness.py",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/analyzers/macro/freshness.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/analyzers/macro/freshness.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/analyzers/macro/series.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/scheduler/sources.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/scheduler/sources.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/analyzers/macro/macro_regime.py",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/config/macro_series.json",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/config/macro_series.json",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/config/macro_rules.json",
+      "exists": true,
+      "mutation": "Changes a number in the protected text."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/reports/next_due.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/reports/next_due.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/reports/html_report.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/reports/next_due.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/reports/next_due.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/reports/next_due.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/reports/next_due.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/reports/next_due.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/reports/next_due.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/analyzers/macro/macro_regime.py",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/analyzers/macro/macro_regime.py",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/analyzers/macro/freshness.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/config/macro_series.json",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/reports/html_report.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_release_freshness_guards_hold",
+      "file": "bellwether/bellwether/reports/markdown_sections.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_event_coverage_charge_holds",
+      "file": "bellwether/bellwether/analyzers/composite/governed_score.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_event_coverage_charge_holds",
+      "file": "bellwether/bellwether/analyzers/composite/governed_score.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_event_coverage_charge_holds",
+      "file": "bellwether/bellwether/analyzers/composite/governed_score.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_event_coverage_charge_holds",
+      "file": "bellwether/bellwether/analyzers/composite/governed_score.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_event_coverage_charge_holds",
+      "file": "bellwether/bellwether/analyzers/composite/governed_score.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_event_coverage_charge_holds",
+      "file": "bellwether/bellwether/analyzers/composite/confidence.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_event_coverage_charge_holds",
+      "file": "bellwether/bellwether/analyzers/macro/event_risk.py",
+      "exists": true,
+      "mutation": "Replaces the protected text with something plausible but wrong."
+    },
+    {
+      "test": "test_bellwether_event_coverage_charge_holds",
+      "file": "bellwether/bellwether/analyzers/macro/macro_regime.py",
+      "exists": true,
+      "mutation": "Removes part of the protected text."
     }
   ]
 }

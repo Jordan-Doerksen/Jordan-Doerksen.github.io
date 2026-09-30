@@ -7,3 +7,6 @@ desktop.ini
 
 # generated run logs
 scripts/logs/
+
+# Python byte-code caches (a build import leaves them in scripts/; they are never source)
+__pycache__/

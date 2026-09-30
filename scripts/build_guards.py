@@ -60,17 +60,70 @@ def git(repo, *args):
     return out.stdout.strip() if out.returncode == 0 else None
 
 
+# One sentence per harness Mode. The mode token itself never prints: it is the
+# harness's internal name, not plain words (owner review 2026-09-29, a published
+# "(ToLF)" reached the page). A mode missing here gets the generic sentence.
+MODE_WORDS = {
+    "ToLF": "Converts the file's Windows line endings to Unix ones, which the guard exists to reject.",
+    "StripBom": "Removes the byte-order mark the file needs, which the guard exists to reject.",
+}
+GENERIC = "Mutates the file in the way this guard exists to catch."
+NUMBER = re.compile(r"\d+(?:\.\d+)?")
+COMMENT_MARKS = ("#", "//", "::", "rem", "REM", "Rem", "<!--", "--", ";")
+TRUE_WORDS = ("True", "true", "$true")
+
+
+def switched_off(find, rep):
+    """True when the replacement is the protected line itself behind a comment marker
+    (`rem x`, `# x`, `pass  # x`): one line, kept whole, with only a marker before it."""
+    if "\n" in find or not rep.endswith(find):
+        return False
+    lead = rep[:-len(find)].strip()
+    return any(lead == m or lead.endswith(" " + m) or (m in ("#", "//") and lead.endswith(m))
+               for m in COMMENT_MARKS)
+
+
+def changed_stretch(f, r):
+    """The one stretch that differs between f and r, after their common ends: (old, new)."""
+    i = 0
+    while i < min(len(f), len(r)) and f[i] == r[i]:
+        i += 1
+    j = 0
+    while j < min(len(f), len(r)) - i and f[-1 - j] == r[-1 - j]:
+        j += 1
+    return f[i:len(f) - j], r[i:len(r) - j]
+
+
+def describe_find_replace(find, rep):
+    """What a find/replace case breaks, in plain words. Each class is decided from the
+    exact shape of the two strings; anything that fits no class exactly keeps the
+    general sentence, so no case is ever told more than its shape proves."""
+    if rep.strip() == "":
+        return "Deletes the protected text entirely."
+    f, r = find.strip(), rep.strip()
+    if switched_off(f, r):
+        return "Switches off the protected line by commenting it out."
+    if NUMBER.search(f) and NUMBER.sub("N", f) == NUMBER.sub("N", r) and NUMBER.findall(f) != NUMBER.findall(r):
+        return "Changes a number in the protected text."
+    old, new = changed_stretch(f, r)
+    if new.strip() in TRUE_WORDS and old.strip() not in TRUE_WORDS + ("",):
+        return "Forces a condition to always be true."
+    if r in f:
+        return "Removes part of the protected text."
+    if f in r:
+        return "Keeps the protected text and adds to it."
+    return "Replaces the protected text with something plausible but wrong."
+
+
 def describe_mutation(case):
     """Plain-language sentence for what the sabotage actually does."""
     if case.get("mode"):
-        return "Rewrites the file's line endings (%s), which is the exact condition the guard exists to reject." % case["mode"]
+        return MODE_WORDS.get(case["mode"], GENERIC)
     if case.get("append") is not None:
         return "Appends a line the guard must refuse to accept."
     if case.get("find") is not None and case.get("replace") is not None:
-        if case["replace"].strip() == "":
-            return "Deletes the protected text entirely."
-        return "Replaces the protected text with something plausible but wrong."
-    return "Mutates the file in the way this guard exists to catch."
+        return describe_find_replace(case["find"], case["replace"])
+    return GENERIC
 
 
 def main():
@@ -90,7 +143,13 @@ def main():
     projects_root = Path(config["projectsRoot"])
     desk = next(s for s in config["sources"] if s["id"] == "trading-desk")
     repo = (projects_root / desk["path"]).resolve()
-    harness = repo / "tests" / "sabotage.ps1"
+    # The case list moved out of the runner into tests/sabotage.cases.ps1 (data only,
+    # dot-sourced by the runner); at a commit before that split the runner holds it.
+    # Read the cases file when it exists, else the runner - never both, or a case
+    # would count twice. Run against the split tree as-is, the old path published
+    # 0 guards: a false zero.
+    cases = repo / "tests" / "sabotage.cases.ps1"
+    harness = cases if cases.is_file() else repo / "tests" / "sabotage.ps1"
 
     if not harness.is_file():
         print("ERROR: harness not found at %s - nothing written" % harness)
@@ -126,6 +185,13 @@ def main():
         # strict form, so the loose fallback was doing no work and was removed.
         case["exists"] = ("def %s(" % test) in suite_text
         case["mutation"] = describe_mutation(case)
+        # The mutation inputs feed describe_mutation() and are then dropped: no live
+        # page reads them, and the raw find/replace text carries strings the public
+        # site must not (a machine name, the variable that names it, a decision-record
+        # prefix, a webhook path segment). A published case is test, file, exists,
+        # mutation - nothing else.
+        for k in ("find", "replace", "append", "mode"):
+            del case[k]
         if not case["exists"]:
             stale.append(test)
             continue
@@ -138,7 +204,7 @@ def main():
         "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "source": {
             "repo": "trading-desk",
-            "file": "tests/sabotage.ps1",
+            "file": harness.relative_to(repo).as_posix(),
             "commit": git(repo, "rev-parse", "--short", "HEAD"),
         },
         "premise": "A test that has never failed is not a guard - it is a green light of "
