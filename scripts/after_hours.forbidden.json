@@ -1,0 +1,58 @@
+{
+  "_": "Strings that must never reach the hidden showcase page. scripts/build_after_hours.py runs this list over the composed page, every file under the page folder, the page's design contract and the two generated data files, and refuses the build on any hit (file:line:entry, exit 1, nothing written). This file lives under scripts/ and is not itself scanned. Add a class of leak here; never remove one without a recorded decision.",
+  "_substrings": "Case-insensitive. The first ten are the private showcase repo's list, then the additions the design contract's section 7 names.",
+  "substrings": [
+    "discord.com/api/webhooks",
+    "DESKTOP-SK93P40",
+    "jameswoodruff",
+    "rileywoodruff",
+    "CFTC_APP_TOKEN",
+    "FRED_API_KEY",
+    "EIA_API_KEY",
+    "DUQ619498",
+    "C:\\Users\\",
+    "%USERPROFILE%",
+    "Riley",
+    "Woodruff",
+    "Kourtney",
+    "Apex",
+    "Tradovate",
+    "sentinel-recordings",
+    ".jsonl.gz",
+    "COMPUTERNAME",
+    "C:\\",
+    "C:/",
+    "http",
+    "webhooks/"
+  ],
+  "_caseSensitive": "Plain substrings, case-sensitive: the machine-name prefix, the decision-record prefix and the clause-id prefixes.",
+  "caseSensitive": [
+    "DESKTOP-",
+    "CR-",
+    "SAFE-0",
+    "WEB-",
+    "DISP-",
+    "SKIN-",
+    "GATE-"
+  ],
+  "_regex": "Case-sensitive patterns: the recorded tape stem.",
+  "regex": [
+    "es_2026\\d{4}"
+  ],
+  "_words": "Whole words, case-insensitive: the rule word, the m-word, three job-title words.",
+  "words": [
+    "law",
+    "maker",
+    "conductor",
+    "developer",
+    "engineer"
+  ],
+  "_allow": "Exact literals removed from a line before it is matched: the two font hosts and the SVG namespace createElementNS needs; then (2026-09-29, integrator) the names of two desk tests whose prose contains the environment variable's word - a guard that a hand-set value does not post. A test name is the desk's own word; the machine name itself stays forbidden. Remove these two lines to make the build refuse the regenerated guards file again.",
+  "allow": [
+    "https://fonts.googleapis.com",
+    "https://fonts.gstatic.com",
+    "http://www.w3.org/2000/svg",
+    "test_ops_report_holds_a_computername_set_by_hand",
+    "test_a_computername_set_by_hand_does_not_post"
+  ]
+}
