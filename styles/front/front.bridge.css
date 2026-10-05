@@ -1,0 +1,43 @@
+/* The bridge: the names a carried piece was written in, mapped to the front page's tokens.
+ *
+ * The carried stylesheets (carry-trading.css, carry-games.css) are generated from the tier pages by
+ * scripts/front_carry.py. They no longer declare a palette; they still READ these names. Each is
+ * defined here, on .fp-carry only, so nothing else on the page is affected and a theme change
+ * (front.tokens.css) reaches the carried pieces on its own. A value is a token and never a literal.
+ *
+ * NOT declared, on purpose: --ink, --live and --warn. The tier and the tokens use the same names for
+ * the same job, and --ink: var(--ink) would be a cycle. The carried CSS reads the real tokens.
+ *
+ * Measured pairs (ratios from the header of front.tokens.css, light / dark):
+ *   --paper -> --bg          the ground a piece sits on.
+ *   --sheet -> --bg-raised   cards and panels on it.
+ *   --deep  -> --bg-sunken   wells inside a panel, and the knock-out halo behind diagram labels.
+ *   --ink-2 -> --ink-dim     secondary text; >= 7.4 on every ground.
+ *   --muted -> --ink-faint   tertiary text; >= 5.05 on every ground, the accent fill included.
+ *   --hair  -> --edge        DECORATIVE rules: card borders, row dividers. Faint on purpose (about 1.3:1).
+ *   --wire  -> --hairline    FUNCTIONAL outlines: a diagram node, a wire, a control edge. 3.07 or better
+ *                            on every ground (WCAG 1.4.11). front_carry.config.json moves the borders of
+ *                            controls from --hair to --wire; a diagram stroke already reads --wire.
+ *   --ok    -> --good        "present, passing". Teal against --live's green and --warn's amber; none of
+ *                            the three is ever the only carrier: a word, a dashed ring or a fill goes with it.
+ *   --hot   -> --live        The games wall drew its attention accent (link hover, the focus ring, the
+ *                            kicker) in orange. The donor look has one emphasis colour, which is --live,
+ *                            7.78 / 14.76 on --bg, so the orange is retired here. Nothing on the wall
+ *                            used orange to mean something that --live cannot.
+ *   --display, --sans -> --font-ui     The tier loaded Archivo and IBM Plex from Google Fonts; the
+ *   --mono            -> --font-mono   carry drops that request and uses the system stacks the shell uses.
+ */
+.fp-carry {
+  --paper: var(--bg);
+  --sheet: var(--bg-raised);
+  --deep: var(--bg-sunken);
+  --ink-2: var(--ink-dim);
+  --muted: var(--ink-faint);
+  --hair: var(--edge);
+  --wire: var(--hairline);
+  --ok: var(--good);
+  --hot: var(--live);
+  --display: var(--font-ui);
+  --sans: var(--font-ui);
+  --mono: var(--font-mono);
+}

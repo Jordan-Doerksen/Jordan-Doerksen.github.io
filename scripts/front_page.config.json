@@ -1,0 +1,218 @@
+{
+  "_": "Config for scripts/build_front_page.py (DECISIONS.md D-A27, CR-21). Config, not logic: screens, nav, brand and every sentence that is not computed. Numbers are never typed here; they are written as {placeholders} and filled from data/evidence.json, data/registry.json, data/desk.json and data/toolkit.js. Home copy is the owner's tier-1 text, verbatim, em dashes kept. **word** marks bold. See scripts/FRONT-PAGE.md.",
+  "schema": 1,
+
+  "outputs": {
+    "_": "Where --root and the default (review) build write. The depth of this path decides how far up a page must go to reach the repo root.",
+    "review": "docs/front-page",
+    "root": "."
+  },
+
+  "promotion": {
+    "_": "--root overwrites the live index.html and desk/index.html. It refuses until the legacy copy of each exists (DECISIONS.md D-A27 and docs/front-page-design/ARCHITECTURE.md, Promotion).",
+    "legacy": {
+      "index.html": "docs/legacy-three-tier.html",
+      "desk/index.html": "docs/legacy-desk.html"
+    }
+  },
+
+  "brand": {
+    "tile": "JD",
+    "name": "Jordan Doerksen",
+    "tagline": "Trading, rail, games",
+    "title_suffix": "Jordan Doerksen"
+  },
+
+  "ui": {
+    "skip": "Skip to the page",
+    "site_aria": "Site",
+    "nav_aria": "Sections",
+    "menu": "Menu",
+    "theme": "Dark",
+    "theme_title": "Dark theme",
+    "search_placeholder": "Search {projects} projects",
+    "search_aria": "Search projects and tools",
+    "sidefoot": "Figures as of {asof}"
+  },
+
+  "assets": {
+    "_": "Repo-relative. The page prefixes each with its own root, so the same paths work from docs/front-page/ and from the repo root.",
+    "css": [
+      "styles/front/front.tokens.css",
+      "styles/front/front.shell.css",
+      "styles/front/front.parts.css"
+    ],
+    "css_carried": ["styles/front/front.bridge.css"],
+    "js": ["js/front/shell.js"]
+  },
+
+  "nav": {
+    "groups": [
+      { "id": "start", "label": "Start" },
+      { "id": "work", "label": "The work" },
+      { "id": "reference", "label": "Reference" }
+    ]
+  },
+
+  "screens": [
+    {
+      "id": "home",
+      "kind": "built",
+      "url": "/",
+      "out": "index.html",
+      "title": "Home",
+      "page_title": "Jordan Doerksen",
+      "group": "start",
+      "icon": "home",
+      "description": "Trading systems, market research tools, training software, and games, built by Jordan Doerksen. The figures on the page are measured from the repositories."
+    },
+    {
+      "id": "trading",
+      "kind": "carried",
+      "url": "/work/trading-desk/",
+      "out": "work/trading-desk/index.html",
+      "title": "Trading desk",
+      "group": "work",
+      "icon": "activity",
+      "description": "A read-only market desk. It records the tape, measures it, and reports what it sees. It never places an order."
+    },
+    {
+      "id": "rail",
+      "kind": "built",
+      "url": "/work/rail-software/",
+      "out": "work/rail-software/index.html",
+      "title": "Rail software",
+      "group": "work",
+      "icon": "train",
+      "description": "CROR rule drills, switching, signals, and general railroad safety. Every answer cites the exact rule it came from."
+    },
+    {
+      "id": "games",
+      "kind": "carried",
+      "url": "/work/games/",
+      "out": "work/games/index.html",
+      "title": "Games",
+      "group": "work",
+      "icon": "gamepad",
+      "description": "Ideas I wanted to see run, to play or to find out whether I could. None is finished. All of them run."
+    },
+    {
+      "id": "desk",
+      "kind": "built",
+      "url": "/desk/",
+      "out": "desk/index.html",
+      "title": "Tool Desk",
+      "group": "reference",
+      "icon": "table",
+      "robots": "noindex",
+      "description": "One row for each of the {projects} projects, and a toolkit of {tools} free and open-source tools."
+    }
+  ],
+
+  "home": {
+    "eyebrow": "Winnipeg",
+    "role": "Curious, self-taught. I build trading systems, market research tools, training software, and games.",
+    "intro": "**Good enough is not good enough.** I test my own systems against themselves and keep improving them, so the work rarely sits in a resting state. All of it runs on design systems and a custom AI harness tuned to my workflow, built over the last four months — it started as a simple loop and became the design and production system everything here goes through. Everything below runs; nothing here is a mockup. Running is not the same as finished, and the games are where that shows.",
+    "figures_aria": "Figures",
+    "figure_labels": {
+      "commits": "commits since {since}",
+      "repos": "repositories",
+      "test_files": "test files",
+      "suite": "tests passing in the trading desk suite"
+    },
+    "stamp": "Figures measured {asof} from the repositories on this machine, and reproducible from them. Nothing here is estimated.",
+    "doors": [
+      {
+        "id": "instruments",
+        "kicker": "Instruments",
+        "h2": "Market analysis, and the bots that act on it",
+        "p": "Read-only analysis and depth-of-book recording on one side; execution algorithms on the other. **The analysis never places an order** — that is built in, not configured. The execution side fails closed. Both are guarded heavily and tested hard.",
+        "screen": "trading",
+        "link": "The trading desk →"
+      },
+      {
+        "id": "training",
+        "kicker": "Training",
+        "h2": "Rail software",
+        "p": "CROR rule drills, switching, signals, and general railroad safety. **Every answer cites the exact rule it came from.** The rulebook governs, not recall.",
+        "screen": "rail",
+        "link": "Rail software →"
+      },
+      {
+        "id": "games",
+        "kicker": "Games",
+        "h2": "Ten experiments",
+        "p": "Ideas I wanted to see run — to play, or to find out whether I could. The method moved from single HTML files that need no installation to config-driven, typed, systems-heavy builds. **None is finished.** All of them run.",
+        "screen": "games",
+        "link": "The games →"
+      }
+    ],
+    "findline": {
+      "before": "Looking for something specific? The ",
+      "link": "Tool Desk",
+      "after": " lists all {projects} projects and a toolkit of {tools} tools."
+    }
+  },
+
+  "rail": {
+    "kicker": "Training",
+    "door": "training",
+    "panel_title": "Rail projects",
+    "count": "{n} projects",
+    "columns": ["Name", "Status", "What it is"],
+    "hub": {
+      "before": "The ",
+      "link": "rail hub",
+      "after": " lists the same projects."
+    }
+  },
+
+  "desk": {
+    "_": "show_local is the flag D-A27 asks for: false keeps desk.json notes, ports and local paths off the page. The flag exists; the code that would show them does not yet.",
+    "show_local": false,
+    "scripts": {
+      "toolkit_data": "data/toolkit.js",
+      "desk": "js/front/desk.js"
+    },
+    "kicker": "Reference",
+    "lede": "One row for each of the {projects} projects, and a toolkit of {tools} free and open-source tools.",
+    "lede_script": " Press **/** to search.",
+    "pinned_label": "Pinned",
+    "filters_aria": "Filters",
+    "selected": "{n} selected",
+    "reset": "Reset",
+    "starred_only": "Starred only",
+    "facets": {
+      "c": "Section",
+      "s": "Status",
+      "k": "Tool category"
+    },
+    "status_order": ["live", "built", "active", "frozen", "superseded", "retired", "shelved", "private"],
+    "extra_blurbs": {
+      "it-toolkit": "The catalog in the Toolkit panel below: {tools} free and open-source IT tools."
+    },
+    "projects": {
+      "title": "Projects",
+      "columns": ["Name", "Section", "Status", "What it is"],
+      "shown": "{n} shown",
+      "none": "No project matches. Clear a filter or the search."
+    },
+    "toolkit": {
+      "title": "Toolkit",
+      "columns": ["Tool", "Category", "What it is", "Platform", "License", "Install"],
+      "shown": "{n} shown",
+      "none": "No tool matches. Clear a filter or the search.",
+      "nojs": "The toolkit list needs JavaScript.",
+      "failed": "The toolkit list did not load.",
+      "repo": {
+        "before": " The same list is in the ",
+        "link": "it-toolkit repository",
+        "after": "."
+      },
+      "starred": "Starred",
+      "copy": "Copy",
+      "copied": "Copied",
+      "selected": "Selected. Press Ctrl+C."
+    }
+  }
+}

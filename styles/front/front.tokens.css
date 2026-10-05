@@ -1,0 +1,184 @@
+/* The front page's one token file.
+ *
+ * Every colour, size, radius, shadow and duration the front page uses is
+ * declared here and nowhere else. front.shell.css and front.parts.css read
+ * these names and never write a value of their own, so a colour change is an
+ * edit to this file only.
+ *
+ * SOURCE (D-A27, CR-21). The values are the trading desk's measured port of
+ * the donor look (satnaing/shadcn-admin, MIT), taken from
+ * C:\projects\trading\trading-desk\web\desk.tokens.css and measured again
+ * here, so the table below stands without the desk's. No Stagecraft value is
+ * used. Nothing needed changing: every pair passes at the donor's value.
+ *
+ * SIX GROUNDS. --bg the sheet; --bg-raised panels on it; --bg-sunken badges
+ * and hover wells; --side-bg the ground the sheet sits on; --surface-hover a
+ * table row under the pointer; --accent-bg the current page and a pressed
+ * toggle. Every ink is measured on all six, in both themes.
+ *
+ * MEASURE. WCAG 2.1 relative luminance, ratio (L1+0.05)/(L2+0.05), computed
+ * by a script that reads this file. Text needs 4.5. A control edge needs 3.0
+ * (WCAG 1.4.11): --hairline is the control edge, --edge is the faint rule on
+ * cards and rows and is decoration, so it is not held to 3.0. A "!" beside a
+ * ratio would mark a failure; there is none.
+ *
+ * MEASURED - LIGHT
+ *   grounds   bg #FBFAF6 . raised #FEFDFB . sunken #F2F0E9 . side #F7F5EF . hover #F7F5F0 . accent-bg #E5F0D4
+ *                                bg    raised    sunken      side     hover accent-bg
+ *   ink           #1D1A13    16.63     17.08     15.23     15.93     15.94     14.67
+ *   ink-dim       #514D42     8.07      8.30      7.40      7.74      7.74      7.13
+ *   ink-faint     #686357     5.73      5.88      5.25      5.49      5.49      5.05
+ *   good          #0B735F     5.54      5.69      5.07      5.30      5.31      4.89
+ *   warn          #845E05     5.61      5.76      5.14      5.37      5.38      4.95
+ *   bad           #BB3622     5.49      5.64      5.03      5.26      5.26      4.84
+ *   live          #365900     7.78      7.99      7.12      7.45      7.45      6.86
+ *   accent-ink    #203501    12.80     13.15     11.72     12.26     12.27     11.30
+ *   hairline      #8A867B     3.48      3.58      3.19      3.33      3.34      3.07
+ *   hairline-lit  #76726A     4.58      4.71      4.20      4.39      4.40      4.05
+ *   --primary-ink #F9FBF4 on --primary #365900: 7.79
+ *   badge text (--ink on --bg-sunken): 15.23
+ *   pressed-toggle edge (--accent-ink on --bg): 12.80
+ *
+ * MEASURED - DARK
+ *   grounds   bg #0D0B08 . raised #16140F . sunken #24211C . side #12100C . hover #1D1B16 . accent-bg #242C16
+ *                                bg    raised    sunken      side     hover accent-bg
+ *   ink           #F3F2EC    17.52     16.41     14.30     16.94     15.34     12.94
+ *   ink-dim       #CBC8BE    11.74     10.99      9.58     11.35     10.28      8.67
+ *   ink-faint     #A29E94     7.35      6.88      6.00      7.11      6.44      5.43
+ *   good          #34D3B0    10.38      9.72      8.47     10.04      9.09      7.67
+ *   warn          #E8B94A    10.73     10.05      8.76     10.38      9.40      7.93
+ *   bad           #FF7A66     7.70      7.21      6.28      7.44      6.74      5.69
+ *   live          #BEF050    14.76     13.82     12.04     14.27     12.92     10.90
+ *   accent-ink    #D8F4AA    16.32     15.28     13.32     15.78     14.29     12.05
+ *   hairline      #77736A     4.16      3.90      3.39      4.02      3.64      3.07
+ *   hairline-lit  #8A867C     5.41      5.07      4.42      5.23      4.74      4.00
+ *   --primary-ink #121904 on --primary #BEF050: 13.52
+ *   badge text (--ink on --bg-sunken): 14.30
+ *   pressed-toggle edge (--accent-ink on --bg): 16.32
+ *   The tightest ground in dark is --accent-bg, then --bg-sunken, which is the
+ *   LIGHTEST of the grounds there. Measure a new dark ink on those two first.
+ *
+ * DARK IS NOT AN INVERSION. It is a second set, measured on its own. The
+ * theme changes colour and shadow only: type, size, radius and rhythm are
+ * declared once, in :root, and are not repeated in the dark block.
+ *
+ * ADDED to the contract's names (the contract's names are all kept, none
+ * renamed): --shadow-pop --sheet-gap --shell-pad-narrow --pop-w --find-w
+ * --radius-xs --radius-sm --radius-md --radius-dot --fs-ctl --fs-read --fs-sub.
+ * Nothing in front.shell.css or front.parts.css reads --bad or --hairline-lit
+ * yet; they stay because the contract fixes the names.
+ *
+ * NO PILLS (owner, D-A27 item 7). Corners are --radius, --radius-lg, or the
+ * two small ones below. --radius-dot is the only round value and is read by
+ * the status dots and the theme dot, nothing else.
+ */
+:root {
+  /* Grounds and rules. */
+  --bg:          #FBFAF6;
+  --bg-raised:   #FEFDFB;
+  --bg-sunken:   #F2F0E9;
+  --side-bg:     #F7F5EF;
+  --edge:        #E0DED5;
+  --hairline:    #8A867B;
+  --hairline-lit:#76726A;
+
+  /* Text. */
+  --ink:         #1D1A13;
+  --ink-dim:     #514D42;
+  --ink-faint:   #686357;
+
+  /* State. Named for the meaning. A colour is never the only carrier: the
+     status marker, the star and the pressed toggle each draw a shape. */
+  --good:        #0B735F;
+  --warn:        #845E05;
+  --bad:         #BB3622;
+  --live:        #365900;
+
+  /* The shell's surfaces. --primary is the brand tile and the checkbox; the
+     accent pair is the current page and the pressed toggle. */
+  --primary:     #365900;
+  --primary-ink: #F9FBF4;
+  --accent-bg:   #E5F0D4;
+  --accent-ink:  #203501;
+  --surface-hover:#F7F5F0;
+  --shadow-1:    0 1px 2px rgba(29,26,19,.05), 0 1px 3px rgba(29,26,19,.06);
+  --shadow-pop:  0 8px 24px rgba(0,0,0,.14);
+
+  /* Type. 13, 15 and 17 sit between the contract's sizes because the
+     approved mockup draws controls, the intro and door titles at them. */
+  --font-ui:   ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace;
+  --fs-micro:  11px;
+  --fs-label:  12px;
+  --fs-ctl:    13px;
+  --fs-body:   14px;
+  --fs-read:   15px;
+  --fs-sub:    17px;
+  --fs-lead:   20px;
+  --fs-title:  24px;
+  --fs-fig:    30px;
+
+  /* Shell constants, in px on purpose: html is 14px, so the donor's rem
+     values would draw a 224px sidebar. --shell-max is 80rem at 16px (D-A27
+     item 3). --sheet-gap is the sheet's outer margin and so the smallest
+     gutter between content and any window edge. */
+  --shell-side:       256px;
+  --shell-bar:        64px;
+  --shell-pad:        24px;
+  --shell-pad-narrow: 16px;
+  --shell-max:        1280px;
+  --sheet-gap:        8px;
+  --pop-w:            248px;
+  --find-w:           272px;
+
+  /* Rhythm and corners. */
+  --gap-tight: 6px;
+  --gap:       12px;
+  --gap-wide:  20px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius:    6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-dot: 50%;
+
+  /* Motion has a job or it does not happen: state changes only. */
+  --t-state: 140ms;
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg:          #0D0B08;
+  --bg-raised:   #16140F;
+  --bg-sunken:   #24211C;
+  --side-bg:     #12100C;
+  --edge:        #2A2823;
+  --hairline:    #77736A;
+  --hairline-lit:#8A867C;
+
+  --ink:         #F3F2EC;
+  --ink-dim:     #CBC8BE;
+  --ink-faint:   #A29E94;
+
+  --good:        #34D3B0;
+  --warn:        #E8B94A;
+  --bad:         #FF7A66;
+  --live:        #BEF050;
+
+  --primary:     #BEF050;
+  --primary-ink: #121904;
+  --accent-bg:   #242C16;
+  --accent-ink:  #D8F4AA;
+  --surface-hover:#1D1B16;
+  --shadow-1:    0 1px 2px rgba(0,0,0,.35);
+  --shadow-pop:  0 8px 24px rgba(0,0,0,.5);
+
+  color-scheme: dark;
+}
+
+/* The duration lives here, not in front.shell.css, because a raw duration may
+   not appear outside this file. 0ms makes every state change instant. */
+@media (prefers-reduced-motion: reduce) {
+  :root { --t-state: 0ms; }
+}

@@ -1,0 +1,19 @@
+{
+  "_": "Settings for scripts/front_probe.mjs. Values only; the logic is in the .mjs files.",
+  "playwright_from": "C:/projects/map-reading-trainer/package.json",
+  "dir": "docs/front-page",
+  "pages": [
+    "index.html",
+    "work/trading-desk/index.html",
+    "work/rail-software/index.html",
+    "work/games/index.html",
+    "desk/index.html"
+  ],
+  "widths": [320, 375, 412, 768, 1024, 1280, 1920],
+  "themes": ["light", "dark"],
+  "keyboard_widths": [375, 1280],
+  "gutter_px": 8,
+  "max_tabs": 160,
+  "contrast": { "text": 4.5, "large": 3.0, "edge": 3.0 },
+  "script_only": ["#fp-menu-btn", "#fp-theme", ".fp-find", "#fp-toolbar", ".fp-carry .controls"]
+}

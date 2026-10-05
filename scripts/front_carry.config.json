@@ -1,0 +1,274 @@
+{
+  "_": "Config for scripts/front_carry.py (DECISIONS.md D-A27, CR-21). Data only: no logic lives here. Every 'selector' below is matched against the ORIGINAL tier selector (before it is scoped). An entry that matches nothing is logged as carry_config_unused, so a tier change that makes an entry stale is visible. Lists named 'literals' and 'rewrites' at the top are shared by every screen; the same lists inside a screen are added after them. Manual: scripts/FRONT-PAGE-CARRY.md.",
+  "schema": 1,
+  "palette_names": [
+    "--paper",
+    "--sheet",
+    "--deep",
+    "--ink",
+    "--ink-2",
+    "--muted",
+    "--hair",
+    "--wire",
+    "--live",
+    "--warn",
+    "--ok",
+    "--hot",
+    "--display",
+    "--sans",
+    "--mono",
+    "--signal",
+    "--rule",
+    "--correct"
+  ],
+  "named_colours": "aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgreen darkgrey darkkhaki darkmagenta darkolivegreen darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray darkslategrey darkturquoise darkviolet deeppink deepskyblue dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray green greenyellow grey honeydew hotpink indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan lightgoldenrodyellow lightgray lightgreen lightgrey lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue lightyellow lime limegreen linen magenta maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen mediumslateblue mediumspringgreen mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin navajowhite navy oldlace olive olivedrab orange orangered orchid palegoldenrod palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple rebeccapurple red rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue tan teal thistle tomato turquoise violet wheat white whitesmoke yellow yellowgreen",
+  "rgb_tokens": {
+    "_": "rgba(R,G,B,a) washes. The triple names the tier colour the wash was cut from; the token is what that colour means in the donor look. The alpha becomes the percentage in color-mix().",
+    "57,189,248": "--live",
+    "242,153,74": "--warn",
+    "255,255,255": "--ink"
+  },
+  "literals": [
+    {
+      "value": "#04060B",
+      "property": "^background$",
+      "to": "var(--bg-sunken)",
+      "why": "The plate behind an iframe that has not mounted yet. A quiet sunken well, as the donor draws one."
+    }
+  ],
+  "rewrites": [],
+  "screens": {
+    "trading": {
+      "source": "docs/tier-2-case/index.html",
+      "css_out": "styles/front/carry-trading.css",
+      "scripts": [
+        {
+          "from": "docs/tier-2-case/stage.js",
+          "to": "js/front/stage.js"
+        },
+        {
+          "from": "docs/tier-2-case/desk-toy.js",
+          "to": "js/front/desk-toy.js"
+        },
+        {
+          "from": "docs/tier-3/wall.js",
+          "to": "js/front/wall.js"
+        }
+      ],
+      "_scripts": "wall.js drives the three demo frames under 'The rest of the bench' (the tier page got it from the composed page).",
+      "head": {
+        "kicker": {
+          "pattern": "<p class=\"kicker\">(.*?)</p>",
+          "text": "Trading",
+          "_": "The tier said 'Tier 2 \u00b7 the work'. The front page has no tiers, so the label is the section's name."
+        },
+        "title": {
+          "pattern": "<h1>(.*?)</h1>"
+        },
+        "lede": {
+          "pattern": "<p class=\"what-it-is\">(.*?)</p>"
+        }
+      },
+      "drop_selectors": [
+        ".kicker",
+        "h1",
+        ".what-it-is",
+        ".what-it-is b",
+        "*",
+        "*::before",
+        "*::after"
+      ],
+      "container": {
+        "selector": ".wrap",
+        "name": "fp-carry",
+        "_": "The box a piece follows. Every (min|max)-width @media in the tier CSS becomes an @container query on it, because the shell's sidebar makes the box narrower than the window."
+      },
+      "overrides": [
+        {
+          "selector": ".wrap",
+          "set": {
+            "max-width": "none",
+            "margin": "0",
+            "padding": "0"
+          },
+          "why": "The shell's track already caps the width (80rem) and pads the sides."
+        }
+      ],
+      "allow_fixed": {},
+      "redact": [
+        {
+          "from": " \u00b7 C:\\projects\\trading\\sentinel-trader",
+          "to": "",
+          "why": "A path on the owner's machine, in the sentinel-trader card's 'Where it lives' line (the tier generator reads it from the desk topology). The front page writes no local path (front_check.py no_local_data; D-A27 open question on the Tool Desk). To show it again, delete this entry."
+        }
+      ],
+      "literals": [
+        {
+          "value": "#132836",
+          "property": "^background$",
+          "to": "var(--accent-bg)",
+          "why": "The checked feed switch. A dark blue fill in the tier; the donor's 'pressed' fill is --accent-bg, with --ink text on it (14.67 light, 12.94 dark)."
+        },
+        {
+          "value": "#04060B",
+          "selector": ".az-btn.az-fire:hover",
+          "property": "^color$",
+          "to": "var(--bg)",
+          "why": "Text on the --ink fill that the hover state paints. --bg is the inverse of --ink in both themes."
+        },
+        {
+          "value": "#04060B",
+          "selector": ".az-btn.az-fire",
+          "property": "^color$",
+          "to": "var(--primary-ink)",
+          "why": "Text on the --live fill. --primary-ink is the token measured on --primary, which has the same value as --live in both themes (7.79 and 13.52)."
+        }
+      ],
+      "rewrites": [
+        {
+          "selector": "^(\\.tab|\\.btn|\\.az-btn|\\.az-seg span)$",
+          "property": "^border",
+          "from": "var(--hair)",
+          "to": "var(--wire)",
+          "why": "A control edge must reach 3:1 (WCAG 1.4.11). The tier drew buttons, tabs and switches with its decorative rule colour. --wire is --hairline."
+        },
+        {
+          "selector": "^#t-[a-z]+:checked ~ \\.tabs label\\[for=\"t-[a-z]+\"\\]$",
+          "property": "^background$",
+          "from": "var(--ink)",
+          "to": "var(--accent-bg)",
+          "why": "The chosen tab. The tier inverted it (ink fill), which left its '9 parts' line in --muted on --ink at about 3:1. The donor marks the current item with --accent-bg and --accent-ink, and --ink-faint holds 5:1 on it."
+        },
+        {
+          "selector": "^#t-[a-z]+:checked ~ \\.tabs label\\[for=\"t-[a-z]+\"\\]$",
+          "property": "^color$",
+          "from": "var(--paper)",
+          "to": "var(--accent-ink)",
+          "why": "Pair of the rule above."
+        },
+        {
+          "selector": "^#t-[a-z]+:checked ~ \\.tabs label\\[for=\"t-[a-z]+\"\\]$",
+          "property": "^border-color$",
+          "from": "var(--ink)",
+          "to": "var(--live)",
+          "why": "Pair of the rule above. The chosen tab keeps a second channel as well: its fill."
+        },
+        {
+          "selector": "^\\.(finale|az|bench) h2$",
+          "property": "^font$",
+          "from": "800 clamp(20px,2.4vw,28px)/1.15 var(--display)",
+          "to": "600 var(--fs-lead)/1.25 var(--font-ui)",
+          "why": "Section titles. The tier set them in a heavy display face; the donor sets titles at 600 on the UI face."
+        },
+        {
+          "selector": "^\\.(finale|az|bench) h2$",
+          "property": "^letter-spacing$",
+          "from": "-.03em",
+          "to": "-.01em",
+          "why": "Pair of the rule above; --fs-title uses -.01em."
+        },
+        {
+          "selector": "card\\.in::before$",
+          "property": "^border-radius$",
+          "from": "50%",
+          "to": "var(--radius-dot)",
+          "why": "The marker that travels along the wire is a 7px dot, not a pill. The raw 50% becomes the one round token."
+        }
+      ],
+      "extra_css": ".card, .tab, .btn, .az-btn, .az-seg span, .az-col, .stage[data-js=\"on\"] .slots, .monad img { border-radius: var(--radius); }\n.mesh, .az, .finale, .monad, .bench-wall .panel { border-radius: var(--radius-lg); }\n.badge, .az-tag, .az-line { border-radius: var(--radius-sm); }\n.bench-wall .panel { overflow: hidden; }\n@media (prefers-reduced-motion: reduce) { .finale { animation: none; } }\n[hidden] .controls { display: none; }\n@media (scripting: none) { .idea span { animation: none; opacity: 1; transform: none; } }\n.mnode text { font-size: 13px; stroke-width: 4px; }\n.fp-mesh-note { display: none; margin: 0; color: var(--ink-dim); }\n@container fp-carry (max-width: 830px) { .mesh figcaption, .mesh .meshsvg { display: none; } .mesh .fp-mesh-note { display: block; } }",
+      "_extra_css": "Last two rules: a script-only control inside a hidden host (the finale) computes display:none, not only its host; and with scripting off the opening lines show at once instead of fading in over two seconds (a page that waits on nothing). The mesh: labels are 13px so they stay readable at desktop widths, and below an 830px container the diagram and its caption give way to a note, because at that size the labels would draw under 8px.",
+      "insert": [
+        {
+          "before": "<svg class=\"meshsvg\"",
+          "html": "<p class=\"fp-mesh-note\">The parts diagram needs a wider screen. The five paths above list the same parts, in order.</p>",
+          "why": "At 375px the diagram draws its labels at 2.5px. Below an 830px container it is replaced by this note; the path tabs above already list every part. The note stays hidden until the container is that narrow (extra_css)."
+        }
+      ]
+    },
+    "games": {
+      "source": "docs/tier-3/index.html",
+      "css_out": "styles/front/carry-games.css",
+      "scripts": [
+        {
+          "from": "docs/tier-3/wall.js",
+          "to": "js/front/wall.js"
+        }
+      ],
+      "head": {
+        "kicker": {
+          "pattern": "<p class=\"kicker\">(.*?)</p>"
+        },
+        "title": {
+          "pattern": "<h1>(.*?)</h1>"
+        },
+        "lede": {
+          "pattern": "<p class=\"lede\">(.*?)</p>"
+        }
+      },
+      "drop_selectors": [
+        ".kicker",
+        "h1",
+        ".lede",
+        ".lede b",
+        "*",
+        "*::before",
+        "*::after"
+      ],
+      "_container": "No container: the tier-3 CSS has no width query, and a container box would become the containing block of anything fixed inside it.",
+      "overrides": [
+        {
+          "selector": ".wrap",
+          "set": {
+            "max-width": "none",
+            "margin": "0",
+            "padding": "0"
+          },
+          "why": "The shell's track already caps the width (80rem) and pads the sides."
+        }
+      ],
+      "allow_fixed": {
+        ".player": "The game player. It is display:none until a game name is opened, covers the window while it is open, and closes on Esc: a transient overlay like the Tool Desk popover, not a fourth chrome cluster. It sits outside the container (.wrap) on purpose, because a container query box would become its containing block."
+      },
+      "literals": [
+        {
+          "value": "rgba(4,5,8,.95)",
+          "selector": ".player",
+          "property": "^background$",
+          "to": "var(--bg)",
+          "why": "The player's backdrop. Opaque: at 95% the shell's own text shows faintly through the title bar on the light ground."
+        },
+        {
+          "value": "#000",
+          "selector": ".player iframe",
+          "property": "^background$",
+          "to": "var(--bg-sunken)",
+          "why": "The game frame's ground before the game paints over it."
+        }
+      ],
+      "rewrites": [
+        {
+          "selector": "^\\.player-close$",
+          "property": "^border",
+          "from": "var(--hair)",
+          "to": "var(--wire)",
+          "why": "A control edge must reach 3:1 (WCAG 1.4.11). --wire is --hairline."
+        },
+        {
+          "selector": "^\\.wall$",
+          "property": "^grid-template-columns$",
+          "from": "minmax(330px,1fr)",
+          "to": "minmax(min(330px,100%),1fr)",
+          "why": "Inside the shell the box is narrower than the window. A 330px minimum overflows a 270px box at 320px; min() lets the column shrink."
+        },
+        {
+          "selector": "^\\.all ul$",
+          "property": "^grid-template-columns$",
+          "from": "minmax(280px,1fr)",
+          "to": "minmax(min(280px,100%),1fr)",
+          "why": "Same reason as the wall."
+        }
+      ],
+      "extra_css": ".panel { border-radius: var(--radius-lg); overflow: hidden; }\n.all a, .player-close { border-radius: var(--radius); }"
+    }
+  }
+}

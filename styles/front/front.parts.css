@@ -1,0 +1,214 @@
+/* The parts: Home (role, intro, figures, doors), the Tool Desk (pins, facets,
+   popover, panels, tables, copy, star, toggle) and the status markers.
+   Values come from front.tokens.css; every selector carries an fp- class.
+   Narrow rules for these parts live in the one max-width block in
+   front.shell.css, except the container rules at the end, which follow the
+   box a part sits in rather than the window. */
+
+/* ---- Home ---- */
+.fp-role { margin: 6px 0 0; max-width: 60ch; color: var(--ink-dim); font-size: var(--fs-lead); line-height: 1.4; }
+.fp-intro { margin: 20px 0 0; max-width: 68ch; font-size: var(--fs-read); line-height: 1.65; }
+.fp-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0;
+  margin: 28px 0 8px; border-block: 1px solid var(--edge); container-type: inline-size; }
+.fp-fig { display: grid; gap: 2px; padding: 14px 16px 14px 0; }
+.fp-fig + .fp-fig { padding-left: 16px; border-left: 1px solid var(--edge); }
+.fp-fig b { font: 600 var(--fs-fig)/1.1 var(--font-ui); letter-spacing: -.015em; font-variant-numeric: tabular-nums; }
+.fp-fig span { color: var(--ink-dim); font-size: var(--fs-label); }
+.fp-stamp { margin: 8px 0 0; max-width: 72ch; color: var(--ink-faint); font-size: var(--fs-label); }
+.fp-doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 36px; border-top: 1px solid var(--edge); container-type: inline-size; }
+.fp-door { display: grid; gap: 6px; align-content: start; padding: 18px 20px 22px 0; }
+.fp-door + .fp-door { padding-left: 20px; border-left: 1px solid var(--edge); }
+.fp-door-k { color: var(--ink-faint); font-size: var(--fs-label); letter-spacing: .04em; }
+.fp-door h2 { margin: 0; font: 600 var(--fs-sub)/1.3 var(--font-ui); }
+.fp-door p { margin: 0; max-width: 52ch; color: var(--ink-dim); line-height: 1.6; }
+.fp-door p b { color: var(--ink); font-weight: 600; }
+/* The padding makes the link 25px tall (WCAG 2.5.8) and the margins give it back, so the door keeps its height. */
+.fp-go { width: max-content; padding-block: 2px; margin-block: 4px -2px; color: var(--live);
+  font-weight: 500; text-decoration: none; }
+.fp-go:hover { text-decoration: underline; }
+.fp-findline { margin: 28px 0 0; padding-top: 16px; border-top: 1px solid var(--edge); color: var(--ink-dim); }
+/* Links inside running text: colour is the second channel, the underline stays. The padding and the
+   cancelling side margin lift a short link to a 24px box (WCAG 2.5.8) without moving the text: an
+   inline box's vertical padding adds no line height. */
+.fp-lede a, .fp-intro a, .fp-role a, .fp-stamp a, .fp-meta a, .fp-empty a, .fp-findline a {
+  padding: 5px 4px; margin-inline: -4px; color: var(--live); font-weight: 500; }
+
+/* ---- Tool Desk: page head, pins, filters ---- */
+.fp-pagehead { display: flex; align-items: end; justify-content: space-between; gap: var(--gap-wide);
+  flex-wrap: wrap; margin: 8px 0 18px; }
+/* The approved mockup draws this kicker in --ink-dim with a 4px top margin (its
+   ".pagehead p" rule outranks ".kicker"). Kept as drawn; delete the rule to match Home. */
+.fp-pagehead .fp-kicker { margin: 4px 0 0; max-width: 70ch; color: var(--ink-dim); }
+.fp-pins { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; margin: 0 0 12px; }
+.fp-pins-k { margin-right: 10px; color: var(--ink-faint); font-size: var(--fs-label); }
+/* Pinned items are plain buttons: no outline, a wash on hover. */
+.fp-ghost { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px;
+  border: 0; border-radius: var(--radius); background: transparent; color: var(--ink);
+  font: inherit; font-size: var(--fs-ctl); text-decoration: none; cursor: pointer; transition: background var(--t-state); }
+.fp-ghost:hover { background: var(--bg-sunken); }
+
+/* The donor's faceted toolbar (option A): square corners, dashed edge. No pills. */
+.fp-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 4px; }
+.fp-facet { position: relative; }
+.fp-fa { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px;
+  border: 1px dashed var(--hairline); border-radius: var(--radius); background: var(--bg);
+  font-size: var(--fs-ctl); cursor: pointer; list-style: none; transition: background var(--t-state); }
+.fp-fa::-webkit-details-marker { display: none; }
+.fp-fa:hover { background: var(--bg-sunken); }
+.fp-vsep { width: 1px; height: 16px; background: var(--hairline); }
+.fp-badge { padding: 1px 6px; border-radius: var(--radius-sm); background: var(--bg-sunken);
+  font-size: var(--fs-label); font-weight: 500; }
+/* max-height: the toolkit's category list is longer than the window can be short. */
+.fp-pop { position: absolute; z-index: 5; top: calc(100% + var(--gap-tight)); left: 0; width: var(--pop-w);
+  max-height: min(60svh, 440px); overflow-x: hidden; overflow-y: auto; padding: 4px;
+  background: var(--bg-raised); border: 1px solid var(--edge); border-radius: var(--radius-md); box-shadow: var(--shadow-pop); }
+.fp-pop label { display: flex; align-items: center; gap: 10px; min-height: 32px; padding: 0 8px;
+  border-radius: var(--radius-sm); cursor: pointer; }
+.fp-pop label:hover { background: var(--bg-sunken); }
+.fp-n { margin-left: auto; color: var(--ink-faint); font-size: var(--fs-label); font-variant-numeric: tabular-nums; }
+/* The box is drawn 16px inside a 24px control, so the target meets WCAG 2.5.8 and the row does not
+   move (the margin gives the 8px back). A native checkbox paints at its full box size, so it is
+   drawn here; the edge is --hairline (3:1) and the check is --primary-ink on --primary. */
+.fp-pop input[type="checkbox"] { appearance: none; -webkit-appearance: none; position: relative; flex: none;
+  width: 24px; height: 24px; margin: -4px; padding: 0; border: 0; background: none; cursor: pointer; outline-offset: -2px; }
+.fp-pop input[type="checkbox"]::before { content: ""; position: absolute; inset: 4px;
+  border: 1px solid var(--hairline); border-radius: var(--radius-xs); background: var(--bg-raised); }
+.fp-pop input[type="checkbox"]:checked::before { background: var(--primary); border-color: var(--primary); }
+.fp-pop input[type="checkbox"]:checked::after { content: ""; position: absolute; left: 9px; top: 5px; width: 5px; height: 9px;
+  border: solid var(--primary-ink); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.fp-reset { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 8px;
+  border: 0; border-radius: var(--radius); background: none; color: var(--ink);
+  font: inherit; font-size: var(--fs-ctl); cursor: pointer; transition: background var(--t-state); }
+.fp-reset:hover { background: var(--bg-sunken); }
+/* On/off, rectangular. Pressed draws a check and a bolder label as well as the fill. */
+.fp-toggle { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px;
+  border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--bg); color: var(--ink);
+  font: inherit; font-size: var(--fs-ctl); cursor: pointer; transition: background var(--t-state); }
+.fp-toggle:hover { background: var(--bg-sunken); }
+.fp-toggle[aria-pressed="true"] { background: var(--accent-bg); color: var(--accent-ink);
+  border-color: var(--accent-ink); font-weight: 600; }
+.fp-toggle[aria-pressed="true"]::before { content: ""; flex: none; width: 5px; height: 9px;
+  border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-1px) rotate(45deg); }
+
+/* ---- panels and tables ---- */
+.fp-panel { margin-top: 18px; background: var(--bg-raised); border: 1px solid var(--edge);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-1); overflow: hidden; container-type: inline-size; }
+.fp-panel-head { display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  min-height: 40px; padding: 0 12px; border-bottom: 1px solid var(--edge); }
+.fp-panel-head h2 { margin: 0; font: 600 var(--fs-body)/1 var(--font-ui); }
+.fp-meta { color: var(--ink-faint); font-size: var(--fs-label); }
+.fp-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.fp-table th { padding: 8px 12px; text-align: left; color: var(--ink-faint); font-weight: 400;
+  font-size: var(--fs-label); border-bottom: 1px solid var(--edge); }
+.fp-table td { padding: 9px 12px; vertical-align: top; }
+/* The rule sits on a row that has a visible row above it, so a filter that hides the
+   first or last row never leaves a double line against the header or the panel edge. */
+.fp-table tbody tr:not([hidden]) ~ tr:not([hidden]) { border-top: 1px solid var(--edge); }
+.fp-table tbody tr:hover { background: var(--surface-hover); }
+/* One line, as the mockup draws it. 36ch is longer than any registry name (about 33 characters), so
+   today it never bites; a longer name ends in an ellipsis here instead of pushing the other columns
+   out of the panel, and wraps in full once the rows stack. */
+.fp-name { font-weight: 600; white-space: nowrap; max-width: 36ch; overflow: hidden; text-overflow: ellipsis; }
+/* The padding lifts the link to a 24px box, two-letter names included, and the margin gives the width back. */
+.fp-name a { padding: 4px 8px; margin-inline: -8px; color: inherit; text-decoration: none; }
+.fp-name a:hover { text-decoration: underline; }
+.fp-cat { color: var(--ink-dim); white-space: nowrap; }
+/* anywhere: an unbroken string breaks instead of widening the panel. The project table's other
+   columns are nowrap, so the blurb is its one flexible column and keeps 180px or more above the
+   640px stack point; it cannot collapse. */
+.fp-blurb { color: var(--ink-dim); line-height: 1.5; overflow-wrap: anywhere; }
+.fp-plat, .fp-lic { color: var(--ink-dim); }
+.fp-inst { font: var(--fs-label)/1.5 var(--font-mono); color: var(--ink-dim); overflow-wrap: anywhere; }
+.fp-inst code { font: inherit; }
+/* The negative margin keeps the 28px button from stretching the line it sits on. */
+.fp-copy { display: inline-flex; align-items: center; gap: 6px; height: 28px; margin: -5px 0 -5px 6px; padding: 0 8px;
+  border: 0; border-radius: var(--radius); background: none; color: var(--ink);
+  font-family: var(--font-ui); font-size: var(--fs-label); line-height: 1; cursor: pointer;
+  vertical-align: middle; transition: background var(--t-state); }
+.fp-copy:hover { background: var(--bg-sunken); }
+
+/* The toolkit table has six columns, and a platform column marks it. Fixed widths keep 160
+   rows on one rhythm, and its text breaks rather than runs out of a cell. The project table
+   (four columns, auto widths) is untouched. The last column takes what is left (29%). The install
+   command is the longest unbroken word in the table ("Microsoft.Sysinternals.Autoruns" is 31
+   characters of mono), so its column is sized to hold that word on one line at the 900px stack
+   point; narrower and it breaks in the middle of the package name. */
+.fp-table:has(.fp-plat) { table-layout: fixed; }
+.fp-table:has(.fp-plat) th:nth-child(1) { width: 14%; }
+.fp-table:has(.fp-plat) th:nth-child(2) { width: 13%; }
+.fp-table:has(.fp-plat) th:nth-child(3) { width: 26%; }
+.fp-table:has(.fp-plat) th:nth-child(4) { width: 10%; }
+.fp-table:has(.fp-plat) th:nth-child(5) { width: 8%; }
+.fp-table:has(.fp-plat) td { overflow-wrap: anywhere; }
+.fp-table:has(.fp-plat) .fp-name { max-width: none; overflow: visible; }
+.fp-table:has(.fp-plat) .fp-name, .fp-table:has(.fp-plat) .fp-cat { white-space: normal; }
+/* A starred tool: a drawn four-point star before the name. Colour is only the second channel. */
+.fp-star::before { content: ""; display: inline-block; width: 11px; height: 11px; margin-right: 6px;
+  vertical-align: -1px; background: var(--warn);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+.fp-empty { margin: 0; padding: 16px 12px; color: var(--ink-dim); }
+
+/* ---- status markers: a shape, then the word. Colour is the second channel. ---- */
+.fp-st { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: var(--fs-label); }
+.fp-st::before { content: ""; flex: none; width: 9px; height: 9px; background: currentColor; }
+.fp-st[data-s="live"] { color: var(--live); }
+.fp-st[data-s="live"]::before { border-radius: var(--radius-dot); }
+.fp-st[data-s="built"] { color: var(--good); }
+.fp-st[data-s="built"]::before { border-radius: calc(var(--radius-xs) / 2); }
+.fp-st[data-s="active"] { color: var(--live); }
+.fp-st[data-s="active"]::before { background: none; border: 2px solid currentColor; border-radius: var(--radius-dot); }
+.fp-st[data-s="frozen"] { color: var(--ink-dim); }
+.fp-st[data-s="frozen"]::before { width: 8px; height: 8px; transform: rotate(45deg); }
+.fp-st[data-s="retired"] { color: var(--ink-faint); }
+.fp-st[data-s="retired"]::before { width: 8px; height: 8px; background: none; border: 2px solid currentColor; transform: rotate(45deg); }
+.fp-st[data-s="superseded"] { color: var(--ink-faint); }
+.fp-st[data-s="superseded"]::before { clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.fp-st[data-s="shelved"] { color: var(--ink-faint); }
+.fp-st[data-s="shelved"]::before { height: 9px; background: none; border-block: 3px solid currentColor; border-inline: 0; }
+.fp-st[data-s="private"] { color: var(--ink-dim); }
+.fp-st[data-s="private"]::before { background: none; border: 2px solid currentColor;
+  border-radius: var(--radius-xs) var(--radius-xs) var(--radius-sm) var(--radius-sm); }
+/* Forced colours repaint every background as Canvas, which would erase the filled shapes: the status
+   markers, the star and the pressed theme dot. They are drawn in the system text colour instead, not in
+   a token, because the OS palette can disagree with the page theme. */
+@media (forced-colors: active) {
+  .fp-st::before, .fp-star::before { forced-color-adjust: none; background-color: CanvasText; }
+  .fp-st[data-s]::before { border-color: CanvasText; }
+  .fp-theme[aria-pressed="true"] .fp-dot { forced-color-adjust: none; background-color: CanvasText; border-color: CanvasText; }
+  .fp-nav a[aria-current="page"] { text-decoration: underline; }
+}
+
+/* ---- follow the box, not the window ----
+   A part wraps when the box it sits in is too narrow, which is not the same as the
+   window being narrow: the sidebar takes 256px from the window. The widths are
+   multiples of the part's minimum (150px per figure, 260px per door). */
+@container (min-width: 450px) and (max-width: 599px) { .fp-fig:nth-child(4) { padding-left: 0; border-left: 0; } }
+@container (min-width: 300px) and (max-width: 449px) { .fp-fig:nth-child(odd) { padding-left: 0; border-left: 0; } }
+@container (max-width: 299px) { .fp-fig + .fp-fig { padding-left: 0; border-left: 0; } }
+@container (min-width: 520px) and (max-width: 779px) { .fp-door:nth-child(odd) { padding-left: 0; border-left: 0; } }
+@container (max-width: 519px) { .fp-door + .fp-door { padding-left: 0; border-left: 0; border-top: 1px solid var(--edge); } }
+/* A table stacks into grid rows when its panel is narrower than its columns need: 640px for the
+   four-column project table (a 36ch name, the section, the status and a blurb word come to about
+   630px), 900px for the six-column toolkit table. Below 768px the window rule in
+   front.shell.css stacks them as well; keep the two stacks in step. */
+@container (max-width: 639px) {
+  .fp-table thead { display: none; }
+  .fp-table tbody tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 10px 12px; }
+  .fp-table tbody td { padding: 0; min-width: 0; }
+  .fp-table .fp-blurb, .fp-table .fp-inst { grid-column: 1 / -1; }
+  .fp-table .fp-name, .fp-table .fp-cat { white-space: normal; max-width: none; overflow: visible; overflow-wrap: break-word; }
+}
+@container (max-width: 899px) {
+  .fp-main .fp-table:has(.fp-plat) thead { display: none; }
+  .fp-main .fp-table:has(.fp-plat) tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 12px; padding: 10px 12px; }
+  .fp-main .fp-table:has(.fp-plat) td { padding: 0; min-width: 0; }
+  /* name and licence share the first line; everything else takes a line of its own */
+  .fp-main .fp-table:has(.fp-plat) .fp-name { grid-area: 1 / 1; }
+  .fp-main .fp-table:has(.fp-plat) .fp-lic { grid-area: 1 / 2; white-space: nowrap; }
+  .fp-main .fp-table:has(.fp-plat) .fp-cat { grid-area: 2 / 1 / 3 / -1; }
+  .fp-main .fp-table:has(.fp-plat) .fp-blurb { grid-area: 3 / 1 / 4 / -1; }
+  .fp-main .fp-table:has(.fp-plat) .fp-plat { grid-area: 4 / 1 / 5 / -1; }
+  .fp-main .fp-table:has(.fp-plat) .fp-inst { grid-area: 5 / 1 / 6 / -1; }
+}

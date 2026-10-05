@@ -1,0 +1,155 @@
+/* The shell: reset, sidebar, sheet, bar, brand, nav, find, theme toggle, menu,
+   focus, the narrow layout and reduced motion. Values come from
+   front.tokens.css; a raw colour, radius, shadow or duration here is a bug.
+   Every selector carries an fp- class so a carried piece that shares the page
+   is never restyled by accident. The one exception is the RESET block. */
+
+/* ---- RESET BEGIN: the only rules in the front stylesheets without an fp- class ---- */
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  font: var(--fs-body)/1.5 var(--font-ui);
+  background: var(--side-bg);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* The sticky bar must not cover what keyboard focus or a "#fp-main" jump
+     scrolls into view (WCAG 2.4.11). */
+  scroll-padding-top: calc(var(--shell-bar) + var(--shell-pad));
+}
+body { margin: 0; min-height: 100svh; }
+/* A rule with display set would beat the UA's [hidden]. Controls that need a
+   script ship hidden, so this must win. */
+[hidden] { display: none !important; }
+/* One ring for every link, button, input, summary and select. --live is 6.8:1
+   or better on every ground in both themes. */
+:focus-visible { outline: 2px solid var(--live); outline-offset: 2px; }
+/* ---- RESET END ---- */
+
+/* Icons are Lucide paths inlined by the generator; they draw as strokes. */
+.fp-nav svg, .fp-find svg, .fp-menu-btn svg, .fp-ghost svg, .fp-fa svg,
+.fp-reset svg, .fp-copy svg, .fp-toggle svg {
+  flex: none; stroke: currentColor; fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+
+.fp-skip { position: absolute; left: var(--sheet-gap); top: -60px; z-index: 9; padding: 8px 12px;
+  background: var(--bg); color: var(--ink); border-radius: var(--radius); }
+.fp-skip:focus { top: var(--sheet-gap); }
+
+/* ---- cluster 1 of 3: the sidebar (identity + navigation) ---- */
+/* overflow-y only: the sidebar scrolls when the window is short, never sideways. */
+.fp-side { position: fixed; inset: 0 auto 0 0; width: var(--shell-side); display: flex; flex-direction: column;
+  gap: var(--gap); padding: 12px; overflow-x: hidden; overflow-y: auto; background: var(--side-bg); }
+.fp-brandrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.fp-brand { display: flex; align-items: center; gap: 10px; padding: 4px 6px; min-height: 48px;
+  border-radius: var(--radius); text-decoration: none; color: inherit; }
+.fp-tile { flex: none; width: 32px; height: 32px; display: grid; place-items: center;
+  border-radius: var(--radius); background: var(--bg-sunken); color: var(--ink); }
+.fp-tile-brand { background: var(--primary); color: var(--primary-ink);
+  font: 700 var(--fs-ctl)/1 var(--font-ui); letter-spacing: .02em; }
+.fp-two { display: grid; line-height: 1.25; min-width: 0; }
+.fp-two b { font: 600 var(--fs-body)/1.25 var(--font-ui); white-space: nowrap; }
+.fp-two small { color: var(--ink-faint); font-size: var(--fs-label); white-space: nowrap; }
+.fp-nav { display: grid; gap: 14px; flex: 1; align-content: start; }
+.fp-navgroup-k { display: block; padding: 0 8px 4px; color: var(--ink-faint); font-size: var(--fs-label); }
+.fp-nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.fp-nav a { display: flex; align-items: center; gap: 10px; min-height: 34px; padding: 0 8px;
+  border-radius: var(--radius); text-decoration: none; color: var(--ink); transition: background var(--t-state); }
+.fp-nav a:hover { background: var(--bg-sunken); }
+.fp-nav a[aria-current="page"] { background: var(--accent-bg); color: var(--accent-ink); font-weight: 500; }
+/* A screen that is listed but not built stays readable and quiet. */
+.fp-nav a[aria-disabled="true"] { color: var(--ink-dim); }
+.fp-sidefoot { border-top: 1px solid var(--edge); padding: 8px 6px 2px; color: var(--ink-faint); font-size: var(--fs-label); }
+
+/* ---- the sheet, and cluster 2 of 3: the bar (orientation) ---- */
+.fp-sheet { margin: var(--sheet-gap) var(--sheet-gap) var(--sheet-gap) var(--shell-side);
+  min-height: calc(100svh - 2 * var(--sheet-gap)); min-width: 0; background: var(--bg);
+  border: 1px solid var(--edge); border-radius: var(--radius-lg); box-shadow: var(--shadow-1); }
+.fp-bar { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; gap: var(--gap);
+  height: var(--shell-bar); padding: 0 16px; background: var(--bg);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+/* flex: none, so the search box gives way first. The mockup lets the crumb shrink, and at 769px its
+   text runs under the search box. */
+.fp-crumb { display: flex; flex: none; align-items: baseline; gap: 8px; white-space: nowrap; }
+.fp-crumb span { color: var(--ink-faint); font-size: var(--fs-ctl); }
+.fp-crumb b { font: 600 var(--fs-read)/1.3 var(--font-ui); }
+.fp-end { margin-left: auto; min-width: 0; display: flex; align-items: center; gap: var(--gap); }
+
+/* cluster 3 of 3: find. The input is stretched over the whole control so the
+   focus ring wraps the control, not a 21px strip of text, and the input is as
+   tall as the control. An absolutely placed input needs an explicit size:
+   left and right alone do not stretch it. */
+.fp-find { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  width: var(--find-w); min-width: 0; height: 34px; padding: 0 10px;
+  border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--bg-raised); color: var(--ink-dim); }
+.fp-find input { position: absolute; top: -1px; left: -1px; width: calc(100% + 2px); height: calc(100% + 2px);
+  margin: 0; padding: 0 37px 0 35px; border: 0; border-radius: inherit; background: transparent;
+  color: var(--ink); font: inherit; appearance: none; -webkit-appearance: none; }
+/* opacity: Firefox dims placeholders by default, which would undo the measured colour. */
+.fp-find input::placeholder { color: var(--ink-faint); opacity: 1; }
+.fp-find kbd { font: var(--fs-micro)/1 var(--font-mono); border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm); padding: 2px 5px; color: var(--ink-faint); }
+
+.fp-theme { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px;
+  border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--bg); color: var(--ink);
+  font: inherit; cursor: pointer; transition: background var(--t-state); }
+.fp-theme:hover { background: var(--bg-sunken); }
+.fp-dot { flex: none; width: 10px; height: 10px; border-radius: var(--radius-dot); border: 2px solid currentColor; }
+.fp-theme[aria-pressed="true"] .fp-dot { background: currentColor; }
+
+.fp-menu-btn { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px;
+  border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--bg); color: var(--ink);
+  font: inherit; cursor: pointer; transition: background var(--t-state); }
+.fp-menu-btn:hover { background: var(--bg-sunken); }
+/* 769 is 768 + 1: the pair of the max-width block below. */
+@media (min-width: 769px) { .fp-menu-btn { display: none !important; } }
+
+/* ---- the stage ---- */
+.fp-main { padding: 8px var(--shell-pad) 40px; }
+.fp-track { max-width: var(--shell-max); margin-inline: auto; }
+/* The page head every screen shares. */
+.fp-kicker { margin: 8px 0 4px; color: var(--ink-faint); font-size: var(--fs-label); letter-spacing: .04em; }
+.fp-title { margin: 0; font: 700 var(--fs-title)/1.2 var(--font-ui); letter-spacing: -.01em; }
+.fp-lede { margin: 4px 0 0; color: var(--ink-dim); max-width: 70ch; }
+
+/* ---- narrow: re-authored, not shrunk ----
+   THE ONE 768px. A media query cannot read a token, and js/front/shell.js uses
+   the same literal. The part rules below carry a .fp-main prefix: it outranks
+   the base rules in front.parts.css whichever file the page links first. */
+@media (max-width: 768px) {
+  .fp-side { position: static; inset: auto; width: auto; padding: 10px 12px 6px; gap: 6px; overflow: visible; }
+  .fp-nav { flex: none; padding: 4px; gap: 2px; background: var(--bg-raised);
+    border: 1px solid var(--edge); border-radius: var(--radius-md); }
+  .fp-navgroup, .fp-nav ul { display: contents; }
+  .fp-navgroup-k { display: none; }
+  .fp-nav a { min-height: 36px; }
+  .fp-sidefoot { display: none; }
+  .fp-sheet { margin: 0 var(--sheet-gap) var(--sheet-gap); }
+  .fp-bar { height: auto; min-height: var(--shell-bar); flex-wrap: wrap; padding: 10px 12px; }
+  .fp-end { width: 100%; margin-left: 0; }
+  /* Without a script both controls stay hidden; an empty row would unbalance the bar. */
+  .fp-end:not(:has(> :not([hidden]))) { display: none; }
+  .fp-find { flex: 1; width: auto; }
+  .fp-main { padding: 4px var(--shell-pad-narrow) 32px; }
+
+  .fp-main .fp-fig + .fp-fig { border-left: 0; padding-left: 0; }
+  .fp-main .fp-door + .fp-door { border-left: 0; padding-left: 0; border-top: 1px solid var(--edge); }
+  /* The facet list becomes a bottom sheet. It is transient, not a fourth cluster. */
+  .fp-main .fp-pop { position: fixed; inset: auto 12px 12px 12px; width: auto; max-height: 70svh;
+    overflow-y: auto; overflow-x: hidden; z-index: 20; }
+  /* Table rows stack into grid rows; there is no header row. */
+  .fp-main .fp-table thead { display: none; }
+  .fp-main .fp-table tbody tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 10px 12px; }
+  .fp-main .fp-table tbody td { padding: 0; min-width: 0; }
+  .fp-main .fp-table .fp-blurb, .fp-main .fp-table .fp-inst { grid-column: 1 / -1; }
+  .fp-main .fp-table .fp-name, .fp-main .fp-table .fp-cat { white-space: normal; max-width: none; overflow: visible;
+    overflow-wrap: break-word; }
+}
+
+/* Reduced motion: a complete static page. --t-state is zeroed in
+   front.tokens.css; this removes the transition on every fp- element that has
+   one. Carried pieces keep their own handling. Keep the list in step with
+   every rule above and in front.parts.css that sets `transition`. */
+@media (prefers-reduced-motion: reduce) {
+  .fp-nav a, .fp-theme, .fp-menu-btn, .fp-ghost, .fp-fa, .fp-reset, .fp-toggle, .fp-copy { transition: none; }
+}
