@@ -1,0 +1,96 @@
+/* CONTROL OPTIONS SHEET (D-A27, mockup review). Four treatments of the same three controls: pinned, filters, phone nav.
+   Tokens come from mockup.css. No pill shapes anywhere on this sheet. */
+body{background:var(--side-bg)}
+.wrap{max-width:1280px;margin:0 auto;padding:16px var(--shell-pad) 56px}
+.top{display:flex;align-items:center;gap:var(--gap);flex-wrap:wrap;min-height:56px}
+.top h1{font-size:20px}
+.top .end{margin-left:auto}
+.lede{margin:4px 0 0;color:var(--ink-dim);max-width:78ch;line-height:1.6}
+.opt{margin:22px 0 0;background:var(--bg);border:1px solid var(--edge);border-radius:var(--radius-lg);box-shadow:var(--shadow-1)}
+.opt > header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--edge)}
+.opt h2{margin:0;font:600 17px/1.3 var(--font-ui)}
+.opt .tag{padding:2px 8px;border-radius:4px;background:var(--accent-bg);color:var(--accent-ink);font-size:var(--fs-label);font-weight:600}
+.opt .d{margin:0;flex-basis:100%;color:var(--ink-dim);max-width:86ch;line-height:1.55}
+.opt .body{padding:16px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.opt .body > *{min-width:0}
+.opt h3{margin:0 0 8px;color:var(--ink-faint);font:400 var(--fs-label)/1.2 var(--font-ui);letter-spacing:.04em}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.k{color:var(--ink-faint);font-size:var(--fs-label);min-width:56px}
+.n{margin-left:auto;color:var(--ink-faint);font-size:var(--fs-label);font-variant-numeric:tabular-nums}
+.ic svg{stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+button,summary{font:inherit;color:inherit}
+button:focus-visible,summary:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--live);outline-offset:2px}
+input[type=checkbox]{accent-color:var(--primary);width:16px;height:16px;margin:0}
+.phones{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
+.phone{position:relative;width:375px;max-width:100%;min-height:250px;border:1px solid var(--hairline);border-radius:var(--radius-lg);background:var(--side-bg);padding:10px 12px;overflow:hidden}
+.phone .brand{padding:2px 0}
+.phone .cap{margin:10px 0 0;color:var(--ink-faint);font-size:var(--fs-label)}
+
+/* ---------- A · the donor's own data-table toolbar ---------- */
+.fa{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;border:1px dashed var(--hairline);border-radius:6px;background:var(--bg);font-size:13px;cursor:pointer;list-style:none;transition:background var(--t-state)}
+.fa::-webkit-details-marker{display:none}
+.fa:hover{background:var(--bg-sunken)}
+.fa .vsep{width:1px;height:16px;background:var(--hairline)}
+.fa .badge{padding:1px 6px;border-radius:4px;background:var(--bg-sunken);font-size:var(--fs-label);font-weight:500}
+details.facet{position:relative}
+.pop{position:absolute;z-index:5;top:38px;left:0;width:248px;padding:4px;background:var(--bg-raised);border:1px solid var(--edge);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.14)}
+:root[data-theme="dark"] .pop{box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.pop label{display:flex;align-items:center;gap:10px;min-height:32px;padding:0 8px;border-radius:4px;cursor:pointer}
+.pop label:hover{background:var(--bg-sunken)}
+.ghost{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:6px;text-decoration:none;font-size:13px;transition:background var(--t-state)}
+.ghost:hover{background:var(--bg-sunken)}
+.reset{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 8px;border:0;background:none;border-radius:6px;cursor:pointer;font-size:13px}
+.reset:hover{background:var(--bg-sunken)}
+.menu-btn{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px;border:1px solid var(--hairline);border-radius:6px;background:var(--bg);list-style:none;cursor:pointer}
+.menu-btn::-webkit-details-marker{display:none}
+.menu-list{margin:8px 0 0;padding:4px;display:grid;gap:2px;background:var(--bg-raised);border:1px solid var(--edge);border-radius:8px}
+.menu-list a{display:flex;align-items:center;gap:10px;min-height:34px;padding:0 8px;border-radius:6px;text-decoration:none}
+.menu-list a[aria-current]{background:var(--accent-bg);color:var(--accent-ink);font-weight:500}
+.pbrand{display:flex;align-items:center;gap:10px;justify-content:space-between}
+
+/* ---------- B · quiet text, hairline marks ---------- */
+.tf{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 18px}
+.tf button{all:unset;box-sizing:border-box;cursor:pointer;padding:5px 0;font-size:13px;color:var(--ink-dim);box-shadow:inset 0 -2px 0 transparent;transition:color var(--t-state)}
+.tf button:hover{color:var(--ink);box-shadow:inset 0 -2px 0 var(--edge)}
+.tf button i{font-style:normal;color:var(--ink-faint);margin-left:4px}
+.tf button[aria-pressed="true"]{color:var(--accent-ink);font-weight:600;box-shadow:inset 0 -2px 0 var(--live)}
+.tf button:focus-visible{outline:2px solid var(--live);outline-offset:2px}
+.tf .k{align-self:baseline}
+.pinline a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--edge);text-underline-offset:4px;text-decoration-thickness:2px}
+.pinline a:hover{text-decoration-color:var(--live)}
+.pinline .dot{color:var(--ink-faint);margin:0 8px}
+.tabs{display:flex;flex-wrap:wrap;gap:0 18px}
+.tabs a{padding:6px 0;text-decoration:none;color:var(--ink-dim);font-size:14px;box-shadow:inset 0 -2px 0 transparent}
+.tabs a[aria-current]{color:var(--accent-ink);font-weight:600;box-shadow:inset 0 -2px 0 var(--live)}
+
+/* ---------- C · a facet rail, and a bottom tab bar on phones ---------- */
+.rail{display:grid;grid-template-columns:230px minmax(0,1fr);gap:24px;align-items:start}
+.rail aside{display:grid;gap:14px;align-content:start}
+.rail details{border-top:1px solid var(--edge);padding-top:8px}
+.rail summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;min-height:28px;font-weight:600;font-size:13px}
+.rail summary::-webkit-details-marker{display:none}
+.rail label{display:flex;align-items:center;gap:8px;min-height:28px;cursor:pointer;color:var(--ink-dim)}
+.rail label:hover{color:var(--ink)}
+.rail .pinlist{display:grid;gap:0}
+.rail .pinlist a{display:flex;align-items:center;gap:8px;min-height:28px;text-decoration:none}
+.rail .pinlist a:hover{text-decoration:underline}
+.tabbar{position:absolute;inset:auto 0 0 0;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--edge);background:var(--bg)}
+.tabbar a{display:grid;justify-items:center;align-content:center;gap:3px;min-height:58px;padding:6px 2px;text-decoration:none;font-size:11px;line-height:1.15;text-align:center;color:var(--ink-dim);box-shadow:inset 0 2px 0 transparent}
+.tabbar a[aria-current]{color:var(--accent-ink);background:var(--accent-bg);box-shadow:inset 0 2px 0 var(--live);font-weight:600}
+
+/* ---------- D · segmented groups, square-cornered ---------- */
+.seg{display:flex;flex-wrap:wrap;padding:0 1px 1px 0}
+.seg > *{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:32px;padding:0 12px;margin:0 -1px -1px 0;border:1px solid var(--hairline);background:var(--bg);font-size:13px;cursor:pointer;transition:background var(--t-state)}
+.seg > *:hover{background:var(--bg-sunken)}
+.seg > [aria-pressed="true"],.seg > [aria-current]{background:var(--accent-bg);color:var(--accent-ink);font-weight:600;position:relative;z-index:1;border-color:var(--accent-ink)}
+.seg > *:focus-visible{outline:2px solid var(--live);outline-offset:-2px;z-index:2;position:relative}
+.seg i{font-style:normal;color:var(--ink-faint)}
+.seg > [aria-pressed="true"] i{color:inherit}
+.seg.grow > *{flex:1 1 0}
+.seg.icons > *{flex-direction:column;gap:3px;padding:6px 2px;min-height:58px;font-size:11px;line-height:1.15;text-align:center}
+.seg.icons{display:grid;grid-template-columns:repeat(5,1fr);padding:0}
+
+@media (max-width:900px){
+  .rail{grid-template-columns:1fr}
+  .opt .body{padding:12px}
+}

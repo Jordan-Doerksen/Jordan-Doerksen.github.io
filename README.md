@@ -18,8 +18,11 @@ needs one.)
 ## How it fits together
 
 ```
-index.html                 front page — one promise, four worth starting with, the list
-desk/index.html            the Tool Desk — the dense daily-driver tables
+index.html                 front page, Home (generated): the opening, the figures, three doors
+work/trading-desk/         the desk's path tour, parts diagram and toy (generated)
+work/rail-software/        rail software and the rail projects (generated)
+work/games/                the wall of ten attract screens (generated)
+desk/index.html            the Tool Desk: 59 projects, 160 tools, filters, search (generated)
 atlas/index.html           ONE template page: /atlas/?p=<slug> renders any project's
                            stack, diagram, data flow, components, and decisions
 rail/ games/ trading/
@@ -28,8 +31,11 @@ tools/ navigation/         eight section pages (thin shells) + the project apps 
 data/registry.json         the list: 58 projects, card-level fields, tier full|entry
 data/projects/<slug>.json  write-up content, one file per documented project
 assets/diagrams/<slug>.svg hand-drawn data-flow diagram per documented project
-js/shell/                  boot · chrome · finder · index-list — shared by front + sections
-styles/stagecraft.*        the house style: tokens, base, composition primitives
+scripts/build_front_page.py  writes the five pages above (--check compares, --root promotes);
+                           manual: scripts/FRONT-PAGE.md
+styles/front/ js/front/    the five pages' own CSS (tokens, shell, parts) and scripts
+js/shell/                  boot · chrome · finder · index-list — shared by the sections + atlas
+styles/stagecraft.*        the house style of the sections and atlas: tokens, base, composition primitives
 css/ js/ sol-obscurus/
 bedroom-weather/ forge/
 warcraft/                  legacy annex — old Observatory pages, working but unlinked
@@ -46,6 +52,16 @@ comparable peers, motion only where it orients or explains, and small screens th
 Its visual layer here is **Stagecraft** — archive-plate ground, one signal amber, and the
 same three typefaces doing a different job. `styles/stagecraft.tokens.css` is the whole
 control panel; `html.light` flips it to a paper ground.
+
+**The five front-page screens are the exception (D-A27, CR-21, 2026-10-05).** They wear the
+trading desk's donor look (a sidebar, a rounded sheet, warm neutrals, light and dark) in their own
+stylesheet, `styles/front/`, with no Stagecraft CSS in it. Stagecraft's *rules* still apply and are
+checked: three persistent clusters, no sideways scroll, measured contrast, nothing broken with
+JavaScript off. The contract is `docs/front-page-design/ARCHITECTURE.md`; the checks are
+`python scripts/front_check.py` and `node scripts/front_probe.mjs` (manual: `scripts/FRONT-PAGE-CHECKS.md`).
+The previous front page and desk are kept as `docs/legacy-three-tier.html` and `docs/legacy-desk.html`
+(byte-for-byte archive copies; their relative paths point at the repo root, so they are a record, not working pages).
+Git history holds the originals.
 
 Daybreak Editorial is **superseded for webpages**. Its files stay on disk and are loaded
 by exactly one page, `docs/legacy-front-door.html`. Don't wire them into anything new.
@@ -91,5 +107,7 @@ Then open <http://localhost:4530>.
 | Changes pushed but site looks old | Hard-refresh (`Ctrl+Shift+R`); Pages can take ~1–2 min |
 | Animations not moving | Your OS has "reduce motion" on; the site respects it on purpose |
 | An atlas URL shows "no atlas entry" | The slug has no `data/projects/<slug>.json` — entry-tier projects are index-only by design |
-| The Tool Desk isn't at `/` any more | It moved to `/desk/` in CR-7; the link is in the chrome and the footer |
+| The Tool Desk isn't at `/` any more | It moved to `/desk/` in CR-7; the link is in the sidebar |
+| A front-page screen looks out of date | The five pages are generated. Run `python scripts/build_front_page.py --root`; `--check` says which page differs. Never edit one by hand. |
+| The front-page checks say `UNKNOWN` | Exit 2 means a check could not look (missing page, no Playwright). It is not a pass. See `scripts/FRONT-PAGE-CHECKS.md`. |
 | Want the old warm paper look | Add `class="light"` to `<html>` — the token file carries a contrast-checked light ground |

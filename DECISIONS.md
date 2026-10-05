@@ -94,6 +94,10 @@ is a Change Request. Renaming a technical identifier to match the copy is also a
 Request — it buys nothing and breaks URLs.
 
 ### D-A12 — Three tiers, because there are three visitors (2026-09-07)
+⚑ **Superseded for the front page by D-A27 / CR-21 (2026-10-05).** The three tiers became five stamped
+pages (Home, Trading desk, Rail software, Games, Tool Desk). The audience split below stays true; the
+layout is history. Tier 2 and tier 3 are still built by their own generators and are carried into the
+Trading desk and Games screens.
 The shell is rebuilt ground-up as **three tiers**, and the split is by *audience*, not by
 depth. **Tier 1 — intro:** who Jordan is, what he's interested in, resume-*feeling* but not a
 resume. **Tier 2 — the work:** real projects and tools, with code. **Tier 3 — games.**
@@ -384,6 +388,9 @@ Request, and must state what a visitor loses with scripting off. Adding a second
 at once is also a Change Request — one path at a time is the answer to "too much nobody clicks".
 
 ### D-A26 — The tiers become sections of one scroll, and the atmosphere changes between them (2026-09-08, owner)
+⚑ **Superseded for the front page by D-A27 / CR-21 (2026-10-05):** the one scroll and the per-section
+palettes retired; one donor look, five stamped pages. The old page is archived at
+`docs/legacy-three-tier.html`. Kept below as history.
 The three tiers stop being three pages and become three **sections of one continuous
 scroll**: the intro, then the work, then the games. The palette changes as you move between
 them, so each tier has its own atmosphere.
@@ -417,6 +424,84 @@ iframes. Tier 3's reconcile already refuses to mount a panel that is not near th
 the games cost nothing until reached — that behaviour is now load-bearing for the whole page,
 not just for tier 3.
 
+### D-A27 — The front page is rebuilt as a shell of five screens on the donor look (2026-10-04, owner interview)
+The owner asked to rebuild the front page from zero with the Stagecraft changes adopted on
+2026-10-04 (stagecraft-v2 D-016 to D-019) and the donor template (satnaing/shadcn-admin, MIT,
+re-themed as `C:\projects\web\desk-ui`). Eight answers came from forks put to him one at a time:
+
+1. **Job: both.** A visitor's Home, and the Tool Desk (D-A08) as one sidebar screen. D-A08 comes
+   back as a *screen*, not as the front door.
+2. **Screen model: separate pages, one shell stamped onto each.** Each screen is its own HTML
+   file with its own URL and works with JavaScript off. A Python generator in `scripts/` writes
+   the shell once (as the desk does in its D-7). No new package, no framework.
+3. **Width: capped at 80rem, like the donor** (`--shell-max`, the donor's `7xl`). This breaks the
+   width half of WEB-14 ("desktop uses all of the width"). It is a Change Request against WEB-14
+   (CR-21). The other half of WEB-14 stands: **no element scrolls sideways at any width**, and
+   tables reflow inside the cap.
+4. **Palette: one donor look everywhere, light by default, a dark toggle.** Donor values as
+   measured on the desk: light ground `#FBFAF6`, ink `#1D1A13`, primary `#365900`; dark ground
+   `#0D0B08`, primary `#BEF050`. All values live in one token file. The embedded games keep their
+   own looks inside their frames. The D-A23 per-section palettes retire for the front page.
+5. **Built pieces: carried over, restyled.** The desk's path tour and parts mesh, the "Absent is
+   not zero" toy (CR-19) and the lazy-mounted games wall keep their logic, data and build-time
+   checks (their generators stay). Only the skin changes.
+6. **Scope: the front page only.** Hubs, atlas pages and project pages keep their looks and
+   get the shell in a later Change Request. A visitor sees a seam past the front page until then.
+7. **Controls: no pill shapes (mockup review, 2026-10-04).** The first mockup drew about 26
+   pill-shaped chips and the owner rejected them. Four rendered options were put to him and he
+   chose **A, the donor's data-table toolbar.** Filters are two square-cornered buttons (Section,
+   Status) with dashed edges. Each opens a checklist with counts, and a chosen value shows inside
+   the button. Reset appears only while something is filtered. Pinned items are plain buttons with
+   no outline. On a phone the nav folds into one Menu button, and the filter checklist opens as a
+   bottom sheet. Every control that needs a script ships `hidden`, and the script shows it, so a
+   failed script leaves no dead control. The table and the nav links work with no script. **For the
+   chrome-budget test:** an open popover or sheet is transient, not a fourth cluster.
+8. **Style base: Stagecraft contributes rules, not CSS** (owner: "more like donor and less like
+   Stagecraft; Stagecraft was me trying to re-invent the wheel, but I found some good rules worth
+   keeping"). The page has its own plain stylesheet in the donor look, ported the way the trading
+   desk ported it (its `desk.tokens.css`, measured). **No Stagecraft v1 or v2 CSS is copied in.**
+   The instrument-mode neutrals (D-018) and the `sc-` classes do not appear. The donor's React code
+   is not adopted either; only the look is ported.
+
+**The five screens (proposed, confirmed at the mockup):** Home · Trading desk · Rail software ·
+Games · Tool Desk. **Persistent clusters (3):** the sidebar (`identity_navigation`), the bar
+(`orientation_progress`, with the theme toggle), and find (global search, `/` focuses it).
+**Home copy:** the owner's tier-1 text, verbatim. Figures come from the existing generator
+(D-A21), re-run at build; none is typed.
+
+**The Stagecraft rules that stay** (each is checked by `scripts/front_check.py` or
+`scripts/front_probe.mjs`, not only stated): raw values live in the token file only (a carried
+piece keeps its own animation timings, which `scripts/front_carry.py` leaves in the generated
+carry CSS) · the chrome budget is three clusters (D-019) · a part follows the box it sits in, by
+container query, and the one window query is the 768px sidebar rule · no element scrolls sideways
+· text is 4.5:1 and a control edge is 3:1 on every ground it sits on · state is never carried by
+colour alone · reduced motion leaves a complete static page · a script that fails leaves no dead
+control and no missing content · a class never collides with a system class (the `.row` bug), so
+every class on this page is prefixed `fp-` and a carried piece's CSS sits under
+`.fp-carry-<screen>`. One narrow-screen decision from the carry-over: the parts-mesh diagram
+(26 labels in a 1272-wide drawing) is replaced by a note below an 830px container, because its
+labels would draw under 8px; the five path tabs list the same parts.
+
+**Conflicts, named:**
+- **D-A12 / D-A26** (three-tier scroll, ruled right on 2026-09-22): replaced for the front page
+  only. The old page is kept at `docs/legacy-three-tier.html` on promotion; no URL breaks.
+- **stagecraft-v2 D-020** ("Stagecraft does not follow the desk's look"): this is the public
+  site, not the desk. Recorded here as its own decision, so D-020 is not silently crossed.
+- **WEB-14:** see item 3.
+- **CR-20:** the hidden after-hours page is untouched, unlinked and still `noindex`.
+
+**Build order, each step shown before the next:** (0) this record, then `ARCHITECTURE.md`
+changes; (1) tokens and the shell, as a real-numbers HTML mockup of Home and Tool Desk in
+Downloads; (2) the generator and the five screens in `docs/front-page/`; (3) the measuring
+suite, which runs against the built pages using an existing Playwright install (it resolves
+from `map-reading-trainer/node_modules`; stagecraft-v2 has no `node_modules` of its own, and
+this repo gets no new package);
+(4) the owner looks, then the page is promoted to the root.
+
+**Change Rule:** a fourth persistent cluster, the 64rem board threshold, or a second palette on
+the front page is a decision of its own. A new package is the owner's call, by exact name. Any
+copy that names a former job title, or raises the rail career, stays out (SAFE-07).
+
 ## Build Timeline
 - C0 Manifest + ARCHITECTURE.md — this commit
 - C1 Data layer: registry rebuild + ~50 `data/projects/*.json` (parallel agents, one per reference section)
@@ -425,6 +510,13 @@ not just for tier 3.
 - C4 Cross-check: every slug resolves, every full page has JSON + diagram, local preview verified
 
 ## Open Questions
+- Front page (D-A27): the Home eyebrow reads "Winnipeg". Keep, change, or drop? Ask at the mockup.
+- Front page (D-A27): confirm the five screen names and the sidebar order at the mockup.
+- Front page (D-A27): the public Tool Desk omits `desk.json` local paths and ports by default.
+  Show them, or keep them off? Ask before the page is promoted to the root.
+- Front page (D-A27): the generator's label for the desk suite's 1,244 passing tests said "guards
+  passing"; `guards.json` counts 728 guards. The new page says "tests passing". Confirm before
+  promotion.
 - Write atlas entries for `first-light`, `fulfillment-lite`, `holdout` and promote them back
   to tier `full`? (Needs real architecture content — three JSONs + three diagram SVGs.)
 - Keep the dark archive-plate ground, or flip `<html class="light">`? The token file carries
@@ -433,6 +525,23 @@ not just for tier 3.
 - Should the site's own entry link this DECISIONS.md as a live example? (Nice-to-have.)
 
 ## Change Log
+- 2026-10-05 — **CR-21 (owner ruling, eight interview answers): rebuild the front page from zero as a
+  five-screen shell on the donor look, with Stagecraft's rules and none of its CSS.** Full record in
+  D-A27. **Principles broken, and why:** (1) WEB-14, the width half: the main area caps at 80rem as
+  the donor does, which leaves side margins on wide screens; the owner chose the donor's look over
+  that rule. (2) D-A26's one-scroll model for the front page: the scroll retires for five
+  stamped pages so each works with JavaScript off. **Not touched:** atlas, hubs, project pages,
+  the embedded apps, the hidden after-hours page (CR-20) and every old URL. **Status: promoted to
+  the live root on 2026-10-05 on the owner's word ("push it live").** Archive copies of the replaced
+  pages: `docs/legacy-three-tier.html` (was `index.html`) and `docs/legacy-desk.html` (was
+  `desk/index.html`); git history holds both. Written by `scripts/build_front_page.py --root`.
+  Checked before the push: `front_check.py` 19 of 19 (selftest 20 of 20 breakages caught),
+  `front_probe.mjs` clean at 7 widths, both themes, keyboard, Escape, JavaScript off and reduced
+  motion (selftest 15 of 15). **Defaults the owner did not rule on, shipped as they were:** the Home
+  eyebrow keeps "Winnipeg" (`home.eyebrow` in `scripts/front_page.config.json`); the Tool Desk shows
+  no local ports or paths (`desk.show_local`); the 1,244 figure reads "tests passing in the trading
+  desk suite". **Rollback:** `git revert` the promotion commit; the previous front page is at
+  `27429e8`.
 - 2026-09-28 — **CR-20 (owner ruling, five interview answers): a hidden showcase page of the
   trading-desk system, dark and motion-heavy, with the Stagecraft skin rules and the
   ambient-motion ban waived for that one page.** The owner asked for a flashy, live-feeling page
