@@ -94,7 +94,7 @@ is a Change Request. Renaming a technical identifier to match the copy is also a
 Request — it buys nothing and breaks URLs.
 
 ### D-A12 — Three tiers, because there are three visitors (2026-09-07)
-⚑ **Superseded for the front page by D-A27 / CR-21 (2026-10-05).** The three tiers became five stamped
+⚑ **Superseded for the front page by D-A27 / CR-21 (2026-10-04).** The three tiers became five stamped
 pages (Home, Trading desk, Rail software, Games, Tool Desk). The audience split below stays true; the
 layout is history. Tier 2 and tier 3 are still built by their own generators and are carried into the
 Trading desk and Games screens.
@@ -388,7 +388,7 @@ Request, and must state what a visitor loses with scripting off. Adding a second
 at once is also a Change Request — one path at a time is the answer to "too much nobody clicks".
 
 ### D-A26 — The tiers become sections of one scroll, and the atmosphere changes between them (2026-09-08, owner)
-⚑ **Superseded for the front page by D-A27 / CR-21 (2026-10-05):** the one scroll and the per-section
+⚑ **Superseded for the front page by D-A27 / CR-21 (2026-10-04):** the one scroll and the per-section
 palettes retired; one donor look, five stamped pages. The old page is archived at
 `docs/legacy-three-tier.html`. Kept below as history.
 The three tiers stop being three pages and become three **sections of one continuous
@@ -525,14 +525,14 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
 - Should the site's own entry link this DECISIONS.md as a live example? (Nice-to-have.)
 
 ## Change Log
-- 2026-10-05 — **CR-21 (owner ruling, eight interview answers): rebuild the front page from zero as a
+- 2026-10-04 — **CR-21 (owner ruling, eight interview answers): rebuild the front page from zero as a
   five-screen shell on the donor look, with Stagecraft's rules and none of its CSS.** Full record in
   D-A27. **Principles broken, and why:** (1) WEB-14, the width half: the main area caps at 80rem as
   the donor does, which leaves side margins on wide screens; the owner chose the donor's look over
   that rule. (2) D-A26's one-scroll model for the front page: the scroll retires for five
   stamped pages so each works with JavaScript off. **Not touched:** atlas, hubs, project pages,
   the embedded apps, the hidden after-hours page (CR-20) and every old URL. **Status: promoted to
-  the live root on 2026-10-05 on the owner's word ("push it live").** Archive copies of the replaced
+  the live root on 2026-10-04 on the owner's word ("push it live").** Archive copies of the replaced
   pages: `docs/legacy-three-tier.html` (was `index.html`) and `docs/legacy-desk.html` (was
   `desk/index.html`); git history holds both. Written by `scripts/build_front_page.py --root`.
   Checked before the push: `front_check.py` 19 of 19 (selftest 20 of 20 breakages caught),

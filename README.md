@@ -53,7 +53,7 @@ Its visual layer here is **Stagecraft** — archive-plate ground, one signal amb
 same three typefaces doing a different job. `styles/stagecraft.tokens.css` is the whole
 control panel; `html.light` flips it to a paper ground.
 
-**The five front-page screens are the exception (D-A27, CR-21, 2026-10-05).** They wear the
+**The five front-page screens are the exception (D-A27, CR-21, 2026-10-04).** They wear the
 trading desk's donor look (a sidebar, a rounded sheet, warm neutrals, light and dark) in their own
 stylesheet, `styles/front/`, with no Stagecraft CSS in it. Stagecraft's *rules* still apply and are
 checked: three persistent clusters, no sideways scroll, measured contrast, nothing broken with

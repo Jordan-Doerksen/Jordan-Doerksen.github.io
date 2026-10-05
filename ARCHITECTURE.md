@@ -43,10 +43,10 @@ Static site, no build step. GitHub Pages from `main`. Local preview: `python -m 
 └── css/, js/, sol-obscurus/, bedroom-weather/, forge/, warcraft/   LEGACY ANNEX (working, unlinked)
 ```
 
-## Front page rebuild (D-A27, CR-21) — live since 2026-10-05
+## Front page rebuild (D-A27, CR-21) — live since 2026-10-04
 
 A five-page shell in the donor look (Home, Trading desk, Rail software, Games, Tool Desk) replaced the
-three-tier front page on 2026-10-05. It is written by `scripts/build_front_page.py` into the repo root
+three-tier front page on 2026-10-04. It is written by `scripts/build_front_page.py` into the repo root
 (`--root`, the live pages) and into `docs/front-page/` (the review build, kept so `--check` and the
 checks have something to compare). Its styles are `styles/front/` and its scripts are `js/front/`;
 neither reuses Stagecraft CSS. The hubs, the atlas, the embedded apps and every old URL are untouched.
