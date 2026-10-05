@@ -12,3 +12,19 @@ data/*.json     text eol=lf
 # against the SHA-256 list the build wrote, so these bytes must reach Pages unchanged.
 # -text stores them as they are: no line-ending conversion on commit or checkout.
 navigation/gridline/** -text
+
+# Front page (D-A27): the five generated pages, their styles and scripts, and the checks that compare their
+# bytes. The generator and scripts/front_check.py read these files as LF, so every machine keeps them LF
+# (a Windows core.autocrlf=true would otherwise turn them into CRLF on checkout).
+/index.html text eol=lf
+/desk/index.html text eol=lf
+/work/** text eol=lf
+/docs/front-page/** text eol=lf
+/docs/front-page-design/** text eol=lf
+/docs/legacy-three-tier.html text eol=lf
+/docs/legacy-desk.html text eol=lf
+/styles/front/** text eol=lf
+/js/front/** text eol=lf
+/scripts/build_front_page.py text eol=lf
+/scripts/front_* text eol=lf
+/scripts/FRONT-PAGE*.md text eol=lf
