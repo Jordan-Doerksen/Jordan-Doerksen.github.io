@@ -110,6 +110,8 @@ body { margin: 0; min-height: 100svh; }
 /* The page head every screen shares. */
 .fp-kicker { margin: 8px 0 4px; color: var(--ink-faint); font-size: var(--fs-label); letter-spacing: .04em; }
 .fp-title { margin: 0; font: 700 var(--fs-title)/1.2 var(--font-ui); letter-spacing: -.01em; }
+/* Home has no line above its title (D-A27 addendum a). Give the title the room that line used to take. */
+.fp-track > .fp-title:first-child { margin-top: 24px; }
 .fp-lede { margin: 4px 0 0; color: var(--ink-dim); max-width: 70ch; }
 
 /* ---- narrow: re-authored, not shrunk ----
@@ -141,7 +143,8 @@ body { margin: 0; min-height: 100svh; }
   .fp-main .fp-table thead { display: none; }
   .fp-main .fp-table tbody tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 10px 12px; }
   .fp-main .fp-table tbody td { padding: 0; min-width: 0; }
-  .fp-main .fp-table .fp-blurb, .fp-main .fp-table .fp-inst { grid-column: 1 / -1; }
+  .fp-main .fp-table .fp-blurb, .fp-main .fp-table .fp-inst, .fp-main .fp-table .fp-local { grid-column: 1 / -1; }
+  .fp-main .fp-table .fp-local:empty { display: none; }
   .fp-main .fp-table .fp-name, .fp-main .fp-table .fp-cat { white-space: normal; max-width: none; overflow: visible;
     overflow-wrap: break-word; }
 }
@@ -151,5 +154,5 @@ body { margin: 0; min-height: 100svh; }
    one. Carried pieces keep their own handling. Keep the list in step with
    every rule above and in front.parts.css that sets `transition`. */
 @media (prefers-reduced-motion: reduce) {
-  .fp-nav a, .fp-theme, .fp-menu-btn, .fp-ghost, .fp-fa, .fp-reset, .fp-toggle, .fp-copy { transition: none; }
+  .fp-nav a, .fp-theme, .fp-menu-btn, .fp-ghost, .fp-fa, .fp-reset, .fp-toggle, .fp-copy, .fp-lcopy { transition: none; }
 }

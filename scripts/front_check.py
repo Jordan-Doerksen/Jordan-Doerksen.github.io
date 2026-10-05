@@ -350,8 +350,17 @@ def c_home_figures(x: Ctx):
     desk = next((s for s in ev["sources"] if s["id"] == "trading-desk"), {})
     if desk.get("suite", {}).get("method") == "executed":
         want["passed"] = desk["suite"]["passed"]
-    if got[:len(want)] != list(want.values()):
-        return FAIL, "page shows %s, evidence.json says %s" % (got, list(want.values()))
+    # The guard count (D-A27 addendum c): data/guards.json counts.published, but only when it equals the list it
+    # counts and was generated on the same day as the evidence, the same rule scripts/front_figures.py applies.
+    g_path = x.repo / "data/guards.json"
+    if g_path.is_file():
+        g = json.loads(read(g_path))
+        n = (g.get("counts") or {}).get("published")
+        same_day = str(g.get("generated", ""))[:10] == str(ev.get("generated", ""))[:10]
+        if isinstance(n, int) and isinstance(g.get("guards"), list) and len(g["guards"]) == n and same_day:
+            want["guards"] = n
+    if got != list(want.values()):
+        return FAIL, "page shows %s, the data says %s" % (got, list(want.values()))
     return PASS, "figures equal evidence.json: %s" % list(want.values())
 
 
@@ -391,6 +400,33 @@ def c_no_local_data(x: Ctx):
         if re.search(r"[A-Za-z]:\\\\?projects", html):
             hits.append("%s: a local C:\\projects path" % sid)
     return (FAIL, "local data on the page: %s" % hits[:4]) if hits else (PASS, "no local ports or paths on any page (%d checked)" % len(needles))
+
+
+def c_local_data_gated(x: Ctx):
+    """Ports and paths reach a page only on the owner's machine (D-A27 addendum b): the data file is generated and
+    marked, no page names it except the Tool Desk's table attribute, and desk.js loads it only inside isLocal()."""
+    f = x.repo / "data/desk-local.js"
+    if not f.is_file():
+        return FAIL, "data/desk-local.js is missing"
+    if not read(f).startswith("/* GENERATED"):
+        return FAIL, "data/desk-local.js is not marked GENERATED"
+    bad = []
+    for sid, (_, _, html) in x.pages.items():
+        n = html.count("desk-local")
+        if sid == "desk":
+            if n != 1 or "data-local-src=" not in html:
+                bad.append("desk names the file %d times (once, in data-local-src, is allowed)" % n)
+        elif n:
+            bad.append("%s names the local data file" % sid)
+    js = x.js.get("desk.js", "")
+    if not re.search(r"if\s*\(\s*isLocal\(\)\s*\)\s*\{\s*loadLocal\(\)", js):
+        bad.append("desk.js does not guard loadLocal() with isLocal()")
+    if not re.search(r"function isLocal\(\)[^}]*file:[^}]*localhost[^}]*127\.0\.0\.1", js, flags=re.S):
+        bad.append("isLocal() does not test file:, localhost and 127.0.0.1")
+    other = [n for n, t in x.js.items() if n != "desk.js" and "desk-local" in t]
+    if other:
+        bad.append("another script names the local data: %s" % other)
+    return (FAIL, "; ".join(bad)) if bad else (PASS, "generated file; only desk.js loads it, inside isLocal()")
 
 
 def c_voice(x: Ctx):
@@ -450,7 +486,7 @@ def c_line_endings(x: Ctx):
 
 
 CHECKS = [c_config_schema, c_fresh_build, c_pages_exist, c_nav_identical, c_links_resolve, c_ids_unique, c_classes_defined,
-          c_no_raw_values, c_selectors_scoped, c_breakpoint_pair, c_home_figures, c_desk_rows, c_no_local_data, c_voice,
+          c_no_raw_values, c_selectors_scoped, c_breakpoint_pair, c_home_figures, c_desk_rows, c_no_local_data, c_local_data_gated, c_voice,
           c_js_rules, c_hidden_until_script, c_chrome_budget, c_generated_mark, c_line_endings]
 
 
@@ -468,11 +504,14 @@ MUTATIONS = [
     ("a pill radius", "no_raw_values", P, "append", ".fp-x { border-radius: 999px; }"),
     ("a sideways scroll rule", "no_raw_values", P, "append", ".fp-x { overflow-x: auto; }"),
     ("a bare element selector", "selectors_scoped", P, "append", "p { margin: 0; }"),
-    ("a class that is not styled", "classes_defined", H, "replace", ('class="fp-kicker"', 'class="fp-nope"')),
+    ("a class that is not styled", "classes_defined", H, "replace", ('class="fp-role"', 'class="fp-nope"')),
     ("a repeated id", "ids_unique", H, "replace", ('<h1 class="fp-title">', '<h1 class="fp-title" id="fp-main">')),
     ("a link to nothing", "links_resolve", H, "replace", ('href="work/rail-software/index.html">Rail software', 'href="nope/index.html">Rail software')),
     ("no aria-current", "nav_identical", H, "replace", (' aria-current="page"', "")),
     ("a wrong figure", "home_figures", H, "replace", ("<b>2,204</b>", "<b>9,999</b>")),
+    ("a wrong guard count", "home_figures", H, "replace", ("<b>728</b>", "<b>999</b>")),
+    ("the local-data gate removed", "local_data_gated", "js/front/desk.js", "replace", ("if (isLocal()) {\n    loadLocal();\n  }", "loadLocal();")),
+    ("a page that names the local data", "local_data_gated", H, "append", "<p>desk-local</p>"),
     ("a local path on the page", "no_local_data", D, "append", "<p>C:\\projects\\CN Conductor Trainer</p>"),
     ("an exclamation mark", "voice", H, "replace", ('<p class="fp-stamp">', '<p class="fp-stamp">Hello! ')),
     ("a module script", "js_rules", H, "replace", ('<script src="../../js/front/shell.js">', '<script type="module" src="../../js/front/shell.js">')),
@@ -496,7 +535,7 @@ def selftest() -> int:
     try:
         for rel in ("styles/front", "js/front", "docs/front-page", "data/projects"):
             shutil.copytree(REPO / rel, pristine / rel)
-        for rel in ("scripts/front_page.config.json", "data/registry.json", "data/desk.json", "data/evidence.json"):
+        for rel in ("scripts/front_page.config.json", "data/registry.json", "data/desk.json", "data/evidence.json", "data/guards.json", "data/desk-local.js"):
             (pristine / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(REPO / rel, pristine / rel)
     except OSError as err:

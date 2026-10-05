@@ -110,7 +110,7 @@
   ],
 
   "home": {
-    "eyebrow": "Winnipeg",
+    "eyebrow": "",
     "role": "Curious, self-taught. I build trading systems, market research tools, training software, and games.",
     "intro": "**Good enough is not good enough.** I test my own systems against themselves and keep improving them, so the work rarely sits in a resting state. All of it runs on design systems and a custom AI harness tuned to my workflow, built over the last four months — it started as a simple loop and became the design and production system everything here goes through. Everything below runs; nothing here is a mockup. Running is not the same as finished, and the games are where that shows.",
     "figures_aria": "Figures",
@@ -118,7 +118,8 @@
       "commits": "commits since {since}",
       "repos": "repositories",
       "test_files": "test files",
-      "suite": "tests passing in the trading desk suite"
+      "suite": "tests passing in the trading desk suite",
+      "guards": "guards, each proven to catch its failure"
     },
     "stamp": "Figures measured {asof} from the repositories on this machine, and reproducible from them. Nothing here is estimated.",
     "doors": [
@@ -170,6 +171,15 @@
   "desk": {
     "_": "show_local is the flag D-A27 asks for: false keeps desk.json notes, ports and local paths off the page. The flag exists; the code that would show them does not yet.",
     "show_local": false,
+    "local": {
+      "_": "D-A27 addendum (b). desk.js adds Port and Path columns when the page is opened from localhost, 127.0.0.1 or a file, by loading data_file. The public site never requests it and no page prints these values.",
+      "data_file": "data/desk-local.js",
+      "port_label": "Port",
+      "path_label": "Path",
+      "open_label": "open",
+      "copy": "Copy",
+      "copied": "Copied"
+    },
     "scripts": {
       "toolkit_data": "data/toolkit.js",
       "desk": "js/front/desk.js"

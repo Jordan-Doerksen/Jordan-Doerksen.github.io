@@ -49,8 +49,15 @@ Styles are `styles/front/` (not this tool's). The carry step is `scripts/front_c
 | `data/desk.json` | `pinned`, `extra` (rows with no registry entry), `toolkit` (stars, install commands, snippets). |
 | `data/toolkit.js` | Counted at build for the sentences ("160 tools"); loaded by the Tool Desk page and rendered by `desk.js`. |
 
-The notes, ports and local paths in `desk.json` are not written to the page. `desk.show_local` is `false`; the
-flag exists and the code that would show them does not.
+The notes, ports and local paths in `desk.json` are not written to any page. `desk.show_local` stays `false`, and
+setting it to `true` stops the build, because printing them for everyone is not built and was not chosen.
+
+They reach the Tool Desk another way, on the owner's machine only (D-A27 addendum b). The build writes
+`data/desk-local.js` from `desk.json` (`scripts/front_local.py`; the settings are `desk.local` in the config).
+`js/front/desk.js` requests that file only when the page is opened from `localhost`, `127.0.0.1` or a file, and then
+adds Port and Path columns with click-to-copy and an open-locally link. From any other host nothing requests the file
+and no column exists. `front_check.py` (`local_data_gated`) holds that in the source; the live check holds it on the
+real site.
 
 ## Change something
 

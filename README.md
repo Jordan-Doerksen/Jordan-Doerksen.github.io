@@ -22,7 +22,8 @@ index.html                 front page, Home (generated): the opening, the figure
 work/trading-desk/         the desk's path tour, parts diagram and toy (generated)
 work/rail-software/        rail software and the rail projects (generated)
 work/games/                the wall of ten attract screens (generated)
-desk/index.html            the Tool Desk: 59 projects, 160 tools, filters, search (generated)
+desk/index.html            the Tool Desk: 59 projects, 160 tools, filters, search (generated); on the
+                           owner's machine it also shows ports and paths from data/desk-local.js
 atlas/index.html           ONE template page: /atlas/?p=<slug> renders any project's
                            stack, diagram, data flow, components, and decisions
 rail/ games/ trading/

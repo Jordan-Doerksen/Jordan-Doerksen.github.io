@@ -349,6 +349,110 @@
     }
   });
 
+  /* -- this machine only: ports and paths ------------------------------------------------------ */
+
+  /* data/desk-local.js holds the ports and paths from data/desk.json. It is requested only when this page
+     is opened from localhost, 127.0.0.1 or a file. On the public site nothing asks for it, and no page
+     prints these values (D-A27 addendum b). */
+  function isLocal() {
+    var host = window.location.hostname;
+    return window.location.protocol === "file:" || host === "localhost" || host === "127.0.0.1" || host === "[::1]";
+  }
+
+  function localLabel(table, key) {
+    return table.getAttribute("data-local-" + key) || "";
+  }
+
+  /* One value that copies on click. The button's name always starts with its visible label, as the
+     install buttons do. If the browser refuses the write, the text is selected and nothing says "Copied". */
+  function copyValue(table, text, breakable) {
+    /* A path may wrap after a backslash instead of in the middle of a word. The zero-width space is only in
+       what is drawn; the copied text and the button's name are the real value. */
+    var shown = breakable ? text.replace(/\\/g, "\\​") : text;
+    var btn = make("button", "fp-lcopy", shown);
+    btn.type = "button";
+    var label = function (visible, spoken) {
+      btn.textContent = visible;
+      btn.setAttribute("aria-label", spoken + ": " + text);
+    };
+    label(shown, localLabel(table, "copy"));
+    var settle = function () {
+      window.clearTimeout(btn.fpTimer);
+      btn.fpTimer = window.setTimeout(function () {
+        label(shown, localLabel(table, "copy"));
+      }, FLASH_MS);
+    };
+    var copied = function () {
+      label(localLabel(table, "copied"), localLabel(table, "copied"));
+      settle();
+    };
+    var blocked = function () {
+      selectNode(btn);
+    };
+    btn.addEventListener("click", function () {
+      if (!navigator.clipboard || !navigator.clipboard.writeText) {
+        blocked();
+        return;
+      }
+      try {
+        navigator.clipboard.writeText(text).then(copied, blocked);
+      } catch (err) {
+        blocked();
+      }
+    });
+    return btn;
+  }
+
+  function addLocalColumns(table, data) {
+    var head = table.tHead && table.tHead.rows[0];
+    if (!head) {
+      return;
+    }
+    [["port", "fp-port"], ["path", "fp-path"]].forEach(function (col) {
+      var th = make("th", "fp-local " + col[1], localLabel(table, col[0]));
+      th.setAttribute("scope", "col");
+      head.appendChild(th);
+    });
+    proj.rows.forEach(function (tr) {
+      var d = data[tr.getAttribute("data-slug")] || {};
+      var portCell = make("td", "fp-local fp-port");
+      var pathCell = make("td", "fp-local fp-path");
+      if (d.port) {
+        var port = String(d.port);
+        portCell.appendChild(copyValue(table, port));
+        var open = make("a", "fp-lopen", localLabel(table, "open"));
+        open.href = "http://localhost:" + port + "/";
+        open.target = "_blank";
+        open.rel = "noopener";
+        if (d.launch) {
+          open.title = d.launch;
+        }
+        portCell.appendChild(open);
+      }
+      if (d.path) {
+        pathCell.appendChild(copyValue(table, d.path, true));
+      }
+      tr.appendChild(portCell); /* an empty cell stays empty: absent is not zero */
+      tr.appendChild(pathCell);
+    });
+    table.setAttribute("data-local", "on");
+  }
+
+  function loadLocal() {
+    var table = document.getElementById("fp-proj-table");
+    var src = table && table.getAttribute("data-local-src");
+    if (!src) {
+      return;
+    }
+    var script = document.createElement("script");
+    script.src = src;
+    script.onload = function () {
+      addLocalColumns(table, window.FP_DESK_LOCAL || {});
+    };
+    /* The file is optional. If it is missing the page stays the public page, and nothing is shown or logged. */
+    document.head.appendChild(script);
+  }
+
   /* -- start ----------------------------------------------------------------------------------- */
 
   /* The tool-category facet is in the markup (hidden, empty), so `facets` already holds it and the
@@ -397,6 +501,9 @@
     if (preset) {
       box.value = preset;
     }
+  }
+  if (isLocal()) {
+    loadLocal();
   }
   toolbar.hidden = false;
   apply();

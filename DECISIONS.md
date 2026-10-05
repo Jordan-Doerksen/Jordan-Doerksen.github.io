@@ -463,6 +463,19 @@ re-themed as `C:\projects\web\desk-ui`). Eight answers came from forks put to hi
    The instrument-mode neutrals (D-018) and the `sc-` classes do not appear. The donor's React code
    is not adopted either; only the look is ported.
 
+**Addendum, 2026-10-05 (three calls the owner made after the page went live):**
+(a) **The Home eyebrow is dropped.** A city is the one claim on the page that can go stale. The page
+keeps the name and the opening.
+(b) **Local ports and paths return to the Tool Desk, on the owner's machine only.** The public page
+carries none (`no_local_data` still holds). When the page is opened from `localhost`, `127.0.0.1` or
+a file, `js/front/desk.js` loads `data/desk-local.js` (generated from `desk.json`) and adds Port and
+Path columns with click-to-copy and an open-locally link. On the public site that script is never
+requested. The data was already public in `data/desk.json`; the point is that no page people read
+prints it.
+(c) **Home gets a fifth figure: the guard count** from `data/guards.json` (`counts.published`), next
+to the test count. A guard there has been driven into the failure it exists to catch; the figure is
+absent, not zero, when `guards.json` cannot be read.
+
 **The five screens (proposed, confirmed at the mockup):** Home · Trading desk · Rail software ·
 Games · Tool Desk. **Persistent clusters (3):** the sidebar (`identity_navigation`), the bar
 (`orientation_progress`, with the theme toggle), and find (global search, `/` focuses it).
@@ -537,11 +550,10 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   `desk/index.html`); git history holds both. Written by `scripts/build_front_page.py --root`.
   Checked before the push: `front_check.py` 19 of 19 (selftest 20 of 20 breakages caught),
   `front_probe.mjs` clean at 7 widths, both themes, keyboard, Escape, JavaScript off and reduced
-  motion (selftest 15 of 15). **Defaults the owner did not rule on, shipped as they were:** the Home
-  eyebrow keeps "Winnipeg" (`home.eyebrow` in `scripts/front_page.config.json`); the Tool Desk shows
-  no local ports or paths (`desk.show_local`); the 1,244 figure reads "tests passing in the trading
-  desk suite". **Rollback:** `git revert` the promotion commit; the previous front page is at
-  `27429e8`.
+  motion (selftest 15 of 15). **Three defaults shipped first and were ruled on the next day,
+  2026-10-05:** see the D-A27 addendum (the eyebrow is dropped, ports and paths show on the owner's
+  machine only, and the guard count is a fifth figure). **Rollback:** `git revert` the promotion
+  commit; the previous front page is at `27429e8`.
 - 2026-09-28 — **CR-20 (owner ruling, five interview answers): a hidden showcase page of the
   trading-desk system, dark and motion-heavy, with the Stagecraft skin rules and the
   ambient-motion ban waived for that one page.** The owner asked for a flashy, live-feeling page

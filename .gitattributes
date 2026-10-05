@@ -28,3 +28,4 @@ navigation/gridline/** -text
 /scripts/build_front_page.py text eol=lf
 /scripts/front_* text eol=lf
 /scripts/FRONT-PAGE*.md text eol=lf
+/data/desk-local.js text eol=lf

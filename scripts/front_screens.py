@@ -171,7 +171,7 @@ def load_model(repo: Path, cfg: dict, log) -> Model:
     except (KeyError, TypeError) as err:
         raise CouldNotLook("data/registry.json lacks categories[] or projects[]: %r" % (err,)) from err
     tool_names, _ = read_toolkit(data / "toolkit.js")
-    figs = figures(data / "evidence.json", log)
+    figs = figures(data / "evidence.json", log, data / "guards.json")
 
     order = {slug: i for i, (slug, _) in enumerate(categories)}
     names = dict(categories)
@@ -263,8 +263,10 @@ def _figure_items(pg: Page) -> list:
         items.append((num(f["repos"]), labels["repos"]))
     if f["tests"] is not None:
         items.append((num(f["tests"]), labels["test_files"]))
+    if f["suite_passed"] is not None:
+        items.append((num(f["suite_passed"]), labels["suite"]))
     if f["guards"] is not None:
-        items.append((num(f["guards"]), labels["suite"]))
+        items.append((num(f["guards"]), labels["guards"]))
     return items
 
 
@@ -272,7 +274,8 @@ def home(pg: Page) -> dict:
     cfg = pg.cfg
     h = cfg["home"]
     out = [
-        '<p class="fp-kicker">%s</p>' % esc_text(h["eyebrow"]),
+        # An empty eyebrow prints no line at all (D-A27 addendum a); an empty element would still take space.
+        '<p class="fp-kicker">%s</p>' % esc_text(h["eyebrow"]) if h.get("eyebrow") else "",
         '<h1 class="fp-title">%s</h1>' % esc_text(cfg["brand"]["name"]),
         '<p class="fp-role">%s</p>' % esc_text(h["role"]),
         '<p class="fp-intro">%s</p>' % rich(h["intro"]),
@@ -302,7 +305,7 @@ def home(pg: Page) -> dict:
         )
     out.append('<div class="fp-doors">\n%s\n</div>' % "\n".join(doors))
     out.append('<p class="fp-findline">%s</p>' % _link_line(pg, h["findline"], pg.href("desk")))
-    return {"body": "\n".join(out), "css": [], "tail": []}
+    return {"body": "\n".join(b for b in out if b), "css": [], "tail": []}
 
 
 # -- Rail software ----------------------------------------------------------------------------------
@@ -386,21 +389,28 @@ def _pins(pg: Page) -> str:
 
 def _projects_panel(pg: Page) -> str:
     p = pg.cfg["desk"]["projects"]
+    loc = pg.cfg["desk"]["local"]
     rows = "\n".join(
-        '<tr data-c="%s" data-s="%s" data-q="%s">%s<td class="fp-cat">%s</td><td>%s</td><td class="fp-blurb">%s</td></tr>'
-        % (esc_attr(r.category), esc_attr(r.status), esc_attr(r.q), _name_cell(pg, r), esc_text(r.section), _status(r.status), esc_text(r.blurb))
+        '<tr data-slug="%s" data-c="%s" data-s="%s" data-q="%s">%s<td class="fp-cat">%s</td><td>%s</td><td class="fp-blurb">%s</td></tr>'
+        % (esc_attr(r.slug), esc_attr(r.category), esc_attr(r.status), esc_attr(r.q), _name_cell(pg, r), esc_text(r.section), _status(r.status), esc_text(r.blurb))
         for r in pg.model.rows
     )
+    # The page names the data file and the labels. It holds no port and no path. desk.js requests the file only
+    # when the page is opened from localhost, 127.0.0.1 or a file (D-A27 addendum b).
+    local_attrs = ' data-local-src="%s" data-local-port="%s" data-local-path="%s" data-local-open="%s" data-local-copy="%s" data-local-copied="%s"' % (
+        esc_attr(pg.root + loc["data_file"]), esc_attr(loc["port_label"]), esc_attr(loc["path_label"]),
+        esc_attr(loc["open_label"]), esc_attr(loc["copy"]), esc_attr(loc["copied"]))
     return (
         '<section class="fp-panel" aria-labelledby="fp-h-proj">\n'
         '  <header class="fp-panel-head"><h2 id="fp-h-proj">%s</h2>'
         '<span class="fp-meta" id="fp-proj-count" role="status" data-fmt="%s">%s</span></header>\n'
-        '  <table class="fp-table"><thead>%s</thead><tbody id="fp-proj-rows">\n%s\n</tbody></table>\n'
+        '  <table class="fp-table" id="fp-proj-table"%s><thead>%s</thead><tbody id="fp-proj-rows">\n%s\n</tbody></table>\n'
         '  <p class="fp-empty" id="fp-proj-none" hidden>%s</p>\n</section>'
         % (
             esc_text(p["title"]),
             esc_attr(p["shown"]),
             esc_text(fill(p["shown"], {"n": len(pg.model.rows)})),
+            local_attrs,
             _head_cells(p["columns"]),
             rows,
             esc_text(p["none"]),
@@ -448,7 +458,7 @@ def desk(pg: Page) -> dict:
     cfg = pg.cfg
     d = cfg["desk"]
     if d.get("show_local"):
-        raise CouldNotLook("desk.show_local is true, but the code that shows local paths and ports does not exist yet")
+        raise CouldNotLook("desk.show_local is true (ports and paths printed for everyone). That is not built and was not chosen; the on-this-machine columns are desk.local (D-A27 addendum b)")
     lede = esc_text(fill(d["lede"], pg.counts)) + '<span data-needs-js hidden>%s</span>' % rich(d["lede_script"])
     body = [
         '<div class="fp-pagehead"><div><p class="fp-kicker">%s</p><h1 class="fp-title">%s</h1>' % (esc_text(d["kicker"]), esc_text(pg.screen["title"])),

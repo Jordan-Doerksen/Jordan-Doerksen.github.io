@@ -4,8 +4,8 @@ Two checkers guard the front page (D-A27). Neither changes a file.
 
 | Command | What it does | Needs |
 |---|---|---|
-| `python scripts/front_check.py` | Static checks: 19 rules read from the files | Python 3 only |
-| `python scripts/front_check.py --selftest` | Breaks 20 rules one at a time in a scratch copy; each check must fail | Python 3 only |
+| `python scripts/front_check.py` | Static checks: 20 rules read from the files | Python 3 only |
+| `python scripts/front_check.py --selftest` | Breaks 23 rules one at a time in a scratch copy; each check must fail | Python 3 only |
 | `node scripts/front_probe.mjs` | Browser checks at 7 widths, 2 themes, keyboard, no script, reduced motion | Node, Playwright |
 | `node scripts/front_probe.mjs --selftest` | Runs each check on a broken fixture; each must be caught | Node, Playwright |
 
@@ -40,6 +40,7 @@ the one line.
 | (static) selectors_scoped | Every selector holds an `fp-` class | The `.row` bug: a local class restyling a system class |
 | (static) home_figures / desk_rows | Numbers equal the data | A typed number that went stale |
 | (static) no_local_data | No local port or path on a page | A private path published |
+| (static) local_data_gated | `data/desk-local.js` is generated, and only `desk.js` loads it, inside `isLocal()` | The owner's ports and paths reaching the public page |
 
 ## When something breaks
 

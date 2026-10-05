@@ -149,6 +149,18 @@
   clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
 .fp-empty { margin: 0; padding: 16px 12px; color: var(--ink-dim); }
 
+/* ---- this machine only: the Port and Path columns desk.js adds when the page is opened locally ----
+   (D-A27 addendum b). On the public site none of these elements exist. A value copies on click; its box is
+   padded to a 24px target and the margin gives the room back, so the row does not grow. */
+.fp-local { color: var(--ink-dim); font: var(--fs-label)/1.5 var(--font-mono); overflow-wrap: anywhere; }
+.fp-port { white-space: nowrap; }
+.fp-lcopy { padding: 3px 4px; margin: -3px -4px; border: 0; border-radius: var(--radius-sm); background: none; color: inherit;
+  font: inherit; text-align: left; overflow-wrap: anywhere; cursor: pointer;
+  text-decoration: underline dotted; text-underline-offset: 3px; transition: background var(--t-state); }
+.fp-lcopy:hover { background: var(--bg-sunken); }
+.fp-lopen { margin-left: 8px; padding: 4px; color: var(--live); font: 500 var(--fs-label)/1.5 var(--font-ui); text-decoration: none; }
+.fp-lopen:hover { text-decoration: underline; }
+
 /* ---- status markers: a shape, then the word. Colour is the second channel. ---- */
 .fp-st { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: var(--fs-label); }
 .fp-st::before { content: ""; flex: none; width: 9px; height: 9px; background: currentColor; }
@@ -186,6 +198,8 @@
 @container (min-width: 450px) and (max-width: 599px) { .fp-fig:nth-child(4) { padding-left: 0; border-left: 0; } }
 @container (min-width: 300px) and (max-width: 449px) { .fp-fig:nth-child(odd) { padding-left: 0; border-left: 0; } }
 @container (max-width: 299px) { .fp-fig + .fp-fig { padding-left: 0; border-left: 0; } }
+/* Five figures (D-A27 addendum c) fit in a row from 750px. From 600px there are four columns, so the fifth starts a row. */
+@container (min-width: 600px) and (max-width: 749px) { .fp-fig:nth-child(5) { padding-left: 0; border-left: 0; } }
 @container (min-width: 520px) and (max-width: 779px) { .fp-door:nth-child(odd) { padding-left: 0; border-left: 0; } }
 @container (max-width: 519px) { .fp-door + .fp-door { padding-left: 0; border-left: 0; border-top: 1px solid var(--edge); } }
 /* A table stacks into grid rows when its panel is narrower than its columns need: 640px for the
@@ -196,8 +210,18 @@
   .fp-table thead { display: none; }
   .fp-table tbody tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 10px 12px; }
   .fp-table tbody td { padding: 0; min-width: 0; }
-  .fp-table .fp-blurb, .fp-table .fp-inst { grid-column: 1 / -1; }
+  .fp-table .fp-blurb, .fp-table .fp-inst, .fp-table .fp-local { grid-column: 1 / -1; }
+  .fp-table .fp-local:empty { display: none; }
   .fp-table .fp-name, .fp-table .fp-cat { white-space: normal; max-width: none; overflow: visible; overflow-wrap: break-word; }
+}
+/* With the local columns on there are six columns, so the project table stacks from 900px, as the toolkit table does. */
+@container (max-width: 899px) {
+  .fp-main .fp-table[data-local="on"] thead { display: none; }
+  .fp-main .fp-table[data-local="on"] tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 12px; }
+  .fp-main .fp-table[data-local="on"] tbody td { padding: 0; min-width: 0; }
+  .fp-main .fp-table[data-local="on"] .fp-blurb, .fp-main .fp-table[data-local="on"] .fp-local { grid-column: 1 / -1; }
+  .fp-main .fp-table[data-local="on"] .fp-local:empty { display: none; }
+  .fp-main .fp-table[data-local="on"] .fp-name, .fp-main .fp-table[data-local="on"] .fp-cat { white-space: normal; max-width: none; overflow: visible; overflow-wrap: break-word; }
 }
 @container (max-width: 899px) {
   .fp-main .fp-table:has(.fp-plat) thead { display: none; }
