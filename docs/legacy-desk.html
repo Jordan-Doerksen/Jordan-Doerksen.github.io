@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tool Desk — Jordan Doerksen</title>
+<meta name="description" content="The desk — my tools and the vetted third-party toolkit, in one searchable table.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b0b0d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230b0b0d'/%3E%3Ctext x='50' y='73' font-size='66' text-anchor='middle' fill='%23f0b429'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/stagecraft.tokens.css">
+<link rel="stylesheet" href="../styles/stagecraft.base.css">
+<link rel="stylesheet" href="../styles/desk.css">
+</head>
+<!-- The desk is a UTILITY surface, and the bible says so explicitly: cards are
+     not banned from "dashboards or dense comparison tasks", and monumental type
+     is wrong for dense technical content. So this page keeps its tables and its
+     density, wears the Stagecraft palette, and skips the composed chrome — the
+     search field IS the primary action here. -->
+<body class="desk">
+<a class="skip" href="#mine">Skip to the tables</a>
+<div class="wrap desk-wrap">
+
+  <div class="topbar" id="topbar">
+    <a class="brand" href="../">← HOME</a>
+    <span class="brand brand-title">TOOL DESK ✦</span>
+    <input id="q" type="search" placeholder="search everything — name, tag, port, path, category…" autocomplete="off">
+    <span class="kbd">/</span>
+    <span class="counts" id="counts"></span>
+  </div>
+
+  <div class="filters" id="filters"></div>
+
+  <div class="sec" id="pins-sec">Pinned</div>
+  <div class="pins" id="pins"></div>
+
+  <div class="sec" id="mine-sec">Mine — active first</div>
+  <table id="mine">
+    <thead><tr>
+      <th></th><th>tool</th><th>status</th><th class="hide-sm">note</th><th>port</th><th class="hide-sm">local path</th><th>links</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="sec" id="toolkit-sec">Toolkit — vetted third-party</div>
+  <table id="toolkit">
+    <thead><tr>
+      <th></th><th>tool</th><th>category</th><th class="hide-sm">what it's for</th><th class="hide-sm">get it</th><th>platform</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <footer>data: registry.json + desk.json + toolkit.js · ★ = daily driver · click any dashed mono value to copy · / focuses search · <a href="../">home</a> · <a href="../docs/legacy-front-door.html">old front page</a></footer>
+</div>
+
+<script src="../data/toolkit.js"></script>
+<script type="module" src="../js/desk/desk.js"></script>
+</body>
+</html>
