@@ -2,7 +2,8 @@
 
 Stdlib only. Selects registry projects with category=="games" and a non-null
 url, routes each into its assigned cabinet per scripts/cabinet_config.json
-(CR-1; unassigned games go to defaultCabinet), walks games/<slug>/
+(CR-1; unassigned games go to defaultCabinet; a game under "exclude" is in no
+cabinet), walks games/<slug>/
 recursively, and emits one deterministic manifest per cabinet:
 sorted keys, games sorted by slug, files sorted by path, LF, UTF-8 (no BOM).
 
@@ -136,6 +137,16 @@ def load_config():
         if assign[slug] not in cabinets:
             fail("assign: %s -> %r is not a known cabinet (%s)"
                  % (slug, assign[slug], ", ".join(sorted(cabinets))))
+    exclude = config.get("exclude", {})
+    if not isinstance(exclude, dict):
+        fail("scripts/cabinet_config.json 'exclude' must be a map of slug -> reason")
+    for slug in sorted(exclude):
+        reason = exclude[slug]
+        if not isinstance(reason, str) or not reason.strip():
+            fail("exclude: %s needs a reason (a non-empty string)" % slug)
+        if slug in assign:
+            fail("exclude: %s is also in assign; a game is routed or excluded, not both"
+                 % slug)
     return config
 
 
@@ -160,6 +171,16 @@ def build_manifests(config):
         if slug not in live_slugs:
             fail("assign lists %r, which is not a live game in the registry"
                  " (category==games with a non-null url)" % slug)
+
+    # Owner ruling 2026-10-11: a live game page can be kept out of every cabinet (config
+    # 'exclude', slug -> reason). Checked against the registry like assign, so a misspelt slug
+    # fails here and does not silently leave the game in.
+    exclude = config.get("exclude", {})
+    for slug in sorted(exclude):
+        if slug not in live_slugs:
+            fail("exclude lists %r, which is not a live game in the registry"
+                 " (category==games with a non-null url)" % slug)
+    selected = [p for p in selected if p["slug"] not in exclude]
 
     generated = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     default = config["defaultCabinet"]

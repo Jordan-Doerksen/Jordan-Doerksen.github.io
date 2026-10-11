@@ -228,116 +228,6 @@
       "version": "9b23ed209b09"
     },
     {
-      "blurb": "A deterministic corporate space survivor. Fly the shift, draft the rack, meet management. Every courier is replaceable.",
-      "entry": "index.html",
-      "files": [
-        {
-          "bytes": 39981,
-          "path": "data/codex.json",
-          "sha256": "ceb25f47023f112a05c798d2b124a832ed1156b3218878f03bc0dd8be4c0a026"
-        },
-        {
-          "bytes": 1102,
-          "path": "how_to_play.html",
-          "sha256": "b7e1d91b417c36024d5714a2b4035d32bc4b4b6633e8b55dfe55c7ee353852e0"
-        },
-        {
-          "bytes": 45776,
-          "path": "index.html",
-          "sha256": "5a7316fdc8fb85b15f5ebf5fbc084f9f0050cfdad6d5e59987eb726e80f7f083"
-        },
-        {
-          "bytes": 8846,
-          "path": "manual.css",
-          "sha256": "e24d67527496d13589902ebe3c88b3817ce11cd22e35402734fc921422cc5940"
-        },
-        {
-          "bytes": 1597,
-          "path": "manual.tokens.css",
-          "sha256": "6b975de1c69faa279c74f2c35b21a56cf2ccb1ab77565be99700707b8c44e11f"
-        },
-        {
-          "bytes": 364450,
-          "path": "plates/arena.png",
-          "sha256": "1b10bfd5503648204169b1a34238bd634ed24fe6a9d55211d6872ca1c98d3a1f"
-        },
-        {
-          "bytes": 556532,
-          "path": "plates/boss.png",
-          "sha256": "3969e09af0f33a2efac4815349d18a86b210001d47b3a63fd77ae9caaab274fd"
-        },
-        {
-          "bytes": 568280,
-          "path": "plates/field.png",
-          "sha256": "bbc376ae015cf8112b132f147de2b1c51c8cc7ccbf126a01dab2d6f9bb3ca6fd"
-        },
-        {
-          "bytes": 272068,
-          "path": "plates/fig_armour.png",
-          "sha256": "a1a7315ed962fa98c5e034564b95ed7aa5f716ffcc5b1fa816ee37851b57e5e5"
-        },
-        {
-          "bytes": 277851,
-          "path": "plates/fig_champion.png",
-          "sha256": "224c9d15c95952a89bf49dccc4fc091e9abe44d9978e822ab1067e979299d1e6"
-        },
-        {
-          "bytes": 283930,
-          "path": "plates/fig_crowd.png",
-          "sha256": "5e2e9f376b23b6ec6c6824ed825a5639039c8adce7d8a1e2c61e9eccbe544d7a"
-        },
-        {
-          "bytes": 273247,
-          "path": "plates/fig_pierce.png",
-          "sha256": "44070dc519e20283a4509554cf0d24145d3127e3627374fd8534be1ce1e1203c"
-        },
-        {
-          "bytes": 274787,
-          "path": "plates/fig_wheel.png",
-          "sha256": "481d8dfa24d58da3694a896fe4ab0aa18767fd300c59e2755b837f53b9d44dfc"
-        },
-        {
-          "bytes": 646750,
-          "path": "plates/objective.png",
-          "sha256": "2ba392fa8c96473d754f55714e1cc1d16d5264d79df35667c87eab7eec6d56cd"
-        },
-        {
-          "bytes": 411387,
-          "path": "plates/rock.png",
-          "sha256": "c3d3c995eb77889225753341b92589a312aabe153c0588a2f7745fd9349ed63b"
-        },
-        {
-          "bytes": 587093,
-          "path": "plates/wave.png",
-          "sha256": "bbd800b873d3fd7f8aa0c9102b265c1ff22aba4ec5c7039a01b8e4a687764888"
-        },
-        {
-          "bytes": 6202,
-          "path": "src/codex.js",
-          "sha256": "af1c84966f3f7f1f36b3102264e3703ebbd8ef4f5acb20b33b13a747c52ba6e2"
-        },
-        {
-          "bytes": 8492,
-          "path": "src/vignettes.js",
-          "sha256": "d677f031cb13f01939e85b7159c3d3614b4eb358e0c4bb180cf219932836c6b4"
-        },
-        {
-          "bytes": 7375,
-          "path": "styles.css",
-          "sha256": "cb34a59944e45b00280e8ba5e010ac8314becec3001ba40cee38502ee6ca4bbe"
-        }
-      ],
-      "name": "Fulfillment",
-      "slug": "fulfillment",
-      "spec": "GODOT 4.7 · DETERMINISTIC 60HZ · ON ITCH",
-      "tags": [
-        "Game",
-        "Godot"
-      ],
-      "totalBytes": 4635746,
-      "version": "47069fe17db8"
-    },
-    {
       "blurb": "The survivor shift, ported to a canvas. Auto-fire turrets, a draft every promotion, and a Supervisor who always arrives.",
       "entry": "index.html",
       "files": [
@@ -735,7 +625,7 @@
       "version": "04bf7d2b1e5c"
     }
   ],
-  "generated": "2026-10-11T03:57:45Z",
+  "generated": "2026-10-11T04:31:10Z",
   "schema": 1,
   "source": "jordan-doerksen.github.io"
 }
