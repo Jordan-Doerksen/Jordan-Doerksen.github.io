@@ -6,9 +6,14 @@
       "entry": "index.html",
       "files": [
         {
-          "bytes": 87414,
+          "bytes": 17400,
+          "path": "attract/index.html",
+          "sha256": "67000517920d8acab6c35b2de85761de6cc86636529ac9e6922f429309530af3"
+        },
+        {
+          "bytes": 87424,
           "path": "index.html",
-          "sha256": "da85eb102dc1ca84791faceaf01774a12edbf9bb2f05b0c486c1188fdf6995bf"
+          "sha256": "2edd96053034d81392c7ea7bfa67a3a5a7ba70cdfc1d15496a6a1ed07b5da84f"
         }
       ],
       "name": "Star Charter",
@@ -18,11 +23,11 @@
         "Game",
         "Single File"
       ],
-      "totalBytes": 87414,
-      "version": "b11ed3571f1f"
+      "totalBytes": 104824,
+      "version": "af5d33730572"
     }
   ],
-  "generated": "2026-07-15T01:30:31Z",
+  "generated": "2026-10-11T03:57:45Z",
   "schema": 1,
   "source": "jordan-doerksen.github.io"
 }

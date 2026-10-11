@@ -6,6 +6,11 @@
       "entry": "index.html",
       "files": [
         {
+          "bytes": 18339,
+          "path": "attract/index.html",
+          "sha256": "9c68ad2956b08df2b9f01de25a3f1b5d88ee03ee0320061237c0f58c564c1a27"
+        },
+        {
           "bytes": 50278,
           "path": "index.html",
           "sha256": "4d8bd0c1559779bc697af26369c787e5a6c3b7d94896937d1880d406ac2a7715"
@@ -18,13 +23,18 @@
         "Game",
         "Roguelite"
       ],
-      "totalBytes": 50278,
-      "version": "18c78f730997"
+      "totalBytes": 68617,
+      "version": "746582f4f0df"
     },
     {
       "blurb": "A single-file ARPG slice — town to Blood Raven, three classes, D2-style maps.",
       "entry": "index.html",
       "files": [
+        {
+          "bytes": 16835,
+          "path": "attract/index.html",
+          "sha256": "5f9f0447ddf759b4f8bc949d77c07e6e1b63eb9f07f7c5c82c6da93b297119b7"
+        },
         {
           "bytes": 77894,
           "path": "index.html",
@@ -38,17 +48,52 @@
         "Game",
         "ARPG"
       ],
-      "totalBytes": 77894,
-      "version": "0e2408f5c7cc"
+      "totalBytes": 94729,
+      "version": "501b6dfac40c"
     },
     {
       "blurb": "A bat in the dark, harvesting fruit by sonar. Your voice paints the cave.",
       "entry": "index.html",
       "files": [
         {
-          "bytes": 62132,
+          "bytes": 14060,
+          "path": "attract/index.html",
+          "sha256": "66b5d237fb24630c4389ac67fce3d695026e6d37804335132890170a47549fe9"
+        },
+        {
+          "bytes": 1653,
+          "path": "config/game.js",
+          "sha256": "ce4ed55a30c69d548f2befed40465b1efe064c1645fa4e67f56898e8c660c3e5"
+        },
+        {
+          "bytes": 64493,
           "path": "index.html",
-          "sha256": "6001946d4bb886b7048377278485f8906724f6a38ae61c12dce12ab3e6fbcf5a"
+          "sha256": "c403fdb9d77311e0024676e072c5bab146fcca55ff127fd446cad4b8d3f81f27"
+        },
+        {
+          "bytes": 605,
+          "path": "src/save-migrations.js",
+          "sha256": "c215d28e073275991fe06f035ecce7d32c1a054c2ae98d9b9a9eb4663792f5ca"
+        },
+        {
+          "bytes": 5278,
+          "path": "src/std/input.js",
+          "sha256": "e14c168cc36d68d7dec6ee7a3275cc1c74b882db4c3f9abe720d058d5bf5cab3"
+        },
+        {
+          "bytes": 8621,
+          "path": "src/std/save.js",
+          "sha256": "2d9fdf3ab77d0ea2287736a544a884bae9e6fa76c2874eb39f8b1cb6e9301335"
+        },
+        {
+          "bytes": 4223,
+          "path": "src/std/tick.js",
+          "sha256": "c10b0c5f30ce7d5ae1397e835c2c610d9f54c5f9a99efb728f185ae1fdd43183"
+        },
+        {
+          "bytes": 10695,
+          "path": "src/std/watchdog.js",
+          "sha256": "d34633482ea9ddb6090ed8f1f9aa455ab09e9e2975bcbefe45fff8ad8228fadd"
         }
       ],
       "name": "Echo Bat — Night Harvest",
@@ -58,13 +103,18 @@
         "Game",
         "Sonar"
       ],
-      "totalBytes": 62132,
-      "version": "b5ecd79670eb"
+      "totalBytes": 109628,
+      "version": "47001701d52d"
     },
     {
       "blurb": "A salvage lightship, eight dark hours, a quota. The lamp is both the chart and the shield.",
       "entry": "index.html",
       "files": [
+        {
+          "bytes": 16113,
+          "path": "attract/index.html",
+          "sha256": "c8bfbf533ac46b8159e3dcbdb4ab8e64e0c53166d4b85bbf4568d971dc5020f1"
+        },
         {
           "bytes": 6286,
           "path": "config/game.json",
@@ -174,13 +224,128 @@
         "Roguelite",
         "Seeded"
       ],
-      "totalBytes": 86311,
-      "version": "ad9996d5659a"
+      "totalBytes": 102424,
+      "version": "9b23ed209b09"
+    },
+    {
+      "blurb": "A deterministic corporate space survivor. Fly the shift, draft the rack, meet management. Every courier is replaceable.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 39981,
+          "path": "data/codex.json",
+          "sha256": "ceb25f47023f112a05c798d2b124a832ed1156b3218878f03bc0dd8be4c0a026"
+        },
+        {
+          "bytes": 1102,
+          "path": "how_to_play.html",
+          "sha256": "b7e1d91b417c36024d5714a2b4035d32bc4b4b6633e8b55dfe55c7ee353852e0"
+        },
+        {
+          "bytes": 45776,
+          "path": "index.html",
+          "sha256": "5a7316fdc8fb85b15f5ebf5fbc084f9f0050cfdad6d5e59987eb726e80f7f083"
+        },
+        {
+          "bytes": 8846,
+          "path": "manual.css",
+          "sha256": "e24d67527496d13589902ebe3c88b3817ce11cd22e35402734fc921422cc5940"
+        },
+        {
+          "bytes": 1597,
+          "path": "manual.tokens.css",
+          "sha256": "6b975de1c69faa279c74f2c35b21a56cf2ccb1ab77565be99700707b8c44e11f"
+        },
+        {
+          "bytes": 364450,
+          "path": "plates/arena.png",
+          "sha256": "1b10bfd5503648204169b1a34238bd634ed24fe6a9d55211d6872ca1c98d3a1f"
+        },
+        {
+          "bytes": 556532,
+          "path": "plates/boss.png",
+          "sha256": "3969e09af0f33a2efac4815349d18a86b210001d47b3a63fd77ae9caaab274fd"
+        },
+        {
+          "bytes": 568280,
+          "path": "plates/field.png",
+          "sha256": "bbc376ae015cf8112b132f147de2b1c51c8cc7ccbf126a01dab2d6f9bb3ca6fd"
+        },
+        {
+          "bytes": 272068,
+          "path": "plates/fig_armour.png",
+          "sha256": "a1a7315ed962fa98c5e034564b95ed7aa5f716ffcc5b1fa816ee37851b57e5e5"
+        },
+        {
+          "bytes": 277851,
+          "path": "plates/fig_champion.png",
+          "sha256": "224c9d15c95952a89bf49dccc4fc091e9abe44d9978e822ab1067e979299d1e6"
+        },
+        {
+          "bytes": 283930,
+          "path": "plates/fig_crowd.png",
+          "sha256": "5e2e9f376b23b6ec6c6824ed825a5639039c8adce7d8a1e2c61e9eccbe544d7a"
+        },
+        {
+          "bytes": 273247,
+          "path": "plates/fig_pierce.png",
+          "sha256": "44070dc519e20283a4509554cf0d24145d3127e3627374fd8534be1ce1e1203c"
+        },
+        {
+          "bytes": 274787,
+          "path": "plates/fig_wheel.png",
+          "sha256": "481d8dfa24d58da3694a896fe4ab0aa18767fd300c59e2755b837f53b9d44dfc"
+        },
+        {
+          "bytes": 646750,
+          "path": "plates/objective.png",
+          "sha256": "2ba392fa8c96473d754f55714e1cc1d16d5264d79df35667c87eab7eec6d56cd"
+        },
+        {
+          "bytes": 411387,
+          "path": "plates/rock.png",
+          "sha256": "c3d3c995eb77889225753341b92589a312aabe153c0588a2f7745fd9349ed63b"
+        },
+        {
+          "bytes": 587093,
+          "path": "plates/wave.png",
+          "sha256": "bbd800b873d3fd7f8aa0c9102b265c1ff22aba4ec5c7039a01b8e4a687764888"
+        },
+        {
+          "bytes": 6202,
+          "path": "src/codex.js",
+          "sha256": "af1c84966f3f7f1f36b3102264e3703ebbd8ef4f5acb20b33b13a747c52ba6e2"
+        },
+        {
+          "bytes": 8492,
+          "path": "src/vignettes.js",
+          "sha256": "d677f031cb13f01939e85b7159c3d3614b4eb358e0c4bb180cf219932836c6b4"
+        },
+        {
+          "bytes": 7375,
+          "path": "styles.css",
+          "sha256": "cb34a59944e45b00280e8ba5e010ac8314becec3001ba40cee38502ee6ca4bbe"
+        }
+      ],
+      "name": "Fulfillment",
+      "slug": "fulfillment",
+      "spec": "GODOT 4.7 · DETERMINISTIC 60HZ · ON ITCH",
+      "tags": [
+        "Game",
+        "Godot"
+      ],
+      "totalBytes": 4635746,
+      "version": "47069fe17db8"
     },
     {
       "blurb": "The survivor shift, ported to a canvas. Auto-fire turrets, a draft every promotion, and a Supervisor who always arrives.",
       "entry": "index.html",
       "files": [
+        {
+          "bytes": 11291,
+          "path": "attract/index.html",
+          "sha256": "7e6798930ad7754bddf74c70c96100b9daaa464312387036291a43f83740a51e"
+        },
         {
           "bytes": 8638,
           "path": "config/content.json",
@@ -320,13 +485,18 @@
         "Roguelite",
         "Seeded"
       ],
-      "totalBytes": 140844,
-      "version": "1824df188c28"
+      "totalBytes": 152135,
+      "version": "c4bb923ec512"
     },
     {
       "blurb": "Generative star-atlas plates. Every reroll is a 1-of-1; the seed rides in the URL.",
       "entry": "index.html",
       "files": [
+        {
+          "bytes": 12574,
+          "path": "attract/index.html",
+          "sha256": "4ecde7b14a6ee4dda2fdef538762dd3b25a5abf93ab6ce903ae9c76b005c6b91"
+        },
         {
           "bytes": 22259,
           "path": "index.html",
@@ -340,13 +510,18 @@
         "Generative",
         "Toy"
       ],
-      "totalBytes": 22259,
-      "version": "2293fef1a593"
+      "totalBytes": 34833,
+      "version": "f87ccf270437"
     },
     {
       "blurb": "An isometric bunker defense. Three lanes, one core, no unit micro — the decisions are the turrets you place and the tech you forgo.",
       "entry": "index.html",
       "files": [
+        {
+          "bytes": 16851,
+          "path": "attract/index.html",
+          "sha256": "6bf4a5c52b39cb33696121da11277f3c1a0f31e23dc0aeed6fbef4bf3a9f4251"
+        },
         {
           "bytes": 2184,
           "path": "config/game.json",
@@ -506,13 +681,18 @@
         "Roguelite",
         "Isometric"
       ],
-      "totalBytes": 114761,
-      "version": "6a2bedc9e645"
+      "totalBytes": 131612,
+      "version": "23443ed55615"
     },
     {
       "blurb": "A quiet gravity toy. No goals, no score — just orbits that trace and decay.",
       "entry": "index.html",
       "files": [
+        {
+          "bytes": 10370,
+          "path": "attract/index.html",
+          "sha256": "5de7918560b5bba3ec5cfc61673655e0a1b9bfccc7c2721537bd3a7191c4d6e5"
+        },
         {
           "bytes": 15654,
           "path": "index.html",
@@ -526,17 +706,22 @@
         "Toy",
         "Physics"
       ],
-      "totalBytes": 15654,
-      "version": "0018acfdb9c2"
+      "totalBytes": 26024,
+      "version": "ff7df06b2eb3"
     },
     {
       "blurb": "The timed edition: heavy, drifty momentum and a refit every third plate.",
       "entry": "index.html",
       "files": [
         {
-          "bytes": 114665,
+          "bytes": 12820,
+          "path": "attract/index.html",
+          "sha256": "4e24a2652f79ba8c73ab03873146d31dc50b43f4b53d45ca360dbe94559943d6"
+        },
+        {
+          "bytes": 114675,
           "path": "index.html",
-          "sha256": "ef2eb93f18b8facc3826d10136c5bc860df54ded3378851c81798468c647bac9"
+          "sha256": "12a8c67465772d71df93a62a048e5d97bffa4cec94c10ffd3581a72248869c34"
         }
       ],
       "name": "Star Charter Pro",
@@ -546,11 +731,11 @@
         "Game",
         "Roguelite"
       ],
-      "totalBytes": 114665,
-      "version": "b35b6a631ec9"
+      "totalBytes": 127495,
+      "version": "04bf7d2b1e5c"
     }
   ],
-  "generated": "2026-07-15T01:30:31Z",
+  "generated": "2026-10-11T03:57:45Z",
   "schema": 1,
   "source": "jordan-doerksen.github.io"
 }
