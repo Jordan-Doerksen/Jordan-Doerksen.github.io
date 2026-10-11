@@ -29,6 +29,13 @@
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 [hidden] { display: none !important; }
+/* the dev menu (OBS-08), mounted by src/std/watchdog.js; this game's own tokens */
+.gs-dev { position: fixed; inset: 0; z-index: 20; display: flex; flex-direction: column; gap: 8px; padding: 14px; background: var(--bg); color: var(--ink); }
+.gs-dev-head { display: flex; justify-content: space-between; gap: 8px; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--muted); }
+.gs-dev-log { flex: 1; min-height: 0; margin: 0; padding: 8px; overflow: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); font: 0.68rem/1.4 ui-monospace, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.gs-dev-bar { display: flex; gap: 8px; }
+.gs-dev-btn { flex: 1; min-height: 44px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--panel); color: var(--ink); font: inherit; }
+button.colophon { background: none; border: 0; font: inherit; cursor: pointer; }
 html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
 body {
   background: var(--bg);
@@ -256,7 +263,8 @@ body {
     <br>
     <button id="btnSettingsT" class="btn-ghost">Sound &amp; settings</button>
     <p class="record-line" id="recordLine" hidden>Best harvest <b id="recordVal">0</b></p>
-    <p class="colophon">N°03 ✦ The Glass Archive ✦ MMXXVI</p>
+    <p class="hint" id="newerNote" hidden>This save is from a newer version. Progress is not kept in this session.</p>
+    <button class="colophon" id="colophon" type="button" aria-label="Colophon. Tap five times for the debug log.">N°03 ✦ The Glass Archive ✦ MMXXVI</button>
     <nav class="archive-nav" aria-label="other games in the archive">
       <a href="../star-charter/">N°01 ✦ Star Charter</a>
       <a href="../star-charter-pro/">N°02 ✦ Star Charter Pro</a>
@@ -312,6 +320,18 @@ body {
   </section>
 </div>
 
+<!-- Script order is the law of this page (game-systems law, OBS-09): plain scripts, globals, no modules,
+     no fetch; the game opens from disk. config/game.js is generated from config/game.json. -->
+<script src="config/game.js"></script>
+<script src="src/std/watchdog.js"></script>
+<script>
+  // OBS-09: the watchdog is installed before any other game script runs.
+  window.WATCHDOG = GameStd.createWatchdog({ key: GAME_CONFIG.log.key, ringSize: GAME_CONFIG.log.ringSize, flushMs: GAME_CONFIG.log.flushMs, version: GAME_CONFIG.meta.version }).install();
+</script>
+<script src="src/std/save.js"></script>
+<script src="src/save-migrations.js"></script>
+<script src="src/std/tick.js"></script>
+<script src="src/std/input.js"></script>
 <script>
 (() => {
 'use strict';
@@ -351,20 +371,25 @@ const caveName = (l) => CAVES[(l - 1) % CAVES.length];
 // ==========================================================================
 // SAVE
 // ==========================================================================
-const SAVE_KEY = 'echoBatSave';
-let save = { best: 0, bestLevel: 0, muted: false };
-try { Object.assign(save, JSON.parse(localStorage.getItem(SAVE_KEY)) || {}); } catch (e) {}
-function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} }
+// GAME-17: the standard save module. Same key as the shipped game; the unversioned save is read
+// as version 0 and migrated in place (src/save-migrations.js). A refused write is reported, never hidden.
+const CFG = window.GAME_CONFIG;
+const SAVE = GameStd.createSave({
+  key: CFG.save.key, settingsKey: CFG.save.settingsKey, version: CFG.save.version,
+  defaults: CFG.save.defaults, settingsDefaults: { sfx: true, music: true }, // the default save is in config so tools/save-shape.mjs can read its shape
+  migrations: window.EB_MIGRATIONS, report: WATCHDOG.report
+});
+const save = SAVE.data;
+if (SAVE.newer) $('newerNote').hidden = false; // GAME-17 clause 9: the stored save is from a newer version and is left untouched
+function persist() { if (!SAVE.write()) WATCHDOG.log.write('WARN', 'save_not_written', { best: save.best }); }
 
 // ==========================================================================
 // SETTINGS — sound toggles under their own key; the save above is never
 // touched or reformatted by these. Both default ON. The HUD mute button
 // stays what it always was: a master mute on top of these.
 // ==========================================================================
-const SETTINGS_KEY = 'echo-bat.settings';
-const settings = { sfx: true, music: true };
-try { Object.assign(settings, JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}); } catch (e) {}
-function persistSettings() { try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch (e) {} }
+const settings = SAVE.settings;
+function persistSettings() { SAVE.writeSettings(); }
 
 // ==========================================================================
 // AUDIO — generated, no files
@@ -532,9 +557,9 @@ let state = 'title'; // title | playing | choosing | dying | over | paused
 let time = 0;
 
 const bat = { x: 0, y: 0, vx: 0, vy: 0, r: 11, hp: 3, inv: 0, flap: 0, ang: 0, spin: 0, trail: [] };
-const input = { active: false, x: 0, y: 0, id: null };
-const hover = { x: -100, y: -100, seen: false };
-const keys = { up: 0, down: 0, left: 0, right: 0 };
+// GAME-19: intents come from config/game.json; INPUT (built in the INPUT section) is the one map.
+// The rules read INPUT.held, INPUT.pressed() and INPUT.pointer, never a key or a pointer event.
+const hover = { seen: false }; // a mouse moved over the canvas without pressing: the bat follows it
 const TOUCH_OFFSET = () => 74 * S; // the bat rides above your finger
 
 let level = 1, quota = 5, got = 0, score = 0, fruitTotal = 0;
@@ -876,7 +901,8 @@ function settingsGesture() {
 // ==========================================================================
 // UPDATE
 // ==========================================================================
-function update(dt) {
+function update(dt) { handleIntents(); updateGame(dt); INPUT.endStep(); }
+function updateGame(dt) {
   time += dt;
   if (toastT > 0) { toastT -= dt; if (toastT <= 0) $('toast').classList.remove('show'); }
   if (flashT > 0) flashT -= dt;
@@ -907,7 +933,7 @@ function update(dt) {
   if (bat.inv > 0) bat.inv -= dt;
 
   let tx, ty;
-  const kx = keys.right - keys.left, ky = keys.down - keys.up;
+  const kx = INPUT.held.right - INPUT.held.left, ky = INPUT.held.down - INPUT.held.up;
   if (demo) {
     // attract: glide toward the nearest fruit, lazily
     tx = W * 0.5; ty = H * 0.42;
@@ -919,10 +945,10 @@ function update(dt) {
   } else if (kx || ky) {
     const d = Math.hypot(kx, ky);
     tx = bat.x + (kx / d) * 200; ty = bat.y + (ky / d) * 200;
-  } else if (input.active) {
-    tx = input.x; ty = input.y - TOUCH_OFFSET(); // ride above the finger
+  } else if (INPUT.held.fly) {
+    tx = INPUT.pointer.x; ty = INPUT.pointer.y - TOUCH_OFFSET(); // ride above the finger
   } else if (hover.seen) {
-    tx = hover.x; ty = hover.y;
+    tx = INPUT.pointer.x; ty = INPUT.pointer.y;
   }
 
   let ax = 0, ay = 0;
@@ -1376,69 +1402,52 @@ function draw() {
 // ==========================================================================
 // LOOP
 // ==========================================================================
-let last = performance.now(), raf = null;
-function frame(now) {
-  const dt = Math.min((now - last) / 1000, 0.05);
-  last = now;
-  update(dt);
-  draw();
-  raf = requestAnimationFrame(frame);
-}
+// GAME-18: one loop owns game time. The clamp (NaN or negative is zero; one capped step after a
+// hidden tab) and the frame request live in src/std/tick.js, never here.
+const tick = GameStd.createTick({ maxStepMs: CFG.tick.maxStepMs, update, draw: () => draw() });
 
 // ==========================================================================
 // INPUT
 // ==========================================================================
 function firstGesture() { Audio.init(); Audio.resume(); }
 
-canvas.addEventListener('pointerdown', (e) => {
-  e.preventDefault();
-  firstGesture();
-  if (input.id !== null) return;
-  input.id = e.pointerId;
-  input.active = true;
-  input.x = e.clientX; input.y = e.clientY;
-  try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+// GAME-19: one map from devices to the intents in config/game.json. Keyboard and pointer both end
+// as the same intents; touch arrives as a pointer. The rules read INPUT.held and INPUT.pressed().
+const INPUT = GameStd.createInput({
+  config: CFG.input, target: canvas,
+  // a focused control owns its own activation key, and the settings screen's toggles own theirs
+  keyFilter: (e, intent) => !(intent === 'confirm' && ((e.target && e.target.closest && e.target.closest('button, a')) || !screens.settings.hidden))
 });
-canvas.addEventListener('pointermove', (e) => {
-  if (e.pointerType === 'mouse') { hover.x = e.clientX; hover.y = e.clientY; hover.seen = true; }
-  if (e.pointerId !== input.id) return;
-  input.x = e.clientX; input.y = e.clientY;
-});
-function releasePointer(e) {
-  if (e.pointerId !== input.id) return;
-  input.id = null;
-  input.active = false;
-}
-canvas.addEventListener('pointerup', releasePointer);
-canvas.addEventListener('pointercancel', releasePointer);
+INPUT.bind();
+
+// DEVICE LAYER: the only lines in this file that touch a device event. Pointer capture, the
+// audio-unlock gesture, the mouse-hover flag and the touch-scroll guard. No intent is read here.
+canvas.addEventListener('pointerdown', (e) => { e.preventDefault(); firstGesture(); try { canvas.setPointerCapture(e.pointerId); } catch (err) {} });
+canvas.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') hover.seen = true; });
 canvas.addEventListener('pointerout', (e) => { if (!e.relatedTarget && e.pointerType === 'mouse') hover.seen = false; });
 canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 document.addEventListener('touchmove', (e) => { if (state === 'playing') e.preventDefault(); }, { passive: false });
-addEventListener('blur', () => {
-  input.id = null; input.active = false;
-  keys.up = keys.down = keys.left = keys.right = 0;
-});
+document.addEventListener('keydown', firstGesture);
+// END DEVICE LAYER
 
-const KEYMAP = { ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right' };
-addEventListener('keydown', (e) => {
-  if (KEYMAP[e.code]) { keys[KEYMAP[e.code]] = 1; firstGesture(); }
-  else if (e.code === 'KeyP' || e.code === 'Escape') {
+// Intents with an edge (pressed once) are handled at the top of every step.
+function handleIntents() {
+  if (INPUT.pressed('pause')) {
     if (!screens.settings.hidden) closeSettings();
     else if (state === 'playing') pauseGame();
     else if (state === 'paused') resumeGame();
   }
-  else if (e.code === 'KeyM') $('btnMute').click();
-  else if (e.code === 'Digit1' || e.code === 'Digit2' || e.code === 'Digit3') {
-    if (state === 'choosing') chooseGift(Number(e.code.slice(-1)) - 1);
+  if (INPUT.pressed('mute')) $('btnMute').click();
+  if (state === 'choosing') {
+    if (INPUT.pressed('choose1')) chooseGift(0);
+    else if (INPUT.pressed('choose2')) chooseGift(1);
+    else if (INPUT.pressed('choose3')) chooseGift(2);
   }
-  else if (e.code === 'Enter' || e.code === 'Space') {
-    if (!screens.settings.hidden) return; // settings open: keys belong to the focused toggle, not "start"
-    if (e.target && e.target.closest && e.target.closest('button, a')) return; // a focused control owns its own activation key
-    if (state === 'title' || state === 'over') { firstGesture(); startGame(); }
-    else if (state === 'choosing' && giftSel >= 0) chooseGift(giftSel); // Enter confirms
+  if (INPUT.pressed('confirm')) {
+    if (state === 'title' || state === 'over') startGame();
+    else if (state === 'choosing' && giftSel >= 0) chooseGift(giftSel); // the confirm key picks the selected gift
   }
-});
-addEventListener('keyup', (e) => { if (KEYMAP[e.code]) keys[KEYMAP[e.code]] = 0; });
+}
 
 // ==========================================================================
 // WIRING
@@ -1477,10 +1486,9 @@ document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     if (state === 'playing') pauseGame();
     else Audio.suspend();
-    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    tick.stop();
   } else {
-    last = performance.now();
-    if (!raf) raf = requestAnimationFrame(frame);
+    tick.start(); // a fresh clock: the first step after start is zero time
     if (state !== 'paused' && state !== 'choosing') Audio.resume();
   }
 });
@@ -1506,7 +1514,7 @@ window.__eb = {
   get spores() { return spores; }, get owls() { return owls; }, get pulses() { return pulses; },
   get save() { return save; }, get quota() { return quota; }, get got() { return got; },
   get settings() { return settings; },
-  bat, input,
+  bat, input: INPUT,
   start: startGame, choose: chooseGift, advance, end: endRun,
   give: (k) => { if (UPGRADES[k] && upg[k] < UPGRADES[k].max) { upg[k]++; setHud(); } },
   setLevel: (l) => { level = l; genLevel(l); setHud(); },
@@ -1514,9 +1522,10 @@ window.__eb = {
   hit: () => tryHit(bat.x + 10, bat.y),
 };
 
+WATCHDOG.mountDevMenu({ target: $('colophon'), taps: CFG.log.devMenuTaps, lines: CFG.log.devMenuLines, exportName: CFG.log.exportName });
 resize();
 toTitle();
-raf = requestAnimationFrame(frame);
+tick.start();
 })();
 </script>
 </body>
