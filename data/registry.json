@@ -1010,6 +1010,19 @@
    "repo": null,
    "featured": false,
    "spec": "TWO LESSONS · TWO DRILLS · OFFLINE · UNOFFICIAL"
+  },
+  {
+   "slug": "design-first",
+   "name": "design-first",
+   "category": "tools",
+   "blurb": "A working method for building with coding agents, as a Claude Code plugin: interview before code, every rule graded by what enforces it, a Doctor that checks the disk.",
+   "tags": ["Tools", "Claude Code", "PowerShell"],
+   "status": "live",
+   "tier": "full",
+   "url": "/tools/design-first/",
+   "repo": "https://github.com/Jordan-Doerksen/design-first",
+   "featured": false,
+   "spec": "v0.1.27 · MIT · WINDOWS"
   }
  ]
 }
