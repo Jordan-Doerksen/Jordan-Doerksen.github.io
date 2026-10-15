@@ -9,6 +9,11 @@
     "echo-bat": "desktop"
   },
   "exclude": {
-    "fulfillment": "Owner ruling 2026-10-11: the Cabinet holds the one-page web games. Fulfillment is a Godot release; its page on the site is a manual that links out, and the Cabinet blocks that link."
+    "fulfillment": "Owner ruling 2026-10-11: the Cabinet holds the one-page web games. Fulfillment is a Godot release; its page on the site is a manual that links out, and the Cabinet blocks that link.",
+    "diablo-act1": "Owner ruling 2026-10-14: the Cabinet holds simple games that can be finished. This is an ARPG slice that can never be finished, and its name is borrowed.",
+    "fulfillment-lite": "Owner ruling 2026-10-14: the Cabinet holds simple games that can be finished. This is a port of Fulfillment, which was ruled out on 2026-10-11, and it will always trail the real game.",
+    "holdout": "Owner ruling 2026-10-14: the Cabinet holds simple games that can be finished. This is a 30-wave tower defense with a tech tree, and holdout-wc3 replaces it.",
+    "glass-atlas": "Owner ruling 2026-10-14: the Cabinet holds games. This is a generative toy with no goal and no score.",
+    "orbital-field": "Owner ruling 2026-10-14: the Cabinet holds games. This is a gravity toy with no goal and no score."
   }
 }
