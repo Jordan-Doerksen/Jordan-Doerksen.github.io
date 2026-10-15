@@ -333,6 +333,22 @@
    "spec": "SINGLE FILE · ROGUELITE"
   },
   {
+   "slug": "typecase",
+   "name": "Typecase",
+   "category": "games",
+   "blurb": "A timed anagram arcade. A tray of type, a clock that only runs down, and a dictionary with final say.",
+   "tags": [
+    "Game",
+    "Word"
+   ],
+   "status": "live",
+   "tier": "entry",
+   "url": "/games/typecase/",
+   "repo": null,
+   "featured": false,
+   "spec": "DOMAIN-SPLIT · ENABLE DICTIONARY"
+  },
+  {
    "slug": "amason-space-service",
    "name": "Amason Space Service (Godot)",
    "category": "games",

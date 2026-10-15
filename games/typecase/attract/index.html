@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Typecase ✦ attract</title>
+<style>
+  /* This file must stand alone (GAME-15), so it carries a copy of the game's colour values.
+     tools/attract-check.js fails if a value in the TOKENS block drifts from styles/tokens.css
+     (or, for --tray and --edge, from the literal colours in styles/style.css). */
+  :root{
+    /* TOKENS-BEGIN */
+    --paper:#f6f1e7;--paper-2:#fbf8f1;--ink:#17140f;--muted:#6f685c;--hair:#d8cfbf;
+    --accent:#b8860b;--accent-ink:#8a6508;--accent-rgb:184,134,11;
+    --tray:#efe8d9;--edge:#cabfaa;
+    /* TOKENS-END */
+    /* No web fonts: the attract runs offline and inside an iframe, so local stacks only. */
+    --display:"Space Grotesk","Segoe UI Variable Display","Segoe UI",system-ui,sans-serif;
+    --sans:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;
+    --mono:"JetBrains Mono","Cascadia Mono",ui-monospace,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:var(--paper);overflow:hidden}
+  /* The wrapper is the sizing authority: this file is an iframe or a card, never the viewport.
+     pointer-events:none because an attract screen takes no input. */
+  /* --tile is set here, not on :root: a container query can only restyle the container's
+     descendants, so the portrait rule below could never reach a :root value. */
+  #wrap{--tile:clamp(18px,min(6cqw,13cqh),120px);
+    position:relative;width:100%;height:100%;container:stage / size;overflow:hidden;
+    font-family:var(--sans);color:var(--ink);pointer-events:none;user-select:none;
+    -webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+  .sun{position:absolute;width:62cqh;height:62cqh;right:-8cqw;bottom:-22cqh;border-radius:50%;
+    background:radial-gradient(circle,rgba(var(--accent-rgb),.22),rgba(var(--accent-rgb),.07) 52%,transparent 72%)}
+  header{position:relative;display:flex;align-items:center;justify-content:space-between;gap:2cqw;
+    padding:3.4cqh 4cqw 2.4cqh;border-bottom:1px solid var(--hair)}
+  .wordmark{font-family:var(--mono);font-size:clamp(9px,2.1cqh,22px);letter-spacing:.28em;text-transform:uppercase}
+  .wordmark span{color:var(--accent-ink)}
+  .hud{display:flex;align-items:center;gap:3.2cqw}
+  .stat{display:flex;flex-direction:column;align-items:flex-end}
+  .k{font-family:var(--mono);font-size:clamp(7px,1.5cqh,16px);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .stat b,.clock b{font-family:var(--display);font-weight:600;font-size:clamp(12px,3.6cqh,40px);line-height:1.1;font-variant-numeric:tabular-nums}
+  .clock{display:flex;flex-direction:column;align-items:center;min-width:9cqw}
+  .bar{display:block;width:100%;height:max(2px,.6cqh);background:var(--hair);border-radius:2px;overflow:hidden;margin-top:.6cqh}
+  .bar i{display:block;height:100%;background:var(--accent);width:50%;transition:width .4s ease}
+  main{position:relative;flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 24cqw;
+    gap:3cqw;padding:4cqh 4cqw 4.4cqh;align-items:center}
+  .case{position:relative;background:linear-gradient(180deg,#fff 0%,var(--paper-2) 62%,#f3ecdf 100%);
+    border:1px solid var(--hair);border-bottom-color:var(--edge);border-radius:clamp(8px,2.4cqh,16px);
+    padding:3.2cqh 2.6cqw;display:flex;flex-direction:column;gap:2.6cqh;
+    box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 2px 3px -1px rgba(120,66,38,.14),0 10px 22px -12px rgba(120,66,38,.26)}
+  .head{display:flex;justify-content:space-between;gap:1cqw}
+  .lbl{font-family:var(--mono);font-size:clamp(7px,1.6cqh,16px);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+  .lbl b{color:var(--ink);font-weight:500}
+  .answer{display:flex;gap:max(4px,.8cqw);justify-content:center;align-items:flex-end;
+    min-height:calc(var(--tile) + 2.4cqh);padding-bottom:1cqh;border-bottom:1px solid var(--hair)}
+  .hint{font-family:var(--mono);font-size:clamp(7px,1.6cqh,16px);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);opacity:.7;align-self:center}
+  .tray{display:flex;gap:max(4px,1cqw);justify-content:center;padding:2cqh 1.4cqw;background:var(--tray);
+    border:1px solid var(--hair);border-radius:clamp(6px,2cqh,12px);box-shadow:0 2px 6px rgba(120,66,38,.10) inset}
+  .tile{position:relative;width:var(--tile);height:var(--tile);flex:none;border-radius:calc(var(--tile) * .17);
+    background:linear-gradient(180deg,#fff,var(--paper-2));border:1px solid var(--hair);border-bottom-color:var(--edge);
+    box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 2px 3px -1px rgba(120,66,38,.16),0 8px 14px -9px rgba(120,66,38,.30);
+    font-family:var(--display);font-weight:600;font-size:calc(var(--tile) * .5);line-height:1;text-transform:uppercase;
+    display:flex;align-items:center;justify-content:center;transition:transform .16s cubic-bezier(.2,.7,.2,1),opacity .2s ease}
+  .tile .v{position:absolute;right:7%;bottom:4%;font-family:var(--mono);font-weight:500;font-size:calc(var(--tile) * .16);color:var(--accent-ink)}
+  .tile.socket{background:transparent;box-shadow:0 1px 3px rgba(120,66,38,.12) inset;border-style:dashed}
+  .tile.socket *,.tile.socket{color:transparent}
+  .answer .tile{transform:translateY(-.8cqh);
+    box-shadow:0 1px 0 rgba(255,255,255,.85) inset,0 6px 10px -4px rgba(120,66,38,.22),0 18px 30px -14px rgba(120,66,38,.38)}
+  .answer .tile::before{content:"";position:absolute;left:14%;right:14%;top:0;height:max(2px,.5cqh);border-radius:0 0 3px 3px;background:var(--accent);opacity:.85}
+  .answer .tile.pop{animation:pop .18s cubic-bezier(.2,.7,.2,1)}
+  @keyframes pop{from{transform:translateY(.3cqh) scale(.9)}to{transform:translateY(-.8cqh) scale(1)}}
+  .answer.set .tile{opacity:0;transform:translateY(-3cqh)}
+  .tally{position:absolute;left:50%;top:7cqh;transform:translateX(-50%);font-family:var(--display);font-weight:600;
+    font-size:clamp(11px,3.4cqh,38px);color:var(--accent-ink);opacity:0;transition:opacity .2s ease,top .6s ease}
+  .tally.show{opacity:1;top:4cqh}
+  .toast{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);background:var(--ink);color:var(--paper-2);
+    font-family:var(--mono);font-size:clamp(8px,2cqh,20px);letter-spacing:.2em;text-transform:uppercase;
+    padding:1.6cqh 2.4cqw;border-radius:8px;opacity:0;transition:opacity .25s ease,transform .25s ease;white-space:nowrap}
+  .toast b{color:#e9c46a;font-weight:500}
+  .toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .ledger{background:linear-gradient(180deg,#fff,var(--paper-2));border:1px solid var(--hair);border-radius:clamp(8px,2.2cqh,14px);
+    padding:2.6cqh 1.8cqw;min-height:0;max-height:100%;overflow:hidden;
+    box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 2px 6px -3px rgba(120,66,38,.16),0 8px 18px -12px rgba(120,66,38,.20)}
+  .ledger h3{font-family:var(--mono);font-size:clamp(7px,1.6cqh,16px);font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.4cqh}
+  .ledger h3::before{content:"✦ ";color:var(--accent)}
+  .g{font-family:var(--mono);font-size:clamp(6px,1.4cqh,14px);letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink);
+    border-bottom:1px solid var(--hair);padding-bottom:.4cqh;margin:1cqh 0 .6cqh}
+  .w{display:flex;justify-content:space-between;align-items:baseline;gap:1cqw;font-size:clamp(8px,2.2cqh,24px);letter-spacing:.04em;text-transform:uppercase}
+  .w .p{font-family:var(--mono);font-size:clamp(7px,1.6cqh,16px);color:var(--muted)}
+  .w.full span:first-child{color:var(--accent-ink);font-weight:600}
+  .empty{font-size:clamp(8px,1.9cqh,20px);color:var(--muted)}
+  /* Banner crop: a short strip has no room for the ledger or the case head. */
+  @container stage (max-height:300px){main{grid-template-columns:1fr}.ledger,.head{display:none}}
+  @container stage (orientation:portrait){main{grid-template-columns:1fr;--tile:clamp(18px,9cqw,62px)}.ledger{display:none}}
+</style>
+</head>
+<body>
+<div id="wrap" role="img" aria-label="Typecase attract screen: the tray plays a short round by itself">
+  <div class="sun"></div>
+  <header>
+    <span class="wordmark">TYPECASE <span>✦ N°06</span></span>
+    <div class="hud">
+      <div class="stat"><span class="k">Score</span><b id="score">30</b></div>
+      <div class="clock"><b id="clock">1:58</b><span class="bar"><i id="fill" style="width:49%"></i></span></div>
+      <div class="stat"><span class="k">Round</span><b>1</b></div>
+    </div>
+  </header>
+  <main>
+    <section class="case">
+      <div class="head">
+        <span class="lbl">Quota <b id="quota">3</b>/<b>4</b></span>
+        <span class="lbl">Found <b id="found">3</b>/<b>65</b></span>
+      </div>
+      <!-- The first frame is real markup, so it paints with no script: SEPTET half set. -->
+      <div class="answer" id="answer"><div class="tile">s<span class="v">1</span></div><div class="tile">e<span class="v">1</span></div><div class="tile">p<span class="v">3</span></div><div class="tile">t<span class="v">1</span></div></div>
+      <div class="tray" id="tray"><div class="tile socket">s<span class="v">1</span></div><div class="tile">t<span class="v">1</span></div><div class="tile socket">e<span class="v">1</span></div><div class="tile">y<span class="v">4</span></div><div class="tile socket">p<span class="v">3</span></div><div class="tile">e<span class="v">1</span></div><div class="tile">s<span class="v">1</span></div><div class="tile socket">t<span class="v">1</span></div></div>
+      <div class="tally" id="tally"></div>
+      <div class="toast" id="toast">Full tray <b>✦ +100</b></div>
+    </section>
+    <aside class="ledger">
+      <h3>The ledger</h3>
+      <div id="list"><div class="g">3 letters</div><div class="w"><span>yes</span><span class="p">6</span></div><div class="g">4 letters</div><div class="w"><span>type</span><span class="p">9</span></div><div class="g">5 letters</div><div class="w"><span>types</span><span class="p">15</span></div></div>
+    </aside>
+  </main>
+</div>
+<script>
+(function () {
+  "use strict";
+  // The round this screen plays. tools/attract-check.js proves every value against the game:
+  // the seed is in data/racks.js, every word is in data/words.js and fits the tray, and the
+  // numbers equal config/game.config.js. The still frame in the markup is checked too.
+  // ATTRACT-DATA-BEGIN
+  var DATA = {
+    "seed": "typesets", "tray": "steypest",
+    "words": ["yes", "type", "types", "septet", "typeset", "typesets"],
+    "values": { "e": 1, "p": 3, "s": 1, "t": 1, "y": 4 },
+    "lengthMultiplier": { "3": 1, "4": 1, "5": 1.5, "6": 2, "7": 3, "8": 3 },
+    "fullRackBonus": 100,
+    "timeBonus": { "3": 1, "4": 2, "5": 4, "6": 7, "7": 10, "8": 15 },
+    "clockStart": 120, "clockMax": 240, "quota": 4, "findable": 65, "stillAfter": 3
+  };
+  // ATTRACT-DATA-END
+  var VALUES = DATA.values, MULT = DATA.lengthMultiplier, BONUS = DATA.timeBonus;
+  var RACK = DATA.tray.split(""), WORDS = DATA.words;
+  var CLOCK_START = DATA.clockStart, CLOCK_MAX = DATA.clockMax;
+
+  var wrap = document.getElementById("wrap");
+  var $ = function (id) { return document.getElementById(id); };
+  var stillFrame = wrap.innerHTML;          // the markup frame IS the reduced-motion frame
+  var reduce = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+  var forcedStill = document.documentElement.classList.contains("still");
+  var timers = [], running = false;
+
+  function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+  function stop() { timers.forEach(clearTimeout); timers = []; running = false; }
+  function score(w) {
+    var s = 0; for (var i = 0; i < w.length; i++) s += VALUES[w[i]];
+    s = Math.round(s * MULT[Math.min(w.length, 8)]);
+    return w.length === RACK.length ? s + DATA.fullRackBonus : s;
+  }
+  function tile(ch, socket) {
+    var t = document.createElement("div");
+    t.className = "tile" + (socket ? " socket" : "");
+    t.innerHTML = ch + '<span class="v">' + VALUES[ch] + "</span>";
+    return t;
+  }
+
+  var st;
+  function reset() {
+    st = { score: 0, clock: CLOCK_START, used: [], found: [] };
+    $("answer").className = "answer";
+    $("answer").innerHTML = '<span class="hint">type or tap the letters</span>';
+    $("list").innerHTML = '<p class="empty">Nothing set yet.</p>';
+    drawTray(); drawHud();
+  }
+  function drawTray() {
+    var tray = $("tray"); tray.innerHTML = "";
+    RACK.forEach(function (ch, i) { tray.appendChild(tile(ch, st.used.indexOf(i) >= 0)); });
+  }
+  function fmt(s) { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }
+  function drawHud() {
+    $("score").textContent = st.score;
+    $("clock").textContent = fmt(st.clock);
+    $("fill").style.width = (100 * st.clock / CLOCK_MAX).toFixed(1) + "%";
+    $("quota").textContent = Math.min(st.found.length, DATA.quota);
+    $("found").textContent = st.found.length;
+  }
+  function drawLedger() {
+    var html = "", last = 0;
+    st.found.slice().sort(function (a, b) { return a.length - b.length; }).forEach(function (w) {
+      if (w.length !== last) { html += '<div class="g">' + w.length + " letters</div>"; last = w.length; }
+      html += '<div class="w' + (w.length === RACK.length ? " full" : "") + '"><span>' + w + '</span><span class="p">' + score(w) + "</span></div>";
+    });
+    $("list").innerHTML = html;
+  }
+
+  function spell(wi) {
+    if (wi >= WORDS.length) { later(newRound, 2600); return; }
+    var w = WORDS[wi], ans = $("answer");
+    ans.innerHTML = ""; st.used = [];
+    w.split("").forEach(function (ch, k) {
+      later(function () {
+        for (var i = 0; i < RACK.length; i++) {
+          if (RACK[i] === ch && st.used.indexOf(i) < 0) { st.used.push(i); break; }
+        }
+        var t = tile(ch, false); t.className += " pop"; ans.appendChild(t); drawTray();
+      }, 260 + k * 190);
+    });
+    var setAt = 260 + w.length * 190 + 420;
+    later(function () {                    // the word sets: score, time and the ledger move
+      var pts = score(w);
+      ans.className = "answer set";
+      st.score += pts; st.clock = Math.min(CLOCK_MAX, st.clock + BONUS[Math.min(w.length, 8)]);
+      st.found.push(w); drawHud(); drawLedger();
+      var tal = $("tally"); tal.textContent = "+" + pts; tal.className = "tally show";
+      if (w.length === RACK.length) $("toast").className = "toast show";
+      later(function () { tal.className = "tally"; }, 900);
+    }, setAt);
+    later(function () {                    // the tiles go back to the tray
+      ans.className = "answer"; st.used = []; drawTray();
+      spell(wi + 1);
+    }, setAt + 900);
+  }
+  function newRound() {
+    $("toast").className = "toast";
+    for (var i = RACK.length - 1; i > 0; i--) {   // a fixed reshuffle, so every loop is the same
+      var j = (i * 5 + 3) % (i + 1), x = RACK[i]; RACK[i] = RACK[j]; RACK[j] = x;
+    }
+    reset();
+    later(function () { spell(0); }, 900);
+  }
+  function tickClock() {
+    if (!running) return;
+    st.clock = Math.max(0, st.clock - 1); drawHud();
+    later(tickClock, 1000);
+  }
+
+  function start() {
+    if (running) return;
+    running = true; reset();
+    later(function () { spell(0); }, 700);
+    later(tickClock, 1000);
+  }
+  function still() { stop(); wrap.innerHTML = stillFrame; }
+  function apply() { if (forcedStill || (reduce && reduce.matches)) still(); else start(); }
+  if (reduce && reduce.addEventListener) reduce.addEventListener("change", apply);
+  apply();
+})();
+</script>
+</body>
+</html>

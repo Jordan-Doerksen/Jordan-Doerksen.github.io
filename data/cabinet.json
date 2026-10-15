@@ -226,9 +226,99 @@
       ],
       "totalBytes": 127495,
       "version": "04bf7d2b1e5c"
+    },
+    {
+      "blurb": "A timed anagram arcade. A tray of type, a clock that only runs down, and a dictionary with final say.",
+      "entry": "index.html",
+      "files": [
+        {
+          "bytes": 15546,
+          "path": "attract/index.html",
+          "sha256": "2003eded5666dbc575090ae5211a9db6524a56ce7b2d67aecd344549daf81033"
+        },
+        {
+          "bytes": 2934,
+          "path": "config/game.config.js",
+          "sha256": "7802226bb29a4e230fe0f8d80ca0a57da0f164e5095cca988a9a89584b9943b3"
+        },
+        {
+          "bytes": 281615,
+          "path": "data/racks.js",
+          "sha256": "dac8b313d28f8253ae519ea00b993f62b865cbddd2d0d3ba5695b1963e2fff43"
+        },
+        {
+          "bytes": 702919,
+          "path": "data/words.js",
+          "sha256": "e5899c745fbdec302433fddbedc719fc777d8f56fe1c7f29135025170d8112d2"
+        },
+        {
+          "bytes": 7797,
+          "path": "index.html",
+          "sha256": "7bc16313fe877df745d2c4acf33e3ca015c3458bad4e124d0f3aa0bb161cfd34"
+        },
+        {
+          "bytes": 6235,
+          "path": "src/audio.js",
+          "sha256": "19ecdb0b05bc2fb094ba8c6518f5b9f3ae7e86521314b8ea86ce789ab79321be"
+        },
+        {
+          "bytes": 1712,
+          "path": "src/dict.js",
+          "sha256": "d4ea43e5b509970d6cf05e2e7fa6280ed181b1712b674ee2cf167eca756f16b5"
+        },
+        {
+          "bytes": 8512,
+          "path": "src/game.js",
+          "sha256": "33200e5b0e4c6397db8d95846617674804fced86310fdcffb48291d8202b53a6"
+        },
+        {
+          "bytes": 5969,
+          "path": "src/input.js",
+          "sha256": "4e6217f8f7256bcbb22a9d87954fcaae3fccadf1ecf4334eed42d7914e402bfe"
+        },
+        {
+          "bytes": 2809,
+          "path": "src/rack.js",
+          "sha256": "d2f034d99510479696e9ebdfb8d1dea30f4f400dba5fbdc57223a0900045bbfb"
+        },
+        {
+          "bytes": 1270,
+          "path": "src/rng.js",
+          "sha256": "71f034d1eee8ab99dd38d82492cf2f9564b3b287fd614b7c4619cbe6f5ad1577"
+        },
+        {
+          "bytes": 2361,
+          "path": "src/settings.js",
+          "sha256": "fd6f8e081997ce4e648c80b55f2a239b9311475a5e860c2e095b78f43fc21b1d"
+        },
+        {
+          "bytes": 13246,
+          "path": "src/ui.js",
+          "sha256": "7e23b23179af1ef845fa312ff9a60d2ecfe35b96ae1414e1dee1095bd8b3fede"
+        },
+        {
+          "bytes": 19156,
+          "path": "styles/style.css",
+          "sha256": "5b2aa19686542a9d9c910553abbd8760ae251c876bff7609795f6e36df1364cc"
+        },
+        {
+          "bytes": 2945,
+          "path": "styles/tokens.css",
+          "sha256": "646fffd9f3aea0b8f42a1f8c7d338a04bfff9508e7e7a26723ff0ff5fa9f6534"
+        }
+      ],
+      "name": "Typecase",
+      "slug": "typecase",
+      "spec": "DOMAIN-SPLIT · ENABLE DICTIONARY",
+      "tags": [
+        "Game",
+        "Word"
+      ],
+      "totalBytes": 1075026,
+      "version": "930c13a262c2"
     }
   ],
-  "generated": "2026-10-15T00:48:27Z",
+  "generated": "2026-10-15T01:49:17Z",
   "schema": 1,
   "source": "jordan-doerksen.github.io"
 }

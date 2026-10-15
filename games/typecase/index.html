@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Typecase — a timed anagram arcade</title>
+<meta name="description" content="A tray of type, a clock, and a dictionary with opinions. Spell what you can find." />
+<!-- Fonts: nice to have, never required — full system-stack fallbacks in tokens.css;
+     the game is 100% playable offline / file:// with no network. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+  <div class="rules" aria-hidden="true"></div>
+  <div class="sun" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header class="site">
+      <span class="wordmark">TYPECASE <span>✦ N°06</span></span>
+      <div class="hud">
+        <div class="hud-stat"><span class="k">Score</span><b id="score">0</b></div>
+        <div class="hud-clock" id="clockWrap">
+          <b id="clock">2:00</b>
+          <span class="clockbar"><i id="clockFill"></i></span>
+        </div>
+        <div class="hud-stat"><span class="k">Round</span><b id="round">—</b></div>
+        <button class="icon-btn" id="muteBtn" title="Mute (M)" aria-label="Mute">♪</button>
+        <button class="icon-btn" id="pauseBtn" title="Pause (Esc)" aria-label="Pause">II</button>
+      </div>
+    </header>
+
+    <main class="board">
+      <!-- the case: answer row above, the tray of type sorts below -->
+      <section class="case" id="caseCard" aria-label="Letter tray">
+        <div class="case-head">
+          <span class="lbl">Quota <b id="quotaFound">0</b>/<b id="quotaNeed">—</b></span>
+          <span class="lbl reject-line" id="rejectLine" aria-live="polite"></span>
+          <span class="lbl">Found <b id="foundCount">0</b>/<b id="findableCount">—</b></span>
+        </div>
+        <div class="answer-row" id="answerRow" aria-label="Your word"></div>
+        <div class="tray" id="tray"></div>
+        <div class="tray-controls">
+          <button class="ctl" id="shuffleBtn">Shuffle <kbd>Space</kbd></button>
+          <button class="ctl" id="clearBtn">Clear <kbd>⌫</kbd></button>
+          <button class="ctl primary" id="submitBtn">Set it <kbd>Enter</kbd></button>
+        </div>
+      </section>
+
+      <!-- the ledger: everything set so far, grouped by length -->
+      <aside class="ledger" aria-label="Found words">
+        <h3>The ledger</h3>
+        <div id="foundList" class="found-list"><p class="empty">Nothing set yet.</p></div>
+      </aside>
+    </main>
+
+    <footer class="colophon">N°06 <span class="star">✦</span> Jordan Doerksen <span class="star">✦</span> MMXXVI</footer>
+  </div>
+
+  <!-- ---------- overlays ---------- -->
+  <div class="overlay" id="ovTitle">
+    <div class="sheet">
+      <p class="eyebrow">✦ A timed anagram arcade</p>
+      <h1>Type<em>case</em></h1>
+      <p class="sub">A tray of type and a clock that only runs down. Spell any word of three
+        letters or more; the book decides what counts. Longer words buy more time, quotas
+        clear the round, and the full tray always spells <em>something</em>.</p>
+      <div class="demo-rack" id="demoRack" aria-hidden="true"></div>
+      <div class="keys">
+        <div><span class="kbd">A–Z</span> pick type</div>
+        <div><span class="kbd">Enter</span> set the word</div>
+        <div><span class="kbd">⌫</span> put one back</div>
+        <div><span class="kbd">Space</span> shuffle</div>
+        <div><span class="kbd">Esc</span> pause</div>
+        <div><span class="kbd">M</span> mute</div>
+      </div>
+      <p class="sub best-line" id="bestLine"></p>
+      <button class="cta" id="startBtn">Set the first word ▸</button>
+      <button class="link-btn" id="settingsBtn" type="button">Settings</button>
+    </div>
+  </div>
+
+  <!-- settings (GAME-16): takes the title sheet's place; the title is a menu
+       state, so the centre may hold it. Choices persist via src/settings.js. -->
+  <div class="overlay" id="ovSettings">
+    <div class="sheet" role="dialog" aria-labelledby="settingsTitle">
+      <p class="eyebrow">✦ Typecase</p>
+      <h2 id="settingsTitle">Settings</h2>
+      <div class="set-rows">
+        <div class="set-row">
+          <div><b>Sound</b><small>Tile clicks, the tally, the fanfares and the heartbeat.</small></div>
+          <div class="seg" role="group" aria-label="Sound">
+            <button type="button" data-k="sound" data-v="1">On</button>
+            <button type="button" data-k="sound" data-v="0">Off</button>
+          </div>
+        </div>
+        <div class="set-row">
+          <div><b>Music</b><small>A quiet bed under the clock.</small></div>
+          <div class="seg" role="group" aria-label="Music">
+            <button type="button" data-k="music" data-v="1">On</button>
+            <button type="button" data-k="music" data-v="0">Off</button>
+          </div>
+        </div>
+      </div>
+      <p class="set-note">The ♪ button, or <span class="kbd">M</span> outside play, silences both and brings them back. Saved on this device.</p>
+      <button class="btn-plain" id="settingsBackBtn" type="button">Back ▸</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="ovRound">
+    <div class="sheet">
+      <p class="eyebrow">✦ Round cleared</p>
+      <h2 id="roundClearTitle">Round 1, set.</h2>
+      <div class="result-grid">
+        <div class="cell"><span class="k">Round score</span><b id="rcScore">0</b></div>
+        <div class="cell"><span class="k">Words set</span><b id="rcWords">0</b></div>
+        <div class="cell"><span class="k">Refill</span><b id="rcRefill">+30s</b></div>
+      </div>
+      <div class="reveal" id="rcReveal"></div>
+      <button class="cta" id="nextRoundBtn">Fresh tray ▸</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="ovOver">
+    <div class="sheet">
+      <p class="eyebrow">✦ Out of time</p>
+      <h2>The clock wins.</h2>
+      <div class="result-grid">
+        <div class="cell"><span class="k">Score</span><b id="goScore">0</b></div>
+        <div class="cell"><span class="k">Best round</span><b id="goBestRound">0</b></div>
+        <div class="cell"><span class="k">Words set</span><b id="goWords">0</b></div>
+        <div class="cell"><span class="k">Longest</span><b id="goLongest">—</b></div>
+      </div>
+      <p class="sub best-note" id="goBestNote"></p>
+      <div class="reveal" id="goReveal"></div>
+      <button class="cta" id="againBtn">Another tray ▸</button>
+    </div>
+  </div>
+
+  <div class="overlay opaque" id="ovPause">
+    <div class="sheet">
+      <p class="eyebrow">✦ Paused</p>
+      <h2>The tray is covered.</h2>
+      <p class="sub">The clock stops, and so does the thinking. No reading the letters
+        from here — that would be free time, and time is the whole game.</p>
+      <button class="cta" id="resumeBtn">Back to it ▸</button>
+    </div>
+  </div>
+
+  <!-- classic scripts in dependency order — file:// blocks fetch() AND ES modules,
+       so everything ships as globals. See ARCHITECTURE.md. -->
+  <script src="config/game.config.js"></script>
+  <script src="data/words.js"></script>
+  <script src="data/racks.js"></script>
+  <script src="src/rng.js"></script>
+  <script src="src/dict.js"></script>
+  <script src="src/rack.js"></script>
+  <script src="src/game.js"></script>
+  <script src="src/settings.js"></script>
+  <script src="src/audio.js"></script>
+  <script src="src/ui.js"></script>
+  <script src="src/input.js"></script>
+</body>
+</html>

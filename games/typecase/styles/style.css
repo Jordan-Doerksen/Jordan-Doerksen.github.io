@@ -1,0 +1,463 @@
+/* ============================================================================
+   styles/style.css — typecase · Daybreak Editorial, game-fitted
+   ----------------------------------------------------------------------------
+   Consumes styles/tokens.css (copied verbatim from the canonical style-library
+   repo — self-contained on purpose, never linked cross-repo). This file is the
+   game's own component sheet: the typesetter's-tray fantasy — letter tiles as
+   small depth-card "type sorts", an answer row they lift into, the ledger of
+   found words, and the overlay/sheet system. One Goldenrod thread. ✦ only.
+   prefers-reduced-motion is law: every effect static or skipped.
+   ============================================================================ */
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+
+/* ---- editorial margins + the sun (quiet corner wash, no JS) ---- */
+.rules{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  max-width:var(--maxw);margin:0 auto;padding:0 var(--mar);
+}
+.rules::before,.rules::after{
+  content:"";position:absolute;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent,var(--hair) 12%,var(--hair) 88%,transparent);
+  opacity:.7;
+}
+.rules::before{left:max(8px,calc(var(--mar) - 28px))}
+.rules::after{right:max(8px,calc(var(--mar) - 28px))}
+@media (max-width:760px){ .rules{display:none} }
+
+.sun{
+  position:fixed;z-index:0;pointer-events:none;
+  width:min(52vw,540px);height:min(52vw,540px);
+  right:-10vw;bottom:-18vh;border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,
+    rgba(var(--accent-rgb),.22),
+    rgba(var(--accent-rgb),.07) 52%,
+    transparent 72%);
+  filter:blur(2px);
+  animation:drift 34s ease-in-out infinite alternate;
+}
+@keyframes drift{
+  from{transform:translate(0,0) scale(1)}
+  to{transform:translate(-5vw,-6vh) scale(1.07)}
+}
+
+.wrap{
+  position:relative;z-index:2;
+  max-width:980px;margin:0 auto;
+  min-height:100%;display:flex;flex-direction:column;
+  padding:0 var(--mar);
+}
+
+/* ---------------- header / HUD ---------------- */
+header.site{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding:clamp(18px,3.5vh,34px) 0 clamp(12px,2vh,20px);
+  border-bottom:1px solid var(--hair);
+}
+.wordmark{
+  font-family:var(--mono);font-size:13px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--ink);
+}
+.wordmark span{color:var(--accent-ink)}
+.hud{display:flex;align-items:center;gap:clamp(14px,2.5vw,28px)}
+.hud-stat{display:flex;flex-direction:column;align-items:flex-end;min-width:64px}
+.hud-stat .k{
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);
+}
+.hud-stat b{
+  font-family:var(--display);font-weight:600;font-size:1.5rem;line-height:1.1;
+  font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+}
+.hud-clock{display:flex;flex-direction:column;align-items:center;min-width:86px}
+.hud-clock b{
+  font-family:var(--display);font-weight:600;font-size:1.7rem;line-height:1.1;
+  font-variant-numeric:tabular-nums;
+}
+.clockbar{width:76px;height:4px;border-radius:3px;background:var(--hair);overflow:hidden;margin-top:4px}
+.clockbar i{display:block;height:100%;width:100%;background:var(--accent);border-radius:3px}
+/* urgency pulse — under 10s; killed entirely by reduced-motion below */
+.hud-clock.urgent b{color:var(--accent-ink);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+
+.icon-btn{
+  font-family:var(--mono);font-size:12px;letter-spacing:.05em;
+  width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--hair);background:var(--paper-2);color:var(--muted);
+  cursor:pointer;transition:border-color .2s ease,color .2s ease;
+}
+.icon-btn:hover{border-color:var(--accent-line);color:var(--ink)}
+.icon-btn.off{color:var(--hair);text-decoration:line-through}
+
+/* ---------------- board layout ---------------- */
+.board{
+  flex:1 1 auto;
+  display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:clamp(16px,2.5vw,28px);
+  align-items:start;
+  padding:clamp(18px,3.5vh,36px) 0;
+}
+@media (max-width:820px){ .board{grid-template-columns:1fr} }
+
+/* the case — a raised work surface */
+.case{
+  background:linear-gradient(180deg,#fff 0%,var(--paper-2) 62%,#f3ecdf 100%);
+  border:1px solid var(--hair);border-bottom-color:#cabfaa;
+  border-radius:16px;
+  box-shadow:var(--card-rest);
+  padding:clamp(16px,2.4vw,26px);
+  display:flex;flex-direction:column;gap:clamp(14px,2vh,20px);
+}
+.case-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+}
+.lbl{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);white-space:nowrap;
+}
+.lbl b{color:var(--ink);font-weight:500}
+
+/* rejection line — reserved height so nothing reflows (max-size law) */
+.reject-line{
+  flex:1 1 auto;text-align:center;min-height:1.4em;
+  color:var(--accent-ink);letter-spacing:.08em;white-space:normal;
+  opacity:0;transition:opacity .25s ease;
+}
+.reject-line.show{opacity:1}
+
+/* ---------------- tiles: the type sorts ---------------- */
+.tile{
+  --tile:clamp(46px,7.2vw,62px);
+  position:relative;width:var(--tile);height:var(--tile);
+  border-radius:10px;
+  background:linear-gradient(180deg,#fff,var(--paper-2));
+  border:1px solid var(--hair);border-bottom-color:#cabfaa;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.8) inset,
+    0 2px 3px -1px rgba(120,66,38,.16),
+    0 8px 14px -9px rgba(120,66,38,.30);
+  font-family:var(--display);font-weight:600;
+  font-size:calc(var(--tile) * .5);line-height:1;
+  color:var(--ink);text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;
+  transition:transform .16s cubic-bezier(.2,.7,.2,1),box-shadow .16s ease,border-color .2s ease;
+}
+.tile .val{
+  position:absolute;right:5px;bottom:3px;
+  font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:0;
+  color:var(--accent-ink);
+}
+.tile:hover{transform:translateY(-2px);border-color:var(--accent-line)}
+.tile:active{transform:translateY(0)}
+.tile:focus-visible{outline:2px solid var(--accent-ink);outline-offset:3px}
+
+/* empty compartment left behind when a sort is lifted out */
+.tile.socket{
+  background:#efe8d9;
+  border-style:dashed;border-bottom-color:var(--hair);
+  box-shadow:0 2px 5px rgba(120,66,38,.14) inset;
+  color:transparent;cursor:default;
+}
+.tile.socket .val{visibility:hidden}
+.tile.socket:hover{transform:none;border-color:var(--hair)}
+
+/* answer-row tiles sit higher — lifted out of the tray, goldenrod thread on top */
+.answer-row{
+  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
+  min-height:calc(clamp(46px,7.2vw,62px) + 14px);   /* reserved — row never collapses */
+  align-items:flex-end;padding-bottom:6px;
+  border-bottom:1px solid var(--hair);
+}
+.answer-row .tile{
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.85) inset,
+    0 6px 10px -4px rgba(120,66,38,.22),
+    0 18px 30px -14px rgba(120,66,38,.38);
+  transform:translateY(-6px);
+}
+.answer-row .tile::before{
+  content:"";position:absolute;left:8px;right:8px;top:0;height:3px;
+  border-radius:0 0 3px 3px;background:var(--accent);opacity:.85;
+}
+.answer-row .tile:hover{transform:translateY(-8px)}
+.answer-row .tile.pop{animation:pop .18s cubic-bezier(.2,.7,.2,1)}
+@keyframes pop{ from{transform:translateY(2px) scale(.9)} to{transform:translateY(-6px) scale(1)} }
+
+/* placeholder ghost so the answer row reads as a composing line when empty */
+.answer-hint{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);opacity:.7;align-self:center;
+}
+
+/* reject shake / duplicate bounce on the whole row */
+.answer-row.shake{animation:shake .4s ease}
+@keyframes shake{
+  10%,90%{transform:translateX(-2px)} 20%,80%{transform:translateX(4px)}
+  30%,50%,70%{transform:translateX(-6px)} 40%,60%{transform:translateX(6px)}
+}
+.answer-row.bounce{animation:bounce .35s ease}
+@keyframes bounce{ 0%,100%{transform:translateY(0)} 40%{transform:translateY(-8px)} 70%{transform:translateY(2px)} }
+
+/* floating score chip that rises off the answer row */
+.score-float{
+  position:absolute;left:50%;transform:translate(-50%,0);
+  font-family:var(--display);font-weight:600;font-size:1.3rem;color:var(--accent-ink);
+  pointer-events:none;opacity:0;
+}
+.score-float.go{animation:floatup 1s ease forwards}
+@keyframes floatup{
+  0%{opacity:0;transform:translate(-50%,6px)}
+  20%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-44px)}
+}
+
+/* the tray itself */
+.tray{
+  position:relative;
+  display:flex;gap:clamp(8px,1.4vw,12px);justify-content:center;flex-wrap:wrap;
+  padding:clamp(12px,1.8vw,18px);
+  background:#efe8d9;
+  border:1px solid var(--hair);border-radius:12px;
+  box-shadow:0 2px 6px rgba(120,66,38,.10) inset;
+  min-height:calc(clamp(46px,7.2vw,62px) + 2 * clamp(12px,1.8vw,18px) + 2px); /* reserved */
+}
+/* pause law: the letters are not readable while the clock is stopped */
+body.paused .tray,body.paused .answer-row{visibility:hidden}
+
+.tray-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.ctl{
+  font-family:var(--sans);font-size:.85rem;font-weight:600;color:var(--ink);
+  background:var(--paper-2);border:1px solid var(--hair);border-radius:999px;
+  padding:10px 18px;min-height:42px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:border-color .2s ease,transform .1s ease,box-shadow .2s ease;
+}
+.ctl kbd{
+  font-family:var(--mono);font-size:10px;color:var(--muted);
+  border:1px solid var(--hair);border-bottom-width:2px;border-radius:4px;padding:1px 6px;
+}
+.ctl:hover{border-color:var(--accent-line)}
+.ctl:active{transform:translateY(1px)}
+.ctl:focus-visible{outline:2px solid var(--accent-ink);outline-offset:3px}
+.ctl.primary{
+  background:var(--accent);color:var(--paper-2);border-color:transparent;
+  box-shadow:0 10px 20px -12px rgba(var(--accent-rgb),.85);
+}
+.ctl.primary kbd{color:rgba(255,255,255,.85);border-color:rgba(255,255,255,.4)}
+
+/* ---------------- the ledger ---------------- */
+.ledger{
+  background:linear-gradient(180deg,#fff,var(--paper-2));
+  border:1px solid var(--hair);border-radius:14px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.7) inset,
+    0 2px 6px -3px rgba(120,66,38,.16),
+    0 8px 18px -12px rgba(120,66,38,.20);
+  padding:16px 18px;
+  max-height:min(58vh,520px);overflow-y:auto;
+}
+.ledger h3{
+  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.ledger h3::before{content:"✦";color:var(--accent);font-size:10px}
+.found-list .empty{font-size:.85rem;color:var(--muted)}
+.fl-group{margin-bottom:12px}
+.fl-group .g{
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent-ink);border-bottom:1px solid var(--hair);
+  padding-bottom:3px;margin-bottom:5px;
+}
+.fl-word{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-size:.92rem;padding:1px 0;
+}
+.fl-word .w{letter-spacing:.04em}
+.fl-word .p{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.fl-word.full .w{color:var(--accent-ink);font-weight:600}
+.fl-word.full .w::after{content:" ✦";color:var(--accent)}
+
+/* ---------------- overlays ---------------- */
+.overlay{
+  position:fixed;inset:0;z-index:30;display:none;
+  align-items:center;justify-content:center;padding:20px;
+  background:rgba(246,241,231,.88);backdrop-filter:blur(4px);
+}
+.overlay.show{display:flex}
+/* pause sheet must actually hide the board — near-opaque paper */
+.overlay.opaque{background:rgba(246,241,231,.99);backdrop-filter:none}
+
+.sheet{
+  background:linear-gradient(180deg,#fff 0%,var(--paper-2) 70%);
+  border:1px solid var(--hair);border-bottom-color:#cabfaa;border-radius:18px;
+  box-shadow:var(--card-hover);
+  padding:clamp(26px,4vw,44px);width:min(620px,100%);
+  max-height:92vh;overflow-y:auto;text-align:center;
+}
+.sheet .eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--accent-ink);margin-bottom:14px;
+}
+.sheet h1{
+  font-family:var(--display);font-weight:600;font-size:clamp(3rem,9vw,4.6rem);
+  line-height:.95;letter-spacing:-.03em;margin-bottom:14px;
+}
+.sheet h1 em,.sheet h2 em,.sheet .sub em{font-style:normal;color:var(--accent-ink)}
+.sheet h2{
+  font-family:var(--display);font-weight:600;font-size:clamp(1.7rem,4.5vw,2.4rem);
+  letter-spacing:-.02em;margin-bottom:12px;
+}
+.sheet .sub{
+  color:var(--muted);font-size:.95rem;line-height:1.6;
+  max-width:46ch;margin:0 auto 16px;
+}
+.sheet .kbd{
+  font-family:var(--mono);font-size:11px;color:var(--ink);
+  background:var(--paper-2);border:1px solid var(--hair);border-bottom-width:2px;
+  border-radius:5px;padding:1px 7px;
+}
+.keys{
+  display:flex;gap:12px 18px;justify-content:center;flex-wrap:wrap;
+  margin:16px 0 8px;font-size:.8rem;color:var(--muted);
+}
+.keys div{display:flex;align-items:center;gap:7px}
+.best-line{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;margin-top:10px}
+.best-note{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--accent-ink)}
+
+.cta{
+  margin-top:16px;display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--sans);font-size:1rem;font-weight:600;letter-spacing:.01em;
+  background:var(--accent);color:var(--paper-2);border:none;border-radius:6px; /* 6px, never a pill (owner rule, CR-1) */
+  padding:15px 32px;cursor:pointer;
+  box-shadow:0 12px 26px -14px rgba(var(--accent-rgb),.85);
+  transition:box-shadow .25s ease,transform .1s ease;
+}
+.cta:hover{box-shadow:0 16px 34px -12px rgba(var(--accent-rgb),.95)}
+.cta:active{transform:translateY(1px)}
+.cta:focus-visible{outline:2px solid var(--accent-ink);outline-offset:4px}
+
+/* ---------------- settings (CR-1 part B, GAME-16) ---------------- */
+/* the title's way in: plain text under the start button, no box */
+.link-btn{
+  display:block;margin:12px auto 0;background:none;border:none;border-radius:6px;
+  font-family:var(--sans);font-size:.9rem;font-weight:500;color:var(--accent-ink);
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 10px;
+}
+.link-btn:focus-visible{outline:2px solid var(--accent-ink);outline-offset:3px}
+.set-rows{display:flex;flex-direction:column;gap:10px;margin:18px 0 8px;text-align:left}
+.set-row{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 16px;
+  background:var(--paper-2);border:1px solid var(--hair);border-radius:10px;padding:12px 14px;
+}
+.set-row b{display:block;font-family:var(--display);font-weight:600;font-size:1.05rem}
+.set-row small{display:block;color:var(--muted);font-size:.82rem;line-height:1.4}
+/* On / Off: the state reads by fill AND by aria-pressed, never by colour alone */
+.seg{display:inline-flex;border:1px solid var(--hair);border-radius:6px;overflow:hidden;background:var(--paper-2)}
+.seg button{
+  font-family:var(--sans);font-size:.85rem;font-weight:500;border:none;background:none;
+  color:var(--muted);padding:8px 14px;min-width:52px;min-height:44px;cursor:pointer;
+}
+.seg button+button{border-left:1px solid var(--hair)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper-2)}
+.seg button:focus-visible{outline:2px solid var(--accent-ink);outline-offset:-3px}
+.set-note{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted);margin-top:6px}
+.btn-plain{
+  margin-top:14px;font-family:var(--sans);font-size:.95rem;font-weight:600;
+  background:var(--paper-2);color:var(--ink);border:1px solid var(--hair);border-radius:6px;
+  padding:11px 24px;cursor:pointer;
+}
+.btn-plain:hover{border-color:var(--accent-line)}
+.btn-plain:focus-visible{outline:2px solid var(--accent-ink);outline-offset:3px}
+@media (max-width:420px){ .set-row{grid-template-columns:1fr} .seg{justify-self:start} }
+
+/* title demo rack — a gentle, self-satisfied bob */
+.demo-rack{display:flex;gap:7px;justify-content:center;margin:6px 0 4px;flex-wrap:wrap}
+.demo-rack .tile{--tile:44px;cursor:default;animation:bob 3.2s ease-in-out infinite}
+.demo-rack .tile:hover{transform:none}
+@keyframes bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+
+/* result grid on round/over sheets */
+.result-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;
+  margin:16px 0;
+}
+.result-grid .cell{
+  background:var(--paper-2);border:1px solid var(--hair);border-radius:11px;
+  padding:12px 8px;display:flex;flex-direction:column;gap:4px;
+}
+.result-grid .k{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);
+}
+.result-grid b{
+  font-family:var(--display);font-weight:600;font-size:1.4rem;
+  font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+}
+
+/* the reveal — what the tray was hiding */
+.reveal{margin:8px 0 4px;text-align:left}
+.reveal .rv-full{
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+  background:var(--accent-tint);border:1px solid var(--accent-line);border-radius:10px;
+  padding:10px 14px;margin-bottom:10px;
+}
+.reveal .rv-full .w{
+  font-family:var(--display);font-weight:600;font-size:1.25rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent-ink);
+}
+.reveal .rv-full .k{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);
+}
+.reveal .rv-head{
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px;
+}
+.reveal .rv-missed{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:4px 14px;
+}
+.reveal .rv-missed span{
+  display:flex;justify-content:space-between;font-size:.9rem;color:var(--ink);
+}
+.reveal .rv-missed b{font-family:var(--mono);font-weight:400;font-size:11px;color:var(--muted)}
+.reveal .rv-none{font-size:.88rem;color:var(--muted)}
+
+/* ---------------- colophon ---------------- */
+.colophon{
+  flex:0 0 auto;text-align:center;
+  padding:14px 0 18px;border-top:1px solid var(--hair);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);
+}
+.colophon .star{color:var(--accent)}
+
+/* ---------------- small screens ---------------- */
+@media (max-width:560px){
+  .hud{gap:12px}
+  .hud-stat{min-width:52px}
+  .hud-stat b{font-size:1.2rem}
+  .hud-clock b{font-size:1.4rem}
+  .tile{--tile:44px}
+  .ledger{max-height:34vh}
+}
+
+/* ---------------- reduced motion: the law ---------------- */
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
+  .sun{animation:none}
+  .hud-clock.urgent b{animation:none;transform:none}   /* pulse off; colour stays */
+  .answer-row.shake,.answer-row.bounce{animation:none}
+  .demo-rack .tile{animation:none}
+  .score-float.go{animation:none;opacity:0}
+}
