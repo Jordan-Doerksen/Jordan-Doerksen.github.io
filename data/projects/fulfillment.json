@@ -31,7 +31,7 @@
     "No system is in until it's fleshed mechanically and visually and cross-checked — no orphaned mechanics ship.",
     "A Placeholder Ledger tracks every visual stand-in; a placeholder that stops being live-wired gets deleted, not left stale.",
     "Built in the spirit of an older wave-survival game, explicitly greenfield rather than a port.",
-    "Files follow the house split rule: review at 300 lines, split by 500."
+    "Each file holds one subject; a part moves to its own file when it is independent and separately tunable."
   ],
   "links": { "live": null, "repo": null },
   "diagram": "/assets/diagrams/fulfillment.svg"
