@@ -626,15 +626,17 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
     @@mesh@@
   </figure>
 @@desktoy@@
-  <!-- The workbench. The desk is one program; these are the others, and the two
-       rail demos are the only place on the site where the training software is
-       shown rather than described. Each panel reuses tier 3's wall budget
-       (wall.js), so nothing here runs until it is scrolled near. -->
+  <!-- The workbench. The desk is one program; these are the others. Each panel
+       reuses tier 3's wall budget (wall.js), so nothing here runs until it is
+       scrolled near. The two rail demos (CROR signal aspects, Yard switching) were
+       removed 2026-10-14 by owner ruling: rail does not belong on the trading page.
+       Moving them to the rail page is a later change; until then nothing on the
+       front page links demos/rail-signals/ or demos/rail-switching/. -->
   <section class="bench">
     <h2>The rest of the bench</h2>
-    <p class="bench-lede">Three of these run right here. <b>Every figure in the desk demo is
-    synthetic and says so</b> — the desk cannot be shown with real data on this machine, and
-    inventing a market reading to look impressive is the one thing it must never do.</p>
+    <p class="bench-lede">The desk demo runs right here. <b>Every figure in it is synthetic and
+    says so</b> — the desk cannot be shown with real data on this machine, and inventing a
+    market reading to look impressive is the one thing it must never do.</p>
 
     <figure class="monad">
       <img src="../../assets/shots/monad-desk-server.png" alt="Monad, showing the desk server's state and the buttons that change it" loading="lazy">
@@ -654,18 +656,6 @@ details p{margin:8px 0 0;color:var(--ink-2);font-size:14px}
         <div class="meta"><h3><a href="../../demos/trading-desk/" data-play="Trading desk layout">Trading desk — the cockpit</a></h3>
         <p>The real three-column layout, running. Synthetic values, marked as such in a band
         that cannot be scrolled away.</p></div>
-      </article>
-      <article class="panel" data-name="CROR signal aspects" data-attract="../../demos/rail-signals/">
-        <div class="screen"></div>
-        <div class="meta"><h3><a href="../../demos/rail-signals/" data-play="CROR signal aspects">CROR signal aspects</a></h3>
-        <p>38 aspects, cycling. Every name, indication and lamp arrangement is copied from
-        the rule source — the sequence is authored, the rules are not.</p></div>
-      </article>
-      <article class="panel" data-name="Yard switching" data-attract="../../demos/rail-switching/">
-        <div class="screen"></div>
-        <div class="meta"><h3><a href="../../demos/rail-switching/" data-play="Yard switching">Yard switching</a></h3>
-        <p>A yard, a cut of cars, and a move played out on a loop. An authored scenario, so
-        you can see the sim without solving it.</p></div>
       </article>
     </div>
   </section>
