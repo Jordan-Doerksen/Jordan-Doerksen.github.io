@@ -536,6 +536,13 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   a contrast-checked paper ground either way; it's one attribute, not a rewrite.
 - Delete the legacy annex outright? (Operator decision, post-ship.)
 - Should the site's own entry link this DECISIONS.md as a live example? (Nice-to-have.)
+- **QUEUED 2026-10-13 (owner ask): a full recon and a skin refresh of the site.** Recon first: every
+  route walked, each page classified against the web bible (WEB-10), the width sweep at phone and
+  desktop on every element (WEB-14), reduced motion, JS off, keyboard, the longest real string, and
+  every link from `registry.json` resolved. The skin refresh follows the recon and wears the current
+  default skin (SKIN-02), colour and type only (SKIN-01), one token file (SKIN-03); the composition
+  does not change without its own CR. Starts after the Fulfillment itch ship. Interview before any
+  markup (GATE-01).
 
 ## Change Log
 - 2026-10-04 — **CR-21 (owner ruling, eight interview answers): rebuild the front page from zero as a
