@@ -68,8 +68,9 @@ code { font-family: var(--md-font-mono); font-size: 0.92em; }
 /* the progress bar fixed along the top edge: it mirrors the car's place on the whole ride; a small particle orbits its head */
 .md-ride-bar { display: none; position: fixed; left: 0; right: 0; top: var(--md-ride-bar-top); height: var(--md-ride-bar-h); z-index: 70; background: var(--md-line); pointer-events: none; }
 html.md-riding .md-ride-bar { display: block; }
-.md-ride-fill { height: 100%; background: var(--md-accent); transform-origin: 0 50%; transform: scaleX(var(--md-p)); }
-.md-ride-head { position: absolute; top: 50%; left: calc(var(--md-p) * 100%); width: 0; height: 0; }
+/* ride.js moves the fill and the head by inline transforms (a custom property on <html> restyled the whole page every frame) */
+.md-ride-fill { height: 100%; background: var(--md-accent); transform-origin: 0 50%; transform: scaleX(0); will-change: transform; }
+.md-ride-head { position: absolute; top: 50%; left: 0; width: 0; height: 0; will-change: transform; }
 .md-ride-dot { position: absolute; left: 0; top: 0; width: var(--md-dot-d); height: var(--md-dot-d); margin: calc(var(--md-dot-d) / -2); border-radius: 50%; background: var(--md-ink-strong); box-shadow: 0 0 var(--md-glow-r) var(--md-glow-s) var(--md-accent); animation: md-orbit var(--md-orbit-dur) linear infinite; }
 html.md-paused .md-ride-dot { animation-play-state: paused; }
 @keyframes md-orbit { from { transform: rotate(0deg) translateX(var(--md-orbit-r)); } to { transform: rotate(360deg) translateX(var(--md-orbit-r)); } }
@@ -174,18 +175,22 @@ html.md-riding .md-mark.md-lit .md-n { color: var(--md-accent); }
 .md-track-done { stroke: var(--md-accent); stroke-width: var(--md-track-w); }
 .md-car { position: absolute; left: 0; top: 0; z-index: 5; width: var(--md-car-d); height: var(--md-car-d); margin: calc(var(--md-car-d) / -2) 0 0 calc(var(--md-car-d) / -2); border-radius: 50%; background: var(--md-ink-strong); box-shadow: 0 0 0 var(--md-car-halo) var(--md-halo), 0 0 var(--md-glow-r) var(--md-glow-s) var(--md-accent); will-change: transform; }
 .md-title[data-station], .md-limits[data-station], .md-dgwrap { position: relative; }
-@property --md-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
-html.md-riding .md-hit::after {
-  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: var(--md-ring-w); pointer-events: none;
-  background: conic-gradient(from 0deg, var(--md-accent) var(--md-a), transparent var(--md-a));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
-  animation: md-trace var(--md-ride-trace, 1100ms) var(--md-ease) forwards;
+/* The card gives the feedback (CR-29, smoothing pass). When the car arrives, the card's ring (a border and a soft halo, on a
+   pseudo-element) fades up once and settles at a resting light, and the card stays lit. Opacity only: no repaint of the card, no
+   motion near the words. md-hit is on a card for one arrival; the resting light belongs to md-lit, so nothing flashes when it goes. */
+html.md-riding .md-arr::after, html.md-riding .md-hit::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+  border: var(--md-ring-w) solid var(--md-accent); box-shadow: 0 0 var(--md-ring-out) var(--md-halo); opacity: 0;
 }
-html.md-riding .md-hit { animation: md-ring var(--md-ride-ring, 900ms) ease-out; }
+html.md-riding .md-arr.md-lit::after { opacity: var(--md-lit-rest, 0.5); }
+html.md-riding .md-hit::after { animation: md-light var(--md-ride-glow, 1400ms) var(--md-ease-out) both; }
 html.md-riding .md-hit > .md-n { animation: md-tick var(--md-ride-tick, 520ms) var(--md-ease-out); }
-@keyframes md-trace { from { --md-a: 0deg; opacity: 1; } 80% { --md-a: 360deg; opacity: 1; } to { --md-a: 360deg; opacity: 0; } }
-@keyframes md-ring { from { box-shadow: 0 0 0 0 var(--md-halo); } to { box-shadow: 0 0 0 var(--md-ring-out) transparent; } }
+@keyframes md-light { from { opacity: 0; } 30% { opacity: 1; } to { opacity: var(--md-hit-end, 0); } }
+html.md-riding .md-arr.md-hit { --md-hit-end: var(--md-lit-rest, 0.5); }
 @keyframes md-tick { from { color: var(--md-ink-strong); transform: translateY(var(--md-tick-y)); } to { color: var(--md-accent); transform: none; } }
+
+/* the camera wrapper (made by ride.js): carries main and the footer; during the ride it holds the page in one sub-pixel transform */
+.md-cam.md-cam-on { will-change: transform; }
 
 /* reduced motion: the stepped page. One chapter at a time, Back and Next in the rail; every card lit, every diagram complete. */
 html.md-stepped [data-ch]:not(.md-step-on) { display: none; }

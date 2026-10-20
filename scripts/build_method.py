@@ -189,12 +189,14 @@ def check_ride(page: str, ride: dict, diagram: dict, kit_present: bool, log) -> 
         v = ride.get(key)
         if not isinstance(v, (int, float)) or v < floor:
             bad.append("ride.json %s is %s; the reading pause is at least %d ms" % (key, v, floor))
-    for key in ("orbit_ms", "connector_ms", "trace_ms", "tick_ms", "ring_ms", "speed_px_s", "travel_min_ms", "travel_max_ms",
-                "camera_tau_ms", "camera_max_px_s", "camera_anchor", "arch_px", "orbit_pad_px", "settle_ms", "test_flag", "test_speed_mult"):
+    for key in ("connector_ms", "glow_ms", "tick_ms", "lit_rest", "car_px", "car_halo_px", "car_glow_px", "car_glow_spread_px",
+                "speed_px_s", "travel_min_ms", "travel_max_ms", "camera_tau_ms", "camera_max_px_s", "camera_anchor", "arch_px",
+                "station_pad_px", "pointer_probe_ms", "settle_ms", "test_flag", "test_speed_mult"):
         if key not in ride:
             bad.append("ride.json has no %s" % key)
-    if isinstance(ride.get("orbit_ms"), (int, float)) and isinstance(ride.get("dwell_ms"), (int, float)) and ride["orbit_ms"] > ride["dwell_ms"]:
-        bad.append("ride.json orbit_ms %s is longer than dwell_ms %s: the car would leave mid-circle" % (ride["orbit_ms"], ride["dwell_ms"]))
+    # CR-29: the car no longer circles a card, so orbit_ms is gone; the card's glow must finish inside the reading pause.
+    if isinstance(ride.get("glow_ms"), (int, float)) and isinstance(ride.get("dwell_ms"), (int, float)) and ride["glow_ms"] > ride["dwell_ms"]:
+        bad.append("ride.json glow_ms %s is longer than dwell_ms %s: the car would leave before the card finished lighting" % (ride["glow_ms"], ride["dwell_ms"]))
     if ride.get("travel_min_ms", 0) > ride.get("travel_max_ms", 1e9):
         bad.append("ride.json travel_min_ms is greater than travel_max_ms")
     sections = {m.group(1): m.group(0) for m in re.finditer(r'<(?:section|header) id="([\w-]+)"[^>]*data-ch=.*?</(?:section|header)>', page, re.S)}
