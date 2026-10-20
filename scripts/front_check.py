@@ -368,8 +368,9 @@ def c_desk_rows(x: Ctx):
     """One static row per registry project plus desk.json extra; every status is a known one and has a marker rule."""
     if "desk" not in x.pages:
         return UNKNOWN, "no desk page"
-    reg = json.loads(read(x.repo / "data/registry.json"))["projects"]
-    extra = json.loads(read(x.repo / "data/desk.json")).get("extra", [])
+    # A row marked "unlisted": true is on no index (owner's 2026-10-20 rulings), so it is not a row the page owes.
+    reg = [p for p in json.loads(read(x.repo / "data/registry.json"))["projects"] if p.get("unlisted") is not True]
+    extra = [p for p in json.loads(read(x.repo / "data/desk.json")).get("extra", []) if p.get("unlisted") is not True]
     pg = x.pages["desk"][1]
     want = len(reg) + len(extra)
     got = pg.rows["fp-proj-rows"]

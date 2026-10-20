@@ -298,11 +298,19 @@
   }
 
   function toolkitFailed() {
+    if (!kit.msg) {
+      return;
+    }
     kit.msg.textContent = kit.msg.getAttribute("data-failed");
   }
 
   /* All or nothing: the rows are built first and put on the page only if every one was made. */
   function buildToolkit() {
+    /* desk.toolkit_panel is false in scripts/front_page.config.json (owner's ruling 2026-10-20): the page has no
+       Toolkit panel, so there is nothing to build and nothing to report. */
+    if (!kit.box) {
+      return;
+    }
     var data = window.IT_TOOLKIT;
     if (!data || !data.tools || !data.tools.length || !data.categories) {
       toolkitFailed();
@@ -342,12 +350,14 @@
     starBtn.hidden = false;
   }
 
-  kit.body.addEventListener("click", function (ev) {
-    var btn = ev.target.closest ? ev.target.closest(".fp-copy") : null;
-    if (btn) {
-      copyCommand(btn);
-    }
-  });
+  if (kit.body) {
+    kit.body.addEventListener("click", function (ev) {
+      var btn = ev.target.closest ? ev.target.closest(".fp-copy") : null;
+      if (btn) {
+        copyCommand(btn);
+      }
+    });
+  }
 
   /* -- this machine only: ports and paths ------------------------------------------------------ */
 

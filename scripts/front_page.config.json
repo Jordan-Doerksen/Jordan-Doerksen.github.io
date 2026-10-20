@@ -106,7 +106,7 @@
       "group": "reference",
       "icon": "table",
       "robots": "noindex",
-      "description": "One row for each of the {projects} projects, and a toolkit of {tools} free and open-source tools."
+      "description": "One row for each of the {projects} projects."
     }
   ],
 
@@ -152,7 +152,7 @@
     "findline": {
       "before": "Looking for something specific? The ",
       "link": "Tool Desk",
-      "after": " lists all {projects} projects and a toolkit of {tools} tools."
+      "after": " lists all {projects} projects."
     },
     "methodline": {
       "_": "A second sentence in the same findline paragraph (CR-22). path is relative to the repo root.",
@@ -250,12 +250,13 @@
       "copy": "Copy",
       "copied": "Copied"
     },
+    "toolkit_panel": false,
     "scripts": {
       "toolkit_data": "data/toolkit.js",
       "desk": "js/front/desk.js"
     },
     "kicker": "Reference",
-    "lede": "One row for each of the {projects} projects, and a toolkit of {tools} free and open-source tools.",
+    "lede": "One row for each of the {projects} projects.",
     "lede_script": " Press **/** to search.",
     "pinned_label": "Pinned",
     "filters_aria": "Filters",
@@ -268,9 +269,7 @@
       "k": "Tool category"
     },
     "status_order": ["live", "built", "active", "frozen", "superseded", "retired", "shelved", "private"],
-    "extra_blurbs": {
-      "it-toolkit": "The catalog in the Toolkit panel below: {tools} free and open-source IT tools."
-    },
+    "extra_blurbs": {},
     "projects": {
       "title": "Projects",
       "columns": ["Name", "Section", "Status", "What it is"],

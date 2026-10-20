@@ -18,10 +18,6 @@ window.FP_DESK_LOCAL={
 "iceberg-johnnies": {
 "path": "C:\\projects\\iceberg-johnnies"
 },
-"it-toolkit": {
-"path": "C:\\projects\\it-toolkit",
-"port": 4553
-},
 "portfolio-monorepo": {
 "path": "C:\\projects\\jordan-doerksen.github.io",
 "port": 4530

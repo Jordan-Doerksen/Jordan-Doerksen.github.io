@@ -1,5 +1,5 @@
 {
-  "pinned": ["sentinel-suite", "worklog", "clear-board", "style-library", "underwriter"],
+  "pinned": ["sentinel-suite", "worklog", "clear-board", "underwriter"],
   "mine": {
     "sentinel-suite": { "note": "Canonical Sentinel — pro + stage2 + analyst + iceberg unified. Work here, not the standalones. Read HANDOFF.md first.", "port": 4552, "path": "C:\\projects\\Sentinel-Suite", "launch": "suite-cockpit preset (Sentinel-Suite/pro/ui)" },
     "sentinel-pro-v4": { "note": "Frozen reference — do not edit. Rust/Tauri, field-verified live. Superseded by Sentinel-Suite.", "port": 4546, "path": "C:\\projects\\sentinel-pro-v4" },
@@ -22,9 +22,7 @@
     "worklog": { "note": "git history to daily log + weekly value report. Stdlib Python, no deps.", "path": "C:\\projects\\worklog" },
     "portfolio-monorepo": { "note": "This site. The only live personal Pages except Resume and style-library. observatory preset (legacy name).", "port": 4530, "path": "C:\\projects\\jordan-doerksen.github.io" }
   },
-  "extra": [
-    { "slug": "it-toolkit", "name": "IT Toolkit", "category": "tools", "status": "live", "note": "The catalog below — ~160 vetted free/OSS IT tools. Edit data/tools.js there, mirror to data/toolkit.js here.", "port": 4553, "path": "C:\\projects\\it-toolkit" }
-  ],
+  "extra": [],
   "toolkit": {
     "Wireshark": { "star": true, "install": "winget install WiresharkFoundation.Wireshark" },
     "Nmap (+ Zenmap)": { "star": true, "install": "winget install Insecure.Nmap", "snippet": "nmap -sn 192.168.1.0/24" },

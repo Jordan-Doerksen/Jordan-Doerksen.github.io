@@ -214,7 +214,8 @@ function trackRail(rail, body) {
    come back; the rest of the page does not depend on it. */
 fetch(root + 'data/registry.json')
   .then(r => r.ok ? r.json() : Promise.reject(new Error(r.status)))
-  .then(d => finder(d.projects || [], d.categories || [], root))
+  /* A row with "unlisted": true is not offered by the finder (owner's ruling, 2026-10-20); its entry stays open by URL. */
+  .then(d => finder((d.projects || []).filter(p => p.unlisted !== true), d.categories || [], root))
   .catch(() => {
     const btn = document.querySelector('.find');
     if (btn) { btn.disabled = true; btn.textContent = 'list unavailable'; }

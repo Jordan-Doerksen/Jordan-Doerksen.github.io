@@ -551,6 +551,25 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   markup (GATE-01).
 
 ## Change Log
+- 2026-10-20 — **CR-26 (Site card item 20b, rank low): the owner's fossil rulings take five sites off every index.**
+  Rulings (owner, 2026-10-20, relayed by Intake): UNLIST `sentinel-field-manual`, `style-library` and
+  `fulfillment-architecture-guide` (noindex on their own pages, off every index here); KEEP, OFF EVERY INDEX,
+  `it-toolkit` and `vigil-hardly` (public, no noindex); KEEP the other six. Nothing is archived, renamed,
+  unpublished or deleted (SAFE-09).
+  - **The flag:** a registry row with `"unlisted": true` is on no index. `scripts/front_screens.py` drops such a row
+    once, in `load_model`, so Home, the Tool Desk, the section counts and the pins all read the filtered rows;
+    `js/shell/boot.js` (index list, finder, stats) and `js/atlas/atlas.js` (finder) skip it too. Only the
+    `style-library` row carries the flag today. Its atlas entry stays open by URL, and the style-library site stays
+    online with noindex. The pin for `style-library` is removed from `data/desk.json`.
+  - **The toolkit:** `desk.toolkit_panel` is `false` in `scripts/front_page.config.json`. The Tool Desk has no
+    Toolkit panel, no tool-category facet and does not load `data/toolkit.js` (the file stays on disk as a mirror).
+    The `it-toolkit` `extra` row is removed from `data/desk.json`, which clears it from Home and the Tool Desk.
+    The sentences that said "and a toolkit of {tools} tools" lose that clause; `counts` has no `tools` key when the
+    panel is off, so a sentence that still asked for it would stop the build. `js/front/desk.js` skips the Toolkit
+    panel when its markup is absent.
+  - **Check:** `c_desk_rows` in `scripts/front_check.py` now counts the rows the page owes (registry and `extra`
+    without `unlisted` rows). This matches the page; it does not weaken the check.
+  - **Reversible:** set `desk.toolkit_panel` to `true`, restore the `extra` row, remove the flag.
 - 2026-10-20 — **CR-25 (Site card item 19, rank high): the Home body is recomposed three ways for the owner to
   pick one. Generation contract (WEB-11), written before code. Nothing is promoted to the live root.**
   - **Site class:** a personal project directory on the OPEN tier (CR-23), five screens in the Board shell (CR-24).

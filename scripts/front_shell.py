@@ -88,7 +88,7 @@ class Page:
     base: str
     root: str
     asof: str | None
-    counts: dict              # {"projects": n, "tools": m}, computed, never typed
+    counts: dict              # {"projects": n}, plus "tools": m only when the Tool Desk has a toolkit, computed, never typed
     log: object = None        # front_log.Logger
     model: object = None      # front_screens.Model
 

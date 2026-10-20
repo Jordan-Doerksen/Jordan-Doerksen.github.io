@@ -45,7 +45,7 @@ class Row:
     blurb: str
     dest: tuple | None      # ("atlas", slug) | ("root", "games/x/") | ("abs", url) | None
     q: str                  # lower-case search text: name, section, status, blurb, tags
-    unlisted: bool = False  # registry "unlisted": true keeps the row off the Home index (not the Tool Desk)
+    unlisted: bool = False  # registry "unlisted": true; load_model drops such a row from every index (Home and Tool Desk)
 
 
 @dataclass
@@ -55,13 +55,16 @@ class Model:
     statuses: list          # [(status, count)] in config order
     pinned: list            # [(name, dest)]
     figs: dict
-    n_tools: int
+    n_tools: int | None     # None when desk.toolkit_panel is false: no toolkit is read, so no count exists
     overlay: dict           # tool name -> {star, install, snippet}
     kit_repo: str | None
 
     @property
     def counts(self) -> dict:
-        return {"projects": len(self.rows), "tools": self.n_tools}
+        counts = {"projects": len(self.rows)}
+        if self.n_tools is not None:
+            counts["tools"] = self.n_tools  # absent, not zero, when the page has no toolkit (SAFE-04)
+        return counts
 
 
 def _dest(project: dict, atlas_dir: Path, log):
@@ -171,7 +174,10 @@ def load_model(repo: Path, cfg: dict, log) -> Model:
         projects = list(registry["projects"])
     except (KeyError, TypeError) as err:
         raise CouldNotLook("data/registry.json lacks categories[] or projects[]: %r" % (err,)) from err
-    tool_names, _ = read_toolkit(data / "toolkit.js")
+    # desk.toolkit_panel false (owner's ruling, 2026-10-20): data/toolkit.js is not read and the Tool Desk has no
+    # Toolkit panel. The file stays on disk as a mirror.
+    toolkit_on = cfg["desk"].get("toolkit_panel", True)
+    tool_names = read_toolkit(data / "toolkit.js")[0] if toolkit_on else []
     figs = figures(data / "evidence.json", log, data / "guards.json")
 
     order = {slug: i for i, (slug, _) in enumerate(categories)}
@@ -192,6 +198,13 @@ def load_model(repo: Path, cfg: dict, log) -> Model:
         rows.append(_row(extra, blurb, _dest(extra, atlas_dir, log), names, order, status_order))
         taken.add(extra.get("slug"))
     rows.sort(key=lambda r: (order[r.category], r.name.casefold(), r.name))
+
+    # The owner's 2026-10-20 fossil rulings: a row marked "unlisted": true stays online at its own URL but is on no
+    # index. This is the one filter; Home, the Tool Desk, the section counts and the pins all read the result.
+    hidden = [r.slug for r in rows if r.unlisted]
+    rows = [r for r in rows if not r.unlisted]
+    if hidden:
+        log.info("rows_unlisted", slugs=hidden)
 
     sections = [(slug, name, sum(1 for r in rows if r.category == slug)) for slug, name in categories]
     statuses = [(s, sum(1 for r in rows if r.status == s)) for s in status_order]
@@ -214,11 +227,12 @@ def load_model(repo: Path, cfg: dict, log) -> Model:
             kit_repo = next((v for v in (source.get("repo"), source.get("url")) if isinstance(v, str) and re.match(r"^https?://", v)), None)
             if kit_repo:
                 break
-    if kit_repo is None:
+    if kit_repo is None and toolkit_on:
         log.warn("link_omitted", link="it-toolkit repository", reason="no it-toolkit repo URL in data/registry.json or desk.json extra")
 
-    model = Model(rows, sections, statuses, pinned, figs, len(tool_names), _clean_overlay(desk.get("toolkit"), tool_names, log), kit_repo)
-    log.info("model_loaded", projects=len(rows), registry=len(projects), extras=len(rows) - len(projects), tools=len(tool_names), pinned=len(pinned))
+    overlay = _clean_overlay(desk.get("toolkit"), tool_names, log) if toolkit_on else {}
+    model = Model(rows, sections, statuses, pinned, figs, len(tool_names) if toolkit_on else None, overlay, kit_repo)
+    log.info("model_loaded", projects=len(rows), registry=len(projects), unlisted=len(hidden), extras=len(desk.get("extra") or []), tools=model.n_tools, pinned=len(pinned))
     return model
 
 
@@ -388,9 +402,9 @@ def _index(pg: Page, comp: dict) -> tuple:
     """(html, shown, visible). One group per home.index.groups entry, rows in registry order; C opens with the four stage picks."""
     h = pg.cfg["home"]
     ix = h["index"]
-    # The owner's 2026-10-20 fossil rulings: a registry row marked "unlisted": true is not shown on Home, in any
-    # composition. The "more in the Tool Desk" count comes from these same rows, so it never counts a hidden one.
-    visible = [x for x in pg.model.rows if not x.unlisted]
+    # load_model has already dropped the unlisted rows (owner's 2026-10-20 fossil rulings), so every row here is listed
+    # and the "more in the Tool Desk" count never counts a hidden one.
+    visible = pg.model.rows
     keep = [x for x in visible if x.status in ix["statuses"]]
     grouped = {c for g in ix["groups"] for c in g["cats"]}
     orphans = sorted({x.slug for x in keep if x.category not in grouped})
@@ -445,7 +459,7 @@ def _home_composed(pg: Page, key: str) -> dict:
     index_html, shown, total = _index(pg, comp)
     out.append(index_html)
     # footer_resolution: how many more the Tool Desk holds, the method line, then the proof row
-    values = {"more": total - shown, "projects": pg.counts["projects"], "tools": pg.counts["tools"]}
+    values = {"more": total - shown, "projects": pg.counts["projects"]}
     foot = _link_line_with(h["index"]["more"], pg.href("desk"), values)
     if h.get("methodline"):
         m = h["methodline"]
@@ -518,8 +532,9 @@ def _toolbar(pg: Page) -> str:
     facets = [
         _facet(pg, "c", labels["c"], [(slug, name, n, False) for slug, name, n in m.sections if n]),
         _facet(pg, "s", labels["s"], [(s, s, n, True) for s, n in m.statuses if n]),
-        _facet(pg, "k", labels["k"], []),
     ]
+    if pg.cfg["desk"].get("toolkit_panel", True):
+        facets.append(_facet(pg, "k", labels["k"], []))
     return (
         '<div class="fp-toolbar" id="fp-toolbar" role="group" aria-label="%s" data-selected="%s" hidden>%s\n'
         '  <button type="button" class="fp-toggle" id="fp-starred" aria-pressed="false" hidden>%s %s</button>\n'
@@ -618,9 +633,11 @@ def desk(pg: Page) -> dict:
         _pins(pg),
         _toolbar(pg),
         _projects_panel(pg),
-        _toolkit_panel(pg),
     ]
-    tail = [("src", d["scripts"]["toolkit_data"]), ("inline", _overlay_script(pg.model.overlay)), ("src", d["scripts"]["desk"])]
+    tail = [("src", d["scripts"]["desk"])]
+    if d.get("toolkit_panel", True):
+        body.append(_toolkit_panel(pg))
+        tail = [("src", d["scripts"]["toolkit_data"]), ("inline", _overlay_script(pg.model.overlay))] + tail
     return {"body": "\n".join(b for b in body if b), "css": [], "tail": tail}
 
 

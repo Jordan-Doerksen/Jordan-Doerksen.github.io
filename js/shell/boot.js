@@ -23,7 +23,8 @@ const host = document.querySelector('.index');
 fetch(root + 'data/registry.json')
   .then(r => r.ok ? r.json() : Promise.reject(new Error(r.status)))
   .then(data => {
-    const projects = Array.isArray(data.projects) ? data.projects : [];
+    /* A row with "unlisted": true is on no index (owner's ruling, 2026-10-20); its page stays online. */
+    const projects = (Array.isArray(data.projects) ? data.projects : []).filter(p => p.unlisted !== true);
     const categories = Array.isArray(data.categories) ? data.categories : [];
 
     indexList(host, projects, categories, root, () => entrances(host));
