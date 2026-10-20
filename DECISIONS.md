@@ -551,6 +551,34 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   markup (GATE-01).
 
 ## Change Log
+- 2026-10-20 — **CR-28 (Site card item 24, phase 2 of 2): the one method page is built on T2, Scroll as the film.
+  Branch `site-method-p2`, not live until the owner has looked and said ship.** `method/index.html` holds ten
+  chapters in the storyboard order of CR-27, each with its own scroll stage; every chapter's arrivals file into one
+  diagram that is complete at chapter 9 (`#adopt`). The reference drawer, the law ids and the one footnote about AI
+  sessions sit at the foot. Content is in the markup and complete with scripts off.
+  - **Files.** `method/method.js` (the T2 engine for N chapters: one passive scroll listener, no timer, no animation
+    frame, no fetch; nothing is installed under reduced motion), `method/motion.json` (every threshold per chapter),
+    `method/diagram.json` (the one diagram), `method/sources.json` (which kit rule stands behind each method rule),
+    `method/method.css`, `method/tokens.css` (variant C; sizes added, no colour added, the glow drift turned off by
+    DISP-02), `scripts/build_method.py` (stdlib; stamps kit.json, diagram.json and motion.json between marker
+    comments; `--check` exits 0, 1 or 2; refuses a motion.json that disagrees with the markup, or arrivals less
+    than `min_gap` of a track apart), `docs/skin-lab/method-24/probe-p2.mjs` (the headless checks and shots).
+  - **The reading pause.** The law's 2200 ms has no direct scroll equivalent. Each arrival gets at least 0.12 of its
+    chapter's track instead, and the build script fails the page if any gap is smaller.
+  - **No fetch.** The page does not fetch `motion.json`. The build script stamps it into `#md-motion`. The first
+    version of T2 fetched it; the brief rules a fetch out of the page.
+  - **Deep links.** The tracks grow when a chapter is pinned, after the browser has scrolled to a fragment, so
+    `method.js` scrolls to the fragment again after layout. A chapter that is the fragment target, such as `#adopt`,
+    shows all its arrivals at once.
+  - **Kit data.** `method/data/kit.json` is written by the kit (kit 0.2.7, Method's work) and is never edited here.
+    Chapters 2, 5, 7, the Adopt commands and the reference drawer are stamped from it. Chapter 7's per-rule grade
+    comes from `sources.json`; rule 01 has no kit id.
+  - **The two old surfaces.** `tools/design-first/index.html` is a redirect stub to `../../method/#adopt` (meta
+    refresh, canonical link, a plain link). `page.css` and `page.js` stay on disk, unused. `data/registry.json`
+    design-first row `url` is `/method/`. Home's stage lead is one entry, "The method: design-first and its
+    harness", linking `method/`; the trading desk and Fulfillment are its two peers, and the Home hero line says
+    "Three projects first". Old anchors `#md-words`, `#md-gates`, `#md-loops`, `#md-rules` still resolve.
+  - **Left as it was.** `docs/skin-lab/method-24/t1`, `t2`, `t3` and the kit page's `page.css` and `page.js`. No file is deleted.
 - 2026-10-20 — **CR-27 (Site card item 24, rank high, phase 1 of 2): ONE method page, motion-led, at `/method/`.
   This entry records the master's plan and three motion treatments of one beat for the owner to pick from
   (GATE-14). Generation contract (WEB-11), written before the page. No live page is touched in phase 1.**

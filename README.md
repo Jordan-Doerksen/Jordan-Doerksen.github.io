@@ -24,7 +24,7 @@ work/rail-software/        rail software and the rail projects (generated)
 work/games/                the wall of ten attract screens (generated)
 desk/index.html            the Tool Desk: every project, the toolkit, filters, search (generated); on the
                            owner's machine it also shows ports and paths from data/desk-local.js
-method/index.html          how the work runs: four gates, two loops, six rules (hand page, its own CSS)
+method/index.html          the one method page: ten scroll chapters, gates, loops, rules, install; kit facts stamped by scripts/build_method.py (CR-28)
 atlas/index.html           ONE template page: /atlas/?p=<slug> renders any project's
                            stack, diagram, data flow, components, and decisions
 rail/ games/ trading/
