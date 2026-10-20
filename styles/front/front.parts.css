@@ -240,5 +240,55 @@
 
 /* C skin: display face and weight on titles, door heads, figures and panel heads, tokens --font-display --w-display --track-head.
    The .fp-main and .fp-bar prefixes outrank the base rules whichever file the page links first. */
-.fp-main .fp-title, .fp-main .fp-door h2, .fp-main .fp-fig b, .fp-main .fp-panel-head h2, .fp-bar .fp-crumb b {
+.fp-main .fp-title, .fp-main .fp-door h2, .fp-main .fp-fig b, .fp-main .fp-panel-head h2, .fp-bar .fp-crumb b,
+.fp-main .fp-sp h2, .fp-main .fp-ix-head h2 {
   font-family: var(--font-display); font-weight: var(--w-display); letter-spacing: var(--track-head); }
+
+/* ---- Home recomposed (CR-25): the stage and the typographic index ----
+   The stage is the one place a panel is allowed: four comparable projects (anti_card_composition). Each panel
+   is a ruled cell, not a box. The grid follows the box it sits in, not the window (the sidebar takes 256px). */
+.fp-main .fp-title.fp-monument { font-size: clamp(var(--fs-fig), 5vw, 56px); line-height: 1.05; }
+.fp-stage { margin-top: 28px; container-type: inline-size; }
+.fp-stage-grid { display: grid; grid-template-columns: 1fr; column-gap: calc(var(--gap-wide) * 2); }
+.fp-sp { display: grid; gap: 6px; align-content: start; padding: 14px 0 20px; border-top: 1px solid var(--edge); }
+.fp-sp-k { color: var(--ink-faint); font-size: var(--fs-label); letter-spacing: .04em; }
+.fp-sp h2 { margin: 0; font-size: var(--fs-sub); line-height: 1.3; }
+.fp-sp p { margin: 0; max-width: 52ch; color: var(--ink-dim); line-height: 1.6; }
+/* The lead: the one thing the owner ranked first is set larger, and it takes the whole first row. */
+.fp-sp[data-lead] { padding-block: 20px 28px; border-top-color: var(--hairline); }
+.fp-sp[data-lead] h2 { font-size: var(--fs-fig); line-height: 1.15; }
+.fp-sp[data-lead] p { max-width: 60ch; font-size: var(--fs-lead); line-height: 1.5; }
+/* Lead layout: the lead, then three peers in one row. B's four peers: one row of four. Below these widths the
+   cells stack in source order: the lead first, then the three. */
+@container (min-width: 600px) {
+  .fp-stage-grid[data-layout="lead"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .fp-stage-grid[data-layout="lead"] .fp-sp[data-lead] { grid-column: 1 / -1; }
+}
+@container (min-width: 480px) { .fp-stage-grid[data-layout="row"] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container (min-width: 840px) { .fp-stage-grid[data-layout="row"] { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* The index: ruled rows in groups. Groups become columns as the box widens (CSS columns, so a short group does not
+   leave a hole beside a long one). A group heading with a door is a link to that door page. */
+.fp-ix { margin-top: 36px; column-width: 280px; column-gap: calc(var(--gap-wide) * 2); }
+.fp-ix-group { break-inside: avoid; margin: 0 0 28px; }
+.fp-ix-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--gap);
+  padding-bottom: 6px; border-bottom: 1px solid var(--hairline); }
+.fp-ix-head h2 { margin: 0; font-size: var(--fs-sub); line-height: 1.3; }
+.fp-ix-head h2 a { padding: 4px 8px; margin-inline: -8px; color: inherit; text-decoration: underline;
+  text-decoration-color: var(--hairline); text-underline-offset: 4px; }
+.fp-ix-head h2 a:hover { text-decoration-color: currentColor; }
+.fp-ix-list { margin: 0; padding: 0; list-style: none; }
+.fp-ix-row { display: grid; gap: 2px; padding: 8px 0; }
+.fp-ix-row + .fp-ix-row { border-top: 1px solid var(--edge); }
+.fp-ix-top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--gap); }
+.fp-ix-name { font-weight: 600; color: var(--ink); text-decoration: none; overflow-wrap: anywhere; }
+a.fp-ix-name { padding: 4px 8px; margin: -4px -8px; }
+a.fp-ix-name:hover { text-decoration: underline; }
+.fp-ix-blurb { color: var(--ink-dim); font-size: var(--fs-ctl); line-height: 1.5; overflow-wrap: anywhere; }
+/* C: the four picks open the index, set larger and across all the columns. */
+.fp-ix-group[data-lead] { column-span: all; }
+.fp-ix-group[data-lead] .fp-ix-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  column-gap: calc(var(--gap-wide) * 2); }
+.fp-ix-group[data-lead] .fp-ix-row { padding: 14px 0; border-top: 1px solid var(--edge); }
+.fp-ix-group[data-lead] .fp-ix-name { font-size: var(--fs-sub); }
+.fp-ix-group[data-lead] .fp-ix-blurb { font-size: var(--fs-body); }
