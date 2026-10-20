@@ -48,7 +48,8 @@ code { font-family: var(--md-font-mono); font-size: 0.92em; }
 .md-menu-list .md-mn { font: var(--md-w-label) var(--md-t-label) / 1 var(--md-font-mono); letter-spacing: var(--md-track-label); color: var(--md-accent); min-width: 2ch; }
 
 /* persistent cluster 2: the narrative rail. Where the ride is (chapter, stop, name) and the ride controls, in one fixed spot (WEB-06). */
-.md-rail { position: sticky; top: var(--md-bar-h); z-index: 30; background: var(--md-bar-bg); -webkit-backdrop-filter: var(--md-bar-blur); backdrop-filter: var(--md-bar-blur); border-bottom: 1px solid var(--md-line); }
+/* the rail sticks where it sits in the flow: the bar is --md-bar-h plus its 1px bottom border, so a smaller top moved the controls by 1px when the page went from the top (the ride starts there, with the window scroll locked) to a real scroll (WEB-06) */
+.md-rail { position: sticky; top: calc(var(--md-bar-h) + 1px); z-index: 30; background: var(--md-bar-bg); -webkit-backdrop-filter: var(--md-bar-blur); backdrop-filter: var(--md-bar-blur); border-bottom: 1px solid var(--md-line); }
 .md-rail-in { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--md-gap-xs) var(--md-gap); min-height: var(--md-rail-h); padding: var(--md-pad-xs) var(--md-gutter); }
 .md-rail-pos { display: flex; align-items: baseline; gap: var(--md-gap-xs); min-width: 0; }
 .md-rail-pos > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
@@ -71,9 +72,13 @@ html.md-riding .md-ride-bar { display: block; }
 /* ride.js moves the fill and the head by inline transforms (a custom property on <html> restyled the whole page every frame) */
 .md-ride-fill { height: 100%; background: var(--md-accent); transform-origin: 0 50%; transform: scaleX(0); will-change: transform; }
 .md-ride-head { position: absolute; top: 50%; left: 0; width: 0; height: 0; will-change: transform; }
-.md-ride-dot { position: absolute; left: 0; top: 0; width: var(--md-dot-d); height: var(--md-dot-d); margin: calc(var(--md-dot-d) / -2); border-radius: 50%; background: var(--md-ink-strong); box-shadow: 0 0 var(--md-glow-r) var(--md-glow-s) var(--md-accent); animation: md-orbit var(--md-orbit-dur) linear infinite; }
+.md-ride-dot { position: absolute; left: var(--md-orbit-r); top: 0; transform-origin: calc(var(--md-dot-d) / 2 - var(--md-orbit-r)) 50%; width: var(--md-dot-d); height: var(--md-dot-d); margin: calc(var(--md-dot-d) / -2); border-radius: 50%; background: var(--md-ink-strong); box-shadow: 0 0 var(--md-glow-r) var(--md-glow-s) var(--md-accent); animation: md-orbit var(--md-orbit-dur) linear infinite; }
 html.md-paused .md-ride-dot { animation-play-state: paused; }
-@keyframes md-orbit { from { transform: rotate(0deg) translateX(var(--md-orbit-r)); } to { transform: rotate(360deg) translateX(var(--md-orbit-r)); } }
+/* WORKAROUND, annotated (DES-08): the orbit used to be transform: rotate() translateX(var(--md-orbit-r)) in the keyframes. A var() in a
+   keyframe kept the animation on the main thread and restyled the dot in every frame of the ride (600 style invalidations in 10 s).
+   Now the dot sits at the orbit radius, its origin is the head, and the keyframes turn the individual rotate property with literals
+   only, which the compositor runs by itself. */
+@keyframes md-orbit { from { rotate: 0deg; } to { rotate: 360deg; } }
 
 /* hero_field: chapter 0 */
 .md-hero { position: relative; overflow: hidden; padding: var(--md-hero-top) var(--md-gutter) var(--md-hero-bottom); border-bottom: 1px solid var(--md-line); }
@@ -166,6 +171,26 @@ html.md-riding .md-arr:not(.md-lit) .md-h3, html.md-riding .md-arr:not(.md-lit) 
 html.md-riding .md-mark:not(.md-lit) .md-h4, html.md-riding .md-dp.md-new:not(.md-lit) { color: var(--md-ink-2); }
 html.md-riding .md-wire:not(.md-lit) { --md-wp: 0; }
 html.md-riding .md-mark.md-lit .md-n { color: var(--md-accent); }
+
+/* The ride's paint cost (CR-29, second smoothing pass). A frame trace at 1280 x 900 (headless Chromium, software GL) found three costs:
+   (1) a backdrop blur is re-run in every frame in which anything behind it moves, and during the ride the whole page moves every frame
+   (the .md-cam transform), under two sticky bars and every card (blur on: p95 33.4 ms; blur off: 16.7 ms). Keeping each card's blur
+   constant from the ride's start did not fix it: the blur is the cost, not the change of it.
+   (2) the card's 44px drop shadow costs 20 to 50 ms of raster per tile as tiles come into view (3 runs in 10 had a frame over 50 ms).
+   (3) a card that gains its fill and its shadow through a 400 ms transition repaints the blurred shadow on the main thread in every
+   frame of it (4 runs in 10 had a frame over 50 ms with the short shadow and the transition; 0 in 10 with the transition off).
+   So, while the ride runs: the bars and the lit cards take a flat fill and no backdrop-filter, the lit cards a short shadow
+   (--md-shadow-ride), and no transition runs on a card. The card still gets its feedback: the ring pulse below is an opacity
+   animation on a pseudo-element, which the compositor runs without a repaint. All of it comes back when the class leaves the root
+   (See all chapters); reduced motion never sets the class. The flat card fill is the card's own tint laid over the ground token,
+   which is what the glass looks like over the ground. */
+html.md-riding .md-bar, html.md-riding .md-rail { background: var(--md-ground); -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.md-riding .md-arr, html.md-riding .md-mark { transition: none; }
+html.md-riding .md-arr.md-lit, html.md-riding .md-mark.md-lit {
+  background: linear-gradient(var(--md-arr-bg), var(--md-arr-bg)), var(--md-ground);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  box-shadow: var(--md-shadow-ride), var(--md-inner);
+}
 
 /* the track, the car and the feedback at a station (R2). The track is a connector only: it carries no words. */
 .md-ride-layer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; }

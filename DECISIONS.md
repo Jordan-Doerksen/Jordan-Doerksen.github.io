@@ -583,6 +583,31 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   - **Settled under the law (OWN-05, each reversible in `ride.json`).** Dwell 2400 ms (floor 2200). Car speed 150 px/s
     with a travel time between 1100 and 4200 ms. Test flag: `?ridetest=<ms>` replaces the dwell and speeds the car so a
     headless run reaches Adopt in about a minute; it is documented in `ride.json` and never set by the page.
+  - **Smoothing pass 2, after the owner rode it ("its very stuttery and the ball steals your eye too much, you never read
+    the panels you just wait for the node, i think the card like glowing or pusling when then node its it is enouhg").**
+    The car no longer circles a card (the card gives the feedback: one opacity-only ring pulse per arrival, counted once
+    per card in a 62 s ride), the car is smaller, the window scroll is locked while the car rides and one `.md-cam`
+    wrapper carries the page by a sub-pixel transform. Proof is a frame trace at 1280 x 900 (headless Chromium, software
+    GL, 20 s of normal riding, no `ridetest`), not a claim. BEFORE (`9660c1e`, 3 runs): p95 33.4, 33.4, 33.3 ms, max 66.7,
+    83.4, 33.4 ms, frames over 50 ms after the first second 3, 19, 0, layouts 0.46 per frame, style recalcs 1.90 per frame.
+    AFTER (3 runs): p95 16.7, 16.7, 16.8 ms, max 16.8, 16.8, 50.0 ms, none over 50 ms, layouts 0.010, recalcs 1.115 to
+    1.116 per frame. Three costs were found and removed. (1) The cards' and both sticky bars' backdrop blur: with it on
+    p95 was 33.4 ms, with it off 16.7 ms. Keeping each card's blur constant from the start of the ride was tried and did
+    not fix it (the blur is the cost, not the change of it), so while `html.md-riding` is set the bars take the ground
+    token as a flat fill, the lit cards their own tint laid over the ground token, and neither blurs; the blur returns when
+    the ride stops. No new colour. (2) The card's 44px drop shadow cost 20 to 50 ms of raster per tile as tiles came into
+    view; the lit cards take a short shadow (`--md-shadow-ride`, one new shadow token in `method/tokens.css`) while riding.
+    (3) A card that gained its fill and shadow through a 400 ms transition repainted the blurred shadow on the main thread
+    in every frame of it (4 runs in 10 had a frame over 50 ms; 0 in 10 with the transition off), so no transition runs on a
+    card while riding. The 700 ms frame was the click that starts the ride: `getPointAtLength` sampled the whole track in
+    94 ms (a CPU profile), so the track table is now computed from the Bezier legs (about 1 ms). Style work per frame:
+    the camera, car and bar write their style only in a frame in which the value changed, and a status line is not
+    rewritten when it is unchanged. The rail now sticks at `--md-bar-h` plus the bar's 1px border, so the controls no
+    longer move 1px when the ride hands the page back to the window (the probe's control-box check had gone false at
+    `39af0fc`). Not fixed, said plainly: in 12 further 20 s runs one had an 83 ms frame near 11 s (raster of new tiles
+    while the car travels), and one of the first AFTER set had a 66.6 ms frame; the trace shows no such frame in the
+    other runs, and a loaded machine adds them. The orbiting dot on the progress bar runs a CSS animation that still
+    marks the page for a style pass in every frame; 1.1 recalcs per frame is that and the camera.
   - **Superseded.** CR-28's T2 engine (scroll thresholds, sticky tracks, pinned stages). CR-28's chapters, kit stamp,
     redirect and Home lead stand.
 - 2026-10-20 — **CR-28 (Site card item 24, phase 2 of 2): the one method page is built on T2, Scroll as the film.

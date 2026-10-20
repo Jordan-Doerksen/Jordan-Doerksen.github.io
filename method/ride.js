@@ -51,7 +51,7 @@
       var a = c.st[n - 1].el, h = a.querySelector('.md-h3') || a.querySelector('.md-h4') || a.querySelector('.md-n');
       t = s.getAttribute('data-step').replace('{n}', n).replace('{of}', N).replace('{title}', h ? h.textContent : '');
     }
-    s.textContent = t;
+    if (s.textContent !== t) { s.textContent = t; }   // an unchanged line is not rewritten: a new text node costs a style pass and a layout
   }
 
   // ---------- reduced motion: the stepped page. No timer, no frame, no animation. ----------
@@ -100,7 +100,7 @@
     // at the ride's start the window scroll is locked at lockY and ONE wrapper (.md-cam) carries the page by a sub-pixel
     // translate3d. The wrapper turns back into a real window scroll when the ride ends, on Pause, on See all, on a resize
     // and the moment the visitor scrolls, so the visitor always scrolls a normal page.
-    var locked = false, lockY = 0, hoverAt = 0, ptr = null, segK = 0, doneAt = [], lastBar = -1;
+    var locked = false, lockY = 0, camT = '', carT = '', hoverAt = 0, ptr = null, segK = 0, doneAt = [], lastBar = -1;
     var test = parseInt(new URLSearchParams(location.search).get(cfg.test_flag), 10);
     if (test > 0) {
       cfg.dwell_ms = test; cfg.glow_ms = Math.min(cfg.glow_ms, test * 0.7); cfg.connector_ms = Math.min(cfg.connector_ms, test * 0.5);
@@ -139,16 +139,36 @@
     function lock() {
       if (locked) { return; }
       cam = lockY = window.scrollY; locked = true;
-      camEl.classList.add('md-cam-on'); camEl.style.transform = 'translate3d(0,0,0)';
+      camEl.classList.add('md-cam-on'); camT = 'translate3d(0,0,0)'; camEl.style.transform = camT;
     }
     function unlock() {
       if (!locked) { return; }
       var top = clamp(Math.round(cam), 0, maxScroll());
       locked = false; glide = false;
-      camEl.style.transform = ''; camEl.classList.remove('md-cam-on');
+      camT = ''; camEl.style.transform = ''; camEl.classList.remove('md-cam-on');
       cam = top; window.scrollTo({ top: top, left: 0, behavior: 'instant' });
     }
-    function setCam(c) { cam = c; camEl.style.transform = 'translate3d(0,' + (lockY - c).toFixed(2) + 'px,0)'; }
+    function setCam(c) { cam = c; var t = 'translate3d(0,' + (lockY - c).toFixed(2) + 'px,0)'; if (t !== camT) { camT = t; camEl.style.transform = t; } }
+
+    // A cubic Bezier as a table of points that are equal in arc length (step px apart): fine steps in t give the length, then the
+    // table is resampled by length. No DOM, so it can run at the start of the ride without a native call per point.
+    function bezierTable(a, c1, c2, b, step) {
+      var M = 96, px = new Float64Array(M + 1), py = new Float64Array(M + 1), cum = new Float64Array(M + 1), i, t, u;
+      for (i = 0; i <= M; i++) {
+        t = i / M; u = 1 - t;
+        px[i] = u * u * u * a.x + 3 * u * u * t * c1[0] + 3 * u * t * t * c2[0] + t * t * t * b.x;
+        py[i] = u * u * u * a.y + 3 * u * u * t * c1[1] + 3 * u * t * t * c2[1] + t * t * t * b.y;
+        cum[i] = i === 0 ? 0 : cum[i - 1] + Math.sqrt((px[i] - px[i - 1]) * (px[i] - px[i - 1]) + (py[i] - py[i - 1]) * (py[i] - py[i - 1]));
+      }
+      var n = Math.max(1, cum[M]), N = Math.max(2, Math.ceil(n / step)), xs = new Float32Array(N + 1), ys = new Float32Array(N + 1), k = 0, f;
+      for (i = 0; i <= N; i++) {
+        var L = n * i / N;
+        while (k < M - 1 && cum[k + 1] < L) { k++; }
+        f = cum[k + 1] > cum[k] ? (L - cum[k]) / (cum[k + 1] - cum[k]) : 0;
+        xs[i] = px[k] + (px[k + 1] - px[k]) * f; ys[i] = py[k] + (py[k + 1] - py[k]) * f;
+      }
+      return { n: n, N: N, xs: xs, ys: ys };
+    }
 
     // ---- geometry: one track through every station, measured from the page ----
     // Every measure the frame needs is taken here and on resize, never in the frame: a read in the frame forces a layout.
@@ -171,14 +191,17 @@
       segs = []; doneAt = [];
       var prev = pathStart, flip = 1, start = 0, whole = 'M ' + pathStart.x + ' ' + pathStart.y + ' ';
       stations.forEach(function (s) {
-        var a = prev, b = s.pt, dy = b.y - a.y, dx = b.x - a.x, d;
-        if (Math.abs(dy) < 60) { var h = cfg.arch_px; d = 'C ' + a.x + ' ' + (a.y - h) + ' ' + b.x + ' ' + (b.y - h) + ' ' + b.x + ' ' + b.y; }
-        else if (Math.abs(dx) < 60) { var w = 8 * flip; flip = -flip; d = 'C ' + (a.x + w) + ' ' + (a.y + dy * 0.33) + ' ' + (b.x - w) + ' ' + (b.y - dy * 0.33) + ' ' + b.x + ' ' + b.y; }
-        else { d = 'C ' + a.x + ' ' + (a.y + dy * 0.9) + ' ' + b.x + ' ' + (b.y - dy * 0.9) + ' ' + b.x + ' ' + b.y; }
+        var a = prev, b = s.pt, dy = b.y - a.y, dx = b.x - a.x, d, c1, c2;
+        if (Math.abs(dy) < 60) { var h = cfg.arch_px; c1 = [a.x, a.y - h]; c2 = [b.x, b.y - h]; }
+        else if (Math.abs(dx) < 60) { var w = 8 * flip; flip = -flip; c1 = [a.x + w, a.y + dy * 0.33]; c2 = [b.x - w, b.y - dy * 0.33]; }
+        else { c1 = [a.x, a.y + dy * 0.9]; c2 = [b.x, b.y - dy * 0.9]; }
+        d = 'C ' + c1[0] + ' ' + c1[1] + ' ' + c2[0] + ' ' + c2[1] + ' ' + b.x + ' ' + b.y;
         var p = document.createElementNS(NS, 'path'); p.setAttribute('class', 'md-track-done'); p.setAttribute('d', 'M ' + a.x + ' ' + a.y + ' ' + d);
         svg.appendChild(p);
-        var n = p.getTotalLength(), N = Math.max(2, Math.ceil(n / 4)), xs = new Float32Array(N + 1), ys = new Float32Array(N + 1);
-        for (var i = 0; i <= N; i++) { var pp = p.getPointAtLength(n * i / N); xs[i] = pp.x; ys[i] = pp.y; }
+        // The leg is a cubic Bezier, so its points are computed here and not read back from the SVG. WORKAROUND, annotated
+        // (DES-08): getPointAtLength is a native call per sample and cost 94 ms for the whole track (a CPU profile of the click,
+        // 1280 x 900), which made the first ride frame 83 ms long. The same table from arithmetic takes about 1 ms.
+        var bz = bezierTable(a, c1, c2, b, 4), n = bz.n, N = bz.N, xs = bz.xs, ys = bz.ys;
         p.style.strokeDasharray = n; p.style.strokeDashoffset = n;
         segs.push({ p: p, start: start, len: n, N: N, xs: xs, ys: ys }); doneAt.push(n);
         s.L = start + n; start += n; whole += d + ' '; prev = b;
@@ -277,7 +300,8 @@
       }
     }
     function render() {
-      car.style.transform = 'translate3d(' + pos.x.toFixed(2) + 'px,' + pos.y.toFixed(2) + 'px,0)';
+      var ct = 'translate3d(' + pos.x.toFixed(2) + 'px,' + pos.y.toFixed(2) + 'px,0)';
+      if (ct !== carT) { carT = ct; car.style.transform = ct; }   // only a frame in which the car moved writes the style
       paintDone();
       // The bar moves by transforms on its own two elements, not by a custom property on <html>: a property on the root
       // restyles the whole document every frame, a transform on these two restyles two elements.
@@ -371,7 +395,7 @@
     window.addEventListener('scroll', function () {
       if (!locked || Math.abs(window.scrollY - lockY) < 1) { return; }
       var top = clamp(cam + (window.scrollY - lockY), 0, maxScroll());
-      cam = top; locked = false; glide = false; camEl.style.transform = ''; camEl.classList.remove('md-cam-on');
+      cam = top; locked = false; glide = false; camT = ''; camEl.style.transform = ''; camEl.classList.remove('md-cam-on');
       window.scrollTo({ top: top, left: 0, behavior: 'instant' });
       takeOver();
     }, { passive: true });

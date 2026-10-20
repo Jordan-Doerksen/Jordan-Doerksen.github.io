@@ -37,6 +37,7 @@
   --md-blur: blur(16px);
   --md-bar-blur: blur(16px);
   --md-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+  --md-shadow-ride: 0 6px 14px rgba(0, 0, 0, 0.4);   /* the card shadow while the ride runs: a 44px blur costs 20 to 50 ms of raster per tile in software */
   --md-inner: inset 0 1px 0 rgba(255, 255, 255, 0.07);
   --md-glow: radial-gradient(ellipse at 22% 35%, rgba(70, 130, 255, 0.26), rgba(70, 130, 255, 0) 55%);
   --md-glow-anim: none;   /* DISP-02: motion introduces, never decorates; the glow stays, the drift is off */
