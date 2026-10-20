@@ -47,7 +47,8 @@
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "keep",
-      "proposed_reason": "One of the owner's named picks (design-first, the method page, the trading desk, Fulfillment)."
+      "proposed_reason": "One of the owner's named picks (design-first, the method page, the trading desk, Fulfillment).",
+      "his_ruling": "keep"
     },
     {
       "key": "fulfillment-architecture-guide",
@@ -76,7 +77,8 @@
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "keep",
-      "proposed_reason": "One of the owner's named picks (design-first, the method page, the trading desk, Fulfillment)."
+      "proposed_reason": "One of the owner's named picks (design-first, the method page, the trading desk, Fulfillment).",
+      "his_ruling": "unlist"
     },
     {
       "key": "gridline-map-navigation",
@@ -105,7 +107,8 @@
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "unlist",
-      "proposed_reason": "Not linked from the home site; last commit 27 days ago, within 60 days."
+      "proposed_reason": "Not linked from the home site; last commit 27 days ago, within 60 days.",
+      "his_ruling": "keep"
     },
     {
       "key": "it-toolkit",
@@ -139,7 +142,8 @@
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "keep",
-      "proposed_reason": "Owner ruling 2026-10-20: stays public, leaves every index."
+      "proposed_reason": "Owner ruling 2026-10-20: stays public, leaves every index.",
+      "his_ruling": "keep, off every index"
     },
     {
       "key": "jordan-doerksen.github.io",
@@ -173,7 +177,8 @@
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "keep",
-      "proposed_reason": "The home site. Every other site hangs off it."
+      "proposed_reason": "The home site. Every other site hangs off it.",
+      "his_ruling": "keep"
     },
     {
       "key": "pocket-bats",
@@ -202,7 +207,8 @@
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "unlist",
-      "proposed_reason": "Not linked from the home site; last commit 27 days ago, within 60 days."
+      "proposed_reason": "Not linked from the home site; last commit 27 days ago, within 60 days.",
+      "his_ruling": "keep"
     },
     {
       "key": "resume",
@@ -238,7 +244,8 @@
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "keep",
-      "proposed_reason": "Linked from the home site (1 link(s); first: registry row resume)."
+      "proposed_reason": "Linked from the home site (1 link(s); first: registry row resume).",
+      "his_ruling": "keep"
     },
     {
       "key": "sentinel-field-manual",
@@ -267,7 +274,8 @@
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "unlist",
-      "proposed_reason": "Owner ruling 2026-10-20: unlist (noindex, off every index, like after-hours)."
+      "proposed_reason": "Owner ruling 2026-10-20: unlist (noindex, off every index, like after-hours).",
+      "his_ruling": "unlist"
     },
     {
       "key": "style-library",
@@ -308,7 +316,8 @@
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "keep",
-      "proposed_reason": "Linked from the home site (2 link(s); first: desk row style-library (slug match))."
+      "proposed_reason": "Linked from the home site (2 link(s); first: desk row style-library (slug match)).",
+      "his_ruling": "unlist"
     },
     {
       "key": "triforce-defense",
@@ -337,7 +346,8 @@
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "unlist",
-      "proposed_reason": "Not linked from the home site; last commit 0 days ago, within 60 days."
+      "proposed_reason": "Not linked from the home site; last commit 0 days ago, within 60 days.",
+      "his_ruling": "keep"
     },
     {
       "key": "vigil-hardly",
@@ -366,7 +376,8 @@
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "unlist",
-      "proposed_reason": "Not linked from the home site; last commit 22 days ago, within 60 days."
+      "proposed_reason": "Not linked from the home site; last commit 22 days ago, within 60 days.",
+      "his_ruling": "keep, off every index"
     }
   ]
 }

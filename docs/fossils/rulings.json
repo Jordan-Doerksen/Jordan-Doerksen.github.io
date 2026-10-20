@@ -1,0 +1,14 @@
+{
+  "_note": "The owner's rulings, given 2026-10-20 through Intake. Keys are repo names. The generator copies them into inventory.json and the page.",
+  "sentinel-field-manual": "unlist",
+  "style-library": "unlist",
+  "fulfillment-architecture-guide": "unlist",
+  "it-toolkit": "keep, off every index",
+  "vigil-hardly": "keep, off every index",
+  "design-first": "keep",
+  "gridline-map-navigation": "keep",
+  "pocket-bats": "keep",
+  "triforce-defense": "keep",
+  "Resume": "keep",
+  "Jordan-Doerksen.github.io": "keep"
+}

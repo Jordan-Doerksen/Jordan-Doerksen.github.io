@@ -32,6 +32,7 @@ HERE = Path(__file__).resolve().parent
 CONFIG = json.loads((HERE / "config.json").read_text(encoding="utf-8"))
 JSON_PATH = HERE / "inventory.json"
 PAGE_PATH = HERE / "index.html"
+RULINGS_PATH = HERE / "rulings.json"
 LOG_LOCK = threading.Lock()
 LOG_PATH = None
 
@@ -396,7 +397,7 @@ def build():
         "unlist": sum(1 for r in records if r["proposed_ruling"] == "unlist"),
         "archive": sum(1 for r in records if r["proposed_ruling"] == "archive"),
     }
-    data = {"generated": gen, "owner": CONFIG["owner"], "summary": summary, "sites": records}
+    data = apply_rulings({"generated": gen, "owner": CONFIG["owner"], "summary": summary, "sites": records})
     JSON_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     PAGE_PATH.write_text(render(data), encoding="utf-8", newline="\n")
     log("run_end", **summary)
@@ -433,6 +434,25 @@ details{margin-top:4px}
  .his{min-height:2.5rem;margin:4px 12px;width:auto}
 }
 """
+
+
+def load_rulings():
+    """The owner's rulings, keyed by lowercase repo name. Empty when the file is absent."""
+    try:
+        raw = json.loads(RULINGS_PATH.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return {}
+    except ValueError as exc:
+        log("rulings_unreadable", why=str(exc)[:200])
+        return {}
+    return {k.lower(): v for k, v in raw.items() if not k.startswith("_")}
+
+
+def apply_rulings(data):
+    rul = load_rulings()
+    for r in data["sites"]:
+        r["his_ruling"] = rul.get(r["repo"].lower(), "")
+    return data
 
 
 def esc(s):
@@ -472,10 +492,10 @@ def render(d):
             '<td data-label="Inbound links">%s</td>'
             '<td data-label="Outbound links">%s</td>'
             '<td data-label="Proposed ruling"><span class="ruling">%s</span><br>%s</td>'
-            '<td data-label="His ruling" class="his"></td>'
+            '<td data-label="His ruling" class="his">%s</td>'
             "</tr>" % (esc(r["repo"]), esc(flags), esc(r["pages_url"]), esc(lc), esc(age),
                        live_cls, esc(r["live"]["result"]), inb, out,
-                       esc(r["proposed_ruling"]), esc(r["proposed_reason"])))
+                       esc(r["proposed_ruling"]), esc(r["proposed_reason"]), esc(r.get("his_ruling", ""))))
     return (
         '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
@@ -496,7 +516,7 @@ def check():
     if not JSON_PATH.exists() or not PAGE_PATH.exists():
         print("CHECK FAIL: inventory.json or index.html is missing")
         return 1
-    fresh = render(json.loads(JSON_PATH.read_text(encoding="utf-8")))
+    fresh = render(apply_rulings(json.loads(JSON_PATH.read_text(encoding="utf-8"))))
     on_disk = PAGE_PATH.read_bytes().decode("utf-8")
     if fresh == on_disk:
         print("CHECK PASS: index.html equals a fresh render of inventory.json")

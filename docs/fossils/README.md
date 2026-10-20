@@ -30,7 +30,7 @@ Settings (owner, timeouts, page cap, owner rulings, and the ruling rule with its
 | Inbound links | Links to this site from the home site and from the other Pages sites. Three sources: (1) the static crawl: each site's own HTML, one level deep (root page plus the same-site pages it links to, up to `max_pages_per_site`); (2) `data/registry.json` in the site repo: a row whose `url` or `repo` points at the Pages site or its repo counts as one link, named by the row; (3) `data/desk.json`: a row whose slug equals the repo name counts as one link, marked "slug match" (a name match, not a link). The home site builds its project links in the browser from (2) and (3), so the crawl cannot see them. "not seen" means a site that builds its links in the browser (scripts, no anchors in its HTML) could not be read, so the count is not known. It is never shown as 0. |
 | Outbound links | Unique links from the site's read pages to anything else, and how many answer 4xx or 5xx (dead). Links that could not be fetched are counted as `could not look`, not as dead. |
 | Proposed ruling | `keep`, `unlist` (noindex and off every index, like after-hours) or `archive` (archive the repository), with one reason that names the branch of the rule and its numbers. See the rule below. |
-| His ruling | Empty. The owner fills it. |
+| His ruling | The owner's word for the row, read from `rulings.json` (keys are repo names). Empty when he has not ruled. A regeneration keeps it. |
 
 ## The ruling rule
 
