@@ -588,6 +588,9 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   - **Unlisted rows** (site master, item 20b): a registry row with `"unlisted": true` is skipped by the Home index in
     every composition, and the "more in the Tool Desk" count comes from the same filtered rows. No row carries the
     flag yet.
+  - **Owner's pick, 2026-10-20 (relayed by Intake):** composition A, Stage and index. His words: "A is 100% the choice".
+    B and C stay in the skin lab as the record of the options. Promotion is the site master's step: set
+    `home.composition` to `a` in `scripts/front_page.config.json`, then `build_front_page.py --root`.
   - **Build:** `build_front_page.py --lab <a|b|c>` writes the whole five-screen build to
     `docs/skin-lab/home-19/<x>/` (`outputs.lab`). It never writes the review folder or the root.
 - 2026-10-20 — **CR-24 (Intake item 12, chunk 2, owner's go 2026-10-20): the five front-page screens move to
