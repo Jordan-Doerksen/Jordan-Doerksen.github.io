@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method page: three skins, one pick</title>
+<meta name="robots" content="noindex">
+<style>
+/* The comparison page wears no variant's skin (D-12): a plain near-black ground and system type,
+   so it does not vote. Its few values live here, in one block, because it is lab scratch. */
+:root {
+  --lab-ground: #111214; --lab-ink: #e6e6e6; --lab-ink-2: #a3a3a8; --lab-line: #2b2c31; --lab-accent: #8ab4ff;
+  --lab-gutter: clamp(16px, 3vw, 40px); --lab-gap: 16px; --lab-r: 6px;
+  --lab-font: "Segoe UI", system-ui, -apple-system, sans-serif; --lab-mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --lab-scale: 0.3; --lab-frame-h: 2400px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--lab-ground); }
+body { margin: 0; background: var(--lab-ground); color: var(--lab-ink); font: 400 15px/1.55 var(--lab-font); }
+a { color: var(--lab-accent); text-underline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--lab-accent); outline-offset: 3px; border-radius: 4px; }
+.lab-head { padding: 24px var(--lab-gutter) 16px; border-bottom: 1px solid var(--lab-line); display: grid; gap: 6px; }
+.lab-head h1 { margin: 0; font: 600 20px/1.3 var(--lab-font); }
+.lab-head p { margin: 0; color: var(--lab-ink-2); max-width: 70ch; }
+.lab-grid { display: grid; gap: var(--lab-gap); padding: var(--lab-gutter); }
+.lab-item { display: grid; gap: 10px; align-content: start; border: 1px solid var(--lab-line); border-radius: var(--lab-r); padding: 14px; }
+.lab-item h2 { margin: 0; font: 600 16px/1.3 var(--lab-font); display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.lab-item h2 .lab-key { font: 500 11px/1 var(--lab-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--lab-accent); }
+.lab-item p { margin: 0; color: var(--lab-ink-2); font-size: 13.5px; }
+.lab-item .lab-open { font: 500 13px/1 var(--lab-font); text-decoration: none; border: 1px solid var(--lab-line); border-radius: var(--lab-r); padding: 8px 12px; justify-self: start; color: var(--lab-ink); }
+.lab-item .lab-open:hover, .lab-item .lab-open:focus-visible { border-color: var(--lab-accent); color: var(--lab-accent); }
+/* A real page in a frame. On a phone the frame is the phone width, unscaled. On a desktop the frame is
+   1280px wide and scaled to fit its column, so the real desktop composition is what shows (D-13). */
+.lab-frame { position: relative; width: 100%; overflow: hidden; border: 1px solid var(--lab-line); border-radius: var(--lab-r); background: #000; }
+.lab-frame iframe { display: block; border: 0; width: 100%; height: var(--lab-frame-h); }
+@media (min-width: 1000px) {
+  .lab-grid { grid-template-columns: repeat(3, 1fr); }
+  .lab-frame { height: calc(var(--lab-frame-h) * var(--lab-scale)); }
+  .lab-frame iframe { width: 1280px; transform: scale(var(--lab-scale)); transform-origin: 0 0; }
+}
+@media (min-width: 1000px) and (max-width: 1199px) { :root { --lab-scale: 0.23; } }
+@media (min-width: 1200px) and (max-width: 1439px) { :root { --lab-scale: 0.29; } }
+@media (min-width: 1440px) and (max-width: 1799px) { :root { --lab-scale: 0.35; } }
+@media (min-width: 1800px) { :root { --lab-scale: 0.45; } }
+@media (max-width: 999px) { .lab-frame iframe { height: 1600px; } }
+.lab-foot { padding: 16px var(--lab-gutter) 24px; border-top: 1px solid var(--lab-line); color: var(--lab-ink-2); font-size: 13px; }
+.lab-foot p { margin: 0; max-width: 80ch; }
+</style>
+</head>
+<body>
+<header class="lab-head">
+  <h1>Method page: three skins, one pick</h1>
+  <p>The same page, word for word, in three skins. Each frame is the real page. Open one full-screen to read it at size. The axes come from the research note beside this file; the pick becomes the skin the rest of the site moves to.</p>
+</header>
+<main class="lab-grid">
+  <section class="lab-item" aria-labelledby="lab-a">
+    <h2 id="lab-a"><span class="lab-key">A</span> Ledger</h2>
+    <p>Neutral near-black ground. Flat panels, 10% hairline, no blur. One sans (Inter) with mono labels, display 400 tracked tight. One accent. 6px radius. Tight. Hover only.</p>
+    <a class="lab-open" href="a/index.html">Open A full-screen</a>
+    <div class="lab-frame"><iframe src="a/index.html" title="Variant A, Ledger, rendered" loading="eager"></iframe></div>
+  </section>
+  <section class="lab-item" aria-labelledby="lab-b">
+    <h2 id="lab-b"><span class="lab-key">B</span> Terminal</h2>
+    <p>Cool blue-black ground. 3% panel fill, 12% hairline, blur on the bar only. IBM Plex Sans and Plex Mono, display 500. One accent plus two state colours. 8px radius. Medium. Reveal and hover.</p>
+    <a class="lab-open" href="b/index.html">Open B full-screen</a>
+    <div class="lab-frame"><iframe src="b/index.html" title="Variant B, Terminal, rendered" loading="eager"></iframe></div>
+  </section>
+  <section class="lab-item" aria-labelledby="lab-c">
+    <h2 id="lab-c"><span class="lab-key">C</span> Board</h2>
+    <p>Navy ground. 50% glass panels with blur, 18% hairline, tinted by state. Space Grotesk display over Inter body, display 600. One accent plus two state colours. 4px radius. Airy outside, dense inside. Reveal, hover, one ambient glow.</p>
+    <a class="lab-open" href="c/index.html">Open C full-screen</a>
+    <div class="lab-frame"><iframe src="c/index.html" title="Variant C, Board, rendered" loading="eager"></iframe></div>
+  </section>
+</main>
+<footer class="lab-foot">
+  <p>Lab scratch under docs/skin-lab/method/. Nothing here is linked from the site. The chosen variant moves to /method/ after the pick; the other two stay here as the record.</p>
+</footer>
+</body>
+</html>

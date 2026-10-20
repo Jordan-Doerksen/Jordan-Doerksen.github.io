@@ -1,0 +1,118 @@
+/* Variant B, Terminal. The Kalshi and HRT line (RESEARCH.md): cool blue-black ground, 3% panel fill
+   with a 12% hairline, blur on the bar only, IBM Plex Sans with Plex Mono, display 500 tracked -2%,
+   one accent plus two state colours, 8px radius, medium density, reveal and hover.
+   The ONE token file for this variant (SKIN-03). */
+:root {
+  color-scheme: dark;
+
+  /* ground and ink */
+  --md-ground: #0a0c0f;
+  --md-ground-2: #07090c;
+  --md-ink-strong: #f2f4f6;
+  --md-ink: #d9dee5;
+  --md-ink-2: #9aa5b4;
+  --md-accent: #19d99a;    /* the signal */
+  --md-ok: #6ea8ff;        /* state: the loop */
+  --md-wait: #e8b84a;      /* state: a domain waiting on its master */
+  --md-focus: #19d99a;
+
+  /* panels: ground lifted 3%, hairline 12%, blur on the bar only */
+  --md-panel: rgba(255, 255, 255, 0.03);
+  --md-panel-hover: rgba(255, 255, 255, 0.06);
+  --md-panel-solid: #12161c;
+  --md-panel-gate: rgba(255, 255, 255, 0.03);
+  --md-panel-loop: rgba(255, 255, 255, 0.03);
+  --md-panel-master: rgba(255, 255, 255, 0.03);
+  --md-bar-bg: rgba(10, 12, 15, 0.78);
+  --md-line: rgba(255, 255, 255, 0.12);
+  --md-line-strong: rgba(255, 255, 255, 0.2);
+  --md-edge-gate: #19d99a;
+  --md-edge-loop: #6ea8ff;
+  --md-edge-master: #e8b84a;
+  --md-edge-w: 2px;
+  --md-wire: rgba(255, 255, 255, 0.32);
+  --md-wire-stroke: 1.5px;
+  --md-blur: none;
+  --md-bar-blur: blur(12px);
+  --md-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --md-inner: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --md-glow: none;
+  --md-glow-anim: none;
+  --md-glow-dur: 0s;
+  --md-glow-size: 100% 100%;
+
+  /* type: Plex Sans and Plex Mono */
+  --md-font-display: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --md-font-body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --md-font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --md-w-display: 500;
+  --md-w-h2: 500;
+  --md-w-h3: 600;
+  --md-w-body: 400;
+  --md-w-label: 500;
+  --md-t-display: clamp(42px, 6vw, 84px);
+  --md-t-h2: clamp(26px, 2.8vw, 36px);
+  --md-t-h3: clamp(17px, 1.4vw, 20px);
+  --md-t-h4: 16px;
+  --md-t-lede: clamp(16px, 1.25vw, 19px);
+  --md-t-body: 16px;
+  --md-t-panel: 15px;
+  --md-t-small: 14px;
+  --md-t-label: 11.5px;
+  --md-lh-display: 1.05;
+  --md-lh-head: 1.2;
+  --md-lh-lede: 1.6;
+  --md-lh-body: 1.6;
+  --md-lh-panel: 1.55;
+  --md-lh-small: 1.5;
+  --md-track-display: -0.02em;
+  --md-track-head: -0.015em;
+  --md-track-sub: 0;
+  --md-track-label: 0.16em;
+  --md-track-nav: 0.12em;
+  --md-underline: 2px;
+  --md-measure: 62ch;
+  --md-measure-lede: 54ch;
+  --md-measure-title: 14ch;
+  --md-measure-wide: 78ch;
+  --md-wide-cols: 1fr 3fr;
+
+  /* shape */
+  --md-r: 8px;
+  --md-r-sm: 4px;
+  --md-focus-w: 2px;
+  --md-focus-off: 3px;
+
+  /* density: medium */
+  --md-gutter: clamp(20px, 4vw, 56px);
+  --md-band: clamp(56px, 8vh, 96px);
+  --md-head-gap: clamp(24px, 4vh, 40px);
+  --md-loop-gap: clamp(40px, 6vh, 64px);
+  --md-gap: 20px;
+  --md-gap-xs: 10px;
+  --md-pad: 20px;
+  --md-pad-sm: 14px;
+  --md-pad-xs: 7px;
+  --md-stack: 16px;
+  --md-stack-sm: 12px;
+  --md-stack-xs: 8px;
+  --md-hero-top: clamp(56px, 12vh, 128px);
+  --md-hero-bottom: clamp(36px, 7vh, 72px);
+  --md-bar-h: 52px;
+  --md-foot-pad: 28px;
+  --md-offscreen: -999px;
+  --md-wire-w: 40px;
+  --md-wire-h: 24px;
+  --md-return-h: 36px;
+  --md-return-tip-x: calc(1.5% - 12px);
+  --md-return-tip-y: -6px;
+  --md-dash: 4 5;
+  --md-lift: -3px;
+
+  /* motion: reveal and hover */
+  --md-ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --md-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --md-t-fast: 180ms;
+  --md-t-reveal: 420ms;
+  --md-reveal-y: 14px;
+}

@@ -1,0 +1,117 @@
+/* Variant A, Ledger. The Vercel and Linear line (RESEARCH.md): neutral near-black ground, flat
+   panels with a hairline and no blur, one sans with mono labels, display 400 tracked tight, one
+   accent, 6px radius, tight density, hover only. The ONE token file for this variant (SKIN-03). */
+:root {
+  color-scheme: dark;
+
+  /* ground and ink */
+  --md-ground: #0a0a0a;
+  --md-ground-2: #050505;
+  --md-ink-strong: #ededed;
+  --md-ink: #d4d4d4;
+  --md-ink-2: #a1a1a1;
+  --md-accent: #5aa2ff;
+  --md-ok: #5aa2ff;        /* one accent: the states borrow it */
+  --md-wait: #5aa2ff;
+  --md-focus: #5aa2ff;
+
+  /* panels: ground lifted 3%, carried by the hairline */
+  --md-panel: rgba(255, 255, 255, 0.03);
+  --md-panel-hover: rgba(255, 255, 255, 0.05);
+  --md-panel-solid: #111111;
+  --md-panel-gate: rgba(255, 255, 255, 0.03);
+  --md-panel-loop: rgba(255, 255, 255, 0.03);
+  --md-panel-master: rgba(255, 255, 255, 0.03);
+  --md-bar-bg: rgba(10, 10, 10, 0.92);
+  --md-line: rgba(255, 255, 255, 0.10);
+  --md-line-strong: rgba(255, 255, 255, 0.18);
+  --md-edge-gate: rgba(255, 255, 255, 0.18);
+  --md-edge-loop: rgba(255, 255, 255, 0.18);
+  --md-edge-master: rgba(255, 255, 255, 0.18);
+  --md-edge-w: 1px;
+  --md-wire: rgba(255, 255, 255, 0.28);
+  --md-wire-stroke: 1.5px;
+  --md-blur: none;
+  --md-bar-blur: none;
+  --md-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  --md-inner: inset 0 0 0 rgba(0, 0, 0, 0);
+  --md-glow: none;
+  --md-glow-anim: none;
+  --md-glow-dur: 0s;
+  --md-glow-size: 100% 100%;
+
+  /* type: one sans, mono for labels */
+  --md-font-display: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --md-font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --md-font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --md-w-display: 400;
+  --md-w-h2: 500;
+  --md-w-h3: 500;
+  --md-w-body: 400;
+  --md-w-label: 500;
+  --md-t-display: clamp(44px, 6.6vw, 92px);
+  --md-t-h2: clamp(26px, 2.8vw, 36px);
+  --md-t-h3: clamp(17px, 1.4vw, 19px);
+  --md-t-h4: 16px;
+  --md-t-lede: clamp(16px, 1.2vw, 18px);
+  --md-t-body: 15px;
+  --md-t-panel: 14px;
+  --md-t-small: 13.5px;
+  --md-t-label: 11px;
+  --md-lh-display: 1.02;
+  --md-lh-head: 1.15;
+  --md-lh-lede: 1.55;
+  --md-lh-body: 1.6;
+  --md-lh-panel: 1.55;
+  --md-lh-small: 1.5;
+  --md-track-display: -0.04em;
+  --md-track-head: -0.025em;
+  --md-track-sub: -0.01em;
+  --md-track-label: 0.14em;
+  --md-track-nav: 0.1em;
+  --md-underline: 2px;
+  --md-measure: 62ch;
+  --md-measure-lede: 56ch;
+  --md-measure-title: 14ch;
+  --md-measure-wide: 78ch;
+  --md-wide-cols: 1fr 3fr;
+
+  /* shape */
+  --md-r: 6px;
+  --md-r-sm: 4px;
+  --md-focus-w: 2px;
+  --md-focus-off: 3px;
+
+  /* density: tight */
+  --md-gutter: clamp(16px, 3vw, 40px);
+  --md-band: clamp(40px, 6vh, 72px);
+  --md-head-gap: clamp(20px, 3vh, 32px);
+  --md-loop-gap: clamp(32px, 5vh, 56px);
+  --md-gap: 16px;
+  --md-gap-xs: 8px;
+  --md-pad: 16px;
+  --md-pad-sm: 12px;
+  --md-pad-xs: 6px;
+  --md-stack: 14px;
+  --md-stack-sm: 10px;
+  --md-stack-xs: 6px;
+  --md-hero-top: clamp(48px, 10vh, 112px);
+  --md-hero-bottom: clamp(32px, 6vh, 64px);
+  --md-bar-h: 48px;
+  --md-foot-pad: 24px;
+  --md-offscreen: -999px;
+  --md-wire-w: 40px;
+  --md-wire-h: 24px;
+  --md-return-h: 32px;
+  --md-return-tip-x: calc(1.5% - 12px);
+  --md-return-tip-y: -6px;
+  --md-dash: 4 5;
+  --md-lift: -2px;
+
+  /* motion: hover only */
+  --md-ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --md-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --md-t-fast: 160ms;
+  --md-t-reveal: 0ms;
+  --md-reveal-y: 0px;
+}
