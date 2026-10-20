@@ -34,7 +34,7 @@ Static site, no build step. GitHub Pages from `main`. Local preview: `python -m 
 ├── assets/diagrams/<slug>.svg  hand-authored data-flow diagram per full-tier project
 ├── assets/diagram-live.js  hover lighting + IO-paced pulses (reduced-motion gated)
 ├── styles/
-│   ├── stagecraft.tokens.css   THE control panel — palette, type scale, measure, motion
+│   ├── stagecraft.tokens.css   THE control panel — palette, type scale, measure, motion; variant C, Board (navy ground, glass, one blue accent, one ground glow) since CR-23
 │   ├── stagecraft.base.css     reset, type, the 3 persistent clusters, footer, a11y, motion
 │   ├── stagecraft.compose.css  composition primitives (stage / chapter / field / index / rail)
 │   ├── atlas.css               diagram system + atlas-only layout

@@ -1,5 +1,5 @@
 /* ============================================================================
-   stagecraft.tokens.css — the archive's web house style · control panel
+   stagecraft.tokens.css — the site's web house style · control panel
    ----------------------------------------------------------------------------
    STAGECRAFT is the visual layer of the Award-Winning Web UI/UX Style Bible
    (C:\projects\reference\award-winning-web-ui-ux-style-bible). Named for the bible's
@@ -10,80 +10,121 @@
 
    Load this FIRST. stagecraft.base.css and stagecraft.compose.css read it.
 
-   PALETTE — an archive plate under instrument light.
-     Ground (page)     --ground #0b0b0d / --ground-2 #131317 / --ground-3 #1b1b20
-     Ink (text)        --ink #f4f2ee / --ink-2 #c8c5bd / --muted #8e8b83
-     Hairlines         --hair (13%) / --hair-soft (7%)
-     Signal — ONE accent, the Goldenrod thread re-pitched for a dark ground:
-       --signal      #f0b429   10.5:1 on --ground — text-safe on its own,
-                               so there is no second "ink" shade to remember.
-       --signal-rgb  240,180,41
-       derived: --signal-soft / --signal-tint / --signal-line
+   SKIN — variant C, "Board", since 2026-10-20 (CR-23; Intake item 12, chunk 1).
+   Every value below is read from method/tokens.css, the token file of the
+   /method/ page the owner picked on 2026-10-20 (skin lab D-14). The names stay
+   the Stagecraft names, because base, compose, atlas.css and desk.css read
+   them; the map from each name to its md- source is in
+   docs/skin-lab/stagecraft-c/DECISIONS.md. A token C lacks is derived from C's
+   palette and says so beside its value. The archive-plate ground and the amber
+   signal this file carried from 2026-07-25 to 2026-10-20 are in git history.
 
-   TYPE — carried over deliberately: already loaded, legible, and the display
-   face has a compositional job here rather than just a bigger size.
+   PALETTE — a navy board under glass.
+     Ground (page)     --ground #061527 / --ground-2 #040f1d / --ground-3 #0f2340
+     Ink (text)        --ink #f4f7fb / --ink-2 #d7deea / --muted #a4b2c8
+     Hairlines         --hair (18%) / --hair-soft (9%, derived)
+     Signal — ONE accent:
+       --signal      #7cb2ff   8.45:1 on --ground — text-safe on its own.
+       --signal-rgb  124,178,255
+       derived: --signal-soft / --signal-tint / --signal-line
+     Glass             --panel (50% fill) + --blur (16px) on every panel;
+                       --bar-bg + --bar-blur on the chrome
+     Glow              --glow, one ambient drift on the ground only; it stops
+                       under prefers-reduced-motion (stagecraft.base.css)
+
+   TYPE — the same three faces as before, now in C's stacks:
      --display  Space Grotesk  → stage statements, chapter numerals, index names
      --sans     Inter          → body copy inside a controlled measure
      --mono     JetBrains Mono → folios, labels, status, metadata
+   Sizes and measures are composition and did not move (SKIN-01).
 
-   MOTION — every duration here belongs to a job (orient / cause / confirm).
-   There is no ambient loop token on purpose; the bible forbids idle motion.
+   MOTION — every duration here belongs to a job (orient / cause / confirm),
+   plus the one ambient glow the OPEN tier allows (CR-2026-10-19-TIERS,
+   section 0, owner ruling 2026-10-19). This file writes no transform and no
+   transition (SKIN-04).
 
-   TO GO BACK TO A LIGHT GROUND: swap the four --ground/--ink values in the
-   LIGHT GROUND block at the bottom of this file. Nothing else needs editing —
-   every rule downstream reads these names.
+   TO GO BACK TO A LIGHT GROUND: add class="light" to <html>. The LIGHT GROUND
+   block at the bottom is C's light counterpart, contrast re-measured.
    ============================================================================ */
 
 :root{
+  color-scheme:dark;
+
   /* ---- ground ---- */
-  --ground:#0b0b0d;
-  --ground-2:#131317;
-  --ground-3:#1b1b20;
+  --ground:#061527;        /* md-ground */
+  --ground-2:#040f1d;      /* md-ground-2 */
+  --ground-3:#0f2340;      /* md-panel-solid */
 
   /* ---- ink ---- */
-  --ink:#f4f2ee;
-  --ink-2:#c8c5bd;
-  --muted:#8e8b83;
+  --ink:#f4f7fb;           /* md-ink-strong */
+  --ink-2:#d7deea;         /* md-ink */
+  --muted:#a4b2c8;         /* md-ink-2 — 8.55:1 on --ground */
 
-  --hair:rgba(244,242,238,.13);
-  --hair-soft:rgba(244,242,238,.07);
+  --hair:rgba(170,200,255,.18);       /* md-line */
+  --hair-soft:rgba(170,200,255,.09);  /* derived: md-line at half its alpha; C has no soft hairline */
+  --hair-strong:rgba(170,200,255,.32);/* md-line-strong */
 
   /* ---- the one signal ---- */
-  --signal:#f0b429;
-  --signal-rgb:240,180,41;
-  --signal-soft:rgba(var(--signal-rgb),.16);
+  --signal:#7cb2ff;        /* md-accent */
+  --signal-rgb:124,178,255;
+  --signal-soft:rgba(var(--signal-rgb),.16);   /* derived: the same alphas as before, on C's accent */
   --signal-tint:rgba(var(--signal-rgb),.07);
   --signal-line:rgba(var(--signal-rgb),.38);
+  --on-signal:#061527;     /* derived: text on a --signal fill is the ground colour (the skip link) */
+
+  /* ---- glass: a panel is a translucent fill with blur (md-panel, md-blur) ---- */
+  --panel:rgba(16,34,62,.5);         /* md-panel */
+  --panel-hover:rgba(22,44,78,.6);   /* md-panel-hover */
+  --blur:blur(16px);                 /* md-blur */
+  --bar-bg:rgba(6,21,39,.62);        /* md-bar-bg — the chrome */
+  --bar-blur:blur(16px);             /* md-bar-blur */
+
+  /* ---- the one ambient glow, on the ground only (md-glow) ---- */
+  --glow:radial-gradient(ellipse at 22% 35%,rgba(70,130,255,.26),rgba(70,130,255,0) 55%);
+  --glow-anim:sc-drift;    /* md-glow-anim; the keyframe lives in stagecraft.base.css; "none" turns it off */
+  --glow-dur:18s;          /* md-glow-dur */
+  --glow-size:130% 100%;   /* md-glow-size */
 
   /* ---- type ---- */
-  --sans:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
-  --display:"Space Grotesk","Inter",system-ui,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;                 /* md-font-body */
+  --display:"Space Grotesk","Segoe UI",system-ui,-apple-system,sans-serif;      /* md-font-display */
+  --mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;      /* md-font-mono */
+  --w-display:600;         /* md-w-display, md-w-h2, md-w-h3 */
+  --w-label:500;           /* md-w-label */
+  --track-display:-0.01em; /* md-track-display — the stage statement */
+  --track-head:-0.01em;    /* md-track-head — h1 to h4 */
+  --track-label:0.18em;    /* md-track-label */
 
   /* display scale — fluid with HARD bounds (typographic_monument: "use fluid
-     sizing with hard minimum and maximum bounds") */
+     sizing with hard minimum and maximum bounds"). Sizes are composition and
+     stay as they were (SKIN-01); C's own scale is for its one page. */
   --t-stage:clamp(2.9rem,9.2vw,8.4rem);   /* the one statement per page      */
   --t-chapter:clamp(2rem,5vw,4.2rem);     /* chapter titles                  */
   --t-section:clamp(1.35rem,2.6vw,2rem);  /* section heads                   */
   --t-index:clamp(1.15rem,2.1vw,1.7rem);  /* index row names                 */
   --t-body:clamp(15px,1.05vw,17px);
-  --t-label:11px;
+  --t-label:11px;                         /* md-t-label */
 
-  /* ---- measure + rhythm ---- */
+  /* ---- measure + rhythm (composition; unchanged) ---- */
   --measure:64ch;          /* body copy never exceeds this, however wide the page */
   --measure-tight:46ch;
   --mar:clamp(20px,5vw,84px);
   --maxw:1280px;
   --rail:190px;            /* narrative rail width at desktop */
 
-  /* ---- motion, each with a job ---- */
-  --m-confirm:120ms;       /* input feedback — must feel instant             */
-  --m-orient:280ms;        /* state/hover orientation                        */
-  --m-narrative:640ms;     /* section entrance, chapter transitions          */
-  --ease:cubic-bezier(.2,.7,.2,1);
+  /* ---- shape ---- */
+  --r:4px;                 /* md-r — every control, well and panel; no pill */
+  --r-sm:4px;              /* md-r-sm */
 
-  /* ---- elevation: light, not decorative. Cards are conditional here. ---- */
-  --lift:0 1px 0 rgba(255,255,255,.04) inset, 0 18px 40px -28px rgba(0,0,0,.9);
+  /* ---- motion, each with a job ---- */
+  --m-confirm:200ms;       /* md-t-fast — input feedback                     */
+  --m-orient:200ms;        /* md-t-fast — state/hover orientation            */
+  --m-narrative:480ms;     /* md-t-reveal — section entrance                 */
+  --ease:cubic-bezier(.2,.7,.3,1);          /* md-ease */
+  --ease-out:cubic-bezier(.16,1,.3,1);      /* md-ease-out */
+
+  /* ---- elevation: md-shadow + md-inner ---- */
+  --lift:0 18px 44px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.07);
 
   /* ==========================================================================
      COMPATIBILITY BRIDGE — do not extend.
@@ -104,20 +145,30 @@
 
 /* ==========================================================================
    LIGHT GROUND (opt-in). Add class="light" to <html> to flip the whole system.
+   C's light counterpart (docs/skin-lab/stagecraft-c/DECISIONS.md, D-03): a
+   near-white ground with C's navy hue, the same accent hue in a shade that
+   reads on paper, contrast re-measured from computed colours by check.mjs.
    Kept as a real, contrast-checked alternative rather than a comment, so the
    choice is one attribute and never a rewrite.
    ========================================================================== */
 html.light{
-  --ground:#f7f5f0;
-  --ground-2:#fffdf9;
-  --ground-3:#efece4;
-  --ink:#15140f;
-  --ink-2:#3a3730;
-  --muted:#635e54;                 /* 5.9:1 on --ground */
-  --hair:rgba(21,20,15,.16);
-  --hair-soft:rgba(21,20,15,.08);
-  --signal:#8a6508;                /* 5.6:1 on --ground — the dark-ground amber
-                                      fails on paper, so the shade swaps too */
-  --signal-rgb:138,101,8;
-  --lift:0 1px 0 rgba(255,255,255,.8) inset, 0 18px 40px -28px rgba(90,70,30,.5);
+  color-scheme:light;
+  --ground:#f2f5fa;
+  --ground-2:#ffffff;
+  --ground-3:#e3eaf4;
+  --ink:#0a1628;
+  --ink-2:#22334d;
+  --muted:#4a5b74;                 /* 6.32:1 on --ground */
+  --hair:rgba(6,21,39,.18);
+  --hair-soft:rgba(6,21,39,.09);
+  --hair-strong:rgba(6,21,39,.32);
+  --signal:#1a56c4;                /* 6.06:1 on --ground, 6.62:1 on --ground-2 — C's accent
+                                      hue; #7cb2ff fails on paper, so the shade swaps too */
+  --signal-rgb:26,86,196;
+  --on-signal:#ffffff;             /* 6.62:1 on --signal */
+  --panel:rgba(255,255,255,.55);
+  --panel-hover:rgba(255,255,255,.72);
+  --bar-bg:rgba(242,245,250,.72);
+  --glow:radial-gradient(ellipse at 22% 35%,rgba(70,130,255,.16),rgba(70,130,255,0) 55%);
+  --lift:0 18px 44px rgba(6,21,39,.12),inset 0 1px 0 rgba(255,255,255,.8);
 }

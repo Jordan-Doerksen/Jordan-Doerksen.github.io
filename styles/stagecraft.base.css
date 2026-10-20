@@ -33,10 +33,12 @@ body{
    so the "canvas" is a static CSS wash — no script, nothing to break. */
 body::before{
   content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(120% 80% at 82% -10%,rgba(var(--signal-rgb),.10),transparent 58%),
-    radial-gradient(90% 60% at 0% 100%,rgba(var(--signal-rgb),.05),transparent 60%);
+  background:var(--glow);background-size:var(--glow-size);background-repeat:no-repeat;background-position:0% 50%; /* C skin: the ground glow, token --glow */
+  animation:var(--glow-anim) var(--glow-dur) var(--ease) infinite alternate; /* C skin: the glow drift, token --glow-anim; stopped under reduced motion below */
 }
+/* the drift moves the gradient inside its own fixed box, never the box (WEB-14) */
+@keyframes sc-drift{from{background-position:0% 50%}to{background-position:100% 50%}}
+html[data-ambient="off"] body::before{animation:none} /* C skin: the one-attribute off switch for the ambient glow (SKIN-06); the glow is ON by the token, the only attribute value is "off" */
 
 .wrap{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 var(--mar)}
 
@@ -44,12 +46,12 @@ body::before{
 .skip{
   position:absolute;left:-9999px;top:0;z-index:60;
   font-family:var(--mono);font-size:var(--t-label);letter-spacing:.16em;text-transform:uppercase;
-  background:var(--signal);color:#0b0b0d;padding:12px 18px;text-decoration:none;
+  background:var(--signal);color:var(--on-signal);padding:12px 18px;text-decoration:none; /* C skin: text on the signal fill, token --on-signal */
 }
 .skip:focus{left:var(--mar);top:10px}
 
 /* ---- typography defaults ---------------------------------------------- */
-h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-.02em;line-height:1.04}
+h1,h2,h3,h4{font-family:var(--display);font-weight:var(--w-display);letter-spacing:var(--track-head);line-height:1.04} /* C skin: display weight and tracking, tokens --w-display --track-head */
 p{max-width:var(--measure)}
 a{color:var(--signal);text-underline-offset:3px}
 
@@ -74,8 +76,8 @@ a{color:var(--signal);text-underline-offset:3px}
 /* ---- CLUSTER 1 — identity + navigation --------------------------------- */
 .chrome{
   position:sticky;top:0;z-index:40;
-  background:color-mix(in srgb,var(--ground) 86%,transparent);
-  backdrop-filter:saturate(140%) blur(9px);
+  background:var(--bar-bg); /* C skin: the chrome's translucent fill, token --bar-bg */
+  -webkit-backdrop-filter:var(--bar-blur);backdrop-filter:var(--bar-blur); /* C skin: the chrome's blur, token --bar-blur */
   border-bottom:1px solid var(--hair-soft);
 }
 @supports not (backdrop-filter:blur(1px)){ .chrome{background:var(--ground)} }
@@ -117,12 +119,12 @@ a{color:var(--signal);text-underline-offset:3px}
 .find{
   font-family:var(--mono);font-size:var(--t-label);letter-spacing:.14em;text-transform:uppercase;
   color:var(--muted);background:transparent;border:1px solid var(--hair);
-  border-radius:999px;padding:7px 14px;display:inline-flex;align-items:center;gap:10px;
+  border-radius:var(--r);padding:7px 14px;display:inline-flex;align-items:center;gap:10px; /* C skin: radius, token --r (no pill) */
   cursor:pointer;white-space:nowrap;
   transition:color var(--m-orient) var(--ease),border-color var(--m-orient) var(--ease);
 }
 .find:hover,.find:focus-visible{color:var(--ink);border-color:var(--signal-line)}
-.find kbd{font-family:var(--mono);font-size:10px;color:var(--muted);border:1px solid var(--hair);border-radius:4px;padding:1px 5px}
+.find kbd{font-family:var(--mono);font-size:10px;color:var(--muted);border:1px solid var(--hair);border-radius:var(--r-sm);padding:1px 5px} /* C skin: radius, token --r-sm */
 
 /* Narrow chrome is RE-AUTHORED, not shrunk. The bar drops to its two
    load-bearing jobs — identity (which is also the route home) and the primary
@@ -143,13 +145,17 @@ a{color:var(--signal);text-underline-offset:3px}
 /* ---- overlay_layer — the finder ---------------------------------------- */
 .veil{
   position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.62);
-  opacity:0;pointer-events:none;transition:opacity var(--m-orient) ease;
+  opacity:0;pointer-events:none;transition:opacity var(--m-orient) ease,visibility 0s linear var(--m-orient);
+  visibility:hidden;   /* found 2026-10-20 (CR-23 check): the closed finder's input still took Tab focus and the
+                          veil's keydown trap held it there, invisibly. visibility:hidden removes it from the
+                          tab order; the delayed visibility transition keeps the fade-out on close. */
 }
-.veil.open{opacity:1;pointer-events:auto}
+.veil.open{opacity:1;pointer-events:auto;visibility:visible;transition-delay:0s}
 .finder{
   position:fixed;top:12vh;left:50%;transform:translateX(-50%) translateY(-6px);
   width:min(620px,92vw);z-index:51;
-  background:var(--ground-2);border:1px solid var(--hair);border-radius:14px;
+  background:var(--panel);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur); /* C skin: the finder is a glass panel, tokens --panel --blur */
+  border:1px solid var(--hair);border-radius:var(--r); /* C skin: radius, token --r */
   box-shadow:var(--lift);overflow:hidden;
   opacity:0;pointer-events:none;
   transition:opacity var(--m-orient) ease,transform var(--m-orient) var(--ease);
@@ -162,7 +168,7 @@ a{color:var(--signal);text-underline-offset:3px}
 .finder input::placeholder{color:var(--muted)}
 .finder ul{list-style:none;max-height:44vh;overflow-y:auto;padding:8px}
 .finder li{
-  font-size:.95rem;color:var(--ink-2);padding:11px 14px;border-radius:9px;cursor:pointer;
+  font-size:.95rem;color:var(--ink-2);padding:11px 14px;border-radius:var(--r);cursor:pointer; /* C skin: radius, token --r */
   display:flex;align-items:center;justify-content:space-between;gap:14px;
 }
 .finder li[aria-selected="true"]{background:var(--signal-soft);color:var(--ink)}
@@ -199,7 +205,7 @@ footer.site .colophon a:hover{color:var(--signal)}
 /* ---- focus: visible on every ground ------------------------------------ */
 a:focus-visible,button:focus-visible,input:focus-visible,
 [tabindex]:focus-visible,.row:focus-visible{
-  outline:2px solid var(--signal);outline-offset:3px;border-radius:4px;
+  outline:2px solid var(--signal);outline-offset:3px;border-radius:var(--r-sm); /* C skin: radius, token --r-sm */
 }
 
 /* ---- entrance: narrative, not decorative --------------------------------

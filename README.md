@@ -51,9 +51,10 @@ a written narrative sequence, at most three persistent clusters, cards only for 
 comparable peers, motion only where it orients or explains, and small screens that
 **re-author priority** rather than shrink the desktop layout.
 
-Its visual layer here is **Stagecraft** — archive-plate ground, one signal amber, and the
-same three typefaces doing a different job. `styles/stagecraft.tokens.css` is the whole
-control panel; `html.light` flips it to a paper ground.
+Its visual layer here is **Stagecraft** — since 2026-10-20 (CR-23) in variant C, Board: a navy
+ground under glass, one blue accent, one ambient glow on the ground, and the same three typefaces
+doing a different job. `styles/stagecraft.tokens.css` is the whole control panel; `html.light`
+flips it to a near-white ground with the same hue.
 
 **The five front-page screens are the exception (D-A27, CR-21, 2026-10-04).** They wear the
 trading desk's donor look (a sidebar, a rounded sheet, warm neutrals, light and dark) in their own

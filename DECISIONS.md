@@ -10,6 +10,12 @@ Rebuild the portfolio monorepo as a **technical architecture atlas**: the front 
 - **Public-site privacy rules:** never present Jordan by a former job title (self-taught maker); private repos get minimal entries with no internal detail (no broker/prop-firm names, no account specifics); Sentinel family always labeled read-only.
 - **Old URLs never break.** Existing project app folders, redirect stubs, and the four legacy spoke pages stay reachable.
 - Embedded project apps (e.g. `rail/clear-board/`) are **not touched** by this redo.
+- Page law tier: OPEN — declared 2026-10-20 (CR-23) under CR-2026-10-19-TIERS, approved 2026-10-20
+  (`C:\projects\AI-Brain\instructions\web-ui-law.md`, the tiers section at its end; the owner's ruling of 2026-10-19 is
+  the CR's section 0): the Site is OPEN tier; ambient
+  motion on the ground is allowed on by default, fades are allowed, a dark ground is the default, and the OS
+  `prefers-reduced-motion` flag is honoured on every page. The composition law (WEB-01 to WEB-05, WEB-08 to
+  WEB-14), the token guards (SKIN-01, SKIN-03, SKIN-04, SKIN-05, SKIN-07) and SAFE-04 stay in full.
 
 ## Decisions
 
@@ -545,6 +551,47 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   markup (GATE-01).
 
 ## Change Log
+- 2026-10-20 — **CR-23 (Intake item 12, chunk 1, owner's go 2026-10-20): the nine Stagecraft pages move to
+  variant C, Board, by the one token file.** The eight section pages (`rail/`, `games/`, `trading/`,
+  `studio/`, `signals/`, `bots/`, `tools/`, `navigation/`) and the atlas template (`atlas/`) load
+  `styles/stagecraft.tokens.css`; every colour, type stack, weight, tracking, radius, shadow, hairline and
+  duration in it now carries the value of `method/tokens.css` (the skin the owner picked on 2026-10-20, skin
+  lab D-14; the map from each Stagecraft name to its `md-` source is `docs/skin-lab/stagecraft-c/DECISIONS.md`).
+  The names did not change, because base, compose, `atlas.css` and `desk.css` read them. Type sizes, measures
+  and the spacing scale did not move: a skin gives colour and type, never composition (SKIN-01, D-A09). No page's
+  HTML changed; `js/shell/` and `styles/front/` are untouched. **The glow:** C's one ambient glow now drifts on
+  the ground of every Stagecraft page (`body::before`, a keyframe on `background-position`, 18 s, alternate).
+  D-A09 names ambient motion as a bible non-negotiable that needs a Change Request; **this is that request, and
+  D-A09 is amended by CR-2026-10-19-TIERS** (section 3, SKIN-06 and WEB-06 on the OPEN tier): on this site the
+  ambient loop lives on the ground only, never on a control or a target, and it stops under the OS
+  `prefers-reduced-motion` flag (the reduce block in `stagecraft.base.css`; the checker counts 0 running
+  animations after a full scroll and a hover on every page). A page turns the glow off with one attribute,
+  `data-ambient="off"` on `<html>` (`stagecraft.base.css`); the glow is on by the token and the keyframe, and no
+  file carries an "on" value for that attribute (the brain's SKIN-02 claim reads `index.html` for one). The tier
+  line is in the constraints above; CR-2026-10-19-TIERS is approved as of 2026-10-20.
+  **Glass and glow hooks** (each one line in `stagecraft.base.css` or `stagecraft.compose.css`, commented
+  "C skin: <what>, token <name>"): the ground glow and its drift; the chrome's translucent fill and blur; the
+  finder, the media well and the peer cards as glass panels; the display weight and tracking; the skip link's
+  text on the signal fill; every radius (the Find button, the chips and the tags were pills at 999px; they are
+  4px now, the owner's no-pill rule). **The light flip** (`html.light`) is C's light counterpart, made by the
+  writer (OWN-05, lab D-03): a near-white ground with C's navy hue (#f2f5fa), C's accent hue in a shade that
+  reads on paper (#1a56c4, 6.06:1 on the ground), contrast re-measured from computed colours in both themes.
+  There is no theme toggle in `js/shell/`; the class is set by hand, as before. **Two defects found on main by
+  the new checker and fixed in the same files, not skin (lab D-05, D-06):** (1) `.stage` and `.chapter` set
+  `padding: <top> 0 <bottom>`, which, loading after base, zeroed `.wrap`'s side gutter, so every hub's stage and
+  index sat flush at the window edge at every width (WEB-14); `padding-block` leaves the gutter alone. (2) The
+  closed finder (opacity 0) still held a focusable input, and the veil's Tab trap kept focus there, invisibly;
+  `visibility: hidden` on the closed veil removes it from the tab order, with the fade-out kept. **Checked:**
+  `node docs/skin-lab/stagecraft-c/check.mjs` ALL PASS, exit 0, for all nine pages at 390 and 1280 in dark and
+  light (width, four-edge gutter, contrast, keyboard with a ring, console, 0 animations under reduce, no-script
+  content); the literal output is `docs/skin-lab/stagecraft-c/check-after.txt`, and the same run on main's files
+  is `check-before.txt` (the gutter and keyboard failures above). `python scripts/front_check.py` 20 passed,
+  0 failed; `build_front_page.py --check` 0 differ. Before-and-after shots of every page at 1280 and 390 are
+  on `docs/skin-lab/stagecraft-c/index.html`. **Not touched:** the five generated front-page screens (chunk 2),
+  `tools/design-first/` (chunk 3), the client pitch pages, the legacy annex, the project apps, `styles/atlas.css`
+  (its diagram well keeps a 12px radius and a solid `--ground-2` fill; a follow-up). The `theme-color` meta and
+  the favicon in each page's HTML still carry the old ground and amber (HTML is out of this CR's scope).
+  **Rollback:** `git revert` of the skin commit on `site-stagecraft-c`; the lab folder keeps the record.
 - 2026-10-20 — **CR-22 (Intake item 11, owner's pick 2026-10-20): the page "Gates, loops and rules"
   goes live at `/method/`.** It explains how the work runs: four gates, two loops, six rules, and a
   record on disk for every step. Three glass skins were rendered side by side under

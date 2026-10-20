@@ -22,12 +22,14 @@
 /* ---- viewport_stage ----------------------------------------------------- */
 .stage{
   position:relative;z-index:2;
-  padding:clamp(48px,11vh,130px) 0 clamp(40px,8vh,90px);
+  padding-block:clamp(48px,11vh,130px) clamp(40px,8vh,90px); /* found 2026-10-20 (CR-23 check): the shorthand
+     "padding: top 0 bottom" set the side padding to 0 and, loading after base, beat .wrap's gutter, so every
+     hub's stage and chapters sat flush at the window edge (WEB-14). padding-block leaves .wrap's sides alone. */
 }
 .stage h1{
   font-size:var(--t-stage);
   line-height:.9;
-  letter-spacing:-.035em;
+  letter-spacing:var(--track-display); /* C skin: display tracking, token --track-display */
   max-width:14ch;
   margin:clamp(22px,3.6vh,40px) 0 clamp(22px,3.4vh,36px);
 }
@@ -57,8 +59,8 @@
 .note b{color:var(--ink);font-weight:500}
 
 /* ---- content_band / chapters ------------------------------------------- */
-.chapter{position:relative;z-index:2;padding:clamp(56px,10vh,120px) 0}
-.chapter.quiet{padding:clamp(40px,7vh,80px) 0}   /* alternate dense and quiet */
+.chapter{position:relative;z-index:2;padding-block:clamp(56px,10vh,120px)}   /* padding-block: see .stage */
+.chapter.quiet{padding-block:clamp(40px,7vh,80px)}   /* alternate dense and quiet */
 
 .chapter-head{
   display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;
@@ -125,7 +127,8 @@
 /* ---- media_field -------------------------------------------------------- */
 .field{position:relative;z-index:2;margin:clamp(30px,5vh,54px) 0 0}
 .field-well{
-  border:1px solid var(--hair);border-radius:12px;background:var(--ground-2);
+  border:1px solid var(--hair);border-radius:var(--r); /* C skin: radius, token --r */
+  background:var(--panel);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur); /* C skin: a glass panel, tokens --panel --blur */
   overflow-x:auto;padding:clamp(12px,1.8vw,24px);
 }
 .field-cap{
@@ -155,7 +158,7 @@
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .chip{
   font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
-  padding:5px 11px;border:1px solid var(--hair);border-radius:999px;
+  padding:5px 11px;border:1px solid var(--hair);border-radius:var(--r); /* C skin: radius, token --r (no pill) */
   background:transparent;color:var(--muted);cursor:pointer;
   transition:color var(--m-confirm) ease,border-color var(--m-confirm) ease,background var(--m-confirm) ease;
 }
@@ -239,14 +242,14 @@
 
 /* ---- conditional cards: peer-level comparison ONLY ---------------------- */
 .peers{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--hair-soft);border:1px solid var(--hair-soft)}
-.peer{background:var(--ground);padding:18px 20px;display:flex;flex-direction:column;gap:6px}
+.peer{background:var(--panel);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);padding:18px 20px;display:flex;flex-direction:column;gap:6px} /* C skin: a glass panel, tokens --panel --blur */
 .peer .p-name{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--signal)}
 .peer .p-desc{color:var(--muted);font-size:.92rem;line-height:1.5;max-width:none}
 
 /* ---- small shared bits -------------------------------------------------- */
 .tag{
   font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--ink-2);border:1px solid var(--hair);border-radius:999px;padding:4px 11px;
+  color:var(--ink-2);border:1px solid var(--hair);border-radius:var(--r);padding:4px 11px; /* C skin: radius, token --r (no pill) */
 }
 .tags{display:flex;gap:8px;flex-wrap:wrap}
 .ol-steps{list-style:none;max-width:var(--measure);counter-reset:s}
