@@ -22,8 +22,10 @@ Static site, no build step. GitHub Pages from `main`. Local preview: `python -m 
 │                           page still loading the Daybreak files
 ├── method/index.html       "Gates, loops and rules": how the work runs. Hand page, stands alone (its own
 │                           tokens.css, method.css, check.mjs); the record is docs/skin-lab/method/ (CR-22)
-│                           CR-28: the ONE method page, ten scroll chapters (method.js, motion.json, diagram.json;
-│                           scripts/build_method.py stamps method/data/kit.json); tools/design-first/ redirects here
+│                           CR-28: the ONE method page, ten chapters (diagram.json; scripts/build_method.py stamps
+│                           method/data/kit.json and ride.json); tools/design-first/ redirects here
+│                           CR-29: the page is the R2 rollercoaster ride (ride.js + ride.json; method.js and motion.json
+│                           are retired stubs); reduced motion gets a stepped page
 ├── atlas/index.html        ONE template page: ?p=<slug> → renders data/projects/<slug>.json + diagram
 ├── rail|games|trading|studio|signals|bots|tools|navigation/
 │   ├── index.html          wing shell — stage + typographic index scoped by data-wing

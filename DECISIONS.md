@@ -551,6 +551,40 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   markup (GATE-01).
 
 ## Change Log
+- 2026-10-20 — **CR-29 (Site card item 24b): the method page is a ride, R2 Rollercoaster, and the ride replaces T2.
+  Branch `site-method-r2` (from `site-method-p2`), not live until the owner has ridden it and said ship.** The owner
+  rejected the scroll engine of CR-28 (his words: "scrolling forever on the page is horrific i get the idea though,
+  instead have a little like animation of a bit particle orbiting the loading bar effect but also pulling the site
+  along like a big rollercoaster ride, slowly but steady lazy river ride rather that flows through everything, and
+  make every transition to cards have feedback in some way"). Three sketches were made (ruling 27) and he picked R2,
+  the rollercoaster ("R2", via Intake). This change keeps all ten chapters, the kit stamp and every check, and
+  replaces the engine.
+  - **What the ride is.** ONE track (an SVG path, a connector only, no words) runs through a station at every card of
+    every chapter, 37 stations in all (35 cards, the opening sentence, the limits list). The particle is the car. The
+    window follows the car. At each station the car circles the card once, the card lights (its border traces once,
+    its step number ticks), the connector to the next station draws, and the card's part lights in its chapter's
+    diagram record; then the car climbs on, slow and steady. A progress bar fixed along the top edge mirrors the
+    car's place on the whole ride; a small particle orbits its head. At the last station the window glides to the
+    complete diagram and the ride says so.
+  - **Controls, one fixed spot (WEB-06).** In the narrative rail: "Start the ride", Pause/Resume, "See all chapters".
+    The ride never starts on load. It holds while the pointer or the keyboard focus is inside a card, and no card
+    moves under a hand (no offset or scale on any card, only colour, a ring and a border trace). The wheel, a touch
+    scroll or a dragged scrollbar pauses it and leaves him free; Resume continues from the nearest station. The arrow
+    keys step station to station. "See all chapters" stops the ride and leaves a normal still document.
+  - **Reduced motion and no script.** Under `prefers-reduced-motion` no ride starts: no timer, no animation frame, no
+    animation. The page is stepped: one chapter at a time, every card lit and every diagram complete, with Back and
+    Next in the rail and "See all chapters". With scripts off the whole page is there and the controls are not.
+  - **Files.** `method/ride.js` (the engine; it replaces `method/method.js`), `method/ride.json` (every speed, dwell,
+    orbit, easing and feedback time, DES-04), `method/index.html` (rail controls, progress bar, `#md-ride` stamp, two
+    `data-station` marks), `method/method.css` and `method/tokens.css` (sizes only, no new colour, font or package),
+    `scripts/build_method.py` (stamps `ride.json`; `--check` fails a dwell under 2200 ms, the display law's reading
+    pause), `docs/skin-lab/method-24/probe-r2.mjs` (the headless runs). `method/method.js` and `method/motion.json`
+    stay on disk as retired stubs: the scroll thresholds retire with the engine, and no file is deleted.
+  - **Settled under the law (OWN-05, each reversible in `ride.json`).** Dwell 2400 ms (floor 2200). Car speed 150 px/s
+    with a travel time between 1100 and 4200 ms. Test flag: `?ridetest=<ms>` replaces the dwell and speeds the car so a
+    headless run reaches Adopt in about a minute; it is documented in `ride.json` and never set by the page.
+  - **Superseded.** CR-28's T2 engine (scroll thresholds, sticky tracks, pinned stages). CR-28's chapters, kit stamp,
+    redirect and Home lead stand.
 - 2026-10-20 — **CR-28 (Site card item 24, phase 2 of 2): the one method page is built on T2, Scroll as the film.
   Branch `site-method-p2`, not live until the owner has looked and said ship.** `method/index.html` holds ten
   chapters in the storyboard order of CR-27, each with its own scroll stage; every chapter's arrivals file into one
