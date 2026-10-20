@@ -162,7 +162,7 @@
       "path": "method/"
     },
 
-    "composition": "current",
+    "composition": "a",
     "compositions": {
       "_": "CR-25. Which Home body the generator writes. 'current' is today's Home (doors, intro, figures) and is what the review and root builds use until the owner picks. a, b and c are the three recomposed Homes, written by build_front_page.py --lab <a|b|c> into outputs.lab. stage: 'lead' (one lead, three peers), 'row' (four equal peers), 'none'. start_group: the four picks open the index, set larger.",
       "a": { "stage": "lead", "start_group": false, "hero_line": "Four projects first, then every project that runs, by kind." },
