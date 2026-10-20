@@ -33,3 +33,7 @@ navigation/gridline/** -text
 # Fossil inventory (item 20): docs/fossils/inventory.py --check compares raw bytes, and a Windows
 # checkout (core.autocrlf=true) writes CRLF, so the check failed on the main checkout. Pin LF.
 docs/fossils/** text eol=lf
+
+# Method page (item 24): scripts/build_method.py --check compares bytes, and a Windows checkout
+# (core.autocrlf=true) writes CRLF, the same trap the fossil inventory hit. Pin LF.
+method/** text eol=lf
