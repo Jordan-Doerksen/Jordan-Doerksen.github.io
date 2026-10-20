@@ -1,0 +1,22 @@
+{
+  "source": "Every time the ride uses is here (DES-04, CR-29). build_method.py stamps this file into the page (#md-ride) so the page never fetches, and its --check fails a dwell under min_dwell_ms. TEST FLAG: opening the page with ?ridetest=<ms> (for example method/index.html?ridetest=300) replaces dwell_ms with that many ms, cuts orbit_ms and connector_ms to fit inside it, and multiplies speed_px_s by test_speed_mult, so a headless run reaches the Adopt chapter in about a minute. The flag is for tests; the min_dwell_ms rule does not apply to it. All times are milliseconds, all distances CSS pixels.",
+  "min_dwell_ms": 2200,
+  "dwell_ms": 2400,
+  "orbit_ms": 1700,
+  "connector_ms": 800,
+  "trace_ms": 1100,
+  "tick_ms": 520,
+  "ring_ms": 900,
+  "speed_px_s": 150,
+  "travel_min_ms": 1100,
+  "travel_max_ms": 4200,
+  "arch_px": 34,
+  "orbit_pad_px": 10,
+  "camera_tau_ms": 520,
+  "camera_max_px_s": 900,
+  "camera_anchor": 0.42,
+  "end_hold_ms": 2400,
+  "test_flag": "ridetest",
+  "test_speed_mult": 8,
+  "settle_ms": 400
+}

@@ -118,16 +118,11 @@
   --md-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --md-t-fast: 200ms;
   --md-t-reveal: 480ms;
-  --md-reveal-y: 16px;
 
   /* the film (item 24, CR-28): sizes and rest values only. Time lives in motion.json. No colour is added here. */
   --md-rail-h: 40px;
-  --md-meter-h: 3px;
-  --md-pin-top: calc(var(--md-bar-h) + var(--md-rail-h));
   --md-p: 0;
   --md-wp: 1;
-  --md-mp: 1;
-  --md-file-lift: 28px;
   --md-dash-len: 1 2;
   --md-dash-hide: 1.05;
   --md-stage-pad: clamp(10px, 1.6vw, 20px);
@@ -140,5 +135,24 @@
   --md-dg-label-w: 84px;
   --md-dp-w: 76px;
   --md-dp-h: 40px;
+  --md-r-btn: 6px;
+  --md-btn-h: 44px;
+  --md-btn-min: 9ch;
+  --md-lh-btn: 1.2;
+  --md-ride-bar-top: 6px;
+  --md-ride-bar-h: 4px;
+  --md-dot-d: 7px;
+  --md-orbit-r: 9px;
+  --md-orbit-dur: 1400ms;
+  --md-glow-r: 10px;
+  --md-glow-s: 2px;
+  --md-car-d: 12px;
+  --md-car-halo: 3px;
+  --md-halo: color-mix(in srgb, var(--md-accent) 45%, transparent);
+  --md-track-w: 2px;
+  --md-track-dash: 2 6;
+  --md-ring-w: 2px;
+  --md-ring-out: 10px;
+  --md-tick-y: 6px;
   --md-anchor-off: calc(var(--md-bar-h) + var(--md-rail-h) + 12px);
 }

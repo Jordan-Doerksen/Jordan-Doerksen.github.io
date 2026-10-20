@@ -14,6 +14,7 @@
 </head>
 <body class="md-skin md-skin-c" data-variant="c" data-variant-name="Board">
 <a class="md-skip" href="#md-main">Skip to the content</a>
+<div class="md-ride-bar" aria-hidden="true"><div class="md-ride-fill"></div><div class="md-ride-head"><i class="md-ride-dot"></i></div></div>
 
 <div class="md-bar" data-chrome="identity_navigation"><div class="md-bar-in">
   <a class="md-brand" href="#md-top">Jordan Doerksen</a>
@@ -38,8 +39,14 @@
   </nav>
 </div></div>
 <div class="md-rail" data-chrome="narrative_rail">
-  <div class="md-rail-in"><span class="md-n md-rail-n">Ten chapters</span><span class="md-small md-rail-t">Opening to Adopt</span></div>
-  <div class="md-meter" aria-hidden="true"><div class="md-meter-fill"></div></div>
+  <div class="md-rail-in">
+    <div class="md-rail-pos"><span class="md-n md-rail-n">Ten chapters</span><span class="md-small md-rail-t" role="status" aria-live="polite">Opening to Adopt</span></div>
+    <div class="md-ctl" role="group" aria-label="The ride" hidden>
+      <button type="button" class="md-btn" data-act="a">Start the ride</button>
+      <button type="button" class="md-btn" data-act="b" aria-disabled="true">Pause</button>
+      <button type="button" class="md-btn" data-act="all">See all chapters</button>
+    </div>
+  </div>
 </div>
 
 <main id="md-main">
@@ -49,7 +56,7 @@
   <div class="md-glow" aria-hidden="true"></div>
   <div class="md-hero-in">
     <span class="md-kicker">How the work runs</span>
-    <h1 class="md-title">Work moves through four gates, around two loops, held by six rules, and every step leaves a record on disk.</h1>
+    <h1 class="md-title" data-station>Work moves through four gates, around two loops, held by six rules, and every step leaves a record on disk.</h1>
     <p class="md-lede">I build trading instruments, training software and games, many at once. This page explains the method that keeps them apart and keeps them honest. It is written for a reader who has never heard the word loop. Nothing on it is clever. All of it is written down.</p>
     <p class="md-small md-hint">The outline below is empty. Each chapter fills in one part of it.</p>
     <div class="md-dgwrap"><span class="md-n">The outline</span>
@@ -108,7 +115,7 @@
         <h2 class="md-h2" id="md-words-h">The words this page uses</h2>
         <p class="md-p">Each one is a plain idea. The method is only these three, put in a fixed order.</p>
       </div>
-      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each word arrives at its own point." data-step="Word {n} of {of}: {title}." data-done="Filed. The three words are on the diagram below.">Filed. The three words are on the diagram below.</p></div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Press Start the ride. Each word arrives in turn." data-step="Word {n} of {of}: {title}." data-done="Filed. The three words are on the diagram below.">Filed. The three words are on the diagram below.</p></div>
     </div>
     <div class="md-stage">
       <ol class="md-grid md-grid-3" aria-label="The three words">
@@ -179,7 +186,7 @@
         <h2 class="md-h2" id="md-interview-h">The work starts with questions</h2>
         <p class="md-p">The first command, <code>/design-first:adopt</code>, asks <!-- md:stamp adopt-count -->seven<!-- /md:stamp adopt-count --> questions, one at a time. Each question marks the recommended answer. Silence is not approval. The command only asks. A script does every write.</p>
       </div>
-      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each question arrives at its own point." data-step="Question {n} of {of}: {title}." data-done="Filed. The answers go into one file, DECISIONS.md.">Filed. The answers go into one file, DECISIONS.md.</p></div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Press Start the ride. Each question arrives in turn." data-step="Question {n} of {of}: {title}." data-done="Filed. The answers go into one file, DECISIONS.md.">Filed. The answers go into one file, DECISIONS.md.</p></div>
     </div>
     <div class="md-stage">
       <ol class="md-grid md-grid-2" aria-label="The adopt questions">
@@ -254,7 +261,7 @@
         <h2 class="md-h2" id="md-gates-h">Where the work stops</h2>
         <p class="md-p">Every project passes the four gates in this order. Each gate asks one thing, stops one thing, and leaves one record on disk. Read left to right. On a phone, read top to bottom.</p>
       </div>
-      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each gate arrives at its own point." data-step="Gate {n} of {of}: {title}." data-done="Filed. Each gate left one record on disk.">Filed. Each gate left one record on disk.</p></div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Press Start the ride. Each gate arrives in turn." data-step="Gate {n} of {of}: {title}." data-done="Filed. Each gate left one record on disk.">Filed. Each gate left one record on disk.</p></div>
     </div>
     <div class="md-stage">
       <ol class="md-chain" aria-label="The four gates in order">
@@ -330,7 +337,7 @@
         <h2 class="md-h2" id="md-loops-h">What runs again and again</h2>
         <p class="md-p">The gates are fixed points. Between them, a loop does the work. A project is built in chunks. A chunk is the smallest piece that works on its own. Each chunk goes around this loop once.</p>
       </div>
-      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each step arrives at its own point." data-step="Step {n} of {of}: {title}." data-done="Filed. The loop repeats with every chunk.">Filed. The loop repeats with every chunk.</p></div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Press Start the ride. Each step arrives in turn." data-step="Step {n} of {of}: {title}." data-done="Filed. The loop repeats with every chunk.">Filed. The loop repeats with every chunk.</p></div>
     </div>
     <div class="md-stage">
       <ol class="md-chain" aria-label="The build loop: build, cross-check, report, and the next chunk">
@@ -407,7 +414,7 @@
         <h2 class="md-h2" id="md-harness-h">Rules with parts that enforce them</h2>
         <p class="md-p">A rule is only a rule when something on the disk can stop you. These four recordings come from a real install of design-first, the kit that holds the method. Each one shows a part doing its job.</p>
       </div>
-      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each recording arrives at its own point." data-step="Recording {n} of {of}: {title}." data-done="Filed. The hooks, the Doctor and the brain are on the diagram below.">Filed. The hooks, the Doctor and the brain are on the diagram below.</p></div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Press Start the ride. Each recording arrives in turn." data-step="Recording {n} of {of}: {title}." data-done="Filed. The hooks, the Doctor and the brain are on the diagram below.">Filed. The hooks, the Doctor and the brain are on the diagram below.</p></div>
     </div>
     <div class="md-stage">
       <ol class="md-grid md-grid-2" aria-label="Four recordings">
@@ -628,7 +635,7 @@ GUARD: deny
         <h2 class="md-h2" id="md-control-h">Many projects, one head</h2>
         <p class="md-p">I run many projects at once and I have one head. This loop keeps them apart. An idea goes in at the top. One line comes back at the bottom.</p>
       </div>
-      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each layer arrives at its own point." data-step="Layer {n} of {of}: {title}." data-done="Filed. The report went back up to me.">Filed. The report went back up to me.</p></div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Press Start the ride. Each layer arrives in turn." data-step="Layer {n} of {of}: {title}." data-done="Filed. The report went back up to me.">Filed. The report went back up to me.</p></div>
     </div>
     <div class="md-stage">
       <ol class="md-chain md-col" aria-label="The control loop, top to bottom, and the report back up">
@@ -711,7 +718,7 @@ GUARD: deny
         <h2 class="md-h2" id="md-rules-h">What holds it together</h2>
         <p class="md-p">None of these is about software. They are about not fooling myself. Where the public kit has a matching rule, its id and grade are shown. The grade says what stops you breaking the rule. The grades are the kit's own, read from its law file.</p>
       </div>
-      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each rule arrives at its own point." data-step="Rule {n} of {of}: {title}." data-done="Filed. Each rule is on the diagram below.">Filed. Each rule is on the diagram below.</p></div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Press Start the ride. Each rule arrives in turn." data-step="Rule {n} of {of}: {title}." data-done="Filed. Each rule is on the diagram below.">Filed. Each rule is on the diagram below.</p></div>
     </div>
     <div class="md-stage">
       <ol class="md-grid md-grid-3" aria-label="The six rules">
@@ -786,7 +793,7 @@ GUARD: deny
     <h2 class="md-h2" id="md-limits-h">What this does not do</h2>
     <p class="md-p">Stated before the install, so that nothing here is a surprise. This chapter does not move.</p>
   </div>
-  <ul class="md-limits">
+  <ul class="md-limits" data-station>
     <li>One adopter per user profile: one pointer, at <code>~/.claude/design-first.json</code>.</li>
     <li>The guard inspects tool calls. It does not see nested shells, <code>xargs</code>, command substitution, git aliases or scripts that a session writes. The self-test asserts these gaps.</li>
     <li>The Doctor's survey of repositories is informational unless <code>surveyStrict</code> is on in your brain config.</li>
@@ -804,7 +811,7 @@ GUARD: deny
         <h2 class="md-h2" id="adopt-h">How to start</h2>
         <p class="md-p">Three commands. The adopt command asks its questions, then a script writes the files and runs the Doctor. The remove command reverses exactly what adopt wrote and keeps anything you changed.</p>
       </div>
-      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each command arrives at its own point." data-step="Command {n} of {of}." data-done="The method is complete. The diagram below shows all of it.">The method is complete. The diagram below shows all of it.</p></div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Press Start the ride. Each command arrives in turn." data-step="Command {n} of {of}." data-done="The method is complete. The diagram below shows all of it.">The method is complete. The diagram below shows all of it.</p></div>
     </div>
     <div class="md-stage">
       <ol class="md-grid md-grid-3" aria-label="Install commands">
@@ -981,9 +988,9 @@ GUARD: deny
   </div>
 </footer>
 
-<script type="application/json" id="md-motion">
-{"min_gap":0.12,"settle_ms":240,"connector_gap":0.015,"flow_start_vh":0.9,"flow_end_vh":0.4,"pin_min_width_px":1000,"chapters":{"md-words":{"track_vh":380,"arrive_at":[0.1,0.28,0.46],"file_at":0.62,"file_span":0.12,"file_stagger":0.04},"md-interview":{"track_vh":700,"arrive_at":[0.02,0.14,0.26,0.38,0.5,0.62,0.74],"file_at":0.86,"file_span":0.12,"file_stagger":0},"md-gates":{"track_vh":440,"arrive_at":[0.1,0.28,0.46,0.64],"file_at":0.78,"file_span":0.12,"file_stagger":0.025},"md-loops":{"track_vh":440,"arrive_at":[0.08,0.26,0.44,0.64],"file_at":0.8,"file_span":0.14,"file_stagger":0},"md-harness":{"track_vh":520,"arrive_at":[0.08,0.27,0.46,0.65],"file_at":0.78,"file_span":0.1,"file_stagger":0.03},"md-control":{"track_vh":440,"arrive_at":[0.08,0.26,0.44,0.62],"file_at":0.76,"file_span":0.1,"file_stagger":0.03},"md-rules":{"track_vh":640,"arrive_at":[0.03,0.15,0.27,0.39,0.51,0.63],"file_at":0.75,"file_span":0.08,"file_stagger":0.02},"adopt":{"track_vh":340,"arrive_at":[0.08,0.26,0.44],"file_at":0.7,"file_span":0.12,"file_stagger":0}}}
+<script type="application/json" id="md-ride">
+{"min_dwell_ms":2200,"dwell_ms":2400,"orbit_ms":1700,"connector_ms":800,"trace_ms":1100,"tick_ms":520,"ring_ms":900,"speed_px_s":150,"travel_min_ms":1100,"travel_max_ms":4200,"arch_px":34,"orbit_pad_px":10,"camera_tau_ms":520,"camera_max_px_s":900,"camera_anchor":0.42,"end_hold_ms":2400,"test_flag":"ridetest","test_speed_mult":8,"settle_ms":400}
 </script>
-<script src="method.js"></script>
+<script src="ride.js"></script>
 </body>
 </html>

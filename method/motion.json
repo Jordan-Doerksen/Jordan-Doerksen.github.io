@@ -1,19 +1,4 @@
 {
-  "source": "No timer, no animation frame and no fetch: every value is a scroll position, a fraction of the chapter's scroll track, except settle_ms (a CSS transition when a part arrives). The law's 2200 ms reading pause has no direct scroll equivalent, so each arrival gets at least min_gap of its chapter's track. build_method.py stamps this file into the page and checks the gaps.",
-  "min_gap": 0.12,
-  "settle_ms": 240,
-  "connector_gap": 0.015,
-  "flow_start_vh": 0.9,
-  "flow_end_vh": 0.4,
-  "pin_min_width_px": 1000,
-  "chapters": {
-    "md-words":     { "track_vh": 380, "arrive_at": [0.10, 0.28, 0.46], "file_at": 0.62, "file_span": 0.12, "file_stagger": 0.04 },
-    "md-interview": { "track_vh": 700, "arrive_at": [0.02, 0.14, 0.26, 0.38, 0.50, 0.62, 0.74], "file_at": 0.86, "file_span": 0.12, "file_stagger": 0 },
-    "md-gates":     { "track_vh": 440, "arrive_at": [0.10, 0.28, 0.46, 0.64], "file_at": 0.78, "file_span": 0.12, "file_stagger": 0.025 },
-    "md-loops":     { "track_vh": 440, "arrive_at": [0.08, 0.26, 0.44, 0.64], "file_at": 0.80, "file_span": 0.14, "file_stagger": 0 },
-    "md-harness":   { "track_vh": 520, "arrive_at": [0.08, 0.27, 0.46, 0.65], "file_at": 0.78, "file_span": 0.10, "file_stagger": 0.03 },
-    "md-control":   { "track_vh": 440, "arrive_at": [0.08, 0.26, 0.44, 0.62], "file_at": 0.76, "file_span": 0.10, "file_stagger": 0.03 },
-    "md-rules":     { "track_vh": 640, "arrive_at": [0.03, 0.15, 0.27, 0.39, 0.51, 0.63], "file_at": 0.75, "file_span": 0.08, "file_stagger": 0.02 },
-    "adopt":        { "track_vh": 340, "arrive_at": [0.08, 0.26, 0.44], "file_at": 0.70, "file_span": 0.12, "file_stagger": 0 }
-  }
+  "source": "Retired 2026-10-20 (CR-29). The scroll thresholds (arrive_at, file_at, track_vh) went with the scroll engine. Every time the ride uses is in ride.json. This file stays on disk, empty of values, because no file is deleted in this change.",
+  "retired": true
 }

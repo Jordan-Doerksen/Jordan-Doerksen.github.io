@@ -1,4 +1,4 @@
-"""Stamp the method page (item 24, CR-28). Stdlib only.
+"""Stamp the method page (item 24b, CR-29; the page itself is CR-28). Stdlib only.
 
 The page, method/index.html, holds its words. Three kinds of content are generated into it between
 marker comments, so no fact about the kit is typed (PRIN-03):
@@ -9,10 +9,13 @@ marker comments, so no fact about the kit is typed (PRIN-03):
     adopt-count, adopt-questions, transcript-adopt|doctor|doctor_kit|guard, transcript-meta, install,
     rulegrade-01..06 (ids from method/sources.json), grades-drawer, kit-line
   * from method/diagram.json: diagram-0 .. diagram-9, the one diagram at the end of each chapter
-  * from method/motion.json: the inline <script id="md-motion"> block, so the page never fetches
+  * from method/ride.json: the inline <script id="md-ride"> block, so the page never fetches (CR-29; motion.json is retired)
 
     python scripts/build_method.py            stamp the page in place
     python scripts/build_method.py --check    compare the page with a fresh stamp; write nothing
+
+The ride rule (CR-29): ride.json dwell_ms and min_dwell_ms must be at least 2200 ms, the display law's reading pause;
+--check fails below it.
 
 Exit codes are the Doctor's: 0 the page equals a fresh stamp, 1 it differs or breaks a rule,
 2 could not look (an input is missing or invalid), which is never a pass. If kit.json is absent the
@@ -33,6 +36,9 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from front_log import EXIT_COULD_NOT_LOOK, EXIT_OK, EXIT_RED, CouldNotLook, Refused, get_logger   # noqa: E402
+
+# The display law's measured reading pause (DISP-03). ride.json may not go under it.
+MIN_DWELL_MS = 2200
 
 KIT_STAMPS = ("adopt-count", "adopt-questions", "transcript-adopt", "transcript-doctor", "transcript-doctor_kit",
               "transcript-guard", "transcript-meta", "install", "grades-drawer", "kit-line") + tuple("rulegrade-0%d" % i for i in range(1, 7))
@@ -76,14 +82,14 @@ def count_word(n: int) -> str:
 
 # ---- the stamps ------------------------------------------------------------------------------------------
 
-def stamp_motion(page: str, motion: dict) -> str:
-    body = {k: v for k, v in motion.items() if k != "source"}
+def stamp_ride(page: str, ride: dict) -> str:
+    body = {k: v for k, v in ride.items() if k != "source"}
     text = json.dumps(body, ensure_ascii=False, separators=(",", ":"))
     if "</" in text or "<!--" in text:
-        raise Refused("motion.json holds a sequence that would end the script block")
-    pattern = re.compile(r'(<script type="application/json" id="md-motion">)(.*?)(</script>)', re.S)
+        raise Refused("ride.json holds a sequence that would end the script block")
+    pattern = re.compile(r'(<script type="application/json" id="md-ride">)(.*?)(</script>)', re.S)
     if not pattern.search(page):
-        raise CouldNotLook("the page has no <script id=\"md-motion\"> block")
+        raise CouldNotLook("the page has no <script id=\"md-ride\"> block")
     return pattern.sub(lambda m: m.group(1) + "\n" + text + "\n" + m.group(3), page, count=1)
 
 
@@ -148,9 +154,9 @@ def stamp_drawer(kit: dict) -> str:
     return "\n" + "\n".join(out) + "\n"
 
 
-def stamp_all(page: str, motion: dict, diagram: dict, sources: dict, kit: dict | None, log) -> tuple[str, list]:
+def stamp_all(page: str, ride: dict, diagram: dict, sources: dict, kit: dict | None, log) -> tuple[str, list]:
     skipped = []
-    page = stamp_motion(page, motion)
+    page = stamp_ride(page, ride)
     for n, _ in enumerate(diagram["chapters"]):
         name = "diagram-%d" % n
         if stamp_re(name).search(page):
@@ -175,44 +181,41 @@ def stamp_all(page: str, motion: dict, diagram: dict, sources: dict, kit: dict |
 
 # ---- the integrity rules ---------------------------------------------------------------------------------
 
-def check_motion(page: str, motion: dict, diagram: dict, kit_present: bool, log) -> list:
-    """Return a list of broken rules. The markup and motion.json must agree, and every gap must be readable."""
+def check_ride(page: str, ride: dict, diagram: dict, kit_present: bool, log) -> list:
+    """Return a list of broken rules. ride.json must keep the reading pause, and the markup and diagram.json must agree."""
     bad = []
-    min_gap = motion["min_gap"]
-    sections = {m.group(1): m.group(0) for m in re.finditer(r'<section id="([\w-]+)"[^>]*data-ch=.*?</section>', page, re.S)}
-    ids = [i for i in diagram["chapters"] if i in sections or i in motion["chapters"]]
-    for cid, c in motion["chapters"].items():
-        if cid not in sections:
-            bad.append("motion.json has chapter %s and the page has no section with that id" % cid)
-            continue
-        text = sections[cid]
-        arrs = len(re.findall(r'<li class="md-arr[ "]', text))
-        marks = len(re.findall(r'<li class="md-mark[ "]', text))
-        at = c["arrive_at"]
+    floor = MIN_DWELL_MS
+    for key in ("min_dwell_ms", "dwell_ms"):
+        v = ride.get(key)
+        if not isinstance(v, (int, float)) or v < floor:
+            bad.append("ride.json %s is %s; the reading pause is at least %d ms" % (key, v, floor))
+    for key in ("orbit_ms", "connector_ms", "trace_ms", "tick_ms", "ring_ms", "speed_px_s", "travel_min_ms", "travel_max_ms",
+                "camera_tau_ms", "camera_max_px_s", "camera_anchor", "arch_px", "orbit_pad_px", "settle_ms", "test_flag", "test_speed_mult"):
+        if key not in ride:
+            bad.append("ride.json has no %s" % key)
+    if isinstance(ride.get("orbit_ms"), (int, float)) and isinstance(ride.get("dwell_ms"), (int, float)) and ride["orbit_ms"] > ride["dwell_ms"]:
+        bad.append("ride.json orbit_ms %s is longer than dwell_ms %s: the car would leave mid-circle" % (ride["orbit_ms"], ride["dwell_ms"]))
+    if ride.get("travel_min_ms", 0) > ride.get("travel_max_ms", 1e9):
+        bad.append("ride.json travel_min_ms is greater than travel_max_ms")
+    sections = {m.group(1): m.group(0) for m in re.finditer(r'<(?:section|header) id="([\w-]+)"[^>]*data-ch=.*?</(?:section|header)>', page, re.S)}
+    stations = 0
+    for cid, text in sections.items():
+        arrs = len(re.findall(r'<li class="md-arr[ "]', text)) + len(re.findall(r'data-station', text))
+        stations += arrs
         if cid in KIT_CHAPTERS and not kit_present:
             log.warn("chapter_count_unchecked", chapter=cid, reason="kit.json is absent, its arrivals are not stamped")
-        elif len(at) != arrs:
-            bad.append("%s: motion.json has %d arrivals, the page has %d" % (cid, len(at), arrs))
-        if at != sorted(at):
-            bad.append("%s: arrive_at is not ascending" % cid)
-        for a, b in zip(at, at[1:]):
-            if b - a < min_gap - 1e-9:
-                bad.append("%s: arrivals at %s and %s are less than %s apart" % (cid, a, b, min_gap))
-        last = c["file_at"] + max(marks - 1, 0) * c["file_stagger"] + c["file_span"]
-        if at and c["file_at"] < at[-1] + min_gap - 1e-9:
-            bad.append("%s: file_at %s leaves the last arrival less than %s to be read" % (cid, c["file_at"], min_gap))
-        if last > 1.0 + 1e-9:
-            bad.append("%s: the file-down ends at %.3f, past the end of the track" % (cid, last))
+        if arrs == 0 and cid in diagram["chapters"][1:]:
+            bad.append("%s: the chapter has no station for the car" % cid)
         for m in re.finditer(r'data-after="(\d+)"', text):
-            if int(m.group(1)) >= len(at) - 1:
-                bad.append("%s: a connector after arrival %s has no arrival after it" % (cid, m.group(1)))
+            if int(m.group(1)) >= max(arrs - 1, 0) + 1:
+                bad.append("%s: a connector after station %s has no station after it" % (cid, m.group(1)))
     for n, cid in enumerate(diagram["chapters"]):
         if cid not in sections and cid != "md-top" and stamp_re("diagram-%d" % n).search(page):
             bad.append("diagram.json names chapter %s and the page has no section with that id" % cid)
-    for m in re.finditer(r'<section id="([\w-]+)"[^>]*data-ch=', page):
-        if m.group(1) not in diagram["chapters"]:
-            bad.append("the page has section %s and diagram.json does not list it" % m.group(1))
-    log.info("motion_checked", chapters=len(motion["chapters"]), broken=len(bad), ids=len(ids))
+    for cid in sections:
+        if cid not in diagram["chapters"]:
+            bad.append("the page has section %s and diagram.json does not list it" % cid)
+    log.info("ride_checked", chapters=len(sections), stations=stations, broken=len(bad), dwell_ms=ride.get("dwell_ms"))
     return bad
 
 
@@ -224,7 +227,7 @@ def run(args, log) -> int:
     page_path = mdir / "index.html"
     kit_path = Path(args.kit).resolve() if args.kit else mdir / "data" / "kit.json"
     page = read_text(page_path)
-    motion = read_json(mdir / "motion.json")
+    ride = read_json(mdir / "ride.json")
     diagram = read_json(mdir / "diagram.json")
     sources = read_json(mdir / "sources.json")
     kit = None
@@ -235,8 +238,8 @@ def run(args, log) -> int:
                 raise CouldNotLook("%s has no key %s" % (kit_path, key))
     else:
         log.warn("kit_absent", path=str(kit_path), reason="the kit stamps are left as they are")
-    fresh, skipped = stamp_all(page, motion, diagram, sources, kit, log)
-    broken = check_motion(fresh, motion, diagram, kit is not None, log)
+    fresh, skipped = stamp_all(page, ride, diagram, sources, kit, log)
+    broken = check_ride(fresh, ride, diagram, kit is not None, log)
     for line in broken:
         log.error("rule_broken", detail=line)
         print("BROKEN  " + line)
@@ -254,7 +257,7 @@ def run(args, log) -> int:
         if skipped:
             print("UNCHECKED  %d kit stamps, because %s is absent. The rest equals a fresh stamp." % (len(skipped), kit_path))
             return EXIT_COULD_NOT_LOOK
-        print("OK  the page equals a fresh stamp (%d chapters, kit %s)" % (len(motion["chapters"]), kit["version"]))
+        print("OK  the page equals a fresh stamp (dwell %d ms, at least %d; kit %s)" % (ride["dwell_ms"], MIN_DWELL_MS, kit["version"]))
         return EXIT_OK
     if fresh != page:
         page_path.write_text(fresh, encoding="utf-8", newline="\n")
@@ -269,7 +272,7 @@ def run(args, log) -> int:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Stamp method/index.html from kit.json, diagram.json and motion.json.")
+    ap = argparse.ArgumentParser(description="Stamp method/index.html from kit.json, diagram.json and ride.json.")
     ap.add_argument("--check", action="store_true", help="compare the page with a fresh stamp; write nothing")
     ap.add_argument("--root", help="a site root other than this checkout")
     ap.add_argument("--kit", help="a kit.json other than <root>/method/data/kit.json")

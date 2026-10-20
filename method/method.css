@@ -1,10 +1,11 @@
-/* method.css: structure and layout for the one method page (item 24, CR-28), treatment T2, Scroll as the film.
-   Colour, type, radius, shadow, blur and spacing come from tokens.css (SKIN-03: no raw value here).
-   Time comes from motion.json, which method.js reads from the page and writes to --md-dur-settle.
+/* method.css: structure and layout for the one method page (item 24b, CR-29), the R2 Rollercoaster ride.
+   Colour, type, radius, shadow, blur, size and spacing come from tokens.css (SKIN-03: no raw value here).
+   Time comes from ride.json, which ride.js reads from the page and writes to --md-ride-* custom properties.
    Every class carries the md- namespace.
-   Rest state = the complete state. The not-yet-arrived rules apply only under html.md-js, so a page with scripts off,
-   and a page under reduced motion, is the whole document (WEB-07, DISP-08, SAFE-05). A part that has not arrived
-   shows as a dashed slot in the second ink. It never shows as opacity 0. */
+   Rest state = the complete state. The not-yet-arrived look applies only under html.md-riding, which ride.js sets
+   when the visitor presses "Start the ride" and removes on "See all chapters". A page with scripts off, a page
+   before the ride starts and a page under reduced motion is the whole document (WEB-07, DISP-08, SAFE-05). A part
+   that has not arrived shows as a dashed slot in the second ink. It never shows as opacity 0. */
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; background: var(--md-ground); scroll-padding-top: var(--md-anchor-off); }
@@ -46,12 +47,32 @@ code { font-family: var(--md-font-mono); font-size: 0.92em; }
 .md-menu-list a:hover, .md-menu-list a:focus-visible { background: var(--md-panel-hover); color: var(--md-ink-strong); }
 .md-menu-list .md-mn { font: var(--md-w-label) var(--md-t-label) / 1 var(--md-font-mono); letter-spacing: var(--md-track-label); color: var(--md-accent); min-width: 2ch; }
 
-/* persistent cluster 2: the narrative rail (chapter, its name, progress). method.js writes the text and --md-p. */
+/* persistent cluster 2: the narrative rail. Where the ride is (chapter, stop, name) and the ride controls, in one fixed spot (WEB-06). */
 .md-rail { position: sticky; top: var(--md-bar-h); z-index: 30; background: var(--md-bar-bg); -webkit-backdrop-filter: var(--md-bar-blur); backdrop-filter: var(--md-bar-blur); border-bottom: 1px solid var(--md-line); }
-.md-rail-in { display: flex; align-items: baseline; gap: var(--md-gap-xs); min-height: calc(var(--md-rail-h) - var(--md-meter-h)); padding: var(--md-pad-xs) var(--md-gutter); }
-.md-rail-n { margin: 0; }
-.md-meter { height: var(--md-meter-h); background: var(--md-line); }
-.md-meter-fill { height: 100%; background: var(--md-accent); transform-origin: 0 50%; transform: scaleX(var(--md-p)); }
+.md-rail-in { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--md-gap-xs) var(--md-gap); min-height: var(--md-rail-h); padding: var(--md-pad-xs) var(--md-gutter); }
+.md-rail-pos { display: flex; align-items: baseline; gap: var(--md-gap-xs); min-width: 0; }
+.md-rail-pos > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.md-rail-n { margin: 0; flex: 0 0 auto; }
+.md-ctl { display: grid; grid-auto-flow: column; gap: var(--md-stack-xs); }
+.md-ctl[hidden] { display: none; }
+.md-btn { min-height: var(--md-btn-h); padding: 0 var(--md-pad-sm); font: var(--md-w-label) var(--md-t-small) / var(--md-lh-btn) var(--md-font-body); color: var(--md-ink-strong); background: var(--md-panel-solid); border: 1px solid var(--md-line-strong); border-radius: var(--md-r-btn); cursor: pointer; text-align: center; }
+.md-btn:hover { background: var(--md-panel-hover); }
+.md-btn[aria-disabled="true"] { color: var(--md-ink-2); cursor: default; }
+.md-btn[data-act="b"] { min-width: var(--md-btn-min); }
+@media (max-width: 699px) {
+  .md-rail-in { grid-template-columns: minmax(0, 1fr); }
+  .md-ctl { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .md-btn { padding: 0 var(--md-pad-xs); min-width: 0; }
+}
+
+/* the progress bar fixed along the top edge: it mirrors the car's place on the whole ride; a small particle orbits its head */
+.md-ride-bar { display: none; position: fixed; left: 0; right: 0; top: var(--md-ride-bar-top); height: var(--md-ride-bar-h); z-index: 70; background: var(--md-line); pointer-events: none; }
+html.md-riding .md-ride-bar { display: block; }
+.md-ride-fill { height: 100%; background: var(--md-accent); transform-origin: 0 50%; transform: scaleX(var(--md-p)); }
+.md-ride-head { position: absolute; top: 50%; left: calc(var(--md-p) * 100%); width: 0; height: 0; }
+.md-ride-dot { position: absolute; left: 0; top: 0; width: var(--md-dot-d); height: var(--md-dot-d); margin: calc(var(--md-dot-d) / -2); border-radius: 50%; background: var(--md-ink-strong); box-shadow: 0 0 var(--md-glow-r) var(--md-glow-s) var(--md-accent); animation: md-orbit var(--md-orbit-dur) linear infinite; }
+html.md-paused .md-ride-dot { animation-play-state: paused; }
+@keyframes md-orbit { from { transform: rotate(0deg) translateX(var(--md-orbit-r)); } to { transform: rotate(360deg) translateX(var(--md-orbit-r)); } }
 
 /* hero_field: chapter 0 */
 .md-hero { position: relative; overflow: hidden; padding: var(--md-hero-top) var(--md-gutter) var(--md-hero-bottom); border-bottom: 1px solid var(--md-line); }
@@ -62,8 +83,10 @@ code { font-family: var(--md-font-mono); font-size: 0.92em; }
 .md-hint { margin-top: var(--md-stack); }
 
 /* content bands, one per chapter */
+main { position: relative; z-index: 0; }
+.md-hero, .md-chapter { z-index: 1; }
 .md-main { padding: 0 var(--md-gutter); }
-.md-chapter { padding-top: var(--md-pad); padding-bottom: var(--md-band); }
+.md-chapter { position: relative; padding-top: var(--md-pad); padding-bottom: var(--md-band); }
 .md-chapter + .md-chapter { border-top: 1px solid var(--md-line); }
 .md-top { display: grid; gap: var(--md-gap); margin-bottom: var(--md-stack); align-items: end; }
 @media (min-width: 1000px) { .md-top { grid-template-columns: minmax(0, 1fr) var(--md-ctlbox-w); } }
@@ -72,13 +95,11 @@ code { font-family: var(--md-font-mono); font-size: 0.92em; }
 .md-ctlbox { min-width: 0; }
 .md-status { margin: 0; min-height: var(--md-status-h); font-size: var(--md-t-small); line-height: var(--md-lh-small); color: var(--md-ink-2); max-width: var(--md-measure-wide); }
 
-/* the stage: sticky inside the chapter's track where the screen can hold it; otherwise the same thresholds run over the stage's own span */
-.md-chapter.md-pinned .md-track { height: var(--md-track-h); }
-.md-chapter.md-pinned .md-pin { position: sticky; top: var(--md-pin-top); }
+/* the stage: ordinary flow. The ride moves the window, never the stage. */
 .md-pin { padding: var(--md-pad) 0; }
 .md-stage { padding: var(--md-stage-pad) 0; }
 .md-spine { margin-top: var(--md-stack-sm); }
-.md-spine > .md-n { margin-bottom: calc(var(--md-file-lift) + var(--md-stack-xs)); }
+.md-spine > .md-n { margin-bottom: var(--md-stack-xs); }
 
 /* chains: arrivals in a row with arrow connectors; a column on a phone */
 .md-chain { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: stretch; gap: var(--md-gap-xs); }
@@ -96,7 +117,7 @@ code { font-family: var(--md-font-mono); font-size: 0.92em; }
 }
 .md-chain.md-col { flex-direction: column; }
 
-/* the return wire of the build loop: drawn by scroll between the third step and the next chunk */
+/* the return wire of the build loop: drawn when the car reaches the next chunk */
 .md-wire.md-return { display: grid; justify-items: center; gap: var(--md-stack-xs); margin-top: var(--md-stack-xs); }
 .md-wire.md-return svg { width: 100%; height: var(--md-return-h); rotate: 0deg; }
 .md-return-label { font: var(--md-w-label) var(--md-t-label) / var(--md-lh-small) var(--md-font-mono); letter-spacing: var(--md-track-label); text-transform: uppercase; color: var(--md-ink-2); text-align: center; max-width: var(--md-measure); }
@@ -114,12 +135,12 @@ code { font-family: var(--md-font-mono); font-size: 0.92em; }
   position: relative; min-width: 0; background: var(--md-arr-bg); border: 1px solid var(--md-line); border-top: var(--md-edge-w) solid var(--md-arr-edge);
   border-radius: var(--md-r); padding: var(--md-pad); box-shadow: var(--md-shadow), var(--md-inner);
   -webkit-backdrop-filter: var(--md-blur); backdrop-filter: var(--md-blur);
-  transition-property: translate, background-color, border-color, box-shadow; transition-duration: var(--md-dur-settle, 0s); transition-timing-function: var(--md-ease-out);
+  transition-property: background-color, border-color, box-shadow; transition-duration: var(--md-dur-settle, 0s); transition-timing-function: var(--md-ease-out);
 }
 .md-chain > .md-arr, .md-chain > .md-mark { flex: 1 1 0; }
 .md-arr .md-p { font-size: var(--md-t-panel); line-height: var(--md-lh-panel); margin-top: var(--md-stack-xs); }
 .md-arr .md-p + .md-p { margin-top: var(--md-stack-sm); }
-.md-mark { padding: var(--md-pad-sm); translate: 0 calc((1 - var(--md-mp)) * var(--md-file-lift) * -1); }
+.md-mark { padding: var(--md-pad-sm); }
 .md-mark .md-small { margin-top: var(--md-stack-xs); }
 .md-facts { display: grid; grid-template-columns: auto 1fr; gap: var(--md-stack-xs) var(--md-gap-xs); margin: var(--md-stack) 0 0; padding-top: var(--md-stack-xs); border-top: 1px solid var(--md-line); font-size: var(--md-t-small); line-height: var(--md-lh-small); }
 .md-facts dt { font: var(--md-w-label) var(--md-t-label) / var(--md-lh-small) var(--md-font-mono); letter-spacing: var(--md-track-label); text-transform: uppercase; color: var(--md-ink-2); }
@@ -138,14 +159,36 @@ code { font-family: var(--md-font-mono); font-size: 0.92em; }
 .md-cap { margin-top: var(--md-stack-xs); }
 .md-cmd code { display: block; margin-top: var(--md-stack-xs); padding: var(--md-pad-sm); background: var(--md-ground-2); border: 1px solid var(--md-line); border-radius: var(--md-r-sm); color: var(--md-ink-strong); overflow-wrap: anywhere; }
 
-/* not yet arrived: a dashed slot, text in the second ink, the part sits one step low. Never opacity. */
-html.md-js .md-arr:not(.md-lit), html.md-js .md-mark:not(.md-lit), html.md-js .md-dp.md-new:not(.md-lit) { background: transparent; border-color: var(--md-line); border-style: dashed; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
-html.md-js .md-arr:not(.md-lit) { translate: 0 var(--md-reveal-y); }
-html.md-js .md-arr:not(.md-lit) .md-h3, html.md-js .md-arr:not(.md-lit) .md-h4, html.md-js .md-arr:not(.md-lit) .md-p, html.md-js .md-arr:not(.md-lit) .md-facts dd,
-html.md-js .md-mark:not(.md-lit) .md-h4, html.md-js .md-dp.md-new:not(.md-lit) { color: var(--md-ink-2); }
-html.md-js .md-wire:not(.md-lit) { --md-wp: 0; }
-html.md-js .md-mark:not(.md-lit) { --md-mp: 0; }
-html.md-js .md-mark.md-lit .md-n { color: var(--md-accent); }
+/* not yet arrived (only while a ride runs): a dashed slot, text in the second ink. Never opacity, never an offset: a card does not move. */
+html.md-riding .md-arr:not(.md-lit), html.md-riding .md-mark:not(.md-lit), html.md-riding .md-dp.md-new:not(.md-lit) { background: transparent; border-color: var(--md-line); border-style: dashed; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.md-riding .md-arr:not(.md-lit) .md-h3, html.md-riding .md-arr:not(.md-lit) .md-h4, html.md-riding .md-arr:not(.md-lit) .md-p, html.md-riding .md-arr:not(.md-lit) .md-facts dd,
+html.md-riding .md-mark:not(.md-lit) .md-h4, html.md-riding .md-dp.md-new:not(.md-lit) { color: var(--md-ink-2); }
+html.md-riding .md-wire:not(.md-lit) { --md-wp: 0; }
+html.md-riding .md-mark.md-lit .md-n { color: var(--md-accent); }
+
+/* the track, the car and the feedback at a station (R2). The track is a connector only: it carries no words. */
+.md-ride-layer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; }
+.md-ride-layer svg { position: absolute; left: 0; top: 0; z-index: 0; overflow: visible; }
+.md-track-base, .md-track-done { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.md-track-base { stroke: var(--md-wire); stroke-width: var(--md-track-w); stroke-dasharray: var(--md-track-dash); }
+.md-track-done { stroke: var(--md-accent); stroke-width: var(--md-track-w); }
+.md-car { position: absolute; left: 0; top: 0; z-index: 5; width: var(--md-car-d); height: var(--md-car-d); margin: calc(var(--md-car-d) / -2) 0 0 calc(var(--md-car-d) / -2); border-radius: 50%; background: var(--md-ink-strong); box-shadow: 0 0 0 var(--md-car-halo) var(--md-halo), 0 0 var(--md-glow-r) var(--md-glow-s) var(--md-accent); will-change: transform; }
+.md-title[data-station], .md-limits[data-station], .md-dgwrap { position: relative; }
+@property --md-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+html.md-riding .md-hit::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: var(--md-ring-w); pointer-events: none;
+  background: conic-gradient(from 0deg, var(--md-accent) var(--md-a), transparent var(--md-a));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: md-trace var(--md-ride-trace, 1100ms) var(--md-ease) forwards;
+}
+html.md-riding .md-hit { animation: md-ring var(--md-ride-ring, 900ms) ease-out; }
+html.md-riding .md-hit > .md-n { animation: md-tick var(--md-ride-tick, 520ms) var(--md-ease-out); }
+@keyframes md-trace { from { --md-a: 0deg; opacity: 1; } 80% { --md-a: 360deg; opacity: 1; } to { --md-a: 360deg; opacity: 0; } }
+@keyframes md-ring { from { box-shadow: 0 0 0 0 var(--md-halo); } to { box-shadow: 0 0 0 var(--md-ring-out) transparent; } }
+@keyframes md-tick { from { color: var(--md-ink-strong); transform: translateY(var(--md-tick-y)); } to { color: var(--md-accent); transform: none; } }
+
+/* reduced motion: the stepped page. One chapter at a time, Back and Next in the rail; every card lit, every diagram complete. */
+html.md-stepped [data-ch]:not(.md-step-on) { display: none; }
 
 /* the diagram: in flow at the end of each chapter, never a permanent panel */
 .md-dgwrap { margin-top: var(--md-stack); }
@@ -183,7 +226,7 @@ html.md-js .md-mark.md-lit .md-n { color: var(--md-accent); }
 .md-foot-in { display: grid; gap: var(--md-stack-xs); margin-top: var(--md-stack); }
 .md-note { color: var(--md-ink-2); max-width: var(--md-measure-wide); }
 
-/* reduced motion: every effect stops, nothing goes blank (SAFE-05). method.js installs nothing, so the page is the complete still. */
+/* reduced motion: every effect stops, nothing goes blank (SAFE-05). ride.js starts no ride, no timer and no frame, so the page is the complete still. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
