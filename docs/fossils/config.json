@@ -1,0 +1,24 @@
+{
+  "owner": "Jordan-Doerksen",
+  "repo_list_limit": 300,
+  "gh_timeout_s": 60,
+  "fetch_timeout_s": 15,
+  "workers": 12,
+  "max_pages_per_site": 60,
+  "user_agent": "fossil-inventory/1 (read-only link check)",
+  "stale_days": 180,
+  "overrides": {
+    "jordan-doerksen.github.io": {
+      "ruling": "keep",
+      "reason": "The home site. Every other site hangs off it."
+    },
+    "sentinel-field-manual": {
+      "ruling": "unlist",
+      "reason": "Owner ruling 2026-10-20: unlist (noindex, off every index, like after-hours)."
+    },
+    "it-toolkit": {
+      "ruling": "keep",
+      "reason": "Owner ruling 2026-10-20: stays public, leaves every index."
+    }
+  }
+}

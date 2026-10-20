@@ -1,0 +1,283 @@
+{
+  "generated": "2026-10-20",
+  "owner": "Jordan-Doerksen",
+  "summary": {
+    "pages_sites": 11,
+    "repos_scanned": 113,
+    "dead_links": 0,
+    "dead_links_unique": 0,
+    "could_not_look_sites": 0,
+    "could_not_look_links": 0
+  },
+  "sites": [
+    {
+      "key": "design-first",
+      "repo": "design-first",
+      "pages_url": "https://jordan-doerksen.github.io/design-first/",
+      "repo_private": false,
+      "repo_archived": false,
+      "last_commit": "2026-10-20T05:31:21Z",
+      "last_commit_age_days": 0,
+      "live": {
+        "status": 200,
+        "result": "live",
+        "error": null
+      },
+      "pages_read": 1,
+      "inbound_count": 0,
+      "inbound": [],
+      "outbound_count": 2,
+      "dead_links": [],
+      "dead_link_count": 0,
+      "unchecked_links": [],
+      "unchecked_link_count": 0,
+      "proposed_ruling": "keep",
+      "proposed_reason": "No page links to it, but the last commit is recent (0 days)."
+    },
+    {
+      "key": "fulfillment-architecture-guide",
+      "repo": "fulfillment-architecture-guide",
+      "pages_url": "https://jordan-doerksen.github.io/fulfillment-architecture-guide/",
+      "repo_private": false,
+      "repo_archived": false,
+      "last_commit": "2026-07-20T04:45:41Z",
+      "last_commit_age_days": 92,
+      "live": {
+        "status": 200,
+        "result": "live",
+        "error": null
+      },
+      "pages_read": 1,
+      "inbound_count": 0,
+      "inbound": [],
+      "outbound_count": 0,
+      "dead_links": [],
+      "dead_link_count": 0,
+      "unchecked_links": [],
+      "unchecked_link_count": 0,
+      "proposed_ruling": "keep",
+      "proposed_reason": "No page links to it, but the last commit is recent (92 days)."
+    },
+    {
+      "key": "gridline-map-navigation",
+      "repo": "gridline-map-navigation",
+      "pages_url": "https://jordan-doerksen.github.io/gridline-map-navigation/",
+      "repo_private": false,
+      "repo_archived": false,
+      "last_commit": "2026-09-22T18:08:29Z",
+      "last_commit_age_days": 27,
+      "live": {
+        "status": 200,
+        "result": "live",
+        "error": null
+      },
+      "pages_read": 1,
+      "inbound_count": 0,
+      "inbound": [],
+      "outbound_count": 0,
+      "dead_links": [],
+      "dead_link_count": 0,
+      "unchecked_links": [],
+      "unchecked_link_count": 0,
+      "proposed_ruling": "keep",
+      "proposed_reason": "No page links to it, but the last commit is recent (27 days)."
+    },
+    {
+      "key": "it-toolkit",
+      "repo": "it-toolkit",
+      "pages_url": "https://jordan-doerksen.github.io/it-toolkit/",
+      "repo_private": false,
+      "repo_archived": false,
+      "last_commit": "2026-07-07T18:20:04Z",
+      "last_commit_age_days": 104,
+      "live": {
+        "status": 200,
+        "result": "live",
+        "error": null
+      },
+      "pages_read": 1,
+      "inbound_count": 0,
+      "inbound": [],
+      "outbound_count": 0,
+      "dead_links": [],
+      "dead_link_count": 0,
+      "unchecked_links": [],
+      "unchecked_link_count": 0,
+      "proposed_ruling": "keep",
+      "proposed_reason": "Owner ruling 2026-10-20: stays public, leaves every index."
+    },
+    {
+      "key": "jordan-doerksen.github.io",
+      "repo": "Jordan-Doerksen.github.io",
+      "pages_url": "https://jordan-doerksen.github.io/",
+      "repo_private": false,
+      "repo_archived": false,
+      "last_commit": "2026-10-20T05:38:13Z",
+      "last_commit_age_days": 0,
+      "live": {
+        "status": 200,
+        "result": "live",
+        "error": null
+      },
+      "pages_read": 6,
+      "inbound_count": 1,
+      "inbound": [
+        {
+          "page": "https://jordan-doerksen.github.io/design-first/",
+          "from_site": "design-first"
+        }
+      ],
+      "outbound_count": 46,
+      "dead_links": [],
+      "dead_link_count": 0,
+      "unchecked_links": [],
+      "unchecked_link_count": 0,
+      "proposed_ruling": "keep",
+      "proposed_reason": "The home site. Every other site hangs off it."
+    },
+    {
+      "key": "pocket-bats",
+      "repo": "pocket-bats",
+      "pages_url": "https://jordan-doerksen.github.io/pocket-bats/",
+      "repo_private": false,
+      "repo_archived": false,
+      "last_commit": "2026-09-22T18:41:59Z",
+      "last_commit_age_days": 27,
+      "live": {
+        "status": 200,
+        "result": "live",
+        "error": null
+      },
+      "pages_read": 1,
+      "inbound_count": 0,
+      "inbound": [],
+      "outbound_count": 0,
+      "dead_links": [],
+      "dead_link_count": 0,
+      "unchecked_links": [],
+      "unchecked_link_count": 0,
+      "proposed_ruling": "keep",
+      "proposed_reason": "No page links to it, but the last commit is recent (27 days)."
+    },
+    {
+      "key": "resume",
+      "repo": "Resume",
+      "pages_url": "https://jordan-doerksen.github.io/Resume/",
+      "repo_private": false,
+      "repo_archived": false,
+      "last_commit": "2026-07-08T01:29:20Z",
+      "last_commit_age_days": 104,
+      "live": {
+        "status": 200,
+        "result": "live",
+        "error": null
+      },
+      "pages_read": 1,
+      "inbound_count": 0,
+      "inbound": [],
+      "outbound_count": 1,
+      "dead_links": [],
+      "dead_link_count": 0,
+      "unchecked_links": [],
+      "unchecked_link_count": 0,
+      "proposed_ruling": "keep",
+      "proposed_reason": "No page links to it, but the last commit is recent (104 days)."
+    },
+    {
+      "key": "sentinel-field-manual",
+      "repo": "sentinel-field-manual",
+      "pages_url": "https://jordan-doerksen.github.io/sentinel-field-manual/",
+      "repo_private": false,
+      "repo_archived": false,
+      "last_commit": "2026-09-22T18:09:02Z",
+      "last_commit_age_days": 27,
+      "live": {
+        "status": 200,
+        "result": "live",
+        "error": null
+      },
+      "pages_read": 1,
+      "inbound_count": 0,
+      "inbound": [],
+      "outbound_count": 0,
+      "dead_links": [],
+      "dead_link_count": 0,
+      "unchecked_links": [],
+      "unchecked_link_count": 0,
+      "proposed_ruling": "unlist",
+      "proposed_reason": "Owner ruling 2026-10-20: unlist (noindex, off every index, like after-hours)."
+    },
+    {
+      "key": "style-library",
+      "repo": "style-library",
+      "pages_url": "https://jordan-doerksen.github.io/style-library/",
+      "repo_private": false,
+      "repo_archived": false,
+      "last_commit": "2026-07-08T01:03:01Z",
+      "last_commit_age_days": 104,
+      "live": {
+        "status": 200,
+        "result": "live",
+        "error": null
+      },
+      "pages_read": 1,
+      "inbound_count": 0,
+      "inbound": [],
+      "outbound_count": 0,
+      "dead_links": [],
+      "dead_link_count": 0,
+      "unchecked_links": [],
+      "unchecked_link_count": 0,
+      "proposed_ruling": "keep",
+      "proposed_reason": "No page links to it, but the last commit is recent (104 days)."
+    },
+    {
+      "key": "triforce-defense",
+      "repo": "triforce-defense",
+      "pages_url": "https://jordan-doerksen.github.io/triforce-defense/",
+      "repo_private": false,
+      "repo_archived": false,
+      "last_commit": "2026-10-20T01:16:16Z",
+      "last_commit_age_days": 0,
+      "live": {
+        "status": 200,
+        "result": "live",
+        "error": null
+      },
+      "pages_read": 2,
+      "inbound_count": 0,
+      "inbound": [],
+      "outbound_count": 1,
+      "dead_links": [],
+      "dead_link_count": 0,
+      "unchecked_links": [],
+      "unchecked_link_count": 0,
+      "proposed_ruling": "keep",
+      "proposed_reason": "No page links to it, but the last commit is recent (0 days)."
+    },
+    {
+      "key": "vigil-hardly",
+      "repo": "vigil-hardly",
+      "pages_url": "https://jordan-doerksen.github.io/vigil-hardly/",
+      "repo_private": false,
+      "repo_archived": false,
+      "last_commit": "2026-09-28T01:27:43Z",
+      "last_commit_age_days": 22,
+      "live": {
+        "status": 200,
+        "result": "live",
+        "error": null
+      },
+      "pages_read": 1,
+      "inbound_count": 0,
+      "inbound": [],
+      "outbound_count": 1,
+      "dead_links": [],
+      "dead_link_count": 0,
+      "unchecked_links": [],
+      "unchecked_link_count": 0,
+      "proposed_ruling": "keep",
+      "proposed_reason": "No page links to it, but the last commit is recent (22 days)."
+    }
+  ]
+}
