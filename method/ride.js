@@ -100,7 +100,7 @@
     // at the ride's start the window scroll is locked at lockY and ONE wrapper (.md-cam) carries the page by a sub-pixel
     // translate3d. The wrapper turns back into a real window scroll when the ride ends, on Pause, on See all, on a resize
     // and the moment the visitor scrolls, so the visitor always scrolls a normal page.
-    var locked = false, lockY = 0, camT = '', carT = '', hoverAt = 0, ptr = null, segK = 0, doneAt = [], lastBar = -1;
+    var locked = false, lockY = 0, camT = '', carT = '', hoverAt = 0, ptr = null, segK = 0, doneAt = [], lastBar = -1, ptrAt = -1e9, holdOn = false;
     var test = parseInt(new URLSearchParams(location.search).get(cfg.test_flag), 10);
     if (test > 0) {
       cfg.dwell_ms = test; cfg.glow_ms = Math.min(cfg.glow_ms, test * 0.7); cfg.connector_ms = Math.min(cfg.connector_ms, test * 0.5);
@@ -112,6 +112,23 @@
     function ease(f) { return 0.5 - 0.5 * Math.cos(Math.PI * f); }
     function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
     function maxScroll() { return Math.max(0, document.documentElement.scrollHeight - window.innerHeight); }
+    // DIAGNOSTIC (item 24b, stall hunt): with ?ridelog in the address every entry into the takeover path is recorded in
+    // window.__mdTake with its cause and where the window and the camera were. A page without the flag records nothing.
+    var lastInput = -1e9, logOn = new URLSearchParams(location.search).has('ridelog');
+    if (logOn) { window.__mdTake = []; }
+    function logTake(cause) {
+      if (!logOn) { return; }
+      window.__mdTake.push({ t: Math.round(performance.now()), cause: cause, scrollY: window.scrollY, lockY: lockY, cam: Math.round(cam * 100) / 100, locked: locked,
+        msSinceInput: Math.round(performance.now() - lastInput), docH: document.documentElement.scrollHeight, maxScroll: maxScroll(), idx: idx, phase: phase, riding: riding, userPaused: userPaused });
+    }
+    // every change between "the car runs" and "the car is stopped", with what stopped it (the same ?ridelog flag)
+    function logHold(what) {
+      if (!logOn) { return; }
+      var r = hovered ? hovered.getBoundingClientRect() : null;
+      (window.__mdHold = window.__mdHold || []).push({ t: Math.round(performance.now()), what: what, userPaused: userPaused, free: free,
+        hovered: hovered ? hovered.className.split(' ')[0] + ' ' + Math.round(r.left) + ',' + Math.round(r.top) + ' ' + Math.round(r.width) + 'x' + Math.round(r.height) : null,
+        focused: !!focused, ptr: ptr ? ptr.x + ',' + ptr.y : null, idx: idx, phase: phase, scrollY: window.scrollY, cam: Math.round(cam) });
+    }
     function view() { return locked ? cam : window.scrollY; }   // the document y at the top of the viewport
 
     function setMsg(n, t) { if (n !== null) { railN.textContent = n; } if (t !== null) { railT.textContent = t; } }
@@ -129,11 +146,16 @@
       if (finished) { return; }
       placeN();
       if (userPaused) { setMsg(null, free ? 'Paused. Resume continues from the nearest stop.' : 'Paused. Resume to continue the ride.'); }
-      else if (hovered || focused) { setMsg(null, 'Held while the pointer or focus is in a card.'); }
+      else if (holdOn || focused) { setMsg(null, holdOn ? 'Held while the pointer moves over a card. Rest it or move away to go on.' : 'Held while focus is in a card.'); }
       else { placeLabel(); }
     }
-    function stopped() { return userPaused || !!hovered || !!focused; }
-    function syncPaused() { root.classList.toggle('md-paused', stopped()); setLabel(btnB, userPaused ? 'Resume' : 'Pause'); stateMsg(); }
+    function stopped() { return userPaused || holdOn || !!focused; }
+    var wasStopped = false;
+    function syncPaused() {
+      var now = stopped();
+      if (now !== wasStopped) { wasStopped = now; logHold(now ? 'stop' : 'go'); }
+      root.classList.toggle('md-paused', now); setLabel(btnB, userPaused ? 'Resume' : 'Pause'); stateMsg();
+    }
 
     // ---- the camera lock: window scroll <-> one sub-pixel transform ----
     function lock() {
@@ -308,13 +330,22 @@
       var p = clamp(Lnow / totalLen, 0, 1);
       if (p !== lastBar) { lastBar = p; barFill.style.transform = 'scaleX(' + p.toFixed(4) + ')'; barHead.style.transform = 'translate3d(' + (p * vw).toFixed(1) + 'px,0,0)'; }
     }
+    // The hold (WEB-06: a target must not move during selection). It applies only while the pointer is IN USE: over a card and
+    // moved within hold_idle_ms. WORKAROUND, annotated (DES-08): the first version held for as long as a card was under the
+    // pointer, hover alone. The pointer rests where the visitor pressed Start, and at stop 4 the word-3 card slides up under it
+    // while the car is mid-travel, so the ride stopped with the car off any card (owner, fa11b1b: "gets hung up", every run;
+    // trace at 1889 x 880 in DECISIONS.md CR-29). A resting pointer is not selecting, so it no longer holds the ride.
+    function refreshHold(now) {
+      var on = !!hovered && (now - ptrAt) < cfg.hold_idle_ms;
+      if (on !== holdOn) { holdOn = on; if (riding) { syncPaused(); } }
+    }
     // A page that moves by a transform does not always get a hover update under a still pointer, so the frame asks, at most
-    // every pointer_probe_ms, which card is under the pointer. The ride then holds before a card slides under a hand (WEB-06).
+    // every pointer_probe_ms, which card is under the pointer (and whether the hold has lapsed).
     function probePointer(now) {
-      if (!ptr || now - hoverAt < cfg.pointer_probe_ms) { return; }
+      if (now - hoverAt < cfg.pointer_probe_ms) { return; }
       hoverAt = now;
-      var e = document.elementFromPoint(ptr.x, ptr.y), c = e && e.closest ? e.closest(CARD) : null;
-      if (c !== hovered) { hovered = c; syncPaused(); }
+      if (ptr) { var e = document.elementFromPoint(ptr.x, ptr.y), c = e && e.closest ? e.closest(CARD) : null; hovered = c; }
+      refreshHold(now);
     }
     function frame(now) {
       raf = 0;
@@ -335,7 +366,7 @@
     function kick() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }
 
     // ---- user control ----
-    function userScroll() { unlock(); free = true; userPaused = true; syncPaused(); }
+    function userScroll(cause, quiet) { if (!quiet) { logTake(cause || 'userScroll'); } unlock(); free = true; userPaused = true; syncPaused(); }
     function nearest() {
       var mid = window.innerHeight / 2 + sticky / 2, best = 0, bd = 1e9;
       stations.forEach(function (s, i) { var r = s.el.getBoundingClientRect(), d = Math.abs(r.top + r.height / 2 - mid); if (d < bd) { bd = d; best = i; } });
@@ -389,23 +420,24 @@
     // The visitor's own scroll takes over at once. The wheel and the touch pause the ride and hand the camera back to the
     // window; the scroll event covers every other way the window can move (scrollbar, keys, a fragment link, a focus jump)
     // and adds the distance the window moved to where the camera was.
-    function takeOver() { if (riding && !finished && !userPaused) { userScroll(); } else if (riding && userPaused) { unlock(); free = true; syncPaused(); } }
-    window.addEventListener('wheel', takeOver, { passive: true });
-    window.addEventListener('touchmove', takeOver, { passive: true });
+    function takeOver(cause, quiet) { if (riding && !finished && !userPaused) { userScroll(cause, quiet); } else if (riding && userPaused) { unlock(); free = true; syncPaused(); } }
+    window.addEventListener('wheel', function () { lastInput = performance.now(); takeOver('wheel'); }, { passive: true });
+    window.addEventListener('touchmove', function () { lastInput = performance.now(); takeOver('touchmove'); }, { passive: true });
     window.addEventListener('scroll', function () {
       if (!locked || Math.abs(window.scrollY - lockY) < 1) { return; }
+      logTake('scroll-event');   // the state BEFORE the lock is released
       var top = clamp(cam + (window.scrollY - lockY), 0, maxScroll());
       cam = top; locked = false; glide = false; camT = ''; camEl.style.transform = ''; camEl.classList.remove('md-cam-on');
       window.scrollTo({ top: top, left: 0, behavior: 'instant' });
-      takeOver();
+      takeOver('scroll-event', true);
     }, { passive: true });
-    window.addEventListener('hashchange', function () { if (riding && !finished) { userScroll(); } });
+    window.addEventListener('hashchange', function () { if (riding && !finished) { userScroll('hashchange'); } });
     window.addEventListener('resize', function () { if (riding) { needLayout = true; kick(); } });
     document.addEventListener('keydown', function (e) {
       if (!riding || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) { return; }
       var k = e.key;
       if (k === 'PageDown' || k === 'PageUp' || k === ' ' || k === 'Home' || k === 'End') {
-        if (!(e.target.closest && e.target.closest('button, a, summary, .md-term')) && !finished && !userPaused) { userScroll(); }
+        if (!(e.target.closest && e.target.closest('button, a, summary, .md-term')) && !finished && !userPaused) { userScroll('key ' + k); }
         return;
       }
       if (['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft'].indexOf(k) < 0) { return; }
@@ -415,9 +447,14 @@
       stepTo(cur < 0 && nxt < 0 ? 0 : nxt);
     });
     // the ride holds while the pointer or the keyboard focus is inside a card, so nothing moves under a hand (WEB-06)
-    document.addEventListener('pointermove', function (e) { if (e.pointerType !== 'touch') { ptr = { x: e.clientX, y: e.clientY }; } }, { passive: true });
-    document.addEventListener('pointerover', function (e) { if (e.pointerType === 'touch') { return; } var c = e.target.closest ? e.target.closest(CARD) : null; if (c !== hovered) { hovered = c; if (riding) { syncPaused(); } } });
-    document.addEventListener('pointerout', function (e) { if (e.pointerType === 'touch') { return; } if (hovered && !(e.relatedTarget && hovered.contains(e.relatedTarget))) { hovered = null; if (riding) { syncPaused(); } } });
+    // a pointermove at the same place is the browser's own (it repeats one after the page moves), not the hand: it does not count
+    document.addEventListener('pointermove', function (e) {
+      if (e.pointerType === 'touch') { return; }
+      if (ptr && Math.abs(ptr.x - e.clientX) < 1 && Math.abs(ptr.y - e.clientY) < 1) { return; }
+      ptr = { x: e.clientX, y: e.clientY }; ptrAt = performance.now(); if (riding) { refreshHold(ptrAt); }
+    }, { passive: true });
+    document.addEventListener('pointerover', function (e) { if (e.pointerType === 'touch') { return; } var c = e.target.closest ? e.target.closest(CARD) : null; if (c !== hovered) { hovered = c; if (riding) { refreshHold(performance.now()); } } });
+    document.addEventListener('pointerout', function (e) { if (e.pointerType === 'touch') { return; } if (hovered && !(e.relatedTarget && hovered.contains(e.relatedTarget))) { hovered = null; if (riding) { refreshHold(performance.now()); } } });
     document.addEventListener('focusin', function (e) { var c = e.target.closest ? e.target.closest(CARD) : null; focused = c; if (riding) { syncPaused(); } });
     document.addEventListener('focusout', function (e) { if (focused && !(e.relatedTarget && focused.contains(e.relatedTarget))) { focused = null; if (riding) { syncPaused(); } } });
 

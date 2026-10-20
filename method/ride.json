@@ -1,5 +1,5 @@
 {
-  "source": "Every time the ride uses is here (DES-04, CR-29, CR-29). build_method.py stamps this file into the page (#md-ride) so the page never fetches, and its --check fails a dwell under min_dwell_ms. The dwell counts from the moment the card lights. The car is quiet (car_px, car_halo_px, car_glow_px): the card gives the feedback, one glow pulse and a border light over glow_ms, then it stays lit at lit_rest (0 to 1). TEST FLAG: opening the page with ?ridetest=<ms> (for example method/index.html?ridetest=300) replaces dwell_ms with that many ms, cuts connector_ms and glow_ms to fit inside it, and multiplies speed_px_s by test_speed_mult, so a headless run reaches the Adopt chapter in about a minute. The flag is for tests; the min_dwell_ms rule does not apply to it. All times are milliseconds, all distances CSS pixels.",
+  "source": "Every time the ride uses is here (DES-04, CR-29, CR-29). build_method.py stamps this file into the page (#md-ride) so the page never fetches, and its --check fails a dwell under min_dwell_ms. The dwell counts from the moment the card lights. The ride holds while the pointer is over a card AND has moved within hold_idle_ms; a pointer that rests does not hold it (a card that slides under a parked pointer hung the ride at stop 4). The car is quiet (car_px, car_halo_px, car_glow_px): the card gives the feedback, one glow pulse and a border light over glow_ms, then it stays lit at lit_rest (0 to 1). TEST FLAG: opening the page with ?ridetest=<ms> (for example method/index.html?ridetest=300) replaces dwell_ms with that many ms, cuts connector_ms and glow_ms to fit inside it, and multiplies speed_px_s by test_speed_mult, so a headless run reaches the Adopt chapter in about a minute. The flag is for tests; the min_dwell_ms rule does not apply to it. All times are milliseconds, all distances CSS pixels.",
   "min_dwell_ms": 2200,
   "dwell_ms": 2400,
   "connector_ms": 800,
@@ -19,6 +19,7 @@
   "camera_max_px_s": 900,
   "camera_anchor": 0.42,
   "pointer_probe_ms": 120,
+  "hold_idle_ms": 1500,
   "end_hold_ms": 2400,
   "test_flag": "ridetest",
   "test_speed_mult": 8,

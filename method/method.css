@@ -216,6 +216,10 @@ html.md-riding .md-arr.md-hit { --md-hit-end: var(--md-lit-rest, 0.5); }
 
 /* the camera wrapper (made by ride.js): carries main and the footer; during the ride it holds the page in one sub-pixel transform */
 .md-cam.md-cam-on { will-change: transform; }
+/* While the ride runs the window scroll is locked and the camera is a transform, so the browser's scroll anchoring has nothing to keep:
+   a late layout change (a font, a status line) would move the window by the anchor's shift and the scroll event would read as the
+   visitor's hand. The anchoring is off for the ride only; at rest the page anchors as any page does. */
+html.md-riding { overflow-anchor: none; }
 
 /* reduced motion: the stepped page. One chapter at a time, Back and Next in the rail; every card lit, every diagram complete. */
 html.md-stepped [data-ch]:not(.md-step-on) { display: none; }

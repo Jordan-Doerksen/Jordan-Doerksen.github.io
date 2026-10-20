@@ -608,6 +608,20 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
     while the car travels), and one of the first AFTER set had a 66.6 ms frame; the trace shows no such frame in the
     other runs, and a loaded machine adds them. The orbiting dot on the progress bar runs a CSS animation that still
     marks the page for a style pass in every frame; 1.1 recalcs per frame is that and the camera.
+  - **The ride that stopped at stop 4 (owner, `fa11b1b`: "this part always gets like hung up"), fixed.** The master's read was
+    a scroll event from a layout change read as the visitor's scroll. The trace disproves it: with `?ridelog` the ride
+    records every entry into the takeover path and every change between running and stopped. At 1889 x 880 on `fa11b1b`'s
+    logic, rides at `?ridetest=300` and at normal speed made 0 takeover entries, no scroll event, and no change of document
+    height. The stop came from the hold, not the takeover: the pointer rests near where he pressed Start (1540,140), and at
+    stop 4 the word-3 card slides up under it while the car is mid-travel, so the ride held (log: `stop`, hovered
+    `md-arr 1242,139`, phase `travel`, idx 3) and the car sat off any card. The "Paused. Resume continues from the nearest
+    stop." text appears only after a wheel (log: `wheel`, scrollY 0 to 120): the way out of a hold he could not see the
+    reason for. Fix: the hold needs a pointer in use, over a card and moved within `hold_idle_ms` (1500, `ride.json`,
+    OWN-05); a resting pointer no longer holds, and the line says why while it holds. Also `overflow-anchor: none` while
+    riding, so a late layout change can never move the locked window. Wheel, touch, scroll keys and the scrollbar still
+    pause and leave him free. Proof: 4 widths at `?ridetest=300` each reach "Ride complete" with 0 takeover entries;
+    40 s at normal speed with the pointer parked at (1540,140) passes stop 4 (stop 7 at 40 s); a scripted wheel pauses with
+    the message and Resume continues; a moving pointer over a card still holds, and 2.2 s of rest lets the ride go on.
   - **Superseded.** CR-28's T2 engine (scroll thresholds, sticky tracks, pinned stages). CR-28's chapters, kit stamp,
     redirect and Home lead stand.
 - 2026-10-20 — **CR-28 (Site card item 24, phase 2 of 2): the one method page is built on T2, Scroll as the film.
