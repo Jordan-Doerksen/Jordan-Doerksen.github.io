@@ -1,0 +1,12 @@
+/* R1, Lazy river. The page itself flows: it scrolls on its own at a slow, constant speed and eases to a stop at each card.
+   The progress bar sits along the top edge; the particle orbits its leading point. Card feedback: a ring traces the border
+   once and the card settles into place (ride.json: feedback). */
+.md-r-bar { top: calc(var(--md-r-top-h) - var(--md-r-bar-h) - var(--md-r-bar-gap)); }
+.md-r1 .md-cards { gap: 0; }
+.md-r1 .md-cards > li { min-height: var(--md-r-card-min-h); display: grid; align-items: center; padding: var(--md-stack) 0; }
+.md-r1 .md-record { min-height: var(--md-r-card-min-h); display: grid; align-content: center; }
+@media (min-width: 1000px) {
+  .md-r1 .md-card { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: var(--md-gap); align-items: start; }
+  .md-r1 .md-card > .md-n, .md-r1 .md-card > .md-h3, .md-r1 .md-card > .md-p { grid-column: 1; }
+  .md-r1 .md-card > .md-facts { grid-column: 2; grid-row: 1 / span 3; margin: 0; padding: 0 0 0 var(--md-gap); border-top: 0; border-left: 1px solid var(--md-line); align-content: start; }
+}

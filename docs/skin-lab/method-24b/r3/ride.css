@@ -1,0 +1,34 @@
+/* R3, Conveyor stage. No page scroll while the ride is live: one stage the height of the window. The four cards flow
+   through it on a belt, entering from below, and file up into the record at the top. The progress bar with its orbiting
+   particle sits at the foot and is the drive belt. Card feedback: each card lands with a short settle and a glow that fades
+   over the dwell (ride.json). Under reduced motion, or with scripts off, the stage is a normal page. */
+.md-r-bar { bottom: var(--md-r-bar-gap); }
+html.md-r-live, html.md-r-live body { height: 100%; overflow: hidden; }
+html.md-r-live .md-r3-stage { position: fixed; top: var(--md-r-top-h); left: 0; right: 0; bottom: calc(var(--md-r-bar-h) + 2 * var(--md-r-bar-gap)); display: grid; grid-template-rows: auto auto minmax(0, 1fr); gap: var(--md-stack-sm); padding: 0 var(--md-gutter); }
+html.md-r-live .md-r-main { padding: 0; }
+html.md-r-live .md-r-head { padding: var(--md-stack-sm) 0 0; }
+html.md-r-live .md-r-head .md-status { margin-top: var(--md-stack-xs); }
+html.md-r-live .md-record { margin: 0; }
+html.md-r-live .md-record > .md-n { display: none; }
+.md-r3-window { position: relative; overflow: hidden; min-height: 0; }
+.md-belt { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--md-gap); }
+html.md-r-live .md-belt { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
+.md-endcard { padding: var(--md-pad); border: 1px dashed var(--md-line-strong); border-radius: var(--md-r); color: var(--md-ink); }
+.md-endcard .md-p { margin-top: var(--md-stack-xs); }
+@media (min-width: 1000px) {
+  .md-r3 .md-card { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: var(--md-gap); align-items: start; }
+  .md-r3 .md-card > .md-n, .md-r3 .md-card > .md-h3, .md-r3 .md-card > .md-p { grid-column: 1; }
+  .md-r3 .md-card > .md-facts { grid-column: 2; grid-row: 1 / span 3; margin: 0; padding: 0 0 0 var(--md-gap); border-top: 0; border-left: 1px solid var(--md-line); align-content: start; }
+}
+@media (max-width: 899px) {
+  html.md-r-live .md-r-head .md-p { display: none; }
+  html.md-r-live .md-marks { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--md-stack-xs); }
+  html.md-r-live .md-mark .md-small { display: none; }
+  html.md-r-live .md-mark .md-n { margin: 0; }
+}
+html.md-r-live .md-r3-stage > .md-r-head { grid-row: 1; }
+html.md-r-live .md-r3-stage > .md-record { grid-row: 2; }
+html.md-r-live .md-r3-stage > .md-r3-window { grid-row: 3; }
+html.md-r-live .md-r-foot { display: none; }
+html.md-r-live .md-mark { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 899px) { html.md-r-live .md-mark .md-h4 { font-size: var(--md-t-small); } html.md-r-live .md-mark { padding: var(--md-pad-xs); } }

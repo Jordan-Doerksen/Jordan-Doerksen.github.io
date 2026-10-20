@@ -1,0 +1,25 @@
+/* R2, Rollercoaster. A track (one SVG path, a connector only) runs down the left of the chapter from card to card. The
+   particle is the car and the viewport follows it. At each station the car orbits the card; the card lights: the border
+   traces, the step number ticks up, the track to the next card draws (ride.json). */
+.md-r-bar { top: calc(var(--md-r-top-h) - var(--md-r-bar-h) - var(--md-r-bar-gap)); }
+.md-r2-stage { position: relative; padding-left: calc(var(--md-r-track-w) + var(--md-gap-xs)); }
+.md-r2 .md-cards { gap: var(--md-r-gap); }
+.md-r2 .md-record { margin-top: var(--md-r-gap); }
+.md-track { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 2; }
+.md-track path { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: var(--md-r-track-stroke); }
+.md-track-base { stroke: var(--md-line-strong); stroke-dasharray: var(--md-dash); }
+.md-track-draw { stroke: var(--md-accent); }
+.md-car { position: absolute; left: 0; top: 0; z-index: 3; width: var(--md-r-car); height: var(--md-r-car); margin: calc(var(--md-r-car) / -2) 0 0 calc(var(--md-r-car) / -2); border-radius: 50%; background: var(--md-ink-strong); box-shadow: 0 0 0 3px var(--md-accent), 0 0 18px var(--md-accent); pointer-events: none; }
+html:not(.md-js) .md-car { display: none; }
+.md-roll { display: inline-block; height: 1em; line-height: 1em; overflow: hidden; vertical-align: top; }
+.md-roll > span { display: block; translate: 0 -1em; }
+.md-roll b { display: block; font-weight: inherit; height: 1em; line-height: 1em; }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes md-tick { from { translate: 0 0; } to { translate: 0 -1em; } }
+  .md-card.md-hit .md-roll > span { animation: md-tick var(--md-r-tick-ms) var(--md-ease-out); }
+}
+@media (min-width: 1000px) {
+  .md-r2 .md-card { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: var(--md-gap); align-items: start; }
+  .md-r2 .md-card > .md-n, .md-r2 .md-card > .md-h3, .md-r2 .md-card > .md-p { grid-column: 1; }
+  .md-r2 .md-card > .md-facts { grid-column: 2; grid-row: 1 / span 3; margin: 0; padding: 0 0 0 var(--md-gap); border-top: 0; border-left: 1px solid var(--md-line); align-content: start; }
+}

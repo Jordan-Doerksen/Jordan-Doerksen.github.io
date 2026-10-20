@@ -1,0 +1,102 @@
+/* ride-base.css: what the three ride variants share (item 24b). Linked after method/tokens.css and method/method.css.
+   Every class carries the md- namespace. No raw colour, duration, radius or shadow: tokens and ride.json values only.
+   Rest state = the complete state: the dashed "not yet arrived" look applies only under html.md-js, and under reduced
+   motion the core lights everything. A part that has not arrived is a dashed slot in the second ink, never opacity 0. */
+
+html { scroll-behavior: auto; scroll-padding-top: 0; }   /* method.css sets smooth; the ride scrolls by script, so smooth would fight it */
+body.md-r { padding-top: var(--md-r-top-h); }
+
+/* persistent cluster: identity and the ride controls. Fixed, so a control never moves. */
+.md-r-top { position: fixed; top: 0; left: 0; right: 0; z-index: 40; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "brand all" "ctl ctl"; align-items: center; gap: var(--md-gap-xs); padding: var(--md-pad-sm) var(--md-gutter) calc(var(--md-pad-sm) + var(--md-r-bar-h) + var(--md-r-bar-gap)); background: var(--md-bar-bg); -webkit-backdrop-filter: var(--md-bar-blur); backdrop-filter: var(--md-bar-blur); border-bottom: 1px solid var(--md-line); }
+.md-r-top .md-brand { grid-area: brand; }
+.md-r-tag { display: none; margin: 0; font: var(--md-w-label) var(--md-t-label) / 1 var(--md-font-mono); letter-spacing: var(--md-track-nav); text-transform: uppercase; color: var(--md-ink-2); }
+.md-r-ctls { display: contents; }
+.md-r-ctls .md-btn[data-act=all] { grid-area: all; justify-self: end; }
+.md-r-row { grid-area: ctl; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--md-gap-xs); }
+@media (min-width: 900px) {
+  .md-r-top { grid-template-columns: auto auto minmax(0, 1fr) auto; grid-template-areas: "brand tag ctl all"; }
+  .md-r-tag { display: block; grid-area: tag; }
+  .md-r-row { grid-template-columns: repeat(3, var(--md-r-btn-w)); justify-self: end; }
+}
+.md-btn { min-width: 0; height: var(--md-r-btn-h); padding: 0 var(--md-pad-sm); font: var(--md-w-label) var(--md-t-small) / 1 var(--md-font-body); color: var(--md-ink-strong); background: var(--md-panel-solid); border: 1px solid var(--md-line-strong); border-radius: var(--md-r); cursor: pointer; }
+.md-btn:hover { background: var(--md-panel-hover); }
+.md-btn:disabled { color: var(--md-ink-2); cursor: default; }
+.md-btn:disabled:hover { background: var(--md-panel-solid); }
+.md-btn[data-act=all] { height: var(--md-r-btn-h); min-width: var(--md-r-btn-w); }
+@media (max-width: 899px) { .md-btn[data-act=all] { min-width: 0; padding: 0 var(--md-pad-sm); } }
+.md-r-ctls[hidden] { display: none; }
+
+/* the progress bar and the particle that orbits its leading point. The orbit runs only while the ride runs. */
+.md-r-bar { position: fixed; left: var(--md-gutter); right: var(--md-gutter); z-index: 41; height: var(--md-r-bar-h); background: var(--md-line); border-radius: var(--md-r-sm); pointer-events: none; }
+.md-r-fill { display: block; height: 100%; background: var(--md-accent); border-radius: inherit; transform-origin: 0 50%; transform: scaleX(var(--md-r-p)); }
+.md-r-lead { position: absolute; top: 50%; left: calc(var(--md-r-p) * 100%); width: 0; height: 0; }
+.md-r-orbit { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+.md-r-orb, .md-r-trail { position: absolute; left: calc(var(--md-r-orb) / -2); top: calc(var(--md-r-orb) / -2); width: var(--md-r-orb); height: var(--md-r-orb); border-radius: 50%; background: var(--md-accent); transform: rotate(var(--md-r-a, 0deg)) translateX(var(--md-r-orb-r)); }
+.md-r-trail { background: var(--md-ink-strong); }
+.md-r-trail[data-i="1"] { --md-r-a: -22deg; opacity: var(--md-r-trail-1); }
+.md-r-trail[data-i="2"] { --md-r-a: -44deg; opacity: var(--md-r-trail-2); }
+.md-r-trail[data-i="3"] { --md-r-a: -66deg; opacity: var(--md-r-trail-3); }
+.md-r-orb { background: var(--md-ink-strong); }
+
+/* chapter head, status, stage */
+.md-r-main { padding: 0 var(--md-gutter) var(--md-band); }
+.md-r-head { display: grid; gap: var(--md-stack-xs); padding: var(--md-pad) 0 var(--md-stack); }
+.md-r-head .md-p { margin-top: var(--md-stack-xs); color: var(--md-ink-2); max-width: var(--md-measure-wide); }
+.md-status { margin: var(--md-stack-sm) 0 0; min-height: calc(var(--md-t-small) * var(--md-lh-small) * 2); font-size: var(--md-t-small); line-height: var(--md-lh-small); color: var(--md-ink-2); max-width: var(--md-measure-wide); }
+.md-cards { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--md-gap); }
+.md-card { position: relative; min-width: 0; background: var(--md-panel-gate); border: 1px solid var(--md-line); border-top: var(--md-edge-w) solid var(--md-edge-gate); border-radius: var(--md-r); padding: var(--md-pad); box-shadow: var(--md-shadow), var(--md-inner); -webkit-backdrop-filter: var(--md-blur); backdrop-filter: var(--md-blur); }
+.md-card .md-p { font-size: var(--md-t-panel); line-height: var(--md-lh-panel); margin-top: var(--md-stack-xs); }
+.md-card[aria-current] { border-color: var(--md-accent); }
+.md-ring { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.md-ring rect { x: 1px; y: 1px; width: calc(100% - 2px); height: calc(100% - 2px); rx: var(--md-r); ry: var(--md-r); fill: none; stroke: var(--md-accent); stroke-width: 2px; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.md-card.md-hit .md-ring rect { stroke-dashoffset: 0; }
+
+/* the record the gates leave */
+.md-record { margin-top: var(--md-stack); }
+.md-record > .md-n { margin-bottom: var(--md-stack-xs); }
+.md-marks { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--md-gap-xs); }
+@media (min-width: 700px) { .md-marks { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.md-mark { background: var(--md-panel-gate); border: 1px solid var(--md-line); border-top: var(--md-edge-w) solid var(--md-edge-gate); border-radius: var(--md-r); padding: var(--md-pad-sm); }
+.md-mark .md-small { margin-top: var(--md-stack-xs); }
+.md-record[aria-current] .md-mark { border-color: var(--md-accent); }
+.md-facts { display: grid; grid-template-columns: auto 1fr; gap: var(--md-stack-xs) var(--md-gap-xs); margin: var(--md-stack) 0 0; padding-top: var(--md-stack-xs); border-top: 1px solid var(--md-line); font-size: var(--md-t-small); line-height: var(--md-lh-small); }
+.md-facts dt { font: var(--md-w-label) var(--md-t-label) / var(--md-lh-small) var(--md-font-mono); letter-spacing: var(--md-track-label); text-transform: uppercase; color: var(--md-ink-2); }
+.md-facts dd { margin: 0; color: var(--md-ink); }
+
+/* not yet arrived (only while the ride is live) */
+html.md-js:not(.md-r-still) .md-card:not(.md-lit), html.md-js:not(.md-r-still) .md-mark:not(.md-lit) { background: transparent; border-color: var(--md-line); border-style: dashed; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.md-js:not(.md-r-still) .md-card:not(.md-lit) .md-h3, html.md-js:not(.md-r-still) .md-card:not(.md-lit) .md-p, html.md-js:not(.md-r-still) .md-card:not(.md-lit) .md-facts dd, html.md-js:not(.md-r-still) .md-mark:not(.md-lit) .md-small { color: var(--md-ink-2); }
+
+/* See all chapters: the whole page as a stepped list. Without scripts it is the last block of the page. */
+.md-r-all { padding: var(--md-band) var(--md-gutter) var(--md-foot-pad); border-top: 1px solid var(--md-line); }
+.md-r-all .md-p { color: var(--md-ink-2); }
+.md-r-list { list-style: none; margin: var(--md-stack) 0 0; padding: 0; display: grid; gap: var(--md-stack-xs); max-width: var(--md-r-all-w); }
+.md-r-list a { display: flex; gap: var(--md-gap-xs); align-items: baseline; padding: var(--md-pad-sm); background: var(--md-panel); border: 1px solid var(--md-line); border-radius: var(--md-r-sm); color: var(--md-ink); text-decoration: none; }
+.md-r-list a:hover, .md-r-list a:focus-visible { background: var(--md-panel-hover); border-color: var(--md-line-strong); }
+.md-r-list .md-mn { font: var(--md-w-label) var(--md-t-label) / 1 var(--md-font-mono); letter-spacing: var(--md-track-label); color: var(--md-accent); min-width: 2ch; }
+html.md-js .md-r-all:not(.md-open) { display: none; }
+html.md-js .md-r-all.md-open { position: fixed; inset: var(--md-r-top-h) 0 0 0; z-index: 35; overflow: auto; background: var(--md-ground); }
+.md-r-all [data-act=close] { margin-top: var(--md-stack); min-width: var(--md-r-btn-w); }
+.md-r-foot { padding: var(--md-stack) var(--md-gutter) var(--md-foot-pad); }
+
+/* held: the ride waits while a card is under the pointer or holds focus */
+html[data-hold] .md-status::after { content: ""; }
+
+/* reduced motion: every effect stops, nothing goes blank (SAFE-05) */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .md-r-bar { display: none; }
+}
+
+/* motion that exists only when the system allows motion: the orbit while the ride runs, and the card feedback.
+   Under reduced motion none of this is defined, so getAnimations() stays empty. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes md-orbit { to { transform: rotate(360deg); } }
+  @keyframes md-settle { from { translate: 0 var(--md-r-settle-px); } to { translate: 0 0; } }
+  @keyframes md-glow { from { box-shadow: 0 0 var(--md-r-glow-blur) var(--md-r-glow-spread) color-mix(in srgb, var(--md-accent) var(--md-r-glow-mix), transparent), var(--md-shadow), var(--md-inner); } to { box-shadow: var(--md-shadow), var(--md-inner); } }
+  html[data-ride="riding"] .md-r-orbit, html[data-ride="dwell"] .md-r-orbit { animation: md-orbit var(--md-r-orbit-ms) linear infinite; }
+  .md-card.md-hit .md-ring rect { transition: stroke-dashoffset var(--md-r-ring-ms) var(--md-ease-out); }
+  .md-card.md-settle { animation: md-settle var(--md-r-settle-ms) var(--md-ease-out); }
+  .md-card.md-land { animation: md-settle var(--md-r-settle-ms) var(--md-ease-out), md-glow var(--md-r-glow-ms) var(--md-ease) forwards; }
+}

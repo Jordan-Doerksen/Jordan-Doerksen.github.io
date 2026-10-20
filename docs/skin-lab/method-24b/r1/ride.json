@@ -1,0 +1,15 @@
+{
+  "variant": "r1",
+  "source": "R1, Lazy river. speed_px_s is the page's scroll speed between cards; dwell_ms is the reading pause at each card (the law's number is 2200). Every value the ride uses is here. ride-core.js writes vars to --md-r-*.",
+  "speed_px_s": 70,
+  "accel_px_s2": 110,
+  "decel_px_s2": 130,
+  "min_px_s": 6,
+  "dwell_ms": 2600,
+  "dwell_line": 0.42,
+  "step_ms": 700,
+  "step_ref_px": 600,
+  "wheel_threshold": 40,
+  "wheel_lock_ms": 500,
+  "vars": { "ring_ms": "900ms", "settle_ms": "520ms", "settle_px": "4px", "orbit_ms": "1600ms" }
+}

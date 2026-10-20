@@ -1,0 +1,19 @@
+{
+  "variant": "r2",
+  "source": "R2, Rollercoaster. speed_px_s is the car's speed along the track; orbit_ms is one lap of a card at a station; draw_ms is the time the track takes to draw to the next card; dwell_ms (the law's reading pause is 2200) covers the orbit, the draw and a rest. camera_line is where the car sits in the window (0 top, 1 bottom). Every value the ride uses is here.",
+  "speed_px_s": 90,
+  "accel_px_s2": 120,
+  "decel_px_s2": 140,
+  "min_px_s": 6,
+  "dwell_ms": 3000,
+  "orbit_ms": 1200,
+  "draw_ms": 800,
+  "camera_line": 0.45,
+  "dip_px": 26,
+  "lead_in_px": 160,
+  "step_ms": 800,
+  "step_ref_px": 600,
+  "wheel_threshold": 40,
+  "wheel_lock_ms": 500,
+  "vars": { "ring_ms": "1200ms", "tick_ms": "420ms", "orbit_ms": "1600ms", "gap": "56px" }
+}

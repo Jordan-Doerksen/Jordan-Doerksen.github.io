@@ -1,0 +1,16 @@
+{
+  "variant": "r3",
+  "source": "R3, Conveyor stage. speed_px_s is the belt's speed; dwell_ms (the law's reading pause is 2200) is how long a card stays on the dwell line; dwell_line and enter_line are fractions of the stage window's height (0 top, 1 bottom). The glow fades over glow_ms, set equal to dwell_ms. Every value the ride uses is here.",
+  "speed_px_s": 170,
+  "accel_px_s2": 260,
+  "decel_px_s2": 300,
+  "min_px_s": 8,
+  "dwell_ms": 2800,
+  "dwell_line": 0.4,
+  "enter_line": 1.0,
+  "step_ms": 650,
+  "step_ref_px": 500,
+  "wheel_threshold": 40,
+  "wheel_lock_ms": 450,
+  "vars": { "settle_ms": "420ms", "settle_px": "6px", "glow_ms": "2800ms", "orbit_ms": "1600ms" }
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" data-ride="idle">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lazy river, the four gates as a ride</title>
+<meta name="description" content="Lab render of chapter 3 of the method page: the four gates. R1 · Lazy river.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../../../method/tokens.css">
+<link rel="stylesheet" href="../../../../method/method.css">
+<link rel="stylesheet" href="../shared/ride-tokens.css">
+<link rel="stylesheet" href="../shared/ride-base.css">
+<link rel="stylesheet" href="ride.css">
+</head>
+<body class="md-skin md-skin-c md-r md-r1" data-variant="c">
+<a class="md-skip" href="#md-r-main">Skip to the content</a>
+<header class="md-r-top" data-chrome="identity_navigation">
+  <a class="md-brand" href="../index.html">Jordan Doerksen</a>
+  <p class="md-r-tag">R1 · Lazy river</p>
+  <div class="md-r-ctls" data-ctls hidden>
+    <div class="md-r-row">
+      <button type="button" class="md-btn" data-act="go" data-start="Start the ride" data-pause="Pause" data-resume="Resume">Start the ride</button>
+      <button type="button" class="md-btn" data-act="back">Back</button>
+      <button type="button" class="md-btn" data-act="next">Next</button>
+    </div>
+    <button type="button" class="md-btn" data-act="all" aria-expanded="false" aria-controls="md-r-all">See all chapters</button>
+  </div>
+</header>
+<div class="md-r-bar" aria-hidden="true"><span class="md-r-fill"></span><span class="md-r-lead"><span class="md-r-orbit"><i class="md-r-trail" data-i="3"></i><i class="md-r-trail" data-i="2"></i><i class="md-r-trail" data-i="1"></i><i class="md-r-orb"></i></span></span></div>
+<main id="md-r-main" class="md-r-main" aria-labelledby="md-r-h">
+<header class="md-r-head">
+  <span class="md-kicker">3. Four gates</span>
+  <h2 class="md-h2" id="md-r-h">Where the work stops</h2>
+  <p class="md-p">Every project passes the four gates in this order. Each gate asks one thing, stops one thing, and leaves one record on disk. Read left to right. On a phone, read top to bottom.</p>
+  <p class="md-status" role="status" aria-live="polite" data-idle="Press Start the ride. Each gate arrives at its own point." data-idle-still="Use Next and Back to step through the gates. Every gate is already shown." data-step="Gate {n} of {of}: {title}." data-held="Held while you read this gate. Move away and the ride goes on." data-done="Filed. Each gate left one record on disk.">Filed. Each gate left one record on disk.</p>
+</header>
+<ol class="md-cards" aria-label="The four gates in order">
+<li class="md-slot"><div class="md-card" id="gate-1"><svg class="md-ring" aria-hidden="true"><rect pathLength="1"></rect></svg><span class="md-n">Gate 1</span><h3 class="md-h3">The interview</h3><p class="md-p">Before anything is built, I am asked what I want. One question at a time. Each question offers choices, the recommended one first, and each choice says what it gives and what it costs.</p><dl class="md-facts"><dt>Stops</dt><dd>Building before the choice is mine.</dd><dt>Leaves</dt><dd>My answers, one per question.</dd></dl></div></li>
+<li class="md-slot"><div class="md-card" id="gate-2"><svg class="md-ring" aria-hidden="true"><rect pathLength="1"></rect></svg><span class="md-n">Gate 2</span><h3 class="md-h3">The decisions manifest</h3><p class="md-p">Every answer goes into one file, with the reason and the date. A part of the project is not coded until its decisions are in that file. Later, anyone can read why a thing is the way it is.</p><dl class="md-facts"><dt>Stops</dt><dd>Code with no decision behind it.</dd><dt>Leaves</dt><dd>A file named DECISIONS, in the project.</dd></dl></div></li>
+<li class="md-slot"><div class="md-card" id="gate-3"><svg class="md-ring" aria-hidden="true"><rect pathLength="1"></rect></svg><span class="md-n">Gate 3</span><h3 class="md-h3">The change request</h3><p class="md-p">When a decision must change, it is not changed in place. A short note says what changes, why, what it touches, and how much can go wrong. I say yes or no. A yes updates the manifest and the log.</p><dl class="md-facts"><dt>Stops</dt><dd>Drift: a change nobody agreed to.</dd><dt>Leaves</dt><dd>The request, the verdict, the log line.</dd></dl></div></li>
+<li class="md-slot"><div class="md-card" id="gate-4"><svg class="md-ring" aria-hidden="true"><rect pathLength="1"></rect></svg><span class="md-n">Gate 4</span><h3 class="md-h3">The reviewer</h3><p class="md-p">The work is checked by a reviewer that did not write it and cannot edit it. It reads the files, runs the checks, and gives one of three verdicts: pass, fail, or blocked. Only the reviewer can write the pass mark.</p><dl class="md-facts"><dt>Stops</dt><dd>A builder grading its own work.</dd><dt>Leaves</dt><dd>The verdict, with the evidence beside it.</dd></dl></div></li>
+</ol>
+<div class="md-record" id="record"><span class="md-n">The record on disk</span>
+<ol class="md-marks" aria-label="What the four gates leave on disk">
+<li class="md-mark"><span class="md-n">Gate 1</span><p class="md-h4">The interview</p><p class="md-small">My answers, one per question.</p></li>
+<li class="md-mark"><span class="md-n">Gate 2</span><p class="md-h4">The decisions manifest</p><p class="md-small">A file named DECISIONS, in the project.</p></li>
+<li class="md-mark"><span class="md-n">Gate 3</span><p class="md-h4">The change request</p><p class="md-small">The request, the verdict, the log line.</p></li>
+<li class="md-mark"><span class="md-n">Gate 4</span><p class="md-h4">The reviewer</p><p class="md-small">The verdict, with the evidence beside it.</p></li>
+</ol></div>
+</main>
+<section id="md-r-all" class="md-r-all" aria-labelledby="md-r-all-h">
+  <span class="md-kicker">The whole page</span>
+  <h2 class="md-h2" id="md-r-all-h">All ten chapters</h2>
+  <p class="md-p">Each link opens that chapter on the method page, as built in phase 2. Nothing here moves.</p>
+  <ol class="md-r-list">
+<li><a href="../../../../method/#md-top"><span class="md-mn">0</span>Opening</a></li>
+<li><a href="../../../../method/#md-words"><span class="md-mn">1</span>Three words</a></li>
+<li><a href="../../../../method/#md-interview"><span class="md-mn">2</span>The interview</a></li>
+<li><a href="../../../../method/#md-gates"><span class="md-mn">3</span>Four gates</a></li>
+<li><a href="../../../../method/#md-loops"><span class="md-mn">4</span>The build loop</a></li>
+<li><a href="../../../../method/#md-harness"><span class="md-mn">5</span>The harness</a></li>
+<li><a href="../../../../method/#md-control"><span class="md-mn">6</span>The control loop</a></li>
+<li><a href="../../../../method/#md-rules"><span class="md-mn">7</span>Six rules</a></li>
+<li><a href="../../../../method/#md-limits"><span class="md-mn">8</span>Limits</a></li>
+<li><a href="../../../../method/#adopt"><span class="md-mn">9</span>Adopt</a></li>
+<li><a href="../../../../method/#reference"><span class="md-mn">R</span>Reference</a></li>
+  </ol>
+  <button type="button" class="md-btn" data-act="close">Close the list</button>
+</section>
+<footer class="md-r-foot"><p class="md-small">Lab render of one beat for the owner's pick (item 24b). Timings are in ride.json. The ride stops under reduced motion. The page reads the same with scripts off.</p></footer>
+<script type="application/json" id="md-ride">{"variant":"r1","speed_px_s":70,"accel_px_s2":110,"decel_px_s2":130,"min_px_s":6,"dwell_ms":2600,"dwell_line":0.42,"step_ms":700,"step_ref_px":600,"wheel_threshold":40,"wheel_lock_ms":500,"vars":{"ring_ms":"900ms","settle_ms":"520ms","settle_px":"4px","orbit_ms":"1600ms"}}</script>
+<script src="../shared/ride-core.js"></script>
+<script src="ride.js"></script>
+</body>
+</html>

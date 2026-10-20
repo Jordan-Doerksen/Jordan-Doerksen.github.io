@@ -1,0 +1,16 @@
+/* compare.css: the comparison page. It wears no variant's look: plain method tokens, no ride parts. */
+.md-cmp-hero { padding: var(--md-hero-top) var(--md-gutter) var(--md-hero-bottom); border-bottom: 1px solid var(--md-line); }
+.md-cmp-hero .md-title { max-width: var(--md-measure-wide); font-size: var(--md-t-h2); }
+.md-cmp-band { padding: var(--md-band) var(--md-gutter); }
+.md-cmp-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--md-gap); }
+@media (min-width: 900px) { .md-cmp-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.md-cmp-col { display: grid; gap: var(--md-stack-sm); align-content: start; min-width: 0; background: var(--md-panel); border: 1px solid var(--md-line); border-top: var(--md-edge-w) solid var(--md-edge-gate); border-radius: var(--md-r); padding: var(--md-pad); }
+.md-cmp-col .md-facts { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: var(--md-stack-xs) var(--md-gap-xs); font-size: var(--md-t-small); line-height: var(--md-lh-small); }
+.md-cmp-col .md-facts dt { font: var(--md-w-label) var(--md-t-label) / var(--md-lh-small) var(--md-font-mono); letter-spacing: var(--md-track-label); text-transform: uppercase; color: var(--md-ink-2); }
+.md-cmp-col .md-facts dd { margin: 0; }
+.md-frame { margin: 0; position: relative; aspect-ratio: var(--md-r-frame-ratio); overflow: hidden; border: 1px solid var(--md-line-strong); border-radius: var(--md-r); background: var(--md-ground); }
+.md-frame iframe { position: absolute; top: 0; left: 0; width: var(--md-r-frame-zoom); height: var(--md-r-frame-zoom); border: 0; transform: scale(var(--md-r-frame-scale)); transform-origin: 0 0; }
+.md-still { margin: 0; display: grid; gap: var(--md-stack-xs); }
+.md-still img { display: block; width: 100%; height: auto; border: 1px solid var(--md-line); border-radius: var(--md-r); }
+.md-cmp-links { display: flex; flex-wrap: wrap; gap: var(--md-gap); }
+.md-cmp-bar { display: flex; align-items: center; justify-content: space-between; gap: var(--md-gap); padding: var(--md-pad-sm) var(--md-gutter); border-bottom: 1px solid var(--md-line); }
