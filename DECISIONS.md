@@ -574,6 +574,9 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
     amason-space-service, amason-space-service-unity, amasonspaceservice, boat-rogue, pentafall. Each game's own page
     stays online. `scripts/build_tier3_wall.py` skips unlisted rows, so the wall keeps Closing Bell, Echo Bat and
     Star Charter Pro. Fulfillment and Typecase are not on the wall (no canvas); that is a later design item.
+  - **Selftest fixture (master's decision, 2026-10-20):** item 19's Home composition A removed the "Rail software" link
+    text, so the mutation "a link to nothing" no longer applied. It now breaks the same link on its "Trainers"
+    heading. Same check, same strength; the selftest prints 23 of 23 caught.
   - **Reversible:** set `desk.toolkit_panel` to `true`, restore the `extra` row, remove the flag.
 - 2026-10-20 — **CR-25 (Site card item 19, rank high): the Home body is recomposed three ways for the owner to
   pick one. Generation contract (WEB-11), written before code. Nothing is promoted to the live root.**

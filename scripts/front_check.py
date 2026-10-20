@@ -507,7 +507,9 @@ MUTATIONS = [
     ("a bare element selector", "selectors_scoped", P, "append", "p { margin: 0; }"),
     ("a class that is not styled", "classes_defined", H, "replace", ('class="fp-role"', 'class="fp-nope"')),
     ("a repeated id", "ids_unique", H, "replace", ('<h1 class="fp-title">', '<h1 class="fp-title" id="fp-main">')),
-    ("a link to nothing", "links_resolve", H, "replace", ('href="work/rail-software/index.html">Rail software', 'href="nope/index.html">Rail software')),
+    # Retargeted 2026-10-20 (master's decision): Home composition A, promoted in item 19, has no "Rail software" link
+    # text. The same link is the "Trainers" heading there. Same check, same strength.
+    ("a link to nothing", "links_resolve", H, "replace", ('href="work/rail-software/index.html">Trainers', 'href="nope/index.html">Trainers')),
     ("no aria-current", "nav_identical", H, "replace", (' aria-current="page"', "")),
     ("a wrong figure", "home_figures", H, "replace", ("<b>2,204</b>", "<b>9,999</b>")),
     ("a wrong guard count", "home_figures", H, "replace", ("<b>728</b>", "<b>999</b>")),
