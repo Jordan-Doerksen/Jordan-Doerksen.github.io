@@ -569,6 +569,11 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
     panel when its markup is absent.
   - **Check:** `c_desk_rows` in `scripts/front_check.py` now counts the rows the page owes (registry and `extra`
     without `unlisted` rows). This matches the page; it does not weaken the check.
+  - **Games (Site card item 21, owner via Intake, 2026-10-20):** 13 games carry `"unlisted": true`: diablo-act1,
+    fulfillment-lite, star-charter, first-light, glass-atlas, holdout, orbital-field, pentafall-rebuild,
+    amason-space-service, amason-space-service-unity, amasonspaceservice, boat-rogue, pentafall. Each game's own page
+    stays online. `scripts/build_tier3_wall.py` skips unlisted rows, so the wall keeps Closing Bell, Echo Bat and
+    Star Charter Pro. Fulfillment and Typecase are not on the wall (no canvas); that is a later design item.
   - **Reversible:** set `desk.toolkit_panel` to `true`, restore the `extra` row, remove the flag.
 - 2026-10-20 — **CR-25 (Site card item 19, rank high): the Home body is recomposed three ways for the owner to
   pick one. Generation contract (WEB-11), written before code. Nothing is promoted to the live root.**

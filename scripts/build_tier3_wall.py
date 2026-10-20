@@ -50,6 +50,7 @@ def main():
     candidates = [p for p in reg["projects"]
                   if p.get("category") == "games"
                   and p.get("status") == "live"
+                  and p.get("unlisted") is not True   # owner's 2026-10-20 games ruling: an unlisted game is not on the wall
                   and p.get("url")]
 
     games, dropped, no_attract = [], [], []

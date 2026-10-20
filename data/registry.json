@@ -166,6 +166,7 @@
    "url": "/games/diablo-act1/",
    "repo": null,
    "featured": false,
+   "unlisted": true,
    "spec": "SINGLE FILE · TRIBUTE"
   },
   {
@@ -199,6 +200,7 @@
    "url": "/games/first-light/",
    "repo": null,
    "featured": false,
+   "unlisted": true,
    "spec": "DOMAIN-SPLIT · SEEDED NIGHTS"
   },
   {
@@ -232,6 +234,7 @@
    "url": "/games/fulfillment-lite/",
    "repo": null,
    "featured": false,
+   "unlisted": true,
    "spec": "DOMAIN-SPLIT · SEEDED SHIFTS"
   },
   {
@@ -248,6 +251,7 @@
    "url": "/games/glass-atlas/",
    "repo": null,
    "featured": true,
+   "unlisted": true,
    "spec": "DETERMINISTIC · SAVES PNG"
   },
   {
@@ -265,6 +269,7 @@
    "url": "/games/holdout/",
    "repo": null,
    "featured": false,
+   "unlisted": true,
    "spec": "DOMAIN-SPLIT · WAVE 30 OR NOTHING"
   },
   {
@@ -281,6 +286,7 @@
    "url": "/games/orbital-field/",
    "repo": null,
    "featured": false,
+   "unlisted": true,
    "spec": "TOY · NO SCORE"
   },
   {
@@ -298,6 +304,7 @@
    "url": null,
    "repo": null,
    "featured": false,
+   "unlisted": true,
    "spec": "485 TESTS · DETERMINISTIC"
   },
   {
@@ -314,6 +321,7 @@
    "url": "/games/star-charter/",
    "repo": null,
    "featured": false,
+   "unlisted": true,
    "spec": "SINGLE FILE · NO BUILD"
   },
   {
@@ -363,6 +371,7 @@
    "url": null,
    "repo": null,
    "featured": false,
+   "unlisted": true,
    "spec": "GODOT 4.7 · DETERMINISTIC"
   },
   {
@@ -379,6 +388,7 @@
    "url": null,
    "repo": null,
    "featured": false,
+   "unlisted": true,
    "spec": "UNITY 6 · EMPTY SCAFFOLD"
   },
   {
@@ -395,6 +405,7 @@
    "url": null,
    "repo": null,
    "featured": false,
+   "unlisted": true,
    "spec": "DUPLICATE CHECKOUT",
    "supersededBy": "amason-space-service"
   },
@@ -412,6 +423,7 @@
    "url": null,
    "repo": null,
    "featured": false,
+   "unlisted": true,
    "spec": "DESIGN PHASE · NO CODE YET"
   },
   {
@@ -428,6 +440,7 @@
    "url": null,
    "repo": null,
    "featured": false,
+   "unlisted": true,
    "spec": "REACT + CANVAS · SUPERSEDED",
    "supersededBy": "pentafall-rebuild"
   },
