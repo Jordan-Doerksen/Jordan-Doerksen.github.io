@@ -39,7 +39,7 @@
   --md-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
   --md-inner: inset 0 1px 0 rgba(255, 255, 255, 0.07);
   --md-glow: radial-gradient(ellipse at 22% 35%, rgba(70, 130, 255, 0.26), rgba(70, 130, 255, 0) 55%);
-  --md-glow-anim: md-drift;
+  --md-glow-anim: none;   /* DISP-02: motion introduces, never decorates; the glow stays, the drift is off */
   --md-glow-dur: 18s;
   --md-glow-size: 130% 100%;
 
@@ -53,6 +53,7 @@
   --md-w-body: 400;
   --md-w-label: 500;
   --md-t-display: clamp(42px, 6.2vw, 86px);
+  --md-t-sentence: clamp(28px, 4.2vw, 58px);
   --md-t-h2: clamp(28px, 3vw, 40px);
   --md-t-h3: clamp(17px, 1.4vw, 20px);
   --md-t-h4: 16px;
@@ -76,6 +77,7 @@
   --md-measure: 60ch;
   --md-measure-lede: 52ch;
   --md-measure-title: 14ch;
+  --md-measure-sentence: 24ch;
   --md-measure-wide: 78ch;
   --md-wide-cols: 1fr 3fr;
 
@@ -117,4 +119,26 @@
   --md-t-fast: 200ms;
   --md-t-reveal: 480ms;
   --md-reveal-y: 16px;
+
+  /* the film (item 24, CR-28): sizes and rest values only. Time lives in motion.json. No colour is added here. */
+  --md-rail-h: 40px;
+  --md-meter-h: 3px;
+  --md-pin-top: calc(var(--md-bar-h) + var(--md-rail-h));
+  --md-p: 0;
+  --md-wp: 1;
+  --md-mp: 1;
+  --md-file-lift: 28px;
+  --md-dash-len: 1 2;
+  --md-dash-hide: 1.05;
+  --md-stage-pad: clamp(10px, 1.6vw, 20px);
+  --md-menu-w: 320px;
+  --md-ctlbox-w: 340px;
+  --md-status-h: calc(var(--md-t-small) * var(--md-lh-small) * 2);
+  --md-term-h: 15em;
+  --md-term-t: 12.5px;
+  --md-term-lh: 1.5;
+  --md-dg-label-w: 84px;
+  --md-dp-w: 76px;
+  --md-dp-h: 40px;
+  --md-anchor-off: calc(var(--md-bar-h) + var(--md-rail-h) + 12px);
 }

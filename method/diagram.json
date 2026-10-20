@@ -1,0 +1,35 @@
+{
+  "source": "The one diagram of the method. build_method.py stamps it at the end of each chapter: parts from earlier chapters placed, parts of this chapter arriving, later parts as empty dashed slots. It is complete at chapter 9.",
+  "chapters": ["md-top", "md-words", "md-interview", "md-gates", "md-loops", "md-harness", "md-control", "md-rules", "md-limits", "adopt"],
+  "zones": [
+    { "label": "Words", "parts": [
+      { "label": "Gate", "ch": 1, "kind": "gate" },
+      { "label": "Loop", "ch": 1, "kind": "gate" },
+      { "label": "Rule", "ch": 1, "kind": "gate" } ] },
+    { "label": "Record", "parts": [
+      { "label": "DECISIONS.md", "ch": 2, "kind": "gate" } ] },
+    { "label": "Gates", "parts": [
+      { "label": "The interview", "ch": 3, "kind": "gate" },
+      { "label": "The decisions manifest", "ch": 3, "kind": "gate" },
+      { "label": "The change request", "ch": 3, "kind": "gate" },
+      { "label": "The reviewer", "ch": 3, "kind": "gate" } ] },
+    { "label": "Loops", "parts": [
+      { "label": "The build loop", "ch": 4, "kind": "loop" },
+      { "label": "The control loop", "ch": 6, "kind": "loop" } ] },
+    { "label": "Parts", "parts": [
+      { "label": "Hooks", "ch": 5, "kind": "gate" },
+      { "label": "The Doctor", "ch": 5, "kind": "gate" },
+      { "label": "The brain", "ch": 5, "kind": "gate" } ] },
+    { "label": "Control", "parts": [
+      { "label": "Intake", "ch": 6, "kind": "control" },
+      { "label": "Six domains", "ch": 6, "kind": "control" },
+      { "label": "Writers", "ch": 6, "kind": "control" } ] },
+    { "label": "Rules", "parts": [
+      { "label": "One word, one test", "ch": 7, "kind": "gate" },
+      { "label": "One question at a time", "ch": 7, "kind": "gate" },
+      { "label": "Nothing runs by itself", "ch": 7, "kind": "gate" },
+      { "label": "Blank beats wrong", "ch": 7, "kind": "gate" },
+      { "label": "The record is on disk", "ch": 7, "kind": "gate" },
+      { "label": "A report is not proof", "ch": 7, "kind": "gate" } ] }
+  ]
+}

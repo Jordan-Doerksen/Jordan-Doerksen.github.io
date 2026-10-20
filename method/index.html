@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gates, loops and rules</title>
-<meta name="description" content="How the work runs: four gates, two loops, six rules, and a record on disk for every step.">
+<meta name="description" content="How the work runs: four gates, two loops, six rules, and a record on disk for every step. Includes how to install the design-first kit.">
+<link rel="canonical" href="https://jordan-doerksen.github.io/method/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -16,171 +17,706 @@
 
 <div class="md-bar" data-chrome="identity_navigation"><div class="md-bar-in">
   <a class="md-brand" href="#md-top">Jordan Doerksen</a>
-  <nav class="md-nav" aria-label="Sections">
-    <a href="#md-words">Words</a><a href="#md-gates">Gates</a><a href="#md-loops">Loops</a><a href="#md-rules">Rules</a><a class="md-home" href="../index.html">Home</a>
+  <nav class="md-nav" aria-label="Method">
+    <details class="md-menu">
+      <summary>Chapters</summary>
+      <ol class="md-menu-list">
+        <li><a href="#md-top"><span class="md-mn">0</span>Opening</a></li>
+        <li><a href="#md-words"><span class="md-mn">1</span>Three words</a></li>
+        <li><a href="#md-interview"><span class="md-mn">2</span>The interview</a></li>
+        <li><a href="#md-gates"><span class="md-mn">3</span>Four gates</a></li>
+        <li><a href="#md-loops"><span class="md-mn">4</span>The build loop</a></li>
+        <li><a href="#md-harness"><span class="md-mn">5</span>The harness</a></li>
+        <li><a href="#md-control"><span class="md-mn">6</span>The control loop</a></li>
+        <li><a href="#md-rules"><span class="md-mn">7</span>Six rules</a></li>
+        <li><a href="#md-limits"><span class="md-mn">8</span>Limits</a></li>
+        <li><a href="#adopt"><span class="md-mn">9</span>Adopt</a></li>
+        <li><a href="#reference"><span class="md-mn">R</span>Reference</a></li>
+      </ol>
+    </details>
+    <a class="md-home" href="../index.html">Home</a>
   </nav>
 </div></div>
+<div class="md-rail" data-chrome="narrative_rail">
+  <div class="md-rail-in"><span class="md-n md-rail-n">Ten chapters</span><span class="md-small md-rail-t">Opening to Adopt</span></div>
+  <div class="md-meter" aria-hidden="true"><div class="md-meter-fill"></div></div>
+</div>
 
-<header id="md-top" class="md-hero">
+<main id="md-main">
+
+<!-- 0. Opening -->
+<header id="md-top" class="md-hero" data-ch="0" data-title="Opening">
   <div class="md-glow" aria-hidden="true"></div>
   <div class="md-hero-in">
     <span class="md-kicker">How the work runs</span>
-    <h1 class="md-title">Gates, loops<br>and rules.</h1>
+    <h1 class="md-title">Work moves through four gates, around two loops, held by six rules, and every step leaves a record on disk.</h1>
     <p class="md-lede">I build trading instruments, training software and games, many at once. This page explains the method that keeps them apart and keeps them honest. It is written for a reader who has never heard the word loop. Nothing on it is clever. All of it is written down.</p>
+    <p class="md-small md-hint">The outline below is empty. Each chapter fills in one part of it.</p>
+    <div class="md-dgwrap"><span class="md-n">The outline</span>
+<!-- md:stamp diagram-0 -->
+<div class="md-dg" role="group" aria-label="The outline of the method, still empty">
+<div class="md-dgz"><span class="md-n">Words</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Record</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Gates</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Loops</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Parts</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Control</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Rules</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+</div>
+<!-- /md:stamp diagram-0 -->
+    </div>
   </div>
 </header>
 
-<main id="md-main" class="md-main">
+<div class="md-main">
 
-<section id="md-words" class="md-band">
-  <div class="md-head md-rv">
-    <span class="md-kicker">1. Three words</span>
-    <h2 class="md-h2">The words this page uses</h2>
-    <p class="md-p">Each one is a plain idea. The method is only these three, put in a fixed order.</p>
-  </div>
-  <dl class="md-words">
-    <div class="md-word md-rv"><dt>A gate</dt><dd>A point where the work stops until someone says yes. The work cannot go around it. A gate has a name, a question, and a record of the answer.</dd></div>
-    <div class="md-word md-rv"><dt>A loop</dt><dd>A short list of steps that runs again and again. Each run ends with a check. If the check fails, the loop runs once more. If it passes, the work moves to the next gate.</dd></div>
-    <div class="md-word md-rv"><dt>A rule</dt><dd>A sentence that is always true, in every project, on every day. A rule is not a goal. If a rule is broken, the work is wrong, even when the result looks right.</dd></div>
-  </dl>
-</section>
-
-<section id="md-gates" class="md-band">
-  <div class="md-head md-rv">
-    <span class="md-kicker">2. Four gates</span>
-    <h2 class="md-h2">Where the work stops</h2>
-    <p class="md-p">Every project passes the four gates in this order. Each gate asks one thing, stops one thing, and leaves one record on disk. Read left to right. On a phone, read top to bottom.</p>
-  </div>
-  <ol class="md-chain md-gatechain" aria-label="The four gates in order">
-    <li class="md-node md-rv">
-      <span class="md-n">Gate 1</span>
-      <h3 class="md-h3">The interview</h3>
-      <p class="md-p">Before anything is built, I am asked what I want. One question at a time. Each question offers choices, the recommended one first, and each choice says what it gives and what it costs.</p>
-      <dl class="md-facts"><dt>Stops</dt><dd>Building before the choice is mine.</dd><dt>Leaves</dt><dd>My answers, one per question.</dd></dl>
-    </li>
-    <li class="md-wire" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
-    <li class="md-node md-rv">
-      <span class="md-n">Gate 2</span>
-      <h3 class="md-h3">The decisions manifest</h3>
-      <p class="md-p">Every answer goes into one file, with the reason and the date. A part of the project is not coded until its decisions are in that file. Later, anyone can read why a thing is the way it is.</p>
-      <dl class="md-facts"><dt>Stops</dt><dd>Code with no decision behind it.</dd><dt>Leaves</dt><dd>A file named DECISIONS, in the project.</dd></dl>
-    </li>
-    <li class="md-wire" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
-    <li class="md-node md-rv">
-      <span class="md-n">Gate 3</span>
-      <h3 class="md-h3">The change request</h3>
-      <p class="md-p">When a decision must change, it is not changed in place. A short note says what changes, why, what it touches, and how much can go wrong. I say yes or no. A yes updates the manifest and the log.</p>
-      <dl class="md-facts"><dt>Stops</dt><dd>Drift: a change nobody agreed to.</dd><dt>Leaves</dt><dd>The request, the verdict, the log line.</dd></dl>
-    </li>
-    <li class="md-wire" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
-    <li class="md-node md-rv">
-      <span class="md-n">Gate 4</span>
-      <h3 class="md-h3">The reviewer</h3>
-      <p class="md-p">The work is checked by a reviewer that did not write it and cannot edit it. It reads the files, runs the checks, and gives one of three verdicts: pass, fail, or blocked. Only the reviewer can write the pass mark.</p>
-      <dl class="md-facts"><dt>Stops</dt><dd>A builder grading its own work.</dd><dt>Leaves</dt><dd>The verdict, with the evidence beside it.</dd></dl>
-    </li>
-  </ol>
-</section>
-
-<section id="md-loops" class="md-band">
-  <div class="md-head md-rv">
-    <span class="md-kicker">3. Two loops</span>
-    <h2 class="md-h2">What runs again and again</h2>
-    <p class="md-p">The gates are fixed points. Between them, two loops do the work. The first builds a project in pieces. The second keeps many projects apart.</p>
-  </div>
-
-  <div class="md-loop md-rv">
-    <div class="md-loop-head">
-      <h3 class="md-h3">The build loop</h3>
-      <p class="md-p">A project is built in chunks. A chunk is the smallest piece that works on its own. Each chunk goes around this loop once.</p>
-    </div>
-    <ol class="md-chain md-buildchain" aria-label="The build loop: build, cross-check, report, and back">
-      <li class="md-node">
-        <span class="md-n">Step 1</span>
-        <h4 class="md-h4">Build a chunk</h4>
-        <p class="md-p">Only the files that belong to this chunk are touched. Nothing else is tidied, moved or improved on the way.</p>
-      </li>
-      <li class="md-wire" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
-      <li class="md-node">
-        <span class="md-n">Step 2</span>
-        <h4 class="md-h4">Cross-check</h4>
-        <p class="md-p">The chunk is held against three things: the manifest, the map of the project, and the one goal the project exists for. A chunk that drifts from any of them goes back to step 1.</p>
-      </li>
-      <li class="md-wire" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
-      <li class="md-node">
-        <span class="md-n">Step 3</span>
-        <h4 class="md-h4">Report</h4>
-        <p class="md-p">Four lines come back to me: where the work is, which files changed, what it needs from me, and what it is blocked on. Then the next chunk starts, or a change request does.</p>
-      </li>
-    </ol>
-    <div class="md-return" aria-hidden="true">
-      <svg viewBox="0 0 1000 40" preserveAspectRatio="none"><path d="M985 2 V26 H15 V8" /></svg>
-      <svg class="md-return-tip" viewBox="0 0 24 24"><path d="M5 12 L12 4 L19 12" /></svg>
-      <span class="md-return-label">back to step 1 with the next chunk</span>
-    </div>
-  </div>
-
-  <div class="md-loop md-rv">
-    <div class="md-loop-head">
-      <h3 class="md-h3">The control loop</h3>
-      <p class="md-p">I run many projects at once and I have one head. This loop keeps them apart. An idea goes in at the top. One line comes back at the bottom.</p>
-    </div>
-    <div class="md-layers">
-      <div class="md-layer">
-        <div class="md-layer-label"><span class="md-kicker">Top</span><span class="md-small">one door, every idea</span></div>
-        <div class="md-node md-node-wide">
-          <h4 class="md-h4">Intake</h4>
-          <p class="md-p">Every idea is written here first, in whatever shape it has. Intake sorts it into one of six domains, asks what is wanted and what is not, and hands one written request to that domain. It never does the work itself.</p>
-        </div>
+<!-- 1. Three words -->
+<section id="md-words" class="md-chapter" data-ch="1" data-title="Three words" data-kind="gate" aria-labelledby="md-words-h">
+  <div class="md-track"><div class="md-pin">
+    <div class="md-top">
+      <div class="md-head">
+        <span class="md-kicker">1. Three words</span>
+        <h2 class="md-h2" id="md-words-h">The words this page uses</h2>
+        <p class="md-p">Each one is a plain idea. The method is only these three, put in a fixed order.</p>
       </div>
-      <div class="md-drop" aria-hidden="true"><svg viewBox="0 0 24 40" preserveAspectRatio="xMidYMid meet"><path d="M12 2 V30 M5 24 L12 31 L19 24" /></svg></div>
-      <div class="md-layer">
-        <div class="md-layer-label"><span class="md-kicker">Middle</span><span class="md-small">six domains, one word each, one test each</span></div>
-        <ul class="md-masters" aria-label="The six domain masters">
-          <li class="md-node md-master"><h4 class="md-h4">Desk</h4><p class="md-small">It reads a market or serves the operator.</p></li>
-          <li class="md-node md-master"><h4 class="md-h4">Games</h4><p class="md-small">Someone plays it.</p></li>
-          <li class="md-node md-master"><h4 class="md-h4">Site</h4><p class="md-small">It ships under my own name.</p></li>
-          <li class="md-node md-master"><h4 class="md-h4">Rail</h4><p class="md-small">It teaches or checks a rule.</p></li>
-          <li class="md-node md-master"><h4 class="md-h4">Tools</h4><p class="md-small">It runs on this machine, for me alone.</p></li>
-          <li class="md-node md-master"><h4 class="md-h4">Method</h4><p class="md-small">It changes how the work is done, not what is built.</p></li>
-        </ul>
-        <p class="md-p md-layer-note">Each domain has one master. A master holds the domain's record, starts the work, and answers Intake with one line.</p>
-      </div>
-      <div class="md-drop" aria-hidden="true"><svg viewBox="0 0 24 40" preserveAspectRatio="xMidYMid meet"><path d="M12 2 V30 M5 24 L12 31 L19 24" /></svg></div>
-      <div class="md-layer">
-        <div class="md-layer-label"><span class="md-kicker">Bottom</span><span class="md-small">the writers</span></div>
-        <div class="md-node md-node-wide">
-          <h4 class="md-h4">A writer</h4>
-          <p class="md-p">A master starts one writer per set of files. The writer gets a brief: the goal, the files, what done looks like, what is ruled out. It works on its own copy, touches nothing else, and reports back in four lines when its turn ends. Two writers never touch the same file.</p>
-        </div>
-      </div>
-      <div class="md-up" aria-hidden="true">
-        <svg viewBox="0 0 24 40" preserveAspectRatio="xMidYMid meet"><path d="M12 38 V10 M5 16 L12 9 L19 16" /></svg>
-        <span class="md-return-label">the report goes back up: writer to master, master to Intake, Intake to me</span>
-      </div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each word arrives at its own point." data-step="Word {n} of {of}: {title}." data-done="Filed. The three words are on the diagram below.">Filed. The three words are on the diagram below.</p></div>
     </div>
+    <div class="md-stage">
+      <ol class="md-grid md-grid-3" aria-label="The three words">
+        <li class="md-arr"><span class="md-n">Word 1</span><h3 class="md-h3">A gate</h3><p class="md-p">A point where the work stops until someone says yes. The work cannot go around it. A gate has a name, a question, and a record of the answer.</p></li>
+        <li class="md-arr"><span class="md-n">Word 2</span><h3 class="md-h3">A loop</h3><p class="md-p">A short list of steps that runs again and again. Each run ends with a check. If the check fails, the loop runs once more. If it passes, the work moves to the next gate.</p></li>
+        <li class="md-arr"><span class="md-n">Word 3</span><h3 class="md-h3">A rule</h3><p class="md-p">A sentence that is always true, in every project, on every day. A rule is not a goal. If a rule is broken, the work is wrong, even when the result looks right.</p></li>
+      </ol>
+    </div>
+    <div class="md-spine">
+      <span class="md-n">The record: a three-word legend</span>
+      <ol class="md-grid md-grid-3" aria-label="The legend">
+        <li class="md-mark"><span class="md-n">Gate</span><p class="md-small">Stops until someone says yes.</p></li>
+        <li class="md-mark"><span class="md-n">Loop</span><p class="md-small">Runs again and ends with a check.</p></li>
+        <li class="md-mark"><span class="md-n">Rule</span><p class="md-small">Always true.</p></li>
+      </ol>
+    </div>
+  </div></div>
+  <div class="md-dgwrap"><span class="md-n">The method so far</span>
+<!-- md:stamp diagram-1 -->
+<div class="md-dg" role="group" aria-label="The method so far, up to chapter 1">
+<div class="md-dgz"><span class="md-n">Words</span><ul class="md-dgp">
+<li class="md-dp md-new" data-kind="gate">Gate</li>
+<li class="md-dp md-new" data-kind="gate">Loop</li>
+<li class="md-dp md-new" data-kind="gate">Rule</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Record</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Gates</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Loops</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Parts</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Control</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Rules</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+</div>
+<!-- /md:stamp diagram-1 -->
   </div>
 </section>
 
-<section id="md-rules" class="md-band">
-  <div class="md-head md-rv">
-    <span class="md-kicker">4. Six rules</span>
-    <h2 class="md-h2">What holds it together</h2>
-    <p class="md-p">None of these is about software. They are about not fooling myself.</p>
+<!-- 2. The interview -->
+<section id="md-interview" class="md-chapter" data-ch="2" data-title="The interview" data-kind="gate" aria-labelledby="md-interview-h">
+  <div class="md-track"><div class="md-pin">
+    <div class="md-top">
+      <div class="md-head">
+        <span class="md-kicker">2. The interview</span>
+        <h2 class="md-h2" id="md-interview-h">The work starts with questions</h2>
+        <p class="md-p">The first command, <code>/design-first:adopt</code>, asks <!-- md:stamp adopt-count -->the questions<!-- /md:stamp adopt-count --> questions, one at a time. Each question marks the recommended answer. Silence is not approval. The command only asks. A script does every write.</p>
+      </div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each question arrives at its own point." data-step="Question {n} of {of}: {title}." data-done="Filed. The answers go into one file, DECISIONS.md.">Filed. The answers go into one file, DECISIONS.md.</p></div>
+    </div>
+    <div class="md-stage">
+      <ol class="md-grid md-grid-2" aria-label="The adopt questions">
+<!-- md:stamp adopt-questions -->
+<!-- /md:stamp adopt-questions -->
+      </ol>
+    </div>
+    <div class="md-spine">
+      <span class="md-n">The record: a card on the diagram</span>
+      <ol class="md-grid" aria-label="What the interview leaves">
+        <li class="md-mark"><span class="md-n">DECISIONS.md</span><p class="md-small">Every answer, with the reason and the date.</p></li>
+      </ol>
+    </div>
+  </div></div>
+  <div class="md-dgwrap"><span class="md-n">The method so far</span>
+<!-- md:stamp diagram-2 -->
+<div class="md-dg" role="group" aria-label="The method so far, up to chapter 2">
+<div class="md-dgz"><span class="md-n">Words</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">Gate</li>
+<li class="md-dp" data-kind="gate">Loop</li>
+<li class="md-dp" data-kind="gate">Rule</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Record</span><ul class="md-dgp">
+<li class="md-dp md-new" data-kind="gate">DECISIONS.md</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Gates</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Loops</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Parts</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Control</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Rules</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+</div>
+<!-- /md:stamp diagram-2 -->
   </div>
-  <ol class="md-rules">
-    <li class="md-rule md-rv"><span class="md-n">01</span><h3 class="md-h3">One word, one test</h3><p class="md-p">A domain is one noun for the thing built, never the method and never the tool. Each domain has one test. If an idea passes two tests, it is two ideas.</p></li>
-    <li class="md-rule md-rv"><span class="md-n">02</span><h3 class="md-h3">One question at a time</h3><p class="md-p">A question comes with choices. The recommended choice is first, and every choice says what it gives and what it costs. "Both are fine" is not an answer.</p></li>
-    <li class="md-rule md-rv"><span class="md-n">03</span><h3 class="md-h3">Nothing runs by itself</h3><p class="md-p">No timers, no schedules, nothing at login. I start every job. If I did not press it, it did not happen.</p></li>
-    <li class="md-rule md-rv"><span class="md-n">04</span><h3 class="md-h3">Blank beats wrong</h3><p class="md-p">A panel with no data shows nothing. It never shows a guess. A check that could not look never reports green. Absent is not zero.</p></li>
-    <li class="md-rule md-rv"><span class="md-n">05</span><h3 class="md-h3">The record is on disk</h3><p class="md-p">A conversation forgets. A file does not. Every decision, every verdict and every domain's state is a file I can open without opening the conversation.</p></li>
-    <li class="md-rule md-rv"><span class="md-n">06</span><h3 class="md-h3">A report is not proof</h3><p class="md-p">"Done" is checked against the file, the test or the commit before it is believed. Proof is the command and what it printed. The checker is never the one who did the work.</p></li>
-  </ol>
 </section>
 
+<!-- 3. Four gates -->
+<section id="md-gates" class="md-chapter" data-ch="3" data-title="Four gates" data-kind="gate" aria-labelledby="md-gates-h">
+  <div class="md-track"><div class="md-pin">
+    <div class="md-top">
+      <div class="md-head">
+        <span class="md-kicker">3. Four gates</span>
+        <h2 class="md-h2" id="md-gates-h">Where the work stops</h2>
+        <p class="md-p">Every project passes the four gates in this order. Each gate asks one thing, stops one thing, and leaves one record on disk. Read left to right. On a phone, read top to bottom.</p>
+      </div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each gate arrives at its own point." data-step="Gate {n} of {of}: {title}." data-done="Filed. Each gate left one record on disk.">Filed. Each gate left one record on disk.</p></div>
+    </div>
+    <div class="md-stage">
+      <ol class="md-chain" aria-label="The four gates in order">
+        <li class="md-arr"><span class="md-n">Gate 1</span><h3 class="md-h3">The interview</h3><p class="md-p">Before anything is built, I am asked what I want. One question at a time. Each question offers choices, the recommended one first, and each choice says what it gives and what it costs.</p><dl class="md-facts"><dt>Stops</dt><dd>Building before the choice is mine.</dd><dt>Leaves</dt><dd>My answers, one per question.</dd></dl></li>
+        <li class="md-wire" data-after="0" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path pathLength="1" d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
+        <li class="md-arr"><span class="md-n">Gate 2</span><h3 class="md-h3">The decisions manifest</h3><p class="md-p">Every answer goes into one file, with the reason and the date. A part of the project is not coded until its decisions are in that file. Later, anyone can read why a thing is the way it is.</p><dl class="md-facts"><dt>Stops</dt><dd>Code with no decision behind it.</dd><dt>Leaves</dt><dd>A file named DECISIONS, in the project.</dd></dl></li>
+        <li class="md-wire" data-after="1" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path pathLength="1" d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
+        <li class="md-arr"><span class="md-n">Gate 3</span><h3 class="md-h3">The change request</h3><p class="md-p">When a decision must change, it is not changed in place. A short note says what changes, why, what it touches, and how much can go wrong. I say yes or no. A yes updates the manifest and the log.</p><dl class="md-facts"><dt>Stops</dt><dd>Drift: a change nobody agreed to.</dd><dt>Leaves</dt><dd>The request, the verdict, the log line.</dd></dl></li>
+        <li class="md-wire" data-after="2" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path pathLength="1" d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
+        <li class="md-arr"><span class="md-n">Gate 4</span><h3 class="md-h3">The reviewer</h3><p class="md-p">The work is checked by a reviewer that did not write it and cannot edit it. It reads the files, runs the checks, and gives one of three verdicts: pass, fail, or blocked. Only the reviewer can write the pass mark.</p><dl class="md-facts"><dt>Stops</dt><dd>A builder grading its own work.</dd><dt>Leaves</dt><dd>The verdict, with the evidence beside it.</dd></dl></li>
+      </ol>
+    </div>
+    <div class="md-spine">
+      <span class="md-n">The record on disk</span>
+      <ol class="md-chain" aria-label="What the four gates leave on disk">
+        <li class="md-mark"><span class="md-n">Gate 1</span><p class="md-h4">The interview</p><p class="md-small">My answers, one per question.</p></li>
+        <li class="md-mark"><span class="md-n">Gate 2</span><p class="md-h4">The decisions manifest</p><p class="md-small">A file named DECISIONS, in the project.</p></li>
+        <li class="md-mark"><span class="md-n">Gate 3</span><p class="md-h4">The change request</p><p class="md-small">The request, the verdict, the log line.</p></li>
+        <li class="md-mark"><span class="md-n">Gate 4</span><p class="md-h4">The reviewer</p><p class="md-small">The verdict, with the evidence beside it.</p></li>
+      </ol>
+    </div>
+  </div></div>
+  <div class="md-dgwrap"><span class="md-n">The method so far</span>
+<!-- md:stamp diagram-3 -->
+<div class="md-dg" role="group" aria-label="The method so far, up to chapter 3">
+<div class="md-dgz"><span class="md-n">Words</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">Gate</li>
+<li class="md-dp" data-kind="gate">Loop</li>
+<li class="md-dp" data-kind="gate">Rule</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Record</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">DECISIONS.md</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Gates</span><ul class="md-dgp">
+<li class="md-dp md-new" data-kind="gate">The interview</li>
+<li class="md-dp md-new" data-kind="gate">The decisions manifest</li>
+<li class="md-dp md-new" data-kind="gate">The change request</li>
+<li class="md-dp md-new" data-kind="gate">The reviewer</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Loops</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Parts</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Control</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Rules</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+</div>
+<!-- /md:stamp diagram-3 -->
+  </div>
+</section>
+
+<!-- 4. The build loop -->
+<section id="md-loops" class="md-chapter" data-ch="4" data-title="The build loop" data-kind="loop" aria-labelledby="md-loops-h">
+  <div class="md-track"><div class="md-pin">
+    <div class="md-top">
+      <div class="md-head">
+        <span class="md-kicker">4. The build loop</span>
+        <h2 class="md-h2" id="md-loops-h">What runs again and again</h2>
+        <p class="md-p">The gates are fixed points. Between them, a loop does the work. A project is built in chunks. A chunk is the smallest piece that works on its own. Each chunk goes around this loop once.</p>
+      </div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each step arrives at its own point." data-step="Step {n} of {of}: {title}." data-done="Filed. The loop repeats with every chunk.">Filed. The loop repeats with every chunk.</p></div>
+    </div>
+    <div class="md-stage">
+      <ol class="md-chain" aria-label="The build loop: build, cross-check, report, and the next chunk">
+        <li class="md-arr"><span class="md-n">Step 1</span><h3 class="md-h3">Build a chunk</h3><p class="md-p">Only the files that belong to this chunk are touched. Nothing else is tidied, moved or improved on the way.</p></li>
+        <li class="md-wire" data-after="0" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path pathLength="1" d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
+        <li class="md-arr"><span class="md-n">Step 2</span><h3 class="md-h3">Cross-check</h3><p class="md-p">The chunk is held against three things: the manifest, the map of the project, and the one goal the project exists for. A chunk that drifts from any of them goes back to step 1.</p></li>
+        <li class="md-wire" data-after="1" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path pathLength="1" d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
+        <li class="md-arr"><span class="md-n">Step 3</span><h3 class="md-h3">Report</h3><p class="md-p">Four lines come back to me: where the work is, which files changed, what it needs from me, and what it is blocked on. Then the next chunk starts, or a change request does.</p></li>
+        <li class="md-wire" data-after="2" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path pathLength="1" d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
+        <li class="md-arr"><span class="md-n">Chunk 2</span><h3 class="md-h3">The next chunk</h3><p class="md-p">The next chunk goes around the same loop. It joins the parts the first chunk placed.</p></li>
+      </ol>
+      <div class="md-wire md-return" data-after="2" aria-hidden="true">
+        <svg viewBox="0 0 1000 40" preserveAspectRatio="none"><path pathLength="1" d="M985 2 V26 H15 V8 M8 15 L15 7 L22 15" /></svg>
+        <span class="md-return-label">back to step 1 with the next chunk</span>
+      </div>
+    </div>
+    <div class="md-spine">
+      <span class="md-n">The record: the loop on the spine</span>
+      <ol class="md-grid" aria-label="What the build loop leaves">
+        <li class="md-mark"><span class="md-n">The build loop</span><p class="md-small">Runs once per chunk. Each run ends with a check.</p></li>
+      </ol>
+    </div>
+  </div></div>
+  <div class="md-dgwrap"><span class="md-n">The method so far</span>
+<!-- md:stamp diagram-4 -->
+<div class="md-dg" role="group" aria-label="The method so far, up to chapter 4">
+<div class="md-dgz"><span class="md-n">Words</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">Gate</li>
+<li class="md-dp" data-kind="gate">Loop</li>
+<li class="md-dp" data-kind="gate">Rule</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Record</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">DECISIONS.md</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Gates</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">The interview</li>
+<li class="md-dp" data-kind="gate">The decisions manifest</li>
+<li class="md-dp" data-kind="gate">The change request</li>
+<li class="md-dp" data-kind="gate">The reviewer</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Loops</span><ul class="md-dgp">
+<li class="md-dp md-new" data-kind="loop">The build loop</li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Parts</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Control</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Rules</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+</div>
+<!-- /md:stamp diagram-4 -->
+  </div>
+</section>
+
+<!-- 5. The harness -->
+<section id="md-harness" class="md-chapter" data-ch="5" data-title="The harness" data-kind="gate" aria-labelledby="md-harness-h">
+  <div class="md-track"><div class="md-pin">
+    <div class="md-top">
+      <div class="md-head">
+        <span class="md-kicker">5. The harness</span>
+        <h2 class="md-h2" id="md-harness-h">Rules with parts that enforce them</h2>
+        <p class="md-p">A rule is only a rule when something on the disk can stop you. These four recordings come from a real install of design-first, the kit that holds the method. Each one shows a part doing its job.</p>
+      </div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each recording arrives at its own point." data-step="Recording {n} of {of}: {title}." data-done="Filed. The hooks, the Doctor and the brain are on the diagram below.">Filed. The hooks, the Doctor and the brain are on the diagram below.</p></div>
+    </div>
+    <div class="md-stage">
+      <ol class="md-grid md-grid-2" aria-label="Four recordings">
+        <li class="md-arr"><span class="md-n">Recording 1</span><h3 class="md-h3">Adopt</h3><p class="md-p">The adopt command asks its questions. Then a script writes every file it needs and lists each one as it goes.</p><pre class="md-term" tabindex="0" aria-label="Recording: adopt"><code><!-- md:stamp transcript-adopt --><!-- /md:stamp transcript-adopt --></code></pre></li>
+        <li class="md-arr"><span class="md-n">Recording 2</span><h3 class="md-h3">The Doctor</h3><p class="md-p">The Doctor reads the disk, not the documents. It prints what it found, and what nothing has proved yet.</p><pre class="md-term" tabindex="0" aria-label="Recording: the Doctor"><code><!-- md:stamp transcript-doctor --><!-- /md:stamp transcript-doctor --></code></pre></li>
+        <li class="md-arr"><span class="md-n">Recording 3</span><h3 class="md-h3">The guard</h3><p class="md-p">A hook reads every tool call before it runs. A force push is refused. Staging a secrets file is refused. The refusal names the rule.</p><pre class="md-term" tabindex="0" aria-label="Recording: the guard refusing a bad edit"><code><!-- md:stamp transcript-guard --><!-- /md:stamp transcript-guard --></code></pre></li>
+        <li class="md-arr"><span class="md-n">Recording 4</span><h3 class="md-h3">The Doctor on the kit</h3><p class="md-p">The kit runs the same Doctor on itself. Green is printed only after every claim passes. A check that could not look never reports green.</p><pre class="md-term" tabindex="0" aria-label="Recording: the Doctor checking the kit"><code><!-- md:stamp transcript-doctor_kit --><!-- /md:stamp transcript-doctor_kit --></code></pre></li>
+      </ol>
+      <p class="md-small md-cap"><!-- md:stamp transcript-meta -->Recording details.<!-- /md:stamp transcript-meta --></p>
+    </div>
+    <div class="md-spine">
+      <span class="md-n">The record: parts on the diagram</span>
+      <ol class="md-grid md-grid-3" aria-label="The parts the recordings show">
+        <li class="md-mark"><span class="md-n">Hooks</span><p class="md-small">Small programs that run before a tool call and can refuse it.</p></li>
+        <li class="md-mark"><span class="md-n">The Doctor</span><p class="md-small">Checks the disk against a file of claims.</p></li>
+        <li class="md-mark"><span class="md-n">The brain</span><p class="md-small">A private folder for personal law, claims and state.</p></li>
+      </ol>
+    </div>
+  </div></div>
+  <div class="md-dgwrap"><span class="md-n">The method so far</span>
+<!-- md:stamp diagram-5 -->
+<div class="md-dg" role="group" aria-label="The method so far, up to chapter 5">
+<div class="md-dgz"><span class="md-n">Words</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">Gate</li>
+<li class="md-dp" data-kind="gate">Loop</li>
+<li class="md-dp" data-kind="gate">Rule</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Record</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">DECISIONS.md</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Gates</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">The interview</li>
+<li class="md-dp" data-kind="gate">The decisions manifest</li>
+<li class="md-dp" data-kind="gate">The change request</li>
+<li class="md-dp" data-kind="gate">The reviewer</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Loops</span><ul class="md-dgp">
+<li class="md-dp" data-kind="loop">The build loop</li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Parts</span><ul class="md-dgp">
+<li class="md-dp md-new" data-kind="gate">Hooks</li>
+<li class="md-dp md-new" data-kind="gate">The Doctor</li>
+<li class="md-dp md-new" data-kind="gate">The brain</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Control</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Rules</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+</div>
+<!-- /md:stamp diagram-5 -->
+  </div>
+</section>
+
+<!-- 6. The control loop -->
+<section id="md-control" class="md-chapter" data-ch="6" data-title="The control loop" data-kind="control" aria-labelledby="md-control-h">
+  <div class="md-track"><div class="md-pin">
+    <div class="md-top">
+      <div class="md-head">
+        <span class="md-kicker">6. The control loop</span>
+        <h2 class="md-h2" id="md-control-h">Many projects, one head</h2>
+        <p class="md-p">I run many projects at once and I have one head. This loop keeps them apart. An idea goes in at the top. One line comes back at the bottom.</p>
+      </div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each layer arrives at its own point." data-step="Layer {n} of {of}: {title}." data-done="Filed. The report went back up to me.">Filed. The report went back up to me.</p></div>
+    </div>
+    <div class="md-stage">
+      <ol class="md-chain md-col" aria-label="The control loop, top to bottom, and the report back up">
+        <li class="md-arr"><span class="md-n">Top · one door, every idea</span><h3 class="md-h3">Intake</h3><p class="md-p">Every idea is written here first, in whatever shape it has. Intake sorts it into one of six domains, asks what is wanted and what is not, and hands one written request to that domain. It never does the work itself.</p></li>
+        <li class="md-wire" data-after="0" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path pathLength="1" d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
+        <li class="md-arr"><span class="md-n">Middle · six domains, one word each, one test each</span><h3 class="md-h3">Six domains</h3><p class="md-p">Each domain has one master. A master holds the domain's record, starts the work, and answers Intake with one line.</p>
+          <ul class="md-sixlist" aria-label="The six domains">
+            <li><b>Desk</b> <span>It reads a market or serves the operator.</span></li>
+            <li><b>Games</b> <span>Someone plays it.</span></li>
+            <li><b>Site</b> <span>It ships under my own name.</span></li>
+            <li><b>Rail</b> <span>It teaches or checks a rule.</span></li>
+            <li><b>Tools</b> <span>It runs on this machine, for me alone.</span></li>
+            <li><b>Method</b> <span>It changes how the work is done, not what is built.</span></li>
+          </ul></li>
+        <li class="md-wire" data-after="1" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path pathLength="1" d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
+        <li class="md-arr"><span class="md-n">Bottom · the writers</span><h3 class="md-h3">A writer</h3><p class="md-p">A master starts one writer per set of files. The writer gets a brief: the goal, the files, what done looks like, what is ruled out. It works on its own copy, touches nothing else, and reports back in four lines when its turn ends. Two writers never touch the same file.</p></li>
+        <li class="md-wire md-wire-up" data-after="2" aria-hidden="true"><svg viewBox="0 0 40 24" preserveAspectRatio="xMidYMid meet"><path pathLength="1" d="M2 12 H30 M24 5 L31 12 L24 19" /></svg></li>
+        <li class="md-arr"><span class="md-n">Back up</span><h3 class="md-h3">The report</h3><p class="md-p">The report goes back up: writer to master, master to Intake, Intake to me.</p></li>
+      </ol>
+    </div>
+    <div class="md-spine">
+      <span class="md-n">The record: the control layer on the diagram</span>
+      <ol class="md-grid md-grid-3" aria-label="The control layer">
+        <li class="md-mark"><span class="md-n">Intake</span><p class="md-small">One door, every idea.</p></li>
+        <li class="md-mark"><span class="md-n">Six domains</span><p class="md-small">One master and one test each.</p></li>
+        <li class="md-mark"><span class="md-n">Writers</span><p class="md-small">One writer per set of files.</p></li>
+      </ol>
+    </div>
+  </div></div>
+  <div class="md-dgwrap"><span class="md-n">The method so far</span>
+<!-- md:stamp diagram-6 -->
+<div class="md-dg" role="group" aria-label="The method so far, up to chapter 6">
+<div class="md-dgz"><span class="md-n">Words</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">Gate</li>
+<li class="md-dp" data-kind="gate">Loop</li>
+<li class="md-dp" data-kind="gate">Rule</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Record</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">DECISIONS.md</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Gates</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">The interview</li>
+<li class="md-dp" data-kind="gate">The decisions manifest</li>
+<li class="md-dp" data-kind="gate">The change request</li>
+<li class="md-dp" data-kind="gate">The reviewer</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Loops</span><ul class="md-dgp">
+<li class="md-dp" data-kind="loop">The build loop</li>
+<li class="md-dp md-new" data-kind="loop">The control loop</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Parts</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">Hooks</li>
+<li class="md-dp" data-kind="gate">The Doctor</li>
+<li class="md-dp" data-kind="gate">The brain</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Control</span><ul class="md-dgp">
+<li class="md-dp md-new" data-kind="control">Intake</li>
+<li class="md-dp md-new" data-kind="control">Six domains</li>
+<li class="md-dp md-new" data-kind="control">Writers</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Rules</span><ul class="md-dgp">
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+<li class="md-dp md-slot" aria-hidden="true"></li>
+</ul></div>
+</div>
+<!-- /md:stamp diagram-6 -->
+  </div>
+</section>
+
+<!-- 7. Six rules -->
+<section id="md-rules" class="md-chapter" data-ch="7" data-title="Six rules" data-kind="gate" aria-labelledby="md-rules-h">
+  <div class="md-track"><div class="md-pin">
+    <div class="md-top">
+      <div class="md-head">
+        <span class="md-kicker">7. Six rules</span>
+        <h2 class="md-h2" id="md-rules-h">What holds it together</h2>
+        <p class="md-p">None of these is about software. They are about not fooling myself. Where the public kit has a matching rule, its id and grade are shown. The grade says what stops you breaking the rule. The grades are the kit's own, read from its law file.</p>
+      </div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each rule arrives at its own point." data-step="Rule {n} of {of}: {title}." data-done="Filed. Each rule is on the diagram below.">Filed. Each rule is on the diagram below.</p></div>
+    </div>
+    <div class="md-stage">
+      <ol class="md-grid md-grid-3" aria-label="The six rules">
+        <li class="md-arr"><span class="md-n">Rule 01</span><h3 class="md-h3">One word, one test</h3><p class="md-p">A domain is one noun for the thing built, never the method and never the tool. Each domain has one test. If an idea passes two tests, it is two ideas.</p><p class="md-grade"><!-- md:stamp rulegrade-01 -->No kit rule shown<!-- /md:stamp rulegrade-01 --></p></li>
+        <li class="md-arr"><span class="md-n">Rule 02</span><h3 class="md-h3">One question at a time</h3><p class="md-p">A question comes with choices. The recommended choice is first, and every choice says what it gives and what it costs. "Both are fine" is not an answer.</p><p class="md-grade"><!-- md:stamp rulegrade-02 -->Kit rule<!-- /md:stamp rulegrade-02 --></p></li>
+        <li class="md-arr"><span class="md-n">Rule 03</span><h3 class="md-h3">Nothing runs by itself</h3><p class="md-p">No timers, no schedules, nothing at login. I start every job. If I did not press it, it did not happen.</p><p class="md-grade"><!-- md:stamp rulegrade-03 -->Kit rule<!-- /md:stamp rulegrade-03 --></p></li>
+        <li class="md-arr"><span class="md-n">Rule 04</span><h3 class="md-h3">Blank beats wrong</h3><p class="md-p">A panel with no data shows nothing. It never shows a guess. A check that could not look never reports green. Absent is not zero.</p><p class="md-grade"><!-- md:stamp rulegrade-04 -->Kit rule<!-- /md:stamp rulegrade-04 --></p></li>
+        <li class="md-arr"><span class="md-n">Rule 05</span><h3 class="md-h3">The record is on disk</h3><p class="md-p">A conversation forgets. A file does not. Every decision, every verdict and every domain's state is a file I can open without opening the conversation.</p><p class="md-grade"><!-- md:stamp rulegrade-05 -->Kit rule<!-- /md:stamp rulegrade-05 --></p></li>
+        <li class="md-arr"><span class="md-n">Rule 06</span><h3 class="md-h3">A report is not proof</h3><p class="md-p">"Done" is checked against the file, the test or the commit before it is believed. Proof is the command and what it printed. The checker is never the one who did the work.</p><p class="md-grade"><!-- md:stamp rulegrade-06 -->Kit rule<!-- /md:stamp rulegrade-06 --></p></li>
+      </ol>
+    </div>
+    <div class="md-spine">
+      <span class="md-n">The record: each rule on the diagram</span>
+      <ol class="md-grid md-grid-3" aria-label="The rules on the record">
+        <li class="md-mark"><span class="md-n">Rule 01</span><p class="md-h4">One word, one test</p></li>
+        <li class="md-mark"><span class="md-n">Rule 02</span><p class="md-h4">One question at a time</p></li>
+        <li class="md-mark"><span class="md-n">Rule 03</span><p class="md-h4">Nothing runs by itself</p></li>
+        <li class="md-mark"><span class="md-n">Rule 04</span><p class="md-h4">Blank beats wrong</p></li>
+        <li class="md-mark"><span class="md-n">Rule 05</span><p class="md-h4">The record is on disk</p></li>
+        <li class="md-mark"><span class="md-n">Rule 06</span><p class="md-h4">A report is not proof</p></li>
+      </ol>
+    </div>
+  </div></div>
+  <div class="md-dgwrap"><span class="md-n">The method so far</span>
+<!-- md:stamp diagram-7 -->
+<div class="md-dg" role="group" aria-label="The method so far, up to chapter 7">
+<div class="md-dgz"><span class="md-n">Words</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">Gate</li>
+<li class="md-dp" data-kind="gate">Loop</li>
+<li class="md-dp" data-kind="gate">Rule</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Record</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">DECISIONS.md</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Gates</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">The interview</li>
+<li class="md-dp" data-kind="gate">The decisions manifest</li>
+<li class="md-dp" data-kind="gate">The change request</li>
+<li class="md-dp" data-kind="gate">The reviewer</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Loops</span><ul class="md-dgp">
+<li class="md-dp" data-kind="loop">The build loop</li>
+<li class="md-dp" data-kind="loop">The control loop</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Parts</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">Hooks</li>
+<li class="md-dp" data-kind="gate">The Doctor</li>
+<li class="md-dp" data-kind="gate">The brain</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Control</span><ul class="md-dgp">
+<li class="md-dp" data-kind="control">Intake</li>
+<li class="md-dp" data-kind="control">Six domains</li>
+<li class="md-dp" data-kind="control">Writers</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Rules</span><ul class="md-dgp">
+<li class="md-dp md-new" data-kind="gate">One word, one test</li>
+<li class="md-dp md-new" data-kind="gate">One question at a time</li>
+<li class="md-dp md-new" data-kind="gate">Nothing runs by itself</li>
+<li class="md-dp md-new" data-kind="gate">Blank beats wrong</li>
+<li class="md-dp md-new" data-kind="gate">The record is on disk</li>
+<li class="md-dp md-new" data-kind="gate">A report is not proof</li>
+</ul></div>
+</div>
+<!-- /md:stamp diagram-7 -->
+  </div>
+</section>
+
+<!-- 8. Limits -->
+<section id="md-limits" class="md-chapter" data-ch="8" data-title="Limits" aria-labelledby="md-limits-h">
+  <div class="md-head">
+    <span class="md-kicker">8. Limits</span>
+    <h2 class="md-h2" id="md-limits-h">What this does not do</h2>
+    <p class="md-p">Stated before the install, so that nothing here is a surprise. This chapter does not move.</p>
+  </div>
+  <ul class="md-limits">
+    <li>One adopter per user profile: one pointer, at <code>~/.claude/design-first.json</code>.</li>
+    <li>The guard inspects tool calls. It does not see nested shells, <code>xargs</code>, command substitution, git aliases or scripts that a session writes. The self-test asserts these gaps.</li>
+    <li>The Doctor's survey of repositories is informational unless <code>surveyStrict</code> is on in your brain config.</li>
+    <li>The Stop card asks once per turn that changed source. It grades no answer.</li>
+    <li>The kit never writes your user-level <code>settings.json</code>. When it wants a line there, it prints it.</li>
+  </ul>
+</section>
+
+<!-- 9. Adopt -->
+<section id="adopt" class="md-chapter" data-ch="9" data-title="Adopt" data-kind="gate" aria-labelledby="adopt-h">
+  <div class="md-track"><div class="md-pin">
+    <div class="md-top">
+      <div class="md-head">
+        <span class="md-kicker">9. Adopt</span>
+        <h2 class="md-h2" id="adopt-h">How to start</h2>
+        <p class="md-p">Three commands. The adopt command asks its questions, then a script writes the files and runs the Doctor. The remove command reverses exactly what adopt wrote and keeps anything you changed.</p>
+      </div>
+      <div class="md-ctlbox"><p class="md-status" role="status" aria-live="polite" data-idle="Scroll down. Each command arrives at its own point." data-step="Command {n} of {of}." data-done="The method is complete. The diagram below shows all of it.">The method is complete. The diagram below shows all of it.</p></div>
+    </div>
+    <div class="md-stage">
+      <ol class="md-grid md-grid-3" aria-label="Install commands">
+<!-- md:stamp install -->
+<!-- /md:stamp install -->
+      </ol>
+      <p class="md-small md-steps">MIT License. The repository holds the code, the manifest and the self-tests. <a href="https://github.com/Jordan-Doerksen/design-first">Code on GitHub</a>.</p>
+    </div>
+  </div></div>
+  <div class="md-dgwrap"><span class="md-n">The method, complete</span>
+<!-- md:stamp diagram-9 -->
+<div class="md-dg" role="group" aria-label="The method so far, up to chapter 9">
+<div class="md-dgz"><span class="md-n">Words</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">Gate</li>
+<li class="md-dp" data-kind="gate">Loop</li>
+<li class="md-dp" data-kind="gate">Rule</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Record</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">DECISIONS.md</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Gates</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">The interview</li>
+<li class="md-dp" data-kind="gate">The decisions manifest</li>
+<li class="md-dp" data-kind="gate">The change request</li>
+<li class="md-dp" data-kind="gate">The reviewer</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Loops</span><ul class="md-dgp">
+<li class="md-dp" data-kind="loop">The build loop</li>
+<li class="md-dp" data-kind="loop">The control loop</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Parts</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">Hooks</li>
+<li class="md-dp" data-kind="gate">The Doctor</li>
+<li class="md-dp" data-kind="gate">The brain</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Control</span><ul class="md-dgp">
+<li class="md-dp" data-kind="control">Intake</li>
+<li class="md-dp" data-kind="control">Six domains</li>
+<li class="md-dp" data-kind="control">Writers</li>
+</ul></div>
+<div class="md-dgz"><span class="md-n">Rules</span><ul class="md-dgp">
+<li class="md-dp" data-kind="gate">One word, one test</li>
+<li class="md-dp" data-kind="gate">One question at a time</li>
+<li class="md-dp" data-kind="gate">Nothing runs by itself</li>
+<li class="md-dp" data-kind="gate">Blank beats wrong</li>
+<li class="md-dp" data-kind="gate">The record is on disk</li>
+<li class="md-dp" data-kind="gate">A report is not proof</li>
+</ul></div>
+</div>
+<!-- /md:stamp diagram-9 -->
+  </div>
+</section>
+
+</div>
 </main>
 
-<footer class="md-foot">
+<footer id="reference" class="md-ref" data-chrome="footer_resolution">
+  <span class="md-kicker">Reference</span>
+  <h2 class="md-h2">The specification, without the film</h2>
+  <p class="md-p"><!-- md:stamp kit-line -->Generated from the design-first kit.<!-- /md:stamp kit-line --></p>
+  <details class="md-drawer">
+    <summary>Every rule and what enforces it</summary>
+    <div class="md-drawer-in">
+<!-- md:stamp grades-drawer -->
+<!-- /md:stamp grades-drawer -->
+    </div>
+  </details>
   <div class="md-foot-in">
     <p class="md-small">The masters and the writers are AI sessions. The shape does not depend on that. It would hold with people, and it was drawn so that it would.</p>
     <p class="md-small">Motion stops when the system asks for reduced motion. The page reads the same with scripts off.</p>
@@ -188,21 +724,9 @@
   </div>
 </footer>
 
-<script>
-(function () {
-  "use strict";
-  try {
-    document.documentElement.classList.add("md-js");
-    var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var blocks = document.querySelectorAll(".md-rv");
-    var all = function () { blocks.forEach(function (b) { b.classList.add("md-in"); }); };
-    if (reduce || !("IntersectionObserver" in window)) { all(); return; }
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("md-in"); io.unobserve(en.target); } });
-    }, { rootMargin: "0px 0px -8% 0px" });
-    blocks.forEach(function (b) { io.observe(b); });
-  } catch (e) { document.querySelectorAll(".md-rv").forEach(function (b) { b.classList.add("md-in"); }); }
-})();
+<script type="application/json" id="md-motion">
+{"min_gap":0.12,"settle_ms":240,"connector_gap":0.015,"flow_start_vh":0.9,"flow_end_vh":0.4,"pin_min_width_px":1000,"chapters":{"md-words":{"track_vh":380,"arrive_at":[0.1,0.28,0.46],"file_at":0.62,"file_span":0.12,"file_stagger":0.04},"md-interview":{"track_vh":700,"arrive_at":[0.02,0.14,0.26,0.38,0.5,0.62,0.74],"file_at":0.86,"file_span":0.12,"file_stagger":0},"md-gates":{"track_vh":440,"arrive_at":[0.1,0.28,0.46,0.64],"file_at":0.78,"file_span":0.12,"file_stagger":0.025},"md-loops":{"track_vh":440,"arrive_at":[0.08,0.26,0.44,0.64],"file_at":0.8,"file_span":0.14,"file_stagger":0},"md-harness":{"track_vh":520,"arrive_at":[0.08,0.27,0.46,0.65],"file_at":0.78,"file_span":0.1,"file_stagger":0.03},"md-control":{"track_vh":440,"arrive_at":[0.08,0.26,0.44,0.62],"file_at":0.76,"file_span":0.1,"file_stagger":0.03},"md-rules":{"track_vh":640,"arrive_at":[0.03,0.15,0.27,0.39,0.51,0.63],"file_at":0.75,"file_span":0.08,"file_stagger":0.02},"adopt":{"track_vh":340,"arrive_at":[0.08,0.26,0.44],"file_at":0.7,"file_span":0.12,"file_stagger":0}}}
 </script>
+<script src="method.js"></script>
 </body>
 </html>

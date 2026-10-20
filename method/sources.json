@@ -1,0 +1,11 @@
+{
+  "source": "Which kit rule stands behind each of the six method rules on the page (chapter 7). build_method.py looks each id up in method/data/kit.json and prints its grade. An id the kit does not carry is printed as not in the kit. Rule 01 has no matching kit id; PRIN-03 is named in the page's sources line and is not paired with a rule here.",
+  "rules": {
+    "01": [],
+    "02": ["OWN-04"],
+    "03": ["SAFE-08"],
+    "04": ["SAFE-04"],
+    "05": ["AUTO-10"],
+    "06": ["AUTO-06"]
+  }
+}
