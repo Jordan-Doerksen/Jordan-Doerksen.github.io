@@ -585,6 +585,9 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
     check `home_figures` fails a Home with no figures row, and a check may not be weakened (GATE-11). So the row
     stays, moved from the top to the foot of Home as a proof row, with its stamp. If the
     master wants the row gone, `home_figures` needs its own CR first.
+  - **Unlisted rows** (site master, item 20b): a registry row with `"unlisted": true` is skipped by the Home index in
+    every composition, and the "more in the Tool Desk" count comes from the same filtered rows. No row carries the
+    flag yet.
   - **Build:** `build_front_page.py --lab <a|b|c>` writes the whole five-screen build to
     `docs/skin-lab/home-19/<x>/` (`outputs.lab`). It never writes the review folder or the root.
 - 2026-10-20 — **CR-24 (Intake item 12, chunk 2, owner's go 2026-10-20): the five front-page screens move to

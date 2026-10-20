@@ -45,6 +45,7 @@ class Row:
     blurb: str
     dest: tuple | None      # ("atlas", slug) | ("root", "games/x/") | ("abs", url) | None
     q: str                  # lower-case search text: name, section, status, blurb, tags
+    unlisted: bool = False  # registry "unlisted": true keeps the row off the Home index (not the Tool Desk)
 
 
 @dataclass
@@ -158,7 +159,7 @@ def _row(project: dict, blurb: str, dest, names: dict, order: dict, status_order
     tags = [t for t in (project.get("tags") or []) if isinstance(t, str)]
     section = names[project["category"]]
     search = " ".join([project["name"], section, project["status"], blurb] + tags).lower()
-    return Row(project["slug"], project["name"], project["category"], section, project["status"], blurb, dest, search)
+    return Row(project["slug"], project["name"], project["category"], section, project["status"], blurb, dest, search, project.get("unlisted") is True)
 
 
 def load_model(repo: Path, cfg: dict, log) -> Model:
@@ -384,10 +385,13 @@ def _ix_group(pg: Page, gid: str, heading: str, door_href: str | None, rows: lis
 
 
 def _index(pg: Page, comp: dict) -> tuple:
-    """(html, shown). One group per home.index.groups entry, rows in registry order; C opens with the four stage picks."""
+    """(html, shown, visible). One group per home.index.groups entry, rows in registry order; C opens with the four stage picks."""
     h = pg.cfg["home"]
     ix = h["index"]
-    keep = [x for x in pg.model.rows if x.status in ix["statuses"]]
+    # The owner's 2026-10-20 fossil rulings: a registry row marked "unlisted": true is not shown on Home, in any
+    # composition. The "more in the Tool Desk" count comes from these same rows, so it never counts a hidden one.
+    visible = [x for x in pg.model.rows if not x.unlisted]
+    keep = [x for x in visible if x.status in ix["statuses"]]
     grouped = {c for g in ix["groups"] for c in g["cats"]}
     orphans = sorted({x.slug for x in keep if x.category not in grouped})
     if orphans:
@@ -417,7 +421,7 @@ def _index(pg: Page, comp: dict) -> tuple:
         groups.append(_ix_group(pg, g["id"], g["h2"], door, html))
         shown += len(rows)
     body = '<div class="fp-ix" role="region" aria-label="%s">\n%s\n</div>' % (esc_attr(ix["aria"]), "\n".join(groups))
-    return body, shown
+    return body, shown, len(visible)
 
 
 def _link_line_with(spec: dict, href: str | None, values: dict) -> str:
@@ -438,10 +442,10 @@ def _home_composed(pg: Page, key: str) -> dict:
         out = ['<h1 class="fp-title fp-monument">%s</h1>' % esc_text(cfg["brand"]["name"])]
     if comp["stage"] != "none":
         out.append(_stage(pg, comp["stage"]))
-    index_html, shown = _index(pg, comp)
+    index_html, shown, total = _index(pg, comp)
     out.append(index_html)
     # footer_resolution: how many more the Tool Desk holds, the method line, then the proof row
-    values = {"more": len(pg.model.rows) - shown, "projects": pg.counts["projects"], "tools": pg.counts["tools"]}
+    values = {"more": total - shown, "projects": pg.counts["projects"], "tools": pg.counts["tools"]}
     foot = _link_line_with(h["index"]["more"], pg.href("desk"), values)
     if h.get("methodline"):
         m = h["methodline"]
