@@ -545,6 +545,45 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   markup (GATE-01).
 
 ## Change Log
+- 2026-10-20 — **CR-22 (Intake item 11, owner's pick 2026-10-20): the page "Gates, loops and rules"
+  goes live at `/method/`.** It explains how the work runs: four gates, two loops, six rules, and a
+  record on disk for every step. Three glass skins were rendered side by side under
+  `docs/skin-lab/method/` (A Ledger, B Terminal, C Board); the owner picked **C, Board** (skin lab
+  D-14): navy ground, glass panels with blur, Space Grotesk display, one accent, one ambient glow.
+  C is also the skin the rest of the site moves to (Intake item 12, not this CR). **Slug** (skin lab
+  D-01, made by the master, OWN-05): `/method/`, top-level like `/desk/` and `/atlas/`; the `work/`
+  pages are generated, `tools/design-first/` is the kit's product page, and this page explains the
+  practice, so it sits beside the product, not under it. **Files:** `method/index.html` (variant C's
+  page, stamped from the lab's `content.html`, the words unchanged), `method/tokens.css` (the ONE
+  token file, SKIN-03, every class in the `md-` namespace), `method/method.css` (the layout, copied
+  rather than linked across folders, so `/method/` stands alone), `method/check.mjs` (the lab's
+  checker pointed at this page; Playwright from `map-reading-trainer`, no package, GATE-03).
+  **The glow:** C's one ambient glow is ambient motion on this monorepo, which SKIN-06 gates behind
+  a Change Request. The owner ruled on 2026-10-19 that public pages are OPEN tier: ambient motion
+  may be on by default, and the OS `prefers-reduced-motion` flag is honoured with a quiet state. The
+  glow therefore **ships on, approved by that ruling**; this entry is the record for when
+  CR-2026-10-19-TIERS lands. Under reduce the checker counts 0 running animations. **Two defaults at
+  the new depth, both low rank (OWN-05):** the Home back-link is `../index.html`, which resolves to
+  the site root over HTTP and opens from `file://` as well (`/` would not); the lab's `noindex` meta
+  is dropped, because a live page is indexable (the atlas and the after-hours page keep theirs by
+  their own decisions). **No registry row:** `data/registry.json` lists projects, and this page is not
+  a project; it has no repo of its own and is not a card on the Tool Desk. **How a reader reaches it (owner's
+  answer, 2026-10-20, option A of three):** one sentence on Home, in the findline paragraph under the
+  three doors, after the Tool Desk sentence: "The method behind every project is written down: gates,
+  loops and rules." The words live in `scripts/front_page.config.json` (`home.methodline`, with the
+  page's path), and `scripts/front_screens.py` renders them beside the findline from `pg.root`, the
+  way the rail hub link is built; `build_front_page.py --root` rewrote `index.html` and the review
+  build rewrote `docs/front-page/index.html`. No other generated page changed. The alternatives,
+  declined: a hand link on `tools/design-first/index.html` (fewer readers, and the kit's publish can
+  overwrite it); no link until item 12 (unreachable except by URL).
+  **Checked before the hand-over:** `node method/check.mjs` ALL PASS at 390 and 1280 (no element
+  wider than the window, gutter on four edges, lowest text contrast 7.36:1, 7 tab stops with a ring,
+  0 running animations under reduce, the full text with scripts off); `python scripts/front_check.py`
+  20 passed, 0 failed after the rebuild; `build_front_page.py --check` 0 differ, 6 unchanged;
+  `front_probe.mjs --pages index.html --widths 375,1280` 14 of 14 at both themes; the page serves
+  at `http://localhost:4530/method/` with the Home link resolving. **Not touched:** the other four
+  generated pages, the registry, the main checkout. **Rollback:** delete `method/`, remove
+  `home.methodline` from the config and rebuild; the lab folder keeps the record.
 - 2026-10-04 — **CR-21 (owner ruling, eight interview answers): rebuild the front page from zero as a
   five-screen shell on the donor look, with Stagecraft's rules and none of its CSS.** Full record in
   D-A27. **Principles broken, and why:** (1) WEB-14, the width half: the main area caps at 80rem as

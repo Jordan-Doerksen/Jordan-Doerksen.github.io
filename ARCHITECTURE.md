@@ -20,6 +20,8 @@ Static site, no build step. GitHub Pages from `main`. Local preview: `python -m 
 ├── js/desk/                desk logic: desk.js (boot/merge), render.js, search.js, copy.js
 ├── docs/legacy-front-door.html   the retired atlas front door, preserved as-is — the ONLY
 │                           page still loading the Daybreak files
+├── method/index.html       "Gates, loops and rules": how the work runs. Hand page, stands alone (its own
+│                           tokens.css, method.css, check.mjs); the record is docs/skin-lab/method/ (CR-22)
 ├── atlas/index.html        ONE template page: ?p=<slug> → renders data/projects/<slug>.json + diagram
 ├── rail|games|trading|studio|signals|bots|tools|navigation/
 │   ├── index.html          wing shell — stage + typographic index scoped by data-wing

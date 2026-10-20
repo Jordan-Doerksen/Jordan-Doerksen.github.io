@@ -152,6 +152,13 @@
       "before": "Looking for something specific? The ",
       "link": "Tool Desk",
       "after": " lists all {projects} projects and a toolkit of {tools} tools."
+    },
+    "methodline": {
+      "_": "A second sentence in the same findline paragraph (CR-22). path is relative to the repo root.",
+      "before": "The method behind every project is written down: ",
+      "link": "gates, loops and rules",
+      "after": ".",
+      "path": "method/"
     }
   },
 

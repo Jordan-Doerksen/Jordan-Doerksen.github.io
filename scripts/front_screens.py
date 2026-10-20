@@ -304,7 +304,13 @@ def home(pg: Page) -> dict:
             % (esc_text(door["kicker"]), esc_text(door["h2"]), rich(door["p"]), go)
         )
     out.append('<div class="fp-doors">\n%s\n</div>' % "\n".join(doors))
-    out.append('<p class="fp-findline">%s</p>' % _link_line(pg, h["findline"], pg.href("desk")))
+    findline = _link_line(pg, h["findline"], pg.href("desk"))
+    if h.get("methodline"):
+        # CR-22: a hand page outside this build, so pg.href cannot resolve it; the path comes from config
+        # and hangs off pg.root (the repo root from this page), the way the rail hub link does
+        m = h["methodline"]
+        findline += " " + _link_line(pg, m, pg.root + m["path"])
+    out.append('<p class="fp-findline">%s</p>' % findline)
     return {"body": "\n".join(b for b in out if b), "css": [], "tail": []}
 
 

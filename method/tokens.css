@@ -1,0 +1,120 @@
+/* The /method/ page: variant C, Board, promoted from docs/skin-lab/method/c/tokens.css on 2026-10-20
+   (skin lab D-14). The ONE token file for this folder (SKIN-03). Edit the lab copy and this one together.
+   Variant C, Board. The Polymarket and IMC line (RESEARCH.md): navy ground, 50% panel fill with
+   blur on every panel and an 18% hairline, Space Grotesk display over Inter body, display 600
+   tracked -1%, one accent plus two state colours that also tint the panels, 4px radius, airy
+   sections with dense panels, reveal, hover and one ambient glow. The ONE token file (SKIN-03). */
+:root {
+  color-scheme: dark;
+
+  /* ground and ink */
+  --md-ground: #061527;
+  --md-ground-2: #040f1d;
+  --md-ink-strong: #f4f7fb;
+  --md-ink: #d7deea;
+  --md-ink-2: #a4b2c8;
+  --md-accent: #7cb2ff;    /* the signal */
+  --md-ok: #3ddc97;        /* state: the loop */
+  --md-wait: #f0b64a;      /* state: a domain waiting on its master */
+  --md-focus: #7cb2ff;
+
+  /* panels: glass, 50% fill with blur, hairline 18%, tinted by state */
+  --md-panel: rgba(16, 34, 62, 0.5);
+  --md-panel-hover: rgba(22, 44, 78, 0.6);
+  --md-panel-solid: #0f2340;
+  --md-panel-gate: rgba(60, 110, 200, 0.14);
+  --md-panel-loop: rgba(40, 150, 110, 0.12);
+  --md-panel-master: rgba(170, 130, 50, 0.12);
+  --md-bar-bg: rgba(6, 21, 39, 0.62);
+  --md-line: rgba(170, 200, 255, 0.18);
+  --md-line-strong: rgba(170, 200, 255, 0.32);
+  --md-edge-gate: #7cb2ff;
+  --md-edge-loop: #3ddc97;
+  --md-edge-master: #f0b64a;
+  --md-edge-w: 2px;
+  --md-wire: rgba(170, 200, 255, 0.45);
+  --md-wire-stroke: 1.5px;
+  --md-blur: blur(16px);
+  --md-bar-blur: blur(16px);
+  --md-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+  --md-inner: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --md-glow: radial-gradient(ellipse at 22% 35%, rgba(70, 130, 255, 0.26), rgba(70, 130, 255, 0) 55%);
+  --md-glow-anim: md-drift;
+  --md-glow-dur: 18s;
+  --md-glow-size: 130% 100%;
+
+  /* type: a grotesk display over an Inter body */
+  --md-font-display: "Space Grotesk", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --md-font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --md-font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --md-w-display: 600;
+  --md-w-h2: 600;
+  --md-w-h3: 600;
+  --md-w-body: 400;
+  --md-w-label: 500;
+  --md-t-display: clamp(42px, 6.2vw, 86px);
+  --md-t-h2: clamp(28px, 3vw, 40px);
+  --md-t-h3: clamp(17px, 1.4vw, 20px);
+  --md-t-h4: 16px;
+  --md-t-lede: clamp(16px, 1.25vw, 19px);
+  --md-t-body: 16px;
+  --md-t-panel: 14px;
+  --md-t-small: 13.5px;
+  --md-t-label: 11px;
+  --md-lh-display: 1.0;
+  --md-lh-head: 1.15;
+  --md-lh-lede: 1.6;
+  --md-lh-body: 1.65;
+  --md-lh-panel: 1.5;
+  --md-lh-small: 1.5;
+  --md-track-display: -0.01em;
+  --md-track-head: -0.01em;
+  --md-track-sub: 0;
+  --md-track-label: 0.18em;
+  --md-track-nav: 0.12em;
+  --md-underline: 2px;
+  --md-measure: 60ch;
+  --md-measure-lede: 52ch;
+  --md-measure-title: 14ch;
+  --md-measure-wide: 78ch;
+  --md-wide-cols: 1fr 3fr;
+
+  /* shape */
+  --md-r: 4px;
+  --md-r-sm: 4px;
+  --md-focus-w: 2px;
+  --md-focus-off: 3px;
+
+  /* density: airy between, dense inside */
+  --md-gutter: clamp(20px, 5vw, 72px);
+  --md-band: clamp(72px, 11vh, 128px);
+  --md-head-gap: clamp(28px, 5vh, 48px);
+  --md-loop-gap: clamp(48px, 7vh, 80px);
+  --md-gap: 24px;
+  --md-gap-xs: 10px;
+  --md-pad: 18px;
+  --md-pad-sm: 12px;
+  --md-pad-xs: 7px;
+  --md-stack: 18px;
+  --md-stack-sm: 14px;
+  --md-stack-xs: 6px;
+  --md-hero-top: clamp(64px, 14vh, 150px);
+  --md-hero-bottom: clamp(40px, 8vh, 88px);
+  --md-bar-h: 52px;
+  --md-foot-pad: 32px;
+  --md-offscreen: -999px;
+  --md-wire-w: 40px;
+  --md-wire-h: 24px;
+  --md-return-h: 36px;
+  --md-return-tip-x: calc(1.5% - 12px);
+  --md-return-tip-y: -6px;
+  --md-dash: 4 5;
+  --md-lift: -4px;
+
+  /* motion: reveal, hover, one ambient glow */
+  --md-ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --md-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --md-t-fast: 200ms;
+  --md-t-reveal: 480ms;
+  --md-reveal-y: 16px;
+}
