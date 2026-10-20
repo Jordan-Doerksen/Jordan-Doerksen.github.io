@@ -16,6 +16,7 @@ Exit codes: 0 done, 1 --check differs, 2 could not look (gh missing or not signe
 """
 import html
 import json
+import re
 import subprocess
 import sys
 import threading
@@ -181,7 +182,8 @@ def crawl_site(key, root_url, site_urls, home_key):
     for url, b in pages.items():
         if b:
             page_links[url] = sorted(set(extract_links(url, b)))
-    return {"status": status, "error": err, "page_links": page_links, "pages_read": len(pages)}
+    return {"status": status, "error": err, "page_links": page_links, "pages_read": len(pages),
+            "js_built": js_built(body)}
 
 
 def check_link(url, cache, lock):
@@ -199,23 +201,83 @@ def check_link(url, cache, lock):
     return s, e
 
 
+# ------------------------------------------------------------------- home data
+
+def home_data_inbound(site_urls, home_key):
+    """The home site builds its project links in the browser from data/registry.json
+    and data/desk.json, so a static crawl cannot see them. Read both files and return
+    {site key: [row names]} for rows that point at a Pages site or its repo.
+    Registry: url or repo points at the site. Desk: the row's slug equals the repo
+    name (a name match, not a link; it is labelled so)."""
+    root = HERE.parent.parent
+    found = {}
+    owner = CONFIG["owner"].lower()
+
+    def add(key, label):
+        if key and key != home_key and label not in found.setdefault(key, []):
+            found[key].append(label)
+
+    reg = root / "data" / "registry.json"
+    desk = root / "data" / "desk.json"
+    try:
+        rows = json.loads(reg.read_text(encoding="utf-8"))["projects"]
+    except (OSError, ValueError, KeyError) as exc:
+        log("home_data_unreadable", file=str(reg), why=str(exc)[:200])
+        rows = []
+    for row in rows:
+        label = "registry row %s" % row.get("slug")
+        url, repo = row.get("url") or "", row.get("repo") or ""
+        if url.startswith("http"):
+            add(site_of(url, site_urls, home_key), label)
+        m = re.match(r"https?://github\.com/%s/([^/]+?)(?:\.git)?/?$" % re.escape(owner), repo, re.I)
+        if m and m.group(1).lower() in site_urls:
+            add(m.group(1).lower(), label)
+    try:
+        d = json.loads(desk.read_text(encoding="utf-8"))
+        names = list(d.get("pinned", [])) + list(d.get("mine", {})) + [
+            x.get("slug") for x in d.get("extra", []) if isinstance(x, dict)]
+    except (OSError, ValueError) as exc:
+        log("home_data_unreadable", file=str(desk), why=str(exc)[:200])
+        names = []
+    for n in names:
+        if isinstance(n, str) and n.lower() in site_urls:
+            add(n.lower(), "desk row %s (slug match)" % n)
+    log("home_data", registry_rows=len(rows), sites_hit=len(found))
+    return found
+
+
+def js_built(body):
+    """A page with scripts and no anchors builds its links in the browser."""
+    if not body:
+        return False
+    p = Links()
+    try:
+        p.feed(body)
+    except Exception:
+        pass
+    return not p.hrefs and "<script" in body.lower()
+
+
 # ------------------------------------------------------------------- ruling
 
 def propose(rec):
+    """Rule text and thresholds are in config.json (rule). Owner rulings override."""
+    rule = CONFIG["rule"]
     ov = {k.lower(): v for k, v in CONFIG["overrides"].items()}.get(rec["repo"].lower())
     if ov:
         return ov["ruling"], ov["reason"]
-    st = rec["live"]["status"]
-    if st is not None and st >= 400:
-        return "archive", "The Pages URL answers %d." % st
-    if st is None:
-        return "keep", "Could not look at the URL; a failed fetch is no reason to remove a site."
+    if rec["is_home"]:
+        return "keep", rule["reason_home"]
+    if rec["repo"].lower() in [n.lower() for n in rule["named_picks"]]:
+        return "keep", rule["reason_named"]
+    if rec["home_links"]:
+        return "keep", rule["reason_linked"].format(n=len(rec["home_links"]), first=rec["home_links"][0])
     age = rec["last_commit_age_days"]
-    if rec["inbound_count"] == 0 and age is not None and age > CONFIG["stale_days"]:
-        return "archive", "No page links to it and no commit in %d days." % age
-    if rec["inbound_count"] == 0:
-        return "keep", "No page links to it, but the last commit is recent (%s days)." % age
-    return "keep", "Linked from %d page(s) on this account." % rec["inbound_count"]
+    if age is None:
+        return "unlist", rule["reason_unknown_age"]
+    if age > rule["archive_after_days"]:
+        return "archive", rule["reason_archive"].format(age=age, limit=rule["archive_after_days"])
+    return "unlist", rule["reason_unlist"].format(age=age, limit=rule["archive_after_days"])
 
 
 # ------------------------------------------------------------------- build
@@ -263,6 +325,9 @@ def build():
         crawls = dict(zip(keys, ex.map(
             lambda k: crawl_site(k, sites[k]["url"], site_urls, home_key), keys)))
 
+    home_hits = home_data_inbound(site_urls, home_key)
+    # Sites whose own page builds its links in the browser: what they link to is not seen.
+    js_sites = sorted(k for k, c in crawls.items() if c["js_built"])
     inbound = {k: {} for k in sites}  # key -> {source page url: source site}
     outbound = {k: set() for k in sites}
     for k, c in crawls.items():
@@ -305,8 +370,13 @@ def build():
                      "result": "live" if st == 200 else "could not look" if st is None else "answers %d" % st,
                      "error": c["error"]},
             "pages_read": c["pages_read"],
-            "inbound_count": len(inbound[k]),
-            "inbound": [{"page": p, "from_site": f} for p, f in sorted(inbound[k].items())],
+            "is_home": k == home_key,
+            "home_links": sorted(home_hits.get(k, []) + sorted(
+                "static link from %s" % p for p, f in inbound[k].items() if f == home_key)),
+            "inbound_count": len(inbound[k]) + len(home_hits.get(k, [])),
+            "inbound": [{"page": p, "from_site": f} for p, f in sorted(inbound[k].items())]
+                       + [{"page": lab, "from_site": home_key} for lab in sorted(home_hits.get(k, []))],
+            "inbound_not_seen": [x for x in js_sites if x != k and x != home_key],
             "outbound_count": len(outbound[k]),
             "dead_links": dead, "dead_link_count": len(dead),
             "unchecked_links": unseen, "unchecked_link_count": len(unseen),
@@ -322,6 +392,9 @@ def build():
         "dead_links_unique": len(uniq_dead),
         "could_not_look_sites": sum(1 for r in records if r["live"]["status"] is None),
         "could_not_look_links": sum(r["unchecked_link_count"] for r in records),
+        "keep": sum(1 for r in records if r["proposed_ruling"] == "keep"),
+        "unlist": sum(1 for r in records if r["proposed_ruling"] == "unlist"),
+        "archive": sum(1 for r in records if r["proposed_ruling"] == "archive"),
     }
     data = {"generated": gen, "owner": CONFIG["owner"], "summary": summary, "sites": records}
     JSON_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
@@ -330,6 +403,7 @@ def build():
     print("Pages sites found: %d (of %d repos)" % (summary["pages_sites"], summary["repos_scanned"]))
     print("dead links: %d (%d unique)" % (summary["dead_links"], summary["dead_links_unique"]))
     print("could not look at: %d sites, %d links" % (summary["could_not_look_sites"], summary["could_not_look_links"]))
+    print("proposed: %d keep, %d unlist, %d archive" % (summary["keep"], summary["unlist"], summary["archive"]))
     return 0
 
 
@@ -370,7 +444,14 @@ def render(d):
     rows = []
     for r in d["sites"]:
         live_cls = "ok" if r["live"]["status"] == 200 else "bad" if r["live"]["status"] else "mut"
-        inb = "%d page(s)" % r["inbound_count"]
+        ns = r.get("inbound_not_seen") or []
+        if r["inbound_count"] == 0 and ns:
+            inb = "not seen (%s build their links in the browser; not read)" % ", ".join(ns)
+        elif ns:
+            inb = "%d seen; more not seen (%s build links in the browser)" % (r["inbound_count"], ", ".join(ns))
+        else:
+            inb = "%d page(s)" % r["inbound_count"]
+        inb = esc(inb)
         if r["inbound"]:
             inb += "<details><summary>from</summary>%s</details>" % "<br>".join(
                 esc("%s (%s)" % (i["page"], i["from_site"])) for i in r["inbound"])

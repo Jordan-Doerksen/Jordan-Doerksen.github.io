@@ -70,3 +70,76 @@
 {"t": "2026-10-20T05:58:01+00:00", "event": "link", "url": "https://github.com/Jordan-Doerksen/triforce-defense", "status": 200, "error": null}
 {"t": "2026-10-20T05:58:01+00:00", "event": "link", "url": "https://vigilharbor.com/", "status": 200, "error": null}
 {"t": "2026-10-20T05:58:01+00:00", "event": "run_end", "pages_sites": 11, "repos_scanned": 113, "dead_links": 0, "dead_links_unique": 0, "could_not_look_sites": 0, "could_not_look_links": 0}
+{"t": "2026-10-20T06:00:36+00:00", "event": "run_start", "owner": "Jordan-Doerksen"}
+{"t": "2026-10-20T06:00:39+00:00", "event": "repos", "count": 113}
+{"t": "2026-10-20T06:00:44+00:00", "event": "pages_found", "count": 11}
+{"t": "2026-10-20T06:00:45+00:00", "event": "live", "site": "gridline-map-navigation", "url": "https://jordan-doerksen.github.io/gridline-map-navigation/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "live", "site": "jordan-doerksen.github.io", "url": "https://jordan-doerksen.github.io/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "live", "site": "style-library", "url": "https://jordan-doerksen.github.io/style-library/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "live", "site": "vigil-hardly", "url": "https://jordan-doerksen.github.io/vigil-hardly/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "live", "site": "pocket-bats", "url": "https://jordan-doerksen.github.io/pocket-bats/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "live", "site": "it-toolkit", "url": "https://jordan-doerksen.github.io/it-toolkit/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "live", "site": "fulfillment-architecture-guide", "url": "https://jordan-doerksen.github.io/fulfillment-architecture-guide/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "live", "site": "triforce-defense", "url": "https://jordan-doerksen.github.io/triforce-defense/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "live", "site": "resume", "url": "https://jordan-doerksen.github.io/Resume/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "live", "site": "sentinel-field-manual", "url": "https://jordan-doerksen.github.io/sentinel-field-manual/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "live", "site": "design-first", "url": "https://jordan-doerksen.github.io/design-first/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "page", "site": "jordan-doerksen.github.io", "url": "https://jordan-doerksen.github.io/work/trading-desk/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "page", "site": "triforce-defense", "url": "https://jordan-doerksen.github.io/triforce-defense/design/index.html", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "page", "site": "jordan-doerksen.github.io", "url": "https://jordan-doerksen.github.io/work/rail-software/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "page", "site": "jordan-doerksen.github.io", "url": "https://jordan-doerksen.github.io/work/games/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "page", "site": "jordan-doerksen.github.io", "url": "https://jordan-doerksen.github.io/desk/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "page", "site": "jordan-doerksen.github.io", "url": "https://jordan-doerksen.github.io/method/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:45+00:00", "event": "home_data", "registry_rows": 60, "sites_hit": 4}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=board-of-directors", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/Resume/Jordan%20Doerksen%20-%20Resume.pdf", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=cn-conductor-trainer", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=caddy-shed-golf-pitch", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=cror-signals", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=clear-board", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=ask-johnny", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=closing-bell", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=bonnie-day-pitch", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=diablo-act1", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=gridline", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=fulfillment", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=glass-atlas", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=echo-bat", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=hoagie-boyz-pitch", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=garwood-grill-pitch", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=orbital-field", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=macroscope", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=pentafall-rebuild", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=portfolio-monorepo", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=sentinel-suite", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=richter", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=resume", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=spectrum", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=style-library", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=training-assistant", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=switch-list", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=star-charter", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=star-charter-pro", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=underwriter", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=worklog", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/games/closing-bell/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/atlas/?p=warden", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/demos/trading-desk/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/games/fulfillment-lite/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/games/diablo-act1/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/games/echo-bat/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/games/first-light/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/games/glass-atlas/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://github.com/Jordan-Doerksen/triforce-defense", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://github.com/Jordan-Doerksen/design-first", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/games/holdout/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/games/orbital-field/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/games/typecase/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/games/star-charter/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/games/star-charter-pro/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/index.html", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/rail/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://jordan-doerksen.github.io/tools/design-first/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "link", "url": "https://vigilharbor.com/", "status": 200, "error": null}
+{"t": "2026-10-20T06:00:46+00:00", "event": "run_end", "pages_sites": 11, "repos_scanned": 113, "dead_links": 0, "dead_links_unique": 0, "could_not_look_sites": 0, "could_not_look_links": 0, "keep": 6, "unlist": 5, "archive": 0}

@@ -7,7 +7,10 @@
     "dead_links": 0,
     "dead_links_unique": 0,
     "could_not_look_sites": 0,
-    "could_not_look_links": 0
+    "could_not_look_links": 0,
+    "keep": 6,
+    "unlist": 5,
+    "archive": 0
   },
   "sites": [
     {
@@ -24,15 +27,27 @@
         "error": null
       },
       "pages_read": 1,
-      "inbound_count": 0,
-      "inbound": [],
+      "is_home": false,
+      "home_links": [
+        "registry row design-first"
+      ],
+      "inbound_count": 1,
+      "inbound": [
+        {
+          "page": "registry row design-first",
+          "from_site": "jordan-doerksen.github.io"
+        }
+      ],
+      "inbound_not_seen": [
+        "it-toolkit"
+      ],
       "outbound_count": 2,
       "dead_links": [],
       "dead_link_count": 0,
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "keep",
-      "proposed_reason": "No page links to it, but the last commit is recent (0 days)."
+      "proposed_reason": "One of the owner's named picks (design-first, the method page, the trading desk, Fulfillment)."
     },
     {
       "key": "fulfillment-architecture-guide",
@@ -48,15 +63,20 @@
         "error": null
       },
       "pages_read": 1,
+      "is_home": false,
+      "home_links": [],
       "inbound_count": 0,
       "inbound": [],
+      "inbound_not_seen": [
+        "it-toolkit"
+      ],
       "outbound_count": 0,
       "dead_links": [],
       "dead_link_count": 0,
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "keep",
-      "proposed_reason": "No page links to it, but the last commit is recent (92 days)."
+      "proposed_reason": "One of the owner's named picks (design-first, the method page, the trading desk, Fulfillment)."
     },
     {
       "key": "gridline-map-navigation",
@@ -72,15 +92,20 @@
         "error": null
       },
       "pages_read": 1,
+      "is_home": false,
+      "home_links": [],
       "inbound_count": 0,
       "inbound": [],
+      "inbound_not_seen": [
+        "it-toolkit"
+      ],
       "outbound_count": 0,
       "dead_links": [],
       "dead_link_count": 0,
       "unchecked_links": [],
       "unchecked_link_count": 0,
-      "proposed_ruling": "keep",
-      "proposed_reason": "No page links to it, but the last commit is recent (27 days)."
+      "proposed_ruling": "unlist",
+      "proposed_reason": "Not linked from the home site; last commit 27 days ago, within 60 days."
     },
     {
       "key": "it-toolkit",
@@ -96,8 +121,18 @@
         "error": null
       },
       "pages_read": 1,
-      "inbound_count": 0,
-      "inbound": [],
+      "is_home": false,
+      "home_links": [
+        "desk row it-toolkit (slug match)"
+      ],
+      "inbound_count": 1,
+      "inbound": [
+        {
+          "page": "desk row it-toolkit (slug match)",
+          "from_site": "jordan-doerksen.github.io"
+        }
+      ],
+      "inbound_not_seen": [],
       "outbound_count": 0,
       "dead_links": [],
       "dead_link_count": 0,
@@ -120,12 +155,17 @@
         "error": null
       },
       "pages_read": 6,
+      "is_home": true,
+      "home_links": [],
       "inbound_count": 1,
       "inbound": [
         {
           "page": "https://jordan-doerksen.github.io/design-first/",
           "from_site": "design-first"
         }
+      ],
+      "inbound_not_seen": [
+        "it-toolkit"
       ],
       "outbound_count": 46,
       "dead_links": [],
@@ -149,15 +189,20 @@
         "error": null
       },
       "pages_read": 1,
+      "is_home": false,
+      "home_links": [],
       "inbound_count": 0,
       "inbound": [],
+      "inbound_not_seen": [
+        "it-toolkit"
+      ],
       "outbound_count": 0,
       "dead_links": [],
       "dead_link_count": 0,
       "unchecked_links": [],
       "unchecked_link_count": 0,
-      "proposed_ruling": "keep",
-      "proposed_reason": "No page links to it, but the last commit is recent (27 days)."
+      "proposed_ruling": "unlist",
+      "proposed_reason": "Not linked from the home site; last commit 27 days ago, within 60 days."
     },
     {
       "key": "resume",
@@ -173,15 +218,27 @@
         "error": null
       },
       "pages_read": 1,
-      "inbound_count": 0,
-      "inbound": [],
+      "is_home": false,
+      "home_links": [
+        "registry row resume"
+      ],
+      "inbound_count": 1,
+      "inbound": [
+        {
+          "page": "registry row resume",
+          "from_site": "jordan-doerksen.github.io"
+        }
+      ],
+      "inbound_not_seen": [
+        "it-toolkit"
+      ],
       "outbound_count": 1,
       "dead_links": [],
       "dead_link_count": 0,
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "keep",
-      "proposed_reason": "No page links to it, but the last commit is recent (104 days)."
+      "proposed_reason": "Linked from the home site (1 link(s); first: registry row resume)."
     },
     {
       "key": "sentinel-field-manual",
@@ -197,8 +254,13 @@
         "error": null
       },
       "pages_read": 1,
+      "is_home": false,
+      "home_links": [],
       "inbound_count": 0,
       "inbound": [],
+      "inbound_not_seen": [
+        "it-toolkit"
+      ],
       "outbound_count": 0,
       "dead_links": [],
       "dead_link_count": 0,
@@ -221,15 +283,32 @@
         "error": null
       },
       "pages_read": 1,
-      "inbound_count": 0,
-      "inbound": [],
+      "is_home": false,
+      "home_links": [
+        "desk row style-library (slug match)",
+        "registry row style-library"
+      ],
+      "inbound_count": 2,
+      "inbound": [
+        {
+          "page": "desk row style-library (slug match)",
+          "from_site": "jordan-doerksen.github.io"
+        },
+        {
+          "page": "registry row style-library",
+          "from_site": "jordan-doerksen.github.io"
+        }
+      ],
+      "inbound_not_seen": [
+        "it-toolkit"
+      ],
       "outbound_count": 0,
       "dead_links": [],
       "dead_link_count": 0,
       "unchecked_links": [],
       "unchecked_link_count": 0,
       "proposed_ruling": "keep",
-      "proposed_reason": "No page links to it, but the last commit is recent (104 days)."
+      "proposed_reason": "Linked from the home site (2 link(s); first: desk row style-library (slug match))."
     },
     {
       "key": "triforce-defense",
@@ -245,15 +324,20 @@
         "error": null
       },
       "pages_read": 2,
+      "is_home": false,
+      "home_links": [],
       "inbound_count": 0,
       "inbound": [],
+      "inbound_not_seen": [
+        "it-toolkit"
+      ],
       "outbound_count": 1,
       "dead_links": [],
       "dead_link_count": 0,
       "unchecked_links": [],
       "unchecked_link_count": 0,
-      "proposed_ruling": "keep",
-      "proposed_reason": "No page links to it, but the last commit is recent (0 days)."
+      "proposed_ruling": "unlist",
+      "proposed_reason": "Not linked from the home site; last commit 0 days ago, within 60 days."
     },
     {
       "key": "vigil-hardly",
@@ -269,15 +353,20 @@
         "error": null
       },
       "pages_read": 1,
+      "is_home": false,
+      "home_links": [],
       "inbound_count": 0,
       "inbound": [],
+      "inbound_not_seen": [
+        "it-toolkit"
+      ],
       "outbound_count": 1,
       "dead_links": [],
       "dead_link_count": 0,
       "unchecked_links": [],
       "unchecked_link_count": 0,
-      "proposed_ruling": "keep",
-      "proposed_reason": "No page links to it, but the last commit is recent (22 days)."
+      "proposed_ruling": "unlist",
+      "proposed_reason": "Not linked from the home site; last commit 22 days ago, within 60 days."
     }
   ]
 }

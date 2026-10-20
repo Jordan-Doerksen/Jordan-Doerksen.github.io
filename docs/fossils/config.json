@@ -6,7 +6,6 @@
   "workers": 12,
   "max_pages_per_site": 60,
   "user_agent": "fossil-inventory/1 (read-only link check)",
-  "stale_days": 180,
   "overrides": {
     "jordan-doerksen.github.io": {
       "ruling": "keep",
@@ -20,5 +19,18 @@
       "ruling": "keep",
       "reason": "Owner ruling 2026-10-20: stays public, leaves every index."
     }
+  },
+  "rule": {
+    "archive_after_days": 60,
+    "named_picks": [
+      "design-first",
+      "fulfillment-architecture-guide"
+    ],
+    "reason_home": "The home site itself.",
+    "reason_named": "One of the owner's named picks (design-first, the method page, the trading desk, Fulfillment).",
+    "reason_linked": "Linked from the home site ({n} link(s); first: {first}).",
+    "reason_unlist": "Not linked from the home site; last commit {age} days ago, within {limit} days.",
+    "reason_archive": "Not linked from the home site; last commit {age} days ago, older than {limit} days.",
+    "reason_unknown_age": "Not linked from the home site; the last commit date is unknown."
   }
 }

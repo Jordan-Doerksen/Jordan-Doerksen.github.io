@@ -18,7 +18,7 @@ It compares `index.html` with a fresh render of `inventory.json`.
 
 Exit codes: 0 done. 1 `--check` found a difference. 2 could not look (gh missing or not signed in).
 
-Settings (owner, timeouts, page cap, stale days, owner rulings) are in `config.json`.
+Settings (owner, timeouts, page cap, owner rulings, and the ruling rule with its thresholds and reason texts) are in `config.json`.
 
 ## Columns
 
@@ -27,12 +27,24 @@ Settings (owner, timeouts, page cap, stale days, owner rulings) are in `config.j
 | Site | Repository name and Pages URL. `[archived]` or `[private]` shows the repository state. |
 | Last commit | Date of the newest commit on the default branch, and its age on the run date. |
 | Live | The HTTP status of the Pages URL, fetched once. `live` = 200. `answers N` = another status. `could not look` = the fetch failed. It never means dead. |
-| Inbound links | Pages on this account's `github.io` sites that link to this site. Each site's own HTML is read one level deep (the root page and the same-site pages it links to, up to `max_pages_per_site`). Links to the same site do not count. |
+| Inbound links | Links to this site from the home site and from the other Pages sites. Three sources: (1) the static crawl: each site's own HTML, one level deep (root page plus the same-site pages it links to, up to `max_pages_per_site`); (2) `data/registry.json` in the site repo: a row whose `url` or `repo` points at the Pages site or its repo counts as one link, named by the row; (3) `data/desk.json`: a row whose slug equals the repo name counts as one link, marked "slug match" (a name match, not a link). The home site builds its project links in the browser from (2) and (3), so the crawl cannot see them. "not seen" means a site that builds its links in the browser (scripts, no anchors in its HTML) could not be read, so the count is not known. It is never shown as 0. |
 | Outbound links | Unique links from the site's read pages to anything else, and how many answer 4xx or 5xx (dead). Links that could not be fetched are counted as `could not look`, not as dead. |
-| Proposed ruling | `keep`, `unlist` (noindex and off every index, like after-hours) or `archive` (archive the repository), with one reason. Two rows are the owner's rulings of 2026-10-20. The other rows follow the rule in `propose()`. |
+| Proposed ruling | `keep`, `unlist` (noindex and off every index, like after-hours) or `archive` (archive the repository), with one reason that names the branch of the rule and its numbers. See the rule below. |
 | His ruling | Empty. The owner fills it. |
 
-Limit: only static HTML is read. A link added by JavaScript is not seen, so "0 inbound" is not proof that nothing links to a site.
+## The ruling rule
+
+The rule, its threshold (`archive_after_days`, default 60), the named picks and the reason texts are in `config.json` under `rule` and `overrides`. The first branch that matches wins.
+
+1. Owner ruling (`overrides`): sentinel-field-manual = unlist. it-toolkit = keep public, off every index.
+2. The home site itself = keep.
+3. A named pick (`rule.named_picks`) = keep. The picks are design-first and fulfillment-architecture-guide. The method page is a path on the home site, and the trading desk has no Pages repo, so neither is a row.
+4. Linked from the home site (registry, desk or static crawl) = keep.
+5. Not linked from the home site, last commit within `archive_after_days` = unlist.
+6. Not linked from the home site, last commit older than `archive_after_days` = archive.
+7. Not linked and the commit date unknown = unlist.
+
+Limit: only static HTML is read, plus the two home data files. A link added by JavaScript on another site is not seen.
 
 ## When something goes wrong
 
