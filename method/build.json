@@ -1,0 +1,12 @@
+{
+  "source": "The build's own settings (DES-04). build_method.py reads this file; nothing here is stamped into the page as data. recordings.max_lines: a recording longer than this shows its first max_lines lines in the box and the rest inside a details element directly under it. recordings.labels: the aria-label of each recording, after the word Recording.",
+  "recordings": {
+    "max_lines": 12,
+    "labels": {
+      "adopt": "adopt",
+      "doctor": "the Doctor",
+      "guard": "the guard refusing a bad edit",
+      "doctor_kit": "the Doctor checking the kit"
+    }
+  }
+}

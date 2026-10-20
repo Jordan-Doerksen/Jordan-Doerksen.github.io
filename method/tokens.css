@@ -130,7 +130,7 @@
   --md-menu-w: 320px;
   --md-ctlbox-w: 340px;
   --md-status-h: calc(var(--md-t-small) * var(--md-lh-small) * 2);
-  --md-term-h: 15em;
+  --md-term-hang: 2;
   --md-term-t: 12.5px;
   --md-term-lh: 1.5;
   --md-dg-label-w: 84px;

@@ -6,9 +6,10 @@ marker comments, so no fact about the kit is typed (PRIN-03):
     <!-- md:stamp NAME --> ... <!-- /md:stamp NAME -->
 
   * from method/data/kit.json (written by the kit's docs/publish.mjs, never edited here):
-    adopt-count, adopt-questions, transcript-adopt|doctor|doctor_kit|guard, transcript-meta, install,
+    adopt-count, adopt-questions, transcript-adopt|doctor|doctor_kit|guard (each the whole recording box, see build.json), transcript-meta, install,
     rulegrade-01..06 (ids from method/sources.json), grades-drawer, kit-line
   * from method/diagram.json: diagram-0 .. diagram-9, the one diagram at the end of each chapter
+  * from method/build.json: how many lines of a recording show in its box, and each recording's aria-label
   * from method/ride.json: the inline <script id="md-ride"> block, so the page never fetches (CR-29; motion.json is retired)
 
     python scripts/build_method.py            stamp the page in place
@@ -43,6 +44,7 @@ MIN_DWELL_MS = 2200
 KIT_STAMPS = ("adopt-count", "adopt-questions", "transcript-adopt", "transcript-doctor", "transcript-doctor_kit",
               "transcript-guard", "transcript-meta", "install", "grades-drawer", "kit-line") + tuple("rulegrade-0%d" % i for i in range(1, 7))
 NUMBER_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve"]
+DEFAULT_MAX_LINES = 12
 # Chapters whose arrivals come from kit.json: their markup count cannot be checked without it.
 KIT_CHAPTERS = ("md-interview", "adopt")
 
@@ -154,7 +156,35 @@ def stamp_drawer(kit: dict) -> str:
     return "\n" + "\n".join(out) + "\n"
 
 
-def stamp_all(page: str, ride: dict, diagram: dict, sources: dict, kit: dict | None, log) -> tuple[str, list]:
+def recording_lines(lines: list) -> str:
+    """One block span per recorded line. The newline stays inside the span (not between spans), so the box's text is the
+    recorded lines joined by newlines, and a blank recorded line is still one blank line. A line's own leading spaces set
+    its hanging indent: a wrapped continuation lines up under the text, past the line's indent, and reads as one line."""
+    out = []
+    for i, line in enumerate(lines):
+        indent = len(line) - len(line.lstrip(" "))
+        tail = "\n" if i < len(lines) - 1 else ""
+        out.append('<span class="md-tl" style="--md-in:%d">%s%s</span>' % (indent, esc(line), tail))
+    return "".join(out)
+
+
+def stamp_recording(kit: dict, key: str, build: dict) -> str:
+    """The recording box (CR-29, WEB-14): it wraps and never scrolls. A recording longer than max_lines shows its first
+    max_lines lines in the box and the rest in a details element directly under it. The total is counted here, not typed."""
+    cfg = build["recordings"]
+    label = "Recording: " + cfg["labels"][key]
+    lines = kit["transcripts"][key]
+    cap = cfg["max_lines"]
+    if len(lines) <= cap:
+        return '<pre class="md-term" aria-label="%s"><code>%s</code></pre>' % (esc(label), recording_lines(lines))
+    head, rest = lines[:cap], lines[cap:]
+    return ('<pre class="md-term" aria-label="%s"><code>%s</code></pre>'
+            '<details class="md-more"><summary>The full recording, %d lines</summary>'
+            '<pre class="md-term md-term-rest" aria-label="%s"><code>%s</code></pre></details>'
+            % (esc(label), recording_lines(head), len(lines), esc(label + ", lines %d to %d" % (cap + 1, len(lines))), recording_lines(rest)))
+
+
+def stamp_all(page: str, ride: dict, diagram: dict, sources: dict, kit: dict | None, build: dict, log) -> tuple[str, list]:
     skipped = []
     page = stamp_ride(page, ride)
     for n, _ in enumerate(diagram["chapters"]):
@@ -167,7 +197,7 @@ def stamp_all(page: str, ride: dict, diagram: dict, sources: dict, kit: dict | N
     page = put(page, "adopt-count", count_word(len(kit["adopt_questions"])))
     page = put(page, "adopt-questions", stamp_questions(kit))
     for key in ("adopt", "doctor", "doctor_kit", "guard"):
-        page = put(page, "transcript-" + key, esc("\n".join(kit["transcripts"][key])))
+        page = put(page, "transcript-" + key, stamp_recording(kit, key, build))
     meta = kit["transcript_meta"]
     page = put(page, "transcript-meta", "Recorded %s on design-first %s. %s." % (esc(meta["recorded"]), esc(meta["kit_version"]), esc(str(meta["machine"]).rstrip("."))))
     page = put(page, "install", stamp_install(kit))
@@ -223,6 +253,18 @@ def check_ride(page: str, ride: dict, diagram: dict, kit_present: bool, log) -> 
 
 # ---- the run ---------------------------------------------------------------------------------------------
 
+def check_build(build: dict) -> None:
+    cfg = build.get("recordings")
+    if not isinstance(cfg, dict) or not isinstance(cfg.get("labels"), dict):
+        raise CouldNotLook("build.json has no recordings.labels")
+    cfg.setdefault("max_lines", DEFAULT_MAX_LINES)
+    if not isinstance(cfg["max_lines"], int) or cfg["max_lines"] < 1:
+        raise CouldNotLook("build.json recordings.max_lines must be a whole number of at least 1")
+    for key in ("adopt", "doctor", "doctor_kit", "guard"):
+        if key not in cfg["labels"]:
+            raise CouldNotLook("build.json recordings.labels has no %s" % key)
+
+
 def run(args, log) -> int:
     root = Path(args.root).resolve() if args.root else HERE.parent
     mdir = root / "method"
@@ -232,6 +274,8 @@ def run(args, log) -> int:
     ride = read_json(mdir / "ride.json")
     diagram = read_json(mdir / "diagram.json")
     sources = read_json(mdir / "sources.json")
+    build = read_json(mdir / "build.json")
+    check_build(build)
     kit = None
     if kit_path.exists():
         kit = read_json(kit_path)
@@ -240,7 +284,7 @@ def run(args, log) -> int:
                 raise CouldNotLook("%s has no key %s" % (kit_path, key))
     else:
         log.warn("kit_absent", path=str(kit_path), reason="the kit stamps are left as they are")
-    fresh, skipped = stamp_all(page, ride, diagram, sources, kit, log)
+    fresh, skipped = stamp_all(page, ride, diagram, sources, kit, build, log)
     broken = check_ride(fresh, ride, diagram, kit is not None, log)
     for line in broken:
         log.error("rule_broken", detail=line)

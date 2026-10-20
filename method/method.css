@@ -9,6 +9,10 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; background: var(--md-ground); scroll-padding-top: var(--md-anchor-off); }
+/* DES-08: with smooth scrolling on, Tab to a far stop (a recording summary 6000px down) is still mid-scroll for half a second,
+   so the element is off the screen when read and check.mjs reports "focus left the screen". Keyboard focus jumps at once;
+   the mouse keeps the smooth scroll to a chapter anchor. */
+html:has(:focus-visible) { scroll-behavior: auto; }
 body {
   margin: 0; min-height: 100vh;
   background: var(--md-ground); color: var(--md-ink);
@@ -159,9 +163,17 @@ main { position: relative; z-index: 0; }
 .md-sixlist span { color: var(--md-ink-2); }
 @media (min-width: 700px) { .md-sixlist { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-/* terminals: a recording is a scrollable region, so it takes focus and shows a ring */
-.md-term { margin: var(--md-stack-sm) 0 0; padding: var(--md-pad-sm); max-height: var(--md-term-h); overflow: auto; background: var(--md-ground-2); border: 1px solid var(--md-line); border-radius: var(--md-r-sm); font: var(--md-w-body) var(--md-term-t) / var(--md-term-lh) var(--md-font-mono); color: var(--md-ink); white-space: pre; }
+/* CR-29, WEB-14: a recording wraps, it never scrolls. Each recorded line is a block (.md-tl); a wrapped continuation
+   keeps the line's own indent plus --md-term-hang, so it reads as one line. overflow-wrap:anywhere because a path or a
+   hash has no break point and would otherwise push the box wider than the window. */
+.md-term { margin: var(--md-stack-sm) 0 0; padding: var(--md-pad-sm); overflow: visible; background: var(--md-ground-2); border: 1px solid var(--md-line); border-radius: var(--md-r-sm); font: var(--md-w-body) var(--md-term-t) / var(--md-term-lh) var(--md-font-mono); color: var(--md-ink); white-space: pre-wrap; overflow-wrap: anywhere; }
 .md-term code { font: inherit; }
+.md-tl { display: block; min-height: calc(var(--md-term-lh) * 1em); padding-left: calc((var(--md-in, 0) + var(--md-term-hang)) * 1ch); text-indent: calc((var(--md-in, 0) + var(--md-term-hang)) * -1ch); }
+/* the rest of a long recording, directly under its box: plain text summary, 6px radius, the page's own focus ring */
+.md-more { margin: var(--md-stack-sm) 0 0; }
+.md-more > summary { cursor: pointer; padding: var(--md-pad-xs) var(--md-pad-sm); font: var(--md-w-label) var(--md-t-label) / var(--md-lh-small) var(--md-font-mono); letter-spacing: var(--md-track-label); color: var(--md-ink-2); border-radius: var(--md-r-sm); }
+.md-more > summary:hover { color: var(--md-ink-strong); background: var(--md-panel-hover); }
+.md-more > .md-term { margin-top: var(--md-stack-sm); }
 .md-cap { margin-top: var(--md-stack-xs); }
 .md-cmd code { display: block; margin-top: var(--md-stack-xs); padding: var(--md-pad-sm); background: var(--md-ground-2); border: 1px solid var(--md-line); border-radius: var(--md-r-sm); color: var(--md-ink-strong); overflow-wrap: anywhere; }
 

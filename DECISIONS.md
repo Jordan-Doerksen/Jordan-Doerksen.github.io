@@ -622,6 +622,18 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
     pause and leave him free. Proof: 4 widths at `?ridetest=300` each reach "Ride complete" with 0 takeover entries;
     40 s at normal speed with the pointer parked at (1540,140) passes stop 4 (stop 7 at 40 s); a scripted wheel pauses with
     the message and Resume continues; a moving pointer over a card still holds, and 2.2 s of rest lets the ride go on.
+  - **The four recordings wrap; no box scrolls sideways (WEB-14).** The chapter 5 recordings were `pre.md-term` boxes with
+    `overflow: auto; white-space: pre` and a tab stop, so `check.mjs` failed at 390 and 1280 (widest element 2467px, 4 sideways
+    scroll boxes, focus left the screen at each). Now a recording is `white-space: pre-wrap; overflow-wrap: anywhere`, no
+    max-height, no overflow, no `tabindex`, aria-label kept. Each recorded line is a block with a hanging indent (its own leading
+    spaces plus `--md-term-hang`, 2ch, `tokens.css`), so a wrapped line reads as one line; `--md-term-h` is retired. A recording
+    longer than `recordings.max_lines` (12, new `method/build.json`, OWN-05, reversible there) shows its first 12 lines in the box
+    and the rest in a `<details>` under it, "The full recording, N lines", N counted from `kit.json` by `build_method.py`. The
+    stamp now covers the whole box (markers moved out around the `<pre>`, once); labels live in `build.json`. The transcripts are
+    unchanged (the 16 empty strings stay as blank lines; the text of box plus rest equals the kit's lines joined by newlines).
+    Also in `method.css`: `html:has(:focus-visible) { scroll-behavior: auto }`. With smooth scrolling, Tab to a far stop was
+    still mid-scroll when `check.mjs` read it ("focus left the screen" at the summaries), so a keyboard jump is now instant and
+    the mouse keeps the smooth scroll to a chapter anchor.
   - **Superseded.** CR-28's T2 engine (scroll thresholds, sticky tracks, pinned stages). CR-28's chapters, kit stamp,
     redirect and Home lead stand.
 - 2026-10-20 — **CR-28 (Site card item 24, phase 2 of 2): the one method page is built on T2, Scroll as the film.
