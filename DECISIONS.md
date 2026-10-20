@@ -551,6 +551,80 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   markup (GATE-01).
 
 ## Change Log
+- 2026-10-20 — **CR-27 (Site card item 24, rank high, phase 1 of 2): ONE method page, motion-led, at `/method/`.
+  This entry records the master's plan and three motion treatments of one beat for the owner to pick from
+  (GATE-14). Generation contract (WEB-11), written before the page. No live page is touched in phase 1.**
+  Owner's rulings (2026-10-20, via Intake): the site owns one method page; the kit feeds it facts and recordings;
+  no more three pages; motion comes first, "like watching an Apple TV ad but learning".
+  - **Site class:** a display (DISP-01) on the OPEN tier (CR-23). Motion introduces and never decorates (DISP-02).
+    Stage pattern (DISP-03): items arrive one at a time, a connector draws to the next slot, the batch files down
+    into a record that assembles as a diagram; every arrival is a state to pause on and resume from; the reading
+    pause is 2200 ms, the measured number in `display-case-law.md`; every timing lives in a `.json`. Never end on
+    empty (DISP-04). Content is in the markup; the script sets a flag and runs the sequence (DISP-08). Under
+    `prefers-reduced-motion` nothing animates, nothing auto-advances and no timer exists (SAFE-05). Targets and
+    controls never move (WEB-06). No opacity: 0 rest state on content (WEB-07). Sound: none.
+  - **Dominant idea, one sentence:** work moves through four gates, around two loops, held by six rules, and every
+    step leaves a record on disk.
+  - **Zones** (bible vocabulary, WEB-12): `persistent_chrome` (identity and chapter links, one cluster);
+    `narrative_rail` (chapter progress, the second cluster); `hero_field` (chapter 0); one `content_band` per chapter
+    holding the stage; `footer_resolution` (the reference drawer). The diagram that assembles is in flow at the end
+    of each chapter, never a permanent panel in the centre (WEB-03). Two persistent clusters of three at most.
+  - **Patterns:** `cinematic_scroll`, `motion_choreography`, `product_storytelling`, `interactive_explainer`.
+    Research (OWN-10, high): scroll is progress and one change per beat; every motion orients, shows cause or
+    confirms; effect first, then explanation, proof and action; the specification stays reachable without
+    finishing the story. Case risks: pacing frustrates the reader who has a task; spectacle buries the story; the
+    motion layer needs a parallel document layer (Cartier W&W 2024, A Spacecraft for All, Following Wildfire,
+    Active Theory V6, Lusion V3).
+  - **Storyboard** (one dominant idea per chapter, WEB-02):
+
+    | # | Chapter | What arrives | What stays on the record | Absorbs |
+    |---|---|---|---|---|
+    | 0 | Opening | the sentence above, then the empty outline of the diagram | the outline | Home lead; `/method/` hero |
+    | 1 | Three words | gate, loop, rule, one at a time | a three-word legend | `/method/` 1; kit "the words" |
+    | 2 | The interview | the seven adopt questions, recommended answer marked, from the recording | a DECISIONS.md card | kit "the flow" beat 1 |
+    | 3 | Four gates | interview, decisions manifest, change request, reviewer; what each stops and leaves | the four gates on the spine | `/method/` 2; kit "gates and loops" |
+    | 4 | The build loop | build, cross-check, report; the return wire draws; a second chunk joins the first | the loop on the spine | `/method/` 3; kit "gates and loops" |
+    | 5 | The harness | recordings play: adopt, the Doctor, the guard refusing a bad edit | hooks, Doctor, brain as parts | kit "the flow", "the parts" |
+    | 6 | The control loop | Intake, six domains, writers; a report travels up | the control layer | `/method/` 3 (control loop) |
+    | 7 | Six rules | each rule arrives and lights the part that enforces it | each rule wired to its part | `/method/` 4; kit "the grades" (summary) |
+    | 8 | Limits | stated plainly, no motion | nothing new | kit "limits" |
+    | 9 | Adopt (`#adopt`) | the install command, then the whole diagram, complete | the full diagram | kit "install" |
+    | foot | Reference | the grades drawer, the law ids, the line that the parts are AI sessions and the shape would hold with people | | kit "the grades" table; `/method/` footnote |
+
+  - **Card policy:** a panel appears only where the items are genuine peers (the four gates, the six domains, the
+    writers). The words, the rules, the limits and the reference are typographic. No card grid stands in for a
+    folder system (WEB-13). The grades table is a `<details>` list at the foot, so the specification is there
+    without finishing the film.
+  - **Master's decisions (OWN-05; each reversible):** (1) the path is `/method/`; it exists, Home links it, and its
+    present content is the first draft of chapters 1, 3, 4, 6 and 7. (2) `/tools/design-first/` becomes a redirect
+    stub to `/method/#adopt` (meta refresh, canonical link, a plain "This page moved" link; no dead link). (3) The
+    kit feeds data, not a page: phase 2 asks the Method master to change `docs/publish.mjs` to write
+    `method/data/kit.json` (kit version, the clause rows with their grades, the four transcripts as line arrays);
+    a site script stamps it into the markup at build time and the page never fetches it (PRIN-03: generated,
+    never copied by hand). A Site session never edits the kit repo. (4) Home's two leads, "design-first and its
+    harness" and "The method", become one lead that links `/method/`; the stage keeps the trading desk and
+    Fulfillment as its two peers (phase 2). (5) Sound: none. (6) The grades table leaves the story for the drawer.
+  - **The three treatments, one real beat (chapter 3, the four gates), in `docs/skin-lab/method-24/`:**
+    T1 *Stage and file-down*: the gates arrive one at a time with the 2200 ms pause, a connector draws to each next
+    slot, the row files down into the spine record; Play, Step and Reset sit in a fixed spot. Gives: the tested
+    pattern and exact pacing. Costs: a timer drives it, so a reader who scrolls on misses it until they press Play.
+    T2 *Scroll as the film*: the stage is sticky inside its chapter; each gate arrives at a scroll threshold as a
+    discrete state; the connector and the file-down follow scroll progress; no timer; the chapter rail shows
+    progress. Gives: the reader sets the pace, and pausing is not scrolling. Costs: the most engineering; a fast
+    scroller sees states snap. T3 *The trailer*: full-bleed, larger type, the stage group scales and moves as one,
+    the ground glow answers each arrival, autoplay once on entering view with a chapter scrubber and Play/Pause.
+    Gives: the most film. Costs: the longest entrance and the risk the bible names; it pauses and never repeats.
+    The master's leaning before the render: T2.
+  - **The lab:** `t1/`, `t2/`, `t3/` each hold one page, `motion.json` (every timing or threshold), `t.css`, `t.js`;
+    `shared/` holds variant C's `tokens.css` and `method.css` copied unchanged plus `lab-tokens.css` (sizes and
+    rest values only: no new colour, font or skin token) and `lab.css`. The four gates are read from
+    `method/index.html` by `build.mjs` (generated). `index.html` shows the three side by side; `probe.mjs` runs the
+    checks and writes `shots/`. A treatment loads `motion.json` with `fetch`, so it needs an http origin; opened from
+    `file://` it falls back to the complete still, which is the safe state. Under reduced motion `t.js` makes no
+    request, no timer and no observer.
+  - **Not in phase 1:** the whole page; any change to `method/`, `tools/design-first/`, `index.html` or a live page;
+    the kit repo; push or merge (the master does both). Phase 2 builds the picked treatment into all ten chapters.
+  - **Reversible:** delete `docs/skin-lab/method-24/`; nothing else reads it.
 - 2026-10-20 — **CR-26 (Site card item 20b, rank low): the owner's fossil rulings take five sites off every index.**
   Rulings (owner, 2026-10-20, relayed by Intake): UNLIST `sentinel-field-manual`, `style-library` and
   `fulfillment-architecture-guide` (noindex on their own pages, off every index here); KEEP, OFF EVERY INDEX,
