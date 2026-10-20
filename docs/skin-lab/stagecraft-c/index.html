@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stagecraft pages: before and after variant C</title>
+<meta name="robots" content="noindex">
+<style>
+/* The comparison page wears no variant's skin (method lab D-12): a plain near-black ground and system
+   type, so it does not vote. Its few values live here, in one block, because it is lab scratch. */
+:root {
+  --lab-ground: #111214; --lab-ink: #e6e6e6; --lab-ink-2: #a3a3a8; --lab-line: #2b2c31; --lab-accent: #8ab4ff;
+  --lab-gutter: clamp(16px, 3vw, 40px); --lab-gap: 16px; --lab-r: 6px;
+  --lab-font: "Segoe UI", system-ui, -apple-system, sans-serif; --lab-mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --lab-shot-h: 720px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--lab-ground); }
+body { margin: 0; background: var(--lab-ground); color: var(--lab-ink); font: 400 15px/1.55 var(--lab-font); }
+a { color: var(--lab-accent); text-underline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--lab-accent); outline-offset: 3px; border-radius: 4px; }
+.lab-head { padding: 24px var(--lab-gutter) 16px; border-bottom: 1px solid var(--lab-line); display: grid; gap: 6px; }
+.lab-head h1 { margin: 0; font: 600 20px/1.3 var(--lab-font); }
+.lab-head p { margin: 0; color: var(--lab-ink-2); max-width: 80ch; }
+.lab-toc { padding: 12px var(--lab-gutter); border-bottom: 1px solid var(--lab-line); display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; }
+.lab-main { display: grid; gap: var(--lab-gap); padding: var(--lab-gutter); }
+.lab-page { display: grid; gap: 12px; align-content: start; border: 1px solid var(--lab-line); border-radius: var(--lab-r); padding: 14px; }
+.lab-page h2 { margin: 0; font: 600 16px/1.3 var(--lab-font); display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.lab-page h2 .lab-key { font: 500 11px/1 var(--lab-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--lab-accent); }
+.lab-page h2 a { font: 400 13px/1 var(--lab-font); }
+.lab-pair { display: grid; gap: var(--lab-gap); }
+.lab-shot { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.lab-shot .lab-cap { font: 500 11px/1 var(--lab-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--lab-ink-2); }
+/* A full-page screenshot is tall. Each one sits in a box of fixed height that scrolls up and down,
+   never sideways: the image is always the box's width. */
+.lab-shot .lab-box { height: var(--lab-shot-h); overflow-y: auto; overflow-x: hidden; border: 1px solid var(--lab-line); border-radius: var(--lab-r); background: #000; }
+.lab-shot img { display: block; width: 100%; height: auto; }
+.lab-shot.phone .lab-box { max-width: 390px; }
+@media (min-width: 900px) {
+  .lab-pair { grid-template-columns: 1fr 1fr; }
+  .lab-pair.phones { grid-template-columns: repeat(2, minmax(0, 390px)); }
+}
+.lab-foot { padding: 16px var(--lab-gutter) 24px; border-top: 1px solid var(--lab-line); color: var(--lab-ink-2); font-size: 13px; }
+.lab-foot p { margin: 0; max-width: 80ch; }
+</style>
+</head>
+<body>
+<header class="lab-head">
+  <h1>Stagecraft pages: before and after variant C</h1>
+  <p>The nine pages that load the Stagecraft token file: the eight section pages and the atlas write-up. Before is the archive-plate ground and the amber signal as on main at b2a3cfc. After is variant C, Board, applied through the one token file. The composition did not change; the gutter the hubs had lost was restored (DECISIONS.md, D-05). Each shot is the full page, headless Chromium, dark theme. Scroll inside a box to see the rest of a page. The link on each heading opens the live page.</p>
+</header>
+<nav class="lab-toc" aria-label="Pages">
+  <a href="#rail">Rail</a><a href="#games">Games</a><a href="#trading">Trading</a><a href="#studio">Studio</a><a href="#signals">Signals</a><a href="#bots">Bots</a><a href="#tools">Tools</a><a href="#navigation">Navigation</a><a href="#atlas">Atlas</a>
+</nav>
+<main class="lab-main">
+  <section class="lab-page" id="rail" aria-labelledby="h-rail">
+    <h2 id="h-rail"><span class="lab-key">01</span> Rail <a href="../../../rail/">open the live page</a></h2>
+    <div class="lab-pair">
+      <div class="lab-shot"><span class="lab-cap">Before, 1280</span><div class="lab-box"><img src="shots/rail-before-1280.png" alt="Rail before, desktop width" loading="lazy"></div></div>
+      <div class="lab-shot"><span class="lab-cap">After, 1280</span><div class="lab-box"><img src="shots/rail-after-1280.png" alt="Rail after, desktop width" loading="lazy"></div></div>
+    </div>
+    <div class="lab-pair phones">
+      <div class="lab-shot phone"><span class="lab-cap">Before, 390</span><div class="lab-box"><img src="shots/rail-before-390.png" alt="Rail before, phone width" loading="lazy"></div></div>
+      <div class="lab-shot phone"><span class="lab-cap">After, 390</span><div class="lab-box"><img src="shots/rail-after-390.png" alt="Rail after, phone width" loading="lazy"></div></div>
+    </div>
+  </section>
+  <section class="lab-page" id="games" aria-labelledby="h-games">
+    <h2 id="h-games"><span class="lab-key">02</span> Games <a href="../../../games/">open the live page</a></h2>
+    <div class="lab-pair">
+      <div class="lab-shot"><span class="lab-cap">Before, 1280</span><div class="lab-box"><img src="shots/games-before-1280.png" alt="Games before, desktop width" loading="lazy"></div></div>
+      <div class="lab-shot"><span class="lab-cap">After, 1280</span><div class="lab-box"><img src="shots/games-after-1280.png" alt="Games after, desktop width" loading="lazy"></div></div>
+    </div>
+    <div class="lab-pair phones">
+      <div class="lab-shot phone"><span class="lab-cap">Before, 390</span><div class="lab-box"><img src="shots/games-before-390.png" alt="Games before, phone width" loading="lazy"></div></div>
+      <div class="lab-shot phone"><span class="lab-cap">After, 390</span><div class="lab-box"><img src="shots/games-after-390.png" alt="Games after, phone width" loading="lazy"></div></div>
+    </div>
+  </section>
+  <section class="lab-page" id="trading" aria-labelledby="h-trading">
+    <h2 id="h-trading"><span class="lab-key">03</span> Trading <a href="../../../trading/">open the live page</a></h2>
+    <div class="lab-pair">
+      <div class="lab-shot"><span class="lab-cap">Before, 1280</span><div class="lab-box"><img src="shots/trading-before-1280.png" alt="Trading before, desktop width" loading="lazy"></div></div>
+      <div class="lab-shot"><span class="lab-cap">After, 1280</span><div class="lab-box"><img src="shots/trading-after-1280.png" alt="Trading after, desktop width" loading="lazy"></div></div>
+    </div>
+    <div class="lab-pair phones">
+      <div class="lab-shot phone"><span class="lab-cap">Before, 390</span><div class="lab-box"><img src="shots/trading-before-390.png" alt="Trading before, phone width" loading="lazy"></div></div>
+      <div class="lab-shot phone"><span class="lab-cap">After, 390</span><div class="lab-box"><img src="shots/trading-after-390.png" alt="Trading after, phone width" loading="lazy"></div></div>
+    </div>
+  </section>
+  <section class="lab-page" id="studio" aria-labelledby="h-studio">
+    <h2 id="h-studio"><span class="lab-key">04</span> Studio <a href="../../../studio/">open the live page</a></h2>
+    <div class="lab-pair">
+      <div class="lab-shot"><span class="lab-cap">Before, 1280</span><div class="lab-box"><img src="shots/studio-before-1280.png" alt="Studio before, desktop width" loading="lazy"></div></div>
+      <div class="lab-shot"><span class="lab-cap">After, 1280</span><div class="lab-box"><img src="shots/studio-after-1280.png" alt="Studio after, desktop width" loading="lazy"></div></div>
+    </div>
+    <div class="lab-pair phones">
+      <div class="lab-shot phone"><span class="lab-cap">Before, 390</span><div class="lab-box"><img src="shots/studio-before-390.png" alt="Studio before, phone width" loading="lazy"></div></div>
+      <div class="lab-shot phone"><span class="lab-cap">After, 390</span><div class="lab-box"><img src="shots/studio-after-390.png" alt="Studio after, phone width" loading="lazy"></div></div>
+    </div>
+  </section>
+  <section class="lab-page" id="signals" aria-labelledby="h-signals">
+    <h2 id="h-signals"><span class="lab-key">05</span> Signals <a href="../../../signals/">open the live page</a></h2>
+    <div class="lab-pair">
+      <div class="lab-shot"><span class="lab-cap">Before, 1280</span><div class="lab-box"><img src="shots/signals-before-1280.png" alt="Signals before, desktop width" loading="lazy"></div></div>
+      <div class="lab-shot"><span class="lab-cap">After, 1280</span><div class="lab-box"><img src="shots/signals-after-1280.png" alt="Signals after, desktop width" loading="lazy"></div></div>
+    </div>
+    <div class="lab-pair phones">
+      <div class="lab-shot phone"><span class="lab-cap">Before, 390</span><div class="lab-box"><img src="shots/signals-before-390.png" alt="Signals before, phone width" loading="lazy"></div></div>
+      <div class="lab-shot phone"><span class="lab-cap">After, 390</span><div class="lab-box"><img src="shots/signals-after-390.png" alt="Signals after, phone width" loading="lazy"></div></div>
+    </div>
+  </section>
+  <section class="lab-page" id="bots" aria-labelledby="h-bots">
+    <h2 id="h-bots"><span class="lab-key">06</span> Bots <a href="../../../bots/">open the live page</a></h2>
+    <div class="lab-pair">
+      <div class="lab-shot"><span class="lab-cap">Before, 1280</span><div class="lab-box"><img src="shots/bots-before-1280.png" alt="Bots before, desktop width" loading="lazy"></div></div>
+      <div class="lab-shot"><span class="lab-cap">After, 1280</span><div class="lab-box"><img src="shots/bots-after-1280.png" alt="Bots after, desktop width" loading="lazy"></div></div>
+    </div>
+    <div class="lab-pair phones">
+      <div class="lab-shot phone"><span class="lab-cap">Before, 390</span><div class="lab-box"><img src="shots/bots-before-390.png" alt="Bots before, phone width" loading="lazy"></div></div>
+      <div class="lab-shot phone"><span class="lab-cap">After, 390</span><div class="lab-box"><img src="shots/bots-after-390.png" alt="Bots after, phone width" loading="lazy"></div></div>
+    </div>
+  </section>
+  <section class="lab-page" id="tools" aria-labelledby="h-tools">
+    <h2 id="h-tools"><span class="lab-key">07</span> Tools <a href="../../../tools/">open the live page</a></h2>
+    <div class="lab-pair">
+      <div class="lab-shot"><span class="lab-cap">Before, 1280</span><div class="lab-box"><img src="shots/tools-before-1280.png" alt="Tools before, desktop width" loading="lazy"></div></div>
+      <div class="lab-shot"><span class="lab-cap">After, 1280</span><div class="lab-box"><img src="shots/tools-after-1280.png" alt="Tools after, desktop width" loading="lazy"></div></div>
+    </div>
+    <div class="lab-pair phones">
+      <div class="lab-shot phone"><span class="lab-cap">Before, 390</span><div class="lab-box"><img src="shots/tools-before-390.png" alt="Tools before, phone width" loading="lazy"></div></div>
+      <div class="lab-shot phone"><span class="lab-cap">After, 390</span><div class="lab-box"><img src="shots/tools-after-390.png" alt="Tools after, phone width" loading="lazy"></div></div>
+    </div>
+  </section>
+  <section class="lab-page" id="navigation" aria-labelledby="h-navigation">
+    <h2 id="h-navigation"><span class="lab-key">08</span> Navigation <a href="../../../navigation/">open the live page</a></h2>
+    <div class="lab-pair">
+      <div class="lab-shot"><span class="lab-cap">Before, 1280</span><div class="lab-box"><img src="shots/navigation-before-1280.png" alt="Navigation before, desktop width" loading="lazy"></div></div>
+      <div class="lab-shot"><span class="lab-cap">After, 1280</span><div class="lab-box"><img src="shots/navigation-after-1280.png" alt="Navigation after, desktop width" loading="lazy"></div></div>
+    </div>
+    <div class="lab-pair phones">
+      <div class="lab-shot phone"><span class="lab-cap">Before, 390</span><div class="lab-box"><img src="shots/navigation-before-390.png" alt="Navigation before, phone width" loading="lazy"></div></div>
+      <div class="lab-shot phone"><span class="lab-cap">After, 390</span><div class="lab-box"><img src="shots/navigation-after-390.png" alt="Navigation after, phone width" loading="lazy"></div></div>
+    </div>
+  </section>
+  <section class="lab-page" id="atlas" aria-labelledby="h-atlas">
+    <h2 id="h-atlas"><span class="lab-key">09</span> Atlas write-up (Clear Board) <a href="../../../atlas/?p=clear-board">open the live page</a></h2>
+    <div class="lab-pair">
+      <div class="lab-shot"><span class="lab-cap">Before, 1280</span><div class="lab-box"><img src="shots/atlas-before-1280.png" alt="Atlas write-up (Clear Board) before, desktop width" loading="lazy"></div></div>
+      <div class="lab-shot"><span class="lab-cap">After, 1280</span><div class="lab-box"><img src="shots/atlas-after-1280.png" alt="Atlas write-up (Clear Board) after, desktop width" loading="lazy"></div></div>
+    </div>
+    <div class="lab-pair phones">
+      <div class="lab-shot phone"><span class="lab-cap">Before, 390</span><div class="lab-box"><img src="shots/atlas-before-390.png" alt="Atlas write-up (Clear Board) before, phone width" loading="lazy"></div></div>
+      <div class="lab-shot phone"><span class="lab-cap">After, 390</span><div class="lab-box"><img src="shots/atlas-after-390.png" alt="Atlas write-up (Clear Board) after, phone width" loading="lazy"></div></div>
+    </div>
+  </section>
+</main>
+<footer class="lab-foot">
+  <p>Lab scratch under docs/skin-lab/stagecraft-c/. Nothing here is linked from the site. The shots are written by check.mjs beside this file (--shots before on main's files, --shots after on the branch); the token map and the check results are in DECISIONS.md.</p>
+</footer>
+</body>
+</html>

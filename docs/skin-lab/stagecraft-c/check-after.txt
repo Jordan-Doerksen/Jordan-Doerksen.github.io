@@ -1,0 +1,221 @@
+PASS rail @390 dark width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS rail @390 dark gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 17 on-screen text elements checked against the 8px edge rule
+PASS rail @390 dark contrast: 40 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS rail @390 dark keyboard: 21 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS rail @390 dark console: no script or console errors
+PASS rail @390 light width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS rail @390 light gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 17 on-screen text elements checked against the 8px edge rule
+PASS rail @390 light contrast: 40 text elements measured, lowest 6.06:1 at b "01", 0 unmeasurable
+PASS rail @390 light keyboard: 21 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS rail @390 light console: no script or console errors
+PASS rail @390 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS rail @390 no script: h1 "Rail", 308 characters of main text, the prose and the list notice present, nothing hidden
+PASS rail @1280 dark width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS rail @1280 dark gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 22 on-screen text elements checked against the 8px edge rule
+PASS rail @1280 dark contrast: 54 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS rail @1280 dark keyboard: 24 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS rail @1280 dark console: no script or console errors
+PASS rail @1280 light width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS rail @1280 light gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 22 on-screen text elements checked against the 8px edge rule
+PASS rail @1280 light contrast: 54 text elements measured, lowest 6.06:1 at b "01", 0 unmeasurable
+PASS rail @1280 light keyboard: 24 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS rail @1280 light console: no script or console errors
+PASS rail @1280 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS rail @1280 no script: h1 "Rail", 308 characters of main text, the prose and the list notice present, nothing hidden
+PASS games @390 dark width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS games @390 dark gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 17 on-screen text elements checked against the 8px edge rule
+PASS games @390 dark contrast: 66 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS games @390 dark keyboard: 29 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS games @390 dark console: no script or console errors
+PASS games @390 light width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS games @390 light gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 17 on-screen text elements checked against the 8px edge rule
+PASS games @390 light contrast: 66 text elements measured, lowest 6.06:1 at b "02", 0 unmeasurable
+PASS games @390 light keyboard: 29 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS games @390 light console: no script or console errors
+PASS games @390 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS games @390 no script: h1 "Games", 286 characters of main text, the prose and the list notice present, nothing hidden
+PASS games @1280 dark width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS games @1280 dark gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 23 on-screen text elements checked against the 8px edge rule
+PASS games @1280 dark contrast: 106 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS games @1280 dark keyboard: 32 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS games @1280 dark console: no script or console errors
+PASS games @1280 light width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS games @1280 light gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 23 on-screen text elements checked against the 8px edge rule
+PASS games @1280 light contrast: 106 text elements measured, lowest 6.06:1 at b "02", 0 unmeasurable
+PASS games @1280 light keyboard: 32 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS games @1280 light console: no script or console errors
+PASS games @1280 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS games @1280 no script: h1 "Games", 286 characters of main text, the prose and the list notice present, nothing hidden
+PASS trading @390 dark width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS trading @390 dark gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 17 on-screen text elements checked against the 8px edge rule
+PASS trading @390 dark contrast: 56 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS trading @390 dark keyboard: 19 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS trading @390 dark console: no script or console errors
+PASS trading @390 light width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS trading @390 light gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 17 on-screen text elements checked against the 8px edge rule
+PASS trading @390 light contrast: 56 text elements measured, lowest 6.06:1 at b "03", 0 unmeasurable
+PASS trading @390 light keyboard: 19 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS trading @390 light console: no script or console errors
+PASS trading @390 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS trading @390 no script: h1 "Trading", 288 characters of main text, the prose and the list notice present, nothing hidden
+PASS trading @1280 dark width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS trading @1280 dark gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 22 on-screen text elements checked against the 8px edge rule
+PASS trading @1280 dark contrast: 86 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS trading @1280 dark keyboard: 22 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS trading @1280 dark console: no script or console errors
+PASS trading @1280 light width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS trading @1280 light gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 22 on-screen text elements checked against the 8px edge rule
+PASS trading @1280 light contrast: 86 text elements measured, lowest 6.06:1 at b "03", 0 unmeasurable
+PASS trading @1280 light keyboard: 22 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS trading @1280 light console: no script or console errors
+PASS trading @1280 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS trading @1280 no script: h1 "Trading", 288 characters of main text, the prose and the list notice present, nothing hidden
+PASS studio @390 dark width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS studio @390 dark gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 17 on-screen text elements checked against the 8px edge rule
+PASS studio @390 dark contrast: 48 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS studio @390 dark keyboard: 23 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS studio @390 dark console: no script or console errors
+PASS studio @390 light width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS studio @390 light gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 17 on-screen text elements checked against the 8px edge rule
+PASS studio @390 light contrast: 48 text elements measured, lowest 6.06:1 at b "04", 0 unmeasurable
+PASS studio @390 light keyboard: 23 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS studio @390 light console: no script or console errors
+PASS studio @390 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS studio @390 no script: h1 "Studio", 282 characters of main text, the prose and the list notice present, nothing hidden
+PASS studio @1280 dark width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS studio @1280 dark gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 22 on-screen text elements checked against the 8px edge rule
+PASS studio @1280 dark contrast: 70 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS studio @1280 dark keyboard: 26 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS studio @1280 dark console: no script or console errors
+PASS studio @1280 light width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS studio @1280 light gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 22 on-screen text elements checked against the 8px edge rule
+PASS studio @1280 light contrast: 70 text elements measured, lowest 6.06:1 at b "04", 0 unmeasurable
+PASS studio @1280 light keyboard: 26 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS studio @1280 light console: no script or console errors
+PASS studio @1280 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS studio @1280 no script: h1 "Studio", 282 characters of main text, the prose and the list notice present, nothing hidden
+PASS signals @390 dark width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS signals @390 dark gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 19 on-screen text elements checked against the 8px edge rule
+PASS signals @390 dark contrast: 40 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS signals @390 dark keyboard: 19 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS signals @390 dark console: no script or console errors
+PASS signals @390 light width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS signals @390 light gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 19 on-screen text elements checked against the 8px edge rule
+PASS signals @390 light contrast: 40 text elements measured, lowest 6.06:1 at b "05", 0 unmeasurable
+PASS signals @390 light keyboard: 19 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS signals @390 light console: no script or console errors
+PASS signals @390 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS signals @390 no script: h1 "Signals", 259 characters of main text, the prose and the list notice present, nothing hidden
+PASS signals @1280 dark width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS signals @1280 dark gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 23 on-screen text elements checked against the 8px edge rule
+PASS signals @1280 dark contrast: 54 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS signals @1280 dark keyboard: 22 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS signals @1280 dark console: no script or console errors
+PASS signals @1280 light width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS signals @1280 light gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 23 on-screen text elements checked against the 8px edge rule
+PASS signals @1280 light contrast: 54 text elements measured, lowest 6.06:1 at b "05", 0 unmeasurable
+PASS signals @1280 light keyboard: 22 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS signals @1280 light console: no script or console errors
+PASS signals @1280 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS signals @1280 no script: h1 "Signals", 259 characters of main text, the prose and the list notice present, nothing hidden
+PASS bots @390 dark width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS bots @390 dark gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 16 on-screen text elements checked against the 8px edge rule
+PASS bots @390 dark contrast: 34 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS bots @390 dark keyboard: 17 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS bots @390 dark console: no script or console errors
+PASS bots @390 light width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS bots @390 light gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 16 on-screen text elements checked against the 8px edge rule
+PASS bots @390 light contrast: 34 text elements measured, lowest 6.06:1 at b "06", 0 unmeasurable
+PASS bots @390 light keyboard: 17 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS bots @390 light console: no script or console errors
+PASS bots @390 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS bots @390 no script: h1 "Bots", 235 characters of main text, the prose and the list notice present, nothing hidden
+PASS bots @1280 dark width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS bots @1280 dark gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 24 on-screen text elements checked against the 8px edge rule
+PASS bots @1280 dark contrast: 42 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS bots @1280 dark keyboard: 20 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS bots @1280 dark console: no script or console errors
+PASS bots @1280 light width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS bots @1280 light gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 24 on-screen text elements checked against the 8px edge rule
+PASS bots @1280 light contrast: 42 text elements measured, lowest 6.06:1 at b "06", 0 unmeasurable
+PASS bots @1280 light keyboard: 20 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS bots @1280 light console: no script or console errors
+PASS bots @1280 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS bots @1280 no script: h1 "Bots", 235 characters of main text, the prose and the list notice present, nothing hidden
+PASS tools @390 dark width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS tools @390 dark gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 17 on-screen text elements checked against the 8px edge rule
+PASS tools @390 dark contrast: 44 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS tools @390 dark keyboard: 19 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS tools @390 dark console: no script or console errors
+PASS tools @390 light width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS tools @390 light gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 17 on-screen text elements checked against the 8px edge rule
+PASS tools @390 light contrast: 44 text elements measured, lowest 6.06:1 at b "07", 0 unmeasurable
+PASS tools @390 light keyboard: 19 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS tools @390 light console: no script or console errors
+PASS tools @390 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS tools @390 no script: h1 "Tools", 290 characters of main text, the prose and the list notice present, nothing hidden
+PASS tools @1280 dark width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS tools @1280 dark gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 22 on-screen text elements checked against the 8px edge rule
+PASS tools @1280 dark contrast: 62 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS tools @1280 dark keyboard: 22 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS tools @1280 dark console: no script or console errors
+PASS tools @1280 light width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS tools @1280 light gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 22 on-screen text elements checked against the 8px edge rule
+PASS tools @1280 light contrast: 62 text elements measured, lowest 6.06:1 at b "07", 0 unmeasurable
+PASS tools @1280 light keyboard: 22 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS tools @1280 light console: no script or console errors
+PASS tools @1280 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS tools @1280 no script: h1 "Tools", 290 characters of main text, the prose and the list notice present, nothing hidden
+PASS navigation @390 dark width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS navigation @390 dark gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 14 on-screen text elements checked against the 8px edge rule
+PASS navigation @390 dark contrast: 32 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS navigation @390 dark keyboard: 17 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS navigation @390 dark console: no script or console errors
+PASS navigation @390 light width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none
+PASS navigation @390 light gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 14 on-screen text elements checked against the 8px edge rule
+PASS navigation @390 light contrast: 32 text elements measured, lowest 6.06:1 at b "08", 0 unmeasurable
+PASS navigation @390 light keyboard: 17 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a > a.row > a.turn
+PASS navigation @390 light console: no script or console errors
+PASS navigation @390 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS navigation @390 no script: h1 "Navigation", 398 characters of main text, the prose and the list notice present, nothing hidden
+PASS navigation @1280 dark width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS navigation @1280 dark gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 19 on-screen text elements checked against the 8px edge rule
+PASS navigation @1280 dark contrast: 38 text elements measured, lowest 8.45:1 at a.skip "Skip to content", 0 unmeasurable
+PASS navigation @1280 dark keyboard: 20 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS navigation @1280 dark console: no script or console errors
+PASS navigation @1280 light width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none
+PASS navigation @1280 light gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 19 on-screen text elements checked against the 8px edge rule
+PASS navigation @1280 light contrast: 38 text elements measured, lowest 6.06:1 at b "08", 0 unmeasurable
+PASS navigation @1280 light keyboard: 20 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.row > a.turn
+PASS navigation @1280 light console: no script or console errors
+PASS navigation @1280 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .row, document.getAnimations() = 0, running = 0
+PASS navigation @1280 no script: h1 "Navigation", 398 characters of main text, the prose and the list notice present, nothing hidden
+PASS atlas @390 dark width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none (allowed, pre-existing on main under D-A09: div.diagram-well)
+PASS atlas @390 dark gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 19 on-screen text elements checked against the 8px edge rule
+PASS atlas @390 dark contrast: 78 text elements measured, lowest 7.22:1 at span.p-name "App shell + AppContext", 0 unmeasurable
+PASS atlas @390 dark keyboard: 18 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a.atlas-link > div.diagram-well > a.turn > a
+PASS atlas @390 dark console: no script or console errors
+PASS atlas @390 light width: widest element header.chrome right edge 390px of 390px window; document scrollWidth 390px; sideways scroll boxes: none (allowed, pre-existing on main under D-A09: div.diagram-well)
+PASS atlas @390 light gutter: main column 390px wide of 390px (full width), page gutter left 20px right 20px; 19 on-screen text elements checked against the 8px edge rule
+PASS atlas @390 light contrast: 78 text elements measured, lowest 5.88:1 at span.p-name "App shell + AppContext", 0 unmeasurable
+PASS atlas @390 light keyboard: 18 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > button.find > a.atlas-link > div.diagram-well > a.turn > a
+PASS atlas @390 light console: no script or console errors
+PASS atlas @390 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .peer, document.getAnimations() = 0, running = 0
+PASS atlas @390 no script: h1 "(none)", 80 characters of main text, the atlas no-script notice and the route home present, nothing hidden
+PASS atlas @1280 dark width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none (allowed, pre-existing on main under D-A09: div.diagram-well)
+PASS atlas @1280 dark gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 31 on-screen text elements checked against the 8px edge rule
+PASS atlas @1280 dark contrast: 88 text elements measured, lowest 7.22:1 at span.p-name "App shell + AppContext", 0 unmeasurable
+PASS atlas @1280 dark keyboard: 27 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.atlas-link > div.diagram-well > a.turn
+PASS atlas @1280 dark console: no script or console errors
+PASS atlas @1280 light width: widest element header.chrome right edge 1280px of 1280px window; document scrollWidth 1280px; sideways scroll boxes: none (allowed, pre-existing on main under D-A09: div.diagram-well)
+PASS atlas @1280 light gutter: main column 1280px wide of 1280px (full width), page gutter left 64px right 64px; 31 on-screen text elements checked against the 8px edge rule
+PASS atlas @1280 light contrast: 88 text elements measured, lowest 5.88:1 at span.p-name "App shell + AppContext", 0 unmeasurable
+PASS atlas @1280 light keyboard: 27 tab stops, all with a visible ring and on screen; kinds: a.skip > a.mark > a > button.find > a.atlas-link > div.diagram-well > a.turn
+PASS atlas @1280 light console: no script or console errors
+PASS atlas @1280 reduced motion: prefers-reduced-motion: reduce emulated = true; after a full scroll and a hover on .peer, document.getAnimations() = 0, running = 0
+PASS atlas @1280 no script: h1 "(none)", 80 characters of main text, the atlas no-script notice and the route home present, nothing hidden
+PASS index @390 width: widest element header.lab-head right edge 390px of 390px; document scrollWidth 390px; sideways scroll boxes: none
+PASS index @390 shots: 9 pages, 36 shots, 36 loaded
+PASS index @1280 width: widest element header.lab-head right edge 1280px of 1280px; document scrollWidth 1280px; sideways scroll boxes: none
+PASS index @1280 shots: 9 pages, 36 shots, 36 loaded
+ALL PASS
