@@ -1049,7 +1049,7 @@
    "tags": ["Tools", "Claude Code", "PowerShell"],
    "status": "live",
    "tier": "full",
-   "url": "/tools/design-first/",
+   "url": "/method/",
    "repo": "https://github.com/Jordan-Doerksen/design-first",
    "featured": false,
    "spec": "v0.1.27 · MIT · WINDOWS"
