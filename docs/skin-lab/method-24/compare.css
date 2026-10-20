@@ -1,0 +1,14 @@
+/* compare.css: the comparison page. Structure only; colour, size and shape come from the shared token files. */
+.md-cmp-hero { padding-bottom: var(--md-hero-bottom); }
+.md-cmp-hero .md-title { max-width: var(--md-measure-wide); font-size: var(--md-t-h2); }
+.md-cmp-band { padding-top: var(--md-band); }
+.md-cmp-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--md-gap); }
+@media (min-width: 900px) { .md-cmp-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.md-cmp-col { display: grid; gap: var(--md-stack-sm); align-content: start; min-width: 0; background: var(--md-panel); border: 1px solid var(--md-line); border-top: var(--md-edge-w) solid var(--md-edge-gate); border-radius: var(--md-r); padding: var(--md-pad); }
+.md-cmp-head { display: grid; gap: var(--md-stack-xs); }
+.md-cmp-col .md-facts { margin: 0; }
+.md-frame { margin: 0; position: relative; aspect-ratio: var(--md-frame-ratio); overflow: hidden; border: 1px solid var(--md-line-strong); border-radius: var(--md-r); background: var(--md-ground); }
+.md-frame iframe { position: absolute; top: 0; left: 0; width: var(--md-frame-zoom); height: var(--md-frame-zoom); border: 0; transform: scale(var(--md-frame-scale)); transform-origin: 0 0; }
+.md-still { margin: 0; display: grid; gap: var(--md-stack-xs); }
+.md-still img { display: block; width: 100%; height: auto; border: 1px solid var(--md-line); border-radius: var(--md-r); }
+.md-cmp-links { display: flex; flex-wrap: wrap; gap: var(--md-gap); }

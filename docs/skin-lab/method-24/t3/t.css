@@ -1,0 +1,23 @@
+/* T3, The trailer. Full-bleed chapter, larger type, one camera: the stage group (gates and record) scales and moves as one,
+   and the ground glow answers each arrival. Controls and the status line sit outside the camera and never move.
+   The ground glow is decoration with a job (it marks which gate arrived); it carries no content, so it may use opacity. */
+.md-t3 { --md-wire-w: var(--md-t3-wire); --md-ctlbox-w: var(--md-t3-ctlbox-w); }
+.md-t3 .md-bleed { position: relative; margin: 0 calc(var(--md-gutter) * -1); padding: var(--md-pad) var(--md-gutter) var(--md-band); overflow: clip; background: var(--md-ground-2); }
+.md-t3 .md-ground { position: absolute; top: 0; bottom: 0; left: 0; width: var(--md-glow-w); background: radial-gradient(closest-side, color-mix(in srgb, var(--md-accent) var(--md-glow-tint), transparent), transparent); opacity: var(--md-glow-o); translate: calc(var(--md-glow-x) * 1%) 0; scale: var(--md-glow-s); transition: translate var(--md-dur-glow) var(--md-ease), scale var(--md-dur-glow) var(--md-ease), opacity var(--md-dur-glow) var(--md-ease); pointer-events: none; }
+.md-t3 .md-bleed-in { position: relative; z-index: 1; }
+.md-t3 .md-h2 { font-size: var(--md-t3-title); line-height: var(--md-lh-display); letter-spacing: var(--md-track-display); }
+.md-t3 .md-head .md-p { font-size: var(--md-t-lede); }
+.md-t3 .md-cam { padding: var(--md-stage-pad); transform: translateX(calc(var(--md-pan-k) * var(--md-cam-pan))) scale(var(--md-cam-scale)); transform-origin: 50% 40%; transition: transform var(--md-dur-cam) var(--md-ease-out); }
+.md-t3 .md-stage { padding: 0; }
+.md-t3 .md-gate { padding: var(--md-t3-pad); }
+.md-t3 .md-gate .md-h3 { font-size: var(--md-t3-gate); line-height: var(--md-lh-head); }
+.md-t3 .md-gate .md-p { font-size: var(--md-t3-body); line-height: var(--md-lh-body); }
+.md-t3 .md-gate .md-facts { font-size: var(--md-t-small); }
+.md-t3 .md-gate.md-now { border-color: var(--md-line-strong); background: var(--md-panel-hover); }
+.md-t3 .md-scrub { flex: 1 1 280px; max-width: var(--md-measure-wide); display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: var(--md-gap-xs); }
+.md-t3 .md-scrub-r { width: 100%; accent-color: var(--md-accent); height: var(--md-ctl-h); margin: 0; }
+.md-t3 .md-ticks { grid-column: 2; display: grid; grid-template-columns: repeat(6, 1fr); font: var(--md-w-label) var(--md-t-label) / 1 var(--md-font-mono); letter-spacing: var(--md-track-nav); text-transform: uppercase; color: var(--md-ink-2); }
+.md-t3 .md-ticks span { text-align: center; }
+.md-t3 .md-ticks span:first-child { text-align: left; }
+.md-t3 .md-ticks span:last-child { text-align: right; }
+@media (max-width: 599px) { .md-t3 .md-ticks span:nth-child(odd):not(:first-child) { visibility: hidden; } }

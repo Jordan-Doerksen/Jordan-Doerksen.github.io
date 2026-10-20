@@ -1,0 +1,59 @@
+/* lab-tokens.css: the lab's own token file for non-colour values (sizes, counts, rest values).
+   Colour, type, radius and shadow come from tokens.css (variant C, copied unchanged from method/tokens.css).
+   Time comes from each treatment's motion.json: t.js writes it to --md-dur-* at boot. No colour is added here. */
+:root {
+  /* controls: a fixed spot, a fixed size, so a label change never moves them */
+  --md-ctl-h: 44px;
+  --md-ctl-w: 104px;
+  --md-ctl-row-h: 44px;
+  --md-status-lines: 2;
+  --md-ctlbox-w: 340px;
+  --md-t3-ctlbox-w: 540px;
+  --md-status-h: calc(var(--md-t-small) * var(--md-lh-small) * var(--md-status-lines));
+
+  /* wires drawn with a dash: pathLength is 1 on every wire path, so these are fractions of a wire */
+  --md-dash-len: 1 2;
+  --md-dash-hide: 1.05;
+  --md-wp: 1;
+
+  /* the file-down: how far a record mark travels before it rests */
+  --md-file-lift: 28px;
+  --md-mp: 1;
+
+  /* T2: the pinned stage and the chapter rail */
+  --md-rail-h: 40px;
+  --md-meter-h: 3px;
+  --md-pin-top: calc(var(--md-bar-h) + var(--md-rail-h));
+  --md-p: 1;
+
+  /* T3: camera, ground glow and larger type */
+  --md-cam-scale: 1;
+  --md-pan-k: 0;
+  --md-cam-pan: calc(var(--md-gutter) * 0.5);
+  --md-glow-x: 0;
+  --md-glow-s: 1;
+  --md-glow-o: 0.8;
+  --md-glow-w: 60%;
+  --md-glow-tint: 24%;
+  --md-t3-wire: 28px;
+  --md-t3-title: clamp(34px, 4.2vw, 56px);
+  --md-t3-gate: clamp(20px, 1.9vw, 26px);
+  --md-t3-body: clamp(15px, 1.15vw, 17px);
+  --md-t3-pad: clamp(16px, 1.6vw, 24px);
+  --md-stage-pad: clamp(10px, 1.6vw, 20px);
+
+  /* the comparison page: a frame shows a page at 4 times its width, scaled to a quarter */
+  --md-frame-zoom: 400%;
+  --md-frame-scale: 0.25;
+  --md-frame-ratio: 16 / 10;
+  --md-still-ratio: 16 / 10;
+}
+@media (max-width: 899px) {
+  :root {
+    --md-frame-zoom: 200%;
+    --md-frame-scale: 0.5;
+    --md-frame-ratio: 4 / 5;
+    --md-cam-pan: 0px;
+    --md-file-lift: 32px;
+  }
+}

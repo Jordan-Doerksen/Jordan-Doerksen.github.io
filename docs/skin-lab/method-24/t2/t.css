@@ -1,0 +1,22 @@
+/* T2, Scroll as the film (cinematic_scroll). The stage is sticky inside its chapter track. Where the screen is too
+   narrow or too short to hold the stage, the track drops away and the same thresholds run over the stage's own scroll span.
+   The rail is the second persistent cluster (narrative_rail). Without scripts, or under reduced motion, there is no track:
+   the page is the complete document. */
+.md-rail { position: sticky; top: var(--md-bar-h); z-index: 30; background: var(--md-bar-bg); -webkit-backdrop-filter: var(--md-bar-blur); backdrop-filter: var(--md-bar-blur); border-bottom: 1px solid var(--md-line); }
+.md-rail-in { display: flex; align-items: baseline; gap: var(--md-gap-xs); min-height: calc(var(--md-rail-h) - var(--md-meter-h)); padding: var(--md-pad-xs) var(--md-gutter); }
+.md-rail-n { margin: 0; }
+.md-meter { height: var(--md-meter-h); background: var(--md-line); }
+.md-meter-fill { height: 100%; background: var(--md-accent); transform-origin: 0 50%; transform: scaleX(var(--md-p)); }
+
+.md-t2 .md-gate, .md-t2 .md-mark { transition-duration: var(--md-dur-settle); }
+.md-t2 .md-wire path { transition: none; }
+.md-t2 .md-mark { transition-property: background-color, border-color, box-shadow; }
+
+html.md-js.md-pinned .md-track { height: var(--md-track-h); }
+html.md-js.md-pinned .md-pin { position: sticky; top: var(--md-pin-top); }
+.md-t2 .md-chapter { padding-top: var(--md-pad); padding-bottom: var(--md-pad); }
+html.md-js.md-pinned .md-chapter { padding-bottom: 0; }
+.md-t2 .md-head { margin-bottom: var(--md-stack); }
+.md-t2 .md-stage { padding: var(--md-pad-sm) 0; }
+.md-t2 .md-spine { margin-top: var(--md-stack-sm); }
+.md-t2 .md-pin { padding: var(--md-pad) 0; }

@@ -1,0 +1,3 @@
+/* T1, Stage and file-down: the law's stage pattern, literal (DISP-03). All state rules are in ../shared/lab.css.
+   The only T1 rule: nothing in the stage is a control, so nothing in it reacts to the pointer. */
+.md-t1 .md-gate, .md-t1 .md-mark { cursor: default; }

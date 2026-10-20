@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three ways to show the four gates</title>
+<meta name="description" content="Item 24, the method page: one beat, the four gates, rendered in three motion treatments side by side, each with its reduced-motion still.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/lab-tokens.css">
+<link rel="stylesheet" href="shared/method.css">
+<link rel="stylesheet" href="shared/lab.css">
+<link rel="stylesheet" href="compare.css">
+</head>
+<body class="md-skin md-skin-c md-lab md-cmp" data-variant="c">
+<a class="md-skip" href="#md-main">Skip to the content</a>
+<div class="md-bar" data-chrome="identity_navigation"><div class="md-bar-in">
+  <a class="md-brand" href="#md-top">Jordan Doerksen</a>
+  <nav class="md-nav" aria-label="Lab"><span class="md-lab-tag">Method page lab · item 24</span><a href="t1/index.html">T1</a><a href="t2/index.html">T2</a><a href="t3/index.html">T3</a></nav>
+</div></div>
+
+<header id="md-top" class="md-hero md-cmp-hero">
+  <div class="md-hero-in">
+    <span class="md-kicker">Method page · chapter 3</span>
+    <h1 class="md-title">Three ways to show the four gates.</h1>
+    <p class="md-lede">One real beat of the page, the four gates and the record they leave, rendered three ways. Each frame is the live page, running. The still under it is what a visitor sees when the system asks for reduced motion: all four gates and the filed record, complete, no timer. Open a treatment to see it at full size.</p>
+  </div>
+</header>
+
+<main id="md-main" class="md-main">
+  <section class="md-band md-cmp-band" aria-label="The three treatments">
+    <ol class="md-cmp-grid">
+
+      <li class="md-cmp-col">
+        <header class="md-cmp-head">
+          <span class="md-n">T1</span>
+          <h2 class="md-h3">Stage and file-down</h2>
+        </header>
+        <dl class="md-facts">
+          <dt>Gives</dt><dd>The tested pattern with exact pacing: 2200 ms per gate, Play, Step and Reset in a fixed spot.</dd>
+          <dt>Costs</dt><dd>A timer drives it. A reader who scrolls on misses it until they press Play.</dd>
+        </dl>
+        <figure class="md-frame"><iframe src="t1/index.html" title="T1, Stage and file-down, live render" tabindex="-1" loading="lazy"></iframe></figure>
+        <figure class="md-still"><img src="shots/t1-still-1280.png" width="1280" height="1020" alt="T1 with reduced motion: four gates and the filed record, complete."><figcaption class="md-small">Reduced-motion still, 1280 wide. <a href="shots/t1-still-390.png">390 wide</a></figcaption></figure>
+        <p class="md-small md-cmp-links"><a href="t1/index.html">Open T1</a> <a href="shots/t1-strip.png">Frame strip, six states</a></p>
+      </li>
+
+      <li class="md-cmp-col">
+        <header class="md-cmp-head">
+          <span class="md-n">T2</span>
+          <h2 class="md-h3">Scroll as the film</h2>
+        </header>
+        <dl class="md-facts">
+          <dt>Gives</dt><dd>The reader sets the pace. Pausing is not scrolling. No timer at all, and the chapter rail shows progress.</dd>
+          <dt>Costs</dt><dd>The most engineering. A fast scroller sees the states snap.</dd>
+        </dl>
+        <figure class="md-frame"><iframe src="t2/index.html" title="T2, Scroll as the film, live render" tabindex="-1" loading="lazy"></iframe></figure>
+        <figure class="md-still"><img src="shots/t2-still-1280.png" width="1280" height="996" alt="T2 with reduced motion: four gates and the filed record, complete."><figcaption class="md-small">Reduced-motion still, 1280 wide. <a href="shots/t2-still-390.png">390 wide</a></figcaption></figure>
+        <p class="md-small md-cmp-links"><a href="t2/index.html">Open T2</a> <a href="shots/t2-strip.png">Frame strip, six scroll positions</a></p>
+      </li>
+
+      <li class="md-cmp-col">
+        <header class="md-cmp-head">
+          <span class="md-n">T3</span>
+          <h2 class="md-h3">The trailer</h2>
+        </header>
+        <dl class="md-facts">
+          <dt>Gives</dt><dd>The most film. Larger type, one camera move per gate, a glow that answers each arrival, a chapter scrubber.</dd>
+          <dt>Costs</dt><dd>The longest entrance, and the risk the bible names: pacing frustrates the reader and spectacle buries the story. It pauses and never repeats.</dd>
+        </dl>
+        <figure class="md-frame"><iframe src="t3/index.html" title="T3, The trailer, live render" tabindex="-1" loading="lazy"></iframe></figure>
+        <figure class="md-still"><img src="shots/t3-still-1280.png" width="1280" height="1126" alt="T3 with reduced motion: four gates and the filed record, complete."><figcaption class="md-small">Reduced-motion still, 1280 wide. <a href="shots/t3-still-390.png">390 wide</a></figcaption></figure>
+        <p class="md-small md-cmp-links"><a href="t3/index.html">Open T3</a> <a href="shots/t3-strip.png">Frame strip, six states</a></p>
+      </li>
+
+    </ol>
+  </section>
+</main>
+
+<footer class="md-foot"><div class="md-foot-in">
+  <p class="md-small">Lab page for the owner's pick. Frames are the real pages at four times their width, scaled to a quarter. Every timing is in each treatment's motion.json. Motion stops when the system asks for reduced motion. The page reads the same with scripts off.</p>
+</div></footer>
+</body>
+</html>

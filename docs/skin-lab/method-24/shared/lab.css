@@ -1,0 +1,52 @@
+/* lab.css: the chapter 3 beat (four gates and the record they leave), shared by t1, t2 and t3.
+   Every class carries the md- namespace. No raw value: colour, type, size and time come from tokens.css,
+   lab-tokens.css and the --md-dur-* values that t.js reads from motion.json (DISP: timings in a .json).
+   Rest state = the complete state. The state classes apply only under html.md-js, so a page with
+   scripts off is the whole document (WEB-07, DISP-08). A not-yet-arrived part is shown by colour and
+   a dashed edge, never by opacity (display-case-law 7). */
+
+.md-lab-tag { font: var(--md-w-label) var(--md-t-label) / 1 var(--md-font-mono); letter-spacing: var(--md-track-nav); text-transform: uppercase; color: var(--md-ink-2); padding: var(--md-pad-xs) var(--md-pad-sm); }
+.md-chapter { padding-top: var(--md-pad); padding-bottom: var(--md-band); }
+.md-top { display: grid; gap: var(--md-gap); margin-bottom: var(--md-stack); align-items: end; }
+.md-top .md-head { margin-bottom: 0; }
+@media (min-width: 1000px) { .md-top { grid-template-columns: minmax(0, 1fr) var(--md-ctlbox-w); } }
+.md-chapter .md-head .md-p { max-width: var(--md-measure-wide); }
+
+/* controls: one fixed row above the stage; nothing in it moves */
+.md-ctls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--md-gap-xs); min-height: var(--md-ctl-row-h); margin-bottom: var(--md-stack-xs); }
+.md-btn { min-width: var(--md-ctl-w); height: var(--md-ctl-h); padding: 0 var(--md-pad-sm); font: var(--md-w-label) var(--md-t-small) / 1 var(--md-font-body); color: var(--md-ink-strong); background: var(--md-panel-solid); border: 1px solid var(--md-line-strong); border-radius: var(--md-r); cursor: pointer; }
+.md-btn:hover { background: var(--md-panel-hover); }
+.md-status { margin: 0; min-height: var(--md-status-h); font-size: var(--md-t-small); line-height: var(--md-lh-small); color: var(--md-ink-2); max-width: var(--md-measure-wide); }
+
+/* the stage and the record */
+.md-stage { padding: var(--md-stage-pad) 0; }
+.md-spine { margin-top: var(--md-stack); }
+.md-spine > .md-n { margin-bottom: calc(var(--md-file-lift) + var(--md-stack-xs)); }
+.md-gate, .md-mark {
+  position: relative; background: var(--md-panel-gate); border: 1px solid var(--md-line); border-top: var(--md-edge-w) solid var(--md-edge-gate);
+  border-radius: var(--md-r); padding: var(--md-pad); box-shadow: var(--md-shadow), var(--md-inner);
+  -webkit-backdrop-filter: var(--md-blur); backdrop-filter: var(--md-blur);
+  transition: translate var(--md-dur-arrive) var(--md-ease-out), background-color var(--md-dur-arrive) var(--md-ease), border-color var(--md-dur-arrive) var(--md-ease), box-shadow var(--md-dur-arrive) var(--md-ease);
+}
+.md-chain > .md-gate, .md-chain > .md-mark { flex: 1 1 0; min-width: 0; }
+.md-gate .md-p { font-size: var(--md-t-panel); line-height: var(--md-lh-panel); margin-top: var(--md-stack-xs); }
+.md-mark { padding: var(--md-pad-sm); translate: 0 calc((1 - var(--md-mp)) * var(--md-file-lift) * -1); transition-property: translate, background-color, border-color, box-shadow; transition-duration: var(--md-dur-file); transition-timing-function: var(--md-ease-out); }
+.md-mark .md-small { margin-top: var(--md-stack-xs); }
+.md-wire path { stroke-dasharray: var(--md-dash-len); stroke-dashoffset: calc((1 - var(--md-wp)) * var(--md-dash-hide)); vector-effect: none; transition: stroke-dashoffset var(--md-dur-connector) linear; }
+
+/* not yet arrived: a dashed slot, text in the second ink (8:1 or better), the part sits one step low */
+html.md-js .md-gate:not(.md-lit), html.md-js .md-mark:not(.md-lit) { background: transparent; border-color: var(--md-line); border-style: dashed; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.md-js .md-gate:not(.md-lit) { translate: 0 var(--md-reveal-y); }
+html.md-js .md-gate:not(.md-lit) .md-h3, html.md-js .md-gate:not(.md-lit) .md-p, html.md-js .md-gate:not(.md-lit) .md-facts dd,
+html.md-js .md-mark:not(.md-lit) .md-h4 { color: var(--md-ink-2); }
+html.md-js .md-wire:not(.md-lit) { --md-wp: 0; }
+html.md-js .md-mark:not(.md-lit) { --md-mp: 0; }
+html.md-js .md-mark.md-lit .md-n { color: var(--md-accent); }
+
+/* T2 sets --md-wp and --md-mp inline from scroll; an inline value wins over the not-arrived rules above */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  /* kill switch: every effect stops, nothing goes blank (SAFE-05) */
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

@@ -1,0 +1,53 @@
+{
+  "treatment": "t3",
+  "source": "reading_pause_ms from AI-Brain/instructions/display-case-law.md numbers table; the camera, glow and file values are this treatment's own. Arrays are indexed by state: 0 empty, 1..4 gate arrives, 5 filed.",
+  "reading_pause_ms": 2200,
+  "first_arrival_delay_ms": 700,
+  "arrive_ms": 1000,
+  "connector_ms": 800,
+  "file_down_ms": 1200,
+  "file_stagger_ms": 160,
+  "cam_ms": 1500,
+  "glow_ms": 1500,
+  "cam_scale": [
+    1,
+    1.05,
+    1.05,
+    1.05,
+    1.05,
+    1
+  ],
+  "cam_pan_k": [
+    0,
+    1,
+    0.33,
+    -0.33,
+    -1,
+    0
+  ],
+  "glow_x": [
+    -13,
+    -30,
+    12,
+    53,
+    95,
+    33
+  ],
+  "glow_s": [
+    1,
+    1.15,
+    1.15,
+    1.15,
+    1.15,
+    1.6
+  ],
+  "glow_o": [
+    0.4,
+    1,
+    1,
+    1,
+    1,
+    0.7
+  ],
+  "autoplay_threshold": 0.6
+}

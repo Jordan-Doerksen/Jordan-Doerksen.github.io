@@ -1,0 +1,14 @@
+{
+  "treatment": "t2",
+  "source": "no timer in this treatment: every value is a scroll position (a fraction of the chapter's scroll track) except settle_ms, a CSS transition when a gate arrives",
+  "track_vh": 440,
+  "gate_at": [0.1, 0.28, 0.46, 0.64],
+  "connector_gap": 0.015,
+  "file_at": 0.78,
+  "file_span": 0.12,
+  "file_stagger": 0.025,
+  "settle_ms": 240,
+  "flow_start_vh": 0.9,
+  "flow_end_vh": 0.4,
+  "pin_min_width_px": 1000
+}

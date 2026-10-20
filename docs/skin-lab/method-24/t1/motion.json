@@ -1,0 +1,11 @@
+{
+  "treatment": "t1",
+  "source": "reading_pause_ms from AI-Brain/instructions/display-case-law.md numbers table (1500 was too fast); the rest are this treatment's own values",
+  "reading_pause_ms": 2200,
+  "first_arrival_delay_ms": 500,
+  "arrive_ms": 600,
+  "connector_ms": 700,
+  "file_down_ms": 900,
+  "file_stagger_ms": 140,
+  "autoplay_threshold": 0.6
+}
