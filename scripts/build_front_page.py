@@ -7,6 +7,7 @@ rows from data/registry.json and data/desk.json, the counts from those same rows
     python scripts/build_front_page.py                # review build -> docs/front-page/
     python scripts/build_front_page.py --root         # promote to the repo root (the owner's go only)
     python scripts/build_front_page.py --check        # build in memory, compare with disk, write nothing
+    python scripts/build_front_page.py --lab a        # Home composition a, b or c -> docs/skin-lab/home-19/<x>/ (CR-25)
     python scripts/build_front_page.py --only desk    # compare or write one screen only
 
 Exit codes (the Doctor's): 0 built, or --check found the files identical.
@@ -71,6 +72,9 @@ def load_config() -> dict:
             problems.append("screen %r repeats an id or an out path" % s.get("id"))
         seen_ids.add(s.get("id"))
         seen_out.add(s.get("out"))
+    home = cfg["home"]
+    if home.get("composition") not in ("current", "a", "b", "c"):
+        problems.append("home.composition must be 'current', 'a', 'b' or 'c'")
     if problems:
         raise CouldNotLook("%s: %s" % (CONFIG_PATH.name, "; ".join(problems)))
     return cfg
@@ -175,13 +179,19 @@ def warn_missing_assets(cfg: dict, built: list, parts: dict, log) -> None:
 
 def run(args, mode: str, log):
     cfg = load_config()
+    if mode == "lab":
+        # CR-25: a lab build writes one Home composition under outputs.lab and leaves the review folder and the
+        # root alone. It is a review-style build in every other way (index.html links, noindex), so the pages
+        # are rendered with mode "review"; only the output folder differs.
+        cfg["home"]["composition"] = args.lab
     icons = load_icons(ICONS_PATH)
     model = load_model(REPO, cfg, log)
     screens = cfg["screens"]
     if args.only and args.only not in {s["id"] for s in screens}:
         raise CouldNotLook("--only %s: not a screen id in %s (%s)" % (args.only, CONFIG_PATH.name, ", ".join(s["id"] for s in screens)))
 
-    out_rel = cfg["outputs"][mode]
+    out_rel = cfg["outputs"]["lab"].format(c=args.lab) if mode == "lab" else cfg["outputs"][mode]
+    page_mode = "review" if mode == "lab" else mode
     out_dir = (REPO / out_rel).resolve()
     up = 0 if out_rel in ("", ".") else len(PurePosixPath(out_rel).parts)
 
@@ -195,7 +205,7 @@ def run(args, mode: str, log):
         if s["kind"] != "carried":
             continue
         base, root = prefixes(s)
-        ctx = {"root": root, "base": base, "repo": REPO, "log": log.bind(screen=s["id"]), "mode": mode, "write": not args.check, "screen": s}
+        ctx = {"root": root, "base": base, "repo": REPO, "log": log.bind(screen=s["id"]), "mode": page_mode, "write": not args.check, "screen": s}
         part, status = run_carry(s, ctx, log)
         if status == "ok":
             carried[s["id"]] = part
@@ -212,7 +222,7 @@ def run(args, mode: str, log):
     pages, parts = {}, {}
     for s in built:
         base, root = prefixes(s)
-        pg = Page(cfg, icons, mode, s, built, base, root, model.figs["asof"], model.counts, log, model)
+        pg = Page(cfg, icons, page_mode, s, built, base, root, model.figs["asof"], model.counts, log, model)
         try:
             part = BUILDERS[s["id"]](pg) if s["kind"] == "built" else carried[s["id"]]
         except KeyError as err:
@@ -253,16 +263,19 @@ def run(args, mode: str, log):
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Build the front page (D-A27). Exit 0 built or identical, 1 differs or refused, 2 could not look.")
     parser.add_argument("--root", action="store_true", help="build into the repo root instead of docs/front-page (promotion; the owner's go only)")
+    parser.add_argument("--lab", choices=("a", "b", "c"), help="write Home composition a, b or c, with the four other screens, to outputs.lab (CR-25); never the review folder or the root")
     parser.add_argument("--check", action="store_true", help="build in memory, compare with disk, write nothing; exit 1 if any file differs")
     parser.add_argument("--only", metavar="ID", help="compare or write one screen only (the others are still built, so the nav stays whole)")
     args = parser.parse_args(argv)
+    if args.lab and args.root:
+        parser.error("--lab and --root cannot be used together")
 
     try:
         log = get_logger("build_front_page")
     except OSError as err:
         print("cannot write the log (%s). Nothing was built." % err, file=sys.stderr)
         return EXIT_COULD_NOT_LOOK
-    mode = "root" if args.root else "review"
+    mode = "lab" if args.lab else "root" if args.root else "review"
     log.info("start", mode=mode, check=args.check, only=args.only)
     try:
         code, outcome = run(args, mode, log)

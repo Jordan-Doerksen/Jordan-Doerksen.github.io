@@ -5,7 +5,8 @@
   "outputs": {
     "_": "Where --root and the default (review) build write. The depth of this path decides how far up a page must go to reach the repo root.",
     "review": "docs/front-page",
-    "root": "."
+    "root": ".",
+    "lab": "docs/skin-lab/home-19/{c}"
   },
 
   "promotion": {
@@ -159,6 +160,68 @@
       "link": "gates, loops and rules",
       "after": ".",
       "path": "method/"
+    },
+
+    "composition": "current",
+    "compositions": {
+      "_": "CR-25. Which Home body the generator writes. 'current' is today's Home (doors, intro, figures) and is what the review and root builds use until the owner picks. a, b and c are the three recomposed Homes, written by build_front_page.py --lab <a|b|c> into outputs.lab. stage: 'lead' (one lead, three peers), 'row' (four equal peers), 'none'. start_group: the four picks open the index, set larger.",
+      "a": { "stage": "lead", "start_group": false, "hero_line": "Four projects first, then every project that runs, by kind." },
+      "b": { "stage": "row", "start_group": false, "hero_line": "Four projects first, then every project that runs, by kind." },
+      "c": { "stage": "none", "start_group": true, "hero_line": "" }
+    },
+    "stage_aria": "Start here",
+    "stage": [
+      {
+        "id": "design-first",
+        "kicker": "Method and harness",
+        "title": "design-first and its harness",
+        "line": "A working method for building with coding agents, and the harness loop that runs it. Interview before code, and every rule graded by what enforces it.",
+        "path": "tools/design-first/",
+        "go": "Open design-first →"
+      },
+      {
+        "id": "method",
+        "kicker": "Method",
+        "title": "The method",
+        "line": "The gates, loops and rules every project goes through.",
+        "path": "method/",
+        "go": "Read the method →"
+      },
+      {
+        "id": "trading-desk",
+        "kicker": "Instruments",
+        "title": "Trading desk",
+        "line": "A read-only market desk. It records the tape, measures it, and reports what it sees. It never places an order.",
+        "screen": "trading",
+        "go": "The trading desk →"
+      },
+      {
+        "id": "fulfillment",
+        "kicker": "Games",
+        "title": "Fulfillment",
+        "line": "A deterministic corporate space survivor. Fly the shift, draft the rack, meet management. Every courier is replaceable.",
+        "path": "games/fulfillment/",
+        "go": "Open Fulfillment →"
+      }
+    ],
+    "start_group_h2": "Start here",
+    "index": {
+      "_": "CR-25. The typographic index. A project is a row when its status is in statuses. cats are registry category slugs. door is a screen id, or empty: the group heading links to that screen.",
+      "aria": "All projects by kind",
+      "statuses": ["live", "built", "active"],
+      "count": "{n} projects",
+      "groups": [
+        { "id": "instruments", "h2": "Instruments", "cats": ["trading", "signals"], "door": "trading" },
+        { "id": "trainers", "h2": "Trainers", "cats": ["rail", "navigation"], "door": "rail" },
+        { "id": "games", "h2": "Games", "cats": ["games"], "door": "games" },
+        { "id": "tools", "h2": "Tools", "cats": ["tools", "bots"], "door": "" },
+        { "id": "sites", "h2": "Sites for others", "cats": ["studio"], "door": "" }
+      ],
+      "more": {
+        "before": "{more} more projects, frozen and retired included, are in the ",
+        "link": "Tool Desk",
+        "after": "."
+      }
     }
   },
 

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Home, three compositions</title>
+<link rel="icon" href="data:,">
+<style>
+  /* A comparison sheet. It uses system colours and the system font, so it wears none of the three looks. */
+  :root { color-scheme: light dark; }
+  body { margin: 0; padding: 16px; background: Canvas; color: CanvasText; font: 16px/1.5 system-ui, sans-serif; }
+  h1 { margin: 0 0 4px; font-size: 1.4rem; }
+  h2 { margin: 0; font-size: 1.1rem; }
+  p { margin: 4px 0 0; max-width: 70ch; }
+  a { color: LinkText; }
+  .row { display: grid; grid-template-columns: 1fr; gap: 32px; margin-top: 24px; }
+  @media (min-width: 960px) { .row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
+  .opt { min-width: 0; }
+  .shot { display: block; margin-top: 12px; height: 720px; overflow: hidden; border: 1px solid GrayText; }
+  .shot img { display: block; width: 100%; height: auto; }
+  .links { margin-top: 8px; }
+  .note { margin-top: 24px; color: GrayText; }
+</style>
+</head>
+<body>
+<h1>Home, three compositions</h1>
+<p>The same Home, composed three ways from the site's own generator. Each picture shows the top of the 1280px page, dark theme. Each link opens the full page. Nothing here is promoted to the live root.</p>
+<div class="row">
+  <section class="opt" aria-labelledby="h-a">
+    <h2 id="h-a">A, Stage and index (recommended)</h2>
+    <p>Zones: hero field, viewport stage (one lead, three peers), content band (index), footer resolution. Patterns: editorial rhythm, anti-card composition.</p>
+    <a class="shot" href="a/index.html"><img src="shots/a-1280-dark.png" alt="Composition A at 1280 pixels: the name, one lead panel, three peer panels, then the grouped index" width="1280" height="2340"></a>
+    <p class="links"><a href="a/index.html">Open A</a> · <a href="shots/a-390-dark.png">Phone shot</a></p>
+  </section>
+  <section class="opt" aria-labelledby="h-b">
+    <h2 id="h-b">B, Four peers</h2>
+    <p>Zones: hero field, viewport stage (four equal panels), content band (index), footer resolution. Pattern: anti-card composition.</p>
+    <a class="shot" href="b/index.html"><img src="shots/b-1280-dark.png" alt="Composition B at 1280 pixels: the name, four equal panels in one row, then the grouped index" width="1280" height="2340"></a>
+    <p class="links"><a href="b/index.html">Open B</a> · <a href="shots/b-390-dark.png">Phone shot</a></p>
+  </section>
+  <section class="opt" aria-labelledby="h-c">
+    <h2 id="h-c">C, Index first</h2>
+    <p>Zones: hero field (the name only), content band (index, the four picks first), footer resolution. Patterns: anti-card composition, typographic monument.</p>
+    <a class="shot" href="c/index.html"><img src="shots/c-1280-dark.png" alt="Composition C at 1280 pixels: the name set large, then the index with the four picks first" width="1280" height="2340"></a>
+    <p class="links"><a href="c/index.html">Open C</a> · <a href="shots/c-390-dark.png">Phone shot</a></p>
+  </section>
+</div>
+<p class="note">Each full page keeps the site's navigation, so the four other screens open from it.</p>
+</body>
+</html>

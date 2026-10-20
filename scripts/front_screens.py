@@ -45,6 +45,7 @@ class Row:
     blurb: str
     dest: tuple | None      # ("atlas", slug) | ("root", "games/x/") | ("abs", url) | None
     q: str                  # lower-case search text: name, section, status, blurb, tags
+    unlisted: bool = False  # registry "unlisted": true keeps the row off the Home index (not the Tool Desk)
 
 
 @dataclass
@@ -158,7 +159,7 @@ def _row(project: dict, blurb: str, dest, names: dict, order: dict, status_order
     tags = [t for t in (project.get("tags") or []) if isinstance(t, str)]
     section = names[project["category"]]
     search = " ".join([project["name"], section, project["status"], blurb] + tags).lower()
-    return Row(project["slug"], project["name"], project["category"], section, project["status"], blurb, dest, search)
+    return Row(project["slug"], project["name"], project["category"], section, project["status"], blurb, dest, search, project.get("unlisted") is True)
 
 
 def load_model(repo: Path, cfg: dict, log) -> Model:
@@ -270,16 +271,10 @@ def _figure_items(pg: Page) -> list:
     return items
 
 
-def home(pg: Page) -> dict:
-    cfg = pg.cfg
-    h = cfg["home"]
-    out = [
-        # An empty eyebrow prints no line at all (D-A27 addendum a); an empty element would still take space.
-        '<p class="fp-kicker">%s</p>' % esc_text(h["eyebrow"]) if h.get("eyebrow") else "",
-        '<h1 class="fp-title">%s</h1>' % esc_text(cfg["brand"]["name"]),
-        '<p class="fp-role">%s</p>' % esc_text(h["role"]),
-        '<p class="fp-intro">%s</p>' % rich(h["intro"]),
-    ]
+def _figures_block(pg: Page) -> list:
+    """The figures row and its stamp, as HTML parts. Empty when no figure could be read (absent is not zero)."""
+    h = pg.cfg["home"]
+    out = []
     items = _figure_items(pg)
     if items:
         cells = "".join('<div class="fp-fig" role="listitem"><b>%s</b><span>%s</span></div>' % (esc_text(v), esc_text(k)) for v, k in items)
@@ -290,6 +285,20 @@ def home(pg: Page) -> dict:
             pg.log.warn("stamp_omitted", reason="evidence.json has no generated date, so the figures carry no stamp")
     else:
         pg.log.warn("figures_omitted", reason="no figure could be read from data/evidence.json")
+    return out
+
+
+def _home_current(pg: Page) -> dict:
+    cfg = pg.cfg
+    h = cfg["home"]
+    out = [
+        # An empty eyebrow prints no line at all (D-A27 addendum a); an empty element would still take space.
+        '<p class="fp-kicker">%s</p>' % esc_text(h["eyebrow"]) if h.get("eyebrow") else "",
+        '<h1 class="fp-title">%s</h1>' % esc_text(cfg["brand"]["name"]),
+        '<p class="fp-role">%s</p>' % esc_text(h["role"]),
+        '<p class="fp-intro">%s</p>' % rich(h["intro"]),
+    ]
+    out += _figures_block(pg)
 
     doors = []
     for door in h["doors"]:
@@ -312,6 +321,143 @@ def home(pg: Page) -> dict:
         findline += " " + _link_line(pg, m, pg.root + m["path"])
     out.append('<p class="fp-findline">%s</p>' % findline)
     return {"body": "\n".join(b for b in out if b), "css": [], "tail": []}
+
+
+# -- Home, recomposed three ways (DECISIONS.md CR-25) -----------------------------------------------
+
+
+def _first_sentences(text: str, n: int) -> str:
+    """The first n sentences of a registry blurb: one line for the index. A blurb with no full stop is kept whole."""
+    parts = re.split(r"(?<=[.!?])\s+", (text or "").strip())
+    return " ".join(parts[:n]).strip()
+
+
+def _entry_href(pg: Page, entry: dict) -> str | None:
+    """A stage entry points at a built screen (`screen`) or at a page outside this build (`path`, from the repo root)."""
+    if entry.get("screen"):
+        return pg.href(entry["screen"])
+    if entry.get("path"):
+        return pg.root + entry["path"]
+    return None
+
+
+def _stage_panel(pg: Page, entry: dict, lead: bool) -> str:
+    href = _entry_href(pg, entry)
+    if href is None:
+        # A panel that links nowhere is a stub; the stage leaves the entry off instead (absent is not a blank).
+        pg.log.warn("stage_entry_omitted", entry=entry.get("id"), reason="its screen is not part of this build")
+        return ""
+    return (
+        '  <div class="fp-sp"%s><span class="fp-sp-k">%s</span><h2>%s</h2>\n    <p>%s</p>\n    <a class="fp-go" href="%s">%s</a></div>'
+        % (' data-lead="1"' if lead else "", esc_text(entry["kicker"]), esc_text(entry["title"]), esc_text(entry["line"]),
+           esc_attr(href), esc_text(entry["go"]))
+    )
+
+
+def _stage(pg: Page, layout: str) -> str:
+    h = pg.cfg["home"]
+    panels = [_stage_panel(pg, e, lead=(layout == "lead" and i == 0)) for i, e in enumerate(h["stage"])]
+    panels = [x for x in panels if x]
+    if not panels:
+        return ""
+    return (
+        '<section class="fp-stage" aria-label="%s"><div class="fp-stage-grid" data-layout="%s">\n%s\n</div></section>'
+        % (esc_attr(h["stage_aria"]), esc_attr(layout), "\n".join(panels))
+    )
+
+
+def _ix_row(name: str, href: str | None, blurb: str, status: str | None) -> str:
+    link = '<a class="fp-ix-name" href="%s">%s</a>' % (esc_attr(href), esc_text(name)) if href else '<span class="fp-ix-name">%s</span>' % esc_text(name)
+    top = '<span class="fp-ix-top">%s%s</span>' % (link, _status(status) if status else "")
+    tail = '<span class="fp-ix-blurb">%s</span>' % esc_text(blurb) if blurb else ""
+    return '    <li class="fp-ix-row">%s%s</li>' % (top, tail)
+
+
+def _ix_group(pg: Page, gid: str, heading: str, door_href: str | None, rows: list, lead: bool = False) -> str:
+    ix = pg.cfg["home"]["index"]
+    h2 = '<a href="%s">%s</a>' % (esc_attr(door_href), esc_text(heading)) if door_href else esc_text(heading)
+    return (
+        '<section class="fp-ix-group"%s aria-labelledby="fp-ix-%s">\n'
+        '  <header class="fp-ix-head"><h2 id="fp-ix-%s">%s</h2><span class="fp-meta">%s</span></header>\n'
+        '  <ul class="fp-ix-list">\n%s\n  </ul>\n</section>'
+        % (' data-lead="1"' if lead else "", esc_attr(gid), esc_attr(gid), h2, esc_text(fill(ix["count"], {"n": len(rows)})), "\n".join(rows))
+    )
+
+
+def _index(pg: Page, comp: dict) -> tuple:
+    """(html, shown, visible). One group per home.index.groups entry, rows in registry order; C opens with the four stage picks."""
+    h = pg.cfg["home"]
+    ix = h["index"]
+    # The owner's 2026-10-20 fossil rulings: a registry row marked "unlisted": true is not shown on Home, in any
+    # composition. The "more in the Tool Desk" count comes from these same rows, so it never counts a hidden one.
+    visible = [x for x in pg.model.rows if not x.unlisted]
+    keep = [x for x in visible if x.status in ix["statuses"]]
+    grouped = {c for g in ix["groups"] for c in g["cats"]}
+    orphans = sorted({x.slug for x in keep if x.category not in grouped})
+    if orphans:
+        # Nothing may vanish quietly: a running project in no group would be missing from Home.
+        raise Refused("home.index.groups has no group for the category of: %s" % ", ".join(orphans))
+    groups = []
+    if comp["start_group"]:
+        picks = []
+        for e in h["stage"]:
+            href = _entry_href(pg, e)
+            if href is None:
+                pg.log.warn("stage_entry_omitted", entry=e.get("id"), reason="its screen is not part of this build")
+                continue
+            picks.append(_ix_row(e["title"], href, e["line"], None))
+        if picks:
+            groups.append(_ix_group(pg, "start", h["start_group_h2"], None, picks, lead=True))
+    shown = 0
+    for g in ix["groups"]:
+        rows = [x for x in keep if x.category in g["cats"]]
+        if not rows:
+            pg.log.warn("index_group_empty", group=g["id"], reason="no running project in its categories")
+            continue
+        door = pg.href(g["door"]) if g.get("door") else None
+        if g.get("door") and door is None:
+            pg.log.warn("door_link_omitted", door=g["id"], screen=g["door"], reason="that screen is not part of this build")
+        html = [_ix_row(x.name, resolve(x.dest, pg.root), _first_sentences(x.blurb, ix.get("blurb_sentences", 1)), x.status) for x in rows]
+        groups.append(_ix_group(pg, g["id"], g["h2"], door, html))
+        shown += len(rows)
+    body = '<div class="fp-ix" role="region" aria-label="%s">\n%s\n</div>' % (esc_attr(ix["aria"]), "\n".join(groups))
+    return body, shown, len(visible)
+
+
+def _link_line_with(spec: dict, href: str | None, values: dict) -> str:
+    link = '<a href="%s">%s</a>' % (esc_attr(href), esc_text(spec["link"])) if href else esc_text(spec["link"])
+    return esc_text(fill(spec["before"], values)) + link + esc_text(fill(spec["after"], values))
+
+
+def _home_composed(pg: Page, key: str) -> dict:
+    cfg = pg.cfg
+    h = cfg["home"]
+    comp = h["compositions"][key]
+    if comp["stage"] not in ("lead", "row", "none"):
+        raise CouldNotLook("home.compositions.%s.stage must be 'lead', 'row' or 'none'" % key)
+    if comp.get("hero_line"):
+        out = ['<h1 class="fp-title">%s</h1>' % esc_text(cfg["brand"]["name"]), '<p class="fp-role">%s</p>' % esc_text(comp["hero_line"])]
+    else:
+        # C: the name alone, set as a monument (typographic_monument)
+        out = ['<h1 class="fp-title fp-monument">%s</h1>' % esc_text(cfg["brand"]["name"])]
+    if comp["stage"] != "none":
+        out.append(_stage(pg, comp["stage"]))
+    index_html, shown, total = _index(pg, comp)
+    out.append(index_html)
+    # footer_resolution: how many more the Tool Desk holds, the method line, then the proof row
+    values = {"more": total - shown, "projects": pg.counts["projects"], "tools": pg.counts["tools"]}
+    foot = _link_line_with(h["index"]["more"], pg.href("desk"), values)
+    if h.get("methodline"):
+        m = h["methodline"]
+        foot += " " + _link_line_with(m, pg.root + m["path"], values)
+    out.append('<p class="fp-findline">%s</p>' % foot)
+    out += _figures_block(pg)
+    return {"body": "\n".join(b for b in out if b), "css": [], "tail": []}
+
+
+def home(pg: Page) -> dict:
+    key = pg.cfg["home"].get("composition", "current")
+    return _home_current(pg) if key == "current" else _home_composed(pg, key)
 
 
 # -- Rail software ----------------------------------------------------------------------------------

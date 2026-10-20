@@ -10,6 +10,7 @@ between the parts: `docs/front-page-design/ARCHITECTURE.md`. Python standard lib
 python scripts/build_front_page.py                 # review build: writes docs/front-page/
 python scripts/build_front_page.py --check         # builds in memory, compares with disk, writes nothing
 python scripts/build_front_page.py --only desk     # compares or writes one screen (the nav still comes from all)
+python scripts/build_front_page.py --lab a         # Home composition a, b or c, with the other four screens, to docs/skin-lab/home-19/<x>/ (CR-25); config home.composition is "current" until the owner picks
 python scripts/build_front_page.py --root          # promotion: writes the repo root. The owner's go only.
 ```
 

@@ -551,6 +551,48 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   markup (GATE-01).
 
 ## Change Log
+- 2026-10-20 — **CR-25 (Site card item 19, rank high): the Home body is recomposed three ways for the owner to
+  pick one. Generation contract (WEB-11), written before code. Nothing is promoted to the live root.**
+  - **Site class:** a personal project directory on the OPEN tier (CR-23), five screens in the Board shell (CR-24).
+    Only the Home body changes; the shell, the nav and the four other screens stay as they are.
+  - **Dominant idea, one sentence:** the page shows the four best projects first, in the owner's order, and
+    lists every running project under them, so a visitor reaches any project in one step.
+  - **Zones** (`composition_zones/zones.json`): `persistent_chrome` (sidebar and bar, unchanged);
+    `hero_field` (the name, plus one dry line in A and B); `viewport_stage` (A and B; C has none);
+    `content_band` (the index, grouped); `footer_resolution` (the count of the rest, the method line, the proof row).
+  - **Patterns:** A `editorial_rhythm` and `anti_card_composition`; B `anti_card_composition`; C
+    `anti_card_composition` and `typographic_monument` (the name).
+  - **Narrative sequence:** A name and line, the lead, the three peers, the index, the footer. B name and line,
+    four equal peers, the index, the footer. C name, the index with the four picks as its first group, set larger,
+    the footer. The next reading target after the hero is the stage (A, B) or the first group (C).
+  - **Card policy:** the stage panels are genuine peers (four comparable projects), so a panel is allowed there
+    and only there. The index is typographic: ruled rows, no box, no card grid. Group headings are links to the
+    existing door pages (WEB-13: a card grid is not a folder system).
+  - **The three compositions** (the owner picks one; option `home.composition`: `current` keeps today's Home,
+    so `build_front_page.py --check` stays at 0 differences; `a`, `b`, `c` are the new bodies):
+    A Stage and index, recommended: one lead (design-first and its harness), three peers in one row (`/method/`,
+    the trading desk, Fulfillment), then the index. Phone order: lead, then the three stacked. B Four peers: four
+    equal panels in one row, his order, then the index. C Index first: no stage; the four picks lead the index.
+  - **Master's decisions** (OWN-05, each a config value, so reversible): index groups Instruments (trading,
+    signals), Trainers (rail, navigation), Games (games), Tools (tools, bots), Sites for others (studio); mapping
+    in `home.index_groups`. Rows are status live, built or active; each row has the name, the registry blurb, and
+    the routing-rule link. Frozen, retired, private, superseded and shelved rows stay off Home; one generated line
+    says how many projects the Tool Desk holds. Group headings link to `/work/trading-desk/`,
+    `/work/rail-software/` and `/work/games/`, so no door is lost (WEB-08). The stage list is `home.stage`; the
+    registry `featured` flag is not touched. The intro paragraph leaves Home. The method line links `/method/`.
+    Copy is dry STE, with no self-description, no rail history and no job title (SAFE-07).
+  - **One deviation, for the site master to rule on:** the card says the figures row leaves Home. The static
+    check `home_figures` fails a Home with no figures row, and a check may not be weakened (GATE-11). So the row
+    stays, moved from the top to the foot of Home as a proof row, with its stamp. If the
+    master wants the row gone, `home_figures` needs its own CR first.
+  - **Unlisted rows** (site master, item 20b): a registry row with `"unlisted": true` is skipped by the Home index in
+    every composition, and the "more in the Tool Desk" count comes from the same filtered rows. No row carries the
+    flag yet.
+  - **Owner's pick, 2026-10-20 (relayed by Intake):** composition A, Stage and index. His words: "A is 100% the choice".
+    B and C stay in the skin lab as the record of the options. Promotion is the site master's step: set
+    `home.composition` to `a` in `scripts/front_page.config.json`, then `build_front_page.py --root`.
+  - **Build:** `build_front_page.py --lab <a|b|c>` writes the whole five-screen build to
+    `docs/skin-lab/home-19/<x>/` (`outputs.lab`). It never writes the review folder or the root.
 - 2026-10-20 — **CR-24 (Intake item 12, chunk 2, owner's go 2026-10-20): the five front-page screens move to
   variant C, Board, by their one token file, `styles/front/front.tokens.css`.** **D-A27 is re-skinned: its
   composition is kept** (the sidebar, the sheet, the bar, the five screens, the three clusters, the 80rem cap,
