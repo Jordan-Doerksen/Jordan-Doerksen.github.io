@@ -55,6 +55,9 @@ const label = (m) => (m.startsWith('control edge') ? 'edge' : 'contrast');
 
 async function probeOne(browser, url, { width, theme, extras }) {
   const ctx = await browser.newContext({ colorScheme: theme, viewport: { width, height: 900 } });
+  // Dark is the page's default (CR-24), so the light run sets the stored choice the toggle sets. Without
+  // this the "light" run would measure the dark page, whatever the colour scheme says.
+  await ctx.addInitScript((t) => { try { if (t === 'light') localStorage.setItem('fp-theme', 'light'); } catch (e) {} }, theme);
   const page = await ctx.newPage();
   const issues = [];
   const add = (check, msgs) => msgs.forEach((msg) => issues.push({ check, msg }));

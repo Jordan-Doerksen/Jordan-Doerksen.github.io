@@ -55,7 +55,7 @@ The 300-line review rule applies to every file. Split by 500.
 
 ## Tokens (`front.tokens.css`) — names are fixed
 
-Light on `:root`, dark on `:root[data-theme="dark"]`. Values are the desk's measured port of the
+Light on `:root`, dark on `:root[data-theme="dark"]`; dark is the default (CR-24). Since 2026-10-20 the values are variant C, Board, from `method/tokens.css` and `styles/stagecraft.tokens.css`, measured again here; before that they were the desk's measured port of the
 donor (see `docs/front-page-design/mockup/mockup.css`; every ratio is in the desk's
 `web/desk.tokens.css` header and must be re-measured here).
 

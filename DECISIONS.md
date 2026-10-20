@@ -551,6 +551,32 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   markup (GATE-01).
 
 ## Change Log
+- 2026-10-20 — **CR-24 (Intake item 12, chunk 2, owner's go 2026-10-20): the five front-page screens move to
+  variant C, Board, by their one token file, `styles/front/front.tokens.css`.** **D-A27 is re-skinned: its
+  composition is kept** (the sidebar, the sheet, the bar, the five screens, the three clusters, the 80rem cap,
+  every line of copy), and only colour, type, corners, shadow and the ground change (SKIN-01). Home, Trading
+  desk, Rail software, Games and the Tool Desk now carry the values of `method/tokens.css` (dark) and of
+  `styles/stagecraft.tokens.css` (dark and its light counterpart, CR-23), so the front, `/method/` and the nine
+  Stagecraft pages agree. Every ink was measured again on all six grounds in both themes; the table is in the
+  token file's header. **Theme default: dark** (the site master's call under the OPEN-tier ruling, CR-23): the
+  head script written by `scripts/front_shell.py` sets `data-theme="dark"` unless the stored choice is
+  `light`; light stays on the toggle. The script no longer reads the system setting; without a script the page
+  shows the light `:root` block, the one fallback that needs no code. `scripts/front_probe.mjs` now stores the
+  light choice before its light run, so the light run still measures the light page (three lines, no check
+  weakened). **Glass and glow hooks** (one line each, commented "C skin: <what>, token <name>"): the sheet, the
+  bar and the panels as translucent fills (the bar and the panels with blur); the sidebar lets the glow through;
+  one ground glow on `body::before` with its `fp-drift` keyframe, stopped under `prefers-reduced-motion:
+  reduce`, off per page with `data-ambient="off"`, and no file carries an "on" value for that attribute (the
+  brain's SKIN-02 claim reads `index.html` for one); the display face and weight on titles, door heads, figures
+  and panel heads; the carried pieces' `--display`. The glow rules sit in the RESET block of
+  `front.shell.css`, because `body` has no `fp-` class and the checker allows unscoped selectors only there.
+  The three faces load by one `@import` at the top of the token file (the same request `/method/` makes).
+  Corners are 4px (C's radius); nothing is a pill. **Checked:** `front_check.py` 20 passed, 0 failed;
+  `front_check.py --selftest` every breakage caught; `build_front_page.py --check` 0 page(s) differ;
+  `node scripts/front_probe.mjs` exit 0 (7 widths, 2 themes, keyboard, no script, reduced motion, contrast).
+  Before-and-after shots of the five pages at 1280 and 390 in both themes and the token map are in
+  `docs/skin-lab/front-c/`. **Not touched:** any layout or copy, the nine Stagecraft pages, `/method/`, the
+  project apps, `data/registry.json`. **Rollback:** `git revert` of the skin commit on `site-front-c`.
 - 2026-10-20 — **CR-23 (Intake item 12, chunk 1, owner's go 2026-10-20): the nine Stagecraft pages move to
   variant C, Board, by the one token file.** The eight section pages (`rail/`, `games/`, `trading/`,
   `studio/`, `signals/`, `bots/`, `tools/`, `navigation/`) and the atlas template (`atlas/`) load

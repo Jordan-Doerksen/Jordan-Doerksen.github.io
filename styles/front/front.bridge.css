@@ -24,8 +24,8 @@
  *                            kicker) in orange. The donor look has one emphasis colour, which is --live,
  *                            7.78 / 14.76 on --bg, so the orange is retired here. Nothing on the wall
  *                            used orange to mean something that --live cannot.
- *   --display, --sans -> --font-ui     The tier loaded Archivo and IBM Plex from Google Fonts; the
- *   --mono            -> --font-mono   carry drops that request and uses the system stacks the shell uses.
+ *   --display         -> --font-display C skin: Space Grotesk. The tier loaded Archivo and IBM Plex from Google Fonts; the
+ *   --sans, --mono    -> --font-ui, --font-mono  carry drops that request and reads the shell's stacks (Inter, JetBrains Mono).
  */
 .fp-carry {
   --paper: var(--bg);
@@ -37,7 +37,7 @@
   --wire: var(--hairline);
   --ok: var(--good);
   --hot: var(--live);
-  --display: var(--font-ui);
+  --display: var(--font-display);
   --sans: var(--font-ui);
   --mono: var(--font-mono);
 }

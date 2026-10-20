@@ -33,12 +33,13 @@ GENERATED = (
     "Do not edit by hand: change the config or the script and rebuild (scripts/FRONT-PAGE.md). -->"
 )
 
-# Sets data-theme before first paint: stored choice (fp-theme), else the system setting. A storage
-# error leaves the CSS default (light), which is the intended fallback and needs no log.
+# Sets data-theme before first paint. DARK is the default (CR-24, the OPEN-tier ruling): the page is dark
+# unless the stored choice (fp-theme) is "light". A storage error therefore also gives dark. Without a script the
+# CSS fallback shows (the light :root block), which needs no code. The system setting is no longer read: a
+# visitor whose system says light still gets the dark board, and the toggle is the one way to light.
 THEME_SCRIPT = (
-    '<script>try{var t=localStorage.getItem("fp-theme");'
-    'if(!t&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";'
-    'if(t==="dark")document.documentElement.dataset.theme="dark"}catch(x){}</script>'
+    '<script>try{if(localStorage.getItem("fp-theme")!=="light")document.documentElement.dataset.theme="dark"}'
+    'catch(x){document.documentElement.dataset.theme="dark"}</script>'
 )
 
 _BOLD = re.compile(r"\*\*(.+?)\*\*")

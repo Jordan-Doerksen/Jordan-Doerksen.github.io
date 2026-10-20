@@ -92,7 +92,8 @@
   border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-1px) rotate(45deg); }
 
 /* ---- panels and tables ---- */
-.fp-panel { margin-top: 18px; background: var(--bg-raised); border: 1px solid var(--edge);
+.fp-panel { margin-top: 18px; background: var(--panel-raised); border: 1px solid var(--edge);
+  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); /* C skin: glass panel, tokens --panel-raised --blur */
   border-radius: var(--radius-lg); box-shadow: var(--shadow-1); overflow: hidden; container-type: inline-size; }
 .fp-panel-head { display: flex; justify-content: space-between; align-items: center; gap: 12px;
   min-height: 40px; padding: 0 12px; border-bottom: 1px solid var(--edge); }
@@ -236,3 +237,8 @@
   .fp-main .fp-table:has(.fp-plat) .fp-plat { grid-area: 4 / 1 / 5 / -1; }
   .fp-main .fp-table:has(.fp-plat) .fp-inst { grid-area: 5 / 1 / 6 / -1; }
 }
+
+/* C skin: display face and weight on titles, door heads, figures and panel heads, tokens --font-display --w-display --track-head.
+   The .fp-main and .fp-bar prefixes outrank the base rules whichever file the page links first. */
+.fp-main .fp-title, .fp-main .fp-door h2, .fp-main .fp-fig b, .fp-main .fp-panel-head h2, .fp-bar .fp-crumb b {
+  font-family: var(--font-display); font-weight: var(--w-display); letter-spacing: var(--track-head); }

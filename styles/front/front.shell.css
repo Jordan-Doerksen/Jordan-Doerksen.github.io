@@ -23,6 +23,15 @@ body { margin: 0; min-height: 100svh; }
 /* One ring for every link, button, input, summary and select. --live is 6.8:1
    or better on every ground in both themes. */
 :focus-visible { outline: 2px solid var(--live); outline-offset: 2px; }
+/* C skin: the ground glow (body has no fp- class, so it lives in this block), one ambient drift on a fixed layer behind the page, token --glow. It moves the
+   gradient inside its own box, never the box (WEB-14). Stopped under reduced motion below; the one
+   per-page off switch is data-ambient="off". */
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: var(--glow) 0 50% / var(--glow-size) no-repeat;
+  animation: var(--glow-anim) var(--glow-dur) ease-in-out infinite alternate; }
+@keyframes fp-drift { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+html[data-ambient="off"] body::before { animation: none; }
+@media (prefers-reduced-motion: reduce) { body::before { animation: none; } } /* C skin: the ground glow stops */
 /* ---- RESET END ---- */
 
 /* Icons are Lucide paths inlined by the generator; they draw as strokes. */
@@ -39,7 +48,7 @@ body { margin: 0; min-height: 100svh; }
 /* ---- cluster 1 of 3: the sidebar (identity + navigation) ---- */
 /* overflow-y only: the sidebar scrolls when the window is short, never sideways. */
 .fp-side { position: fixed; inset: 0 auto 0 0; width: var(--shell-side); display: flex; flex-direction: column;
-  gap: var(--gap); padding: 12px; overflow-x: hidden; overflow-y: auto; background: var(--side-bg); }
+  gap: var(--gap); padding: 12px; overflow-x: hidden; overflow-y: auto; background: none; /* C skin: the glow shows through the sidebar, ground --side-bg is the html colour */ }
 .fp-brandrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .fp-brand { display: flex; align-items: center; gap: 10px; padding: 4px 6px; min-height: 48px;
   border-radius: var(--radius); text-decoration: none; color: inherit; }
@@ -63,10 +72,10 @@ body { margin: 0; min-height: 100svh; }
 
 /* ---- the sheet, and cluster 2 of 3: the bar (orientation) ---- */
 .fp-sheet { margin: var(--sheet-gap) var(--sheet-gap) var(--sheet-gap) var(--shell-side);
-  min-height: calc(100svh - 2 * var(--sheet-gap)); min-width: 0; background: var(--bg);
+  min-height: calc(100svh - 2 * var(--sheet-gap)); min-width: 0; background: var(--panel); /* C skin: glass sheet, token --panel */
   border: 1px solid var(--edge); border-radius: var(--radius-lg); box-shadow: var(--shadow-1); }
 .fp-bar { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; gap: var(--gap);
-  height: var(--shell-bar); padding: 0 16px; background: var(--bg);
+  height: var(--shell-bar); padding: 0 16px; background: var(--bar-bg); backdrop-filter: var(--bar-blur); -webkit-backdrop-filter: var(--bar-blur); /* C skin: glass bar, tokens --bar-bg --bar-blur */
   border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
 /* flex: none, so the search box gives way first. The mockup lets the crumb shrink, and at 769px its
    text runs under the search box. */
