@@ -29,3 +29,7 @@ navigation/gridline/** -text
 /scripts/front_* text eol=lf
 /scripts/FRONT-PAGE*.md text eol=lf
 /data/desk-local.js text eol=lf
+
+# Fossil inventory (item 20): docs/fossils/inventory.py --check compares raw bytes, and a Windows
+# checkout (core.autocrlf=true) writes CRLF, so the check failed on the main checkout. Pin LF.
+docs/fossils/** text eol=lf
