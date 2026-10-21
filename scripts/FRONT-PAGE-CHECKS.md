@@ -6,7 +6,7 @@ Two checkers guard the front page (D-A27). Neither changes a file.
 |---|---|---|
 | `python scripts/front_check.py` | Static checks: 20 rules read from the files | Python 3 only |
 | `python scripts/front_check.py --selftest` | Breaks 23 rules one at a time in a scratch copy; each check must fail | Python 3 only |
-| `node scripts/front_probe.mjs` | Browser checks at 7 widths, 2 themes, keyboard, no script, reduced motion | Node, Playwright |
+| `node scripts/front_probe.mjs` | Browser checks at 7 widths, 1 theme (dark), keyboard, no script, reduced motion | Node, Playwright |
 | `node scripts/front_probe.mjs --selftest` | Runs each check on a broken fixture; each must be caught | Node, Playwright |
 
 A fixture named `<check>-<note>.html` must be caught by `<check>`; `clean-<note>.html` must pass like `clean.html`.
@@ -18,7 +18,7 @@ Exit codes for both: `0` every check passed. `1` at least one failed. `2` someth
 (a missing page, no Playwright). Exit 2 is not a pass.
 
 Useful flags: `front_check.py --require-all` (all five screens must exist), `--only <check>`;
-`front_probe.mjs --pages desk/index.html --widths 375,1280 --themes light`.
+`front_probe.mjs --pages desk/index.html --widths 375,1280 --themes dark`.
 
 Playwright is not installed in this repo, and the repo has no `package.json`. The probe loads it from an
 existing install named in `scripts/front_probe.config.json` (`playwright_from`). If that path moves, change

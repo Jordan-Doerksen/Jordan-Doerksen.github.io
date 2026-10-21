@@ -57,7 +57,7 @@ doing a different job. `styles/stagecraft.tokens.css` is the whole control panel
 flips it to a near-white ground with the same hue.
 
 **The five front-page screens are the exception (D-A27, CR-21, 2026-10-04).** They wear the
-trading desk's layout, a sidebar and a sheet, in variant C, Board since 2026-10-20 (CR-24), dark by default with a light toggle, in their own
+trading desk's layout, a sidebar and a sheet, in Dusk since 2026-10-21 (CR-30), one dark ground and no light theme, in their own
 stylesheet, `styles/front/`, with no Stagecraft CSS in it. Stagecraft's *rules* still apply and are
 checked: three persistent clusters, no sideways scroll, measured contrast, nothing broken with
 JavaScript off. The contract is `docs/front-page-design/ARCHITECTURE.md`; the checks are

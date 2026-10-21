@@ -551,6 +551,31 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   markup (GATE-01).
 
 ## Change Log
+- 2026-10-21 — **CR-30 (Site card item 35, owner: "dusk front", then "go front"): the five front-page screens wear Dusk,
+  the house skin; one dark ground, the light theme and its toggle retire.** Branch `site-front-dusk`. Home, Trading
+  desk, Rail software, Games and the Tool Desk (the five, and no other page) now link Dusk's five layers from
+  `styles/dusk/` before `styles/front/*`, in Dusk's fixed order: tokens, base, components, compose, motion.
+  `styles/dusk/` is `C:\projects\reference\dusk\styles` copied whole and byte-equal at Dusk `d0f10c3` (the claim
+  DUSK-SKIN-01 reads byte equality and the first line). The decisions are the card's, item 35, and Method's
+  confirmation of 2026-10-21 (SKIN-02: Dusk is the default for the front page, OPEN tier): **(a)** `<html
+  data-tier="open">` on every front page, written by `scripts/front_shell.py` from config `skin.tier`; **no
+  `data-ambient` attribute anywhere, so the wall drifts** (the OPEN default, SKIN-06; Intake's call), and
+  `prefers-reduced-motion` stops it (SAFE-05); **(b)** `styles/front/front.tokens.css` maps, it does not copy:
+  every colour is a `var()` that points at a Dusk token (the ground is Dusk's wall, the sheet and the bar are Dusk's
+  glass, the sidebar Dusk's side glass, ink is Dusk's ink), no raw colour is typed, and Dusk's own `--ink`, `--font-ui`
+  and `--blur` are read as they are; **(c)** type is Dusk's system stack (the Google Fonts request for Inter, Space
+  Grotesk and JetBrains Mono is gone), corners are Dusk's 6px control and 14px window, no pill; **(d)** **CR-24's
+  theme toggle is superseded:** the light `:root` block, the `data-theme` block, the theme button, the head theme
+  script and their rules are removed (CR-2026-10-20-HOUSELOOK section 2, "no light counterpart is designed"), the
+  probe's `themes` become `["dark"]` and its light-run init script goes, and its keyboard walk moves from the
+  `light` pass to the first theme in the list so it still runs at 375 and 1280; `front_check.py` no longer
+  requires a theme control to ship hidden and its "visible script-only control" breakage now un-hides the menu
+  button (same check, same strength). **Composition unchanged** (SKIN-01): the same blocks in the same places
+  (BEFORE and AFTER shots, `docs/skin-lab/front-dusk/`). Shell rules changed only where a value or a theme rule
+  had to go, each commented "Dusk: <what>": html's own background (it would hide the wall), compose's body
+  padding (the front keeps its own gutters), the front's glow layer and focus ring (Dusk's are used), the glass
+  on the sidebar and the facet list. Selectors stay `fp-` prefixed. Ruled out and not done: any page outside the
+  five, a light theme, a pill, `data-ambient="on"`.
 - 2026-10-20 — **Site probe: the console check ignores an aborted sub-frame document load (owner: "yes site probe").**
   Branch `site-probe-flake`. `scripts/front_probe.mjs` counted every failed request, including the iframe document
   load that the page itself aborts (the desk demo, the games wall attract screens), so the probe failed about one

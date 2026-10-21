@@ -35,7 +35,7 @@ leaves it out of the nav and out of the Home doors. A missing page is true. A st
 | `scripts/front_figures.py` | Figures from `data/evidence.json`, read the way `site_compose.figures()` reads them. `read_json()`. |
 | `scripts/front_icons.json` | Lucide icon geometry (ISC licence), inlined into the pages. |
 | `scripts/front_log.py` | JSON-line logger, crash trap, run id, exit-code constants. Shared with the carry step and the checks. |
-| `js/front/shell.js` | Theme toggle, menu, `/` shortcut, unhides what needs a script. |
+| `js/front/shell.js` | Menu, `/` shortcut, unhides what needs a script. (Its theme-toggle code is dead since CR-30: no page has the button.) |
 | `js/front/desk.js` | Facets, filtering, the toolkit rows, copy-install. |
 | `docs/front-page/**` | Generated. Never edit by hand. |
 
@@ -147,8 +147,7 @@ object per line, five keys: `ts`, `level` with `severity_number`, `run_id`, `eve
 
 **Known silent spots.**
 - `--check` writes nothing to the site, but it does append to the log.
-- The inline theme script in `<head>` and `shell.js` ignore a storage error on purpose: with storage blocked the
-  theme lasts for the page. Nothing is logged because a browser has no log to write to.
+- There is no theme script and no theme control since CR-30 (Dusk, one dark ground).
 - `desk.js` reports to the console only if the toolkit rows cannot be built. A tool that is in `toolkit.js` but
   has a bad URL is shown as text without a link.
 - Whether the page looks right is not checked here. `scripts/front_check.py` and the browser probe check that.

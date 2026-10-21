@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" data-tier="strict">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Front page in Dusk, before and after</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../../styles/dusk/dusk.tokens.css">
+<link rel="stylesheet" href="../../../styles/dusk/dusk.base.css">
+<link rel="stylesheet" href="../../../styles/dusk/dusk.components.css">
+<link rel="stylesheet" href="../../../styles/dusk/dusk.compose.css">
+<link rel="stylesheet" href="../../../styles/dusk/dusk.motion.css">
+<style>
+/* Lab page, not a front screen. Page-local helpers take the fd- prefix; every value is a Dusk token. */
+.fd-sec { margin-top: var(--sp-8); }
+.fd-sec h2 { font-size: var(--fs-l); margin-bottom: var(--sp-3); }
+.fd-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); align-items: start; }
+.fd-fig { margin: 0; min-width: 0; }
+.fd-fig figcaption { color: var(--ink-2); font-size: var(--fs-s); margin-bottom: var(--sp-2); }
+.fd-box { max-height: 72vh; overflow-y: auto; overflow-x: hidden; border: 1px solid var(--hair-2); border-radius: var(--r-control); background: var(--wall-1); }
+.fd-box img { display: block; width: 100%; height: auto; }
+.fd-links { margin-top: var(--sp-2); font-size: var(--fs-s); color: var(--ink-2); }
+.fd-links a { color: var(--amber-ink); }
+.fd-note { max-width: var(--measure); color: var(--ink-2); margin-top: var(--sp-3); }
+.fd-same { margin-top: var(--sp-3); color: var(--ink); }
+.fd-h { margin-top: var(--sp-6); font-size: var(--fs-base); color: var(--ink-2); }
+@media (max-width: 760px) { .fd-pair { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+<div class="dusk-stage">
+<section class="dusk-win" aria-label="Front page in Dusk">
+<div class="dusk-main">
+<h1 class="dusk-title">Front page in Dusk, before and after</h1>
+<p class="dusk-lede">CR-30, item 35. Each of the five front screens, BEFORE (variant C, Board, from <code>main</code> 8ca6069) beside AFTER (Dusk). Same screens, same blocks, same places: only colour, type, corners and the wall changed, and the Dark button left the bar. The generated markup differs from main in the html tag, the head and that one button, nothing else. Full-page captures at 1280 and 390 wide; below 760 px the pairs stack.</p>
+<p class="fd-note">A full-page capture draws the fixed wall once, over the first screen height, so the lower part shows the plum base. The fold captures (linked under each pair) show the wall as a visitor sees it.</p>
+
+<div id="pages"></div>
+<noscript><p class="fd-note">This page lists its images with a script. The files are in the shots folder next to it, named <code>&lt;page&gt;-&lt;width&gt;-before.png</code> and <code>-after.png</code>.</p></noscript>
+</div>
+</section>
+</div>
+<script>
+(function () {
+  /* Measured, not asserted: the top-level blocks of each page (sidebar, sheet, bar and every child of the track),
+     BEFORE from main 8ca6069 and AFTER from this branch, same order and same left edge on every page and width.
+     Each entry is [id, title, 1280 note, 390 note]; "sheet" is the height of the sheet in px, before then after. */
+  var pages = [
+    ["home", "Home", "10 blocks, same order, same left edges. The widest block is up to 110 px narrower (a text measure set in ch follows the type face); sheet 1970 to 1936 px.", "10 blocks, same order, same left edges and widths; sheet 4110 to 3997 px."],
+    ["trading-desk", "Trading desk", "5 blocks, same order, same left edges and widths; each block's top within 3 px; sheet 4496 to 4558 px.", "5 blocks, same order, same left edges and widths; sheet 4978 to 4904 px."],
+    ["rail-software", "Rail software", "6 blocks, same order, same left edges and widths; each block's top within 3 px; sheet 884 to 884 px.", "6 blocks, same order, same left edges and widths; sheet 884 to 884 px."],
+    ["games", "Games", "5 blocks, same order, same left edges and widths; sheet 1563 to 1566 px.", "5 blocks, same order, same left edges and widths; sheet 2070 to 2046 px."],
+    ["desk", "Tool Desk", "7 blocks, same order, same left edges and widths; sheet 4042 to 3821 px (the table rows are shorter in the new face). The Port and Path columns show because the shots were taken from a local address, before and after alike.", "7 blocks, same order, same left edges and widths; sheet 6424 to 6265 px."]
+  ];
+  var host = document.getElementById("pages");
+  function fig(id, w, tag) {
+    var f = document.createElement("figure"); f.className = "fd-fig";
+    var c = document.createElement("figcaption"); c.textContent = tag.toUpperCase();
+    var b = document.createElement("div"); b.className = "fd-box";
+    var i = document.createElement("img"); i.src = "shots/" + id + "-" + w + "-" + tag + ".png"; i.alt = id + " at " + w + " px, " + tag; i.loading = "lazy";
+    b.appendChild(i); f.appendChild(c); f.appendChild(b); return f;
+  }
+  pages.forEach(function (p) {
+    var s = document.createElement("section"); s.className = "fd-sec"; s.setAttribute("aria-label", p[1]);
+    var h = document.createElement("h2"); h.textContent = p[1]; s.appendChild(h);
+    [1280, 390].forEach(function (w) {
+      var k = document.createElement("h3"); k.className = "fd-h"; k.textContent = w + " px wide"; s.appendChild(k);
+      var pair = document.createElement("div"); pair.className = "fd-pair";
+      pair.appendChild(fig(p[0], w, "before")); pair.appendChild(fig(p[0], w, "after")); s.appendChild(pair);
+      var m = document.createElement("p"); m.className = "fd-same"; m.textContent = "Composition unchanged. " + (w === 1280 ? p[2] : p[3]); s.appendChild(m);
+      var l = document.createElement("p"); l.className = "fd-links";
+      l.innerHTML = 'Fold only: <a href="shots/' + p[0] + '-' + w + '-before-fold.png">before</a>, <a href="shots/' + p[0] + '-' + w + '-after-fold.png">after</a>';
+      s.appendChild(l);
+    });
+    host.appendChild(s);
+  });
+})();
+</script>
+</body>
+</html>

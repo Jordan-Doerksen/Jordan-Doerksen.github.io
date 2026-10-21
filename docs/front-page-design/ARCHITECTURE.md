@@ -30,8 +30,8 @@ same output works from `docs/front-page/` and from the repo root.
 
 | Path | Responsibility | Owner |
 |---|---|---|
-| `styles/front/front.tokens.css` | THE control panel: every colour, size, radius, shadow, duration. Light + dark. | S |
-| `styles/front/front.shell.css` | reset, sidebar, sheet, bar, brand, nav, find, theme toggle, menu, focus, reduced motion | S |
+| `styles/front/front.tokens.css` | THE control panel: every size, radius, shadow, duration; every colour a `var()` to a Dusk token. One dark theme (CR-30). | S |
+| `styles/front/front.shell.css` | reset, sidebar, sheet, bar, brand, nav, find, menu, reduced motion (the ground, the ring and the drift are Dusk's) | S |
 | `styles/front/front.parts.css` | figures row, doors, panels, tables, status markers, ghost button, facet, popover | S |
 | `styles/front/front.bridge.css` | aliases that map a carried piece's old variable names to the tokens | C |
 | `styles/front/carry-trading.css`, `carry-games.css` | GENERATED from the tier pages. Never hand-edit. | C |
@@ -42,7 +42,7 @@ same output works from `docs/front-page/` and from the repo root.
 | `scripts/front_log.py` | JSON-line logger, crash trap, run id (shared by B, C, T) | B |
 | `scripts/front_page.config.json` | screens, nav, brand, copy that is config, flags | B |
 | `scripts/front_icons.json` | icon geometry by name (Lucide, ISC, inlined as paths) | B |
-| `js/front/shell.js` | theme toggle, menu, `/` shortcut, unhide-on-script | B |
+| `js/front/shell.js` | menu, `/` shortcut, unhide-on-script | B |
 | `js/front/desk.js` | facets, filtering, toolkit render, copy-install | B |
 | `scripts/front_carry.py`, `scripts/front_carry.config.json` | carry a tier page into a screen | C |
 | `js/front/stage.js`, `desk-toy.js`, `wall.js` | copies of the tier scripts | C |
@@ -55,7 +55,7 @@ The 300-line review rule applies to every file. Split by 500.
 
 ## Tokens (`front.tokens.css`) — names are fixed
 
-Light on `:root`, dark on `:root[data-theme="dark"]`; dark is the default (CR-24). Since 2026-10-20 the values are variant C, Board, from `method/tokens.css` and `styles/stagecraft.tokens.css`, measured again here; before that they were the desk's measured port of the
+One theme, dark, on `:root` (CR-30): Dusk, the house skin. The five Dusk layers (`styles/dusk/`, byte-equal to `reference/dusk/styles`) load before `styles/front/*`; this file maps each name onto a Dusk token, so nothing Dusk defines is typed twice. Variant C, Board (CR-24, light and dark) is in git history, and before that the desk's measured port of the
 donor (see `docs/front-page-design/mockup/mockup.css`; every ratio is in the desk's
 `web/desk.tokens.css` header and must be re-measured here).
 
@@ -69,7 +69,7 @@ The agent that owns the tokens file may ADD a token it needs (for example `--sha
 list it in its report; it may not rename or drop a listed one. `--shell-max` is 1280px (80rem at 16px; owner's call, D-A27 item 3). No raw colour, radius,
 shadow or duration may appear in any other file. One exception, deliberate: a carried piece keeps its
 own animation timings (`--enter`, `--draw`, keyframe durations) in the generated `carry-*.css`,
-because they belong to the piece's choreography. Colours and radii in carried CSS are tokens. `color-scheme` follows the theme.
+because they belong to the piece's choreography. Colours and radii in carried CSS are tokens. `color-scheme` is Dusk's (dark).
 
 ## Classes — every class starts with `fp-`
 
@@ -77,7 +77,7 @@ A generic local class that collides with a system class is the failure that star
 Carried pieces keep their own class names, but their CSS is scoped under `.fp-carry-<screen>`.
 
 - Shell: `fp-skip fp-side fp-brandrow fp-brand fp-tile fp-tile-brand fp-two fp-nav fp-navgroup
-  fp-navgroup-k fp-sidefoot fp-sheet fp-bar fp-crumb fp-end fp-find fp-theme fp-dot fp-menu-btn
+  fp-navgroup-k fp-sidefoot fp-sheet fp-bar fp-crumb fp-end fp-find fp-menu-btn
   fp-main fp-track`
 - Every page head: `fp-kicker` (small line above), `fp-title` (the one `h1`), `fp-lede` (the paragraph
   under it). No CSS selector styles a bare `h1`, `h2`, `p` or `table` inside `.fp-main`; every
@@ -116,7 +116,6 @@ Carried pieces keep their own class names, but their CSS is scoped under `.fp-ca
     <span class="fp-crumb"><span>{group}</span><b>{title}</b></span>
     <div class="fp-end">
       <form class="fp-find" data-chrome="find" role="search" action="{root}desk/" method="get" hidden>...<input type="search" name="q" id="fp-q" ...></form>
-      <button type="button" class="fp-theme" id="fp-theme" aria-pressed="false" hidden><span class="fp-dot"></span>Dark</button>
     </div>
   </header>
   <main class="fp-main" id="fp-main"><div class="fp-track">{screen body}</div></main>
@@ -126,14 +125,13 @@ Carried pieces keep their own class names, but their CSS is scoped under `.fp-ca
 - Exactly three `data-chrome` clusters: `identity_navigation`, `orientation_progress`, `find`. Every
   `position: fixed` or `sticky` element sits inside one. An open popover or the phone sheet is
   transient and is not a cluster.
-- Anything that needs a script ships `hidden` (find, theme toggle, menu button, the Tool Desk
+- Anything that needs a script ships `hidden` (find, menu button, the Tool Desk
   toolbar). `shell.js` unhides it. With no script: all content, all rows and all nav links remain.
 - A narrow screen (`max-width: 768px`) shows the Menu button and folds the nav. The number 768 is a
   literal in `front.shell.css` and in `shell.js` (a media query cannot read a token); a check
   asserts the two are equal.
 - A carried piece must not nest a `<main>`. The carry step turns it into a `<div>`.
-- `<head>` has an inline script that sets `data-theme="dark"` before paint (stored key `fp-theme`,
-  else the system setting), wrapped in try/catch. Title is `<screen> · Jordan Doerksen`; Home is
+- `<html>` carries `data-tier="open"` (config `skin.tier`); `<head>` has no theme script (CR-30). Title is `<screen> · Jordan Doerksen`; Home is
   `Jordan Doerksen`.
 
 ## Screens
@@ -186,7 +184,7 @@ then a typographic index of the registry's `rail` projects (name, status, blurb)
 5. Rewrite relative paths (`../../games/`, `../../assets/`, `../../demos/`) for the output depth.
 6. Turn a nested `<main>` into a `<div>`. Keep ids unique across the page.
 7. Copy the scripts to `js/front/`. They run unchanged. The bridge must keep every colour that
-   carries meaning distinct from the others, in both themes, and the pieces keep their own
+   carries meaning distinct from the others, and the pieces keep their own
    reduced-motion handling (the auto-playing tour must stand still and be complete when reduced
    motion is on).
 8. Never edit `docs/tier-*/` or `scripts/build_tier*.py` or `scripts/site_compose.py`. The old page keeps
@@ -212,7 +210,7 @@ a marker rule · no bare element selectors outside the reset and the `.fp-` scop
 with `import`/`fetch` on the front page.
 
 Browser (`front_probe.mjs`, Playwright resolved from an existing install, no new package) at 320,
-375, 412, 768, 1024, 1280, 1920, both themes, every screen:
+375, 412, 768, 1024, 1280, 1920, the one theme (dark), every screen:
 no sideways overflow (document or any rendered element with `overflow-x` auto or scroll that scrolls;
 skip what is not rendered) · a gutter of at least 8px between content and all four window edges ·
 at most three chrome clusters and every fixed or sticky element inside one · text 4.5:1 on its

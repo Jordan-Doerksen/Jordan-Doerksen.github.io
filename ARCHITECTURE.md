@@ -51,7 +51,7 @@ Static site, no build step. GitHub Pages from `main`. Local preview: `python -m 
 
 ## Front page rebuild (D-A27, CR-21) — live since 2026-10-04
 
-A five-page shell, in variant C, Board since 2026-10-20 (CR-24; the donor look until then) (Home, Trading desk, Rail software, Games, Tool Desk) replaced the
+A five-page shell, in Dusk since 2026-10-21 (CR-30; variant C, Board from CR-24 until then; one dark ground, no light theme) (Home, Trading desk, Rail software, Games, Tool Desk) replaced the
 three-tier front page on 2026-10-04. It is written by `scripts/build_front_page.py` into the repo root
 (`--root`, the live pages) and into `docs/front-page/` (the review build, kept so `--check` and the
 checks have something to compare). Its styles are `styles/front/` and its scripts are `js/front/`;

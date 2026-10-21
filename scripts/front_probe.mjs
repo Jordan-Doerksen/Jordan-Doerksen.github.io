@@ -3,7 +3,7 @@
 //   --dir <path>      pages to check (default from front_probe.config.json: docs/front-page)
 //   --pages a,b       only these pages (paths under --dir)
 //   --widths 375,1440 override the width list
-//   --themes light    override the theme list
+//   --themes dark     override the theme list
 //   --selftest        prove each check fails on its broken fixture in scripts/front_probe_fixtures/
 //
 // Exit 0 = every check passed. 1 = at least one issue. 2 = could not look (no pages, no browser).
