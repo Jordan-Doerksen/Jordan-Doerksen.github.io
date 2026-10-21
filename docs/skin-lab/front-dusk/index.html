@@ -54,11 +54,20 @@
     ["desk", "Tool Desk", "7 blocks, same order, same left edges and widths; sheet 4042 to 3821 px (the table rows are shorter in the new face). The Port and Path columns show because the shots were taken from a local address, before and after alike.", "7 blocks, same order, same left edges and widths; sheet 6424 to 6265 px."]
   ];
   var host = document.getElementById("pages");
-  function fig(id, w, tag) {
+  /* Crops of one part of a page, shown under that page's row. Dusk: label plate opaque, wires stop at the label. */
+  var crops = {
+    "trading-desk": {
+      title: "Parts diagram labels, 1280 px wide, every path lit",
+      before: "trading-desk-mesh-before-fix",
+      after: "trading-desk-mesh-after-fix",
+      note: "Before the fix the label plates were a 6% white wash, so a wire that ran behind a label showed through its text. After it each label sits on an opaque plate (Dusk's darkest wall stop) and the wire stops at the plate. No label and no wire moved."
+    }
+  };
+  function fig(id, w, tag, src) {
     var f = document.createElement("figure"); f.className = "fd-fig";
     var c = document.createElement("figcaption"); c.textContent = tag.toUpperCase();
     var b = document.createElement("div"); b.className = "fd-box";
-    var i = document.createElement("img"); i.src = "shots/" + id + "-" + w + "-" + tag + ".png"; i.alt = id + " at " + w + " px, " + tag; i.loading = "lazy";
+    var i = document.createElement("img"); i.src = "shots/" + (src || id + "-" + w + "-" + tag) + ".png"; i.alt = (src || id + " at " + w + " px") + ", " + tag; i.loading = "lazy";
     b.appendChild(i); f.appendChild(c); f.appendChild(b); return f;
   }
   pages.forEach(function (p) {
@@ -73,6 +82,13 @@
       l.innerHTML = 'Fold only: <a href="shots/' + p[0] + '-' + w + '-before-fold.png">before</a>, <a href="shots/' + p[0] + '-' + w + '-after-fold.png">after</a>';
       s.appendChild(l);
     });
+    var x = crops[p[0]];
+    if (x) {
+      var kh = document.createElement("h3"); kh.className = "fd-h"; kh.textContent = x.title; s.appendChild(kh);
+      var kp = document.createElement("div"); kp.className = "fd-pair";
+      kp.appendChild(fig(p[0], 1280, "before fix", x.before)); kp.appendChild(fig(p[0], 1280, "after fix", x.after)); s.appendChild(kp);
+      var kn = document.createElement("p"); kn.className = "fd-same"; kn.textContent = x.note; s.appendChild(kn);
+    }
     host.appendChild(s);
   });
 })();

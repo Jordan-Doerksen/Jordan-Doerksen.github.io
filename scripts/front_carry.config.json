@@ -182,6 +182,11 @@
           "before": "<svg class=\"meshsvg\"",
           "html": "<p class=\"fp-mesh-note\">The parts diagram needs a wider screen. The five paths above list the same parts, in order.</p>",
           "why": "At 375px the diagram draws its labels at 2.5px. Below an 830px container it is replaced by this note; the path tabs above already list every part. The note stays hidden until the container is that narrow (extra_css)."
+        },
+        {
+          "before": "<svg class=\"meshsvg\"",
+          "html": "<svg class=\"fp-mesh-defs\" width=\"0\" height=\"0\" aria-hidden=\"true\" focusable=\"false\"><defs><filter id=\"meshplate\" x=\"-4%\" y=\"-10%\" width=\"108%\" height=\"125%\"><feFlood style=\"flood-color: var(--paper)\" flood-opacity=\"1\" result=\"plate\"/><feMerge><feMergeNode in=\"plate\"/><feMergeNode in=\"SourceGraphic\"/></feMerge></filter></defs></svg>",
+          "why": "Dusk: label plate opaque, wires stop at the label. The tier drew each part label with a halo in --deep, which under Dusk is a 6% white wash, so wires read through the text. A stroke halo cannot fix it: it follows the glyphs, and a wire that crosses the empty space above a low glyph (the dots of the ellipsis) still shows. This filter fills the label's whole box with --paper (Dusk's wall-1, opaque) and draws the text over it; the rule that applies it is in styles/front/front.parts.css. Nothing here moves a label or a wire."
         }
       ]
     },

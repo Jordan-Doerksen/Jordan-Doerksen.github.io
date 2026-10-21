@@ -292,3 +292,16 @@ a.fp-ix-name:hover { text-decoration: underline; }
 .fp-ix-group[data-lead] .fp-ix-row { padding: 14px 0; border-top: 1px solid var(--edge); }
 .fp-ix-group[data-lead] .fp-ix-name { font-size: var(--fs-sub); }
 .fp-ix-group[data-lead] .fp-ix-blurb { font-size: var(--fs-body); }
+
+/* ---- Trading desk: the parts diagram's label plates ---- */
+/* Dusk: label plate opaque, wires stop at the label. What failed: the carried rule drew each label's halo in --deep,
+   which is --bg-sunken, which is Dusk's --wash-1, a 6% white wash, so every wire behind a label read through its text.
+   Why this fix: the filter #meshplate (inserted beside the diagram by scripts/front_carry.config.json) fills the label's
+   box with --paper, which is --bg, which is Dusk's --wall-1, opaque; the text is drawn over it. A stroke halo follows the
+   glyphs and leaves gaps; a layered background cannot paint SVG text. */
+.fp-carry-trading .meshsvg .mnode text {
+  filter: url(#meshplate); /* Dusk: label plate opaque, wires stop at the label */
+  stroke: none; /* Dusk: label plate opaque, wires stop at the label (the translucent halo is retired) */
+}
+/* Dusk: label plate opaque, wires stop at the label. The filter's host takes no room and is hidden from readers. */
+.fp-carry-trading .fp-mesh-defs { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
