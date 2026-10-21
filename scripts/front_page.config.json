@@ -223,6 +223,16 @@
         "go": "Open Fulfillment →"
       }
     ],
+    "stage_v2": {
+      "_": "CR-32, Site card item 43. Read by scripts/build_project_sizes.py (and by the stage, chunk 2). Named stage_v2 and not stage because home.stage above is CR-25's list of three start-here panels, which composition a still renders; the stage retires that list. tiers: a project with fewer commits than small_below is small, one with large_from or more is large, the rest are medium; a project the measure could not see is small and never guessed up. overrides: { slug: { tier, reason } } - the tier is small, medium or large and the reason is one written line; a missing reason is refused. sizes.scan_depth is how many folders below the projects root a repository may sit; sizes.skip_dirs are folder names, and sizes.skip_prefixes folder-name prefixes, that the scan never enters (an underscore folder holds scratch unzips, backups and the archive). Thresholds 25 and 100 (CR-32): chosen from the three repositories the registry could point at on 2026-10-21, 22, 26 and 230 commits, one per tier; revisit them when more rows carry a repo URL.",
+      "sizes": {
+        "scan_depth": 3,
+        "skip_dirs": ["node_modules", "__pycache__", "dist", "build", "target", "venv", ".venv"],
+        "skip_prefixes": ["_"]
+      },
+      "tiers": { "small_below": 25, "large_from": 100 },
+      "overrides": {}
+    },
     "start_group_h2": "Start here",
     "index": {
       "_": "CR-25. The typographic index. A project is a row when its status is in statuses. cats are registry category slugs. door is a screen id, or empty: the group heading links to that screen.",
