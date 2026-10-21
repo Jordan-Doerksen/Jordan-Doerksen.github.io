@@ -64,7 +64,19 @@ async function probeOne(browser, url, { width, theme, extras }) {
   const errs = [];
   page.on('pageerror', (e) => errs.push('script error: ' + String(e).split('\n')[0]));
   page.on('console', (m) => { if (m.type() === 'error') errs.push('console error: ' + m.text().slice(0, 120)); });
-  page.on('requestfailed', (r) => errs.push('request failed: ' + r.url().slice(-70)));
+  // Workaround (probe flake, 1 run in 2-3): a page that aborts its own sub-frame load (the desk demo, the games
+  // wall attract screens) makes Chromium report net::ERR_ABORTED on that iframe's document request. That is the
+  // page working, not a defect, and whether the abort lands before the 200 ms settle varies run to run. Ignore
+  // a failure ONLY when all three hold: ERR_ABORTED, a "document" request, a frame that is not the main frame.
+  // Every other failure still counts. Each ignored one is logged (OBS-04), never silent.
+  page.on('requestfailed', (r) => {
+    const why = r.failure() ? r.failure().errorText : '';
+    if (why === 'net::ERR_ABORTED' && r.resourceType() === 'document' && r.frame() !== page.mainFrame()) {
+      log('info', 'request_aborted_ignored', { url: r.url(), frame_url: r.frame().url(), page_url: url, width, theme });
+      return;
+    }
+    errs.push('request failed: ' + r.url().slice(-70));
+  });
   await page.goto(url);
   await page.waitForTimeout(200);
   add('overflow', await page.evaluate(inPage.overflow));
@@ -139,12 +151,13 @@ async function selftest(browser) {
   let missed = 0;
   for (const f of fixtures) {
     const url = pathToFileURL(path.join(dir, f)).href;
-    const want = f.replace('.html', '');
+    // "console-missingfile.html" must be caught by the console check; "clean-abortedframe.html" must pass like clean.
+    const want = f.replace('.html', '').split('-')[0];
     const found = [...await probeOne(browser, url, { width: 375, theme: 'light', extras: true }), ...await probeModes(browser, url)];
     const kinds = [...new Set(found.map((i) => i.check))];
     const ok = want === 'clean' ? found.length === 0 : kinds.includes(want);
     if (!ok) missed++;
-    console.log((ok ? 'PASS    ' : 'MISSED  ') + want.padEnd(12) + (want === 'clean' ? (found.length ? 'the clean fixture has issues: ' + JSON.stringify(found.slice(0, 3)) : 'no issues, as it should be') : (ok ? 'caught' : 'NOT caught; got ' + JSON.stringify(kinds))));
+    console.log((ok ? 'PASS    ' : 'MISSED  ') + f.replace('.html', '').padEnd(20) + (want === 'clean' ? (found.length ? 'the clean fixture has issues: ' + JSON.stringify(found.slice(0, 3)) : 'no issues, as it should be') : (ok ? 'caught' : 'NOT caught; got ' + JSON.stringify(kinds))));
     log(ok ? 'info' : 'error', 'fixture', { fixture: f, expected: want, found: kinds });
   }
   console.log('\n' + (fixtures.length - missed) + ' of ' + fixtures.length + ' fixtures behaved');

@@ -551,6 +551,14 @@ copy that names a former job title, or raises the rail career, stays out (SAFE-0
   markup (GATE-01).
 
 ## Change Log
+- 2026-10-20 — **Site probe: the console check ignores an aborted sub-frame document load (owner: "yes site probe").**
+  Branch `site-probe-flake`. `scripts/front_probe.mjs` counted every failed request, including the iframe document
+  load that the page itself aborts (the desk demo, the games wall attract screens), so the probe failed about one
+  run in two or three with no defect. A failed request is now ignored only when its text is `net::ERR_ABORTED`, its
+  type is `document` and its frame is not the main frame. Every other failure still counts. Each ignored one is logged
+  as `request_aborted_ignored` with the url and the frame url (OBS-04). Two fixtures added, none removed:
+  `clean-abortedframe.html` must pass, `console-missingfile.html` must fail the console check; the selftest reads
+  `<check>-<note>.html` as that check. No page of the site changed.
 - 2026-10-20 — **CR-29 (Site card item 24b): the method page is a ride, R2 Rollercoaster, and the ride replaces T2.
   Branch `site-method-r2` (from `site-method-p2`), not live until the owner has ridden it and said ship.** The owner
   rejected the scroll engine of CR-28 (his words: "scrolling forever on the page is horrific i get the idea though,

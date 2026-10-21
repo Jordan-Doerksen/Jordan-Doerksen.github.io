@@ -9,6 +9,9 @@ Two checkers guard the front page (D-A27). Neither changes a file.
 | `node scripts/front_probe.mjs` | Browser checks at 7 widths, 2 themes, keyboard, no script, reduced motion | Node, Playwright |
 | `node scripts/front_probe.mjs --selftest` | Runs each check on a broken fixture; each must be caught | Node, Playwright |
 
+A fixture named `<check>-<note>.html` must be caught by `<check>`; `clean-<note>.html` must pass like `clean.html`.
+`clean-abortedframe.html` proves the aborted-frame exception; `console-missingfile.html` proves a missing script still fails.
+
 Run the selftests after you change a check. A check that has never failed proves nothing.
 
 Exit codes for both: `0` every check passed. `1` at least one failed. `2` something could not be looked at
@@ -32,7 +35,7 @@ the one line.
 | markers | A status is a shape and a word | Colour as the only channel |
 | skiplink / focus | Skip link first; a visible focus ring on every stop | A keyboard user who cannot see where they are |
 | escape | Escape closes the menu and the filter list | A popover that traps the user |
-| console | No script error, no failed request | A silent 404 on a stylesheet |
+| console | No script error, no failed request. One exception: an aborted sub-frame document load (`net::ERR_ABORTED`, type `document`, not the main frame) is ignored and logged | A silent 404 on a stylesheet |
 | motion | No loop still running under reduced motion | An animation the user turned off |
 | deadcontrol / nocontent / hiddentext | With no script the page is complete and shows no dead control | A blank page when a script returns 404 |
 | (static) fresh_build | The pages equal a fresh build | A hand-edited generated page |
@@ -59,3 +62,5 @@ the first line of every run. A run with no `run_end` line was killed.
 | `FAIL gutter` | Content within 8px of an edge | Add padding on the inner element, not margin on the page |
 | `MISSED <check>` in a selftest | A check no longer catches its fixture | Someone weakened the check. Restore it. Do not edit the fixture. |
 | `FAIL deadcontrol` | A control that needs a script is visible without one | Add the `hidden` attribute in the generator |
+| `FAIL console` with `request failed:` | A script, stylesheet, image or fetch did not load, or a main-frame load failed | Fix the path. Do not widen the ignore. |
+| `request_aborted_ignored` in the probe log | The page aborted its own iframe load (desk demo, games wall attract screens); ignored on purpose, not a failure | Nothing. If it appears for a frame that should load, the page is wrong. |
