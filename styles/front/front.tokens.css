@@ -168,10 +168,23 @@
   --tile-hgt:    96px;
   --seg-gap:     2px;
   --ring:        3px;
+
+  /* THE KIND STAGE (CR-32, item 43). One rail row is one fixed height whatever its name; the display well keeps the
+     shape of a 1280 x 800 screenshot, so a project of any tier fills the same box and the stage never jumps. The
+     entrance is Dusk's Tier 2 duration, added by the script on a step only, and zeroed under reduced motion below. */
+  --ks-rail-w:   280px;
+  --ks-row-h:    52px;
+  --ks-ratio:    16 / 10;
+  --ks-bar-h:    26px;
+  --ks-dot:      var(--dot);
+  --ks-dot-sz:   var(--dot-size);
+  --ks-mark-w:   3px;
+  --t-enter:     var(--m-enter);
+  --ks-shift:    var(--enter-shift);
 }
 
 /* The duration lives here, not in front.shell.css, because a raw duration may
    not appear outside this file. 0ms makes every state change instant. */
 @media (prefers-reduced-motion: reduce) {
-  :root { --t-state: 0ms; }
+  :root { --t-state: 0ms; --t-enter: 0ms; --ks-shift: 0px; }
 }

@@ -191,10 +191,10 @@
 
     "composition": "a",
     "compositions": {
-      "_": "CR-25. Which Home body the generator writes. 'current' is today's Home (doors, intro, figures) and is what the review and root builds use until the owner picks. a, b and c are the three recomposed Homes, written by build_front_page.py --lab <a|b|c> into outputs.lab. stage: 'lead' (one lead, three peers), 'row' (four equal peers), 'none'. start_group: the four picks open the index, set larger.",
-      "a": { "stage": "lead", "start_group": false, "hero_line": "Three projects first, then every project that runs, by kind." },
-      "b": { "stage": "row", "start_group": false, "hero_line": "Three projects first, then every project that runs, by kind." },
-      "c": { "stage": "none", "start_group": true, "hero_line": "" }
+      "_": "CR-25. Which Home body the generator writes. 'current' is today's Home (doors, intro, figures) and is what the review and root builds use until the owner picks. a, b and c are the three recomposed Homes, written by build_front_page.py --lab <a|b|c> into outputs.lab. stage: 'lead' (one lead, three peers), 'row' (four equal peers), 'none'. start_group: the four picks open the index, set larger. index (CR-32): 'stage' renders one kind container per index group (the rail and the stage, front_kindstage.py); 'list' renders the five typographic lists CR-25 wrote. Composition a is live, so it is 'stage'; setting it back to 'list' is the whole revert.",
+      "a": { "stage": "lead", "start_group": false, "index": "stage", "hero_line": "Three projects first, then every project that runs, by kind." },
+      "b": { "stage": "row", "start_group": false, "index": "list", "hero_line": "Three projects first, then every project that runs, by kind." },
+      "c": { "stage": "none", "start_group": true, "index": "list", "hero_line": "" }
     },
     "stage_aria": "Start here",
     "stage": [
@@ -260,7 +260,21 @@
         "worklog": "tools/worklog"
       },
       "tiers": { "small_below": 5, "large_from": 30 },
-      "overrides": {}
+      "overrides": {},
+      "_stage": "CR-32 chunk 2 (the kind stage, scripts/front_kindstage.py, js/front/kind-stage.js). dwell_ms: how long the highlight rests on a project before it steps; the build refuses less than 2200 (DISP-03, the display law's reading pause). step_min_projects: a kind with fewer projects than this never steps (the stage shows the first, the rail still selects). assets: where the displays are looked up on disk, by slug. The display of a project follows its tier and what exists: large = shots_dir/<slug>.shot_ext, else medium; medium = diagrams_dir/<slug>.svg, else small; small = a facts card. A large project without a shot and a medium project without a diagram are logged at every build (large_without_shot, medium_without_diagram), never drawn blank and never faked. The diagram is inlined, not an <img>: the files carry no styles of their own (the atlas page styles them by class), so as an <img> they would draw black on black.",
+      "dwell_ms": 4500,
+      "step_min_projects": 3,
+      "assets": { "diagrams_dir": "assets/diagrams", "shots_dir": "assets/shots", "shot_ext": "png" },
+      "script": "js/front/kind-stage.js",
+      "ui": {
+        "open": "Open {name} →",
+        "shot_alt": "Screenshot of {name}",
+        "pause": "Pause",
+        "play": "Play",
+        "pause_aria": "Pause the changing project in {kind}",
+        "play_aria": "Play the changing project in {kind}",
+        "rail_aria": "{kind}: choose a project"
+      }
     },
     "start_group_h2": "Start here",
     "index": {

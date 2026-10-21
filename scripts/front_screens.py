@@ -58,6 +58,7 @@ class Model:
     n_tools: int | None     # None when desk.toolkit_panel is false: no toolkit is read, so no count exists
     overlay: dict           # tool name -> {star, install, snippet}
     kit_repo: str | None
+    repo: Path | None = None    # the site repository, so the kind stage can look up project-sizes.json, shots and diagrams (CR-32)
 
     @property
     def counts(self) -> dict:
@@ -231,7 +232,7 @@ def load_model(repo: Path, cfg: dict, log) -> Model:
         log.warn("link_omitted", link="it-toolkit repository", reason="no it-toolkit repo URL in data/registry.json or desk.json extra")
 
     overlay = _clean_overlay(desk.get("toolkit"), tool_names, log) if toolkit_on else {}
-    model = Model(rows, sections, statuses, pinned, figs, len(tool_names) if toolkit_on else None, overlay, kit_repo)
+    model = Model(rows, sections, statuses, pinned, figs, len(tool_names) if toolkit_on else None, overlay, kit_repo, repo)
     log.info("model_loaded", projects=len(rows), registry=len(projects), unlisted=len(hidden), extras=len(desk.get("extra") or []), tools=model.n_tools, pinned=len(pinned))
     return model
 
@@ -473,6 +474,26 @@ def _index(pg: Page, comp: dict) -> tuple:
     if orphans:
         # Nothing may vanish quietly: a running project in no group would be missing from Home.
         raise Refused("home.index.groups has no group for the category of: %s" % ", ".join(orphans))
+    if comp.get("index", "list") == "stage":
+        # CR-32: one container per index group, a rail and a stage (scripts/front_kindstage.py). The rows are `keep`, the
+        # same list the bar, the sidebar counts and the list below read, so the containers cannot disagree with them.
+        if comp["start_group"]:
+            raise CouldNotLook("home.compositions: start_group is a feature of the list index; the stage index has none")
+        from front_kindstage import render_index          # lazy: it imports front_shell and front_log only, but it is stage-only
+
+        groups_data = []
+        for g in ix["groups"]:
+            rows = [x for x in keep if x.category in g["cats"]]
+            if not rows:
+                pg.log.warn("index_group_empty", group=g["id"], reason="no running project in its categories")
+                continue
+            door = pg.href(g["door"]) if g.get("door") else None
+            if g.get("door") and door is None:
+                pg.log.warn("door_link_omitted", door=g["id"], screen=g["door"], reason="that screen is not part of this build")
+            groups_data.append((g, door, rows))
+        body = render_index(pg, groups_data, lambda r: resolve(r.dest, pg.root), _status,
+                            lambda r: _first_sentences(r.blurb, ix.get("blurb_sentences", 1)))
+        return body, sum(len(rows) for _g, _d, rows in groups_data), len(visible)
     groups = []
     if comp["start_group"]:
         picks = []
@@ -511,6 +532,8 @@ def _home_composed(pg: Page, key: str) -> dict:
     comp = h["compositions"][key]
     if comp["stage"] not in ("lead", "row", "none"):
         raise CouldNotLook("home.compositions.%s.stage must be 'lead', 'row' or 'none'" % key)
+    if comp.get("index", "list") not in ("list", "stage"):
+        raise CouldNotLook("home.compositions.%s.index must be 'list' or 'stage'" % key)
     if comp.get("hero_line"):
         out = ['<h1 class="fp-title">%s</h1>' % esc_text(cfg["brand"]["name"]), '<p class="fp-role">%s</p>' % esc_text(comp["hero_line"])]
     else:
@@ -530,7 +553,9 @@ def _home_composed(pg: Page, key: str) -> dict:
         m = h["methodline"]
         foot += " " + _link_line_with(m, pg.root + m["path"], values)
     out.append('<p class="fp-findline">%s</p>' % foot)
-    return {"body": "\n".join(b for b in out if b), "css": [], "tail": []}
+    # The kind stage is enhanced by one script, loaded on Home only and only when the stage index is on (CR-32).
+    tail = [("src", h["stage_v2"]["script"])] if comp.get("index", "list") == "stage" else []
+    return {"body": "\n".join(b for b in out if b), "css": [], "tail": tail}
 
 
 def home(pg: Page) -> dict:

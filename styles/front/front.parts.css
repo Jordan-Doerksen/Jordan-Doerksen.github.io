@@ -266,7 +266,7 @@
 /* C skin: display face and weight on titles, door heads, figures and panel heads, tokens --font-display --w-display --track-head.
    The .fp-main and .fp-bar prefixes outrank the base rules whichever file the page links first. */
 .fp-main .fp-title, .fp-main .fp-door h2, .fp-main .fp-fig b, .fp-main .fp-panel-head h2, .fp-bar .fp-crumb b,
-.fp-main .fp-sp h2, .fp-main .fp-ix-head h2 {
+.fp-main .fp-sp h2, .fp-main .fp-ix-head h2, .fp-main .fp-ks-head h2, .fp-main .fp-ks-title {
   font-family: var(--font-display); font-weight: var(--w-display); letter-spacing: var(--track-head); }
 
 /* ---- Home recomposed (CR-25): the stage and the typographic index ----
@@ -348,3 +348,105 @@ a.fp-ix-name:hover { text-decoration: underline; }
 .fp-pt-k { color: var(--tile-ink); font-size: var(--fs-ctl); font-weight: 600; line-height: 1.3; }
 .fp-pt-n { color: var(--tile-ink); font: 600 var(--fs-fig)/1.1 var(--font-ui); letter-spacing: -.015em; font-variant-numeric: tabular-nums; }
 .fp-pt-u { color: var(--tile-ink); font-size: var(--fs-label); }
+
+/* ---- Home: the kind stage (CR-32, item 43) ----
+   One container per kind. A rail of fixed-height rows on the left, a stage on the right; the highlight steps down the
+   rail and the stage follows (js/front/kind-stage.js). Layout follows the box, not the window: the wide layout starts when
+   the wrapper is 680px wide, and below that the rail sits above the stage. Every panel of a container shares one grid
+   cell, so the stage is as tall as its tallest panel and nothing jumps when the highlight moves. */
+.fp-ksx { display: grid; gap: var(--gap-wide); margin-top: 36px; container-type: inline-size; }
+.fp-ks { min-width: 0; background: var(--panel-raised); border: 1px solid var(--edge); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1); overflow: hidden;
+  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); /* the same glass as .fp-panel */ }
+.fp-ks-head { display: flex; align-items: center; gap: var(--gap); min-height: 44px; padding: 0 var(--gap); border-bottom: 1px solid var(--edge); }
+.fp-ks-head h2 { margin: 0; font-size: var(--fs-sub); line-height: 1.3; }
+.fp-ks-head h2 a { padding: 4px 8px; margin-inline: -8px; color: inherit; text-decoration: underline;
+  text-decoration-color: var(--hairline); text-underline-offset: 4px; }
+.fp-ks-head h2 a:hover { text-decoration-color: currentColor; }
+/* Fixed in the header's corner: it never moves with the stepping (WEB-06). A square-cornered control, no pill. */
+.fp-ks-pause { display: inline-flex; align-items: center; margin-left: auto; height: 28px; padding: 0 12px;
+  border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--bg); color: var(--ink);
+  font: inherit; font-size: var(--fs-ctl); cursor: pointer; transition: background var(--t-state); }
+.fp-ks-pause:hover { background: var(--bg-sunken); }
+
+.fp-ks-body { display: grid; grid-template-columns: minmax(0, 1fr); }
+.fp-ks-rail { margin: 0; padding: 0; list-style: none; }
+/* One height for every row, whatever the name. The name wraps inside it (two lines fit); nothing is cut. */
+.fp-ks-link { position: relative; display: flex; align-items: center; justify-content: space-between; gap: var(--gap);
+  height: var(--ks-row-h); padding: 0 var(--gap) 0 calc(var(--gap) + var(--ks-mark-w)); color: var(--ink); text-decoration: none;
+  border-top: 1px solid var(--edge); transition: background var(--t-state); }
+.fp-ks-row:first-child .fp-ks-link { border-top: 0; }
+.fp-ks-link:hover { background: var(--surface-hover); }
+/* The current row: a fill, a bar on its leading edge and a heavier name. Three channels, so it is never colour alone. */
+.fp-ks-link[aria-current="true"] { background: var(--accent-bg); }
+.fp-ks-link[aria-current="true"]::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: var(--ks-mark-w); background: var(--live); }
+.fp-ks-link:focus-visible { outline-offset: calc(var(--focus-w) * -1); }
+.fp-ks-name { min-width: 0; font-weight: 600; line-height: 1.25; overflow-wrap: anywhere; }
+.fp-ks-link[aria-current="true"] .fp-ks-name { font-weight: 700; }
+
+.fp-ks-stage { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; padding: var(--gap); }
+.fp-ks-panel { grid-area: 1 / 1; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--gap); min-width: 0; }
+/* What failed: front.shell.css sets [hidden] to display:none !important, so every panel but the shown one left the grid
+   cell, and the stage was only as tall as the panel on show: it grew and shrank as the highlight stepped (a layout jump).
+   Why this fix: a hidden panel keeps its place in the cell and is made invisible (visibility:hidden also takes it out of
+   the tab order and the accessibility tree), so the cell is as tall as the tallest panel. The hidden attribute stays,
+   so a script that never runs still ships one shown panel. This rule outranks the reset's by specificity. */
+.fp-ks-panel[hidden] { display: grid !important; visibility: hidden; }
+.fp-ks-top { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px var(--gap); }
+.fp-ks-title { margin: 0; font-size: var(--fs-lead); line-height: 1.25; }
+.fp-ks-sub { display: inline-flex; align-items: baseline; gap: var(--gap); color: var(--ink-dim); font-size: var(--fs-ctl); }
+.fp-ks-line { margin: 0; max-width: 62ch; color: var(--ink-dim); line-height: 1.55; overflow-wrap: anywhere; }
+.fp-ks-foot { display: grid; gap: 2px; }
+.fp-ks-open { margin-top: var(--gap-tight); }
+.fp-ks-kind { margin: 0; color: var(--ink-faint); font-size: var(--fs-label); letter-spacing: .04em; }
+
+/* The display well: one shape for every tier. */
+.fp-ks-art { aspect-ratio: var(--ks-ratio); min-width: 0; border: 1px solid var(--edge); border-radius: var(--radius-md); overflow: hidden; background: var(--bg-sunken); }
+.fp-ks-dia { display: grid; place-items: center; padding: var(--gap); }
+.fp-ks-svg { display: block; width: 100%; height: 100%; font-family: var(--font-ui); }
+/* The diagrams carry classes and no styles (the atlas styles them the same way, by class); these are Dusk tokens. */
+.fp-ks-svg .dg-node rect { fill: var(--panel-raised); stroke: var(--hairline); stroke-width: 1; }
+.fp-ks-svg .dg-node .n { fill: var(--ink); font-size: 12px; letter-spacing: .06em; font-weight: 500; }
+.fp-ks-svg .dg-node .r { fill: var(--ink-dim); font-size: 10px; letter-spacing: .02em; }
+.fp-ks-svg .dg-edge path { fill: none; stroke: var(--ink-dim); stroke-width: 1.2; }
+.fp-ks-svg .dg-edge.gold path { stroke: var(--live); stroke-width: 1.6; }
+.fp-ks-svg .dg-edge.dash path { stroke-dasharray: 5 4; }
+.fp-ks-svg .dg-edge text { fill: var(--ink-dim); font-size: 9.5px; letter-spacing: .04em; }
+.fp-ks-svg .dg-arrow-a { fill: var(--live); }
+.fp-ks-svg .dg-arrow-m { fill: var(--ink-dim); }
+.fp-ks-svg .dg-callout { fill: var(--live); font-size: 10px; letter-spacing: .08em; }
+.fp-ks-svg .dg-callout-sub { fill: var(--ink-dim); font-size: 9.5px; letter-spacing: .03em; }
+.fp-ks-svg .dg-bound { fill: none; stroke: var(--live); stroke-width: 1.2; stroke-dasharray: 2 5; }
+.fp-ks-svg .dg-shell { fill: none; stroke: var(--hairline); stroke-width: 1.2; stroke-dasharray: 7 6; }
+.fp-ks-svg .dg-shell-label { fill: var(--live); font-size: 10px; letter-spacing: .12em; }
+
+/* The Dusk shell frame around a project's own screenshot: a title bar with three monochrome dots, then the image. */
+.fp-ks-frame { display: grid; grid-template-rows: var(--ks-bar-h) minmax(0, 1fr); width: 100%; height: 100%; background: var(--bg-raised); }
+.fp-ks-bar { display: flex; align-items: center; gap: var(--gap-tight); padding: 0 var(--gap); border-bottom: 1px solid var(--edge); }
+.fp-ks-bar i { display: block; width: var(--ks-dot-sz); height: var(--ks-dot-sz); border-radius: var(--radius-dot); background: var(--ks-dot); }
+.fp-ks-shot { display: block; width: 100%; height: 100%; min-height: 0; object-fit: cover; object-position: top left; }
+
+/* The small display: a facts card that takes the whole panel. */
+.fp-ks-facts { display: grid; align-content: start; gap: var(--gap); padding: var(--gap-wide); border: 1px solid var(--edge); border-radius: var(--radius-md); background: var(--bg-sunken); }
+.fp-ks-facts .fp-ks-title { font-size: var(--fs-fig); line-height: 1.15; }
+.fp-ks-facts .fp-ks-line { font-size: var(--fs-lead); line-height: 1.5; }
+.fp-ks-facts .fp-st { justify-self: start; }
+
+/* The entrance: added by the script on a step only (never on a takeover, never under reduced motion), so the content is
+   at full opacity in the document before any script runs. */
+@keyframes fp-ks-in { from { opacity: 0; transform: translateY(var(--ks-shift)); } to { opacity: 1; transform: none; } }
+.fp-ks-in { animation: fp-ks-in var(--t-enter) var(--ease); }
+@media (prefers-reduced-motion: reduce) {
+  .fp-ks-in { animation: none; }
+  .fp-ks-link, .fp-ks-pause { transition: none; }
+}
+
+/* Wide: the rail beside the stage (the stage is the centre and the right). The wrapper is the container. */
+@container (min-width: 680px) {
+  .fp-ks-body { grid-template-columns: var(--ks-rail-w) minmax(0, 1fr); }
+  .fp-ks-rail { border-right: 1px solid var(--edge); }
+  .fp-ks-stage { padding: var(--gap-wide); }
+}
+@container (max-width: 679px) {
+  .fp-ks-rail { border-bottom: 1px solid var(--edge); }
+}
