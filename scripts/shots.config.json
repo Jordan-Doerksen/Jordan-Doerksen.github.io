@@ -1,0 +1,48 @@
+{
+  "_": "Item 43 C3 (CR-32). Read by scripts/capture_shots.mjs. One screenshot per large project whose site page IS the project running (a game, a trainer, a live tool), never a page about it. The stage (item 43 C2) shows assets/shots/<slug>.png as the large display. Edit this file, not the script, to change a size, add a project or move a path.",
+  "playwright_from": "C:/projects/map-reading-trainer/package.json",
+  "playwright_from_note": "Playwright is already installed in that project; the script resolves it from there (createRequire), so no package is added to this repository. A private machine path on purpose: the capture is run by hand on the owner's machine, never in CI.",
+  "viewport": { "width": 1280, "height": 800 },
+  "device_scale_factor": 1,
+  "reduced_motion": "reduce",
+  "reduced_motion_note": "A still frame: with the flag set every page stops its effects and stays complete (SAFE-05), so two captures of one page agree.",
+  "service_workers": "allow",
+  "service_workers_note": "Gridline shows a banner (No active service worker, offline use is not available) when the worker is blocked, which would put a capture artefact on the large display. A fresh context has no cache and no profile, so allowing it is still a straight read of the files on disk.",
+  "settle_ms": 1500,
+  "settle_note": "Wait after the page reports network idle, so a module-built screen has drawn. If a shot ever shows a loading screen, raise this value or the per-project settle_ms.",
+  "navigation_timeout_ms": 20000,
+  "source": {
+    "sizes": "data/project-sizes.json",
+    "tiers_config": "scripts/front_page.config.json",
+    "tiers_path": ["home", "stage_v2", "tiers"],
+    "overrides_path": ["home", "stage_v2", "overrides"],
+    "note": "Read only. A project is large when its commit count is at or over tiers.large_from, or when its override says large."
+  },
+  "out_dir": "assets/shots",
+  "capture": {
+    "gridline": {
+      "path": "navigation/gridline/",
+      "reason": "The Gridline map trainer itself, built and served from this folder (a Vite bundle, already built; no build step needed)."
+    },
+    "cn-conductor-trainer": {
+      "path": "rail/cror-trainer/",
+      "reason": "The Conductor Trainer itself (the CROR study app) running in this folder."
+    },
+    "training-assistant": {
+      "path": "rail/training-assistant/",
+      "reason": "The CROR Training Assistant itself running in this folder."
+    },
+    "switch-list": {
+      "path": "rail/switch-list/",
+      "reason": "The yard switching trainer itself running in this folder."
+    }
+  },
+  "not_captured": {
+    "fulfillment": "Its site page (games/fulfillment/) is the generated reference manual, a page about the game; the game itself is a Godot build that runs on itch.io, not on this site. Large display falls back to the medium display unless he supplies an action shot.",
+    "design-first": "Its site page (/method/) is the explainer of the method, a page about the kit; the kit is a Claude Code plugin with no running screen. tools/design-first/ is a redirect. Large display falls back to the medium display; to capture the explainer anyway, add a design-first entry above with path method/.",
+    "warden": "No site page (registry url is null).",
+    "underwriter": "No site page (registry url is null).",
+    "portfolio-monorepo": "The site's own Home; it is not captured into itself.",
+    "resume": "Its page is another repository's site (https://jordan-doerksen.github.io/Resume/), not served from this one."
+  }
+}
