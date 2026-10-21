@@ -37,7 +37,7 @@ if str(SCRIPTS) not in sys.path:
 from front_figures import read_json                                                    # noqa: E402
 import front_local                                                                     # noqa: E402
 from front_log import EXIT_COULD_NOT_LOOK, EXIT_OK, EXIT_RED, CouldNotLook, Refused, get_logger   # noqa: E402
-from front_screens import BUILDERS, load_model                                           # noqa: E402
+from front_screens import BUILDERS, load_model, nav_counts                                           # noqa: E402
 from front_shell import Page, load_icons, render_page                                    # noqa: E402
 
 CONFIG_PATH = SCRIPTS / "front_page.config.json"
@@ -218,11 +218,12 @@ def run(args, mode: str, log):
         return EXIT_RED, "screen_failed"
     built = [s for s in screens if s["kind"] == "built" or s["id"] in carried]
 
-    # 2. Render every screen that exists.
+    # 2. Render every screen that exists. The sidebar counts come off the same listed rows as the index (CR-31).
+    nav = nav_counts(model, cfg)
     pages, parts = {}, {}
     for s in built:
         base, root = prefixes(s)
-        pg = Page(cfg, icons, page_mode, s, built, base, root, model.figs["asof"], model.counts, log, model)
+        pg = Page(cfg, icons, page_mode, s, built, base, root, model.figs["asof"], model.counts, log, model, nav)
         try:
             part = BUILDERS[s["id"]](pg) if s["kind"] == "built" else carried[s["id"]]
         except KeyError as err:

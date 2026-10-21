@@ -85,6 +85,7 @@ class Page:
     counts: dict              # {"projects": n}, plus "tools": m only when the Tool Desk has a toolkit, computed, never typed
     log: object = None        # front_log.Logger
     model: object = None      # front_screens.Model
+    nav_counts: dict | None = None   # {screen id: n} for the sidebar rows (CR-31), computed from the rows, never typed; a screen with no entry shows no count
 
     def icon(self, name: str, size: int = 16) -> str:
         """Inline SVG. The presentation attributes make it draw correctly even where no rule styles it."""
@@ -122,9 +123,17 @@ def nav_html(pg: Page) -> str:
         links = []
         for s in items:
             current = ' aria-current="page"' if s["id"] == pg.screen["id"] else ""
+            # CR-31: an icon square in a Dusk tile colour, the title, and a count under it. The count is
+            # computed (front_screens.nav_counts); with no number the row has no second line (absent is not zero).
+            n = (pg.nav_counts or {}).get(s["id"])
+            spec = s.get("count") or {}
+            small = ""
+            if n is not None and spec.get("label"):
+                small = '<small class="fp-nav-c">%s</small>' % esc_text(fill(spec["label"], {"n": "{:,}".format(n)}))
             links.append(
-                '<li><a href="%s"%s>%s<span>%s</span></a></li>'
-                % (esc_attr(pg.href(s["id"])), current, pg.icon(s["icon"]), esc_text(s["title"]))
+                '<li><a href="%s"%s><span class="fp-ico" data-tile="%s">%s</span>'
+                '<span class="fp-nav-t"><span class="fp-nav-n">%s</span>%s</span></a></li>'
+                % (esc_attr(pg.href(s["id"])), current, esc_attr(s.get("tile") or "grey"), pg.icon(s["icon"]), esc_text(s["title"]), small)
             )
         groups.append(
             '<div class="fp-navgroup" role="group" aria-labelledby="%s"><span class="fp-navgroup-k" id="%s">%s</span>'

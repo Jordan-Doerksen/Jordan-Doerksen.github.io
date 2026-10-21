@@ -58,10 +58,25 @@ body { margin: 0; padding: 0; min-height: 100svh; }
 .fp-nav { display: grid; gap: 14px; flex: 1; align-content: start; }
 .fp-navgroup-k { display: block; padding: 0 8px 4px; color: var(--ink-faint); font-size: var(--fs-label); }
 .fp-nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-.fp-nav a { display: flex; align-items: center; gap: 10px; min-height: 34px; padding: 0 8px;
+.fp-nav a { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 4px 8px;
   border-radius: var(--radius); text-decoration: none; color: var(--ink); transition: background var(--t-state); }
 .fp-nav a:hover { background: var(--bg-sunken); }
 .fp-nav a[aria-current="page"] { background: var(--accent-bg); color: var(--accent-ink); font-weight: 500; }
+/* CR-31: the sidebar row takes the reference image's two parts: an icon square in a Dusk tile colour (data-tile; the
+   light end of the tile, so the white glyph reads at 4.5:1), and a count under the title, computed by the generator.
+   The count is --ink-dim on every row, current or not: Dusk measures ink-2 on the current row's wash and ink-3 it does not. */
+.fp-ico { flex: none; display: grid; place-items: center; width: var(--ico-sq); height: var(--ico-sq);
+  border-radius: var(--radius-icon); background: var(--pi-grey); color: var(--tile-ink); }
+.fp-ico[data-tile="blue"] { background: var(--pi-blue); }
+.fp-ico[data-tile="red"] { background: var(--pi-red); }
+.fp-ico[data-tile="teal"] { background: var(--pi-teal); }
+.fp-ico[data-tile="violet"] { background: var(--pi-violet); }
+.fp-ico[data-tile="amber"] { background: var(--pi-amber); }
+.fp-ico[data-tile="green"] { background: var(--pi-green); }
+.fp-ico[data-tile="down"] { background: var(--pi-down); }
+.fp-nav-t { display: grid; min-width: 0; line-height: 1.25; }
+.fp-nav-n { overflow-wrap: anywhere; }
+.fp-nav-c { color: var(--ink-dim); font-size: var(--fs-micro); }
 /* A screen that is listed but not built stays readable and quiet. */
 .fp-nav a[aria-disabled="true"] { color: var(--ink-dim); }
 .fp-sidefoot { border-top: 1px solid var(--edge); padding: 8px 6px 2px; color: var(--ink-faint); font-size: var(--fs-label); }
@@ -124,7 +139,7 @@ body { margin: 0; padding: 0; min-height: 100svh; }
     border: 1px solid var(--edge); border-radius: var(--radius-md); }
   .fp-navgroup, .fp-nav ul { display: contents; }
   .fp-navgroup-k { display: none; }
-  .fp-nav a { min-height: 36px; }
+  .fp-nav a { min-height: 44px; }
   .fp-sidefoot { display: none; }
   .fp-sheet { margin: 0 var(--sheet-gap) var(--sheet-gap); }
   .fp-bar { height: auto; min-height: var(--shell-bar); flex-wrap: wrap; padding: 10px 12px; }
@@ -134,7 +149,6 @@ body { margin: 0; padding: 0; min-height: 100svh; }
   .fp-find { flex: 1; width: auto; }
   .fp-main { padding: 4px var(--shell-pad-narrow) 32px; }
 
-  .fp-main .fp-fig + .fp-fig { border-left: 0; padding-left: 0; }
   .fp-main .fp-door + .fp-door { border-left: 0; padding-left: 0; border-top: 1px solid var(--edge); }
   /* The facet list becomes a bottom sheet. It is transient, not a fourth cluster. */
   .fp-main .fp-pop { position: fixed; inset: auto 12px 12px 12px; width: auto; max-height: 70svh;
@@ -154,5 +168,5 @@ body { margin: 0; padding: 0; min-height: 100svh; }
    one. Carried pieces keep their own handling. Keep the list in step with
    every rule above and in front.parts.css that sets `transition`. */
 @media (prefers-reduced-motion: reduce) {
-  .fp-nav a, .fp-menu-btn, .fp-ghost, .fp-fa, .fp-reset, .fp-toggle, .fp-copy, .fp-lcopy { transition: none; }
+  .fp-nav a, .fp-menu-btn, .fp-ghost, .fp-fa, .fp-reset, .fp-toggle, .fp-copy, .fp-lcopy, .fp-ptile { transition: none; }
 }

@@ -271,18 +271,74 @@ def _figure_items(pg: Page) -> list:
 
     items = []
     if f["commits"] is not None and f["since"]:
-        items.append((num(f["commits"]), fill(labels["commits"], {"since": f["since"]})))
+        items.append(("commits", num(f["commits"]), fill(labels["commits"], {"since": f["since"]})))
     elif f["commits"] is not None:
         pg.log.warn("figure_unavailable", figure="commits", reason="its label needs the 'since' date, which is missing")
     if f["repos"] is not None:
-        items.append((num(f["repos"]), labels["repos"]))
+        items.append(("repos", num(f["repos"]), labels["repos"]))
     if f["tests"] is not None:
-        items.append((num(f["tests"]), labels["test_files"]))
+        items.append(("test_files", num(f["tests"]), labels["test_files"]))
     if f["suite_passed"] is not None:
-        items.append((num(f["suite_passed"]), labels["suite"]))
+        items.append(("suite", num(f["suite_passed"]), labels["suite"]))
     if f["guards"] is not None:
-        items.append((num(f["guards"]), labels["guards"]))
+        items.append(("guards", num(f["guards"]), labels["guards"]))
     return items
+
+
+def index_keep(model: Model, cfg: dict) -> list:
+    """The listed rows the Home index shows: load_model has dropped the unlisted rows, then the index's statuses decide.
+    One definition, read by the index, the stacked bar and the sidebar counts, so the three cannot disagree (CR-31)."""
+    return [x for x in model.rows if x.status in cfg["home"]["index"]["statuses"]]
+
+
+def nav_counts(model: Model, cfg: dict) -> dict:
+    """{screen id: n} for the sidebar rows, from config screens[].count.source. Nothing is typed: 'index_all' is every row
+    the index shows, 'index_group:<id>' the rows of one index group, 'rows_all' every listed row (the Tool Desk's rows)."""
+    ix = cfg["home"]["index"]
+    keep = index_keep(model, cfg)
+    groups = {g["id"]: g for g in ix["groups"]}
+    out = {}
+    for s in cfg["screens"]:
+        spec = s.get("count")
+        if not spec:
+            continue
+        src = spec["source"]
+        if src == "index_all":
+            out[s["id"]] = len(keep)
+        elif src == "rows_all":
+            out[s["id"]] = len(model.rows)
+        elif src.startswith("index_group:"):
+            g = groups.get(src.split(":", 1)[1])
+            if g is None:
+                raise CouldNotLook("screen %r: count source %r names no group in home.index.groups" % (s["id"], src))
+            out[s["id"]] = sum(1 for x in keep if x.category in g["cats"])
+        else:
+            raise CouldNotLook("screen %r: unknown count source %r" % (s["id"], src))
+    return out
+
+
+def _kind_bar(pg: Page) -> str:
+    """CR-31: the whole at once. One segment per index group, flex-grow = the group's row count, a legend with the same numbers.
+    The bar is decoration for the eye (aria-hidden); the legend list carries every number for everyone else."""
+    h = pg.cfg["home"]
+    keep = index_keep(pg.model, pg.cfg)
+    segs, legend, total = [], [], 0
+    for g in h["index"]["groups"]:
+        n = sum(1 for x in keep if x.category in g["cats"])
+        if not n:
+            continue                    # an empty group has no segment (absent is not zero)
+        total += n
+        colour = esc_attr(g.get("seg") or "grey")
+        segs.append('<i class="fp-seg" data-c="%s" style="flex-grow:%d"></i>' % (colour, n))
+        legend.append('<li><i class="fp-dot" data-c="%s" aria-hidden="true"></i>%s <b>%d</b></li>' % (colour, esc_text(g["h2"]), n))
+    if not segs:
+        pg.log.warn("kind_bar_omitted", reason="no running project in any index group")
+        return ""
+    return (
+        '<section class="fp-kinds" aria-label="%s"><p class="fp-kinds-t">%s</p>'
+        '<div class="fp-stack" aria-hidden="true">%s</div><ul class="fp-legend">%s</ul></section>'
+        % (esc_attr(h["bar"]["aria"]), esc_text(fill(h["bar"]["title"], {"n": total})), "".join(segs), "".join(legend))
+    )
 
 
 def _figures_block(pg: Page) -> list:
@@ -291,7 +347,13 @@ def _figures_block(pg: Page) -> list:
     out = []
     items = _figure_items(pg)
     if items:
-        cells = "".join('<div class="fp-fig" role="listitem"><b>%s</b><span>%s</span></div>' % (esc_text(v), esc_text(k)) for v, k in items)
+        # CR-31: each figure is a Dusk gradient tile (data-tile names the colour, config home.figure_tiles). The class stays
+        # exactly "fp-fig" and <b> stays first, so scripts/front_check.py home_figures reads the number the way it always did.
+        tiles = h.get("figure_tiles") or {}
+        cells = "".join(
+            '<div class="fp-fig" role="listitem" data-tile="%s"><b>%s</b><span>%s</span></div>' % (esc_attr(tiles.get(key) or "grey"), esc_text(v), esc_text(k))
+            for key, v, k in items
+        )
         out.append('<div class="fp-figs" role="list" aria-label="%s">%s</div>' % (esc_attr(h["figures_aria"]), cells))
         if pg.asof:
             out.append('<p class="fp-stamp">%s</p>' % esc_text(fill(h["stamp"], {"asof": pg.asof})))
@@ -405,7 +467,7 @@ def _index(pg: Page, comp: dict) -> tuple:
     # load_model has already dropped the unlisted rows (owner's 2026-10-20 fossil rulings), so every row here is listed
     # and the "more in the Tool Desk" count never counts a hidden one.
     visible = pg.model.rows
-    keep = [x for x in visible if x.status in ix["statuses"]]
+    keep = index_keep(pg.model, pg.cfg)
     grouped = {c for g in ix["groups"] for c in g["cats"]}
     orphans = sorted({x.slug for x in keep if x.category not in grouped})
     if orphans:
@@ -454,6 +516,9 @@ def _home_composed(pg: Page, key: str) -> dict:
     else:
         # C: the name alone, set as a monument (typographic_monument)
         out = ['<h1 class="fp-title fp-monument">%s</h1>' % esc_text(cfg["brand"]["name"])]
+    # CR-31: the stacked bar, then the figures as tiles, under the heading (CR-25 had the figures at the foot).
+    out.append(_kind_bar(pg))
+    out += _figures_block(pg)
     if comp["stage"] != "none":
         out.append(_stage(pg, comp["stage"]))
     index_html, shown, total = _index(pg, comp)
@@ -465,7 +530,6 @@ def _home_composed(pg: Page, key: str) -> dict:
         m = h["methodline"]
         foot += " " + _link_line_with(m, pg.root + m["path"], values)
     out.append('<p class="fp-findline">%s</p>' % foot)
-    out += _figures_block(pg)
     return {"body": "\n".join(b for b in out if b), "css": [], "tail": []}
 
 

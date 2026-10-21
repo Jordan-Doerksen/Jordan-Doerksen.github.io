@@ -140,6 +140,34 @@
 
   /* Motion has a job or it does not happen: state changes only. Dusk's confirm duration. */
   --t-state: var(--m-confirm);
+
+  /* PANELS (CR-31, item 41). The reference image's panels: an icon square on each sidebar row, a stacked bar of the whole,
+     gradient tiles with one big number. Every colour is a Dusk token reached through a name here; nothing is typed.
+       --pt-<c>  the tile gradient, light end to dark end: Dusk's --tile-<c> (white text is solved to 4.5:1 on its light end)
+       --pi-<c>  the sidebar icon square: the tile's light end, Dusk's --tile-<c>-hi, as Dusk's .dusk-ico takes it
+       --pf-<c>  a bar segment and a legend dot: Dusk's fill for that colour (information, never text)
+     <c> is blue, red, teal, violet, amber, green, down, grey: the names data-tile and data-c carry. */
+  --pt-blue:   var(--tile-blue);   --pi-blue:   var(--tile-blue-hi);   --pf-blue:   var(--blue);
+  --pt-red:    var(--tile-red);    --pi-red:    var(--tile-red-hi);    --pf-red:    var(--red);
+  --pt-teal:   var(--tile-teal);   --pi-teal:   var(--tile-teal-hi);   --pf-teal:   var(--teal);
+  --pt-violet: var(--tile-violet); --pi-violet: var(--tile-violet-hi); --pf-violet: var(--violet);
+  --pt-amber:  var(--tile-amber);  --pi-amber:  var(--tile-amber-hi);  --pf-amber:  var(--amber);
+  --pt-green:  var(--tile-green);  --pi-green:  var(--tile-green-hi);  --pf-green:  var(--green);
+  --pt-down:   var(--tile-down);   --pi-down:   var(--tile-down-hi);   --pf-down:   var(--down);
+  --pt-grey:   var(--tile-grey);   --pi-grey:   var(--tile-grey-hi);   --pf-grey:   var(--grey);
+  --tile-ink:    var(--on-tile);
+  --shadow-pt:   var(--shadow-tile);
+  --radius-tile: var(--r-tile);
+  --radius-icon: var(--r-icon);
+  --radius-bar:  var(--r-bar);
+  --ico-sq:      var(--ico-size);
+  --bar-hgt:     var(--bar-h);
+  --legend-sq:   var(--legend-dot);
+  /* Tile size and the bar's seam are the front's own: a tile is a peer figure, not Dusk's 150px dashboard tile. */
+  --tile-w:      150px;
+  --tile-hgt:    96px;
+  --seg-gap:     2px;
+  --ring:        3px;
 }
 
 /* The duration lives here, not in front.shell.css, because a raw duration may

@@ -73,6 +73,8 @@
       "page_title": "Jordan Doerksen",
       "group": "start",
       "icon": "home",
+      "tile": "grey",
+      "count": { "source": "index_all", "label": "{n} that run" },
       "description": "Trading systems, market research tools, training software, and games, built by Jordan Doerksen. The figures on the page are measured from the repositories."
     },
     {
@@ -83,6 +85,8 @@
       "title": "Trading desk",
       "group": "work",
       "icon": "activity",
+      "tile": "blue",
+      "count": { "source": "index_group:instruments", "label": "{n} instruments" },
       "description": "A read-only market desk. It records the tape, measures it, and reports what it sees. It never places an order."
     },
     {
@@ -93,6 +97,8 @@
       "title": "Rail software",
       "group": "work",
       "icon": "train",
+      "tile": "green",
+      "count": { "source": "index_group:trainers", "label": "{n} trainers" },
       "description": "CROR rule drills, switching, signals, and general railroad safety. Every answer cites the exact rule it came from."
     },
     {
@@ -103,6 +109,8 @@
       "title": "Games",
       "group": "work",
       "icon": "gamepad",
+      "tile": "violet",
+      "count": { "source": "index_group:games", "label": "{n} games" },
       "description": "Ideas I wanted to see run, to play or to find out whether I could. None is finished. All of them run."
     },
     {
@@ -113,6 +121,8 @@
       "title": "Tool Desk",
       "group": "reference",
       "icon": "table",
+      "tile": "teal",
+      "count": { "source": "rows_all", "label": "{n} projects" },
       "robots": "noindex",
       "description": "One row for each of the {projects} projects."
     }
@@ -129,6 +139,15 @@
       "test_files": "test files",
       "suite": "tests passing in the trading desk suite",
       "guards": "guards, each proven to catch its failure"
+    },
+    "figure_tiles": {
+      "_": "CR-31. The Dusk tile colour of each figure, by figure key. Peers, so each is a tile (WEB-05); the value is never typed here.",
+      "commits": "blue", "repos": "violet", "test_files": "teal", "suite": "green", "guards": "amber"
+    },
+    "bar": {
+      "_": "CR-31. The stacked bar under the heading: the listed rows of the index, one segment per index group, width = the group's count. {n} is the sum of the segments.",
+      "aria": "Projects by kind",
+      "title": "{n} projects that run, by kind"
     },
     "stamp": "Figures measured {asof} from the repositories on this machine, and reproducible from them. Nothing here is estimated.",
     "doors": [
@@ -211,11 +230,11 @@
       "statuses": ["live", "built", "active"],
       "count": "{n} projects",
       "groups": [
-        { "id": "instruments", "h2": "Instruments", "cats": ["trading", "signals"], "door": "trading" },
-        { "id": "trainers", "h2": "Trainers", "cats": ["rail", "navigation"], "door": "rail" },
-        { "id": "games", "h2": "Games", "cats": ["games"], "door": "games" },
-        { "id": "tools", "h2": "Tools", "cats": ["tools", "bots"], "door": "" },
-        { "id": "sites", "h2": "Sites for others", "cats": ["studio"], "door": "" }
+        { "id": "instruments", "seg": "blue", "h2": "Instruments", "cats": ["trading", "signals"], "door": "trading" },
+        { "id": "trainers", "seg": "green", "h2": "Trainers", "cats": ["rail", "navigation"], "door": "rail" },
+        { "id": "games", "seg": "violet", "h2": "Games", "cats": ["games"], "door": "games" },
+        { "id": "tools", "seg": "teal", "h2": "Tools", "cats": ["tools", "bots"], "door": "" },
+        { "id": "sites", "seg": "amber", "h2": "Sites for others", "cats": ["studio"], "door": "" }
       ],
       "more": {
         "before": "{more} more projects, frozen and retired included, are in the ",

@@ -8,12 +8,41 @@
 /* ---- Home ---- */
 .fp-role { margin: 6px 0 0; max-width: 60ch; color: var(--ink-dim); font-size: var(--fs-lead); line-height: 1.4; }
 .fp-intro { margin: 20px 0 0; max-width: 68ch; font-size: var(--fs-read); line-height: 1.65; }
-.fp-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0;
-  margin: 28px 0 8px; border-block: 1px solid var(--edge); container-type: inline-size; }
-.fp-fig { display: grid; gap: 2px; padding: 14px 16px 14px 0; }
-.fp-fig + .fp-fig { padding-left: 16px; border-left: 1px solid var(--edge); }
+/* CR-31: the figures are peers that lead with a number, so each is a Dusk gradient tile (data-tile names the colour):
+   white text on the whole tile (Dusk solves the light end to 4.5:1), one big number, a label. No wave: there is no series. */
+.fp-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--tile-w), 1fr)); gap: var(--gap); margin: 20px 0 8px; }
+.fp-fig { display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; min-height: var(--tile-hgt); padding: var(--gap);
+  border: 1px solid var(--edge); border-radius: var(--radius-tile); box-shadow: var(--shadow-pt); background: var(--pt-grey); color: var(--tile-ink); }
+.fp-fig[data-tile="blue"], .fp-pt[data-tile="blue"] { background: var(--pt-blue); }
+.fp-fig[data-tile="red"], .fp-pt[data-tile="red"] { background: var(--pt-red); }
+.fp-fig[data-tile="teal"], .fp-pt[data-tile="teal"] { background: var(--pt-teal); }
+.fp-fig[data-tile="violet"], .fp-pt[data-tile="violet"] { background: var(--pt-violet); }
+.fp-fig[data-tile="amber"], .fp-pt[data-tile="amber"] { background: var(--pt-amber); }
+.fp-fig[data-tile="green"], .fp-pt[data-tile="green"] { background: var(--pt-green); }
+.fp-fig[data-tile="down"], .fp-pt[data-tile="down"] { background: var(--pt-down); }
 .fp-fig b { font: 600 var(--fs-fig)/1.1 var(--font-ui); letter-spacing: -.015em; font-variant-numeric: tabular-nums; }
-.fp-fig span { color: var(--ink-dim); font-size: var(--fs-label); }
+.fp-fig span { color: var(--tile-ink); font-size: var(--fs-label); }
+
+/* CR-31: the whole at once. One bar, a segment per kind (Home) or per path (the trading desk), flex-grow = the count the
+   generator wrote, so a width is never typed. The bar is for the eye and is aria-hidden; the legend names and counts each segment. */
+.fp-kinds { margin: 18px 0 0; }
+/* On the trading desk the bar sits between the intro and the path tiles, so it takes the tiles' side room, not Home's top room. */
+.fp-pbar { margin: 0 0 14px; }
+.fp-kinds-t { margin: 0 0 8px; color: var(--ink-dim); font-size: var(--fs-label); }
+.fp-stack { display: flex; gap: var(--seg-gap); height: var(--bar-hgt); border-radius: var(--radius-bar); overflow: hidden; background: var(--bg-sunken); }
+.fp-seg { display: block; flex-shrink: 1; flex-basis: 0; min-width: 0; height: 100%; background: var(--pf-grey); }
+.fp-seg[data-c="blue"], .fp-dot[data-c="blue"] { background: var(--pf-blue); }
+.fp-seg[data-c="red"], .fp-dot[data-c="red"] { background: var(--pf-red); }
+.fp-seg[data-c="teal"], .fp-dot[data-c="teal"] { background: var(--pf-teal); }
+.fp-seg[data-c="violet"], .fp-dot[data-c="violet"] { background: var(--pf-violet); }
+.fp-seg[data-c="amber"], .fp-dot[data-c="amber"] { background: var(--pf-amber); }
+.fp-seg[data-c="green"], .fp-dot[data-c="green"] { background: var(--pf-green); }
+.fp-seg[data-c="down"], .fp-dot[data-c="down"] { background: var(--pf-down); }
+.fp-legend { display: flex; flex-wrap: wrap; gap: 4px var(--gap-wide); margin: 8px 0 0; padding: 0; list-style: none;
+  color: var(--ink-dim); font-size: var(--fs-label); }
+.fp-legend li { display: inline-flex; align-items: center; gap: var(--gap-tight); }
+.fp-legend b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.fp-dot { flex: none; width: var(--legend-sq); height: var(--legend-sq); border-radius: var(--radius-dot); background: var(--pf-grey); }
 .fp-stamp { margin: 8px 0 0; max-width: 72ch; color: var(--ink-faint); font-size: var(--fs-label); }
 .fp-doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   margin-top: 36px; border-top: 1px solid var(--edge); container-type: inline-size; }
@@ -195,12 +224,8 @@
 /* ---- follow the box, not the window ----
    A part wraps when the box it sits in is too narrow, which is not the same as the
    window being narrow: the sidebar takes 256px from the window. The widths are
-   multiples of the part's minimum (150px per figure, 260px per door). */
-@container (min-width: 450px) and (max-width: 599px) { .fp-fig:nth-child(4) { padding-left: 0; border-left: 0; } }
-@container (min-width: 300px) and (max-width: 449px) { .fp-fig:nth-child(odd) { padding-left: 0; border-left: 0; } }
-@container (max-width: 299px) { .fp-fig + .fp-fig { padding-left: 0; border-left: 0; } }
-/* Five figures (D-A27 addendum c) fit in a row from 750px. From 600px there are four columns, so the fifth starts a row. */
-@container (min-width: 600px) and (max-width: 749px) { .fp-fig:nth-child(5) { padding-left: 0; border-left: 0; } }
+   multiples of the part's minimum (260px per door). */
+/* CR-31: the figure cells are tiles with their own padding, so the rules that took the divider off a cell that starts a row are gone. */
 @container (min-width: 520px) and (max-width: 779px) { .fp-door:nth-child(odd) { padding-left: 0; border-left: 0; } }
 @container (max-width: 519px) { .fp-door + .fp-door { padding-left: 0; border-left: 0; border-top: 1px solid var(--edge); } }
 /* A table stacks into grid rows when its panel is narrower than its columns need: 640px for the
@@ -305,3 +330,21 @@ a.fp-ix-name:hover { text-decoration: underline; }
 }
 /* Dusk: label plate opaque, wires stop at the label. The filter's host takes no room and is hidden from readers. */
 .fp-carry-trading .fp-mesh-defs { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+
+/* ---- Trading desk: the path tiles (CR-31) ----
+   The tier page's five path tabs, written by scripts/front_carry.py as tiles: the part count is the big number, the colour
+   is a Dusk tile token. Two sets stand side by side: the label tiles (the tier page's radio tabs, the only way to a path with no
+   script) and the buttons that js/front/paths.js shows in their place. The selected path wears a ring: the label's ring is the
+   carried rule's own light background (padding makes it a frame), the button's is aria-pressed. A frame is a shape, so the
+   state is never colour alone. The tab class is not on these labels, so the tier's .tab rules do not reach them. */
+.fp-carry-trading .tabs.fp-ptiles, .fp-carry-trading .fp-pbtns { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--tile-w), 1fr));
+  gap: var(--gap); margin: 0 0 22px; }
+.fp-ptile { display: block; margin: 0; padding: var(--ring); border: 0; border-radius: calc(var(--radius-tile) + var(--ring));
+  background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; transition: background var(--t-state); }
+.fp-ptile[aria-pressed="true"] { background: var(--ink); }
+.fp-pt { display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; height: 100%; min-height: var(--tile-hgt); padding: var(--gap);
+  border: 1px solid var(--edge); border-radius: var(--radius-tile); box-shadow: var(--shadow-pt); background: var(--pt-grey); color: var(--tile-ink); }
+.fp-ptile:hover .fp-pt { border-color: var(--sheet-edge); }
+.fp-pt-k { color: var(--tile-ink); font-size: var(--fs-ctl); font-weight: 600; line-height: 1.3; }
+.fp-pt-n { color: var(--tile-ink); font: 600 var(--fs-fig)/1.1 var(--font-ui); letter-spacing: -.015em; font-variant-numeric: tabular-nums; }
+.fp-pt-u { color: var(--tile-ink); font-size: var(--fs-label); }

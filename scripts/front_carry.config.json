@@ -55,6 +55,13 @@
           "to": "js/front/wall.js"
         }
       ],
+      "panels": {
+        "_": "CR-31. The path tabs become Dusk tiles and a stacked bar of parts by path is written above them. Counts are read from the tier page (the cards of each tour); a tab whose own count disagrees stops the carry. tiles: path id to Dusk tile colour. script: the hand-written file that turns the tile labels into buttons that play their path.",
+        "tiles": { "market": "blue", "order": "red", "evidence": "teal", "iceberg": "violet", "regime": "amber" },
+        "bar": { "aria": "Parts on each path", "title": "Parts on each path. {distinct} parts in all; a part on two paths counts on both." },
+        "buttons_aria": "Paths",
+        "script": "js/front/paths.js"
+      },
       "_scripts": "wall.js drives the three demo frames under 'The rest of the bench' (the tier page got it from the composed page).",
       "head": {
         "kicker": {

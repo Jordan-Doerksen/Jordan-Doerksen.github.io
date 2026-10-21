@@ -305,11 +305,67 @@ class _Css:
         return "color-mix(in srgb, var(%s) %s%%, transparent)" % (token, ("%.3f" % pct).rstrip("0").rstrip("."))
 
 
+# -- the path panels (CR-31) ------------------------------------------------------------------------
+
+TAB = re.compile(r'<label for="t-([\w-]+)" class="tab"><b>(.*?)</b><span>(\d+)\s+([^<]*?)</span></label>', re.S)
+TABS_DIV = re.compile(r'<div class="tabs">(.*?)</div>', re.S)
+
+
+def _path_panels(body: str, spec: dict, log, problems: list):
+    """(body, script paths). The tier page's five path tabs become Dusk tiles (the part count is the big number) with a
+    stacked bar of parts by path above them, both read from the page itself: a tour's count is the number of cards in its
+    <section class="tour">, and the tab's own "N parts" must agree with it or the carry stops (carry_path_count_mismatch).
+
+    Two sets of controls are written. The tier page's radio-and-label tabs stay, restyled as tiles, because they are the
+    only way to reach a path with no script. Next to them are real <button>s, written `hidden`; js/front/paths.js unhides
+    them, hides the label row and makes each button play its path (Tab reaches each, Enter or Space plays it)."""
+    hit = TABS_DIV.search(body)
+    tabs = TAB.findall(hit.group(1)) if hit else []
+    if not hit or not tabs:
+        problems.append("carry_path_panels")
+        log.error("carry_path_panels", reason="the tier body has no <div class=\"tabs\"> of path tabs the panels can read")
+        return body, []
+    rows = []
+    for tid, name, n_label, unit in tabs:
+        section = re.search(r'<section class="tour" id="p-%s"[^>]*>(.*?)</section>' % re.escape(tid), body, re.S)
+        n_cards = len(re.findall(r'<article class="card"', section.group(1))) if section else None
+        colour = spec["tiles"].get(tid)
+        if n_cards is None or n_cards != int(n_label):
+            problems.append("carry_path_count_mismatch")
+            log.error("carry_path_count_mismatch", path=tid, tab=int(n_label), cards=n_cards,
+                      reason="the tab says one number and its tour holds another; the tile would show something false")
+        if colour is None:
+            problems.append("carry_path_panels")
+            log.error("carry_path_panels", path=tid, reason="panels.tiles in front_carry.config.json has no Dusk tile colour for this path")
+        rows.append((tid, name.strip(), n_cards, unit.strip(), colour or "grey"))
+
+    distinct = len(re.findall(r'<g class="mnode', body))
+    segs = "".join('<i class="fp-seg" data-c="%s" style="flex-grow:%d"></i>' % (c, n) for _, _, n, _, c in rows if n)
+    legend = "".join('<li><i class="fp-dot" data-c="%s" aria-hidden="true"></i>%s <b>%d</b></li>' % (c, name, n) for _, name, n, _, c in rows if n)
+    bar = ('<section class="fp-kinds fp-pbar" aria-label="%s"><p class="fp-kinds-t">%s</p>'
+           '<div class="fp-stack" aria-hidden="true">%s</div><ul class="fp-legend">%s</ul></section>'
+           % (html.escape(spec["bar"]["aria"]), html.escape(spec["bar"]["title"].format(distinct=distinct, paths=len(rows))), segs, legend))
+
+    def inner(name, n, unit, colour):
+        return ('<span class="fp-pt" data-tile="%s"><span class="fp-pt-k">%s</span>'
+                '<span class="fp-pt-n">%d</span><span class="fp-pt-u">%s</span></span>' % (colour, name, n, unit))
+
+    labels = "".join('<label for="t-%s" class="fp-ptile">%s</label>' % (tid, inner(name, n, unit, c)) for tid, name, n, unit, c in rows)
+    buttons = "".join('<button type="button" class="fp-ptile" data-tour="%s" aria-pressed="false">%s</button>'
+                      % (tid, inner(name, n, unit, c)) for tid, name, n, unit, c in rows)
+    tiles = ('<div class="tabs fp-ptiles">%s</div>\n<div class="fp-ptiles fp-pbtns" role="group" aria-label="%s" hidden>%s</div>'
+             % (labels, html.escape(spec["buttons_aria"]), buttons))
+    body = body[:hit.start()] + bar + "\n" + tiles + body[hit.end():]
+    log.info("carry_path_panels", paths=[r[0] for r in rows], parts=[r[2] for r in rows], distinct=distinct,
+             reason="the path tabs became tiles and a stacked bar from the tier page's own cards")
+    return body, [spec["script"]]
+
+
 # -- the markup pass --------------------------------------------------------------------------------
 
 
 def _markup(src: str, scr: dict, root: str, mode: str, repo: Path, log, problems: list):
-    """(css source, head html, body html) from one tier page."""
+    """(css source, head html, body html, extra script paths) from one tier page."""
     css = "\n".join(re.findall(r"<style[^>]*>(.*?)</style>", src, re.S))
     m = re.search(r"<body[^>]*>(.*)</body>", src, re.S)
     if not css.strip() or not m:
@@ -348,6 +404,9 @@ def _markup(src: str, scr: dict, root: str, mode: str, repo: Path, log, problems
             continue
         body = body.replace(item["before"], item["html"] + item["before"], 1)
         log.info("carry_html_inserted", before=item["before"], reason=item["why"])
+    extra_scripts = []
+    if scr.get("panels"):
+        body, extra_scripts = _path_panels(body, scr["panels"], log, problems)
 
     def fix(hit):
         rest = hit.group(3)
@@ -371,7 +430,7 @@ def _markup(src: str, scr: dict, root: str, mode: str, repo: Path, log, problems
     for dup in sorted({i for i in ids if ids.count(i) > 1} | {i for i in ids if i.startswith("fp-")}):
         problems.append("carry_id_clash")
         log.error("carry_id_clash", id=dup, reason="an id repeats, or starts with fp-, which the shell uses")
-    return css, head, body
+    return css, head, body, extra_scripts
 
 
 # -- files ------------------------------------------------------------------------------------------
@@ -409,7 +468,7 @@ def carry(screen_id: str, ctx: dict) -> dict:
 
     problems: list = []
     scope = ".fp-carry-" + screen_id
-    css_src, head, body = _markup(source.read_text(encoding="utf-8"), scr, root, ctx.get("mode", "review"), repo, log, problems)
+    css_src, head, body, extra_scripts = _markup(source.read_text(encoding="utf-8"), scr, root, ctx.get("mode", "review"), repo, log, problems)
     for attr in re.findall(r'\b(?:style|fill|stroke|stop-color|flood-color)="([^"]*)"', body):
         if _colours(attr, set(cfg["named_colours"].split()), True):
             problems.append("carry_literal_unmapped")
@@ -435,4 +494,4 @@ def carry(screen_id: str, ctx: dict) -> dict:
 
     log.info("carry_done", screen=screen_id, **sheet.stats, css_bytes=len(css_out), body_bytes=len(body))
     wrapper = '<div class="fp-carry fp-carry-%s">\n%s\n</div>' % (screen_id, body)
-    return {"body": head + "\n" + wrapper, "css": [scr["css_out"]], "scripts": [i["to"] for i in scr["scripts"]]}
+    return {"body": head + "\n" + wrapper, "css": [scr["css_out"]], "scripts": [i["to"] for i in scr["scripts"]] + extra_scripts}
