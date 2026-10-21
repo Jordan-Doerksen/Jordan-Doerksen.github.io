@@ -50,7 +50,8 @@ function serve() {
     let rel;
     try { rel = decodeURIComponent(new URL(req.url, 'http://127.0.0.1').pathname); } catch { res.writeHead(400).end(); return; }
     let file = path.normalize(path.join(ROOT, rel));
-    if (!file.startsWith(ROOT)) { res.writeHead(403).end(); return; }
+    // A bare startsWith(ROOT) let a sibling folder sharing the prefix (jd-site-wt-shots2) through; compare with the separator.
+    if (file !== ROOT && !file.startsWith(ROOT + path.sep)) { res.writeHead(403).end(); return; }
     try {
       if (fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
       const data = fs.readFileSync(file);
