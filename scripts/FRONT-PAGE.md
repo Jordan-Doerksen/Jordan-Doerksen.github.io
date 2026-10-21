@@ -37,6 +37,7 @@ leaves it out of the nav and out of the Home doors. A missing page is true. A st
 | `scripts/front_log.py` | JSON-line logger, crash trap, run id, exit-code constants. Shared with the carry step and the checks. |
 | `js/front/shell.js` | Menu, `/` shortcut, unhides what needs a script. (Its theme-toggle code is dead since CR-30: no page has the button.) |
 | `js/front/desk.js` | Facets, filtering, the toolkit rows, copy-install. |
+| `js/front/paths.js` | Trading desk only (CR-31): shows the path buttons, hides the label tiles, and makes each button play its path. Hand-written. |
 | `docs/front-page/**` | Generated. Never edit by hand. |
 
 Styles are `styles/front/` (not this tool's). The carry step is `scripts/front_carry.py` (not this tool's).

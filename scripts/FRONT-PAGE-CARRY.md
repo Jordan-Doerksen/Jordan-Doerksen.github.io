@@ -66,6 +66,7 @@ Nothing is written until all of that passed.
 | `screens.<id>.allow_fixed` | Selectors allowed to be fixed or sticky, each with the reason. |
 | `screens.<id>.redact` | Text removed from the body (a path on the owner's machine), each with the reason. Delete the entry to show it again. |
 | `screens.<id>.insert` | Markup the tier page does not have, put in front of an anchor string (`before`, `html`, `why`). Used once: a note that stands in for the parts-mesh diagram on a narrow screen. |
+| `screens.<id>.panels` | The trading screen only (CR-31): the path tabs become tiles and a stacked bar is written above them. `tiles` maps a path id to a Dusk tile colour, `bar` holds the bar's label and title, `script` is `js/front/paths.js`. Counts are read from the tier page; a tab whose own count disagrees with its tour's cards stops the carry (`carry_path_count_mismatch`). |
 | `screens.<id>.extra_css` | Rules added to the tier CSS (corner radii from the tokens, the mesh label size, the narrow-screen swap). Scoped like the rest. |
 
 Top-level `literals` and `rewrites` apply to every screen; the same keys inside a screen are added after them.

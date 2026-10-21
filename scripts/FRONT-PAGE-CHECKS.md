@@ -8,6 +8,8 @@ Two checkers guard the front page (D-A27). Neither changes a file.
 | `python scripts/front_check.py --selftest` | Breaks 23 rules one at a time in a scratch copy; each check must fail | Python 3 only |
 | `node scripts/front_probe.mjs` | Browser checks at 7 widths, 1 theme (dark), keyboard, no script, reduced motion | Node, Playwright |
 | `node scripts/front_probe.mjs --selftest` | Runs each check on a broken fixture; each must be caught | Node, Playwright |
+| `python scripts/front_panels_check.py` | Recomputes every sidebar count, bar segment and tile number on Home and the trading-desk page from the data and compares it with the built pages (CR-31); 0 mismatches or exit 1 | Python 3 only |
+| `node docs/skin-lab/front-panels/check.mjs` | White on each tile's light end, Tab and Enter on the path buttons, reduced motion, no script, phone width (CR-31) | Node, Playwright |
 
 A fixture named `<check>-<note>.html` must be caught by `<check>`; `clean-<note>.html` must pass like `clean.html`.
 `clean-abortedframe.html` proves the aborted-frame exception; `console-missingfile.html` proves a missing script still fails.

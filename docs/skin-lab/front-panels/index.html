@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Front page panels, before and after</title>
+<style>
+  /* A review page, not part of the site. Plain on purpose: the shots are the content. */
+  :root { color-scheme: dark; --ground: #14111b; --ink: #f1eef5; --ink-2: #c9c4d3; --rule: #3a3447; --link: #f7d600; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 16px; background: var(--ground); color: var(--ink); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1280px; margin: 0 auto; }
+  h1 { margin: 0 0 4px; font-size: 22px; }
+  h2 { margin: 32px 0 8px; font-size: 17px; }
+  p, li { max-width: 80ch; color: var(--ink-2); }
+  a { color: var(--link); }
+  .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .pair.phone { grid-template-columns: repeat(2, minmax(0, 390px)); }
+  @media (max-width: 760px) { .pair, .pair.phone { grid-template-columns: minmax(0, 1fr); } }
+  figure { margin: 0; min-width: 0; }
+  figcaption { margin: 0 0 6px; color: var(--ink-2); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+  .crop { display: block; overflow: hidden; border: 1px solid var(--rule); border-radius: 6px; }
+  .crop img { display: block; width: 100%; height: auto; }
+  .wide .crop { aspect-ratio: 1280 / 1000; }
+  .wide .crop img { object-fit: cover; object-position: top; height: 100%; }
+  .phone .crop { aspect-ratio: 390 / 1000; }
+  .phone .crop img { object-fit: cover; object-position: top; height: 100%; }
+  .solo { max-width: 390px; }
+  code { color: var(--ink); }
+</style>
+</head>
+<body>
+<main>
+<h1>Front page panels, before and after</h1>
+<p>Item 41, CR-31. Home and the trading-desk page take the reference image's panels: an icon square and a count on each sidebar row, a stacked bar of the whole under the heading, and gradient tiles with one big number for peers. No waves. Every number is generated from the data. Each picture shows the top of the page and links to the whole page.</p>
+
+<h2>Home, 1280 wide</h2>
+<div class="pair wide">
+  <figure><figcaption>Before (main, cad4d4e)</figcaption><a class="crop" href="shots/home-1280-before.png"><img src="shots/home-1280-before.png" alt="Home before: the sidebar has plain icon rows; the figures are a ruled row at the foot of the page."></a></figure>
+  <figure><figcaption>After</figcaption><a class="crop" href="shots/home-1280-after.png"><img src="shots/home-1280-after.png" alt="Home after: sidebar rows with icon squares and counts, a stacked bar by kind under the heading, the five figures as gradient tiles under the bar."></a></figure>
+</div>
+
+<h2>Home, 390 wide</h2>
+<div class="pair phone">
+  <figure><figcaption>Before</figcaption><a class="crop" href="shots/home-390-before.png"><img src="shots/home-390-before.png" alt="Home on a phone before: the figures at the foot."></a></figure>
+  <figure><figcaption>After</figcaption><a class="crop" href="shots/home-390-after.png"><img src="shots/home-390-after.png" alt="Home on a phone after: the bar and the figure tiles under the heading."></a></figure>
+</div>
+<h2>The phone sidebar, open (after only)</h2>
+<figure class="solo"><a class="crop" href="shots/home-390-menu-after.png" style="aspect-ratio:auto"><img src="shots/home-390-menu-after.png" alt="The phone menu open: five rows, each with an icon square, a title and a count."></a></figure>
+
+<h2>Trading desk, 1280 wide</h2>
+<div class="pair wide">
+  <figure><figcaption>Before</figcaption><a class="crop" href="shots/trading-desk-1280-before.png"><img src="shots/trading-desk-1280-before.png" alt="Trading desk before: five plain path tabs."></a></figure>
+  <figure><figcaption>After</figcaption><a class="crop" href="shots/trading-desk-1280-after.png"><img src="shots/trading-desk-1280-after.png" alt="Trading desk after: a stacked bar of parts by path above five gradient tiles, each with its part count as the big number; the selected path wears a light frame."></a></figure>
+</div>
+
+<h2>Trading desk, 390 wide</h2>
+<div class="pair phone">
+  <figure><figcaption>Before</figcaption><a class="crop" href="shots/trading-desk-390-before.png"><img src="shots/trading-desk-390-before.png" alt="Trading desk on a phone before."></a></figure>
+  <figure><figcaption>After</figcaption><a class="crop" href="shots/trading-desk-390-after.png"><img src="shots/trading-desk-390-after.png" alt="Trading desk on a phone after: the bar and the tiles in two columns."></a></figure>
+</div>
+
+<h2>What was measured</h2>
+<ul>
+  <li><code>python scripts/front_panels_check.py</code> recomputes every sidebar count, bar segment and tile number from <code>data/registry.json</code>, the evidence data and the tier page's tours, and compares each with the built pages.</li>
+  <li><code>node docs/skin-lab/front-panels/check.mjs</code> measures white on the light end of every tile, walks the path buttons with Tab and Enter, and checks reduced motion, no script and the phone width.</li>
+  <li>Open for the owner: the tile waves need a real series (for example commits per week from git) or stay off; the rail and games pages and the Tool Desk keep today's body panels until he says otherwise.</li>
+</ul>
+</main>
+</body>
+</html>

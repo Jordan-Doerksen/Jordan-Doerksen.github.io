@@ -136,6 +136,8 @@ Carried pieces keep their own class names, but their CSS is scoped under `.fp-ca
 
 ## Screens
 
+**Panels (CR-31).** Every sidebar row carries an icon square (`fp-ico`, a Dusk tile colour) and a count (`fp-nav-c`) from `front_screens.nav_counts`; Home carries a stacked bar by kind (`fp-kinds`, `fp-stack`, `fp-seg`, `fp-legend`) and its figures as Dusk tiles (`fp-fig[data-tile]`); the trading-desk page's path tabs are written by `front_carry._path_panels` as tiles (`fp-ptile`, `fp-pt`) with a bar above them and, with a script, buttons (`js/front/paths.js`); every number is read from the data, proven by `scripts/front_panels_check.py`.
+
 **Home.** The owner's tier-1 text verbatim (kicker from config `home.eyebrow`, h1, role line, the
 intro paragraph with its bold opening), the figures row, the stamp line, three doors (text columns
 separated by hairlines, no cards), and one line pointing to the Tool Desk. Figures come from
