@@ -187,3 +187,7 @@ object per line, five keys: `ts`, `level` with `severity_number`, `run_id`, `eve
 | 0 | Built; or `--check` found every file identical. |
 | 1 | `--check` found a difference, a carried screen failed, or the content broke a rule (`refused`). |
 | 2 | Could not look: an input is missing or invalid, the log cannot be written, or the tool crashed. Never a pass. |
+
+## Screenshots for the stage (item 43 C3)
+
+`node scripts/capture_shots.mjs` re-captures `assets/shots/<slug>.png` (1280 x 800, reduced motion) for each large project whose site page runs the project; `--check` re-captures into a scratch folder and compares sizes and page-error counts. The list and every setting are in `scripts/shots.config.json`. Needs Playwright (resolved from the path in that file) and a local 127.0.0.1 server it starts itself. Exit 0 / 1 / 2 as above.
