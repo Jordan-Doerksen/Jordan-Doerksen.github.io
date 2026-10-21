@@ -1,0 +1,234 @@
+/* dusk.compose.css - layer 4 of 5. Where the parts sit.
+   Owns display, grid, flex, gap, padding, margin, size, position and the breakpoint.
+   Does not own colour, background, border, corner, shadow or type: those are dusk.components.css.
+   The one raw length that cannot be a token is the width in a media query (a custom property cannot
+   be read there). It is written once, here. */
+
+/* WEB-14. The page gutter is the one margin: --gutter on all four window edges, and nothing else.
+   The stage has no max-width and no auto margins, so it spans the window minus the gutter at every
+   width. A text measure caps a text column below (--measure, in ch), never the page. */
+body { padding: var(--gutter); }
+
+.dusk-stage { margin: 0; }
+
+.dusk-lede,
+.dusk-note,
+.dusk-measure { max-width: var(--measure); }
+
+.dusk-pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--pair-min)), 1fr));
+  gap: var(--sp-7);
+}
+
+/* ---- window --------------------------------------------------------------------------------- */
+
+.dusk-win {
+  display: grid;
+  grid-template-columns: var(--side-w) 1fr;
+  min-width: 0;
+}
+
+.dusk-side {
+  min-width: 0;
+  padding: var(--gap) var(--sp-4);
+}
+
+.dusk-dots {
+  display: flex;
+  gap: var(--sp-2);
+  margin: 0 0 var(--gap) var(--sp-1);
+}
+.dusk-dots i {
+  display: block;
+  width: var(--dot-size);
+  height: var(--dot-size);
+}
+
+.dusk-disc {
+  display: grid;
+  place-items: center;
+  width: var(--disc-size);
+  height: var(--disc-size);
+  margin: var(--sp-1) auto var(--sp-3);
+}
+.dusk-who { margin-bottom: var(--gap); }
+.dusk-who b,
+.dusk-row small { display: block; }
+.dusk-grp { margin: var(--sp-5) var(--sp-3) var(--sp-1); }
+
+.dusk-row {
+  display: grid;
+  grid-template-columns: var(--ico-size) 1fr auto;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+}
+.dusk-ico {
+  display: grid;
+  place-items: center;
+  width: var(--ico-size);
+  height: var(--ico-size);
+}
+
+.dusk-main {
+  min-width: 0;
+  padding: var(--sp-7) var(--sp-8) var(--sp-8);
+}
+
+.dusk-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--sp-5);
+}
+.dusk-lede { margin-top: 2px; }
+
+.dusk-btn { padding: var(--sp-4) var(--gap); }
+.dusk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-5);
+}
+.dusk-eye {
+  display: inline-block;
+  width: var(--legend-dot);
+  height: var(--legend-dot);
+}
+.dusk-flag {
+  display: inline-block;
+  margin-top: var(--sp-2);
+  padding: 3px var(--sp-3);
+}
+.dusk-note {
+  display: inline-block;
+  margin-top: var(--sp-7);
+}
+
+/* ---- bar and legend --------------------------------------------------------------------------- */
+
+.dusk-bar {
+  display: flex;
+  height: var(--bar-h);
+  margin: var(--sp-6) 0 var(--sp-4);
+}
+.dusk-bar > .dusk-fill {
+  display: block;
+  height: 100%;
+}
+
+.dusk-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-7);
+  margin-bottom: var(--sp-6);
+}
+.dusk-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.dusk-legend i {
+  display: inline-block;
+  width: var(--legend-dot);
+  height: var(--legend-dot);
+}
+.dusk-legend b { margin-left: var(--sp-1); }
+
+/* ---- tiles ------------------------------------------------------------------------------------ */
+
+.dusk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--tile-min)), 1fr));
+  gap: var(--gap);
+}
+
+.dusk-tile {
+  position: relative;
+  display: block;
+  min-height: var(--tile-h);
+  padding: var(--gap) var(--gap) calc(var(--spark-h) + var(--sp-1));
+  overflow: hidden;
+}
+.dusk-tile .dusk-ico { margin-bottom: var(--sp-3); }
+.dusk-tile-num { margin-top: 2px; }
+.dusk-tile-num small { margin-left: 2px; }
+.dusk-tile-chev {
+  position: absolute;
+  top: var(--gap);
+  right: var(--sp-5);
+}
+.dusk-spark {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--spark-h);
+}
+
+/* ---- panel, table, feed ----------------------------------------------------------------------- */
+
+.dusk-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--panel-min)), 1fr));
+  gap: var(--gap);
+  margin-top: var(--gap);
+}
+.dusk-panel {
+  min-width: 0;
+  padding: var(--sp-5) var(--gap);
+}
+.dusk-panel-title { margin: 0 0 var(--sp-3); }
+
+.dusk-table { width: 100%; }
+.dusk-table th,
+.dusk-table td { padding: var(--sp-1) var(--sp-2); }
+
+.dusk-feed {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dusk-feed li {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  gap: var(--sp-4);
+  padding: var(--sp-2) 0;
+}
+
+/* ---- breakpoint ------------------------------------------------------------------------------- */
+
+@media (max-width: 760px) {
+  .dusk-win { grid-template-columns: 1fr; }
+  .dusk-disc,
+  .dusk-who,
+  .dusk-grp { display: none; }
+  .dusk-rows {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--chip-min), 1fr));
+    gap: 2px;
+  }
+  /* WEB-14: a table reflows. Each row becomes a stacked block; a cell with data-label shows its
+     column label (written by dusk.components.css) beside the value, and the header row steps aside.
+     The label text stays in the markup, in data-label. */
+  .dusk-table,
+  .dusk-table tbody,
+  .dusk-table tr,
+  .dusk-table th,
+  .dusk-table td,
+  .dusk-table caption { display: block; }
+  .dusk-table thead { display: none; }
+  .dusk-table tbody tr { padding: var(--sp-2) 0; }
+  .dusk-table td[data-label] {
+    display: grid;
+    grid-template-columns: var(--label-w) minmax(0, 1fr);
+    gap: var(--sp-3);
+  }
+  /* .dusk-opt still drops its column at this width; it needs the same weight as the rule above,
+     or the grid rule would bring the column back. */
+  .dusk-table td.dusk-opt,
+  .dusk-table th.dusk-opt { display: none; }
+}

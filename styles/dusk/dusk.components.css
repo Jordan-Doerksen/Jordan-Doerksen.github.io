@@ -1,0 +1,299 @@
+/* dusk.components.css - layer 3 of 5. The parts, and their Tier 1 states (hover, focus, press).
+   Owns colour, fill, border, corner, shadow and type of each part. Does not own where a part sits:
+   display, grid, gap, padding and margin are dusk.compose.css. Reads tokens only.
+
+   Every status or market state carries a glyph or a word as well as a colour (SKIN-05). */
+
+/* ---- window and sidebar ------------------------------------------------------------------- */
+
+.dusk-win {
+  background: var(--glass);
+  border: 1px solid var(--hair-2);
+  border-radius: var(--r-window);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  box-shadow: var(--shadow-win);
+  overflow: hidden;
+}
+
+.dusk-side {
+  background: var(--glass-side);
+  border-right: 1px solid var(--hair);
+}
+
+.dusk-dots i {
+  background: var(--dot);
+  border-radius: var(--r-circle);
+}
+
+.dusk-disc {
+  background: var(--disc);
+  border-radius: var(--r-circle);
+  box-shadow: var(--shadow-disc);
+  color: var(--disc-ink);
+  font-weight: var(--fw-bold);
+}
+
+.dusk-who { text-align: center; }
+.dusk-who span { color: var(--ink-3); font-size: var(--fs-s); }
+
+.dusk-grp {
+  color: var(--ink-3);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+}
+
+.dusk-row {
+  color: var(--ink-2);
+  border-radius: var(--r-control);
+  text-decoration: none;
+  transition: background-color var(--m-confirm) var(--ease);
+}
+.dusk-row small {
+  color: var(--ink-3);
+  font-size: var(--fs-xs);
+  line-height: 1.2;
+}
+.dusk-row:hover { background: var(--wash-1); }
+.dusk-row--on,
+.dusk-row--on:hover,
+.dusk-row[aria-current="page"],
+.dusk-row[aria-current="page"]:hover {
+  background: var(--wash-2);
+  color: var(--ink);
+}
+/* ink-3 is not measured on the current row's wash, ink-2 is */
+.dusk-row--on small,
+.dusk-row[aria-current="page"] small { color: var(--ink-2); }
+
+.dusk-ico {
+  border-radius: var(--r-icon);
+  color: var(--on-tile);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-data);
+}
+/* icon squares take the tile light end, so the white glyph reads at 4.5 or more */
+.dusk-ico--red    { background: var(--tile-red-hi); }
+.dusk-ico--amber  { background: var(--tile-amber-hi); }
+.dusk-ico--green  { background: var(--tile-green-hi); }
+.dusk-ico--down   { background: var(--tile-down-hi); }
+.dusk-ico--teal   { background: var(--tile-teal-hi); }
+.dusk-ico--blue   { background: var(--tile-blue-hi); }
+.dusk-ico--violet { background: var(--tile-violet-hi); }
+.dusk-ico--grey   { background: var(--tile-grey-hi); }
+
+.dusk-chev { color: var(--ink-3); font-size: var(--fs-data); }
+
+/* ---- header, button, badge, flag ------------------------------------------------------------ */
+
+.dusk-title {
+  font-size: var(--fs-title);
+  letter-spacing: var(--track-title);
+}
+.dusk-lede { color: var(--ink-2); }
+
+.dusk-btn {
+  border: 0;
+  background: var(--btn-bg);
+  color: var(--btn-ink);
+  border-radius: var(--r-control);
+  font-size: var(--fs-data);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--m-confirm) var(--ease);
+}
+.dusk-btn:hover { background: var(--btn-bg-hover); }
+.dusk-btn:active { background: var(--btn-bg-press); }
+.dusk-btn[disabled],
+.dusk-btn[aria-disabled="true"] {
+  background: var(--wash-2);
+  color: var(--ink-2);
+  cursor: not-allowed;
+}
+
+.dusk-badge {
+  border: 1px solid var(--hair-2);
+  background: var(--wash-1);
+  color: var(--ink);
+  border-radius: var(--r-control);
+  font-size: var(--fs-data);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+}
+.dusk-eye {
+  background: var(--ink-3);
+  border-radius: var(--r-circle);
+}
+
+.dusk-flag {
+  border: 1px dashed var(--amber-ink);
+  border-radius: var(--r-control);
+  color: var(--amber-ink);
+  font-size: var(--fs-s);
+}
+.dusk-flag::before { content: "■\00a0"; content: "■\00a0" / ""; }
+
+.dusk-note { color: var(--ink-3); font-size: var(--fs-xs); }
+
+/* ---- bar and legend --------------------------------------------------------------------------- */
+
+.dusk-bar {
+  background: var(--wash-1);
+  border-radius: var(--r-bar);
+  overflow: hidden;
+}
+.dusk-fill--red    { background: var(--red); }
+.dusk-fill--amber  { background: var(--amber); }
+.dusk-fill--green  { background: var(--green); }
+.dusk-fill--down   { background: var(--down); }
+.dusk-fill--teal   { background: var(--teal); }
+.dusk-fill--blue   { background: var(--blue); }
+.dusk-fill--violet { background: var(--violet); }
+.dusk-fill--grey   { background: var(--grey); }
+.dusk-fill--idle   { background: var(--idle); }
+
+.dusk-legend { color: var(--ink-2); font-size: var(--fs-s); }
+.dusk-legend i { border-radius: var(--r-circle); }
+.dusk-legend b { color: var(--ink); font-weight: var(--fw-medium); }
+
+/* ---- tile ----------------------------------------------------------------------------------------
+   Static state first: the hairline brightens from --hair to --hair-2. The lift is added on top of it,
+   so under reduced motion the hover is still visible with no movement. */
+
+.dusk-tile {
+  color: var(--on-tile);
+  border: 1px solid var(--hair);
+  border-radius: var(--r-tile);
+  box-shadow: var(--shadow-tile);
+  text-decoration: none;
+  transition: transform var(--m-confirm) var(--ease), border-color var(--m-confirm) var(--ease);
+}
+.dusk-tile:hover,
+.dusk-tile:focus-within {
+  border-color: var(--hair-2);
+  transform: translateY(var(--lift));
+}
+.dusk-tile--red    { background: var(--tile-red); }
+.dusk-tile--amber  { background: var(--tile-amber); }
+.dusk-tile--green  { background: var(--tile-green); }
+.dusk-tile--down   { background: var(--tile-down); }
+.dusk-tile--teal   { background: var(--tile-teal); }
+.dusk-tile--blue   { background: var(--tile-blue); }
+.dusk-tile--violet { background: var(--tile-violet); }
+.dusk-tile--grey   { background: var(--tile-grey); }
+
+/* --tile-glyph is unfilled (W-028): the white state glyph is measured on the bare tile end, and tests/skin05-contrast.mjs fails if a fill lowers it under 4.5 */
+.dusk-tile .dusk-ico { background: var(--tile-glyph); }
+.dusk-tile-lab { font-weight: var(--fw-medium); }
+.dusk-tile-num {
+  font-size: var(--fs-num);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--track-num);
+  line-height: var(--lh-tight);
+}
+.dusk-tile-num small {
+  font-size: var(--fs-l);
+  font-weight: var(--fw-medium);
+}
+.dusk-tile-sub { color: var(--on-tile); font-size: var(--fs-s); }
+.dusk-tile-chev { color: var(--on-tile); }
+.dusk-spark path { fill: var(--tile-spark); }
+
+/* ---- panel, table, feed ----------------------------------------------------------------------- */
+
+.dusk-panel {
+  background: var(--wash-3);
+  border: 1px solid var(--hair);
+  border-radius: var(--r-tile);
+}
+.dusk-panel-title {
+  color: var(--ink-2);
+  font-size: var(--fs-data);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+}
+
+.dusk-table {
+  border-collapse: collapse;
+  font-size: var(--fs-data);
+}
+.dusk-table th,
+.dusk-table td { overflow-wrap: anywhere; }
+.dusk-table th {
+  color: var(--ink-3);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  text-align: left;
+}
+.dusk-table td { border-top: 1px solid var(--hair); }
+.dusk-table .dusk-r { text-align: right; }
+.dusk-table .dusk-ask td:first-child { color: var(--down-ink); }
+.dusk-table .dusk-bid td:first-child { color: var(--up-ink); }
+.dusk-table .dusk-hot td { background: var(--wash-4); font-weight: var(--fw-medium); }
+.dusk-table .dusk-mid td { border-top: 2px solid var(--hair-2); }
+
+.dusk-feed li { border-top: 1px solid var(--hair); font-size: var(--fs-data); }
+.dusk-feed li:first-child { border-top: 0; }
+.dusk-feed time { color: var(--ink-3); }
+
+/* ---- state words and direction ink ------------------------------------------------------------
+   `.dusk-state` writes its own glyph, so the markup carries the word only. `.dusk-up` and `.dusk-down`
+   are colour only: the sign and the arrow stay in the text (Dyad rule, kept). */
+
+.dusk-state { font-weight: var(--fw-medium); }
+.dusk-state--ok::before      { content: "✔\00a0"; content: "✔\00a0" / ""; }
+.dusk-state--up::before      { content: "▲\00a0"; content: "▲\00a0" / ""; }
+.dusk-state--down::before    { content: "▼\00a0"; content: "▼\00a0" / ""; }
+.dusk-state--caution::before { content: "■\00a0"; content: "■\00a0" / ""; }
+.dusk-state--attn::before    { content: "?\00a0"; content: "?\00a0" / ""; }
+.dusk-state--hold::before    { content: "‖\00a0"; content: "‖\00a0" / ""; }
+.dusk-state--info::before    { content: "●\00a0"; content: "●\00a0" / ""; }
+.dusk-state--ok,
+.dusk-state--up,
+.dusk-up      { color: var(--up-ink); }
+.dusk-state--down,
+.dusk-down    { color: var(--down-ink); }
+.dusk-state--caution { color: var(--amber-ink); }
+.dusk-state--attn    { color: var(--attn-ink); }
+.dusk-state--info    { color: var(--teal-ink); }
+.dusk-state--hold    { color: var(--ink-2); }
+
+/* ---- breakpoint: the sidebar becomes a strip above the content -------------------------------- */
+
+@media (max-width: 760px) {
+  .dusk-side {
+    border-right: 0;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  /* WEB-14: the stacked table (layout in dusk.compose.css). The row is the separator now, not the cell,
+     and each labelled cell writes its column label from data-label. */
+  .dusk-table td,
+  .dusk-table .dusk-mid td { border-top: 0; }
+  .dusk-table tbody tr { border-top: 1px solid var(--hair); }
+  .dusk-table tbody tr:first-child { border-top: 0; }
+  .dusk-table tbody tr.dusk-mid { border-top: 2px solid var(--hair-2); }
+  /* a stacked value reads from the label, left; a right-aligned number would sit apart from it */
+  .dusk-table .dusk-r { text-align: left; }
+  .dusk-table td[data-label]::before {
+    content: attr(data-label);
+    color: var(--ink-3);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+  }
+}
+
+/* ---- reduced motion: Tier 1 -------------------------------------------------------------------
+   Every transition stops and the lift stops. The hairline change, the washes and the focus ring
+   stay, so every state is still distinguishable with no movement. */
+
+@media (prefers-reduced-motion: reduce) {
+  .dusk-tile,
+  .dusk-btn,
+  .dusk-row { transition: none; }
+  .dusk-tile:hover,
+  .dusk-tile:focus-within { transform: none; }
+}

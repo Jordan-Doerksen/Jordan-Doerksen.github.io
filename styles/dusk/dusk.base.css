@@ -1,0 +1,89 @@
+/* dusk.base.css - layer 2 of 5. The ground, the type defaults, the focus ring.
+   Reads tokens. Defines no raw colour, duration, radius or shadow. Contains no dusk- part
+   except the two page utilities below. */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html,
+body { margin: 0; }
+
+body {
+  min-height: 100vh;
+  color: var(--ink);
+  font: var(--fs-base) / var(--lh-base) var(--font-ui);
+  background: var(--wall-1);
+}
+
+/* The wall. One fixed layer behind everything, a little oversize (--drift-bleed) so the OPEN tier
+   can drift it without showing an edge. STRICT leaves it still. Same geometry on both tiers. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: var(--drift-bleed);
+  z-index: -1;
+  pointer-events: none;
+  background: var(--wall);
+}
+
+h1,
+h2,
+h3,
+p { margin: 0; }
+
+h1,
+h2,
+h3 { font-weight: var(--fw-bold); }
+
+a { color: inherit; }
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+table,
+time,
+.dusk-num { font-variant-numeric: tabular-nums; }
+
+/* Focus is never removed. One ring for every interactive part. */
+:focus-visible {
+  outline: var(--focus-w) solid var(--focus);
+  outline-offset: var(--focus-off);
+}
+
+/* Page utilities */
+.dusk-skip {
+  position: absolute;
+  left: var(--sp-3);
+  top: calc(-1 * var(--tile-h));
+  z-index: 10;
+  padding: var(--sp-4) var(--sp-6);
+  border-radius: var(--r-control);
+  background: var(--btn-bg);
+  color: var(--btn-ink);
+  font-weight: var(--fw-medium);
+}
+.dusk-skip:focus { top: var(--sp-3); }
+
+.dusk-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

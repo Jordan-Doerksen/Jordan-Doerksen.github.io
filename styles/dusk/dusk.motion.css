@@ -1,0 +1,59 @@
+/* dusk.motion.css - layer 5 of 5. Tier 2 (entrances) and Tier 3 (ambient). Tier 2 is OPEN only.
+   Tier 3 is on by default on OPEN and opt-in on STRICT (SKIN-06).
+   Writes no `transform` and no `transition`: Tier 1 (the hover lift) owns both and lives in
+   dusk.components.css. This file animates `translate` only, through @keyframes. A page with no
+   data-tier attribute is STRICT, and nothing below applies to it.
+
+   Contract with the page:
+     <html data-tier="open">                 the page's tier line says OPEN
+     <html data-tier="open" data-ambient="off">   one attribute turns the ambient layer off (SKIN-06)
+     <html data-tier="strict" data-ambient="on">  a STRICT page opts in to the ambient layer only
+                                                  (SKIN-06: on STRICT it stays opt-in and off; the
+                                                  still wall is its static alternative, SAFE-05)
+     .is-in                                   written by the page's observer on a .dusk-enter element
+   Nothing here uses opacity, so content is readable if the observer never runs. */
+
+/* ---- Tier 2: entrance -----------------------------------------------------------------------
+   Rests a few pixels low. `.is-in` settles it. If `.is-in` never arrives the content is still
+   there, still readable, a few pixels out of place. */
+
+html[data-tier="open"] .dusk-enter { translate: 0 var(--enter-shift); }
+html[data-tier="open"] .dusk-enter.is-in {
+  animation: dusk-enter var(--m-enter) var(--ease) both;
+}
+
+@keyframes dusk-enter {
+  from { translate: 0 var(--enter-shift); }
+  to   { translate: 0 0; }
+}
+
+/* ---- Tier 3: ambient ------------------------------------------------------------------------
+   The wall drifts, slowly. On the ground only: never on a control or a tile. */
+
+html[data-tier="open"]:not([data-ambient="off"]) body::before,
+html[data-tier="strict"][data-ambient="on"] body::before {
+  will-change: translate;
+  animation: dusk-drift var(--m-drift) ease-in-out infinite alternate;
+}
+
+@keyframes dusk-drift {
+  from { translate: 0 0; }
+  to   { translate: var(--drift-x) var(--drift-y); }
+}
+
+/* ---- reduced motion: Tiers 2 and 3 -------------------------------------------------------------
+   Every effect stops. `translate: none` is the arrived position, so nothing is left part-way and
+   nothing is left out of place. The page is complete without any of it. */
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-tier] body::before {
+    animation: none !important;
+    translate: none !important;
+    will-change: auto !important;
+  }
+  html[data-tier] .dusk-enter,
+  html[data-tier] .dusk-enter.is-in {
+    animation: none !important;
+    translate: none !important;
+  }
+}
