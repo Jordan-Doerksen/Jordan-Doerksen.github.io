@@ -38,6 +38,9 @@ leaves it out of the nav and out of the Home doors. A missing page is true. A st
 | `js/front/shell.js` | Menu, `/` shortcut, unhides what needs a script. (Its theme-toggle code is dead since CR-30: no page has the button.) |
 | `js/front/desk.js` | Facets, filtering, the toolkit rows, copy-install. |
 | `js/front/paths.js` | Trading desk only (CR-31): shows the path buttons, hides the label tiles, and makes each button play its path. Hand-written. |
+| `scripts/front_kindstage.py` | Home's kind stage (CR-32): one container per index group, a rail row and a stage panel per project, the tier and the display of each. Called by `front_screens._index` when `home.compositions.<key>.index` is `"stage"`. |
+| `js/front/kind-stage.js` | Home only (CR-32): steps the highlight of the one container most in view, takes over on hover, focus or click, the Pause button, arrow keys, reduced motion. Hand-written. |
+| `scripts/front_stage_check.py` | Recomputes what every container must hold from the data and the disk and compares it with the built Home (CR-32). Also run by `front_check.py` as the `stage` check. |
 | `docs/front-page/**` | Generated. Never edit by hand. |
 
 Styles are `styles/front/` (not this tool's). The carry step is `scripts/front_carry.py` (not this tool's).
@@ -50,6 +53,27 @@ Styles are `styles/front/` (not this tool's). The carry step is `scripts/front_c
 | `data/registry.json` | One row per project, the Section facet, the Rail index, the routing of every name. |
 | `data/desk.json` | `pinned`, `extra` (rows with no registry entry), `toolkit` (stars, install commands, snippets). |
 | `data/toolkit.js` | Counted at build for the sentences ("160 tools"); loaded by the Tool Desk page and rendered by `desk.js`. |
+| `data/project-sizes.json` | The commit count of each running project (`scripts/build_project_sizes.py`, CR-32). The tier of a project comes from it, the thresholds and the overrides in `home.stage_v2`. |
+| `assets/diagrams/<slug>.svg`, `assets/shots/<slug>.png` | The medium and the large display of a project, looked up by slug at every build. |
+
+## The kind stage on Home (CR-32)
+
+With `home.compositions.a.index` set to `"stage"` (the live composition), Home's index is five containers, one per
+index group, in place of five lists. Each has a rail of fixed-height rows (name and status; without a script each row is a
+plain link to the project) and a stage with one panel per project, the first shown. A project's display follows its tier
+and what is on disk: **large** = `assets/shots/<slug>.png` in the Dusk shell frame, else the medium display; **medium** =
+`assets/diagrams/<slug>.svg` inlined, else the small display; **small** = a facts card. A project the size measure could
+not see is small. Setting `index` back to `"list"` is the whole revert.
+
+Every build logs `large_without_shot` for a large project with no screenshot and `medium_without_diagram` for a project
+whose diagram is missing. Both mean the page shows the next display down, never a blank. `size_missing` means
+`data/project-sizes.json` has no entry for a running project (rerun `scripts/build_project_sizes.py`). The large displays
+fall back to the medium display until `assets/shots/` holds the screenshots.
+
+`home.stage_v2` holds the tier thresholds and overrides (read by `build_project_sizes.py` too), `dwell_ms` (how long the
+highlight rests on a project; the build refuses less than 2200), `step_min_projects` (a kind with fewer never steps), the
+asset folders and the strings. Only the container most in view steps; hover, focus or a click takes over and stops that
+container; each stepping container has a Pause button in its header corner; under reduced motion no timer is created.
 
 The notes, ports and local paths in `desk.json` are not written to any page. `desk.show_local` stays `false`, and
 setting it to `true` stops the build, because printing them for everyone is not built and was not chosen.
@@ -71,6 +95,9 @@ real site.
 | A pinned tool | `data/desk.json` `pinned` (a slug) |
 | A toolkit star or install command | `data/desk.json` `toolkit` (keyed by the exact tool name) |
 | A project row | `data/registry.json` |
+| A project's tier | not typed: `python scripts/build_project_sizes.py`, then the thresholds in `home.stage_v2.tiers`, or an override with its reason in `home.stage_v2.overrides` |
+| A project's large display | put `assets/shots/<slug>.png` in the repo and rebuild |
+| The stepping speed, or the stage's strings | `home.stage_v2` (`dwell_ms`, `ui`) |
 | The toolkit repo link in the no-script sentence | add `"repo": "https://..."` to the `it-toolkit` entry in `data/desk.json` `extra` |
 | A new status | `desk.status_order`, then a marker rule in `styles/front/front.parts.css` |
 | A new built screen | add it to `screens[]` with `"kind": "built"`, write its function in `front_screens.py`, add it to `BUILDERS` |

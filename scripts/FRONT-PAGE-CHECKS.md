@@ -4,14 +4,16 @@ Two checkers guard the front page (D-A27). Neither changes a file.
 
 | Command | What it does | Needs |
 |---|---|---|
-| `python scripts/front_check.py` | Static checks: 20 rules read from the files | Python 3 only |
-| `python scripts/front_check.py --selftest` | Breaks 23 rules one at a time in a scratch copy; each check must fail | Python 3 only |
-| `node scripts/front_probe.mjs` | Browser checks at 7 widths, 1 theme (dark), keyboard, no script, reduced motion | Node, Playwright |
-| `node scripts/front_probe.mjs --selftest` | Runs each check on a broken fixture; each must be caught | Node, Playwright |
+| `python scripts/front_check.py` | Static checks: 21 rules read from the files | Python 3 only |
+| `python scripts/front_check.py --selftest` | Breaks 28 rules one at a time in a scratch copy; each check must fail | Python 3 only |
+| `node scripts/front_probe.mjs` | Browser checks at 7 widths, 1 theme (dark), keyboard, no script, reduced motion; the kind stage at 1280 and 390 | Node, Playwright |
+| `node scripts/front_probe.mjs --selftest` | Runs each check on a broken fixture; each must be caught (21 fixtures) | Node, Playwright |
+| `python scripts/front_stage_check.py` | Recomputes what each of Home's kind containers must hold (a rail row and a panel per kept project, the tier, the display, the links) from the data and the disk and compares it with the built Home, in `docs/front-page` and at the repo root (CR-32); 0 mismatches or exit 1 | Python 3 only |
 | `python scripts/front_panels_check.py` | Recomputes every sidebar count, bar segment and tile number on Home and the trading-desk page from the data and compares it with the built pages (CR-31); 0 mismatches or exit 1 | Python 3 only |
 | `node docs/skin-lab/front-panels/check.mjs` | White on each tile's light end, Tab and Enter on the path buttons, reduced motion, no script, phone width (CR-31) | Node, Playwright |
 
 A fixture named `<check>-<note>.html` must be caught by `<check>`; `clean-<note>.html` must pass like `clean.html`.
+The `stage-<note>.html` fixtures also run the stage rules (`scripts/front_probe_stage.mjs`), which drive a paused fake clock.
 `clean-abortedframe.html` proves the aborted-frame exception; `console-missingfile.html` proves a missing script still fails.
 
 Run the selftests after you change a check. A check that has never failed proves nothing.
@@ -46,6 +48,8 @@ the one line.
 | (static) home_figures / desk_rows | Numbers equal the data | A typed number that went stale |
 | (static) no_local_data | No local port or path on a page | A private path published |
 | (static) local_data_gated | `data/desk-local.js` is generated, and only `desk.js` loads it, inside `isLocal()` | The owner's ports and paths reaching the public page |
+| (static) stage | Each kind container has one rail row and one panel per kept project; tier and display follow the tier rule and the files on disk; every rail link resolves (`front_stage_check.py`) | A project that vanishes from Home, a large display that is really a blank, a dead rail link |
+| stage (browser) | One container steps at a time, the one in view; Pause holds; a click or a hover takes over; a kind with `data-steps="no"` never steps; under reduced motion no timer of a second or more, the first project shown, no Pause button, click and arrow keys select; no sideways scroll, no script error | Two containers moving at once, a Pause that does not pause, a timer that survives reduced motion |
 
 ## When something breaks
 
