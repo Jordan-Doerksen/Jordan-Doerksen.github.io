@@ -38,6 +38,6 @@ docs/fossils/** text eol=lf
 # (core.autocrlf=true) writes CRLF, the same trap the fossil inventory hit. Pin LF.
 method/** text eol=lf
 
-# Dusk (CR-30): styles/dusk/ must stay byte-equal to C:\projectseference\dusk\styles (claim DUSK-SKIN-01);
+# Dusk (CR-30): styles/dusk/ must stay byte-equal to C:\projects\reference\dusk\styles (claim DUSK-SKIN-01);
 # a Windows checkout with autocrlf would write CRLF and break that, so these files stay LF on disk.
 styles/dusk/*.css text eol=lf
