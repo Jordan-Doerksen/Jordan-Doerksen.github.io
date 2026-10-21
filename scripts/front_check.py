@@ -486,9 +486,26 @@ def c_line_endings(x: Ctx):
     return (FAIL, "CRLF in %s" % bad[:5]) if bad else (PASS, "%d files, all LF" % len(files))
 
 
+def c_stage(x: Ctx):
+    """Home's kind stage equals its data (CR-32): one rail row and one panel per kept row, in its kind's container; each
+    panel's tier and display follow the tier rule and the files on disk; every rail link resolves. The rules are
+    scripts/front_stage_check.py, which also runs alone."""
+    if "home" not in x.pages:
+        return UNKNOWN, "no home page"
+    import front_stage_check
+    lines, bad = [], []
+    try:
+        front_stage_check.check_page(x.repo, x.pages["home"][0], "home", lines, bad, x.fallback)
+    except (front_stage_check.CouldNotLook, KeyError) as err:
+        return UNKNOWN, "%s: %s" % (type(err).__name__, err)
+    if bad:
+        return FAIL, "%d mismatch(es), first: %s" % (len(bad), bad[0])
+    return PASS, "%d comparisons, 0 mismatches" % len(lines)
+
+
 CHECKS = [c_config_schema, c_fresh_build, c_pages_exist, c_nav_identical, c_links_resolve, c_ids_unique, c_classes_defined,
           c_no_raw_values, c_selectors_scoped, c_breakpoint_pair, c_home_figures, c_desk_rows, c_no_local_data, c_local_data_gated, c_voice,
-          c_js_rules, c_hidden_until_script, c_chrome_budget, c_generated_mark, c_line_endings]
+          c_js_rules, c_hidden_until_script, c_chrome_budget, c_generated_mark, c_line_endings, c_stage]
 
 
 # -- the selftest: every check is shown to fail when its rule is broken -------------------------------
@@ -528,6 +545,12 @@ MUTATIONS = [
     ("CRLF line endings", "line_endings", P, "crlf", None),
     ("a screen in no nav group", "config_schema", "scripts/front_page.config.json", "replace", ('"group": "start"', '"group": "nowhere"')),
     ("a missing page with --require-all", "pages_exist", H, "delete", None),
+    # CR-32, the kind stage: each breaks one rule of scripts/front_stage_check.py.
+    ("a project with no panel", "stage", H, "regex", (r'\n      <div class="fp-ks-panel" id="fp-ks-p-[\w-]+".*?\n      </div>', "")),
+    ("a project with no rail row", "stage", H, "regex", (r'\n      <li class="fp-ks-row">.*?</li>', "")),
+    ("a display that breaks the tier rule", "stage", H, "replace", ('data-display="diagram"', 'data-display="facts"')),
+    ("a tier that disagrees with the data", "stage", H, "replace", ('data-tier="large"', 'data-tier="small"')),
+    ("a rail link to nothing", "stage", H, "regex", (r'(<a class="fp-ks-link"[^>]*? href=")[^"]*"', r'\1nope/nothing.html"')),
 ]
 
 
@@ -538,9 +561,10 @@ def selftest() -> int:
     tmp = Path(tempfile.mkdtemp(prefix="front_check_"))
     pristine = tmp / "pristine"
     try:
-        for rel in ("styles/front", "js/front", "docs/front-page", "data/projects"):
+        # assets/diagrams and assets/shots: the stage check looks them up by slug, so the copy needs them (CR-32)
+        for rel in ("styles/front", "js/front", "docs/front-page", "data/projects", "assets/diagrams", "assets/shots"):
             shutil.copytree(REPO / rel, pristine / rel)
-        for rel in ("scripts/front_page.config.json", "data/registry.json", "data/desk.json", "data/evidence.json", "data/guards.json", "data/desk-local.js"):
+        for rel in ("scripts/front_page.config.json", "data/registry.json", "data/desk.json", "data/evidence.json", "data/guards.json", "data/desk-local.js", "data/project-sizes.json"):
             (pristine / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(REPO / rel, pristine / rel)
     except OSError as err:

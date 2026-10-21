@@ -15,5 +15,7 @@
   "gutter_px": 8,
   "max_tabs": 160,
   "contrast": { "text": 4.5, "large": 3.0, "edge": 3.0 },
-  "script_only": ["#fp-menu-btn", "#fp-theme", ".fp-find", "#fp-toolbar", ".fp-carry .controls", ".fp-pbtns"]
+  "stage_pages": ["index.html"],
+  "stage_widths": [1280, 390],
+  "script_only": ["#fp-menu-btn", "#fp-theme", ".fp-find", "#fp-toolbar", ".fp-carry .controls", ".fp-pbtns", ".fp-ks-pause"]
 }

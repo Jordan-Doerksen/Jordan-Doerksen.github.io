@@ -117,7 +117,9 @@ for label, prefix in trees.items():
     cmp("home %s bar total = sidebar Home count" % label, sum(n for _, n in segs), len(keep))
     figs = [int(v.replace(",", "")) for v in re.findall(r'<div class="fp-fig" role="listitem" data-tile="[^"]*"><b>([\d,]+)</b>', html)]
     cmp("home %s figure tiles" % label, figs, want_figs)
-    cmp("home %s figures sit above the index" % label, html.index('class="fp-figs"') < html.index('class="fp-ix"'), True)
+    # The index is the five lists (class fp-ix) or, since CR-32, the kind containers (class fp-ksx); one of the two is there.
+    index_at = min(i for i in (html.find('class="fp-ix"'), html.find('class="fp-ksx"')) if i >= 0)
+    cmp("home %s figures sit above the index" % label, html.index('class="fp-figs"') < index_at, True)
 
 # -- trading desk: path tiles, bar, legend ------------------------------------------------------------------
 

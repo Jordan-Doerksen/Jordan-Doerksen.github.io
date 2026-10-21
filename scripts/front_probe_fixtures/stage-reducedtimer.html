@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>fixture: a timer under reduced motion</title>
+<style>body{margin:0;padding:12px;background:#222;color:#eee;font:14px/1.5 sans-serif}.fp-ks{min-height:700px;margin-bottom:12px}[hidden]{display:none!important}</style></head>
+<body>
+<!-- BROKEN ON PURPOSE: under prefers-reduced-motion nothing steps, but the script still starts a 4500 ms timer. The real
+     script creates no timer at all under reduced motion (SAFE-05). The stage probe must report it (check "stage"). -->
+<div class="fp-ksx" data-dwell="2500" data-min-steps="3">
+<section class="fp-ks" data-kind="a" data-steps="yes"><button class="fp-ks-pause" type="button" hidden>Pause</button>
+<ul><li><a class="fp-ks-link" data-slug="a1" href="#a1" aria-current="true">A1</a></li><li><a class="fp-ks-link" data-slug="a2" href="#a2">A2</a></li><li><a class="fp-ks-link" data-slug="a3" href="#a3">A3</a></li></ul>
+<div><div class="fp-ks-panel" data-slug="a1">A1</div><div class="fp-ks-panel" data-slug="a2" hidden>A2</div><div class="fp-ks-panel" data-slug="a3" hidden>A3</div></div></section>
+<section class="fp-ks" data-kind="b" data-steps="yes"><button class="fp-ks-pause" type="button" hidden>Pause</button>
+<ul><li><a class="fp-ks-link" data-slug="b1" href="#b1" aria-current="true">B1</a></li><li><a class="fp-ks-link" data-slug="b2" href="#b2">B2</a></li><li><a class="fp-ks-link" data-slug="b3" href="#b3">B3</a></li></ul>
+<div><div class="fp-ks-panel" data-slug="b1">B1</div><div class="fp-ks-panel" data-slug="b2" hidden>B2</div><div class="fp-ks-panel" data-slug="b3" hidden>B3</div></div></section>
+</div>
+<script>
+(function () {
+  var D = parseInt(document.querySelector('.fp-ksx').dataset.dwell, 10);
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ks = [].map.call(document.querySelectorAll('.fp-ks'), function (el) {
+    return { el: el, rows: [].slice.call(el.querySelectorAll('.fp-ks-link')), panels: [].slice.call(el.querySelectorAll('.fp-ks-panel')), idx: 0, t: 0, seen: 0, pause: el.querySelector('.fp-ks-pause') };
+  });
+  function show(k, i) { k.rows.forEach(function (r, j) { if (j === i) r.setAttribute('aria-current', 'true'); else r.removeAttribute('aria-current'); k.panels[j].hidden = j !== i; }); k.idx = i; }
+  function arm(k) { clearTimeout(k.t); k.el.setAttribute('data-stepping', 'on'); k.t = setTimeout(function () { show(k, (k.idx + 1) % k.rows.length); arm(k); }, D); }
+  function stop(k) { clearTimeout(k.t); k.t = 0; k.el.setAttribute('data-stepping', 'off'); }
+  function refresh() {
+    var best = null;
+    ks.forEach(function (k) { if (!reduced && k.seen > 0 && (!best || k.seen > best.seen)) best = k; });
+    ks.forEach(function (k) { if (k === best) { if (!k.t) arm(k); } else stop(k); });
+  }
+  ks.forEach(function (k) {
+    if (!reduced) k.pause.hidden = false;
+    k.pause.addEventListener('click', function () { if (k.t) { stop(k); k.pause.textContent = 'Play'; } else { arm(k); k.pause.textContent = 'Pause'; } });
+    k.rows.forEach(function (r, n) { r.addEventListener('click', function (e) { e.preventDefault(); show(k, n); stop(k); }); });
+  });
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { ks.forEach(function (k) { if (k.el === e.target) k.seen = e.isIntersecting ? e.intersectionRect.height : 0; }); }); refresh(); }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+  ks.forEach(function (k) { io.observe(k.el); });
+  if (reduced) setInterval(function () {}, 4500);   // the defect
+})();
+</script>
+</body></html>

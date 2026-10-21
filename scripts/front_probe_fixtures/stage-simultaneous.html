@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>fixture: two containers step at once</title>
+<style>body{margin:0;padding:12px;background:#222;color:#eee;font:14px/1.5 sans-serif}.fp-ks{min-height:700px;margin-bottom:12px}[hidden]{display:none!important}</style></head>
+<body>
+<!-- BROKEN ON PURPOSE: every container arms its own step timer on load, so two step at once. The real script lets
+     only the container most in view step. The stage probe must report it (check "stage"). -->
+<div class="fp-ksx" data-dwell="2500" data-min-steps="3">
+<section class="fp-ks" data-kind="a" data-steps="yes"><button class="fp-ks-pause" type="button">Pause</button>
+<ul><li><a class="fp-ks-link" data-slug="a1" href="#a1" aria-current="true">A1</a></li><li><a class="fp-ks-link" data-slug="a2" href="#a2">A2</a></li><li><a class="fp-ks-link" data-slug="a3" href="#a3">A3</a></li></ul>
+<div><div class="fp-ks-panel" data-slug="a1">A1</div><div class="fp-ks-panel" data-slug="a2" hidden>A2</div><div class="fp-ks-panel" data-slug="a3" hidden>A3</div></div></section>
+<section class="fp-ks" data-kind="b" data-steps="yes"><button class="fp-ks-pause" type="button">Pause</button>
+<ul><li><a class="fp-ks-link" data-slug="b1" href="#b1" aria-current="true">B1</a></li><li><a class="fp-ks-link" data-slug="b2" href="#b2">B2</a></li><li><a class="fp-ks-link" data-slug="b3" href="#b3">B3</a></li></ul>
+<div><div class="fp-ks-panel" data-slug="b1">B1</div><div class="fp-ks-panel" data-slug="b2" hidden>B2</div><div class="fp-ks-panel" data-slug="b3" hidden>B3</div></div></section>
+</div>
+<script>
+(function () {
+  var D = parseInt(document.querySelector('.fp-ksx').dataset.dwell, 10);
+  var ks = [].map.call(document.querySelectorAll('.fp-ks'), function (el) {
+    return { el: el, rows: [].slice.call(el.querySelectorAll('.fp-ks-link')), panels: [].slice.call(el.querySelectorAll('.fp-ks-panel')), idx: 0, t: 0, pause: el.querySelector('.fp-ks-pause') };
+  });
+  function show(k, i) { k.rows.forEach(function (r, j) { if (j === i) r.setAttribute('aria-current', 'true'); else r.removeAttribute('aria-current'); k.panels[j].hidden = j !== i; }); k.idx = i; }
+  function arm(k) { clearTimeout(k.t); k.el.setAttribute('data-stepping', 'on'); k.t = setTimeout(function () { show(k, (k.idx + 1) % k.rows.length); arm(k); }, D); }
+  function stop(k) { clearTimeout(k.t); k.t = 0; k.el.setAttribute('data-stepping', 'off'); }
+  ks.forEach(function (k) {
+    arm(k);
+    k.pause.addEventListener('click', function () { if (k.t) { stop(k); k.pause.textContent = 'Play'; } else { arm(k); k.pause.textContent = 'Pause'; } });
+    k.rows.forEach(function (r, n) { r.addEventListener('click', function (e) { e.preventDefault(); show(k, n); stop(k); }); });
+  });
+})();
+</script>
+</body></html>

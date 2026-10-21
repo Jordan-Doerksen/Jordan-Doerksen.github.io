@@ -17,6 +17,7 @@ import path from 'path';
 import crypto from 'crypto';
 import { fileURLToPath, pathToFileURL } from 'url';
 import { inPage } from './front_probe_checks.mjs';
+import { probeStage } from './front_probe_stage.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(HERE, '..');
@@ -153,6 +154,8 @@ async function selftest(browser) {
     // "console-missingfile.html" must be caught by the console check; "clean-abortedframe.html" must pass like clean.
     const want = f.replace('.html', '').split('-')[0];
     const found = [...await probeOne(browser, url, { width: 375, theme: 'light', extras: true }), ...await probeModes(browser, url)];
+    // The stage rules (CR-32) drive a fake clock and are slow, so only a stage-*.html fixture runs them.
+    if (want === 'stage') found.push(...await probeStage(browser, url, { width: 1280 }));
     const kinds = [...new Set(found.map((i) => i.check))];
     const ok = want === 'clean' ? found.length === 0 : kinds.includes(want);
     if (!ok) missed++;
@@ -221,10 +224,14 @@ if (argv.includes('--selftest')) {
     }
   }
   for (const p of pages) for (const i of await probeModes(browser, urlOf(p))) all.push({ ...i, page: p, width: 'mode', theme: '-' });
+  // The kind stage lives on Home only (CR-32): stepping, Pause, takeover and reduced motion, at the widths in config.
+  for (const p of pages.filter((x) => cfg.stage_pages.includes(x))) {
+    for (const w of cfg.stage_widths) for (const i of await probeStage(browser, urlOf(p), { width: w })) all.push({ ...i, page: p, width: w, theme: '-' });
+  }
   const skipped = want.filter((p) => !pages.includes(p));
   const kinds = [...new Set(all.map((i) => i.check))];
   console.log('checked ' + pages.length + ' pages x ' + widths.length + ' widths x ' + themes.length + ' themes' + (skipped.length ? '  (not built: ' + skipped.join(', ') + ')' : ''));
-  for (const k of ['overflow', 'gutter', 'chrome', 'contrast', 'edge', 'markers', 'skiplink', 'focus', 'escape', 'console', 'motion', 'deadcontrol', 'nocontent', 'hiddentext']) {
+  for (const k of ['overflow', 'gutter', 'chrome', 'contrast', 'edge', 'markers', 'skiplink', 'focus', 'escape', 'console', 'motion', 'deadcontrol', 'nocontent', 'hiddentext', 'stage']) {
     const hits = all.filter((i) => i.check === k);
     console.log((hits.length ? 'FAIL    ' : 'PASS    ') + k.padEnd(12) + (hits.length ? hits.length + ' issue(s); first: ' + hits[0].page + ' @' + hits[0].width + ' ' + hits[0].theme + ': ' + hits[0].msg : ''));
     hits.slice(0, 40).forEach((h) => log('error', 'issue', h));
