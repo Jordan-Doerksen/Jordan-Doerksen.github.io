@@ -10,7 +10,7 @@
     "desk/index.html"
   ],
   "widths": [320, 375, 412, 768, 1024, 1280, 1920],
-  "themes": ["light", "dark"],
+  "themes": ["dark"],
   "keyboard_widths": [375, 1280],
   "gutter_px": 8,
   "max_tabs": 160,

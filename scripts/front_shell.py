@@ -33,14 +33,8 @@ GENERATED = (
     "Do not edit by hand: change the config or the script and rebuild (scripts/FRONT-PAGE.md). -->"
 )
 
-# Sets data-theme before first paint. DARK is the default (CR-24, the OPEN-tier ruling): the page is dark
-# unless the stored choice (fp-theme) is "light". A storage error therefore also gives dark. Without a script the
-# CSS fallback shows (the light :root block), which needs no code. The system setting is no longer read: a
-# visitor whose system says light still gets the dark board, and the toggle is the one way to light.
-THEME_SCRIPT = (
-    '<script>try{if(localStorage.getItem("fp-theme")!=="light")document.documentElement.dataset.theme="dark"}'
-    'catch(x){document.documentElement.dataset.theme="dark"}</script>'
-)
+# Dusk (CR-30): one dark ground. There is no light theme, no theme control and no theme script; <html> carries
+# data-tier from config skin.tier instead (the tier decides whether the wall drifts).
 
 _BOLD = re.compile(r"\*\*(.+?)\*\*")
 
@@ -178,8 +172,6 @@ def shell_open(pg: Page) -> str:
         '    <span class="fp-crumb"><span>%s</span><b>%s</b></span>\n'
         '    <div class="fp-end">\n'
         "      %s\n"
-        '      <button type="button" class="fp-theme" id="fp-theme" aria-pressed="false" title="%s" hidden>'
-        '<span class="fp-dot" aria-hidden="true"></span>%s</button>\n'
         "    </div>\n"
         "  </header>\n"
         '  <main class="fp-main" id="fp-main"><div class="fp-track">\n'
@@ -198,8 +190,6 @@ def shell_open(pg: Page) -> str:
             esc_text(group),
             esc_text(pg.screen["title"]),
             find_html(pg),
-            esc_attr(ui["theme_title"]),
-            esc_text(ui["theme"]),
         )
     )
 
@@ -225,7 +215,6 @@ def _head(pg: Page, part: dict) -> str:
         lines.append('<meta name="robots" content="%s">' % esc_attr(robots))
     # No icon file exists yet. An empty data URI stops the browser asking for /favicon.ico (a 404).
     lines.append('<link rel="icon" href="data:,">')
-    lines.append(THEME_SCRIPT)
     lines += ['<link rel="stylesheet" href="%s">' % esc_attr(pg.root + path) for path in css]
     return "<head>\n%s\n</head>" % "\n".join(lines)
 
@@ -246,6 +235,6 @@ def render_page(pg: Page, part: dict) -> str:
     """The whole document for one screen. `part` is {"body": html, "css": [...], "tail": [(kind, value)]}."""
     return (
         "<!doctype html>\n%s\n"
-        '<html lang="en">\n%s\n%s%s\n</div></main>\n</div>\n%s\n</body>\n</html>\n'
-        % (GENERATED, _head(pg, part), shell_open(pg), part["body"], _tail(pg, part))
+        '<html lang="en" data-tier="%s">\n%s\n%s%s\n</div></main>\n</div>\n%s\n</body>\n</html>\n'
+        % (GENERATED, esc_attr(pg.cfg["skin"]["tier"]), _head(pg, part), shell_open(pg), part["body"], _tail(pg, part))
     )

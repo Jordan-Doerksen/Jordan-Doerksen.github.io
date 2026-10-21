@@ -29,16 +29,24 @@
     "site_aria": "Site",
     "nav_aria": "Sections",
     "menu": "Menu",
-    "theme": "Dark",
-    "theme_title": "Dark theme",
     "search_placeholder": "Search {projects} projects",
     "search_aria": "Search projects and tools",
     "sidefoot": "Figures as of {asof}"
   },
 
+  "skin": {
+    "_": "Dusk, the house skin (CR-30, item 35). The five Dusk layers are listed first in assets.css, in their fixed order, before styles/front/*. tier is written on <html> as data-tier: OPEN on the front page, so the wall drifts. There is no data-ambient attribute; the drift is on (SKIN-06). One dark ground: there is no light theme and no theme control.",
+    "tier": "open"
+  },
+
   "assets": {
     "_": "Repo-relative. The page prefixes each with its own root, so the same paths work from docs/front-page/ and from the repo root.",
     "css": [
+      "styles/dusk/dusk.tokens.css",
+      "styles/dusk/dusk.base.css",
+      "styles/dusk/dusk.components.css",
+      "styles/dusk/dusk.compose.css",
+      "styles/dusk/dusk.motion.css",
       "styles/front/front.tokens.css",
       "styles/front/front.shell.css",
       "styles/front/front.parts.css"

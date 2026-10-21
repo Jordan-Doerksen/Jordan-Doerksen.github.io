@@ -62,7 +62,8 @@
 /* max-height: the toolkit's category list is longer than the window can be short. */
 .fp-pop { position: absolute; z-index: 5; top: calc(100% + var(--gap-tight)); left: 0; width: var(--pop-w);
   max-height: min(60svh, 440px); overflow-x: hidden; overflow-y: auto; padding: 4px;
-  background: var(--bg-raised); border: 1px solid var(--edge); border-radius: var(--radius-md); box-shadow: var(--shadow-pop); }
+  background: var(--bg-raised); border: 1px solid var(--edge); border-radius: var(--radius-md); box-shadow: var(--shadow-pop);
+  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); /* Dusk: the list is glass, and glass blurs what is under it, so the table text behind a translucent fill cannot cut across the options */ }
 .fp-pop label { display: flex; align-items: center; gap: 10px; min-height: 32px; padding: 0 8px;
   border-radius: var(--radius-sm); cursor: pointer; }
 .fp-pop label:hover { background: var(--bg-sunken); }
@@ -188,7 +189,6 @@
 @media (forced-colors: active) {
   .fp-st::before, .fp-star::before { forced-color-adjust: none; background-color: CanvasText; }
   .fp-st[data-s]::before { border-color: CanvasText; }
-  .fp-theme[aria-pressed="true"] .fp-dot { forced-color-adjust: none; background-color: CanvasText; border-color: CanvasText; }
   .fp-nav a[aria-current="page"] { text-decoration: underline; }
 }
 

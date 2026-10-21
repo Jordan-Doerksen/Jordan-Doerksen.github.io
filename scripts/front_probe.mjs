@@ -55,9 +55,8 @@ const label = (m) => (m.startsWith('control edge') ? 'edge' : 'contrast');
 
 async function probeOne(browser, url, { width, theme, extras }) {
   const ctx = await browser.newContext({ colorScheme: theme, viewport: { width, height: 900 } });
-  // Dark is the page's default (CR-24), so the light run sets the stored choice the toggle sets. Without
-  // this the "light" run would measure the dark page, whatever the colour scheme says.
-  await ctx.addInitScript((t) => { try { if (t === 'light') localStorage.setItem('fp-theme', 'light'); } catch (e) {} }, theme);
+  // Dusk (CR-30): the light theme and its stored choice no longer exist, so there is no init script. The theme
+  // list in front_probe.config.json is what the page has: one.
   const page = await ctx.newPage();
   const issues = [];
   const add = (check, msgs) => msgs.forEach((msg) => issues.push({ check, msg }));
@@ -216,7 +215,7 @@ if (argv.includes('--selftest')) {
     for (const p of pages) {
       for (const w of widths) {
         const url = urlOf(p);
-        const extras = theme === 'light' && cfg.keyboard_widths.includes(w);
+        const extras = theme === themes[0] && cfg.keyboard_widths.includes(w); // was theme === 'light': with the light theme retired (CR-30) the keyboard walk would never run
         for (const i of await probeOne(browser, url, { width: w, theme, extras })) all.push({ ...i, page: p, width: w, theme });
       }
     }

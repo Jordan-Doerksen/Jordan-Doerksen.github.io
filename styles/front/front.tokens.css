@@ -1,153 +1,107 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"); /* C skin: the three faces /method/ loads, same request; display=swap shows the fallback stack until they arrive. An @import must come first in the file. */
-
 /* The front page's one token file.
  *
- * Every colour, size, radius, shadow and duration the front page uses is
- * declared here and nowhere else. front.shell.css and front.parts.css read
- * these names and never write a value of their own, so a colour change is an
- * edit to this file only.
+ * Every size, radius, shadow and duration the front page uses is declared here
+ * and nowhere else; every colour here is a var() that points at a Dusk token.
+ * front.shell.css and front.parts.css read these names and never write a
+ * value of their own, so a colour change is an edit to this file only.
  *
- * SKIN (CR-24, item 12 chunk 2). Variant C, Board, since 2026-10-20: the navy
- * board under glass that /method/ and the nine Stagecraft pages wear. D-A27's
- * composition is kept (SKIN-01); only colour, type, corners, shadow and the
- * ground change. The values are read from method/tokens.css (dark) and from
- * styles/stagecraft.tokens.css (dark and its light counterpart, made in chunk
- * 1), so the three skins agree. The map from each name here to its source is in
- * docs/skin-lab/front-c/DECISIONS.md. The donor look this file carried from
- * 2026-10-18 to 2026-10-20 (satnaing/shadcn-admin, MIT, green accent) is in
- * git history.
+ * SKIN (CR-30, item 35). Dusk since 2026-10-21, the house skin: dark glass over
+ * the plum-to-gold wall. The five Dusk layers (styles/dusk/, copied byte for byte
+ * from C:\projects\reference\dusk\styles) load before this file, in their fixed
+ * order: tokens, base, components, compose, motion. This file MAPS the front's
+ * names onto Dusk's tokens; it copies no Dusk value, so a Dusk solve flows
+ * through (PRIN-03). D-A27's composition is kept (SKIN-01): only colour, type,
+ * corners, shadow and the ground change. The skin this file carried from
+ * 2026-10-20 to 2026-10-21 (variant C, Board, CR-24: a navy board with a light
+ * theme and a toggle) is in git history.
  *
- * THEME DEFAULT: DARK (the site master's call under the OPEN-tier ruling,
- * CR-24). The light block is the toggle's other state, not the default: the
- * head script in scripts/front_shell.py sets data-theme="dark" unless the
- * stored choice is "light". Without a script the page shows the :root block,
- * which is light, on purpose: it is the one fallback that needs no code.
+ * ONE GROUND. There is no light theme, no data-theme attribute and no theme
+ * control (CR-2026-10-20-HOUSELOOK section 2: "No light counterpart is
+ * designed"). CR-24's dark default with a light toggle is superseded by CR-30.
  *
- * SIX GROUNDS. --bg the sheet; --bg-raised panels on it; --bg-sunken badges
- * and hover wells; --side-bg the ground the sheet sits on; --surface-hover a
- * table row under the pointer; --accent-bg the current page and a pressed
- * toggle. Every ink is measured on all six, in both themes. The sheet, the
- * panels and the bar are drawn as glass (--panel, --panel-raised, --bar-bg):
- * a translucent fill over the ground. --bg and --bg-raised are the resting
- * colour of those fills with no glow behind them; the glow only lifts the
- * ground, and the lightest it reaches (#173060 in dark) was measured too:
- * ink-faint 6.01, live 5.94, ink 12.00.
+ * THE MAP, front name -> Dusk token (Dusk measures its inks as WCAG 2 contrast
+ * on glass over its brightest wall stop, wall-4, so the worst case is covered
+ * where the front uses Dusk's own pairs):
+ *   the ground     the wall, drawn by Dusk's base layer (body::before). The sheet
+ *                  and the bar are glass; the sidebar is the side glass. Text
+ *                  sits on glass, never on the bare wall.
+ *   --bg           the wall's dark end (opaque): the skip link, small controls,
+ *                  the games player overlay.
+ *   --bg-raised    --glass: the search box, the facet list, the phone nav.
+ *   --bg-sunken    --wash-1, Dusk's row-hover wash: wells and badges.
+ *   --panel        --glass (the sheet).  --panel-raised --wash-3 (Dusk's panel).
+ *   --bar-bg       --glass.  --side-bg --glass-side.
+ *   --edge         --hair (decoration).  --sheet-edge --hair-2 (the window edge).
+ *   --hairline     --ink-3: the control edge. Dusk's hair-2 is a decorative 18%
+ *                  white and reaches about 1.7:1; a control edge needs 3:1
+ *                  (WCAG 1.4.11), and ink-3 clears it on glass over the wall.
+ *   --ink          Dusk's --ink (not redeclared here: a self-reference would
+ *                  be a cycle).  --ink-dim --ink-2.  --ink-faint --ink-3.
+ *   --live         --amber-ink: links, kickers and the live marker, as the
+ *                  sketch the owner picked from draws its accent.
+ *   --good         --green-ink.  --warn --amber-ink.  --bad --red-ink.
+ *   --primary      --btn-bg and --primary-ink --btn-ink: Dusk's own button pair.
+ *   --accent-bg    --wash-2 (Dusk's current row).  --accent-ink --ink.
+ *   --surface-hover --wash-1.  --shadow-1 and --shadow-pop --shadow-win.
+ *   --blur         Dusk's --blur, not redeclared (same reason as --ink).
+ * Names the front keeps that share a name with a Dusk token and a different
+ * value: --gap (12px here, 14px in Dusk). No Dusk part is used on the front, so
+ * nothing reads Dusk's --gap; the front's layout keeps its own rhythm.
  *
- * MEASURE. WCAG 2.1 relative luminance, ratio (L1+0.05)/(L2+0.05), computed
- * by a script that reads these values. Text needs 4.5. A control edge needs
- * 3.0 (WCAG 1.4.11): --hairline is the control edge, --edge is the faint rule
- * on cards and rows and is decoration, so it is not held to 3.0. A "!" beside
- * a ratio would mark a failure; there is none.
+ * NO PILLS (owner, D-A27 item 7; CR-2026-10-20-HOUSELOOK section 6). Controls
+ * take Dusk's 6px corner (--r-control), windows its 14px (--r-window).
+ * --radius-dot (Dusk's --r-circle) is the only round value and is read by
+ * status dots only.
  *
- * MEASURED - LIGHT
- *   grounds   bg #F9FBFD . raised #FFFFFF . sunken #E3EAF4 . side #F2F5FA . hover #EDF1F8 . accent-bg #DEE7F6
- *                                bg    raised    sunken      side     hover accent-bg
- *   ink           #0A1628     17.48    18.13    14.97    16.59    16.00    14.56
- *   ink-dim       #22334D     12.28    12.74    10.52    11.66    11.24    10.23
- *   ink-faint     #4A5B74      6.66     6.91     5.70     6.32     6.10     5.55
- *   good          #0A6B4D      6.28     6.52     5.38     5.96     5.75     5.23
- *   warn          #7A5500      6.47     6.72     5.55     6.15     5.93     5.39
- *   bad           #B3261E      6.30     6.54     5.40     5.98     5.77     5.25
- *   live          #1A56C4      6.38     6.62     5.47     6.06     5.84     5.32
- *   accent-ink    #0F3A8A     10.16    10.54     8.70     9.64     9.30     8.47
- *   hairline      #6A80A0      3.89     4.03     3.33     3.69     3.56     3.24
- *   hairline-lit  #566D8F      5.09     5.28     4.36     4.83     4.66     4.24
- *   --primary-ink #FFFFFF on --primary #1A56C4: 6.62
- *   badge text (--ink on --bg-sunken): 14.97
- *   pressed-toggle edge (--accent-ink on --bg): 10.16
- *
- * MEASURED - DARK
- *   grounds   bg #0B1C33 . raised #0F2340 . sunken #1A3257 . side #061527 . hover #112B4D . accent-bg #1D3453
- *                                bg    raised    sunken      side     hover accent-bg
- *   ink           #F4F7FB     15.91    14.64    11.93    17.08    13.24    11.71
- *   ink-dim       #D7DEEA     12.64    11.63     9.48    13.57    10.52     9.31
- *   ink-faint     #A4B2C8      7.96     7.33     5.97     8.55     6.62     5.86
- *   good          #3DDC97      9.68     8.90     7.26    10.38     8.05     7.12
- *   warn          #F0B64A      9.36     8.61     7.02    10.05     7.79     6.89
- *   bad           #FF8F84      7.75     7.13     5.81     8.31     6.44     5.70
- *   live          #7CB2FF      7.87     7.24     5.90     8.45     6.55     5.80
- *   accent-ink    #D6E6FF     13.53    12.45    10.15    14.53    11.26     9.96
- *   hairline      #6A83A8      4.42     4.06     3.31     4.74     3.67     3.25
- *   hairline-lit  #8AA2C6      6.57     6.04     4.92     7.05     5.46     4.83
- *   --primary-ink #061527 on --primary #7CB2FF: 8.45
- *   badge text (--ink on --bg-sunken): 11.93
- *   pressed-toggle edge (--accent-ink on --bg): 13.53
- *   The tightest ground in dark is --bg-sunken, which is the LIGHTEST of the
- *   grounds there, then --accent-bg. Measure a new dark ink on those two first.
- *
- * DARK IS NOT AN INVERSION. It is a second set, measured on its own. The
- * theme changes colour, glass and shadow only: type, size, radius and rhythm
- * are declared once, in :root, and are not repeated in the dark block.
- *
- * ADDED to the contract's names (the contract's names are all kept, none
- * renamed): --shadow-pop --sheet-gap --shell-pad-narrow --pop-w --find-w
- * --radius-xs --radius-sm --radius-md --radius-dot --fs-ctl --fs-read --fs-sub,
- * and for the C skin --font-display --w-display --track-head --panel
- * --panel-raised --bar-bg --blur --bar-blur --glow --glow-anim --glow-dur
- * --glow-size. Nothing in front.shell.css or front.parts.css reads --bad or
- * --hairline-lit yet; they stay because the contract fixes the names.
- *
- * NO PILLS (owner, D-A27 item 7). Corners are 4px (C's --md-r), --radius-xs,
- * or --radius-dot, the only round value, read by the status dots and the theme
- * dot, nothing else.
- *
- * THE GLOW. One ambient drift on the ground only, drawn by a fixed layer behind
- * the page (front.shell.css). It stops under prefers-reduced-motion: reduce and
- * turns off per page with data-ambient="off" on <html>. No file writes the
- * value "on" (brain claim SKIN-02 reads index.html for it).
+ * THE WALL AND THE DRIFT. Dusk's base layer draws the wall and its motion layer
+ * drifts it, on an OPEN page (<html data-tier="open">, written by the generator
+ * from config skin.tier). The drift stops under prefers-reduced-motion. There is
+ * no data-ambient attribute on any front page, so the drift is on (SKIN-06).
  */
 :root {
   /* Grounds and rules. */
-  --bg:          #F9FBFD;
-  --bg-raised:   #FFFFFF;
-  --bg-sunken:   #E3EAF4;
-  --side-bg:     #F2F5FA;
-  --edge:        rgba(6,21,39,.18);
-  --hairline:    #6A80A0;
-  --hairline-lit:#566D8F;
+  --bg:          var(--wall-1);
+  --bg-raised:   var(--glass);
+  --bg-sunken:   var(--wash-1);
+  --side-bg:     var(--glass-side);
+  --edge:        var(--hair);
+  --sheet-edge:  var(--hair-2);
+  --hairline:    var(--ink-3);
+  --hairline-lit:var(--ink-2);
 
-  /* Glass (C's panel, bar and blur). Translucent fills over the ground; --bg
-     and --bg-raised above are their resting colour. */
-  --panel:       rgba(255,255,255,.55);
-  --panel-raised:rgba(255,255,255,.7);
-  --bar-bg:      rgba(242,245,250,.72);
-  --blur:        blur(16px);
-  --bar-blur:    blur(16px);
+  /* Glass: Dusk's own. --blur is Dusk's token and is read as it is. */
+  --panel:       var(--glass);
+  --panel-raised:var(--wash-3);
+  --bar-bg:      var(--glass);
+  --bar-blur:    var(--blur);
 
-  /* The one ambient glow, on the ground only. The keyframe is fp-drift in
-     front.shell.css; --glow-anim: none turns it off. */
-  --glow:        radial-gradient(ellipse at 22% 35%, rgba(70,130,255,.16), rgba(70,130,255,0) 55%);
-  --glow-anim:   fp-drift;
-  --glow-dur:    18s;
-  --glow-size:   130% 100%;
-
-  /* Text. */
-  --ink:         #0A1628;
-  --ink-dim:     #22334D;
-  --ink-faint:   #4A5B74;
+  /* Text. --ink is Dusk's. */
+  --ink-dim:     var(--ink-2);
+  --ink-faint:   var(--ink-3);
 
   /* State. Named for the meaning. A colour is never the only carrier: the
      status marker, the star and the pressed toggle each draw a shape. */
-  --good:        #0A6B4D;
-  --warn:        #7A5500;
-  --bad:         #B3261E;
-  --live:        #1A56C4;
+  --good:        var(--green-ink);
+  --warn:        var(--amber-ink);
+  --bad:         var(--red-ink);
+  --live:        var(--amber-ink);
 
   /* The shell's surfaces. --primary is the brand tile and the checkbox; the
      accent pair is the current page and the pressed toggle. */
-  --primary:     #1A56C4;
-  --primary-ink: #FFFFFF;
-  --accent-bg:   #DEE7F6;
-  --accent-ink:  #0F3A8A;
-  --surface-hover:#EDF1F8;
-  --shadow-1:    0 18px 44px rgba(6,21,39,.12), inset 0 1px 0 rgba(255,255,255,.8);
-  --shadow-pop:  0 18px 44px rgba(6,21,39,.18), inset 0 1px 0 rgba(255,255,255,.8);
+  --primary:     var(--btn-bg);
+  --primary-ink: var(--btn-ink);
+  --accent-bg:   var(--wash-2);
+  --accent-ink:  var(--ink);
+  --surface-hover:var(--wash-1);
+  --shadow-1:    var(--shadow-win);
+  --shadow-pop:  var(--shadow-win);
 
-  /* Type. 13, 15 and 17 sit between the contract's sizes because the
-     approved mockup draws controls, the intro and door titles at them. */
-  --font-ui:   "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --font-display: "Space Grotesk", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  /* Type: Dusk's system stack, no web font, no CDN (Dusk: the request for Inter,
+     Space Grotesk and JetBrains Mono is gone). --font-ui is Dusk's. Dusk has no
+     monospace token, so the mono stack keeps the system faces the old stack
+     already ended in. */
+  --font-display: var(--font-ui);
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
   --w-display: 600;
   --track-head: -0.01em;
   --fs-micro:  11px;
@@ -157,7 +111,6 @@
   --fs-read:   15px;
   --fs-sub:    17px;
   --fs-lead:   20px;
-  --fs-title:  24px;
   --fs-fig:    30px;
 
   /* Shell constants, in px on purpose: html is 14px, so the donor's rem
@@ -173,56 +126,20 @@
   --pop-w:            248px;
   --find-w:           272px;
 
-  /* Rhythm and corners. */
+  /* Rhythm and corners. Dusk's corners: 6px for every control, 14px for a
+     window. --radius-xs stays 2px (the checkbox box and the status marker). */
   --gap-tight: 6px;
   --gap:       12px;
   --gap-wide:  20px;
   --radius-xs: 2px;
-  --radius-sm: 4px;
-  --radius:    4px;
-  --radius-md: 4px;
-  --radius-lg: 4px;
-  --radius-dot: 50%;
+  --radius-sm: var(--r-control);
+  --radius:    var(--r-control);
+  --radius-md: var(--r-control);
+  --radius-lg: var(--r-window);
+  --radius-dot: var(--r-circle);
 
-  /* Motion has a job or it does not happen: state changes only. */
-  --t-state: 140ms;
-
-  color-scheme: light;
-}
-
-:root[data-theme="dark"] {
-  --bg:          #0B1C33;
-  --bg-raised:   #0F2340;
-  --bg-sunken:   #1A3257;
-  --side-bg:     #061527;
-  --edge:        rgba(170,200,255,.18);
-  --hairline:    #6A83A8;
-  --hairline-lit:#8AA2C6;
-
-  --panel:       rgba(16,34,62,.5);
-  --panel-raised:rgba(20,42,76,.55);
-  --bar-bg:      rgba(6,21,39,.62);
-
-  --glow:        radial-gradient(ellipse at 22% 35%, rgba(70,130,255,.26), rgba(70,130,255,0) 55%);
-
-  --ink:         #F4F7FB;
-  --ink-dim:     #D7DEEA;
-  --ink-faint:   #A4B2C8;
-
-  --good:        #3DDC97;
-  --warn:        #F0B64A;
-  --bad:         #FF8F84;
-  --live:        #7CB2FF;
-
-  --primary:     #7CB2FF;
-  --primary-ink: #061527;
-  --accent-bg:   #1D3453;
-  --accent-ink:  #D6E6FF;
-  --surface-hover:#112B4D;
-  --shadow-1:    0 18px 44px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.07);
-  --shadow-pop:  0 18px 44px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.07);
-
-  color-scheme: dark;
+  /* Motion has a job or it does not happen: state changes only. Dusk's confirm duration. */
+  --t-state: var(--m-confirm);
 }
 
 /* The duration lives here, not in front.shell.css, because a raw duration may

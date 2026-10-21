@@ -459,7 +459,7 @@ def c_hidden_until_script(x: Ctx):
     """Anything that needs a script ships hidden, so a failed script leaves no dead control."""
     bad = []
     for sid, (_, pg, _) in x.pages.items():
-        for key in ("fp-menu-btn", "fp-theme", "form.fp-find"):
+        for key in ("fp-menu-btn", "form.fp-find"):  # Dusk (CR-30): the theme control retired; "fp-theme" is no longer on any page
             if not pg.hidden_ids.get(key):
                 bad.append("%s: %s is not hidden" % (sid, key))
         if sid == "desk" and not pg.hidden_ids.get("fp-toolbar"):
@@ -518,7 +518,9 @@ MUTATIONS = [
     ("a local path on the page", "no_local_data", D, "append", "<p>C:\\projects\\CN Conductor Trainer</p>"),
     ("an exclamation mark", "voice", H, "replace", ('<p class="fp-stamp">', '<p class="fp-stamp">Hello! ')),
     ("a module script", "js_rules", H, "replace", ('<script src="../../js/front/shell.js">', '<script type="module" src="../../js/front/shell.js">')),
-    ("a visible script-only control", "hidden_until_script", H, "replace", ('title="Dark theme" hidden>', 'title="Dark theme">')),
+    # Retargeted 2026-10-21 (CR-30): the theme button retired with the light theme. The same check, the same
+    # strength, now broken on the menu button, the other control that ships hidden on every page.
+    ("a visible script-only control", "hidden_until_script", H, "replace", ('aria-controls="fp-nav" hidden>', 'aria-controls="fp-nav">')),
     ("a fourth chrome cluster", "chrome_budget", H, "replace", ('<div class="fp-track">', '<div data-chrome="extra" class="fp-track">')),
     ("the breakpoints disagree", "breakpoint_pair", "js/front/shell.js", "replace", ("768px", "760px")),
     ("a missing project row", "desk_rows", D, "regex", (r'(<tbody[^>]*id="fp-proj-rows"[^>]*>)\s*<tr.*?</tr>', r"\1")),

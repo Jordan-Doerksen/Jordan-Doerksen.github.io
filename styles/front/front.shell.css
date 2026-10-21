@@ -6,9 +6,10 @@
 
 /* ---- RESET BEGIN: the only rules in the front stylesheets without an fp- class ---- */
 *, *::before, *::after { box-sizing: border-box; }
+/* Dusk: html has no background any more. Dusk's base layer paints the ground on body, and body's background only
+   reaches the canvas when html has none; with one here, body would paint its plum over the wall layer. */
 html {
   font: var(--fs-body)/1.5 var(--font-ui);
-  background: var(--side-bg);
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -16,22 +17,17 @@ html {
      scrolls into view (WCAG 2.4.11). */
   scroll-padding-top: calc(var(--shell-bar) + var(--shell-pad));
 }
-body { margin: 0; min-height: 100svh; }
+/* Dusk: dusk.compose.css puts a page gutter (padding) on body. The front keeps its own gutters (--sheet-gap and
+   --shell-pad, measured by the probe's gutter check) and its fixed sidebar, so the composition stays as it was. */
+body { margin: 0; padding: 0; min-height: 100svh; }
 /* A rule with display set would beat the UA's [hidden]. Controls that need a
    script ship hidden, so this must win. */
 [hidden] { display: none !important; }
-/* One ring for every link, button, input, summary and select. --live is 6.8:1
-   or better on every ground in both themes. */
-:focus-visible { outline: 2px solid var(--live); outline-offset: 2px; }
-/* C skin: the ground glow (body has no fp- class, so it lives in this block), one ambient drift on a fixed layer behind the page, token --glow. It moves the
-   gradient inside its own box, never the box (WEB-14). Stopped under reduced motion below; the one
-   per-page off switch is data-ambient="off". */
-body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: var(--glow) 0 50% / var(--glow-size) no-repeat;
-  animation: var(--glow-anim) var(--glow-dur) ease-in-out infinite alternate; }
-@keyframes fp-drift { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
-html[data-ambient="off"] body::before { animation: none; }
-@media (prefers-reduced-motion: reduce) { body::before { animation: none; } } /* C skin: the ground glow stops */
+/* Dusk: the focus ring is Dusk's (dusk.base.css, one ring for every interactive part: 2px, offset 2px, --focus);
+   the front's own ring in --live is gone, so the two cannot disagree. */
+/* Dusk: the ground and its drift are Dusk's (dusk.base.css draws the wall on body::before, dusk.motion.css drifts it
+   on an OPEN page and stops it under prefers-reduced-motion). The front's own glow layer, its fp-drift keyframes,
+   its data-ambient="off" rule and its reduced-motion rule are gone, so two layers cannot fight for body::before. */
 /* ---- RESET END ---- */
 
 /* Icons are Lucide paths inlined by the generator; they draw as strokes. */
@@ -48,7 +44,7 @@ html[data-ambient="off"] body::before { animation: none; }
 /* ---- cluster 1 of 3: the sidebar (identity + navigation) ---- */
 /* overflow-y only: the sidebar scrolls when the window is short, never sideways. */
 .fp-side { position: fixed; inset: 0 auto 0 0; width: var(--shell-side); display: flex; flex-direction: column;
-  gap: var(--gap); padding: 12px; overflow-x: hidden; overflow-y: auto; background: none; /* C skin: the glow shows through the sidebar, ground --side-bg is the html colour */ }
+  gap: var(--gap); padding: 12px; overflow-x: hidden; overflow-y: auto; background: var(--side-bg); /* Dusk: the sidebar is Dusk's side glass; text sits on glass, never on the bare wall */ }
 .fp-brandrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .fp-brand { display: flex; align-items: center; gap: 10px; padding: 4px 6px; min-height: 48px;
   border-radius: var(--radius); text-decoration: none; color: inherit; }
@@ -73,7 +69,7 @@ html[data-ambient="off"] body::before { animation: none; }
 /* ---- the sheet, and cluster 2 of 3: the bar (orientation) ---- */
 .fp-sheet { margin: var(--sheet-gap) var(--sheet-gap) var(--sheet-gap) var(--shell-side);
   min-height: calc(100svh - 2 * var(--sheet-gap)); min-width: 0; background: var(--panel); /* C skin: glass sheet, token --panel */
-  border: 1px solid var(--edge); border-radius: var(--radius-lg); box-shadow: var(--shadow-1); }
+  border: 1px solid var(--sheet-edge); /* Dusk: the window edge is Dusk's hair-2 */ border-radius: var(--radius-lg); box-shadow: var(--shadow-1); }
 .fp-bar { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; gap: var(--gap);
   height: var(--shell-bar); padding: 0 16px; background: var(--bar-bg); backdrop-filter: var(--bar-blur); -webkit-backdrop-filter: var(--bar-blur); /* C skin: glass bar, tokens --bar-bg --bar-blur */
   border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
@@ -99,12 +95,7 @@ html[data-ambient="off"] body::before { animation: none; }
 .fp-find kbd { font: var(--fs-micro)/1 var(--font-mono); border: 1px solid var(--hairline);
   border-radius: var(--radius-sm); padding: 2px 5px; color: var(--ink-faint); }
 
-.fp-theme { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px;
-  border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--bg); color: var(--ink);
-  font: inherit; cursor: pointer; transition: background var(--t-state); }
-.fp-theme:hover { background: var(--bg-sunken); }
-.fp-dot { flex: none; width: 10px; height: 10px; border-radius: var(--radius-dot); border: 2px solid currentColor; }
-.fp-theme[aria-pressed="true"] .fp-dot { background: currentColor; }
+/* Dusk: the theme toggle's rules (.fp-theme and its .fp-dot) are gone with the control; the light theme retires. */
 
 .fp-menu-btn { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px;
   border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--bg); color: var(--ink);
@@ -163,5 +154,5 @@ html[data-ambient="off"] body::before { animation: none; }
    one. Carried pieces keep their own handling. Keep the list in step with
    every rule above and in front.parts.css that sets `transition`. */
 @media (prefers-reduced-motion: reduce) {
-  .fp-nav a, .fp-theme, .fp-menu-btn, .fp-ghost, .fp-fa, .fp-reset, .fp-toggle, .fp-copy, .fp-lcopy { transition: none; }
+  .fp-nav a, .fp-menu-btn, .fp-ghost, .fp-fa, .fp-reset, .fp-toggle, .fp-copy, .fp-lcopy { transition: none; }
 }
