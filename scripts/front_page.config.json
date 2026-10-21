@@ -224,7 +224,7 @@
       }
     ],
     "stage_v2": {
-      "_": "CR-32, Site card item 43. Read by scripts/build_project_sizes.py (and by the stage, chunk 2). Named stage_v2 and not stage because home.stage above is CR-25's list of three start-here panels, which composition a still renders; the stage retires that list. repos: a PRIVATE map, slug -> the project's folder relative to the projects root, read only by the size generator and never written to a page. It exists because a registry `repo` becomes a public link and several of these repositories are private. The generator uses the map first, then the registry repo URL against each origin; a slug in neither stays could_not_look. Each entry was matched by an exact folder or origin name with one candidate; design-first is the canonical Node kit (tools/design-first is the stale PowerShell reference copy). tiers: a project with fewer commits than small_below is small, one with large_from or more is large, the rest are medium; a project the measure could not see is small and never guessed up. overrides: { slug: { tier, reason } } - the tier is small, medium or large and the reason is one written line; a missing reason is refused. sizes.scan_depth is how many folders below the projects root a repository may sit; sizes.skip_dirs are folder names, and sizes.skip_prefixes folder-name prefixes, that the scan never enters (an underscore folder holds scratch unzips, backups and the archive). Thresholds 5 and 30 (CR-32): chosen on 2026-10-21 from the 28 measured running projects so that the tiers split them roughly in thirds (11 small, 8 medium, 9 large); recompute them when the distribution has moved.",
+      "_": "CR-32, Site card item 43. Read by scripts/build_project_sizes.py (and by the stage, chunk 2). Named stage_v2 and not stage because home.stage above is CR-25's list of three start-here panels, which composition a still renders; the stage retires that list. repos: a PRIVATE map, slug -> the project's folder relative to the projects root, read only by the size generator and never written to a page. The folder names are public in this file: they are not links and every slug is already public (the master keeps them). It exists because a registry `repo` becomes a public link and several of these repositories are private. The generator uses the map first, then the registry repo URL against each origin; a slug in neither stays could_not_look. Each entry was matched by an exact folder or origin name with one candidate; design-first is the canonical Node kit (tools/design-first is the stale PowerShell reference copy). tiers: a project with fewer commits than small_below is small, one with large_from or more is large, the rest are medium; a project the measure could not see is small and never guessed up. overrides: { slug: { tier, reason } } - the tier is small, medium or large and the reason is one written line; a missing reason is refused. sizes.scan_depth is how many folders below the projects root a repository may sit; sizes.skip_dirs are folder names, and sizes.skip_prefixes folder-name prefixes, that the scan never enters (an underscore folder holds scratch unzips, backups and the archive). Thresholds 5 and 30 (CR-32): chosen on 2026-10-21 from the 28 measured running projects so that the tiers split them roughly in thirds (11 small, 8 medium, 9 large); recompute them when the distribution has moved.",
       "sizes": {
         "scan_depth": 3,
         "skip_dirs": ["node_modules", "__pycache__", "dist", "build", "target", "venv", ".venv"],
@@ -240,12 +240,14 @@
         "design-first": "design-first",
         "echo-bat": "games/echo-bat",
         "fulfillment": "games/fulfillment",
+        "gridline": "map-reading-trainer",
         "fun-police": "bots/fun-police",
         "garwood-grill-pitch": "web/Garwood Grill Website Pitch",
         "hoagie-boyz-pitch": "web/Hoagie Boyz website build + pitch",
         "macroscope": "tools/macroscope",
         "resume": "web/Resume",
         "richter": "tools/richter",
+        "sentinel-suite": "_archive/Sentinel-Suite",
         "skills": "reference/skills",
         "spectrum": "tools/spectrum",
         "star-charter-pro": "games/star-charter-pro",
