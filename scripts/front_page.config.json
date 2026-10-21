@@ -224,13 +224,40 @@
       }
     ],
     "stage_v2": {
-      "_": "CR-32, Site card item 43. Read by scripts/build_project_sizes.py (and by the stage, chunk 2). Named stage_v2 and not stage because home.stage above is CR-25's list of three start-here panels, which composition a still renders; the stage retires that list. tiers: a project with fewer commits than small_below is small, one with large_from or more is large, the rest are medium; a project the measure could not see is small and never guessed up. overrides: { slug: { tier, reason } } - the tier is small, medium or large and the reason is one written line; a missing reason is refused. sizes.scan_depth is how many folders below the projects root a repository may sit; sizes.skip_dirs are folder names, and sizes.skip_prefixes folder-name prefixes, that the scan never enters (an underscore folder holds scratch unzips, backups and the archive). Thresholds 25 and 100 (CR-32): chosen from the three repositories the registry could point at on 2026-10-21, 22, 26 and 230 commits, one per tier; revisit them when more rows carry a repo URL.",
+      "_": "CR-32, Site card item 43. Read by scripts/build_project_sizes.py (and by the stage, chunk 2). Named stage_v2 and not stage because home.stage above is CR-25's list of three start-here panels, which composition a still renders; the stage retires that list. repos: a PRIVATE map, slug -> the project's folder relative to the projects root, read only by the size generator and never written to a page. It exists because a registry `repo` becomes a public link and several of these repositories are private. The generator uses the map first, then the registry repo URL against each origin; a slug in neither stays could_not_look. Each entry was matched by an exact folder or origin name with one candidate; design-first is the canonical Node kit (tools/design-first is the stale PowerShell reference copy). tiers: a project with fewer commits than small_below is small, one with large_from or more is large, the rest are medium; a project the measure could not see is small and never guessed up. overrides: { slug: { tier, reason } } - the tier is small, medium or large and the reason is one written line; a missing reason is refused. sizes.scan_depth is how many folders below the projects root a repository may sit; sizes.skip_dirs are folder names, and sizes.skip_prefixes folder-name prefixes, that the scan never enters (an underscore folder holds scratch unzips, backups and the archive). Thresholds 5 and 30 (CR-32): chosen on 2026-10-21 from the 28 measured running projects so that the tiers split them roughly in thirds (11 small, 8 medium, 9 large); recompute them when the distribution has moved.",
       "sizes": {
         "scan_depth": 3,
         "skip_dirs": ["node_modules", "__pycache__", "dist", "build", "target", "venv", ".venv"],
         "skip_prefixes": ["_"]
       },
-      "tiers": { "small_below": 25, "large_from": 100 },
+      "repos": {
+        "board-of-directors": "tools/board-of-directors",
+        "bonnie-day-pitch": "web/Bonnie Day Website rebuild Pitch",
+        "caddy-shed-golf-pitch": "web/Caddy Shed Golf Website Pitch",
+        "cn-conductor-trainer": "rail/CN Conductor Trainer",
+        "crop": "tools/crop",
+        "cror-signals": "rail/cror-signals",
+        "design-first": "design-first",
+        "echo-bat": "games/echo-bat",
+        "fulfillment": "games/fulfillment",
+        "fun-police": "bots/fun-police",
+        "garwood-grill-pitch": "web/Garwood Grill Website Pitch",
+        "hoagie-boyz-pitch": "web/Hoagie Boyz website build + pitch",
+        "macroscope": "tools/macroscope",
+        "resume": "web/Resume",
+        "richter": "tools/richter",
+        "skills": "reference/skills",
+        "spectrum": "tools/spectrum",
+        "star-charter-pro": "games/star-charter-pro",
+        "switch-list": "rail/switch-list",
+        "training-assistant": "rail/training-assistant",
+        "typecase": "games/typecase",
+        "underwriter": "trading/underwriter",
+        "useful-tools-demos": "tools/useful-tools-demos",
+        "warden": "trading/sentinel",
+        "worklog": "tools/worklog"
+      },
+      "tiers": { "small_below": 5, "large_from": 30 },
       "overrides": {}
     },
     "start_group_h2": "Start here",
