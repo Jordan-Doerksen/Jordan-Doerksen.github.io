@@ -136,8 +136,8 @@ indication, variants noted in the card** (Jordan's call) — e.g. 439's tip note
 Useful pattern confirmed across shots: **flashing green = Limited, steady green = Medium/Clear**;
 flashing yellow (bottom) = the "to Diverging/Slow" warning. (`ASPECTS_DRAFT` still true until the board is complete.)
 
-**Source decision — the quiz app is trusted.** Jordan **passed his 2025 CROR conductor test using the
-CROR Verbal Quiz app**, and the official rulebook (Rule 431) corroborated it. So we encode from the
+**Source decision — the quiz app is trusted.** The **CROR Verbal Quiz app held up against the 2025 CROR
+conductor test**, and the official rulebook (Rule 431) corroborated it. So we encode from the
 `signal_screenshots/` shots with confidence; the official rulebook is a bonus cross-check where he can
 grab it (it can't be screenshotted easily right now). No more "to-be-verified" asterisks.
 

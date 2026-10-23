@@ -1,6 +1,6 @@
 # Yard Conductor Trainer — Game Plan
 
-A browser-based training game to help Jordan re-qualify as a CN freight conductor: stay CROR-compliant, read switch lists, and switch/build trains in a yard. Built to turn fear into reps — a safe place to make every mistake until the right move is automatic.
+A browser-based training game for CN freight conductor qualification: stay CROR-compliant, read switch lists, and switch/build trains in a yard. Built to turn fear into reps — a safe place to make every mistake until the right move is automatic.
 
 Source of truth: `Jan_2025_Canadian_rail_operating_rules_EN.pdf` (in this folder). Every rule taught in the game is verified against it.
 
